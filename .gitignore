@@ -9,3 +9,5 @@
 /build/
 /vendor/
 /bin/
+/nbproject/private/
+/nbproject/

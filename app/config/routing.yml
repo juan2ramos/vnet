@@ -1,0 +1,4 @@
+vocationet:
+    resource: "@vocationetBundle/Resources/config/routing.yml"
+    prefix:   /
+

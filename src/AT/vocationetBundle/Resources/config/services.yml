@@ -1,0 +1,7 @@
+parameters:
+#    vocationet.example.class: AT\vocationetBundle\Example
+
+services:
+    security:
+        class: AT\vocationetBundle\Services\SecurityService
+        arguments: ["@doctrine", "@session"]
