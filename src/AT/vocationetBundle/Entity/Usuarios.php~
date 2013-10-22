@@ -1,0 +1,105 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Usuarios
+ *
+ * @ORM\Table(name="usuarios")
+ * @ORM\Entity
+ */
+class Usuarios
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_nombre", type="string", length=45, nullable=false)
+     */
+    private $usuarioNombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_apellido", type="string", length=45, nullable=false)
+     */
+    private $usuarioApellido;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_email", type="string", length=100, nullable=false)
+     */
+    private $usuarioEmail;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_password", type="string", length=45, nullable=true)
+     */
+    private $usuarioPassword;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="usuario_estado", type="integer", nullable=false)
+     */
+    private $usuarioEstado;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_hash", type="string", length=45, nullable=true)
+     */
+    private $usuarioHash;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="usuario_facebookid", type="integer", nullable=true)
+     */
+    private $usuarioFacebookid;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="usuario_tipo", type="integer", nullable=false)
+     */
+    private $usuarioTipo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=true)
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
+     */
+    private $modified;
+
+    /**
+     * @var \Roles
+     *
+     * @ORM\ManyToOne(targetEntity="Roles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="rol_id", referencedColumnName="id")
+     * })
+     */
+    private $rol;
+
+
+}

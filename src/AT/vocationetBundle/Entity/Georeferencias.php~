@@ -1,0 +1,53 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Georeferencias
+ *
+ * @ORM\Table(name="georeferencias")
+ * @ORM\Entity
+ */
+class Georeferencias
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="georeferencia_padre_id", type="integer", nullable=true)
+     */
+    private $georeferenciaPadreId;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_nombre", type="string", length=100, nullable=true)
+     */
+    private $georeferenciaNombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_tipo", type="string", length=5, nullable=true)
+     */
+    private $georeferenciaTipo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_codigo", type="string", length=45, nullable=true)
+     */
+    private $georeferenciaCodigo;
+
+
+}

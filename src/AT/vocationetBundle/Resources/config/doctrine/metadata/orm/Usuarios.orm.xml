@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Usuarios" table="usuarios">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="usuarioNombre" type="string" column="usuario_nombre" length="45" nullable="false"/>
+    <field name="usuarioApellido" type="string" column="usuario_apellido" length="45" nullable="false"/>
+    <field name="usuarioEmail" type="string" column="usuario_email" length="100" nullable="false"/>
+    <field name="usuarioPassword" type="string" column="usuario_password" length="45" nullable="true"/>
+    <field name="usuarioEstado" type="integer" column="usuario_estado" nullable="false"/>
+    <field name="usuarioHash" type="string" column="usuario_hash" length="45" nullable="true"/>
+    <field name="usuarioFacebookid" type="integer" column="usuario_facebookid" nullable="true"/>
+    <field name="usuarioTipo" type="integer" column="usuario_tipo" nullable="false"/>
+    <field name="created" type="datetime" column="created" nullable="true"/>
+    <field name="modified" type="datetime" column="modified" nullable="true"/>
+    <many-to-one field="rol" target-entity="Roles">
+      <join-columns>
+        <join-column name="rol_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

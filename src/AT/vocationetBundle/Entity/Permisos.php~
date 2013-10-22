@@ -1,0 +1,63 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Permisos
+ *
+ * @ORM\Table(name="permisos")
+ * @ORM\Entity
+ */
+class Permisos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="permisoscol", type="string", length=45, nullable=false)
+     */
+    private $permisoscol;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=60, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="permiso_routes", type="text", nullable=true)
+     */
+    private $permisoRoutes;
+
+    /**
+     * @var \Roles
+     *
+     * @ORM\ManyToOne(targetEntity="Roles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="rol_id", referencedColumnName="id")
+     * })
+     */
+    private $rol;
+
+
+}

@@ -1,0 +1,87 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Estudios
+ *
+ * @ORM\Table(name="estudios")
+ * @ORM\Entity
+ */
+class Estudios
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="campo", type="string", length=155, nullable=true)
+     */
+    private $campo;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_inicio", type="date", nullable=true)
+     */
+    private $fechaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_final", type="date", nullable=true)
+     */
+    private $fechaFinal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="titulo", type="string", length=155, nullable=true)
+     */
+    private $titulo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="actividad", type="text", nullable=true)
+     */
+    private $actividad;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="notas", type="text", nullable=true)
+     */
+    private $notas;
+
+    /**
+     * @var \Perfiles
+     *
+     * @ORM\ManyToOne(targetEntity="Perfiles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="perfil_id", referencedColumnName="id")
+     * })
+     */
+    private $perfil;
+
+    /**
+     * @var \Instituciones
+     *
+     * @ORM\ManyToOne(targetEntity="Instituciones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="institucion_id", referencedColumnName="id")
+     * })
+     */
+    private $institucion;
+
+
+}

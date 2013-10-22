@@ -1,0 +1,87 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Perfiles
+ *
+ * @ORM\Table(name="perfiles")
+ * @ORM\Entity
+ */
+class Perfiles
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fechanacimiento", type="date", nullable=false)
+     */
+    private $fechanacimiento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="genero", type="string", length=45, nullable=false)
+     */
+    private $genero;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="curso_actual", type="integer", nullable=true)
+     */
+    private $cursoActual;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="imagen", type="string", length=155, nullable=true)
+     */
+    private $imagen;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tarjeta_profesional", type="string", length=155, nullable=true)
+     */
+    private $tarjetaProfesional;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hojavida", type="string", length=155, nullable=true)
+     */
+    private $hojavida;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
+     * @var \Georeferencias
+     *
+     * @ORM\ManyToOne(targetEntity="Georeferencias")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="georeferencia_id", referencedColumnName="id")
+     * })
+     */
+    private $georeferencia;
+
+
+}

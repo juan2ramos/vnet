@@ -1,0 +1,80 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Trabajos
+ *
+ * @ORM\Table(name="trabajos")
+ * @ORM\Entity
+ */
+class Trabajos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="cargo", type="string", length=150, nullable=false)
+     */
+    private $cargo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="resumen", type="text", nullable=true)
+     */
+    private $resumen;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_inicio", type="date", nullable=true)
+     */
+    private $fechaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_final", type="date", nullable=true)
+     */
+    private $fechaFinal;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="es_actual", type="integer", nullable=false)
+     */
+    private $esActual;
+
+    /**
+     * @var \Perfiles
+     *
+     * @ORM\ManyToOne(targetEntity="Perfiles")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="perfil_id", referencedColumnName="id")
+     * })
+     */
+    private $perfil;
+
+    /**
+     * @var \Empresas
+     *
+     * @ORM\ManyToOne(targetEntity="Empresas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="empresa_id", referencedColumnName="id")
+     * })
+     */
+    private $empresa;
+
+
+}

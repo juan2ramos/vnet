@@ -1,12 +1,12 @@
 parameters:
     database_driver:   pdo_mysql
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     symfony
-    database_user:     root
-    database_password: ~
+    database_host:     altacticadmin.ctkjecosmdml.us-east-1.rds.amazonaws.com
+    database_port:     3306
+    database_name:     vocationet-dev
+    database_user:     adminuser
+    database_password: StudiO8181admin
 
-    mailer_transport:  smtp
+    mailer_transport:  mail
     mailer_host:       127.0.0.1
     mailer_user:       ~
     mailer_password:   ~

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Estudios" table="estudios">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="campo" type="string" column="campo" length="155" nullable="true"/>
+    <field name="fechaInicio" type="date" column="fecha_inicio" nullable="true"/>
+    <field name="fechaFinal" type="date" column="fecha_final" nullable="true"/>
+    <field name="titulo" type="string" column="titulo" length="155" nullable="true"/>
+    <field name="actividad" type="text" column="actividad" nullable="true"/>
+    <field name="notas" type="text" column="notas" nullable="true"/>
+    <many-to-one field="institucion" target-entity="Instituciones">
+      <join-columns>
+        <join-column name="institucion_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="perfil" target-entity="Perfiles">
+      <join-columns>
+        <join-column name="perfil_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
