@@ -1,3 +1,8 @@
+votacionBundleAnnotations:
+    resource: "@vocationetBundle/Controller/"
+    prefix: /
+    type: annotation
+    
 vocationet_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: vocationetBundle:Default:index }
