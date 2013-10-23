@@ -5,3 +5,7 @@ services:
     security:
         class: AT\vocationetBundle\Services\SecurityService
         arguments: ["@doctrine", "@session"]
+    perfil:
+       class: AT\vocationetBundle\Services\PerfilService
+       arguments: ["@doctrine"]
+

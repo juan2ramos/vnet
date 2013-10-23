@@ -57,12 +57,17 @@ CREATE  TABLE IF NOT EXISTS `georeferencias` (
   `georeferencia_nombre` VARCHAR(100) NULL ,
   `georeferencia_tipo` VARCHAR(5) NULL ,
   `georeferencia_codigo` VARCHAR(45) NULL ,
+  `georeferencia_coordenadas` GEOMETRY DEFAULT NULL,
+  `georeferencia_centro` GEOMETRY DEFAULT NULL,
+  `georeferencia_area` FLOAT UNSIGNED NOT NULL DEFAULT '0',
+  `georeferencia_etnia` TEXT NULL,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
 
 SHOW WARNINGS;
+
 
 -- -----------------------------------------------------
 -- Table `perfiles`

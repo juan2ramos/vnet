@@ -83,5 +83,15 @@ class Perfiles
      */
     private $georeferencia;
 
+    /**
+     * @var \Colegios
+     *
+     * @ORM\ManyToOne(targetEntity="Colegios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="colegio_id", referencedColumnName="id")
+     * })
+     */
+    private $colegio;
+
 
 }
