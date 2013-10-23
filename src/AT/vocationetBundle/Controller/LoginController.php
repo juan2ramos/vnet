@@ -26,43 +26,46 @@ class LoginController extends Controller
     public function indexAction()
     {
         $security = $this->get('security');
-        $facebook_serv = $this->get('facebook');
+        $facebook = $this->get('facebook');
         
-        $security->debug($facebook_serv->login());
-        
-        
-        echo $this->getRequest()->get('code');
-        echo "<br/>";
-        echo $this->getRequest()->get('state');
-        echo "<br/>";
+        // Formulario nativo
+        $security->debug($facebook->getAppToken());
         
         return array(
-            
+            'link_login_fb' => $facebook->getEndpointLogin()
         );
     }
     
     
     /**
-     * Accion para redireccionar a la autenticacion de facebook
+     * Accion para recibir la respuesta de autenticacion de facebook
      * 
      * @Route("/facebook", name="login_facebook")
-     * @return Response redireccion a facebook
+     * @return Response 
      */
-    public function callFacebookAuthAction()
+    public function facebookAuthAction()
     {
         $facebook = $this->get('facebook');
         $security = $this->get('security');
-        $redirect_uri =  $this->getRequest()->getSchemeAndHttpHost().$this->generateUrl('login');
         
-        $unique = uniqid('fb');
-        
-        $token = $unique.'.'.$security->encriptar($unique.$facebook->token);
-        
-        $endpoint = 'https://www.facebook.com/dialog/oauth?client_id='.$facebook->appId.'&redirect_uri='.$redirect_uri.'&state='.$token;
+        $request = $this->getRequest();        
         
         
-        $this->redirect($endpoint);
-        echo $endpoint;
+        $response = array(
+            'error' => $request->get('error'),
+            'error_reason' => $request->get('error_reason'), 
+            'error_description' => $request->get('error_description'), 
+            'code' => $request->get('code'),
+            'state' => $request->get('state') 
+        );
+        
+        
+        $login = $facebook->handleLoginResponse($response);
+        
+        //$security->debug($login);
+        
+        
+        
         
         return new Response();
     }
