@@ -10,6 +10,11 @@
     <field name="imagen" type="string" column="imagen" length="155" nullable="true"/>
     <field name="tarjetaProfesional" type="string" column="tarjeta_profesional" length="155" nullable="true"/>
     <field name="hojavida" type="string" column="hojavida" length="155" nullable="true"/>
+    <many-to-one field="colegio" target-entity="Colegios">
+      <join-columns>
+        <join-column name="colegio_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
     <many-to-one field="georeferencia" target-entity="Georeferencias">
       <join-columns>
         <join-column name="georeferencia_id" referenced-column-name="id"/>

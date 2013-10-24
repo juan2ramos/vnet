@@ -83,6 +83,16 @@ class Perfiles
      */
     private $georeferencia;
 
+    /**
+     * @var \Colegios
+     *
+     * @ORM\ManyToOne(targetEntity="Colegios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="colegio_id", referencedColumnName="id")
+     * })
+     */
+    private $colegio;
+
 
 
     /**
@@ -277,5 +287,28 @@ class Perfiles
     public function getGeoreferencia()
     {
         return $this->georeferencia;
+    }
+
+    /**
+     * Set colegio
+     *
+     * @param \AT\vocationetBundle\Entity\Colegios $colegio
+     * @return Perfiles
+     */
+    public function setColegio(\AT\vocationetBundle\Entity\Colegios $colegio = null)
+    {
+        $this->colegio = $colegio;
+    
+        return $this;
+    }
+
+    /**
+     * Get colegio
+     *
+     * @return \AT\vocationetBundle\Entity\Colegios 
+     */
+    public function getColegio()
+    {
+        return $this->colegio;
     }
 }

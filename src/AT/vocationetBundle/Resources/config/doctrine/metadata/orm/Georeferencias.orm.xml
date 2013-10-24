@@ -6,7 +6,11 @@
     </id>
     <field name="georeferenciaPadreId" type="integer" column="georeferencia_padre_id" nullable="true"/>
     <field name="georeferenciaNombre" type="string" column="georeferencia_nombre" length="100" nullable="true"/>
-    <field name="georeferenciaTipo" type="string" column="georeferencia_tipo" length="5" nullable="true"/>
+    <field name="georeferenciaTipo" type="string" column="georeferencia_tipo" length="70" nullable="true"/>
     <field name="georeferenciaCodigo" type="string" column="georeferencia_codigo" length="45" nullable="true"/>
+    <field name="georeferenciaCoordenadas" type="text" column="georeferencia_coordenadas" nullable="true"/>
+    <field name="georeferenciaCentro" type="text" column="georeferencia_centro" nullable="true"/>
+    <field name="georeferenciaArea" type="float" column="georeferencia_area" nullable="true"/>
+    <field name="georeferenciaEtnia" type="text" column="georeferencia_etnia" nullable="true"/>
   </entity>
 </doctrine-mapping>

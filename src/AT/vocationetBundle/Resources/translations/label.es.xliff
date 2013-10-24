@@ -1,0 +1,286 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- PERFILES MENTOR perfil-x -->
+            <trans-unit id="perfil-1">
+                <source>perfil.mentor</source>
+                <target>Perfil mentor</target>
+            </trans-unit>
+            <trans-unit id="perfil-2">
+                <source>perfil.nombre</source>
+                <target>Nombre</target>
+            </trans-unit>
+            <trans-unit id="perfil-3">
+                <source>no.personas.ayudadas</source>
+                <target>No. de personas ayudadas</target>
+            </trans-unit>
+            <trans-unit id="perfil-3-des">
+                <source>descripcion.no.personas.ayudadas</source>
+                <target>Información de No. de personas ayudadas</target>
+            </trans-unit>
+            <trans-unit id="perfil-4">
+                <source>grado</source>
+                <target>Grado</target>
+            </trans-unit>
+            <trans-unit id="perfil-4-des">
+                <source>descripcion.grado</source>
+                <target>Información de Grado</target>
+            </trans-unit>
+            <trans-unit id="perfil-5">
+                <source>mensajes</source>
+                <target>Mensajes</target>
+            </trans-unit>
+            <trans-unit id="perfil-5-des">
+                <source>descripcion.mensajes</source>
+                <target>descripción de mensajes</target>
+            </trans-unit>
+            <trans-unit id="perfil-6">
+                <source>foros</source>
+                <target>Foros</target>
+            </trans-unit>
+            <trans-unit id="perfil-6-des">
+                <source>descripcion.foros</source>
+                <target>Descripción de foros</target>
+            </trans-unit>
+            <trans-unit id="perfil-7">
+                <source>solicitudes.de.mentorias</source>
+                <target>Solicitudes de mentorias</target>
+            </trans-unit>
+            <trans-unit id="perfil-7-des">
+                <source>descripcion.solicitudes.de.mentorias</source>
+                <target>Descripción de Solicitudes de mentorias</target>
+            </trans-unit>
+            <trans-unit id="perfil-8">
+                <source>amigos.y.mentores</source>
+                <target>Amigos y mentores</target>
+            </trans-unit>
+            <trans-unit id="perfil-8-des">
+                <source>descripcion.amigos.y.mentores</source>
+                <target>Descripción de amigos y mentores</target>
+            </trans-unit>
+            <trans-unit id="perfil-9">
+                <source>ajustes</source>
+                <target>Ajustes</target>
+            </trans-unit>
+            <trans-unit id="perfil-9-des">
+                <source>descripcion.ajustes</source>
+                <target>Descripción de ajustes</target>
+            </trans-unit>
+            <trans-unit id="perfil-10">
+                <source>estudios</source>
+                <target>Estudios</target>
+            </trans-unit>
+            <trans-unit id="perfil-11">
+                <source>fecha.inicio</source>
+                <target>Fecha inicio</target>
+            </trans-unit>
+            <trans-unit id="perfil-12">
+                <source>fecha.fin</source>
+                <target>Fecha fin</target>
+            </trans-unit>
+            <trans-unit id="perfil-13">
+                <source>extracto</source>
+                <target>Extracto</target>
+            </trans-unit>
+            <trans-unit id="perfil-14">
+                <source>perfil.profesional</source>
+                <target>Perfil profesional</target>
+            </trans-unit>
+            <trans-unit id="perfil-15">
+                <source>experiencia.laboral</source>
+                <target>Experiencia laboral</target>
+            </trans-unit>
+            <trans-unit id="perfil-16">
+                <source>actualmente</source>
+                <target>Actualmente</target>
+            </trans-unit>
+            <trans-unit id="perfil-17">
+                <source>hoja.vida</source>
+                <target>Hoja de vida</target>
+            </trans-unit>
+            <trans-unit id="perfil-18">
+                <source>no.ha.sido.suministrada</source>
+                <target>No ha sido suministrada</target>
+            </trans-unit>
+            <trans-unit id="perfil-19">
+                <source>tarjeta.profesional</source>
+                <target>Tarjeta profesional</target>
+            </trans-unit>
+            <trans-unit id="perfil-20">
+                <source>esta.informacion.sera.validada</source>
+                <target>Esta información será validada</target>
+            </trans-unit>
+            <trans-unit id="perfil-21">
+                <source>historial</source>
+                <target>Historial</target>
+            </trans-unit>
+            <trans-unit id="perfil-22">
+                <source>no.encuentas.realizadas</source>
+                <target>No. de encuestas realizadas</target>
+            </trans-unit>
+            <trans-unit id="perfil-23">
+                <source>mentorias.realizadas</source>
+                <target>Mentorias realizadas</target>
+            </trans-unit>
+            <trans-unit id="perfil-24">
+                <source>definicion.de.valor.mentoria</source>
+                <target>Definición de valor de mentoria</target>
+            </trans-unit>
+            <trans-unit id="perfil-25">
+                <source>explicacion.definicion.de.valor.mentoria</source>
+                <target>Vocationet tiene una tabla para calcular el valor de su mentoria según su profesion y los años de experiencia.</target>
+            </trans-unit>
+            <trans-unit id="perfil-26">
+                <source>valor</source>
+                <target>Valor</target>
+            </trans-unit>
+            <trans-unit id="perfil-27">
+                <source>no.estoy.deacuerdo</source>
+                <target>No estoy deacuerdo</target>
+            </trans-unit>
+
+			<!-- PERFILES MENTOR perfile-x -->
+            <trans-unit id="perfile-1">
+                <source>perfil.estudiante</source>
+                <target>Perfil estudiante</target>
+            </trans-unit>
+            <trans-unit id="perfile-2">
+                <source>fecha.planeada</source>
+                <target>Fecha planeada</target>
+            </trans-unit>
+            <trans-unit id="perfile-2-des">
+                <source>descripcion.fecha.planeada</source>
+                <target>Descripción de fecha planeada</target>
+            </trans-unit>
+            <trans-unit id="perfile-3">
+                <source>tiempo.restante</source>
+                <target>Tiempo restante</target>
+            </trans-unit>
+            <trans-unit id="perfile-3-des">
+                <source>descripcion.tiempo.restante</source>
+                <target>Descripción tiempo restante</target>
+            </trans-unit>
+            <trans-unit id="perfile-4">
+                <source>semaforo</source>
+                <target>Semaforo</target>
+            </trans-unit>
+            <trans-unit id="perfile-4-des">
+                <source>descripcion.semaforo</source>
+                <target>Descripción semaforo</target>
+            </trans-unit>
+            <trans-unit id="perfile-5">
+                <source>puntuacion</source>
+                <target>Puntuación</target>
+            </trans-unit>
+            <trans-unit id="perfile-5-des">
+                <source>descripcion.puntuacion</source>
+                <target>Descripción puntuación</target>
+            </trans-unit>
+            <trans-unit id="perfile-6">
+                <source>porcentaje.programa</source>
+                <target>Porcentaje programa</target>
+            </trans-unit>
+            <trans-unit id="perfile-7">
+                <source>porcentaje.de.avance</source>
+                <target>Porcentaje de avance</target>
+            </trans-unit>
+            <trans-unit id="perfile-8">
+                <source>colegio</source>
+                <target>Colegio</target>
+            </trans-unit>
+            <trans-unit id="perfile-9">
+                <source>nivel.curso</source>
+                <target>Curso</target>
+            </trans-unit>
+            <trans-unit id="perfile-10">
+                <source>fecha.nacimiento</source>
+                <target>Fecha de nacimiento</target>
+            </trans-unit>
+            <trans-unit id="perfile-11">
+                <source>editar.perfil</source>
+                <target>Editar perfil</target>
+            </trans-unit>
+            <trans-unit id="perfile-12">
+                <source>diagnostico</source>
+                <target>Diagnóstico</target>
+            </trans-unit>
+            <trans-unit id="perfile-12-txt">
+                <source>texto.recomendacion.diagnostico</source>
+                <target>Realizalo periodicamente para mejorar tu salud </target>
+            </trans-unit>
+            <trans-unit id="perfile-13">
+                <source>mi.tdc</source>
+                <target>Mi TDC</target>
+            </trans-unit>
+            <trans-unit id="perfile-13-QE">
+                <source>que.es.tdc</source>
+                <target>¿Qué es TDC?</target>
+            </trans-unit>
+            <trans-unit id="perfile-13-explicacion">
+                <source>explicacion.tdc</source>
+                <target>Toma de decisión conciente TDC es una medida de los conocimientos que debes tener en el momento de tomar la decisión de carrera. Se basa en un resultado combinado de las diferentes areas de conocimiento para tomar una decisión de vocación</target>
+            </trans-unit>
+            <trans-unit id="perfile-14">
+                <source>habilidades.y.preferencias</source>
+                <target>Habilidades y preferencias</target>
+            </trans-unit>
+            <trans-unit id="perfile-15">
+                <source>informacion</source>
+                <target>Información</target>
+            </trans-unit>
+            <trans-unit id="perfile-16">
+                <source>investigacion</source>
+                <target>Investigación</target>
+            </trans-unit>
+            <trans-unit id="perfile-17">
+                <source>decision.conciente</source>
+                <target>Decisión conciente</target>
+            </trans-unit>
+            <trans-unit id="perfile-18">
+                <source>nivel</source>
+                <target>Nivel</target>
+            </trans-unit>
+            <trans-unit id="perfile-18-des">
+                <source>descripcion.nivel</source>
+                <target>Descripcion de nivel</target>
+            </trans-unit>
+            <trans-unit id="perfile-19">
+                <source>plataforma</source>
+                <target>Plataforma</target>
+            </trans-unit>
+            <trans-unit id="perfile-19-exp">
+                <source>explicacion.plataforma</source>
+                <target>Diagnóstico/test/evaluación/mercado/diseño</target>
+            </trans-unit>
+            <trans-unit id="perfile-20">
+                <source>red.mentores</source>
+                <target>Red de mentores</target>
+            </trans-unit>
+            <trans-unit id="perfile-20-exp">
+                <source>explicacion.red.mentores</source>
+                <target>No. de mentorias según programa que page</target>
+            </trans-unit>
+            <trans-unit id="perfile-21">
+                <source>ponderacion</source>
+                <target>Ponderación</target>
+            </trans-unit>
+            <trans-unit id="perfile-21-exp">
+                <source>explicacion.ponderacion</source>
+                <target>Según número de variables ingresadas</target>
+            </trans-unit>
+            <trans-unit id="perfile-22">
+                <source>iniciar.diagnostico</source>
+                <target>Iniciar diagnóstico</target>
+            </trans-unit>
+            <trans-unit id="perfile-23">
+                <source>continuar.programa</source>
+                <target>Continuar programa</target>
+            </trans-unit>
+                      
+            <!-- 
+  
+            -->
+        </body>
+    </file>
+</xliff>

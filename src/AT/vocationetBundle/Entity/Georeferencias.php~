@@ -38,7 +38,7 @@ class Georeferencias
     /**
      * @var string
      *
-     * @ORM\Column(name="georeferencia_tipo", type="string", length=5, nullable=true)
+     * @ORM\Column(name="georeferencia_tipo", type="string", length=70, nullable=true)
      */
     private $georeferenciaTipo;
 
@@ -48,6 +48,34 @@ class Georeferencias
      * @ORM\Column(name="georeferencia_codigo", type="string", length=45, nullable=true)
      */
     private $georeferenciaCodigo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_coordenadas", type="text", nullable=true)
+     */
+    private $georeferenciaCoordenadas;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_centro", type="text", nullable=true)
+     */
+    private $georeferenciaCentro;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="georeferencia_area", type="float", nullable=true)
+     */
+    private $georeferenciaArea;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_etnia", type="text", nullable=true)
+     */
+    private $georeferenciaEtnia;
 
 
 }

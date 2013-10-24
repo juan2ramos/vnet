@@ -38,7 +38,7 @@ class Georeferencias
     /**
      * @var string
      *
-     * @ORM\Column(name="georeferencia_tipo", type="string", length=5, nullable=true)
+     * @ORM\Column(name="georeferencia_tipo", type="string", length=70, nullable=true)
      */
     private $georeferenciaTipo;
 
@@ -48,6 +48,34 @@ class Georeferencias
      * @ORM\Column(name="georeferencia_codigo", type="string", length=45, nullable=true)
      */
     private $georeferenciaCodigo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_coordenadas", type="text", nullable=true)
+     */
+    private $georeferenciaCoordenadas;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_centro", type="text", nullable=true)
+     */
+    private $georeferenciaCentro;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="georeferencia_area", type="float", nullable=true)
+     */
+    private $georeferenciaArea;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="georeferencia_etnia", type="text", nullable=true)
+     */
+    private $georeferenciaEtnia;
 
 
 
@@ -151,5 +179,97 @@ class Georeferencias
     public function getGeoreferenciaCodigo()
     {
         return $this->georeferenciaCodigo;
+    }
+
+    /**
+     * Set georeferenciaCoordenadas
+     *
+     * @param string $georeferenciaCoordenadas
+     * @return Georeferencias
+     */
+    public function setGeoreferenciaCoordenadas($georeferenciaCoordenadas)
+    {
+        $this->georeferenciaCoordenadas = $georeferenciaCoordenadas;
+    
+        return $this;
+    }
+
+    /**
+     * Get georeferenciaCoordenadas
+     *
+     * @return string 
+     */
+    public function getGeoreferenciaCoordenadas()
+    {
+        return $this->georeferenciaCoordenadas;
+    }
+
+    /**
+     * Set georeferenciaCentro
+     *
+     * @param string $georeferenciaCentro
+     * @return Georeferencias
+     */
+    public function setGeoreferenciaCentro($georeferenciaCentro)
+    {
+        $this->georeferenciaCentro = $georeferenciaCentro;
+    
+        return $this;
+    }
+
+    /**
+     * Get georeferenciaCentro
+     *
+     * @return string 
+     */
+    public function getGeoreferenciaCentro()
+    {
+        return $this->georeferenciaCentro;
+    }
+
+    /**
+     * Set georeferenciaArea
+     *
+     * @param float $georeferenciaArea
+     * @return Georeferencias
+     */
+    public function setGeoreferenciaArea($georeferenciaArea)
+    {
+        $this->georeferenciaArea = $georeferenciaArea;
+    
+        return $this;
+    }
+
+    /**
+     * Get georeferenciaArea
+     *
+     * @return float 
+     */
+    public function getGeoreferenciaArea()
+    {
+        return $this->georeferenciaArea;
+    }
+
+    /**
+     * Set georeferenciaEtnia
+     *
+     * @param string $georeferenciaEtnia
+     * @return Georeferencias
+     */
+    public function setGeoreferenciaEtnia($georeferenciaEtnia)
+    {
+        $this->georeferenciaEtnia = $georeferenciaEtnia;
+    
+        return $this;
+    }
+
+    /**
+     * Get georeferenciaEtnia
+     *
+     * @return string 
+     */
+    public function getGeoreferenciaEtnia()
+    {
+        return $this->georeferenciaEtnia;
     }
 }

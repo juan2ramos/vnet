@@ -42,4 +42,60 @@ class ColegiosPerfiles
     private $perfil;
 
 
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set colegio
+     *
+     * @param \AT\vocationetBundle\Entity\Colegios $colegio
+     * @return ColegiosPerfiles
+     */
+    public function setColegio(\AT\vocationetBundle\Entity\Colegios $colegio = null)
+    {
+        $this->colegio = $colegio;
+    
+        return $this;
+    }
+
+    /**
+     * Get colegio
+     *
+     * @return \AT\vocationetBundle\Entity\Colegios 
+     */
+    public function getColegio()
+    {
+        return $this->colegio;
+    }
+
+    /**
+     * Set perfil
+     *
+     * @param \AT\vocationetBundle\Entity\Perfiles $perfil
+     * @return ColegiosPerfiles
+     */
+    public function setPerfil(\AT\vocationetBundle\Entity\Perfiles $perfil = null)
+    {
+        $this->perfil = $perfil;
+    
+        return $this;
+    }
+
+    /**
+     * Get perfil
+     *
+     * @return \AT\vocationetBundle\Entity\Perfiles 
+     */
+    public function getPerfil()
+    {
+        return $this->perfil;
+    }
 }

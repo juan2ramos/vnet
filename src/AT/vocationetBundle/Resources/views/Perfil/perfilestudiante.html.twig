@@ -1,0 +1,179 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+<style>
+	.title{
+		background: black;
+		color: white;
+	}
+</style>
+	{% if perfil %}
+		<table border=0>
+			{# PERFIL ESTUDIANTE #}
+			<tr>
+				<th class='title' colspan=3>{% trans from "label" %}perfil.estudiante{% endtrans %}</th>
+			<tr>
+			<tr>
+				<td rowspan=9>
+					{% set imagen = (perfil.imagen) ? perfil.imagen : gui_default_img %}
+					<img src="{{ asset(imagen) }}" width='150px'>
+				</td>
+				<td>{% trans from "label" %}perfil.nombre{% endtrans %}: </td>
+				<td>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</td>
+			</tr>
+			<tr>
+				<td>{% trans from "label" %}fecha.planeada{% endtrans %}:<br>
+					<small>{% trans from "label" %}descripcion.fecha.planeada{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}tiempo.restante{% endtrans %}:<br>
+					<small>{% trans from "label" %}descripcion.tiempo.restante{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}semaforo{% endtrans %}: <br>
+					<small>{% trans from "label" %}descripcion.semaforo{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}puntuacion{% endtrans %}: <br>
+					<small>{% trans from "label" %}descripcion.puntuacion{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}mensajes{% endtrans %}: <br>
+					<small>{% trans from "label" %}descripcion.mensajes{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}foros{% endtrans %}: <br>
+					<small>{% trans from "label" %}descripcion.foros{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}amigos.y.mentores{% endtrans %}: <br>
+					<small>{% trans from "label" %}descripcion.amigos.y.mentores{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}ajustes{% endtrans %}: <br>
+					<small>{% trans from "label" %}descripcion.ajustes{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}porcentaje.programa{% endtrans %}: <br>
+				</td>
+				<td COLSPAN=2>
+					{% trans from "label" %}porcentaje.de.avance{% endtrans %}<br>
+					PENDIENTE (0 DIAGNOSTICO, 1 PLATAFORMA, 2 MENTORES, 3 PONDERACION)
+				</td>
+			</tr>
+			<tr>
+				<td>{% trans from "label" %}colegio{% endtrans %}:</td>
+				<td COLSPAN=2>
+					{% if perfil.nombreCol %}{{ perfil.nombreCol }}{% else %}{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>{% trans from "label" %}nivel.curso{% endtrans %}:</td>
+				<td COLSPAN=2>
+					{% if perfil.cursoActual %}{{ perfil.cursoActual }}{% else %}{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>{% trans from "label" %}fecha.nacimiento{% endtrans %}:</td>
+				<td COLSPAN=2>
+					PENDIENTE FECHA NACIMIENTO
+				</td>
+			</tr>
+			<tr>
+				<td COLSPAN=3 style='text-align:right;'>
+					<button type="button">{% trans from "label" %}editar.perfil{% endtrans %}</button>
+				</td>
+			</tr>
+
+
+			{# DIAGNOSTICO #}
+			<tr>
+				<th class='title' colspan=3>{% trans from "label" %}diagnostico{% endtrans %}</th>
+			</tr>
+			<tr>
+				<td colspan=3>{% trans from "label" %}texto.recomendacion.diagnostico{% endtrans %}</td>
+			</tr>
+			
+			<tr>
+				<td>{% trans from "label" %}mi.tdc{% endtrans %}:</td>
+				<td>PENDIENTE % DE AVANCE</td>
+				<td ROWSPAN='5'>
+					{% trans from "label" %}que.es.tdc{% endtrans %}<br>
+					{% trans from "label" %}explicacion.tdc{% endtrans %}
+				</td>
+			</tr>
+			<tr>
+				<td>{% trans from "label" %}habilidades.y.preferencias{% endtrans %}:</td>
+				<td>PENDIENTE % DE AVANCE</td>
+			</tr>
+			<tr>
+				<td>{% trans from "label" %}informacion{% endtrans %}:</td>
+				<td>PENDIENTE % DE AVANCE</td>
+			</tr>
+			<tr>
+				<td>{% trans from "label" %}investigacion{% endtrans %}:</td>
+				<td>PENDIENTE % DE AVANCE</td>
+			</tr>
+			<tr>
+				<td>{% trans from "label" %}decision.conciente{% endtrans %}:</td>
+				<td>PENDIENTE % DE AVANCE</td>
+			</tr>
+			<tr>
+				<td>
+					{% trans from "label" %}nivel{% endtrans %}:<br>
+					<small>{% trans from "label" %}descripcion.nivel{% endtrans %}</small>
+				</td>
+				<td>PENDIENTE</td>
+				<td>
+					<button type="button">{% trans from "label" %}diagnostico{% endtrans %}</button>
+				</td>
+			</tr>
+
+
+			{# PLATAFORMA - RED DE MENTORES - PONDERACION #}
+			<tr>
+				<th class='title'>{% trans from "label" %}plataforma{% endtrans %}</th>
+				<th class='title'>{% trans from "label" %}red.mentores{% endtrans %}</th>
+				<th class='title'>{% trans from "label" %}ponderacion{% endtrans %}</th>
+			</tr>
+			<tr>
+				<td>PENDIENTE % DE AVANCE<br>{% trans from "label" %}explicacion.plataforma{% endtrans %}</td>
+				<td>PENDIENTE % DE AVANCE<br>{% trans from "label" %}explicacion.red.mentores{% endtrans %}</td>
+				<td>PENDIENTE % DE AVANCE<br>{% trans from "label" %}explicacion.ponderacion{% endtrans %}</td>
+			</tr>
+
+
+			{# BOTONER DE REDIRECCIONAMIENTO #}
+			<tr>
+				<td colspan=3 STYLE='text-align:center'>
+					<button type="button">{% trans from "label" %}iniciar.diagnostico{% endtrans %}</button>
+					<button type="button">{% trans from "label" %}continuar.programa{% endtrans %}</button>
+				</td>
+			</tr>
+		</table>
+	{% endif %}
+{% endblock body %}
