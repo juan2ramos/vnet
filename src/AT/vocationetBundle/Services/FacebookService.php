@@ -48,7 +48,11 @@ class FacebookService
      */
     public $redirect_uri;
     
-    public $message;
+    /**
+     * Guarda el mensaje u objeto de error
+     * @var type 
+     */
+    public $last_error;
     
     /**
      * Constructor
@@ -73,6 +77,8 @@ class FacebookService
         
         $this->token = '60d20bcbfad939a9126a34c124259889ec9ed22e';
         $this->redirect_uri =  $serv_cont->get('request')->getSchemeAndHttpHost().$serv_cont->get('router')->generate('login_facebook');
+        
+        $this->last_error = false;
     }
     
     /**
@@ -143,14 +149,23 @@ class FacebookService
      */
     public function sendRequest($endpoint, $params = array())
     {
-        $request = http_build_query($params);
+        if(count($params)>0)
+        {
+            $request = http_build_query($params);
+            $url = $endpoint.'?'.$request;            
+        }
+        else
+        {
+            $url = $endpoint;
+        }
         
         $curlOptions = array (
-            CURLOPT_URL => $endpoint,
+            CURLOPT_URL => $url,
             CURLOPT_SSL_VERIFYPEER => 0,
             CURLOPT_SSL_VERIFYHOST => 0,
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_POSTFIELDS => $request
+            CURLOPT_POST => 0,
+            CURLOPT_HTTPGET => 1,
+            CURLOPT_RETURNTRANSFER => 1
         );
         
         $ch = curl_init();
@@ -162,8 +177,8 @@ class FacebookService
         $json_response = json_decode($response);
         if($json_response !== null && isset($json_response->error))
         {
-            $this->message =  $json_response->error->message;
-//            $response = false;
+            $this->last_error =  $json_response->error;
+            $response = false;
         }
         
         return $response;
@@ -189,37 +204,29 @@ class FacebookService
                 {
                     $returned = array();
                     parse_str($token_response, $returned);
-                    $access_token = $returned['access_token'];
-                    
+                    $access_token = $returned['access_token'];                    
                     
                     // Validar token
                     $json_response = $this->sendRequest('https://graph.facebook.com/debug_token', array(
-                        'input_token' => $response['state'],
-                        'access_token' => $access_token, 
+                        'input_token' => $access_token,
+                        'access_token' => $this->getAppToken()
                     ));
                     
                     if($json_response)
                     {
                         // Obtener user_id
+                        $user_array = json_decode($json_response);
                         
+                        $this->serv_cont->get('security')->debug($user_array);
+                        
+                        $validate_auth = true;
                     }
-                    
-                    $this->serv_cont->get('security')->debug($json_response);
-//                    $this->serv_cont->get('security')->debug($response_params);
-                    
-                    
-                    
-                    
-                    
-                    $validate_auth = true;
                 }
                 
                 
                 
             }
         }
-        
-        echo "<div>".$this->message."</div>";
         
         return $validate_auth;
     }
@@ -235,6 +242,7 @@ class FacebookService
      */
     public function getAppToken()
     {
+        // 357031241098327|Kb3YZ-kc48bQhNBRTFoAvVqAXPA
         $response = $this->sendRequest('https://graph.facebook.com/oauth/access_token', array(
             'client_id' => $this->appId,
             'client_secret' => $this->appSecret,
