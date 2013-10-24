@@ -26,13 +26,25 @@ class LoginController extends Controller
     public function indexAction()
     {
         $security = $this->get('security');
-        $facebook = $this->get('facebook');
+//        $facebook = new Facebook(array(
+//            'appId'     =>  '357031241098327',
+//            'secret'    =>  '50ccb410c4705b04f3854b88f1535f38'
+//        ));
+//        
+//        $user = $facebook->getUser();
         
-        // Formulario nativo
-        $security->debug($facebook->getAppToken());
+        
+        $facebook = $this->get('facebook');       
+        
+        $user = $facebook->facebook->getUser();
+        
+        
+        
+        $security->debug($user);
+        
         
         return array(
-            'link_login_fb' => $facebook->getEndpointLogin()
+            
         );
     }
     
@@ -60,9 +72,9 @@ class LoginController extends Controller
         );
         
         
-        $login = $facebook->handleLoginResponse($response);
+//        $login = $facebook->handleLoginResponse($response);
         
-        //$security->debug($login);
+        $security->debug($response);
         
         
         
