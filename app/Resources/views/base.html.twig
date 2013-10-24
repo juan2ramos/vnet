@@ -195,7 +195,7 @@
 				</header>
 			<!--header end-->
 
-			
+			{#
 			<!--sidebar start MENU VETICAL IZQUIERDO -->
 				<aside>
 					<div id="sidebar"  class="nav-collapse ">
@@ -233,10 +233,11 @@
 					</div>
 				</aside>
 			<!--sidebar end-->
-
+			#}
 			
 			<!--main content start-->
-				<section id="main-content">
+			{# id="main-content" para espacio del menu vertical #}
+				<section id="content">
 					<section class="wrapper">
 						<!-- page start-->
 							{% block body %}{% endblock %}
