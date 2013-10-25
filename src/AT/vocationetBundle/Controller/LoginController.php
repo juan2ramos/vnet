@@ -31,8 +31,6 @@ class LoginController extends Controller
         
         $login_facebook_url = $facebook->getLoginUrl();
         
-        
-        
         return array(
             'login_facebook_url' => $login_facebook_url,
         );
@@ -65,10 +63,23 @@ class LoginController extends Controller
         if($userProfile)
         {
             // logeado correctamente -> iniciar sesion en la aplicacion
+            $user_serv = $this->get('usuarios');
+            
+            // Verificar si el usuario ya esta registrado
+            $registrado = $user_serv->existsFacebookId($userId);
+            
+            if($registrado)
+            {
+                // Iniciar sesion
+            }
+            else
+            {
+                // Registrar
+                $usuarioId = $user_serv->addUsuarioFacebook($userProfile);
+                
+                // Iniciar sesion
+            }
             $security->debug($userProfile);
-            
-            // Verificar si existe el usuario, si existe logearse, sino crearlo y logearse
-            
         }
         else
         {
@@ -78,4 +89,6 @@ class LoginController extends Controller
         
         return new Response();
     }
+    
+    
 }

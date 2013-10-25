@@ -106,7 +106,7 @@ CREATE  TABLE IF NOT EXISTS `perfiles` (
   `usuario_id` INT NOT NULL ,
   `fechanacimiento` DATE NOT NULL ,
   `genero` VARCHAR(45) NOT NULL ,
-  `georeferencia_id` INT NOT NULL ,
+  `georeferencia_id` INT NULL ,
   `curso_actual` INT NULL ,
   `imagen` VARCHAR(155) NULL ,
   `tarjeta_profesional` VARCHAR(155) NULL ,
