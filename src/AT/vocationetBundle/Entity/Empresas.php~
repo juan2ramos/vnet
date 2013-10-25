@@ -49,5 +49,12 @@ class Empresas
      */
     private $industria;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_linkedin", type="integer", nullable=true)
+     */
+    private $idLinkedin;
+
 
 }

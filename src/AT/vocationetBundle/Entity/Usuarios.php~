@@ -50,13 +50,6 @@ class Usuarios
     private $usuarioPassword;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="usuario_estado", type="integer", nullable=false)
-     */
-    private $usuarioEstado;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="usuario_hash", type="string", length=45, nullable=true)
@@ -66,16 +59,58 @@ class Usuarios
     /**
      * @var integer
      *
+     * @ORM\Column(name="usuario_estado", type="integer", nullable=false)
+     */
+    private $usuarioEstado;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="usuario_facebookid", type="integer", nullable=true)
      */
     private $usuarioFacebookid;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="usuario_fecha_nacimiento", type="date", nullable=true)
+     */
+    private $usuarioFechaNacimiento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_genero", type="string", length=45, nullable=true)
+     */
+    private $usuarioGenero;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_imagen", type="string", length=155, nullable=true)
+     */
+    private $usuarioImagen;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_tarjeta_profesional", type="string", length=155, nullable=true)
+     */
+    private $usuarioTarjetaProfesional;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_hoja_vida", type="string", length=155, nullable=true)
+     */
+    private $usuarioHojaVida;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="usuario_tipo", type="integer", nullable=false)
+     * @ORM\Column(name="usuario_curso_actual", type="integer", nullable=true)
      */
-    private $usuarioTipo;
+    private $usuarioCursoActual;
 
     /**
      * @var \DateTime
@@ -100,6 +135,26 @@ class Usuarios
      * })
      */
     private $rol;
+
+    /**
+     * @var \Georeferencias
+     *
+     * @ORM\ManyToOne(targetEntity="Georeferencias")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="georeferencia_id", referencedColumnName="id")
+     * })
+     */
+    private $georeferencia;
+
+    /**
+     * @var \Colegios
+     *
+     * @ORM\ManyToOne(targetEntity="Colegios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="colegio_id", referencedColumnName="id")
+     * })
+     */
+    private $colegio;
 
 
 }

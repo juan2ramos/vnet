@@ -57,14 +57,11 @@ class Trabajos
     private $esActual;
 
     /**
-     * @var \Perfiles
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Perfiles")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="perfil_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="id_linkedin", type="integer", nullable=true)
      */
-    private $perfil;
+    private $idLinkedin;
 
     /**
      * @var \Empresas
@@ -75,6 +72,16 @@ class Trabajos
      * })
      */
     private $empresa;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
 
 
 
@@ -204,26 +211,26 @@ class Trabajos
     }
 
     /**
-     * Set perfil
+     * Set idLinkedin
      *
-     * @param \AT\vocationetBundle\Entity\Perfiles $perfil
+     * @param integer $idLinkedin
      * @return Trabajos
      */
-    public function setPerfil(\AT\vocationetBundle\Entity\Perfiles $perfil = null)
+    public function setIdLinkedin($idLinkedin)
     {
-        $this->perfil = $perfil;
+        $this->idLinkedin = $idLinkedin;
     
         return $this;
     }
 
     /**
-     * Get perfil
+     * Get idLinkedin
      *
-     * @return \AT\vocationetBundle\Entity\Perfiles 
+     * @return integer 
      */
-    public function getPerfil()
+    public function getIdLinkedin()
     {
-        return $this->perfil;
+        return $this->idLinkedin;
     }
 
     /**
@@ -247,5 +254,28 @@ class Trabajos
     public function getEmpresa()
     {
         return $this->empresa;
+    }
+
+    /**
+     * Set usuario
+     *
+     * @param \AT\vocationetBundle\Entity\Usuarios $usuario
+     * @return Trabajos
+     */
+    public function setUsuario(\AT\vocationetBundle\Entity\Usuarios $usuario = null)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \AT\vocationetBundle\Entity\Usuarios 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
     }
 }

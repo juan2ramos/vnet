@@ -57,14 +57,11 @@ class Trabajos
     private $esActual;
 
     /**
-     * @var \Perfiles
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Perfiles")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="perfil_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="id_linkedin", type="integer", nullable=true)
      */
-    private $perfil;
+    private $idLinkedin;
 
     /**
      * @var \Empresas
@@ -75,6 +72,16 @@ class Trabajos
      * })
      */
     private $empresa;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
 
 
 }

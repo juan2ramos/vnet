@@ -50,13 +50,6 @@ class Usuarios
     private $usuarioPassword;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="usuario_estado", type="integer", nullable=false)
-     */
-    private $usuarioEstado;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="usuario_hash", type="string", length=45, nullable=true)
@@ -66,16 +59,58 @@ class Usuarios
     /**
      * @var integer
      *
+     * @ORM\Column(name="usuario_estado", type="integer", nullable=false)
+     */
+    private $usuarioEstado;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="usuario_facebookid", type="integer", nullable=true)
      */
     private $usuarioFacebookid;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="usuario_fecha_nacimiento", type="date", nullable=true)
+     */
+    private $usuarioFechaNacimiento;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_genero", type="string", length=45, nullable=true)
+     */
+    private $usuarioGenero;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_imagen", type="string", length=155, nullable=true)
+     */
+    private $usuarioImagen;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_tarjeta_profesional", type="string", length=155, nullable=true)
+     */
+    private $usuarioTarjetaProfesional;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_hoja_vida", type="string", length=155, nullable=true)
+     */
+    private $usuarioHojaVida;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="usuario_tipo", type="integer", nullable=false)
+     * @ORM\Column(name="usuario_curso_actual", type="integer", nullable=true)
      */
-    private $usuarioTipo;
+    private $usuarioCursoActual;
 
     /**
      * @var \DateTime
@@ -100,6 +135,26 @@ class Usuarios
      * })
      */
     private $rol;
+
+    /**
+     * @var \Georeferencias
+     *
+     * @ORM\ManyToOne(targetEntity="Georeferencias")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="georeferencia_id", referencedColumnName="id")
+     * })
+     */
+    private $georeferencia;
+
+    /**
+     * @var \Colegios
+     *
+     * @ORM\ManyToOne(targetEntity="Colegios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="colegio_id", referencedColumnName="id")
+     * })
+     */
+    private $colegio;
 
 
 
@@ -206,29 +261,6 @@ class Usuarios
     }
 
     /**
-     * Set usuarioEstado
-     *
-     * @param integer $usuarioEstado
-     * @return Usuarios
-     */
-    public function setUsuarioEstado($usuarioEstado)
-    {
-        $this->usuarioEstado = $usuarioEstado;
-    
-        return $this;
-    }
-
-    /**
-     * Get usuarioEstado
-     *
-     * @return integer 
-     */
-    public function getUsuarioEstado()
-    {
-        return $this->usuarioEstado;
-    }
-
-    /**
      * Set usuarioHash
      *
      * @param string $usuarioHash
@@ -249,6 +281,29 @@ class Usuarios
     public function getUsuarioHash()
     {
         return $this->usuarioHash;
+    }
+
+    /**
+     * Set usuarioEstado
+     *
+     * @param integer $usuarioEstado
+     * @return Usuarios
+     */
+    public function setUsuarioEstado($usuarioEstado)
+    {
+        $this->usuarioEstado = $usuarioEstado;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioEstado
+     *
+     * @return integer 
+     */
+    public function getUsuarioEstado()
+    {
+        return $this->usuarioEstado;
     }
 
     /**
@@ -275,26 +330,141 @@ class Usuarios
     }
 
     /**
-     * Set usuarioTipo
+     * Set usuarioFechaNacimiento
      *
-     * @param integer $usuarioTipo
+     * @param \DateTime $usuarioFechaNacimiento
      * @return Usuarios
      */
-    public function setUsuarioTipo($usuarioTipo)
+    public function setUsuarioFechaNacimiento($usuarioFechaNacimiento)
     {
-        $this->usuarioTipo = $usuarioTipo;
+        $this->usuarioFechaNacimiento = $usuarioFechaNacimiento;
     
         return $this;
     }
 
     /**
-     * Get usuarioTipo
+     * Get usuarioFechaNacimiento
+     *
+     * @return \DateTime 
+     */
+    public function getUsuarioFechaNacimiento()
+    {
+        return $this->usuarioFechaNacimiento;
+    }
+
+    /**
+     * Set usuarioGenero
+     *
+     * @param string $usuarioGenero
+     * @return Usuarios
+     */
+    public function setUsuarioGenero($usuarioGenero)
+    {
+        $this->usuarioGenero = $usuarioGenero;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioGenero
+     *
+     * @return string 
+     */
+    public function getUsuarioGenero()
+    {
+        return $this->usuarioGenero;
+    }
+
+    /**
+     * Set usuarioImagen
+     *
+     * @param string $usuarioImagen
+     * @return Usuarios
+     */
+    public function setUsuarioImagen($usuarioImagen)
+    {
+        $this->usuarioImagen = $usuarioImagen;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioImagen
+     *
+     * @return string 
+     */
+    public function getUsuarioImagen()
+    {
+        return $this->usuarioImagen;
+    }
+
+    /**
+     * Set usuarioTarjetaProfesional
+     *
+     * @param string $usuarioTarjetaProfesional
+     * @return Usuarios
+     */
+    public function setUsuarioTarjetaProfesional($usuarioTarjetaProfesional)
+    {
+        $this->usuarioTarjetaProfesional = $usuarioTarjetaProfesional;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioTarjetaProfesional
+     *
+     * @return string 
+     */
+    public function getUsuarioTarjetaProfesional()
+    {
+        return $this->usuarioTarjetaProfesional;
+    }
+
+    /**
+     * Set usuarioHojaVida
+     *
+     * @param string $usuarioHojaVida
+     * @return Usuarios
+     */
+    public function setUsuarioHojaVida($usuarioHojaVida)
+    {
+        $this->usuarioHojaVida = $usuarioHojaVida;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioHojaVida
+     *
+     * @return string 
+     */
+    public function getUsuarioHojaVida()
+    {
+        return $this->usuarioHojaVida;
+    }
+
+    /**
+     * Set usuarioCursoActual
+     *
+     * @param integer $usuarioCursoActual
+     * @return Usuarios
+     */
+    public function setUsuarioCursoActual($usuarioCursoActual)
+    {
+        $this->usuarioCursoActual = $usuarioCursoActual;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioCursoActual
      *
      * @return integer 
      */
-    public function getUsuarioTipo()
+    public function getUsuarioCursoActual()
     {
-        return $this->usuarioTipo;
+        return $this->usuarioCursoActual;
     }
 
     /**
@@ -364,5 +534,51 @@ class Usuarios
     public function getRol()
     {
         return $this->rol;
+    }
+
+    /**
+     * Set georeferencia
+     *
+     * @param \AT\vocationetBundle\Entity\Georeferencias $georeferencia
+     * @return Usuarios
+     */
+    public function setGeoreferencia(\AT\vocationetBundle\Entity\Georeferencias $georeferencia = null)
+    {
+        $this->georeferencia = $georeferencia;
+    
+        return $this;
+    }
+
+    /**
+     * Get georeferencia
+     *
+     * @return \AT\vocationetBundle\Entity\Georeferencias 
+     */
+    public function getGeoreferencia()
+    {
+        return $this->georeferencia;
+    }
+
+    /**
+     * Set colegio
+     *
+     * @param \AT\vocationetBundle\Entity\Colegios $colegio
+     * @return Usuarios
+     */
+    public function setColegio(\AT\vocationetBundle\Entity\Colegios $colegio = null)
+    {
+        $this->colegio = $colegio;
+    
+        return $this;
+    }
+
+    /**
+     * Get colegio
+     *
+     * @return \AT\vocationetBundle\Entity\Colegios 
+     */
+    public function getColegio()
+    {
+        return $this->colegio;
     }
 }
