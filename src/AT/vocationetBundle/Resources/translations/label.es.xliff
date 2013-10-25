@@ -286,6 +286,9 @@
             plataforma
             mentores
             ponderacion
+            editar.perfil
+            apellido
+            fecha.nacimiento
   
             -->
         </body>
