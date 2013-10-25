@@ -10,8 +10,7 @@ use \Facebook;
  * @author Diego Malagón <diego@altactic.com>
  */
 class FacebookService
-{
-    
+{    
     /**
      * Service container
      * @var Object 
