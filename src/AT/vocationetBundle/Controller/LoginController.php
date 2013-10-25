@@ -13,6 +13,7 @@ use \Facebook;
  * controlador para autenticacion y registro de usuarios
  *
  * @Route("/")
+ * @author Diego Malagón <diego@altactic.com>
  */
 class LoginController extends Controller
 {
@@ -26,28 +27,16 @@ class LoginController extends Controller
     public function indexAction()
     {
         $security = $this->get('security');
-//        $facebook = new Facebook(array(
-//            'appId'     =>  '357031241098327',
-//            'secret'    =>  '50ccb410c4705b04f3854b88f1535f38'
-//        ));
-//        
-//        $user = $facebook->getUser();
-        
-        
         $facebook = $this->get('facebook');       
         
-        $user = $facebook->facebook->getUser();
+        $login_facebook_url = $facebook->getLoginUrl();
         
-        
-        
-        $security->debug($user);
         
         
         return array(
-            
+            'login_facebook_url' => $login_facebook_url,
         );
-    }
-    
+    }    
     
     /**
      * Accion para recibir la respuesta de autenticacion de facebook
@@ -57,11 +46,10 @@ class LoginController extends Controller
      */
     public function facebookAuthAction()
     {
-        $facebook = $this->get('facebook');
         $security = $this->get('security');
+        $facebook = $this->get('facebook');
         
-        $request = $this->getRequest();        
-        
+        $request = $this->getRequest(); 
         
         $response = array(
             'error' => $request->get('error'),
@@ -70,14 +58,23 @@ class LoginController extends Controller
             'code' => $request->get('code'),
             'state' => $request->get('state') 
         );
-        
-        
-//        $login = $facebook->handleLoginResponse($response);
-        
-        $security->debug($response);
-        
-        
-        
+                
+        $userId = $facebook->facebook->getUser(); 
+        $userProfile = $facebook->handleLoginResponse($response, $userId);
+                
+        if($userProfile)
+        {
+            // logeado correctamente -> iniciar sesion en la aplicacion
+            $security->debug($userProfile);
+            
+            // Verificar si existe el usuario, si existe logearse, sino crearlo y logearse
+            
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("intento.autenticacion.fallida")));
+            return $this->redirect($this->generateUrl('login'));
+        }        
         
         return new Response();
     }

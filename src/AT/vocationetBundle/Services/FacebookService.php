@@ -42,6 +42,17 @@ class FacebookService
      */
     public $redirect_uri;
     
+    /**
+     * Almacena el ultimo error generado
+     * @var Object|string 
+     */
+    public $last_error;
+    
+    /**
+     * token para proteccion de csrf
+     * @var string 
+     */
+    protected $token;
     
     /**
      * Constructor
@@ -66,8 +77,99 @@ class FacebookService
         
         $this->redirect_uri =  $serv_cont->get('request')->getSchemeAndHttpHost().$serv_cont->get('router')->generate('login_facebook');
         
+        $this->token = '60d20bcbfad939a9126a34c124259889ec9ed22e';
     }
     
+    /**
+     * Funcion para generar la url de autenticacion con facebook
+     * 
+     * @return string url
+     */
+    public function getLoginUrl()
+    {
+        $loginUrl = $this->facebook->getLoginUrl(array(
+            'scope'			=> 'read_stream, publish_stream, user_birthday, user_location, user_work_history, user_hometown, user_photos',
+            'redirect_uri'	=> $this->redirect_uri,
+            'state'         => $this->generateState()
+		));
+        
+        return $loginUrl;
+    }
     
+    /**
+     * Funcion para generar un token adicional a las peticiones para facebook
+     * @return string state
+     */
+    public function generateState()
+    {
+        $security = $this->serv_cont->get('security');
+        $unique = uniqid('fb');        
+        $state = $unique.'.'.$security->encriptar($unique.$this->token); 
+        
+        return $state;
+    }
+    
+    /**
+     * Funcion para validar state retornado por peticion a facebook
+     * @return boolean
+     */
+    public function validateState($state)
+    {
+        $validate = false;
+        if(!empty($state))
+        {
+            $security = $this->serv_cont->get('security');
+            
+            $explode = explode('.', $state);
+            $unique = (isset($explode[0])) ? $explode[0] : false;
+            $enc = (isset($explode[1])) ? $explode[1] : false;
+            
+            $val_enc = $security->encriptar($unique.$this->token);
+            
+            if($enc == $val_enc)
+            {
+                $validate = true;
+            }            
+        }
+        
+        return $validate;
+    }
+    
+    /**
+     * Funcion que verifica la autenticacion con facebook
+     * 
+     * @param array $response arreglo con los valores retornados por facebook en la url
+     * @param integer $userId user id retornado por facebook->getUser()
+     * @return array|boolean retorna array con perfil del usuario o false si la autenticacion fallo
+     */
+    public function handleLoginResponse($response, $userId)
+    {
+        $return = false;
+        if($response['error'] !== 'access_denied')
+        {
+            if($this->validateState($response['state']))
+            {
+                if($userId)
+                {
+                    try
+                    {
+                        $userProfile = $this->facebook->api('/me');
+                        $return = $userProfile;
+                    }
+                    catch(FacebookApiException $e)
+                    {
+                        $userId = NULL;
+                        $this->last_error = $e;
+                    }
+                }
+            }
+        }
+        else
+        {
+            $this->last_error = $response;
+        }
+        
+        return $return;
+    }
 }
 ?>
