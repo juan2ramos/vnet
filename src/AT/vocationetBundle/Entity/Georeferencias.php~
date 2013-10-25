@@ -49,33 +49,5 @@ class Georeferencias
      */
     private $georeferenciaCodigo;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="georeferencia_coordenadas", type="text", nullable=true)
-     */
-    private $georeferenciaCoordenadas;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="georeferencia_centro", type="text", nullable=true)
-     */
-    private $georeferenciaCentro;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="georeferencia_area", type="float", nullable=true)
-     */
-    private $georeferenciaArea;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="georeferencia_etnia", type="text", nullable=true)
-     */
-    private $georeferenciaEtnia;
-
 
 }

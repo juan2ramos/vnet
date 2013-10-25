@@ -33,7 +33,7 @@ class PerfilController extends Controller
 		$tr = $this->get('translator');
 		$pr = $this->get('perfil');
 		error_reporting(true);
-		//$perfilId = 2;
+
 		$perfil = $pr->getPerfil($perfilId);
 		
 		if (!$perfil) {
@@ -50,9 +50,26 @@ class PerfilController extends Controller
 		}
 		else
 		{
+			$fechaactual = strtotime(date('Y-m-d H:i:s'));
+			$fechaplaneada = $fechaactual+1000000;
+			$tiempoRestante = ($fechaplaneada - $fechaactual) / 100000;
+			//progress-bar-success - verde , progress-bar-warning - amarillo, progress-bar-danger - rojo
+			$semaforo = Array('porcentaje' =>20, 'color'=>'progress-bar-danger');  //porcentaje avance
+			$avancePrograma = Array('porcentaje' =>60, 'color'=>'progress-bar-warning');  //porcentaje avance
+			$vancesDiagnostico = Array('mitdc'=> 50, 'hyp' => 60, 'info' => 40, 'invest' => 80, 'dc' => 10 );
+			
+			$pendientes = Array(
+				'fechaPlaneada' => $fechaplaneada,
+				'tiempoRestante' => $tiempoRestante,
+				'semaforo' => $semaforo,
+				'msjsinleer' => 10,
+				'avancePrograma' => $avancePrograma,
+				'avanceDiagnostico' => $vancesDiagnostico,
+				'nivel' => 3,
+			);
 			// ROL ESTUDIANTE
 			return $this->render('vocationetBundle:Perfil:perfilestudiante.html.twig', array(
-						'perfil' => $perfil ));
+						'perfil' => $perfil, 'pendiente' => $pendientes ));
 		}
     }
 

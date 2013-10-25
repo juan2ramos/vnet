@@ -278,6 +278,7 @@
                 <target>Continuar programa</target>
             </trans-unit>
                       
+
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
                 <source>iniciar.sesion</source>
@@ -311,6 +312,16 @@
                 <source>linkedin</source>
                 <target>Linked In</target>
             </trans-unit>
+
+            <!--
+            actividad
+            notas
+            dias
+            diagnostico
+            plataforma
+            mentores
+            ponderacion
+            -->
   
         </body>
     </file>

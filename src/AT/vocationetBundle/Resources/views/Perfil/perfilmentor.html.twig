@@ -1,184 +1,256 @@
+{% extends "::base.html.twig" %}
+
+{% block style %}
 <style>
-	.title{
-		background: black;
-		color: white;
+	.paddBtn{
+		padding-bottom: 10px;
 	}
+	.paddBtnEstTrb{
+		padding-bottom: 30px;
+	}
+
 </style>
-	{% if perfil %}
-		<table border=0>
-			{# PERFIL MENTOR #}
-			<tr>
-				<th class='title' colspan=3>{% trans from "label" %}perfil.mentor{% endtrans %}</th>
-			<tr>
-			<tr>
-				<td rowspan=8>
-					{% set imagen = (perfil.imagen) ? perfil.imagen : gui_default_img %}
-					<img src="{{ asset(imagen) }}" width='150px'>
-				</td>
-				<td>{% trans from "label" %}perfil.nombre{% endtrans %}: </td>
-				<td>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</td>
-			</tr>
-			<tr>
-				<td>{% trans from "label" %}no.personas.ayudadas{% endtrans %}:<br>
-					<small>{% trans from "label" %}descripcion.no.personas.ayudadas{% endtrans %}</small>
-				</td>
-				<td>PENDIENTE</td>
-			</tr>
-			<tr>
-				<td>
-					{% trans from "label" %}grado{% endtrans %}:<br>
-					<small>{% trans from "label" %}descripcion.grado{% endtrans %}</small>
-				</td>
-				<td>PENDIENTE</td>
-			</tr>
-			<tr>
-				<td>
-					{% trans from "label" %}mensajes{% endtrans %}: <br>
-					<small>{% trans from "label" %}descripcion.mensajes{% endtrans %}</small>
-				</td>
-				<td>PENDIENTE</td>
-			</tr>
-			<tr>
-				<td>
-					{% trans from "label" %}foros{% endtrans %}: <br>
-					<small>{% trans from "label" %}descripcion.foros{% endtrans %}</small>
-				</td>
-				<td>PENDIENTE</td>
-			</tr>
-			<tr>
-				<td>
-					{% trans from "label" %}solicitudes.de.mentorias{% endtrans %}: <br>
-					<small>{% trans from "label" %}descripcion.solicitudes.de.mentorias{% endtrans %}</small>
-				</td>
-				<td>PENDIENTE</td>
-			</tr>
-			<tr>
-				<td>
-					{% trans from "label" %}amigos.y.mentores{% endtrans %}: <br>
-					<small>{% trans from "label" %}descripcion.amigos.y.mentores{% endtrans %}</small>
-				</td>
-				<td>PENDIENTE</td>
-			</tr>
-			<tr>
-				<td>
-					{% trans from "label" %}ajustes{% endtrans %}: <br>
-					<small>{% trans from "label" %}descripcion.ajustes{% endtrans %}</small>
-				</td>
-				<td>PENDIENTE</td>
-			</tr>
+{% endblock style %}
 
-			{% if estudios %}
-			{# ESTUDIOS #}
-				<tr>
-					<th class='title' colspan=3>{% trans from "label" %}estudios{% endtrans %}</th>
-				</tr>
-				{% for estudio in estudios %}
-					<tr>
-						<td>
-							<b>{{ estudio.institucion.nombre }}</b><br>
-							{{ estudio.titulo }}
-						</td>
-						<td colspan=2>
-							{% if estudio.fechaInicio %}
-								{% trans from "label" %}fecha.inicio{% endtrans %}: {{ estudio.fechaInicio|date('y-m-d') }}<br>
-							{% endif %}
-							{% if estudio.fechaFinal %}
-								{% trans from "label" %}fecha.fin{% endtrans %}: {{ estudio.fechaFinal|date('y-m-d') }}<br>
-							{% endif %}
-							{{ estudio.actividad }}<br>
-							{{ estudio.notas }}
-						</td>
-					</tr>
-				{% endfor %}
-			{% endif %}
+{% block body %}
 
-
-			{# EXTRACTO #}
-			<tr>
-				<th class='title' colspan=3>{% trans from "label" %}extracto{% endtrans %}</th>
-			</tr>
-			<tr>
-				<td>{% trans from "label" %}perfil.profesional{% endtrans %}:</td>
-				<td colspan=2>PENDIENTE</td>
-			</tr>
-
-
-			{# TRABAJOS #}
-			<tr>
-				<th class='title' colspan=3>{% trans from "label" %}experiencia.laboral{% endtrans %}</th>
-			</tr>
-				{% for trabajo in trabajos %}
-					<tr>
-						<td>
-							<b>{{ trabajo.empresa.nombre }}</b><br>
-							{{ trabajo.cargo }}
-							{% if trabajo.esActual %}<br>{% trans from "label" %}actualmente{% endtrans %}{% endif %}
-						</td>
-						<td colspan=2>
-							{% if trabajo.fechaInicio %}
-								{% trans from "label" %}fecha.inicio{% endtrans %}: {{ trabajo.fechaInicio|date('y-m-d') }}<br>
-							{% endif %}
-							{% if trabajo.fechaFinal %}
-								{% trans from "label" %}fecha.fin{% endtrans %}: {{ trabajo.fechaFinal|date('y-m-d') }}<br>
-							{% endif %}
-							{{ trabajo.resumen }}
-						</td>
-					<tr>
-				{% endfor %}
-			</tr>
-
-			<tr>
-				<td colspan=3>{% trans from "label" %}esta.informacion.sera.validada{% endtrans %}</th>
-			</tr>
-			<tr>
-				<td>{% trans from "label" %}hoja.vida{% endtrans %}:</td>
-				<td colspan=2>
-					{% if perfil.hojavida %}DESCARGABLE?? {{ perfil.hojavida }}
-					{% else %}{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
-					{% endif %}
-					<br>
-					{% trans from "label" %}hoja.vida{% endtrans %}: <input type='file'/>
-				</td>
-			</tr>
-			<tr>
-				<td>{% trans from "label" %}tarjeta.profesional{% endtrans %}:</td>
-				<td colspan=2>
-					{% if perfil.tarjetaProfesional %}
-						DESCARGABLE?? {{ perfil.tarjetaProfesional }}
-					{% else %}
-						{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
-					{% endif %}
-					<br>
-					{% trans from "label" %}tarjeta.profesional{% endtrans %}: <input type='file'/>
-				</td>
-			</tr>
-
+	<div class='col-lg-9'>
+		<div class="row">
 		
-			{# HISTORIAL #}
-			<tr>
-				<th class='title' colspan=3>{% trans from "label" %}historial{% endtrans %}</th>
-			</tr>
-			<tr>
-				<td>{% trans from "label" %}no.encuentas.realizadas{% endtrans %}:</td>
-				<td colspan=2>PENDIENTE</td>
-			</tr>
-			<tr>
-				<td>{% trans from "label" %}mentorias.realizadas{% endtrans %}:</td>
-				<td colspan=2>PENDIENTE</td>
-			</tr>
+			{# PERFIL MENTOR #}
+			{% if perfil %}
+				<aside class="profile-nav col-lg-4">
+
+					{# IMAGEN DE PERFIL Y NOMBRE #}
+					<section class="panel">
+						<div class="user-heading round">
+							{% set imagen = (perfil.imagen) ? perfil.imagen : gui_default_img %}
+							<a href="#"><img src="{{ asset(imagen) }}" alt=""></a>
+							<h1>{{ perfil.usuarioApellido }}<br>{{ perfil.usuarioNombre }}</h1>
+							{#<p>jsmith@flatlab.com</p>#}
+						</div>
+						
+						<ul class="nav nav-pills nav-stacked">
+							<li class="active"><a href="#"> <i class="icon-user"></i> Profile</a></li>
+							<li><a href="profile-activity.html"> <i class="icon-calendar"></i> Recent Activity <span class="label label-danger pull-right r-activity">9</span></a></li>
+						</ul>
+					</section>
+
+					{# EXTRACTO #}
+					<section class="panel">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel">
+									<div class="panel-body bio-graph-info">
+										<h1>{% trans from "label" %}extracto{% endtrans %}</h1>
+										<div class='col-lg-12 row'><b>{% trans from "label" %}perfil.profesional{% endtrans %}</b></div><br>
+										<div class='col-lg-12'>PENDIENTE</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					{# HISTORIAL #}
+					<section class="panel">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel">
+									<div class="panel-body bio-graph-info">
+										<h1>{% trans from "label" %}historial{% endtrans %}</h1>
+										<div class='col-lg-12 row'><b>{% trans from "label" %}no.encuentas.realizadas{% endtrans %}</b></div><br>
+										<div class='col-lg-12'>PENDIENTE</div>
+										<hr>
+										<div class='col-lg-12 row'><b>{% trans from "label" %}mentorias.realizadas{% endtrans %}</b></div><br>
+										<div class='col-lg-12'>PENDIENTE</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+					{# DEFINICION DEL VALOR DE MENTORIA #}
+					<section class="panel">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel">
+									<div class="panel-body bio-graph-info">
+										<h1>{% trans from "label" %}definicion.de.valor.mentoria{% endtrans %}</h1>
+										<p>{% trans from "label" %}explicacion.definicion.de.valor.mentoria{% endtrans %}</p>
+										<div class='col-lg-12 row'><b>{% trans from "label" %}valor{% endtrans %}</b></div><br>
+										<div class='col-lg-12'>PENDIENTE</div>
+										<br>
+										<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
+											<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+					
+				</aside>
+
+				<aside class="profile-info col-lg-8">
+					<section class="panel">
+						<div class="panel-body bio-graph-info">
+							<h1>{% trans from "label" %}perfil.mentor{% endtrans %}</h1>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div class='col-lg-4'>{% trans from "label" %}perfil.nombre{% endtrans %}:</div>
+								<div class='col-lg-8'>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</div>
+							</div>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div data-original-title="{% trans from "label" %}descripcion.no.personas.ayudadas{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
+									{% trans from "label" %}no.personas.ayudadas{% endtrans %}:
+								</div>
+								<div class='col-lg-8'>PENDIENTE</div>
+							</div>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div data-original-title="{% trans from "label" %}descripcion.grado{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
+									{% trans from "label" %}grado{% endtrans %}:
+								</div>
+								<div class='col-lg-8'>PENDIENTE</div>
+							</div>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
+									{% trans from "label" %}mensajes{% endtrans %}:
+								</div>
+								<div class='col-lg-8'>PENDIENTE</div>
+							</div>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
+									{% trans from "label" %}foros{% endtrans %}:
+								</div>
+								<div class='col-lg-8'>PENDIENTE</div>
+							</div>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div data-original-title="{% trans from "label" %}descripcion.solicitudes.de.mentorias{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
+									{% trans from "label" %}solicitudes.de.mentorias{% endtrans %}:
+								</div>
+								<div class='col-lg-8'>PENDIENTE</div>
+							</div>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div data-original-title="{% trans from "label" %}descripcion.amigos.y.mentores{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
+									{% trans from "label" %}amigos.y.mentores{% endtrans %}:
+								</div>
+								<div class='col-lg-8'>PENDIENTE</div>
+							</div>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div data-original-title="{% trans from "label" %}descripcion.ajustes{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
+									{% trans from "label" %}ajustes{% endtrans %}:
+								</div>
+								<div class='col-lg-8'>PENDIENTE</div>
+							</div>
+						</div>
+					</section>
+
+					{# ESTUDIOS #}
+					{% if estudios %}
+						<section class="panel">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="panel">
+										<div class="panel-body bio-graph-info">
+											<h1>{% trans from "label" %}estudios{% endtrans %}</h1>
+											{% for estudio in estudios %}
+												<div class='row-desk col-lg-12 row paddBtnEstTrb'>
+													<div class='col-lg-12'>
+	
+														<b>{{ estudio.institucion.nombre }}</b><br>
+														{{ estudio.titulo }}
+														<hr STYLE='border-rop-width:3px;margin-top:1px;margin-bottom:2px;'>
+														{% if estudio.fechaInicio %}
+															<b>{% trans from "label" %}fecha.inicio{% endtrans %}:</b> {{ estudio.fechaInicio|date('y-m-d') }}<br>
+														{% endif %}
+														{% if estudio.fechaFinal %}
+															<b>{% trans from "label" %}fecha.fin{% endtrans %}:</b> {{ estudio.fechaFinal|date('y-m-d') }}<br>
+														{% endif %}
+														
+														{% if estudio.actividad %}
+															<b>{% trans from "label" %}actividad{% endtrans %}:</b> {{ estudio.actividad }}<br>
+														{% endif %}
+
+														{% if estudio.notas %}
+															<b>{% trans from "label" %}notas{% endtrans %}:</b> {{ estudio.notas }}<br>
+														{% endif %}
+														
+													</div>
+												</div>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+					{% endif %}
 
 
-			{# DEFINICIÓN VALOR DE MENTORIA #}
-			<tr>
-				<th class='title' colspan=3>{% trans from "label" %}definicion.de.valor.mentoria{% endtrans %}</th>
-			</tr>
-			<tr>
-				<td colspan=3>{% trans from "label" %}explicacion.definicion.de.valor.mentoria{% endtrans %}</td>
-			</tr>
-			<tr>
-				<td>{% trans from "label" %}valor{% endtrans %}:</td>
-				<td>PENDIENTE</td>
-				<td><button type="button">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button></td>
-			</tr>
-		</table>
-	{% endif %}
+					{# TRABAJOS #}
+					<section class="panel">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel">
+									<div class="panel-body bio-graph-info">
+										<h1>{% trans from "label" %}experiencia.laboral{% endtrans %}</h1>
+										{% for trabajo in trabajos %}
+											<div class='row-desk col-lg-12 row paddBtnEstTrb'>
+												<div class='col-lg-12'>
+
+													<b>{{ trabajo.empresa.nombre }}</b><br>
+													{{ trabajo.cargo }}&nbsp;{% if trabajo.esActual %}({% trans from "label" %}actualmente{% endtrans %}){% endif %}
+													<hr STYLE='border-rop-width:3px;margin-top:1px;margin-bottom:2px;'>
+													{% if trabajo.fechaInicio %}
+														<b>{% trans from "label" %}fecha.inicio{% endtrans %}:</b> {{ trabajo.fechaInicio|date('y-m-d') }}<br>
+													{% endif %}
+													{% if trabajo.fechaFinal %}
+														<b>{% trans from "label" %}fecha.fin{% endtrans %}:</b> {{ trabajo.fechaFinal|date('y-m-d') }}<br>
+													{% endif %}
+													
+													{% if trabajo.resumen %}
+														<b>{% trans from "label" %}actividad{% endtrans %}:</b> {{ trabajo.resumen }}<br>
+													{% endif %}
+
+												</div>
+											</div>
+										{% endfor %}
+										
+										
+										
+										<div class='col-lg-12 row'>
+											<div class='col-lg-6'><b>{% trans from "label" %}hoja.vida{% endtrans %}</b><br>
+												<div class='col-lg-12'>
+													{% if perfil.hojavida %}DESCARGABLE?? {{ perfil.hojavida }}
+													{% else %}{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
+													{% endif %}
+												</div>
+											</div>
+
+											<div class='col-lg-6 '><b>{% trans from "label" %}tarjeta.profesional{% endtrans %}</b><br>
+												<div class='col-lg-12'>
+													{% if perfil.tarjetaProfesional %}DESCARGABLE?? {{ perfil.tarjetaProfesional }}
+													{% else %}{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
+													{% endif %}
+												</div>
+											</div>
+										</div>
+
+										<br>
+										<div class='col-lg-12 row'>
+										<p STYLE='text-align:right;'>{% trans from "label" %}esta.informacion.sera.validada{% endtrans %}</p>
+										</div>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
+				</aside>
+
+			{% endif %}
+		</div>
+	</div>
+	<div class='col-lg-3' color='red'>
+		<div><h2>PUBLICIDAD</h2></div>
+	</div>
+{% endblock body %}
