@@ -278,6 +278,41 @@
                 <target>Continuar programa</target>
             </trans-unit>
                       
+
+            <!-- LOGIN login-x -->
+            <trans-unit id="login-1">
+                <source>iniciar.sesion</source>
+                <target>Iniciar sesión</target>
+            </trans-unit>
+            <trans-unit id="login-2">
+                <source>email</source>
+                <target>Correo electrónico</target>
+            </trans-unit>
+            <trans-unit id="login-3">
+                <source>contrasena</source>
+                <target>Contraseña</target>
+            </trans-unit>
+            <trans-unit id="login-4">
+                <source>olvide.mi.contraseña</source>
+                <target>Olvide mi contraseña</target>
+            </trans-unit>
+            <trans-unit id="login-5">
+                <source>ingresar</source>
+                <target>Ingresar</target>
+            </trans-unit>
+            <trans-unit id="login-6">
+                <source>ingresar.con.red.social</source>
+                <target>o ingrese a través de</target>
+            </trans-unit>
+            <trans-unit id="login-7">
+                <source>facebook</source>
+                <target>Facebook</target>
+            </trans-unit>
+            <trans-unit id="login-8">
+                <source>linkedin</source>
+                <target>Linked In</target>
+            </trans-unit>
+
             <!--
             actividad
             notas
@@ -286,11 +321,13 @@
             plataforma
             mentores
             ponderacion
+
             editar.perfil
             apellido
             fecha.nacimiento
-  
+ 
             -->
+  
         </body>
     </file>
 </xliff>

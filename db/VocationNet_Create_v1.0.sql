@@ -1,34 +1,25 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
 
-DROP SCHEMA IF EXISTS `vocationet-dev` ;
-CREATE SCHEMA IF NOT EXISTS `vocationet-dev` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
-SHOW WARNINGS;
-USE `vocationet-dev` ;
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
+USE `mydb` ;
 
 -- -----------------------------------------------------
--- Table `roles`
+-- Table `mydb`.`roles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `roles` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `roles` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`roles` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(45) NOT NULL ,
   `descripcion` MEDIUMTEXT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `usuarios`
+-- Table `mydb`.`usuarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `usuarios` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `usuarios` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `usuario_nombre` VARCHAR(45) NOT NULL ,
   `usuario_apellido` VARCHAR(45) NOT NULL ,
@@ -43,69 +34,35 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `rol_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_usuarios_1` (`rol_id` ASC) ,
-  UNIQUE INDEX `usuario_email_UNIQUE` (`usuario_email` ASC) ,
   CONSTRAINT `fk_usuarios_1`
     FOREIGN KEY (`rol_id` )
-    REFERENCES `roles` (`id` )
+    REFERENCES `mydb`.`roles` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `georeferencias`
+-- Table `mydb`.`georeferencias`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `georeferencias` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `georeferencias` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`georeferencias` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `georeferencia_padre_id` INT NULL ,
   `georeferencia_nombre` VARCHAR(100) NULL ,
-  `georeferencia_tipo` VARCHAR(70) NULL ,
+  `georeferencia_tipo` VARCHAR(5) NULL ,
   `georeferencia_codigo` VARCHAR(45) NULL ,
-  `georeferencia_coordenadas` TEXT NULL COMMENT 'Campo geometry, peo symfony no suporta este tipo' ,
-  `georeferencia_centro` TEXT NULL COMMENT 'Campo geometry, peo symfony no suporta este tipo' ,
-  `georeferencia_area` FLOAT UNSIGNED NULL DEFAULT 0 ,
-  `georeferencia_etnia` TEXT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `colegios`
+-- Table `mydb`.`perfiles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `colegios` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `colegios` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `nombre` VARCHAR(45) NOT NULL ,
-  `georeferencia_id` INT NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_colegios_1` (`georeferencia_id` ASC) ,
-  CONSTRAINT `fk_colegios_1`
-    FOREIGN KEY (`georeferencia_id` )
-    REFERENCES `georeferencias` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-SHOW WARNINGS;
-
--- -----------------------------------------------------
--- Table `perfiles`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `perfiles` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `perfiles` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`perfiles` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `usuario_id` INT NOT NULL ,
   `fechanacimiento` DATE NOT NULL ,
@@ -115,54 +72,79 @@ CREATE  TABLE IF NOT EXISTS `perfiles` (
   `imagen` VARCHAR(155) NULL ,
   `tarjeta_profesional` VARCHAR(155) NULL ,
   `hojavida` VARCHAR(155) NULL ,
-  `colegio_id` INT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_perfiles_1` (`usuario_id` ASC) ,
   INDEX `fk_perfiles_2` (`georeferencia_id` ASC) ,
-  INDEX `fk_perfiles_colegios1_idx` (`colegio_id` ASC) ,
   CONSTRAINT `fk_perfiles_1`
     FOREIGN KEY (`usuario_id` )
-    REFERENCES `usuarios` (`id` )
+    REFERENCES `mydb`.`usuarios` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_perfiles_2`
     FOREIGN KEY (`georeferencia_id` )
-    REFERENCES `georeferencias` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_perfiles_colegios1`
-    FOREIGN KEY (`colegio_id` )
-    REFERENCES `colegios` (`id` )
+    REFERENCES `mydb`.`georeferencias` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `empresas`
+-- Table `mydb`.`colegios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `empresas` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `empresas` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`colegios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `nombre` VARCHAR(155) NOT NULL COMMENT '\\n	' ,
+  `nombre` VARCHAR(45) NOT NULL ,
+  `georeferencia_id` INT NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_colegios_1` (`georeferencia_id` ASC) ,
+  CONSTRAINT `fk_colegios_1`
+    FOREIGN KEY (`georeferencia_id` )
+    REFERENCES `mydb`.`georeferencias` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`colegios_perfiles`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`colegios_perfiles` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `colegio_id` INT NOT NULL ,
+  `perfil_id` INT NOT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_colegios_perfiles_1` (`colegio_id` ASC) ,
+  INDEX `fk_colegios_perfiles_2` (`perfil_id` ASC) ,
+  CONSTRAINT `fk_colegios_perfiles_1`
+    FOREIGN KEY (`colegio_id` )
+    REFERENCES `mydb`.`colegios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_colegios_perfiles_2`
+    FOREIGN KEY (`perfil_id` )
+    REFERENCES `mydb`.`perfiles` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`empresas`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `mydb`.`empresas` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `nombre` VARCHAR(155) NOT NULL COMMENT '\n	' ,
   `tipo` INT(2) NOT NULL ,
   `size` VARCHAR(45) NULL ,
   `industria` VARCHAR(45) NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `trabajos`
+-- Table `mydb`.`trabajos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `trabajos` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `trabajos` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`trabajos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `cargo` VARCHAR(150) NOT NULL ,
   `resumen` MEDIUMTEXT NULL ,
@@ -176,40 +158,32 @@ CREATE  TABLE IF NOT EXISTS `trabajos` (
   INDEX `fk_trabajos_2` (`empresa_id` ASC) ,
   CONSTRAINT `fk_trabajos_1`
     FOREIGN KEY (`perfil_id` )
-    REFERENCES `perfiles` (`id` )
+    REFERENCES `mydb`.`perfiles` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_trabajos_2`
     FOREIGN KEY (`empresa_id` )
-    REFERENCES `empresas` (`id` )
+    REFERENCES `mydb`.`empresas` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `instituciones`
+-- Table `mydb`.`instituciones`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `instituciones` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `instituciones` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`instituciones` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(155) NOT NULL ,
   `tipo` INT(2) NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `estudios`
+-- Table `mydb`.`estudios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `estudios` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `estudios` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`estudios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `perfil_id` INT NOT NULL ,
   `institucion_id` INT NOT NULL ,
@@ -224,41 +198,35 @@ CREATE  TABLE IF NOT EXISTS `estudios` (
   INDEX `fk_estudios_2` (`institucion_id` ASC) ,
   CONSTRAINT `fk_estudios_1`
     FOREIGN KEY (`perfil_id` )
-    REFERENCES `perfiles` (`id` )
+    REFERENCES `mydb`.`perfiles` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_estudios_2`
     FOREIGN KEY (`institucion_id` )
-    REFERENCES `instituciones` (`id` )
+    REFERENCES `mydb`.`instituciones` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `permisos`
+-- Table `mydb`.`permisos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `permisos` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `permisos` (
+CREATE  TABLE IF NOT EXISTS `mydb`.`permisos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `permisoscol` VARCHAR(45) NOT NULL ,
   `nombre` VARCHAR(60) NOT NULL ,
   `descripcion` MEDIUMTEXT NULL ,
   `rol_id` INT NOT NULL ,
-  `permiso_routes` TEXT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_permisos_1` (`rol_id` ASC) ,
   CONSTRAINT `fk_permisos_1`
     FOREIGN KEY (`rol_id` )
-    REFERENCES `roles` (`id` )
+    REFERENCES `mydb`.`roles` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

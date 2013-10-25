@@ -145,7 +145,7 @@ a, a:hover, a:focus {
 
 .login-social-link a i {
     font-size: 20px;
-    padding-right: 10px;
+    padding-right: 3px;
 }
 
 .login-social-link a.facebook {
@@ -158,6 +158,12 @@ a, a:hover, a:focus {
 .login-social-link a.twitter {
     background: #44ccfe;
     box-shadow: 0 4px #2bb4e8;
+	float:left;
+}
+
+.login-social-link a.linkedin {
+    background: #1A92BD;
+    box-shadow: 0 4px #107CB7;
 	float:left;
 }
 

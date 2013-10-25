@@ -1,0 +1,23 @@
+{% set flashbag = app.session.flashbag.get('alerts') %}
+
+<script>
+var Gritter = function () {
+    {% for alert in flashbag %}
+        $.gritter.add({
+            title: '{{ alert.title|default('Alert') }}',
+            text: '{{ alert.text|default('Alert') }}',
+            class_name: 'gritter-light',
+            time: {{ alert.time|default('5000') }},
+            {% if alert.type is defined %}
+                {% if alert.type == 'success' %}
+                    image: '{{ asset('img/success.png') }}',
+                {% elseif alert.type == 'warning' %}
+                    image: '{{ asset('img/warning.png') }}',
+                {% elseif alert.type == 'error' %}
+                    image: '{{ asset('img/delete.png') }}',
+                {% endif %}
+            {% endif %}
+        });
+    {% endfor %}
+}();
+</script>
