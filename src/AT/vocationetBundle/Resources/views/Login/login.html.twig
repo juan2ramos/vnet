@@ -32,11 +32,11 @@
 
     <div class="container">
 
-      <form class="form-signin" action="index.html">
+      <form class="form-signin" action="{{ path('login') }}" method="POST">
         <h2 class="form-signin-heading">{% trans from "label" %}iniciar.sesion{% endtrans %}</h2>
         <div class="login-wrap">
-            <input type="text" class="form-control" placeholder="{% trans from "label" %}email{% endtrans %}" autofocus>
-            <input type="password" class="form-control" placeholder="{% trans from "label" %}contrasena{% endtrans %}">
+            {{ form_widget(form.username, {'attr':{'class':'form-control', 'placeholder': 'email'|trans({}, 'label'), 'autofocus':''} }) }}
+            {{ form_widget(form.password, {'attr':{'class':'form-control', 'placeholder': 'contrasena'|trans({}, 'label')} }) }}
             <label class="checkbox">
                 <span class="pull-right"> <a href="#">{% trans from "label" %}olvide.mi.contraseña{% endtrans %}</a></span>
             </label>
@@ -54,7 +54,8 @@
             </div>
 
         </div>
-
+            {{ form_widget(form._token) }}
+            {{ form_errors(form) }}
       </form>
 
     </div>

@@ -9,10 +9,12 @@ namespace AT\vocationetBundle\Services;
 class PerfilService
 {
     var $doctrine;
+    var $translate;
         
-    function __construct($doctrine) 
+    function __construct($doctrine, $translate)
     {
         $this->doctrine = $doctrine;
+        $this->translate = $translate;
     }
 
     /**
@@ -37,15 +39,14 @@ class PerfilService
 		 * WHERE p.id = 2
 		 * //AND (r.nombre = 'mentor_e' or r.nombre = 'mentor_ov');
 		 */
-		$dql="SELECT u.usuarioNombre, u.usuarioApellido,
-				p.hojavida, p.imagen, p.tarjetaProfesional, p.cursoActual,
+		$dql="SELECT u.id as usuarioId, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioFechaNacimiento, u.usuarioEmail,
+				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioCursoActual, u.usuarioFacebookid,
 				r.nombre as nombreRol,
-				col.nombre as nombreCol
-			FROM vocationetBundle:Perfiles p
-			JOIN vocationetBundle:Usuarios u WITH u.id = p.usuario
+				col.nombre as nombreCol, col.id as colegioId
+			FROM vocationetBundle:Usuarios u
 			JOIN u.rol r
-			LEFT JOIN p.colegio col
-			WHERE p.id =:perfilId";
+			LEFT JOIN u.colegio col
+			WHERE u.id =:perfilId";
 		$query = $em->createQuery($dql);
 		$query->setParameter('perfilId', $perfilId);
 		$perfil =$query->getResult();
@@ -72,8 +73,7 @@ class PerfilService
 		 * WHERE e.perfil_id = 2;
 		 */
 		 $dql= "SELECT est FROM vocationetBundle:Estudios est
-			INNER JOIN est.institucion ins
-			WHERE est.perfil =:perfilId";
+			WHERE est.usuario =:perfilId";
 			$query = $em->createQuery($dql);
 		$query->setParameter('perfilId', $perfilId);
 		$estudios =$query->getResult();
@@ -101,12 +101,62 @@ class PerfilService
 		 */
 		 $dql= "SELECT tra FROM vocationetBundle:Trabajos tra
 			INNER JOIN tra.empresa emp
-			WHERE tra.perfil =:perfilId";
+			WHERE tra.usuario =:perfilId";
 			$query = $em->createQuery($dql);
 		$query->setParameter('perfilId', $perfilId);
 		$estudios =$query->getResult();
 		return $estudios;
 	}
 
+	/**
+	 * Funcion que retorna un array los colegios a seleccionar por el estudiante
+	 * - Acceso desde PerfilController
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Array Con colegios (cursos)
+	 */
+	public function getColegios()
+	{
+		$arrayColegios = Array();
+		$em = $this->doctrine->getManager();
+		$colegios = $em->getRepository('vocationetBundle:colegios')->findAll();
+		foreach($colegios as $colegio){
+			$arrayColegios[$colegio->getId()] = $colegio->getNombre();
+		}
+		return $arrayColegios;
+	}
+
+	/**
+	 * Funcion que retorna un array con los grados (cursos) a seleccionar por el estudiante
+	 * - Acceso desde PerfilController
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Array Con grados (cursos)
+	 */
+	public function getGrados()
+	{
+		$tr = $this->translate;
+		return $grados = Array(
+					'6' => $tr->trans("sexto", array(), 'label'),
+					'7' => $tr->trans("septimo", array(), 'label'),
+					'8' => $tr->trans("octavo", array(), 'label'),
+					'9' => $tr->trans("noveno", array(), 'label'),
+					'10' => $tr->trans("decimo", array(), 'label'),
+					'11' => $tr->trans("once", array(), 'label'),
+					'12' => $tr->trans("doce", array(), 'label'),
+				);
+	}
+
+	public function getRutaHojaVida()
+	{
+		return 'img/vocationet/usuarios/';
+	}
+
+	public function getRutaTarjetaProfesional()
+	{
+		return 'img/vocationet/usuarios/';
+	}
 }
 ?>

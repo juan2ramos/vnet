@@ -35,7 +35,7 @@ class SecurityService
     /**
      * Funcion para imprimir la estructura de una variable
      * 
-     * @author Diego Malagón
+     * @author Diego Malagón <diego@altactic.com>
      * @param type $var variable a depurar
      */
     public function debug($var)
@@ -114,6 +114,122 @@ class SecurityService
         return $pass;
     }
     
+    /**
+     * Funcion para iniciar sesion
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @param Object $usuario entidad usuario
+     */
+    public function login($usuario)
+    {
+        $sess_user = array(
+            'id' => $usuario->getId(),
+            'usuarioNombre' => $usuario->getUsuarioNombre(),
+            'usuarioApellido' => $usuario->getUsuarioApellido(),
+            'usuarioEmail' => $usuario->getUsuarioEmail(),
+            'usuarioFacebookid' => $usuario->getUsuarioFacebookid(),
+            'usuarioImagen' => $usuario->getUsuarioImagen(),            
+        );
+        
+        $sess_permissions = $this->getPermisosUsuario($usuario->getId());
+        
+        $this->session->set('sess_user',$sess_user);
+        $this->session->set('sess_permissions',$sess_permissions);        
+    }
     
+    /**
+     * Funcion para obtener los permisos de un usuario
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @param integer $usuarioId id de usuario
+     * @return array arreglo de permisos separados por identificadores y rutas
+     */
+    public function getPermisosUsuario($usuarioId)
+    {
+        $dql = "SELECT p.identificador, p.permisoRoutes FROM vocationetBundle:Permisos p
+                JOIN vocationetBundle:Roles r WITH p.rol = r.id
+                JOIN vocationetBundle:Usuarios u WITH u.rol = r.id
+                WHERE u.id = :usuarioId
+                ";
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $result = $query->getResult();
+        
+        $permissions = array();
+        $routes = array();
+        
+        foreach($result as $r)
+        {
+            $permissions[] = $r['identificador'];
+            
+            $explode = explode(',', $r['permisoRoutes']);
+            
+            foreach($explode as $route)
+            {
+                if(!in_array($route, $routes))
+                {
+                    $routes[] = $route;
+                }
+            }            
+        }
+        
+        return array(
+            'permissions'   =>  $permissions,
+            'routes'        =>  $routes
+        );
+    }
+       
+    /**
+     * Funcion para eliminar la session
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     */
+    public function logout()
+    {
+        $this->session->set('sess_user',null);
+        $this->session->set('sess_permissions',null);
+    }
     
+    /**
+     * Funcion que verifica si el usuario esta autenticado
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @return boolean
+     */
+    public function authentication()
+    {
+        $return = false;
+        $sess_user = $this->session->get('sess_user');
+        $sess_permissions = $this->session->get('sess_permissions');
+        
+        if(isset($sess_user['id']) && isset($sess_permissions['permissions']) && isset($sess_permissions['routes']))
+        {
+            $return = true;
+        }
+        
+        return  $return;
+    }
+    
+    /**
+     * Funcion que verifica si el usuario tiene permiso a una ruta o modulo
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @param string $route ruta de action o identificador de permiso
+     * @param string $check routes|permissions indica en donde buscar el permiso
+     * @return boolean true si tiene el permiso false si no
+     */
+    public function authorization($route, $check="routes")
+    {
+        $return = false;
+        
+        $permisos = $this->session->get('sess_permissions');        
+        
+        if(in_array($route, $permisos[$check]))
+        {
+            $return = true;
+        }
+        
+        return $return;
+    }
 }

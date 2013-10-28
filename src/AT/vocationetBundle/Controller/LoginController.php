@@ -3,6 +3,7 @@
 namespace AT\vocationetBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -22,17 +23,55 @@ class LoginController extends Controller
      * 
      * @Route("/", name="login")
      * @Template("vocationetBundle:Login:login.html.twig")
+     * @author Diego Malagón <diego@altactic.com>
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $security = $this->get('security');
-        $facebook = $this->get('facebook');       
+        $security = $this->get('security');     
+        if($security->authentication()){ return $this->redirect($this->generateUrl('homepage'));}          
         
-        $login_facebook_url = $facebook->getLoginUrl();
+        $loginFormData = array('cta_username' => '', 'cta_passwords' => '');
+        $loginForm = $this->createFormBuilder($loginFormData)
+           ->add('username', 'email', array('required' => true))
+           ->add('password', 'password', array('required' => true))
+           ->getForm();
+        
+        if($request->getMethod() == 'POST') 
+        {
+            $loginForm->bind($request);
+            if ($loginForm->isValid())
+            {
+                $data = $loginForm->getData();
+                
+                $password = $security->encriptar($data['password']);
+                
+                $user_serv = $this->get('usuarios');
+                
+                // Verificar el usuario registrado nativamente
+                $usuario = $user_serv->checkUsuarioNativo($data['username'], $password);
+                
+                if($usuario)
+                {
+                    // Iniciar sesion y redireccinar a home
+                    $security->login($usuario);
+                    return $this->redirect($this->generateUrl('homepage'));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("verifique.datos.ingresados")));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("verifique.datos.ingresados")));
+            }
+        }
+        
         
         return array(
-            'login_facebook_url' => $login_facebook_url,
+            'form' => $loginForm->createView(),
+            'login_facebook_url' => $this->get('facebook')->getLoginUrl(),
         );
     }    
     
@@ -40,6 +79,7 @@ class LoginController extends Controller
      * Accion para recibir la respuesta de autenticacion de facebook
      * 
      * @Route("/facebook", name="login_facebook")
+     * @author Diego Malagón <diego@altactic.com>
      * @return Response 
      */
     public function facebookAuthAction()
@@ -56,39 +96,55 @@ class LoginController extends Controller
             'code' => $request->get('code'),
             'state' => $request->get('state') 
         );
-                
+        
         $userId = $facebook->facebook->getUser(); 
+        //$userId = 1135508925;
         $userProfile = $facebook->handleLoginResponse($response, $userId);
-                
+        
+        $security->debug($userId);
+        
         if($userProfile)
         {
-            // logeado correctamente -> iniciar sesion en la aplicacion
             $user_serv = $this->get('usuarios');
             
             // Verificar si el usuario ya esta registrado
-            $registrado = $user_serv->existsFacebookId($userId);
+            $usuario = $user_serv->getUsuarioFacebook($userId);
             
-            if($registrado)
-            {
-                // Iniciar sesion
-            }
-            else
+            if(!$usuario)
             {
                 // Registrar
-                $usuarioId = $user_serv->addUsuarioFacebook($userProfile);
-                
-                // Iniciar sesion
+                $usuario = $user_serv->addUsuarioFacebook($userProfile);
             }
+            
+            $security->login($usuario);
+            return $this->redirect($this->generateUrl('homepage'));
+            
             $security->debug($userProfile);
         }
         else
         {
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("intento.autenticacion.fallida")));
-            return $this->redirect($this->generateUrl('login'));
+//            return $this->redirect($facebook->getLoginUrl());
+//            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("intento.autenticacion.fallida")));
+//            return $this->redirect($this->generateUrl('login'));
         }        
         
         return new Response();
     }
     
-    
+    /**
+     * Accion para cerrar sesion
+     * 
+     * @Route("/logout", name="logout")
+     * @author Diego Malagón <diego@altactic.com>
+     * @return Response
+     */
+    public function logoutAction()
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        
+        $security->logout();
+        
+        return $this->redirect($this->generateUrl('login'));
+    }
 }

@@ -71,7 +71,8 @@ class FacebookService
         
         $this->facebook = new Facebook(array(
             'appId'     =>  $appId,
-            'secret'    =>  $appSecret
+            'secret'    =>  $appSecret,
+            'cookie'    =>  true
         ));
         
         $this->redirect_uri =  $serv_cont->get('request')->getSchemeAndHttpHost().$serv_cont->get('router')->generate('login_facebook');
@@ -87,7 +88,7 @@ class FacebookService
     public function getLoginUrl()
     {
         $loginUrl = $this->facebook->getLoginUrl(array(
-            'scope'			=> 'read_stream, publish_stream, user_birthday, user_location, user_work_history, user_hometown, user_photos',
+            'scope'			=> 'email,read_stream,publish_stream,user_birthday,user_location',
             'redirect_uri'	=> $this->redirect_uri,
             'state'         => $this->generateState()
 		));

@@ -10,7 +10,7 @@ services:
         arguments: [%facebook_app_id%, %facebook_app_secret%, "@service_container"]
     perfil:
         class: AT\vocationetBundle\Services\PerfilService
-        arguments: ["@doctrine"]
+        arguments: ["@doctrine", "@translator"]
     usuarios:
         class: AT\vocationetBundle\Services\UsuariosService
         arguments: ["@doctrine", "@session"]
