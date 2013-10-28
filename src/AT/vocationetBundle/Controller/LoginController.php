@@ -13,7 +13,7 @@ use \Facebook;
  * controlador para autenticacion y registro de usuarios
  *
  * @Route("/")
- * @author Diego Malagón <diego@altactic.com>
+ * @author Diego MalagÃ³n <diego@altactic.com>
  */
 class LoginController extends Controller
 {
@@ -56,10 +56,12 @@ class LoginController extends Controller
             'code' => $request->get('code'),
             'state' => $request->get('state') 
         );
-                
+        
         $userId = $facebook->facebook->getUser(); 
         $userProfile = $facebook->handleLoginResponse($response, $userId);
-                
+        
+        $security->debug($userId);
+        
         if($userProfile)
         {
             // logeado correctamente -> iniciar sesion en la aplicacion
@@ -83,8 +85,9 @@ class LoginController extends Controller
         }
         else
         {
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("intento.autenticacion.fallida")));
-            return $this->redirect($this->generateUrl('login'));
+//            return $this->redirect($facebook->getLoginUrl());
+//            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("intento.autenticacion.fallida")));
+//            return $this->redirect($this->generateUrl('login'));
         }        
         
         return new Response();
