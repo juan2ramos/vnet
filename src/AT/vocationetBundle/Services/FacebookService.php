@@ -7,7 +7,7 @@ use \Facebook;
 /**
  * Servicio para conexion con facebook-php-sdk
  * 
- * @author Diego MalagÃ³n <diego@altactic.com>
+ * @author Diego Malagón <diego@altactic.com>
  */
 class FacebookService
 {    

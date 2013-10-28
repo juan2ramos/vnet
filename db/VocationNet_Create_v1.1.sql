@@ -197,7 +197,7 @@ DROP TABLE IF EXISTS `permisos` ;
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `permisos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `permisoscol` VARCHAR(45) NOT NULL ,
+  `identificador` VARCHAR(45) NOT NULL ,
   `nombre` VARCHAR(60) NOT NULL ,
   `descripcion` MEDIUMTEXT NULL ,
   `rol_id` INT NOT NULL ,

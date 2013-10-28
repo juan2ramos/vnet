@@ -10,6 +10,10 @@
             <trans-unit id="login-2">
                 <source>intento.autenticacion.fallida</source>
                 <target>No se logró completar la autenticación</target>
+            </trans-unit>            
+			<trans-unit id="login-3">
+                <source>verifique.datos.ingresados</source>
+                <target>Verifique los datos ingresados</target>
             </trans-unit>
         </body>
     </file>
