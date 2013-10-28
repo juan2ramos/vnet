@@ -49,6 +49,13 @@ class Empresas
      */
     private $industria;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id_linkedin", type="integer", nullable=true)
+     */
+    private $idLinkedin;
+
 
 
     /**
@@ -151,5 +158,28 @@ class Empresas
     public function getIndustria()
     {
         return $this->industria;
+    }
+
+    /**
+     * Set idLinkedin
+     *
+     * @param integer $idLinkedin
+     * @return Empresas
+     */
+    public function setIdLinkedin($idLinkedin)
+    {
+        $this->idLinkedin = $idLinkedin;
+    
+        return $this;
+    }
+
+    /**
+     * Get idLinkedin
+     *
+     * @return integer 
+     */
+    public function getIdLinkedin()
+    {
+        return $this->idLinkedin;
     }
 }

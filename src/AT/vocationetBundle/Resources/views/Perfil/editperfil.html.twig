@@ -1,0 +1,116 @@
+{% extends "::base.html.twig" %}
+
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-datepicker/css/datepicker.css') }}" />
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-colorpicker/css/colorpicker.css') }}" />#}
+    {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-daterangepicker/daterangepicker.css') }}" />#}
+{% endblock style %}
+
+
+{% block body %}
+	<div class='col-lg-9'>
+		<div class="row">
+			<aside class="profile-nav col-lg-4">
+
+				{# IMAGEN DE PERFIL Y NOMBRE #}
+				<section class="panel">
+					<div class="user-heading round">
+						{% set imagen = (perfil.imagen) ? perfil.imagen : gui_default_img %}
+						<a href="#"><img src="{{ asset(imagen) }}" alt=""></a>
+						<h1>{{ perfil.usuarioApellido }}<br>{{ perfil.usuarioNombre }}</h1>
+						{#<p>jsmith@flatlab.com</p>#}
+					</div>
+					
+					<ul class="nav nav-pills nav-stacked">
+						<li class=""><a href="#"> <i class="icon-user"></i> Profile</a></li>
+						<li class="active"><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+						<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
+						
+							<a href="#">
+								<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
+								<span class="label label-success pull-right r-activity">{{ pendiente.msjsinleer }}</span>
+							</a>
+						</li>
+					</ul>
+				</section>
+			</aside>
+				
+			<aside class="profile-info col-lg-8">
+				<section class="panel">
+					<div class="panel-body bio-graph-info">
+						<h1>{% trans from "label" %}editar.perfil{% endtrans %}</h1>
+						<form action="{{ path('perfil_edit') }}" method='POST' {{ form_enctype(form) }} id="PerfilForm" type="post" class="form-horizontal" role="form">
+							{{ form_widget(form._token) }}
+							{{ form_errors(form) }}
+					  
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}nombre{% endtrans %}</label>
+								<div class="col-lg-7">{{ form_widget(form.nombre, { 'attr' : {'class': 'form-control'}}) }}</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}apellido{% endtrans %}</label>
+								<div class="col-lg-7">{{ form_widget(form.apellido, { 'attr' : {'class': 'form-control'}}) }}</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}fecha.nacimiento{% endtrans %}</label>
+								<div class="col-lg-7">
+									<div class="input-append date" id="dpYears" data-date="1990-01-01" data-date-format="yyyy-mm-dd" data-date-viewmode="years">
+										{{ form_widget(form.fechaNacimiento, { 'attr' : {'class': 'form-control', 'placeholder': 'dd-mm-yyyy'}}) }}
+										<span class="add-on"><i class="icon-calendar"></i></span>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}genero{% endtrans %}</label>
+								<div class="col-lg-7">{{ form_widget(form.genero, { 'attr' : {'class': 'form-control'}}) }}</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}imagen{% endtrans %}</label>
+								<div class="col-lg-7">{{ form_widget(form.imagen, { 'attr' : {'class': 'form-control'}}) }}</div>
+							</div>
+							<hr>
+
+							<div class="form-group">
+								<div class="col-lg-offset-4 col-lg-10">
+									<button type="button" class="btn btn-default">Cancel</button>
+									<button type="submit" class="btn btn-info">Save</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</section>
+			</aside>
+		</div>
+	</div>
+	<div class='col-lg-3' color='red'>
+		<div><h2>PUBLICIDAD</h2></div>
+	</div>
+{% endblock body %}
+
+
+{% block script %}
+    {#<script src="{{ asset('js/jquery-ui-1.9.2.custom.min.js') }}"></script>#}
+
+    <!--custom switch-->
+    <script src="{{ asset('js/bootstrap-switch.js') }}"></script>
+    <!--custom tagsinput-->
+    <script src="{{ asset('js/jquery.tagsinput.js') }}"></script>
+    <!--custom checkbox & radio-->
+    {#<script type="text/javascript" src="{{ asset('js/ga.js') }}"></script>#}
+    
+	<script type="text/javascript" src="{{ asset('assets/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/bootstrap-daterangepicker/date.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/bootstrap-colorpicker/js/bootstrap-colorpicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/ckeditor/ckeditor.js') }}"></script>
+    
+    <!--common script for all pages-->
+    {#<script src="{{ asset('js/common-scripts.js') }}"></script>#}
+    
+    <!--script for this page-->
+	<script src="{{ asset('js/form-component.js') }}"></script>
+{% endblock script %}

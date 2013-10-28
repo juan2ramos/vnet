@@ -24,6 +24,13 @@ class Estudios
     /**
      * @var string
      *
+     * @ORM\Column(name="nombre_institucion", type="string", length=100, nullable=true)
+     */
+    private $nombreInstitucion;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="campo", type="string", length=155, nullable=true)
      */
     private $campo;
@@ -64,24 +71,21 @@ class Estudios
     private $notas;
 
     /**
-     * @var \Perfiles
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Perfiles")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="perfil_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="id_linkedin", type="integer", nullable=true)
      */
-    private $perfil;
+    private $idLinkedin;
 
     /**
-     * @var \Instituciones
+     * @var \Usuarios
      *
-     * @ORM\ManyToOne(targetEntity="Instituciones")
+     * @ORM\ManyToOne(targetEntity="Usuarios")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="institucion_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
      * })
      */
-    private $institucion;
+    private $usuario;
 
 
 }

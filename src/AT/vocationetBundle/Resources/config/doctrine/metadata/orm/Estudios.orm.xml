@@ -4,20 +4,17 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="nombreInstitucion" type="string" column="nombre_institucion" length="100" nullable="true"/>
     <field name="campo" type="string" column="campo" length="155" nullable="true"/>
     <field name="fechaInicio" type="date" column="fecha_inicio" nullable="true"/>
     <field name="fechaFinal" type="date" column="fecha_final" nullable="true"/>
     <field name="titulo" type="string" column="titulo" length="155" nullable="true"/>
     <field name="actividad" type="text" column="actividad" nullable="true"/>
     <field name="notas" type="text" column="notas" nullable="true"/>
-    <many-to-one field="institucion" target-entity="Instituciones">
+    <field name="idLinkedin" type="integer" column="id_linkedin" nullable="true"/>
+    <many-to-one field="usuario" target-entity="Usuarios">
       <join-columns>
-        <join-column name="institucion_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
-    <many-to-one field="perfil" target-entity="Perfiles">
-      <join-columns>
-        <join-column name="perfil_id" referenced-column-name="id"/>
+        <join-column name="usuario_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

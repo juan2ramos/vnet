@@ -28,6 +28,7 @@
 						
 						<ul class="nav nav-pills nav-stacked">
 							<li class="active"><a href="#"> <i class="icon-user"></i> Profile</a></li>
+							<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
 							<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 								<a href="#">
 									<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
@@ -172,11 +173,6 @@
 								<div class='col-lg-4'>{% trans from "label" %}fecha.nacimiento{% endtrans %}:</div>
 								<div class='col-lg-8'>PENDIENTE FECHA NACIMIENTO</div>
 							</div>
-							<div class="row-desk col-lg-12 row paddBtn">
-								<div class='col-lg-12' style='text-align:right;'>
-									<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}editar.perfil{% endtrans %}</button>
-								</div>
-							</div>
 						</div>
 					</section>
 
@@ -288,7 +284,7 @@
 					</section>
 				</aside>
 			{% endif %}
-			
+
 		</div>
 	</div>
 	<div class='col-lg-3' color='red'>

@@ -8,5 +8,6 @@
     <field name="tipo" type="integer" column="tipo" nullable="false"/>
     <field name="size" type="string" column="size" length="45" nullable="true"/>
     <field name="industria" type="string" column="industria" length="45" nullable="true"/>
+    <field name="idLinkedin" type="integer" column="id_linkedin" nullable="true"/>
   </entity>
 </doctrine-mapping>

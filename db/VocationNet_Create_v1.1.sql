@@ -1,11 +1,7 @@
 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL';
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-DROP SCHEMA IF EXISTS `vocationet-dev` ;
-CREATE SCHEMA IF NOT EXISTS `vocationet-dev` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci ;
-SHOW WARNINGS;
-USE `vocationet-dev` ;
 
 -- -----------------------------------------------------
 -- Table `roles`
@@ -19,39 +15,6 @@ CREATE  TABLE IF NOT EXISTS `roles` (
   `descripcion` MEDIUMTEXT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
-
-SHOW WARNINGS;
-
--- -----------------------------------------------------
--- Table `usuarios`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `usuarios` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `usuarios` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `usuario_nombre` VARCHAR(45) NOT NULL ,
-  `usuario_apellido` VARCHAR(45) NOT NULL ,
-  `usuario_email` VARCHAR(100) NOT NULL ,
-  `usuario_password` VARCHAR(45) NULL ,
-  `usuario_estado` INT(2) NOT NULL ,
-  `usuario_hash` VARCHAR(45) NULL ,
-  `usuario_facebookid` INT NULL ,
-  `usuario_tipo` INT(2) NOT NULL ,
-  `created` DATETIME NULL ,
-  `modified` DATETIME NULL ,
-  `rol_id` INT NOT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_usuarios_1` (`rol_id` ASC) ,
-  UNIQUE INDEX `usuario_email_UNIQUE` (`usuario_email` ASC) ,
-  CONSTRAINT `fk_usuarios_1`
-    FOREIGN KEY (`rol_id` )
-    REFERENCES `roles` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8
-COLLATE = utf8_unicode_ci;
 
 SHOW WARNINGS;
 
@@ -96,42 +59,54 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `perfiles`
+-- Table `usuarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `perfiles` ;
+DROP TABLE IF EXISTS `usuarios` ;
 
 SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `perfiles` (
+CREATE  TABLE IF NOT EXISTS `usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `usuario_id` INT NOT NULL ,
-  `fechanacimiento` DATE NOT NULL ,
-  `genero` VARCHAR(45) NOT NULL ,
+  `usuario_nombre` VARCHAR(45) NOT NULL ,
+  `usuario_apellido` VARCHAR(45) NOT NULL ,
+  `usuario_email` VARCHAR(100) NOT NULL ,
+  `usuario_password` VARCHAR(45) NULL ,
+  `usuario_hash` VARCHAR(45) NULL ,
+  `usuario_estado` INT(2) NOT NULL ,
+  `usuario_facebookid` INT NULL ,
+  `rol_id` INT NOT NULL ,
   `georeferencia_id` INT NULL ,
-  `curso_actual` INT NULL ,
-  `imagen` VARCHAR(155) NULL ,
-  `tarjeta_profesional` VARCHAR(155) NULL ,
-  `hojavida` VARCHAR(155) NULL ,
+  `usuario_fecha_nacimiento` DATE NULL ,
+  `usuario_genero` VARCHAR(45) NULL ,
+  `usuario_imagen` VARCHAR(155) NULL ,
+  `usuario_tarjeta_profesional` VARCHAR(155) NULL ,
+  `usuario_hoja_vida` VARCHAR(155) NULL ,
   `colegio_id` INT NULL ,
+  `usuario_curso_actual` INT NULL ,
+  `created` DATETIME NULL ,
+  `modified` DATETIME NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_perfiles_1` (`usuario_id` ASC) ,
-  INDEX `fk_perfiles_2` (`georeferencia_id` ASC) ,
-  INDEX `fk_perfiles_colegios1_idx` (`colegio_id` ASC) ,
-  CONSTRAINT `fk_perfiles_1`
-    FOREIGN KEY (`usuario_id` )
-    REFERENCES `usuarios` (`id` )
+  INDEX `fk_usuarios_1` (`rol_id` ASC) ,
+  UNIQUE INDEX `usuario_email_UNIQUE` (`usuario_email` ASC) ,
+  INDEX `fk_usuarios_georeferencias1_idx` (`georeferencia_id` ASC) ,
+  INDEX `fk_usuarios_colegios1_idx` (`colegio_id` ASC) ,
+  CONSTRAINT `fk_usuarios_1`
+    FOREIGN KEY (`rol_id` )
+    REFERENCES `roles` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_perfiles_2`
+  CONSTRAINT `fk_usuarios_georeferencias1`
     FOREIGN KEY (`georeferencia_id` )
     REFERENCES `georeferencias` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_perfiles_colegios1`
+  CONSTRAINT `fk_usuarios_colegios1`
     FOREIGN KEY (`colegio_id` )
     REFERENCES `colegios` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
 
 SHOW WARNINGS;
 
@@ -143,10 +118,11 @@ DROP TABLE IF EXISTS `empresas` ;
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `empresas` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `nombre` VARCHAR(155) NOT NULL COMMENT '\n	' ,
+  `nombre` VARCHAR(155) NOT NULL COMMENT '\\n	' ,
   `tipo` INT(2) NOT NULL ,
   `size` VARCHAR(45) NULL ,
   `industria` VARCHAR(45) NULL ,
+  `id_linkedin` INT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
@@ -160,41 +136,27 @@ DROP TABLE IF EXISTS `trabajos` ;
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `trabajos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
+  `usuario_id` INT NOT NULL ,
+  `empresa_id` INT NOT NULL ,
   `cargo` VARCHAR(150) NOT NULL ,
   `resumen` MEDIUMTEXT NULL ,
   `fecha_inicio` DATE NULL ,
   `fecha_final` DATE NULL ,
   `es_actual` INT(2) NOT NULL ,
-  `empresa_id` INT NOT NULL ,
-  `perfil_id` INT NOT NULL ,
+  `id_linkedin` INT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_trabajos_1` (`perfil_id` ASC) ,
   INDEX `fk_trabajos_2` (`empresa_id` ASC) ,
-  CONSTRAINT `fk_trabajos_1`
-    FOREIGN KEY (`perfil_id` )
-    REFERENCES `perfiles` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_trabajos_usuarios1_idx` (`usuario_id` ASC) ,
   CONSTRAINT `fk_trabajos_2`
     FOREIGN KEY (`empresa_id` )
     REFERENCES `empresas` (`id` )
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_trabajos_usuarios1`
+    FOREIGN KEY (`usuario_id` )
+    REFERENCES `usuarios` (`id` )
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-SHOW WARNINGS;
-
--- -----------------------------------------------------
--- Table `instituciones`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `instituciones` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `instituciones` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `nombre` VARCHAR(155) NOT NULL ,
-  `tipo` INT(2) NULL ,
-  PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
 SHOW WARNINGS;
@@ -207,25 +169,20 @@ DROP TABLE IF EXISTS `estudios` ;
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `estudios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `perfil_id` INT NOT NULL ,
-  `institucion_id` INT NOT NULL ,
+  `nombre_institucion` VARCHAR(100) NULL ,
   `campo` VARCHAR(155) NULL ,
   `fecha_inicio` DATE NULL ,
   `fecha_final` DATE NULL ,
   `titulo` VARCHAR(155) NULL ,
   `actividad` TEXT NULL ,
   `notas` MEDIUMTEXT NULL ,
+  `id_linkedin` INT NULL ,
+  `usuario_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_estudios_1` (`perfil_id` ASC) ,
-  INDEX `fk_estudios_2` (`institucion_id` ASC) ,
-  CONSTRAINT `fk_estudios_1`
-    FOREIGN KEY (`perfil_id` )
-    REFERENCES `perfiles` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_estudios_2`
-    FOREIGN KEY (`institucion_id` )
-    REFERENCES `instituciones` (`id` )
+  INDEX `fk_estudios_usuarios1_idx` (`usuario_id` ASC) ,
+  CONSTRAINT `fk_estudios_usuarios1`
+    FOREIGN KEY (`usuario_id` )
+    REFERENCES `usuarios` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

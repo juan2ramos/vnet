@@ -24,6 +24,13 @@ class Estudios
     /**
      * @var string
      *
+     * @ORM\Column(name="nombre_institucion", type="string", length=100, nullable=true)
+     */
+    private $nombreInstitucion;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="campo", type="string", length=155, nullable=true)
      */
     private $campo;
@@ -64,24 +71,21 @@ class Estudios
     private $notas;
 
     /**
-     * @var \Perfiles
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Perfiles")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="perfil_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="id_linkedin", type="integer", nullable=true)
      */
-    private $perfil;
+    private $idLinkedin;
 
     /**
-     * @var \Instituciones
+     * @var \Usuarios
      *
-     * @ORM\ManyToOne(targetEntity="Instituciones")
+     * @ORM\ManyToOne(targetEntity="Usuarios")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="institucion_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
      * })
      */
-    private $institucion;
+    private $usuario;
 
 
 
@@ -93,6 +97,29 @@ class Estudios
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set nombreInstitucion
+     *
+     * @param string $nombreInstitucion
+     * @return Estudios
+     */
+    public function setNombreInstitucion($nombreInstitucion)
+    {
+        $this->nombreInstitucion = $nombreInstitucion;
+    
+        return $this;
+    }
+
+    /**
+     * Get nombreInstitucion
+     *
+     * @return string 
+     */
+    public function getNombreInstitucion()
+    {
+        return $this->nombreInstitucion;
     }
 
     /**
@@ -234,48 +261,48 @@ class Estudios
     }
 
     /**
-     * Set perfil
+     * Set idLinkedin
      *
-     * @param \AT\vocationetBundle\Entity\Perfiles $perfil
+     * @param integer $idLinkedin
      * @return Estudios
      */
-    public function setPerfil(\AT\vocationetBundle\Entity\Perfiles $perfil = null)
+    public function setIdLinkedin($idLinkedin)
     {
-        $this->perfil = $perfil;
+        $this->idLinkedin = $idLinkedin;
     
         return $this;
     }
 
     /**
-     * Get perfil
+     * Get idLinkedin
      *
-     * @return \AT\vocationetBundle\Entity\Perfiles 
+     * @return integer 
      */
-    public function getPerfil()
+    public function getIdLinkedin()
     {
-        return $this->perfil;
+        return $this->idLinkedin;
     }
 
     /**
-     * Set institucion
+     * Set usuario
      *
-     * @param \AT\vocationetBundle\Entity\Instituciones $institucion
+     * @param \AT\vocationetBundle\Entity\Usuarios $usuario
      * @return Estudios
      */
-    public function setInstitucion(\AT\vocationetBundle\Entity\Instituciones $institucion = null)
+    public function setUsuario(\AT\vocationetBundle\Entity\Usuarios $usuario = null)
     {
-        $this->institucion = $institucion;
+        $this->usuario = $usuario;
     
         return $this;
     }
 
     /**
-     * Get institucion
+     * Get usuario
      *
-     * @return \AT\vocationetBundle\Entity\Instituciones 
+     * @return \AT\vocationetBundle\Entity\Usuarios 
      */
-    public function getInstitucion()
+    public function getUsuario()
     {
-        return $this->institucion;
+        return $this->usuario;
     }
 }

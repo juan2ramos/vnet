@@ -8,12 +8,27 @@
     <field name="usuarioApellido" type="string" column="usuario_apellido" length="45" nullable="false"/>
     <field name="usuarioEmail" type="string" column="usuario_email" length="100" nullable="false"/>
     <field name="usuarioPassword" type="string" column="usuario_password" length="45" nullable="true"/>
-    <field name="usuarioEstado" type="integer" column="usuario_estado" nullable="false"/>
     <field name="usuarioHash" type="string" column="usuario_hash" length="45" nullable="true"/>
+    <field name="usuarioEstado" type="integer" column="usuario_estado" nullable="false"/>
     <field name="usuarioFacebookid" type="integer" column="usuario_facebookid" nullable="true"/>
-    <field name="usuarioTipo" type="integer" column="usuario_tipo" nullable="false"/>
+    <field name="usuarioFechaNacimiento" type="date" column="usuario_fecha_nacimiento" nullable="true"/>
+    <field name="usuarioGenero" type="string" column="usuario_genero" length="45" nullable="true"/>
+    <field name="usuarioImagen" type="string" column="usuario_imagen" length="155" nullable="true"/>
+    <field name="usuarioTarjetaProfesional" type="string" column="usuario_tarjeta_profesional" length="155" nullable="true"/>
+    <field name="usuarioHojaVida" type="string" column="usuario_hoja_vida" length="155" nullable="true"/>
+    <field name="usuarioCursoActual" type="integer" column="usuario_curso_actual" nullable="true"/>
     <field name="created" type="datetime" column="created" nullable="true"/>
     <field name="modified" type="datetime" column="modified" nullable="true"/>
+    <many-to-one field="colegio" target-entity="Colegios">
+      <join-columns>
+        <join-column name="colegio_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="georeferencia" target-entity="Georeferencias">
+      <join-columns>
+        <join-column name="georeferencia_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
     <many-to-one field="rol" target-entity="Roles">
       <join-columns>
         <join-column name="rol_id" referenced-column-name="id"/>
