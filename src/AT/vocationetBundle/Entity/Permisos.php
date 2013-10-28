@@ -24,13 +24,6 @@ class Permisos
     /**
      * @var string
      *
-     * @ORM\Column(name="permisoscol", type="string", length=45, nullable=false)
-     */
-    private $permisoscol;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="nombre", type="string", length=60, nullable=false)
      */
     private $nombre;
@@ -48,6 +41,13 @@ class Permisos
      * @ORM\Column(name="permiso_routes", type="text", nullable=true)
      */
     private $permisoRoutes;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="identificador", type="string", length=45, nullable=false)
+     */
+    private $identificador;
 
     /**
      * @var \Roles
@@ -69,29 +69,6 @@ class Permisos
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set permisoscol
-     *
-     * @param string $permisoscol
-     * @return Permisos
-     */
-    public function setPermisoscol($permisoscol)
-    {
-        $this->permisoscol = $permisoscol;
-    
-        return $this;
-    }
-
-    /**
-     * Get permisoscol
-     *
-     * @return string 
-     */
-    public function getPermisoscol()
-    {
-        return $this->permisoscol;
     }
 
     /**
@@ -161,6 +138,29 @@ class Permisos
     public function getPermisoRoutes()
     {
         return $this->permisoRoutes;
+    }
+
+    /**
+     * Set identificador
+     *
+     * @param string $identificador
+     * @return Permisos
+     */
+    public function setIdentificador($identificador)
+    {
+        $this->identificador = $identificador;
+    
+        return $this;
+    }
+
+    /**
+     * Get identificador
+     *
+     * @return string 
+     */
+    public function getIdentificador()
+    {
+        return $this->identificador;
     }
 
     /**

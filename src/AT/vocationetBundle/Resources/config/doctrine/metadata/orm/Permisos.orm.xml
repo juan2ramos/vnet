@@ -4,10 +4,10 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="permisoscol" type="string" column="permisoscol" length="45" nullable="false"/>
     <field name="nombre" type="string" column="nombre" length="60" nullable="false"/>
     <field name="descripcion" type="text" column="descripcion" nullable="true"/>
     <field name="permisoRoutes" type="text" column="permiso_routes" nullable="true"/>
+    <field name="identificador" type="string" column="identificador" length="45" nullable="false"/>
     <many-to-one field="rol" target-entity="Roles">
       <join-columns>
         <join-column name="rol_id" referenced-column-name="id"/>

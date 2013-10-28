@@ -16,37 +16,29 @@ class UsuariosService
         $this->doctrine = $doctrine;
         $this->session = $session;
     }
-    
+            
     /**
-     * Funcion que verifica si existe un usuario registrado en la db usando facebook
+     * Funcion para obtener la entidad usuario con el id de facebook
      * 
-     * @param integer $facebookUserId id de usuario en facebook
+     * @param integer $usuarioId id de usuario en facebook
+     * @return Object entidad usuario
      */
-    public function existsFacebookId($facebookUserId)
+    public function getUsuarioFacebook($usuarioId)
     {
-        $return = false;
-        $dql = "SELECT COUNT(u.id) c FROM vocationetBundle:Usuarios u
-                WHERE u.usuarioFacebookid = :fbId";
         $em = $this->doctrine->getManager();
-        $query = $em->createQuery($dql);
-        $query->setParameter('fbId', $facebookUserId);
-        $query->setMaxResults(1);
-        $result = $query->getResult();
         
-        if(isset($result[0]['c']) && $result[0]['c'] >= 1 )
-        {
-            $return = true;
-        }
+        $usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneByUsuarioFacebookid($usuarioId);
         
-        return $return;
+        return $usuario;
     }
-    
+        
     /**
      * Funcion para registrar un usuario de facebook
      * 
      * Los usuarios registrados a traves de facebook quedan con rol estudiante
      * 
      * @param array $userProfile profile retornado por facebook
+     * @return Object entidad de usuario
      */
     public function addUsuarioFacebook($userProfile)
     {
@@ -60,25 +52,45 @@ class UsuariosService
         $usuario->setUsuarioApellido($userProfile['last_name']);
         $usuario->setUsuarioEmail($userProfile['username']);
         $usuario->setUsuarioFacebookid($userProfile['id']);
+        $usuario->setUsuarioImagen('https://graph.facebook.com/'.$userProfile['id'].'/picture');
         $usuario->setCreated(new \DateTime());
         $usuario->setRol($rolEstudiante);
         $usuario->setUsuarioEstado(1);
-        $usuario->setUsuarioTipo(1);
+        if(isset($userProfile['birthday'])) $usuario->setUsuarioFechaNacimiento(new \DateTime($userProfile['birthday']));
+        if(isset($userProfile['gender'])) $usuario->setUsuarioGenero($userProfile['gender']);        
         
         $em->persist($usuario);
         $em->flush();
         
-        $perfil = new \AT\vocationetBundle\Entity\Perfiles();
-        
-        $perfil->setUsuario($usuario);
-        $perfil->setFechanacimiento(new \DateTime($userProfile['birthday']));
-        $perfil->setGenero($userProfile['gender']);
-        
-        $em->persist($perfil);
-        $em->flush();
-        
-        return $usuario->getId();
+        return $usuario;
     }
     
+    /**
+     * Funcion para obtener un usuario registrado nativamente
+     * 
+     * @param string $user correo del usuario
+     * @param string $pass contraseña del usuario encriptada
+     * @return Object|boolean entidad usuario o false si no existe
+     */
+    public function checkUsuarioNativo($user, $pass)
+    {
+        $dql = "SELECT u FROM vocationetBundle:Usuarios u
+                WHERE 
+                    u.usuarioEmail = :email 
+                    AND u.usuarioPassword = :pass
+                    AND u.usuarioEstado = 1";
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('email', $user);
+        $query->setParameter('pass', $pass);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        if(isset($result[0]))
+        {
+            return $result[0];
+        }
+        else return false;
+    }
 }
 ?>
