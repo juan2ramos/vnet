@@ -16,3 +16,6 @@ parameters:
 
     facebook_app_id:   215506538627745
     facebook_app_secret: 548c0564a348201dc8195c546d908736
+
+    linkedin_api_key:   52mywqqn6p2g
+    linkedin_secret_key:    1x0mrvvEezS9ErST

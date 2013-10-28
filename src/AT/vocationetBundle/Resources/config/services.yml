@@ -8,6 +8,9 @@ services:
     facebook:
         class: AT\vocationetBundle\Services\FacebookService
         arguments: [%facebook_app_id%, %facebook_app_secret%, "@service_container"]
+    linkedin:
+        class: AT\vocationetBundle\Services\LinkedinService
+        arguments: [%linkedin_api_key%, %linkedin_secret_key%, "@service_container"]
     perfil:
         class: AT\vocationetBundle\Services\PerfilService
         arguments: ["@doctrine"]

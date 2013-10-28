@@ -68,10 +68,10 @@ class LoginController extends Controller
             }
         }
         
-        
         return array(
             'form' => $loginForm->createView(),
             'login_facebook_url' => $this->get('facebook')->getLoginUrl(),
+            'login_linkedin_url' => $this->get('linkedin')->getLoginUrl()   
         );
     }    
     
@@ -101,7 +101,7 @@ class LoginController extends Controller
         //$userId = 1135508925;
         $userProfile = $facebook->handleLoginResponse($response, $userId);
         
-        $security->debug($userId);
+//        $security->debug($userId);
         
         if($userProfile)
         {
@@ -119,17 +119,47 @@ class LoginController extends Controller
             $security->login($usuario);
             return $this->redirect($this->generateUrl('homepage'));
             
-            $security->debug($userProfile);
+//            $security->debug($userProfile);
         }
         else
         {
-//            return $this->redirect($facebook->getLoginUrl());
-//            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("intento.autenticacion.fallida")));
-//            return $this->redirect($this->generateUrl('login'));
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("intento.autenticacion.fallida")));
+            return $this->redirect($this->generateUrl('login'));
         }        
         
         return new Response();
     }
+    
+    
+    /**
+     * Accion para recibir la respuesta de autenticacion de linkedin
+     * 
+     * @Route("/linkedin", name="login_linkedin")
+     * @author Diego Malagón <diego@altactic.com>
+     * @return Response 
+     */
+    public function linkedinAuthAction()
+    {
+        $security = $this->get('security');
+        $linkedin = $this->get('linkedin');
+        
+        $request = $this->getRequest(); 
+        
+        $response = array(
+            'error' => $request->get('error'),
+            'error_reason' => $request->get('error_reason'), 
+            'error_description' => $request->get('error_description'), 
+            'code' => $request->get('code'),
+            'state' => $request->get('state') 
+        );
+        
+        $userProfile = $linkedin->handleLoginResponse($response);
+        
+        $security->debug($userProfile);
+        
+        return new Response();
+    }
+    
     
     /**
      * Accion para cerrar sesion

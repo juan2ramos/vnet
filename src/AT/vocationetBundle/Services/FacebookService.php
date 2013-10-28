@@ -58,8 +58,8 @@ class FacebookService
      * 
      * inicializa el objeto facebook
      * 
-     * @param string $fbAppId valor suministrado en parameters.yml    
-     * @param string $fbSecret valor suministrado en parameters.yml
+     * @param string $appId valor suministrado en parameters.yml    
+     * @param string $appSecret valor suministrado en parameters.yml
      * @param object $serv_cont service_container
      */
     function __construct($appId, $appSecret, $serv_cont) 
