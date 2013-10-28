@@ -20,14 +20,14 @@
 					{# IMAGEN DE PERFIL Y NOMBRE #}
 					<section class="panel">
 						<div class="user-heading round">
-							{% set imagen = (perfil.imagen) ? perfil.imagen : gui_default_img %}
+							{% set imagen = (perfil.usuarioImagen) ? perfil.usuarioImagen : gui_default_img %}
 							<a href="#"><img src="{{ asset(imagen) }}" alt=""></a>
-							<h1>{{ perfil.usuarioApellido }}<br>{{ perfil.usuarioNombre }}</h1>
-							{#<p>jsmith@flatlab.com</p>#}
+							<h1>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</h1>
+							<p>{{ perfil.usuarioEmail }}</p>
 						</div>
 						
 						<ul class="nav nav-pills nav-stacked">
-							<li class="active"><a href="#"> <i class="icon-user"></i> Profile</a></li>
+							<li class="active"><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
 							<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
 							<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 								<a href="#">
@@ -166,12 +166,17 @@
 							<div class="row-desk col-lg-12 row paddBtn">
 								<div class='col-lg-4'>{% trans from "label" %}nivel.curso{% endtrans %}:</div>
 								<div class='col-lg-8'>
-									{% if perfil.cursoActual %}{{ perfil.cursoActual }}{% else %}{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}{% endif %}
+									{% if perfil.usuarioCursoActual %}{{ perfil.usuarioCursoActual }}{% else %}{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}{% endif %}
 								</div>
 							</div>
 							<div class="row-desk col-lg-12 row paddBtn">
 								<div class='col-lg-4'>{% trans from "label" %}fecha.nacimiento{% endtrans %}:</div>
-								<div class='col-lg-8'>PENDIENTE FECHA NACIMIENTO</div>
+								<div class='col-lg-8'>
+									{% if perfil.usuarioFechaNacimiento %}{{ perfil.usuarioFechaNacimiento|date('d-m-Y') }}
+									{% else %}{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
+									{% endif %}
+			
+								</div>
 							</div>
 						</div>
 					</section>

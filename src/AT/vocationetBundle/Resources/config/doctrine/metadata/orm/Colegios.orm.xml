@@ -4,7 +4,7 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="nombre" type="string" column="nombre" length="45" nullable="false"/>
+    <field name="nombre" type="string" column="nombre" length="45" nullable="true"/>
     <many-to-one field="georeferencia" target-entity="Georeferencias">
       <join-columns>
         <join-column name="georeferencia_id" referenced-column-name="id"/>

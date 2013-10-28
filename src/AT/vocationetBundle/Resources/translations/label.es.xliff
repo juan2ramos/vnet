@@ -139,8 +139,20 @@
                 <source>no.estoy.deacuerdo</source>
                 <target>No estoy deacuerdo</target>
             </trans-unit>
+            <trans-unit id="perfil-28">
+                <source>actividad</source>
+                <target>Actividad</target>
+            </trans-unit>
+            <trans-unit id="perfil-29">
+                <source>notas</source>
+                <target>Notas</target>
+            </trans-unit>
+            <trans-unit id="perfil-30">
+                <source>explicacion.actualizacion.de.hoja.de.vida.tarjeta.profesional</source>
+                <target>Si carga una hoja de vida o tarjeta profesional remplazará la que haya cargado con anterioridad</target>
+            </trans-unit>           
 
-			<!-- PERFILES MENTOR perfile-x -->
+			<!-- PERFILES ESTUDIANTE perfile-x -->
             <trans-unit id="perfile-1">
                 <source>perfil.estudiante</source>
                 <target>Perfil estudiante</target>
@@ -277,7 +289,58 @@
                 <source>continuar.programa</source>
                 <target>Continuar programa</target>
             </trans-unit>
-                      
+            <trans-unit id="perfile-24">
+                <source>perfil.genero</source>
+                <target>Genero</target>
+            </trans-unit>
+            <trans-unit id="perfile-25">
+                <source>perfil.imagen</source>
+                <target>Imagen</target>
+            </trans-unit>
+            <trans-unit id="perfile-26">
+                <source>nombre.colegio</source>
+                <target>Nombre</target>
+            </trans-unit>
+            <trans-unit id="perfile-27">
+                <source>perfil.apellido</source>
+                <target>Apellido</target>
+			</trans-unit>
+			<trans-unit id="perfile-28">
+                <source>seleccione.un.colegio</source>
+                <target>Seleccione un colegio...</target>
+			</trans-unit>
+			<trans-unit id="perfile-29">
+                <source>seleccione.un.grado</source>
+                <target>Seleccione un grado...</target>
+			</trans-unit>
+			<trans-unit id="perfile-30">
+                <source>otro</source>
+                <target>Otro</target>
+			</trans-unit>
+			<trans-unit id="perfile-31">
+                <source>perfil</source>
+                <target>Perfil</target>
+			</trans-unit>
+			<trans-unit id="perfile-32">
+                <source>masculino</source>
+                <target>Masculino</target>
+			</trans-unit>
+			<trans-unit id="perfile-33">
+                <source>femenino</source>
+                <target>Femenino</target>
+			</trans-unit>
+			<trans-unit id="perfile-34">
+                <source>perfil.no.existe</source>
+                <target>Perfil no existe</target>
+			</trans-unit>
+			<trans-unit id="perfile-35">
+                <source>dias</source>
+                <target>Días</target>
+			</trans-unit>
+			<trans-unit id="perfile-36">
+                <source>mentores</source>
+                <target>Mentores</target>
+			</trans-unit>
 
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
@@ -313,19 +376,48 @@
                 <target>Linked In</target>
             </trans-unit>
 
-            <!--
-            actividad
-            notas
-            dias
-            diagnostico
-            plataforma
-            mentores
-            ponderacion
+            <!-- GRADOS grados-x -->
+            <trans-unit id="grados-1">
+                <source>sexto</source>
+                <target>Sexto</target>
+            </trans-unit>
+            <trans-unit id="grados-2">
+                <source>septimo</source>
+                <target>Séptimo</target>
+            </trans-unit>
+            <trans-unit id="grados-3">
+                <source>octavo</source>
+                <target>Octavo</target>
+            </trans-unit>
+            <trans-unit id="grados-4">
+                <source>noveno</source>
+                <target>Noveno</target>
+            </trans-unit>
+            <trans-unit id="grados-5">
+                <source>decimo</source>
+                <target>Décimo</target>
+            </trans-unit>
+            <trans-unit id="grados-6">
+                <source>once</source>
+                <target>Once</target>
+            </trans-unit>
+            <trans-unit id="grados-7">
+                <source>doce</source>
+                <target>Doce</target>
+            </trans-unit>
 
-            editar.perfil
-            apellido
-            fecha.nacimiento
- 
+            <!-- GENERICOS generico-x -->
+			<trans-unit id="generico-1">
+                <source>cancelar</source>
+                <target>Cancelar</target>
+			</trans-unit>
+			<trans-unit id="generico-2">
+                <source>guardar.cambios</source>
+                <target>Guardar</target>
+			</trans-unit>
+
+            <!--
+				
             -->
   
         </body>

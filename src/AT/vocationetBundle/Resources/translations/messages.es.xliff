@@ -2,6 +2,17 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="es" datatype="plaintext" original="file.ext">
         <body>
+			
+			<!-- GENERICA generic-x -->
+			<trans-unit id="generic-1">
+                <source>datos.invalidos</source>
+                <target>Datos invalidos</target>
+            </trans-unit>
+            <trans-unit id="generic-2">
+                <source>verifique.los datos.suministrados</source>
+                <target>Verifique los datos ingresados</target>
+            </trans-unit>
+            
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
                 <source>autenticacion.fallida</source>
@@ -10,6 +21,16 @@
             <trans-unit id="login-2">
                 <source>intento.autenticacion.fallida</source>
                 <target>No se logró completar la autenticación</target>
+            </trans-unit>
+            
+            <!-- EDIT PERFIL editperfil-x -->
+            <trans-unit id="editperfil-1">
+                <source>perfil.editado</source>
+                <target>Perfil editado</target>
+            </trans-unit>
+            <trans-unit id="editperfil-2">
+                <source>perfil.editado.correctamente</source>
+                <target>Los datos que editaste se registrarón con exito</target>
             </trans-unit>
         </body>
     </file>
