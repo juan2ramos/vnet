@@ -119,8 +119,9 @@ class SecurityService
      * 
      * @author Diego Malagón <diego@altactic.com>
      * @param Object $usuario entidad usuario
+     * @param array $params parametros adicionales para guardar en sesion
      */
-    public function login($usuario)
+    public function login($usuario, $params = array())
     {
         $sess_user = array(
             'id' => $usuario->getId(),
@@ -134,7 +135,12 @@ class SecurityService
         $sess_permissions = $this->getPermisosUsuario($usuario->getId());
         
         $this->session->set('sess_user',$sess_user);
-        $this->session->set('sess_permissions',$sess_permissions);        
+        $this->session->set('sess_permissions',$sess_permissions);     
+        
+        if(count($params)>0)
+        {
+            $this->session->set('sess_parameters',$params);
+        }
     }
     
     /**
@@ -147,7 +153,8 @@ class SecurityService
     public function getPermisosUsuario($usuarioId)
     {
         $dql = "SELECT p.identificador, p.permisoRoutes FROM vocationetBundle:Permisos p
-                JOIN vocationetBundle:Roles r WITH p.rol = r.id
+                JOIN vocationetBundle:PermisosRoles pr WITH p.id = pr.permiso 
+                JOIN vocationetBundle:Roles r WITH pr.rol = r.id
                 JOIN vocationetBundle:Usuarios u WITH u.rol = r.id
                 WHERE u.id = :usuarioId
                 ";
@@ -189,6 +196,7 @@ class SecurityService
     {
         $this->session->set('sess_user',null);
         $this->session->set('sess_permissions',null);
+        $this->session->set('sess_parameters',null);
     }
     
     /**
@@ -228,6 +236,29 @@ class SecurityService
         if(in_array($route, $permisos[$check]))
         {
             $return = true;
+        }
+        
+        return $return;
+    }
+    
+    /**
+     * Funcion para obtener un valor de sesion
+     * 
+     * @param string $key
+     */
+    public function getSessionValue($key)
+    {
+        $return = false;
+        $sess_user = $this->session->get('sess_user');
+        $sess_parameters = $this->session->get('sess_parameters');
+        
+        if(in_array($key, $sess_user))
+        {
+            $return = $sess_user[$key];
+        }
+        elseif(in_array($key, $sess_parameters))
+        {
+            $return = $sess_parameters[$key];
         }
         
         return $return;
