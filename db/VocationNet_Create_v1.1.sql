@@ -2,7 +2,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-
 -- -----------------------------------------------------
 -- Table `roles`
 -- -----------------------------------------------------
@@ -80,8 +79,11 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `usuario_imagen` VARCHAR(155) NULL ,
   `usuario_tarjeta_profesional` VARCHAR(155) NULL ,
   `usuario_hoja_vida` VARCHAR(155) NULL ,
+  `usuario_perfil_profesional` TEXT NULL ,
+  `usuario_valor_mentoria` FLOAT NULL ,
   `colegio_id` INT NULL ,
   `usuario_curso_actual` INT NULL ,
+  `usuario_fecha_planeacion` VARCHAR(45) NULL ,
   `created` DATETIME NULL ,
   `modified` DATETIME NULL ,
   PRIMARY KEY (`id`) ,

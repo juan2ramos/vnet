@@ -106,11 +106,32 @@ class Usuarios
     private $usuarioHojaVida;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_perfil_profesional", type="text", nullable=true)
+     */
+    private $usuarioPerfilProfesional;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="usuario_valor_mentoria", type="float", nullable=true)
+     */
+    private $usuarioValorMentoria;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="usuario_curso_actual", type="integer", nullable=true)
      */
     private $usuarioCursoActual;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_fecha_planeacion", type="string", length=45, nullable=true)
+     */
+    private $usuarioFechaPlaneacion;
 
     /**
      * @var \DateTime
