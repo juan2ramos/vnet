@@ -50,7 +50,7 @@
 									<div class="panel-body bio-graph-info">
 										<h1>{% trans from "label" %}extracto{% endtrans %}</h1>
 										<div class='col-lg-12 row'><b>{% trans from "label" %}perfil.profesional{% endtrans %}</b></div><br>
-										<div class='col-lg-12'>PENDIENTE</div>
+										<div class='col-lg-12'>{{ perfil.usuarioPerfilProfesional }}</div>
 									</div>
 								</div>
 							</div>
@@ -83,12 +83,21 @@
 									<div class="panel-body bio-graph-info">
 										<h1>{% trans from "label" %}definicion.de.valor.mentoria{% endtrans %}</h1>
 										<p>{% trans from "label" %}explicacion.definicion.de.valor.mentoria{% endtrans %}</p>
-										<div class='col-lg-12 row'><b>{% trans from "label" %}valor{% endtrans %}</b></div><br>
-										<div class='col-lg-12'>PENDIENTE</div>
-										<br>
-										<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
-											<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button>
-										</div>
+										<div class='col-lg-12 row'><b>{% trans from "label" %}valor{% endtrans %}: </b></div>
+											<div class='col-lg-2'>&nbsp;</div>
+											{% if perfil.usuarioValorMentoria %}
+												<div class='col-lg-10'>
+													<h1><b>$ {{ perfil.usuarioValorMentoria|number_format(0, '', '.') }}</b></h1>
+												</div>
+												<br>
+												<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
+													<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button>
+												</div>
+											{% else %}
+												<div class='col-lg-10'>
+													{% trans from "label" %}no.ha.sido.calculado{% endtrans %}
+												</div>
+											{% endif %}
 									</div>
 								</div>
 							</div>

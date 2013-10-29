@@ -54,16 +54,17 @@ class PerfilController extends Controller
 		else
 		{
 			$fechaactual = strtotime(date('Y-m-d H:i:s'));
-			$fechaplaneada = $fechaactual+1000000;
+			$fechaplaneada = strtotime($perfil['usuarioFechaPlaneacion']);
+			//$fechaplaneada = $fechaactual+1000000;
+			//print('<pre>aca'.$fechaplaneada.'</pre>');
 			$tiempoRestante = ($fechaplaneada - $fechaactual) / 100000;
 			//progress-bar-success - verde , progress-bar-warning - amarillo, progress-bar-danger - rojo
 			$semaforo = Array('porcentaje' =>20, 'color'=>'progress-bar-danger');  //porcentaje avance
 			$avancePrograma = Array('porcentaje' =>60, 'color'=>'progress-bar-warning');  //porcentaje avance
 			$vancesDiagnostico = Array('mitdc'=> 50, 'hyp' => 60, 'info' => 40, 'invest' => 80, 'dc' => 10 );
-			
+
+			$adicionales = Array('tiempoRestante' => $tiempoRestante,);
 			$pendientes = Array(
-				'fechaPlaneada' => $fechaplaneada,
-				'tiempoRestante' => $tiempoRestante,
 				'semaforo' => $semaforo,
 				'msjsinleer' => 10,
 				'avancePrograma' => $avancePrograma,
@@ -72,7 +73,7 @@ class PerfilController extends Controller
 			);
 			// ROL ESTUDIANTE
 			return $this->render('vocationetBundle:Perfil:perfilestudiante.html.twig', array(
-						'perfil' => $perfil, 'pendiente' => $pendientes ));
+						'perfil' => $perfil, 'adicional' =>  $adicionales, 'pendiente' => $pendientes ));
 		}
     }
 
@@ -120,6 +121,12 @@ class PerfilController extends Controller
 				$stringDATE = $perfil['usuarioFechaNacimiento']->format('Y-m-d');
 			}
 
+			// Fecha planeacion
+			$stringDATE = '';
+			if ($perfil['usuarioFechaPlaneacion']) {
+				$stringFPDATE = $perfil['usuarioFechaPlaneacion']->format('Y-m-d');
+			}
+
 			//Colegios
 			$colegioAct = $perfil['colegioId'];
 			$empty_value_col = (!$colegioAct) ? $tr->trans("seleccione.un.colegio", array(), 'label') : false;
@@ -137,6 +144,7 @@ class PerfilController extends Controller
 			   ->add('nombre', 'text', array('required' => true, 'data'=> $perfil['usuarioNombre'], 'attr' => Array('pattern' => '^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$' )))
 			   ->add('apellido', 'text', array('required' => true, 'data'=> $perfil['usuarioApellido'], 'attr' => Array('pattern' => '^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$')))
 			   ->add('fechaNacimiento', 'text', array('required' => false, 'data'=> $stringDATE))
+			   ->add('fechaPlaneacion', 'text', array('required' => false, 'data'=> $stringFPDATE))
 			   ->add('genero', 'choice', array('choices'  => $generos,  'preferred_choices' => array($generoAct), 'required' => true))
 			   ->add('colegio', 'choice', array('choices'  => $colegios,  'preferred_choices' => array($colegioAct), 'required' => false, 'empty_value' => $empty_value_col))
 			   ->add('colegio_otro', 'text', array('required' => false))
@@ -178,6 +186,10 @@ class PerfilController extends Controller
 						
 						if ($dataForm['fechaNacimiento']) {
 							$usuario->setUsuarioFechaNacimiento(new \DateTime($dataForm['fechaNacimiento']));
+						}
+
+						if ($dataForm['fechaPlaneacion']) {
+							$usuario->setUsuarioFechaPlaneacion(new \DateTime($dataForm['fechaPlaneacion']));
 						}
 
 						if ($dataForm['imagen']) {
@@ -324,6 +336,7 @@ class PerfilController extends Controller
 		$fechanacimiento = $dataForm['fechaNacimiento'];
 		$colegio = $dataForm['colegio'];
 		$colegioOtro = $dataForm['colegio_otro'];
+		$fechaPlaneacion = $dataForm['fechaPlaneacion'];
 
 		$NotBlank = new Assert\NotBlank();
 		$Regex = new Assert\Regex(Array('pattern'=>'/^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$/'));
@@ -336,6 +349,7 @@ class PerfilController extends Controller
 		 * Apellido => NotBlank - Regex (Validacion para solo nombres y apellidos (letras y espacios))
 		 * Imagen => File(Formatos permitidos)
 		 * FechaNacimiento => Date (Formato de fecha valido)
+		 * fechaPlaneacion => Date (Formato de fecha valido)
 		 * colegio_otro => NotBlank
 		 */
 
@@ -349,6 +363,9 @@ class PerfilController extends Controller
 		}
 		if ($fechanacimiento) {
 			$countErrores += (count($this->get('validator')->validateValue($fechanacimiento, $Date)) == 0) ? 0 : 1;
+		}
+		if ($fechaPlaneacion) {
+			$countErrores += (count($this->get('validator')->validateValue($fechaPlaneacion, $Date)) == 0) ? 0 : 1;
 		}
 		if ($colegio == 'otro') {
 			$countErrores += (count($this->get('validator')->validateValue($colegioOtro, $NotBlank)) == 0) ? 0 : 1;

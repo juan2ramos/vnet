@@ -150,7 +150,11 @@
             <trans-unit id="perfil-30">
                 <source>explicacion.actualizacion.de.hoja.de.vida.tarjeta.profesional</source>
                 <target>Si carga una hoja de vida o tarjeta profesional remplazará la que haya cargado con anterioridad</target>
-            </trans-unit>           
+            </trans-unit>
+            <trans-unit id="perfil-31">
+                <source>no.ha.sido.calculado</source>
+                <target>No ha sido calculado</target>
+            </trans-unit>
 
 			<!-- PERFILES ESTUDIANTE perfile-x -->
             <trans-unit id="perfile-1">

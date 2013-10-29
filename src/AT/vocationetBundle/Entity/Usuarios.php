@@ -127,9 +127,9 @@ class Usuarios
     private $usuarioCursoActual;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="usuario_fecha_planeacion", type="string", length=45, nullable=true)
+     * @ORM\Column(name="usuario_fecha_planeacion", type="date", nullable=true)
      */
     private $usuarioFechaPlaneacion;
 
@@ -537,7 +537,7 @@ class Usuarios
     /**
      * Set usuarioFechaPlaneacion
      *
-     * @param string $usuarioFechaPlaneacion
+     * @param \DateTime $usuarioFechaPlaneacion
      * @return Usuarios
      */
     public function setUsuarioFechaPlaneacion($usuarioFechaPlaneacion)
@@ -550,7 +550,7 @@ class Usuarios
     /**
      * Get usuarioFechaPlaneacion
      *
-     * @return string 
+     * @return \DateTime 
      */
     public function getUsuarioFechaPlaneacion()
     {

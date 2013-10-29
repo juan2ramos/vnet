@@ -83,7 +83,7 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `usuario_valor_mentoria` FLOAT NULL ,
   `colegio_id` INT NULL ,
   `usuario_curso_actual` INT NULL ,
-  `usuario_fecha_planeacion` VARCHAR(45) NULL ,
+  `usuario_fecha_planeacion` DATE NULL ,
   `created` DATETIME NULL ,
   `modified` DATETIME NULL ,
   PRIMARY KEY (`id`) ,
@@ -202,12 +202,32 @@ CREATE  TABLE IF NOT EXISTS `permisos` (
   `identificador` VARCHAR(45) NOT NULL ,
   `nombre` VARCHAR(60) NOT NULL ,
   `descripcion` MEDIUMTEXT NULL ,
-  `rol_id` INT NOT NULL ,
   `permiso_routes` TEXT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `permisos_roles`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `permisos_roles` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `permisos_roles` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `permisos_id` INT NOT NULL ,
+  `roles_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_permisos_1` (`rol_id` ASC) ,
-  CONSTRAINT `fk_permisos_1`
-    FOREIGN KEY (`rol_id` )
+  INDEX `fk_permisos_has_roles_roles1_idx` (`roles_id` ASC) ,
+  INDEX `fk_permisos_has_roles_permisos1_idx` (`permisos_id` ASC) ,
+  CONSTRAINT `fk_permisos_has_roles_permisos1`
+    FOREIGN KEY (`permisos_id` )
+    REFERENCES `permisos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_permisos_has_roles_roles1`
+    FOREIGN KEY (`roles_id` )
     REFERENCES `roles` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

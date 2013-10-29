@@ -24,6 +24,13 @@ class Permisos
     /**
      * @var string
      *
+     * @ORM\Column(name="identificador", type="string", length=45, nullable=false)
+     */
+    private $identificador;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="nombre", type="string", length=60, nullable=false)
      */
     private $nombre;
@@ -42,23 +49,6 @@ class Permisos
      */
     private $permisoRoutes;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="identificador", type="string", length=45, nullable=false)
-     */
-    private $identificador;
-
-    /**
-     * @var \Roles
-     *
-     * @ORM\ManyToOne(targetEntity="Roles")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="rol_id", referencedColumnName="id")
-     * })
-     */
-    private $rol;
-
 
 
     /**
@@ -69,6 +59,29 @@ class Permisos
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set identificador
+     *
+     * @param string $identificador
+     * @return Permisos
+     */
+    public function setIdentificador($identificador)
+    {
+        $this->identificador = $identificador;
+    
+        return $this;
+    }
+
+    /**
+     * Get identificador
+     *
+     * @return string 
+     */
+    public function getIdentificador()
+    {
+        return $this->identificador;
     }
 
     /**
@@ -138,51 +151,5 @@ class Permisos
     public function getPermisoRoutes()
     {
         return $this->permisoRoutes;
-    }
-
-    /**
-     * Set identificador
-     *
-     * @param string $identificador
-     * @return Permisos
-     */
-    public function setIdentificador($identificador)
-    {
-        $this->identificador = $identificador;
-    
-        return $this;
-    }
-
-    /**
-     * Get identificador
-     *
-     * @return string 
-     */
-    public function getIdentificador()
-    {
-        return $this->identificador;
-    }
-
-    /**
-     * Set rol
-     *
-     * @param \AT\vocationetBundle\Entity\Roles $rol
-     * @return Permisos
-     */
-    public function setRol(\AT\vocationetBundle\Entity\Roles $rol = null)
-    {
-        $this->rol = $rol;
-    
-        return $this;
-    }
-
-    /**
-     * Get rol
-     *
-     * @return \AT\vocationetBundle\Entity\Roles 
-     */
-    public function getRol()
-    {
-        return $this->rol;
     }
 }
