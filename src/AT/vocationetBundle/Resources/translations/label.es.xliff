@@ -379,6 +379,18 @@
                 <source>linkedin</source>
                 <target>Linked In</target>
             </trans-unit>
+            <trans-unit id="login-9">
+                <source>registrarse</source>
+                <target>Registrarse</target>
+            </trans-unit>
+            <trans-unit id="login-10">
+                <source>para.mentores</source>
+                <target>para mentores</target>
+            </trans-unit>
+            <trans-unit id="login-11">
+                <source>para.estudiantes</source>
+                <target>para estudiantes</target>
+            </trans-unit>
 
             <!-- GRADOS grados-x -->
             <trans-unit id="grados-1">

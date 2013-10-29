@@ -37,9 +37,9 @@
         <div class="login-wrap">
             {{ form_widget(form.username, {'attr':{'class':'form-control', 'placeholder': 'email'|trans({}, 'label'), 'autofocus':''} }) }}
             {{ form_widget(form.password, {'attr':{'class':'form-control', 'placeholder': 'contrasena'|trans({}, 'label')} }) }}
-            {#<label class="checkbox">
-                <span class="pull-right"> <a href="#">{% trans from "label" %}olvide.mi.contraseña{% endtrans %}</a></span>
-            </label>#}
+            <label class="checkbox">
+                <span class="pull-right"> <a href="{{ path('registro') }}">{% trans from "label" %}registrarse{% endtrans %}</a></span>
+            </label>
             <button class="btn btn-lg btn-login btn-block" type="submit">{% trans from "label" %}ingresar{% endtrans %}</button>
             <p>{% trans from "label" %}ingresar.con.red.social{% endtrans %}</p>
             <div class="login-social-link">
@@ -52,7 +52,12 @@
                     {% trans from "label" %}linkedin{% endtrans %}
                 </a>
             </div>
-
+            <table border="0" style="width: 100%">
+                <tr>
+                    <td><p style="text-align: left; padding-left: 5px;">{% trans from "label" %}para.estudiantes{% endtrans %}</p></td>
+                    <td><p style="text-align: left; padding-left: 18px;">{% trans from "label" %}para.mentores{% endtrans %}</p></td>
+                </tr>
+            </table>
         </div>
             {{ form_widget(form._token) }}
             {{ form_errors(form) }}
