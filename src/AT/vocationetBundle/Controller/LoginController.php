@@ -97,18 +97,15 @@ class LoginController extends Controller
             'state' => $request->get('state') 
         );
         
-        $userId = $facebook->facebook->getUser(); 
-        //$userId = 1135508925;
-        $userProfile = $facebook->handleLoginResponse($response, $userId);
         
-//        $security->debug($userId);
+        $userProfile = $facebook->handleLoginResponse($response);
         
         if($userProfile)
         {
             $user_serv = $this->get('usuarios');
             
             // Verificar si el usuario ya esta registrado
-            $usuario = $user_serv->getUsuarioFacebook($userId);
+            $usuario = $user_serv->getUsuarioFacebook($userProfile['id']);
             
             if(!$usuario)
             {
@@ -116,10 +113,9 @@ class LoginController extends Controller
                 $usuario = $user_serv->addUsuarioFacebook($userProfile);
             }
             
-            $security->login($usuario);
+            $security->login($usuario, array('access_token' => $userProfile['access_token']));
             return $this->redirect($this->generateUrl('homepage'));
             
-//            $security->debug($userProfile);
         }
         else
         {
