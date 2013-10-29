@@ -15,17 +15,16 @@
 				{# IMAGEN DE PERFIL Y NOMBRE #}
 				<section class="panel">
 					<div class="user-heading round">
-						{% set imagen = (perfil.imagen) ? perfil.imagen : gui_default_img %}
+						{% set imagen = (perfil.usuarioImagen) ? perfil.usuarioImagen : gui_default_img %}
 						<a href="#"><img src="{{ asset(imagen) }}" alt=""></a>
-						<h1>{{ perfil.usuarioApellido }}<br>{{ perfil.usuarioNombre }}</h1>
-						{#<p>jsmith@flatlab.com</p>#}
+						<h1>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</h1>
+						<p>{{ perfil.usuarioEmail }}</p>
 					</div>
 					
 					<ul class="nav nav-pills nav-stacked">
-						<li class=""><a href="#"> <i class="icon-user"></i> Profile</a></li>
+						<li><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
 						<li class="active"><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
 						<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-						
 							<a href="#">
 								<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
 								<span class="label label-success pull-right r-activity">{{ pendiente.msjsinleer }}</span>
@@ -44,17 +43,17 @@
 							{{ form_errors(form) }}
 					  
 							<div class="form-group">
-								<label class="col-lg-3 control-label">{% trans from "label" %}nombre{% endtrans %}</label>
+								<label class="col-lg-3 control-label">{% trans from "label" %}perfil.nombre{% endtrans %}: </label>
 								<div class="col-lg-7">{{ form_widget(form.nombre, { 'attr' : {'class': 'form-control'}}) }}</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-lg-3 control-label">{% trans from "label" %}apellido{% endtrans %}</label>
+								<label class="col-lg-3 control-label">{% trans from "label" %}perfil.apellido{% endtrans %}: </label>
 								<div class="col-lg-7">{{ form_widget(form.apellido, { 'attr' : {'class': 'form-control'}}) }}</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-lg-3 control-label">{% trans from "label" %}fecha.nacimiento{% endtrans %}</label>
+								<label class="col-lg-3 control-label">{% trans from "label" %}fecha.nacimiento{% endtrans %}: </label>
 								<div class="col-lg-7">
 									<div class="input-append date" id="dpYears" data-date="1990-01-01" data-date-format="yyyy-mm-dd" data-date-viewmode="years">
 										{{ form_widget(form.fechaNacimiento, { 'attr' : {'class': 'form-control', 'placeholder': 'dd-mm-yyyy'}}) }}
@@ -64,20 +63,39 @@
 							</div>
 
 							<div class="form-group">
-								<label class="col-lg-3 control-label">{% trans from "label" %}genero{% endtrans %}</label>
+								<label class="col-lg-3 control-label">{% trans from "label" %}perfil.genero{% endtrans %}: </label>
 								<div class="col-lg-7">{{ form_widget(form.genero, { 'attr' : {'class': 'form-control'}}) }}</div>
 							</div>
 
-							<div class="form-group">
-								<label class="col-lg-3 control-label">{% trans from "label" %}imagen{% endtrans %}</label>
-								<div class="col-lg-7">{{ form_widget(form.imagen, { 'attr' : {'class': 'form-control'}}) }}</div>
-							</div>
+							{% if perfil.usuarioFacebookid %}
+							{% else %}
+								<div class="form-group">
+									<label class="col-lg-3 control-label">{% trans from "label" %}perfil.imagen{% endtrans %}: </label>
+									<div class="col-lg-7">{{ form_widget(form.imagen, { 'attr' : {'class': 'form-control'}}) }}</div>
+								</div>
+							{% endif %}
 							<hr>
 
 							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}colegio{% endtrans %}: </label>
+								<div class="col-lg-7">
+									{{ form_widget(form.colegio, { 'attr' : {'class': 'form-control'}}) }}
+									<div class="form-group otroColegio" STYLE='padding-top:10px;margin-bottom:5px;display:none;'>
+										<label class="col-lg-3 control-label">{% trans from "label" %}nombre.colegio{% endtrans %}: </label>
+										<div class="col-lg-9">{{ form_widget(form.colegio_otro, { 'attr' : {'class': 'form-control'}}) }}</div>
+									</div>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}grado{% endtrans %}: </label>
+								<div class="col-lg-7">{{ form_widget(form.grado, { 'attr' : {'class': 'form-control'}}) }}</div>
+							</div>
+
+							<div class="form-group">
 								<div class="col-lg-offset-4 col-lg-10">
-									<button type="button" class="btn btn-default">Cancel</button>
-									<button type="submit" class="btn btn-info">Save</button>
+									<a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}" type="button" class="btn btn-default">{% trans from "label" %}cancelar{% endtrans %}</a>
+									<button type="submit" class="btn btn-info">{% trans from "label" %}guardar.cambios{% endtrans %}</button>
 								</div>
 							</div>
 						</form>
@@ -113,4 +131,18 @@
     
     <!--script for this page-->
 	<script src="{{ asset('js/form-component.js') }}"></script>
+
+	<script>
+		$('#form_colegio').change(function(){
+			var opcion = $('#form_colegio').val();
+			if (opcion == 'otro') {
+				$('#form_colegio_otro').attr('required', true);
+				$('.otroColegio').show('slow');
+			} else {
+				$('#form_colegio_otro').attr('required', false);
+				$('.otroColegio').hide('slow');
+			}
+			//alert(opcion);
+		});
+	</script>
 {% endblock script %}

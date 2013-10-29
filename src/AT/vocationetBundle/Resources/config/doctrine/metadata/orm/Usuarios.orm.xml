@@ -16,7 +16,10 @@
     <field name="usuarioImagen" type="string" column="usuario_imagen" length="155" nullable="true"/>
     <field name="usuarioTarjetaProfesional" type="string" column="usuario_tarjeta_profesional" length="155" nullable="true"/>
     <field name="usuarioHojaVida" type="string" column="usuario_hoja_vida" length="155" nullable="true"/>
+    <field name="usuarioPerfilProfesional" type="text" column="usuario_perfil_profesional" nullable="true"/>
+    <field name="usuarioValorMentoria" type="float" column="usuario_valor_mentoria" nullable="true"/>
     <field name="usuarioCursoActual" type="integer" column="usuario_curso_actual" nullable="true"/>
+    <field name="usuarioFechaPlaneacion" type="string" column="usuario_fecha_planeacion" length="45" nullable="true"/>
     <field name="created" type="datetime" column="created" nullable="true"/>
     <field name="modified" type="datetime" column="modified" nullable="true"/>
     <many-to-one field="colegio" target-entity="Colegios">

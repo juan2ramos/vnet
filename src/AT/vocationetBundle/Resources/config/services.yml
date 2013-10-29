@@ -13,7 +13,7 @@ services:
         arguments: [%linkedin_api_key%, %linkedin_secret_key%, "@service_container"]
     perfil:
         class: AT\vocationetBundle\Services\PerfilService
-        arguments: ["@doctrine"]
+        arguments: ["@doctrine", "@translator"]
     usuarios:
         class: AT\vocationetBundle\Services\UsuariosService
         arguments: ["@doctrine", "@session"]

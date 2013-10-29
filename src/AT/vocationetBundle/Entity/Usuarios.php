@@ -106,11 +106,32 @@ class Usuarios
     private $usuarioHojaVida;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_perfil_profesional", type="text", nullable=true)
+     */
+    private $usuarioPerfilProfesional;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="usuario_valor_mentoria", type="float", nullable=true)
+     */
+    private $usuarioValorMentoria;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="usuario_curso_actual", type="integer", nullable=true)
      */
     private $usuarioCursoActual;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="usuario_fecha_planeacion", type="string", length=45, nullable=true)
+     */
+    private $usuarioFechaPlaneacion;
 
     /**
      * @var \DateTime
@@ -445,6 +466,52 @@ class Usuarios
     }
 
     /**
+     * Set usuarioPerfilProfesional
+     *
+     * @param string $usuarioPerfilProfesional
+     * @return Usuarios
+     */
+    public function setUsuarioPerfilProfesional($usuarioPerfilProfesional)
+    {
+        $this->usuarioPerfilProfesional = $usuarioPerfilProfesional;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioPerfilProfesional
+     *
+     * @return string 
+     */
+    public function getUsuarioPerfilProfesional()
+    {
+        return $this->usuarioPerfilProfesional;
+    }
+
+    /**
+     * Set usuarioValorMentoria
+     *
+     * @param float $usuarioValorMentoria
+     * @return Usuarios
+     */
+    public function setUsuarioValorMentoria($usuarioValorMentoria)
+    {
+        $this->usuarioValorMentoria = $usuarioValorMentoria;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioValorMentoria
+     *
+     * @return float 
+     */
+    public function getUsuarioValorMentoria()
+    {
+        return $this->usuarioValorMentoria;
+    }
+
+    /**
      * Set usuarioCursoActual
      *
      * @param integer $usuarioCursoActual
@@ -465,6 +532,29 @@ class Usuarios
     public function getUsuarioCursoActual()
     {
         return $this->usuarioCursoActual;
+    }
+
+    /**
+     * Set usuarioFechaPlaneacion
+     *
+     * @param string $usuarioFechaPlaneacion
+     * @return Usuarios
+     */
+    public function setUsuarioFechaPlaneacion($usuarioFechaPlaneacion)
+    {
+        $this->usuarioFechaPlaneacion = $usuarioFechaPlaneacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioFechaPlaneacion
+     *
+     * @return string 
+     */
+    public function getUsuarioFechaPlaneacion()
+    {
+        return $this->usuarioFechaPlaneacion;
     }
 
     /**
