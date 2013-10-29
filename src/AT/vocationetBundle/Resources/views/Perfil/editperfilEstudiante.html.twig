@@ -6,7 +6,6 @@
     {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-daterangepicker/daterangepicker.css') }}" />#}
 {% endblock style %}
 
-
 {% block body %}
 	<div class='col-lg-9'>
 		<div class="row">
@@ -74,6 +73,17 @@
 									<div class="col-lg-7">{{ form_widget(form.imagen, { 'attr' : {'class': 'form-control'}}) }}</div>
 								</div>
 							{% endif %}
+
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}fecha.planeada{% endtrans %}: </label>
+								<div class="col-lg-7">
+									<div class="input-append date" id="dpMonths" data-date="2014-01-01" data-date-format="yyyy-mm-dd" data-date-viewmode="years">
+										{{ form_widget(form.fechaPlaneacion, { 'attr' : {'class': 'form-control', 'placeholder': 'dd-mm-yyyy'}}) }}
+										<span class="add-on"><i class="icon-calendar"></i></span>
+									</div>
+								</div>
+							</div>
+							
 							<hr>
 
 							<div class="form-group">

@@ -24,6 +24,13 @@ class Permisos
     /**
      * @var string
      *
+     * @ORM\Column(name="identificador", type="string", length=45, nullable=false)
+     */
+    private $identificador;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="nombre", type="string", length=60, nullable=false)
      */
     private $nombre;
@@ -41,23 +48,6 @@ class Permisos
      * @ORM\Column(name="permiso_routes", type="text", nullable=true)
      */
     private $permisoRoutes;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="identificador", type="string", length=45, nullable=false)
-     */
-    private $identificador;
-
-    /**
-     * @var \Roles
-     *
-     * @ORM\ManyToOne(targetEntity="Roles")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="rol_id", referencedColumnName="id")
-     * })
-     */
-    private $rol;
 
 
 }

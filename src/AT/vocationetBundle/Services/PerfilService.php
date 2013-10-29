@@ -40,7 +40,8 @@ class PerfilService
 		 * //AND (r.nombre = 'mentor_e' or r.nombre = 'mentor_ov');
 		 */
 		$dql="SELECT u.id as usuarioId, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioFechaNacimiento, u.usuarioEmail,
-				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioCursoActual, u.usuarioFacebookid,
+				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional,
+				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion,
 				r.nombre as nombreRol,
 				col.nombre as nombreCol, col.id as colegioId
 			FROM vocationetBundle:Usuarios u

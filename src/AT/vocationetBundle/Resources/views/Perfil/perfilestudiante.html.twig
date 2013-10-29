@@ -98,19 +98,20 @@
 									{% trans from "label" %}fecha.planeada{% endtrans %}:
 								</div>
 								<div class='col-lg-8'>
-									{% if pendiente.fechaPlaneada  %}
-										{{ pendiente.fechaPlaneada |date('d-m-Y') }}
+									{% if perfil.usuarioFechaPlaneacion %}
+										{{ perfil.usuarioFechaPlaneacion|date('d-m-Y') }}
 									{% else %}
 										{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
 									{% endif %}
 								</div>
 							</div>
-							{% if pendiente.tiempoRestante >= 1 %}
+							{{ adicional.tiempoRestante }}
+							{% if adicional.tiempoRestante > 1 %}
 								<div class="row-desk col-lg-12 row paddBtn">
 									<div data-original-title="{% trans from "label" %}descripcion.tiempo.restante{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 										{% trans from "label" %}tiempo.restante{% endtrans %}:
 									</div>
-									<div class='col-lg-8'>{{ pendiente.tiempoRestante }}&nbsp;{% trans from "label" %}dias{% endtrans %}</div>
+									<div class='col-lg-8'>{{ adicional.tiempoRestante|number_format(1, ',', '') }}&nbsp;{% trans from "label" %}dias{% endtrans %}</div>
 								</div>
 							{% endif %}
 							<div class="row-desk col-lg-12 row paddBtn">

@@ -127,9 +127,9 @@ class Usuarios
     private $usuarioCursoActual;
 
     /**
-     * @var string
+     * @var \DateTime
      *
-     * @ORM\Column(name="usuario_fecha_planeacion", type="string", length=45, nullable=true)
+     * @ORM\Column(name="usuario_fecha_planeacion", type="date", nullable=true)
      */
     private $usuarioFechaPlaneacion;
 
