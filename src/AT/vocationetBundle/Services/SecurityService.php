@@ -153,7 +153,8 @@ class SecurityService
     public function getPermisosUsuario($usuarioId)
     {
         $dql = "SELECT p.identificador, p.permisoRoutes FROM vocationetBundle:Permisos p
-                JOIN vocationetBundle:Roles r WITH p.rol = r.id
+                JOIN vocationetBundle:PermisosRoles pr WITH p.id = pr.permiso 
+                JOIN vocationetBundle:Roles r WITH pr.rol = r.id
                 JOIN vocationetBundle:Usuarios u WITH u.rol = r.id
                 WHERE u.id = :usuarioId
                 ";

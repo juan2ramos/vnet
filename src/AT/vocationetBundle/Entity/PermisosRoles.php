@@ -29,7 +29,7 @@ class PermisosRoles
      *   @ORM\JoinColumn(name="permisos_id", referencedColumnName="id")
      * })
      */
-    private $permisos;
+    private $permiso;
 
     /**
      * @var \Roles
@@ -39,7 +39,7 @@ class PermisosRoles
      *   @ORM\JoinColumn(name="roles_id", referencedColumnName="id")
      * })
      */
-    private $roles;
+    private $rol;
 
 
 
@@ -54,48 +54,48 @@ class PermisosRoles
     }
 
     /**
-     * Set permisos
+     * Set permiso
      *
      * @param \AT\vocationetBundle\Entity\Permisos $permisos
      * @return PermisosRoles
      */
-    public function setPermisos(\AT\vocationetBundle\Entity\Permisos $permisos = null)
+    public function setPermiso(\AT\vocationetBundle\Entity\Permisos $permiso = null)
     {
-        $this->permisos = $permisos;
+        $this->permiso = $permiso;
     
         return $this;
     }
 
     /**
-     * Get permisos
+     * Get permiso
      *
      * @return \AT\vocationetBundle\Entity\Permisos 
      */
-    public function getPermisos()
+    public function getPermiso()
     {
-        return $this->permisos;
+        return $this->permiso;
     }
 
     /**
-     * Set roles
+     * Set rol
      *
      * @param \AT\vocationetBundle\Entity\Roles $roles
      * @return PermisosRoles
      */
-    public function setRoles(\AT\vocationetBundle\Entity\Roles $roles = null)
+    public function setRol(\AT\vocationetBundle\Entity\Roles $rol = null)
     {
-        $this->roles = $roles;
+        $this->rol = $rol;
     
         return $this;
     }
 
     /**
-     * Get roles
+     * Get rol
      *
      * @return \AT\vocationetBundle\Entity\Roles 
      */
-    public function getRoles()
+    public function getRol()
     {
-        return $this->roles;
+        return $this->rol;
     }
 }
