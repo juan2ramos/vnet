@@ -151,28 +151,10 @@ class LinkedinService
                 
                 if($access_token_response)
                 {
-                    // Llamadas a la api para obtener informacion basica del usuario
+                    // Llamadas a la api para obtener informacion basica del usuario                    
+                    $userProfile = $this->getUserInfo($access_token_response->access_token);
                     
-                    $userProfile = array();
-                    
-                    $userProfile['access_token'] = $access_token_response->access_token;
-                    $userProfile['first-name'] = trim($this->sendRequest('https://api.linkedin.com/v1/people/~/first-name', array(
-                        'oauth2_access_token'   =>  $access_token_response->access_token
-                    )));
-                    $userProfile['last-name'] = trim($this->sendRequest('https://api.linkedin.com/v1/people/~/last-name', array(
-                        'oauth2_access_token'   =>  $access_token_response->access_token
-                    )));
-                    $userProfile['picture-url'] = trim($this->sendRequest('https://api.linkedin.com/v1/people/~/picture-url', array(
-                        'oauth2_access_token'   =>  $access_token_response->access_token
-                    )));
-                    $userProfile['email-address'] = trim($this->sendRequest('https://api.linkedin.com/v1/people/~/email-address', array(
-                        'oauth2_access_token'   =>  $access_token_response->access_token
-                    )));
-                    $userProfile['date-of-birth'] = trim($this->sendRequest('https://api.linkedin.com/v1/people/~/date-of-birth', array(
-                        'oauth2_access_token'   =>  $access_token_response->access_token
-                    )));
-                    
-                    $return = $userProfile;
+                    $return = $userProfile + array('access_token' => $access_token_response->access_token);
                 }
             }
         }
@@ -226,6 +208,28 @@ class LinkedinService
         }
         
         return $response;
+    }
+    
+    /**
+     * Funcion para obtener informacion basica de perfil del usuario linkedin
+     * 
+     * @param string $access_token access_token devuelto por linkedin
+     * @return array arreglo con datos del usuario
+     */
+    public function getUserInfo($access_token)
+    {
+        $userProfile = array();
+        
+        $arr_access_token = array('oauth2_access_token'   =>  $access_token);
+                
+        // las llamadas a la api de linkedin retornan un xml
+        $userProfile['first-name'] = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/first-name', $arr_access_token));
+        $userProfile['last-name'] = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/last-name', $arr_access_token));
+        $userProfile['picture-url'] = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/picture-url', $arr_access_token));
+        $userProfile['email-address'] = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/email-address', $arr_access_token));
+        $userProfile['date-of-birth'] = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/date-of-birth', $arr_access_token));
+        
+        return $userProfile;
     }
 }
 ?>

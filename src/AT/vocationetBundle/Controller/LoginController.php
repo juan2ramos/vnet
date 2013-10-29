@@ -129,8 +129,7 @@ class LoginController extends Controller
         
         return new Response();
     }
-    
-    
+        
     /**
      * Accion para recibir la respuesta de autenticacion de linkedin
      * 
@@ -155,12 +154,31 @@ class LoginController extends Controller
         
         $userProfile = $linkedin->handleLoginResponse($response);
         
-        $security->debug($userProfile);
+        if($userProfile)
+        {
+            $user_serv = $this->get('usuarios');
+            
+            // Verificar si el usuario ya esta registrado
+            $usuario = $user_serv->getUsuarioLinkedin($userProfile['email-address']);
+            
+            if(!$usuario)
+            {
+                // Registrar
+                $usuario = $user_serv->addUsuarioLinkedin($userProfile);
+            }
+            
+            $security->login($usuario, array('access_token' => $userProfile['access_token']));
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("autenticacion.fallida"), "text" => $this->get('translator')->trans("intento.autenticacion.fallida")));
+            return $this->redirect($this->generateUrl('login'));
+        }
         
         return new Response();
     }
-    
-    
+        
     /**
      * Accion para cerrar sesion
      * 
