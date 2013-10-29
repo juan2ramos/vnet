@@ -54,10 +54,9 @@ class PerfilController extends Controller
 		else
 		{
 			$fechaactual = strtotime(date('Y-m-d H:i:s'));
-			$fechaplaneada = strtotime($perfil['usuarioFechaPlaneacion']);
-			//$fechaplaneada = $fechaactual+1000000;
-			//print('<pre>aca'.$fechaplaneada.'</pre>');
+			$fechaplaneada = ($perfil['usuarioFechaPlaneacion']) ? $perfil['usuarioFechaPlaneacion']->getTimestamp() : 0;
 			$tiempoRestante = ($fechaplaneada - $fechaactual) / 100000;
+			
 			//progress-bar-success - verde , progress-bar-warning - amarillo, progress-bar-danger - rojo
 			$semaforo = Array('porcentaje' =>20, 'color'=>'progress-bar-danger');  //porcentaje avance
 			$avancePrograma = Array('porcentaje' =>60, 'color'=>'progress-bar-warning');  //porcentaje avance
