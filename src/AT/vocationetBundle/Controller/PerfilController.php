@@ -98,7 +98,7 @@ class PerfilController extends Controller
 	public function editAction(Request $request)
 	{
 		error_reporting(true);
-		$id = 1;
+		$id = 7;
 		
 		$pr = $this->get('perfil');
 		$tr = $this->get('translator');
@@ -266,7 +266,7 @@ class PerfilController extends Controller
 						$em->persist($usuario);
 						$em->flush();
 						
-						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.editado"), "text" => $this->get('translator')->trans("perfil.editado.correctamente")));
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("perfil.editado.correctamente")));
 						return $this->redirect($this->generateUrl('perfil', array('perfilId'=> $id)));
 					}
 				}
@@ -281,6 +281,84 @@ class PerfilController extends Controller
 		
 	}
 
+	/**
+	 *
+	 * @Route("/sincronizar-perfil", name="perfil_sincronizar")
+	 * 
+	 */
+	 public function sincronizarAction()
+	 {
+		$security = $this->get('security');
+		$linkedin = $this->get('linkedin');
+		$pr = $this->get('perfil');
+		
+		$accessToken = $security->getSessionValue('access_token');
+		$usuarioId = $security->getSessionValue('id');
+		$ultimaModDB = 1383157906142;
+
+		$ultimaModLinkedIn = $linkedin->getLastModifiedTimestamp($accessToken);
+
+		$ultimaModLinkedIn = $ultimaModLinkedIn + 5;
+		print($ultimaModDB." - ".$ultimaModLinkedIn.'ok' );
+		var_dump($ultimaModLinkedIn);
+		if ($ultimaModDB < ($ultimaModLinkedIn+50)) {
+		
+
+			$educacion = $linkedin->getEducations($accessToken);
+			$positions = $linkedin->getPositions($accessToken);
+			//$security->debug($educacion);
+			//$security->debug($positions);
+
+			if (($educacion === false) || ($educacion === false)) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.sincronizacion"), "text" => $this->get('translator')->trans("ocurrio.un.error.al.sincronizar.con.su.perfil.de.linkedin")));
+			}
+			else
+			{
+				$pr->deleteEstudiosPerfil($usuarioId);
+				$pr->setEstudiosPerfil($educacion, $usuarioId);
+				//print('aqui');
+				$pr->deleteTrabajosPerfil($usuarioId);
+				$pr->setTrabajosPerfil($positions, $usuarioId);
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("perfil.sincronizado.correctamente")));
+			}
+		}
+		else {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("no.se.encontratron.cambios.para sincronizacion")));
+		}
+
+
+		//$security->debug($educacion);
+
+		/*$elem = new \SimpleXMLElement($OK);
+		print('<br>cantidad '.$elem->count());
+		foreach($elem as $el)
+		{
+			//print ('<br>Cantidad'.$el->count().'<br>');
+			echo('<br>');
+			echo('<br>');
+			echo ($el->{'id'}.'<br>');
+			echo ($el->{'school-name'}.'<br>');
+			echo ($el->{'notes'}.'<br>');
+			
+			
+			//echo ($el->school-name.'<br>');
+			
+		}
+		//foreach($elem->children() as $node)
+		//{
+			//$arr = $node->attributes();
+			//print ('<br>Cantidad'.$el->count());
+			//print('here');
+			//var_dump($node);
+		//}
+		*/
+
+		
+		//new response();
+		return $this->redirect($this->generateUrl('perfil', array('perfilId'=> $usuarioId)));
+		
+	 }
+	
 	/**
 	 * Funcion Privada de validación de formulario del usuario tipo mentor
 	 * (hoja de vida y tarjeta profesional)
@@ -372,6 +450,7 @@ class PerfilController extends Controller
 		
 		return $countErrores;
 	}
+
 }
 
 	

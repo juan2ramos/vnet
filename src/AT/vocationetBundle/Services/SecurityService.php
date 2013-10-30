@@ -252,15 +252,14 @@ class SecurityService
         $sess_user = $this->session->get('sess_user');
         $sess_parameters = $this->session->get('sess_parameters');
         
-        if(in_array($key, $sess_user))
+        if (isset($sess_user[$key]))
         {
             $return = $sess_user[$key];
         }
-        elseif(in_array($key, $sess_parameters))
+        elseif (isset($sess_parameters[$key]))
         {
             $return = $sess_parameters[$key];
         }
-        
         return $return;
     }
 }

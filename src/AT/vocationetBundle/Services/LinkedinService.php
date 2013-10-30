@@ -198,15 +198,27 @@ class LinkedinService
         curl_setopt_array($ch,$curlOptions);
         
         $response = curl_exec($ch);
+
         
         // Validar respuesta
-        $json_response = json_decode($response);
-        if($json_response !== null && isset($json_response->error))
+        if (is_object(json_decode($response)))
         {
-            $this->last_error =  $json_response->error;
-            $response = false;
-        }
-        
+			$json_response = json_decode($response);
+			if($json_response !== null && isset($json_response->error))
+			{
+				$this->last_error =  $json_response->error;
+				$response = false;
+			}
+		}
+		else
+		{
+			$responseXML = simplexml_load_string($response, 'SimpleXmlElement', LIBXML_NOERROR+LIBXML_ERR_FATAL+LIBXML_ERR_NONE);
+			if($responseXML) {
+				if ((string)$responseXML->{'status'} == 401) {
+					$response = false;
+				}
+			}
+		}
         return $response;
     }
     
@@ -231,5 +243,94 @@ class LinkedinService
         
         return $userProfile;
     }
+
+	/**
+	 * Funcion para obtener estudios realizados del perfil de linkedin
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param string $access_token access_token devuelto por linkedin
+     * @return array arreglo bidimencional de estudios con sus respectivos detalles.
+	 */
+    public function getEducations($access_token)
+    {
+		$arr_access_token = array('oauth2_access_token'   =>  $access_token);
+		$educacion = $this->sendRequest('https://api.linkedin.com/v1/people/~/educations', $arr_access_token);
+
+		if ($educacion === false) {
+			return false;
+		}
+		else
+		{
+			$elementos = new \SimpleXMLElement($educacion);
+			$ARReducacion = Array();
+			foreach($elementos as $element)
+			{
+				$ARReducacion[] = Array(
+					'id' => (string)$element->{'id'},
+					'institucion' => (string)$element->{'school-name'},
+					'notas' => (string)$element->{'notes'},
+					'actividades' => (string)$element->{'activities'},
+					'titulo' => (string)$element->{'degree'},
+					'estudios' => (string)$element->{'field-of-study'},
+					'yearinicio' => (string)$element->{'start-date'}->{'year'},
+					'yearfin' => (string)$element->{'end-date'}->{'year'},
+				);
+			}
+			return $ARReducacion;
+		}
+	}
+
+	public function getPositions($access_token)
+	{
+		$arr_access_token = array('oauth2_access_token'   =>  $access_token);
+		$positions = $this->sendRequest('https://api.linkedin.com/v1/people/~/positions', $arr_access_token);
+		//print_r($positions);
+
+		if ($positions === false) {
+			return false;
+		}
+		else
+		{
+			$elementos = new \SimpleXMLElement($positions);
+			$ARRpositions = Array();
+			foreach($elementos as $element)
+			{
+				$ARRpositions[] = Array(
+					'id' => (string)$element->{'id'},//Id de linkedIn
+					'title' => (string)$element->{'title'},//Cargo
+					'summary' => (string)$element->{'summary'},//Descripción
+					'isCurrent' => (string)$element->{'is-current'},//Actualmente labora aqui
+					'startDateY' => (string)$element->{'start-date'}->{'year'},// Año de inicio
+					'startDateM' => (string)$element->{'start-date'}->{'month'},// Mes de inicio
+					'endDateY' => (string)$element->{'end-date'}->{'year'},// Año de finalización
+					'endDateM' => (string)$element->{'end-date'}->{'month'},// Mes de finalización
+
+					//DATOS DE LA COMPAÑIA
+					'companyId' => (string)$element->{'company'}->{'id'},//Id de la compañia
+					'companyName' => (string)$element->{'company'}->{'name'},//Nombre de la compañia
+					'companyType' => (string)$element->{'company'}->{'type'},//Tipo de compañia
+					'companySize' => (string)$element->{'company'}->{'size'},//Tamaño de la compañia
+					'companyIndustry' => (string)$element->{'company'}->{'industry'},//Industria de la compañia
+					//'companyTicker' => (string)$element->{'company'}->{'ticker'},//Ticker de la compañia
+				);
+			}
+			return $ARRpositions;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function getLastModifiedTimestamp($access_token)
+	{
+		$arr_access_token = array('oauth2_access_token'   =>  $access_token);
+		//$positions = $this->sendRequest('https://api.linkedin.com/v1/people/~/', $arr_access_token);
+		$lastMod = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/last-modified-timestamp', $arr_access_token));
+		//summary
+		print_r($lastMod);
+		return $lastMod;
+	}
+	
 }
 ?>
