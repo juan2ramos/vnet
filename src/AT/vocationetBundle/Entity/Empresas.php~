@@ -29,9 +29,9 @@ class Empresas
     private $nombre;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="tipo", type="integer", nullable=false)
+     * @ORM\Column(name="tipo", type="string", length=45, nullable=true)
      */
     private $tipo;
 

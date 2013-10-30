@@ -6,11 +6,6 @@ VALUES ('1', 'COD1', 'Codigo 1', 'tipo1'),
 ('5', 'COD5', 'Codigo 5', 'tipo5'),
 ('6', 'COD6', 'Codigo 6', 'tipo6');
 
-INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES (1, 'estudiante', 'Estudiante');
-INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES (2, 'mentor_e', 'Mentor especializado en un area en especifico');
-INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES (3, 'mentor_ov', 'Mentor psicologo');
-INSERT INTO `roles` (`id`, `nombre`, `descripcion`) VALUES (4, 'administrador', 'administrador de la aplicacion');
-
 INSERT INTO `colegios` (`id`, `nombre`, `georeferencia_id`) VALUES ('1', 'colegio name 1', '1');
 INSERT INTO `colegios` (`id`, `nombre`, `georeferencia_id`) VALUES ('2', 'colegio name 2', '2');
 INSERT INTO `colegios` (`id`, `nombre`, `georeferencia_id`) VALUES ('3', 'colegio name 3', '3');

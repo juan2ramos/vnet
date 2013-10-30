@@ -22,6 +22,7 @@
     <field name="usuarioFechaPlaneacion" type="date" column="usuario_fecha_planeacion" nullable="true"/>
     <field name="created" type="datetime" column="created" nullable="true"/>
     <field name="modified" type="datetime" column="modified" nullable="true"/>
+    <field name="syncLinkedin" type="datetime" column="sync_linkedin" nullable="true"/>
     <many-to-one field="colegio" target-entity="Colegios">
       <join-columns>
         <join-column name="colegio_id" referenced-column-name="id"/>

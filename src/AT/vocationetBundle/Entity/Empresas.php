@@ -29,9 +29,9 @@ class Empresas
     private $nombre;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="tipo", type="integer", nullable=false)
+     * @ORM\Column(name="tipo", type="string", length=45, nullable=true)
      */
     private $tipo;
 
@@ -94,7 +94,7 @@ class Empresas
     /**
      * Set tipo
      *
-     * @param integer $tipo
+     * @param string $tipo
      * @return Empresas
      */
     public function setTipo($tipo)
@@ -107,7 +107,7 @@ class Empresas
     /**
      * Get tipo
      *
-     * @return integer 
+     * @return string 
      */
     public function getTipo()
     {

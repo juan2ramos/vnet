@@ -26,20 +26,20 @@ class PermisosRoles
      *
      * @ORM\ManyToOne(targetEntity="Permisos")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="permisos_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="permiso_id", referencedColumnName="id")
      * })
      */
-    private $permisos;
+    private $permiso;
 
     /**
      * @var \Roles
      *
      * @ORM\ManyToOne(targetEntity="Roles")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="roles_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="rol_id", referencedColumnName="id")
      * })
      */
-    private $roles;
+    private $rol;
 
 
 }

@@ -1,0 +1,83 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Comentarios
+ *
+ * @ORM\Table(name="comentarios")
+ * @ORM\Entity
+ */
+class Comentarios
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=false)
+     */
+    private $modified;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="texto", type="text", nullable=false)
+     */
+    private $texto;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \Foros
+     *
+     * @ORM\ManyToOne(targetEntity="Foros")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="foro_id", referencedColumnName="id")
+     * })
+     */
+    private $foro;
+
+    /**
+     * @var \Comentarios
+     *
+     * @ORM\ManyToOne(targetEntity="Comentarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="comentario_id", referencedColumnName="id")
+     * })
+     */
+    private $comentario;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+
+}

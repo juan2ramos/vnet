@@ -162,7 +162,7 @@ class PerfilController extends Controller
 					if ($errores == 0)
 					{
 						$em = $this->getDoctrine()->getManager();
-						$usuario = $em->getRepository('vocationetBundle:usuarios')->findOneById($id);
+						$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($id);
 						$usuario->setUsuarioNombre($dataForm['nombre']);
 						$usuario->setUsuarioApellido($dataForm['apellido']);
 						$usuario->setUsuarioGenero($dataForm['genero']);
@@ -291,72 +291,49 @@ class PerfilController extends Controller
 		$security = $this->get('security');
 		$linkedin = $this->get('linkedin');
 		$pr = $this->get('perfil');
-		
+
 		$accessToken = $security->getSessionValue('access_token');
 		$usuarioId = $security->getSessionValue('id');
-		$ultimaModDB = 1383157906142;
+
+		$em = $this->getDoctrine()->getManager();
+		$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
+		$ultimaModDB = $usuario->getSyncLinkedin();
+
+		$ultimaModDB = ($ultimaModDB) ? ($ultimaModDB->getTimestamp() * 1000) : 0;
 
 		$ultimaModLinkedIn = $linkedin->getLastModifiedTimestamp($accessToken);
-
-		$ultimaModLinkedIn = $ultimaModLinkedIn + 5;
-		print($ultimaModDB." - ".$ultimaModLinkedIn.'ok' );
-		var_dump($ultimaModLinkedIn);
-		if ($ultimaModDB < ($ultimaModLinkedIn+50)) {
+		if ($ultimaModLinkedIn === false) {
+			$ultimaModLinkedIn = 0;
+		}
 		
-
+		if ($ultimaModDB < $ultimaModLinkedIn) {
 			$educacion = $linkedin->getEducations($accessToken);
 			$positions = $linkedin->getPositions($accessToken);
-			//$security->debug($educacion);
-			//$security->debug($positions);
+			$FieldsAdditional = $linkedin->getFieldsAdditional($accessToken);
 
-			if (($educacion === false) || ($educacion === false)) {
+			if (($educacion === false) || ($educacion === false) || ($FieldsAdditional === false) ) {
 				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.sincronizacion"), "text" => $this->get('translator')->trans("ocurrio.un.error.al.sincronizar.con.su.perfil.de.linkedin")));
 			}
 			else
 			{
 				$pr->deleteEstudiosPerfil($usuarioId);
 				$pr->setEstudiosPerfil($educacion, $usuarioId);
-				//print('aqui');
 				$pr->deleteTrabajosPerfil($usuarioId);
 				$pr->setTrabajosPerfil($positions, $usuarioId);
+				
+				$usuario->setSyncLinkedin(new \DateTime());
+				$usuario->setUsuarioPerfilProfesional($FieldsAdditional['perfilProfesional']);
+				$em->persist($usuario);
+				$em->flush();
+
 				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("perfil.sincronizado.correctamente")));
+				
 			}
 		}
 		else {
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("no.se.encontratron.cambios.para sincronizacion")));
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("no.se.encontratron.cambios.para.sincronizacion")));
 		}
-
-
-		//$security->debug($educacion);
-
-		/*$elem = new \SimpleXMLElement($OK);
-		print('<br>cantidad '.$elem->count());
-		foreach($elem as $el)
-		{
-			//print ('<br>Cantidad'.$el->count().'<br>');
-			echo('<br>');
-			echo('<br>');
-			echo ($el->{'id'}.'<br>');
-			echo ($el->{'school-name'}.'<br>');
-			echo ($el->{'notes'}.'<br>');
-			
-			
-			//echo ($el->school-name.'<br>');
-			
-		}
-		//foreach($elem->children() as $node)
-		//{
-			//$arr = $node->attributes();
-			//print ('<br>Cantidad'.$el->count());
-			//print('here');
-			//var_dump($node);
-		//}
-		*/
-
-		
-		//new response();
 		return $this->redirect($this->generateUrl('perfil', array('perfilId'=> $usuarioId)));
-		
 	 }
 	
 	/**

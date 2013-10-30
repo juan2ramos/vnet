@@ -1,0 +1,56 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Mensajes
+ *
+ * @ORM\Table(name="mensajes")
+ * @ORM\Entity
+ */
+class Mensajes
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="asunto", type="string", length=145, nullable=false)
+     */
+    private $asunto;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="contenido", type="text", nullable=true)
+     */
+    private $contenido;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_envio", type="datetime", nullable=false)
+     */
+    private $fechaEnvio;
+
+    /**
+     * @var \Mensajes
+     *
+     * @ORM\ManyToOne(targetEntity="Mensajes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="mensaje_id", referencedColumnName="id")
+     * })
+     */
+    private $mensaje;
+
+
+}

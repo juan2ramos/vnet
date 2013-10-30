@@ -325,12 +325,26 @@ class LinkedinService
 	public function getLastModifiedTimestamp($access_token)
 	{
 		$arr_access_token = array('oauth2_access_token'   =>  $access_token);
-		//$positions = $this->sendRequest('https://api.linkedin.com/v1/people/~/', $arr_access_token);
 		$lastMod = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/last-modified-timestamp', $arr_access_token));
 		//summary
-		print_r($lastMod);
+		//print('aca');
+		//print_r($lastMod);
+		//print('aca');
 		return $lastMod;
 	}
+
+	public function getFieldsAdditional($access_token)
+	{
+		$arr_access_token = array('oauth2_access_token'   =>  $access_token);
+		$fields['perfilProfesional'] = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/summary', $arr_access_token));
+		//summary
+		//print('aca');
+		//print_r($lastMod);
+		//print('aca');
+		return $fields;
+	}
+
+	
 	
 }
 ?>

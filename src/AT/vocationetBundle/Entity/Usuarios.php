@@ -148,6 +148,13 @@ class Usuarios
     private $modified;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="sync_linkedin", type="datetime", nullable=true)
+     */
+    private $syncLinkedin;
+
+    /**
      * @var \Roles
      *
      * @ORM\ManyToOne(targetEntity="Roles")
@@ -601,6 +608,29 @@ class Usuarios
     public function getModified()
     {
         return $this->modified;
+    }
+
+    /**
+     * Set syncLinkedin
+     *
+     * @param \DateTime $syncLinkedin
+     * @return Usuarios
+     */
+    public function setSyncLinkedin($syncLinkedin)
+    {
+        $this->syncLinkedin = $syncLinkedin;
+    
+        return $this;
+    }
+
+    /**
+     * Get syncLinkedin
+     *
+     * @return \DateTime 
+     */
+    public function getSyncLinkedin()
+    {
+        return $this->syncLinkedin;
     }
 
     /**

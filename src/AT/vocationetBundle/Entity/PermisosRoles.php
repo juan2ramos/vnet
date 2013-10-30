@@ -26,7 +26,7 @@ class PermisosRoles
      *
      * @ORM\ManyToOne(targetEntity="Permisos")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="permisos_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="permiso_id", referencedColumnName="id")
      * })
      */
     private $permiso;
@@ -36,7 +36,7 @@ class PermisosRoles
      *
      * @ORM\ManyToOne(targetEntity="Roles")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="roles_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="rol_id", referencedColumnName="id")
      * })
      */
     private $rol;
@@ -56,7 +56,7 @@ class PermisosRoles
     /**
      * Set permiso
      *
-     * @param \AT\vocationetBundle\Entity\Permisos $permisos
+     * @param \AT\vocationetBundle\Entity\Permisos $permiso
      * @return PermisosRoles
      */
     public function setPermiso(\AT\vocationetBundle\Entity\Permisos $permiso = null)
@@ -79,7 +79,7 @@ class PermisosRoles
     /**
      * Set rol
      *
-     * @param \AT\vocationetBundle\Entity\Roles $roles
+     * @param \AT\vocationetBundle\Entity\Roles $rol
      * @return PermisosRoles
      */
     public function setRol(\AT\vocationetBundle\Entity\Roles $rol = null)

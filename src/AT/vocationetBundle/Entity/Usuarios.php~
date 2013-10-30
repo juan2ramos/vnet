@@ -148,6 +148,13 @@ class Usuarios
     private $modified;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="sync_linkedin", type="datetime", nullable=true)
+     */
+    private $syncLinkedin;
+
+    /**
      * @var \Roles
      *
      * @ORM\ManyToOne(targetEntity="Roles")
