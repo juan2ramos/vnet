@@ -51,11 +51,25 @@ class UsuariosService
      * @param integer $usuarioId id de usuario en facebook
      * @return \AT\vocationetBundle\Entity\Usuarios entidad usuario
      */
-    public function getUsuarioFacebook($usuarioId)
+    public function getUsuarioFacebook($userId, $email)
     {
         $em = $this->doctrine->getManager();
+//        $usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneBy(array('usuarioFacebookid' =>$usuarioId, 'usuarioEmail' => $email));
         
-        $usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneByUsuarioFacebookid($usuarioId);
+        $usuario = false;
+        
+        $dql = "SELECT u FROM vocationetBundle:Usuarios u
+                WHERE u.usuarioEmail = :email OR u.usuarioFacebookid = :userId";
+        $query = $em->createQuery($dql);
+        $query->setParameter('userId', $userId);
+        $query->setParameter('email', $email);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        if(isset($result[0]))
+        {
+            $usuario = $result[0];
+        }        
         
         return $usuario;
     }
@@ -84,6 +98,7 @@ class UsuariosService
         $usuario->setCreated(new \DateTime());
         $usuario->setRol($rolEstudiante);
         $usuario->setUsuarioEstado(1);
+        $usuario->setUsuarioHash(uniqid('u_f_', true));
         if(isset($userProfile['birthday'])) $usuario->setUsuarioFechaNacimiento(new \DateTime($userProfile['birthday']));
         if(isset($userProfile['gender'])) $usuario->setUsuarioGenero($userProfile['gender']);        
         
@@ -129,12 +144,68 @@ class UsuariosService
         $usuario->setCreated(new \DateTime());
         $usuario->setRol($rolMentor);
         $usuario->setUsuarioEstado(1);
+        $usuario->setUsuarioHash(uniqid('u_l_', true));
         if(!empty($userProfile['date-of-birth'])) $usuario->setUsuarioFechaNacimiento(new \DateTime($userProfile['date-of-birth']));
         
         $em->persist($usuario);
         $em->flush();
         
         return $usuario;
+    }
+    
+    /**
+     * Funcion para registrar un usuario nativo
+     * 
+     * @param array $dataForm arreglo con los campos del formulario
+     * @param string $password contraseña encriptada del usuario
+     * @return \AT\vocationetBundle\Entity\Usuarios entidad de usuario
+     */
+    public function addUsuarioNativo($dataForm, $password)
+    {
+        $em = $this->doctrine->getManager();
+        
+        $rolEstudiante = $em->getRepository('vocationetBundle:Roles')->findOneById(1);
+        
+        $usuario = new \AT\vocationetBundle\Entity\Usuarios();
+        
+        $usuario->setUsuarioNombre($dataForm['first_name']);
+        $usuario->setUsuarioApellido($dataForm['last_name']);
+        $usuario->setUsuarioEmail($dataForm['email']);
+        $usuario->setUsuarioPassword($password);
+        $usuario->setCreated(new \DateTime());
+        $usuario->setRol($rolEstudiante);
+        $usuario->setUsuarioEstado(0);
+        $usuario->setUsuarioHash(uniqid('u_n_', true));
+        
+        $em->persist($usuario);
+        $em->flush();
+        
+        return $usuario;
+    }
+    
+    /**
+     * Funcion que verifica si existe un usuario
+     * 
+     * @param string $email email del usuario
+     */
+    public function existsUsuario($email)
+    {
+        $return = false;
+        
+        $dql = "SELECT COUNT(u.id) c FROM vocationetBundle:Usuarios u
+                WHERE u.usuarioEmail = :email";
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('email', $email);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        if($result[0]['c']== 1)
+        {
+            $return = true;
+        }
+        
+        return $return;
     }
 }
 ?>

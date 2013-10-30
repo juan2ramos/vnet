@@ -1,12 +1,11 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="es" datatype="plaintext" original="file.ext">
         <body>
-			
-			<!-- GENERICA generic-x -->
+            <!-- GENERICA generic-x -->
 			<trans-unit id="generic-1">
                 <source>datos.invalidos</source>
-                <target>Datos invalidos</target>
+                <target>Datos inválidos</target>
             </trans-unit>
             <trans-unit id="generic-2">
                 <source>verifique.los datos.suministrados</source>
@@ -25,6 +24,40 @@
 			<trans-unit id="login-3">
                 <source>verifique.datos.ingresados</source>
                 <target>Verifique los datos ingresados</target>
+            </trans-unit>
+            
+            <!-- REGISTRO registro-x -->
+			<trans-unit id="registro-1">
+                <source>usuario.ya.existe</source>
+                <target>El usuario ya existe</target>
+            </trans-unit>
+			<trans-unit id="registro-2">
+                <source>ya.existe.usuario.correo</source>
+                <target>El correo electrónico ya esta siendo usado por un usuario</target>
+            </trans-unit>			
+			<trans-unit id="registro-3">
+                <source>revisar.correo.confirmacion</source>
+                <target>Revisa tu correo</target>
+            </trans-unit>			
+			<trans-unit id="registro-4">
+                <source>registro.exitoso</source>
+                <target>Tu registro ha sido exitoso</target>
+            </trans-unit>			
+			<trans-unit id="registro-5">
+                <source>registro.exitoso.descripcion</source>
+                <target>Te enviaremos un correo con las instrucciones para ingresar a nuestro programa. Dependiendo de las reglas configuradas para tu buzón, verifica tu bandeja de "correo no deseado"</target>
+            </trans-unit>			
+			<trans-unit id="registro-6">
+                <source>token.invalido</source>
+                <target>El link ha caducado</target>
+            </trans-unit>			
+			<trans-unit id="registro-7">
+                <source>token.invalido.instrucciones</source>
+                <target>Es posible que el link haya vencido o sea inválido, intenta registrarte de nuevo</target>
+            </trans-unit>
+			<trans-unit id="registro-8">
+                <source>bienvenido</source>
+                <target>Bienvenido</target>
             </trans-unit>
             
             <!-- EDIT PERFIL editperfil-x -->
