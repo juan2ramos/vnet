@@ -78,7 +78,7 @@ class UsuariosService
         
         $usuario->setUsuarioNombre($userProfile['first_name']);
         $usuario->setUsuarioApellido($userProfile['last_name']);
-        $usuario->setUsuarioEmail($userProfile['username']);
+        $usuario->setUsuarioEmail($userProfile['email']);
         $usuario->setUsuarioFacebookid($userProfile['id']);
         $usuario->setUsuarioImagen('https://graph.facebook.com/'.$userProfile['id'].'/picture');
         $usuario->setCreated(new \DateTime());
