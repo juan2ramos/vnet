@@ -23,4 +23,7 @@ services:
     usuarios:
         class: AT\vocationetBundle\Services\UsuariosService
         arguments: ["@doctrine", "@session"]
+    mensajes:
+        class: AT\vocationetBundle\Services\MensajesService
+        arguments: ["@doctrine", "@session", "@mail"]
        
