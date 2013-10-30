@@ -1,0 +1,20 @@
+﻿<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- registro -->
+            <trans-unit id="registro-1">
+                <source>confirmacion.registro</source>
+                <target>Confirmación de registro</target>
+            </trans-unit>
+            <trans-unit id="registro-2">
+                <source>confirmacion.registro.instrucciones</source>
+                <target>Para continuar con el registro confirma tu correo electrónico haciendo click en el siguiente enlace</target>
+            </trans-unit>
+            <trans-unit id="registro-3">
+                <source>confirmacion.registro.link</source>
+                <target>Confirmar registro</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

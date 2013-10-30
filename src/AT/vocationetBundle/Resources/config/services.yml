@@ -5,6 +5,12 @@ services:
     security:
         class: AT\vocationetBundle\Services\SecurityService
         arguments: ["@doctrine", "@session"]
+    mail:
+        class: AT\vocationetBundle\Services\MailService
+        arguments: ["@mailer", "@templating"]
+    validate:
+        class: AT\vocationetBundle\Services\ValidateService
+        arguments: ["@validator"]
     facebook:
         class: AT\vocationetBundle\Services\FacebookService
         arguments: [%facebook_app_id%, %facebook_app_secret%, "@service_container"]

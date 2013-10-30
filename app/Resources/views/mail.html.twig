@@ -1,0 +1,9 @@
+<b>{{ title }}</b>
+<br/>
+<p>
+    {{ body }}
+    <br/>
+    {% if link is defined %}
+        <a href="{{ link }}">{{ link_text }}</a>
+    {% endif %}
+</p>

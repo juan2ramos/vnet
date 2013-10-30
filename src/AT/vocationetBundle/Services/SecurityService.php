@@ -263,4 +263,26 @@ class SecurityService
         
         return $return;
     }
+    
+    /**
+     * Funcion para validar base64
+     * 
+     * @param string $code64 cadena codificada en base64
+     * @return boolean
+     */
+    public function validateBase64($code64)
+    {
+        $validate = false;
+        $dec = base64_decode($code64, true);
+        
+        $enc = base64_encode($dec);
+        
+        $val_deco = base64_decode($enc, true);
+        
+        if($val_deco !== false)
+        {
+            $validate = true;
+        }
+        return $validate;
+    }
 }

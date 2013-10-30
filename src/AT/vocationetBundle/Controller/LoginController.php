@@ -105,7 +105,7 @@ class LoginController extends Controller
             $user_serv = $this->get('usuarios');
             
             // Verificar si el usuario ya esta registrado
-            $usuario = $user_serv->getUsuarioFacebook($userProfile['id']);
+            $usuario = $user_serv->getUsuarioFacebook($userProfile['id'], $userProfile['email']);
             
             if(!$usuario)
             {
