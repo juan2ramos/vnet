@@ -2,6 +2,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+
 -- -----------------------------------------------------
 -- Table `roles`
 -- -----------------------------------------------------
@@ -314,7 +315,7 @@ CREATE  TABLE IF NOT EXISTS `comentarios` (
   `texto` TEXT NOT NULL ,
   `estado` INT NOT NULL ,
   `foro_id` INT NOT NULL ,
-  `comentario_id` INT NOT NULL ,
+  `comentario_id` INT NULL ,
   `usuario_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_comentarios_1` (`foro_id` ASC) ,
@@ -400,20 +401,20 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `relaciones` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `usuario_id` INT NOT NULL ,
-  `usuario_copy_id` INT NOT NULL ,
+  `usuario2_id` INT NOT NULL ,
   `tipo` INT NOT NULL ,
   `created` DATETIME NOT NULL ,
   `estado` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_relaciones_1_idx` (`usuario_id` ASC) ,
-  INDEX `fk_relaciones_2_idx` (`usuario_copy_id` ASC) ,
+  INDEX `fk_relaciones_2_idx` (`usuario2_id` ASC) ,
   CONSTRAINT `fk_relaciones_1`
     FOREIGN KEY (`usuario_id` )
     REFERENCES `usuarios` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_relaciones_2`
-    FOREIGN KEY (`usuario_copy_id` )
+    FOREIGN KEY (`usuario2_id` )
     REFERENCES `usuarios` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

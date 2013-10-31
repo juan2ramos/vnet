@@ -57,10 +57,10 @@ class Relaciones
      *
      * @ORM\ManyToOne(targetEntity="Usuarios")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_copy_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="usuario2_id", referencedColumnName="id")
      * })
      */
-    private $usuarioCopy;
+    private $usuario2;
 
 
 }
