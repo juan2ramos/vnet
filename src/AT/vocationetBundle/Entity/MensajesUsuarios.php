@@ -48,10 +48,7 @@ class MensajesUsuarios
     /**
      * @var \Usuarios
      *
-     * @ORM\ManyToOne(targetEntity="Usuarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
      */
     private $usuario;
 
@@ -142,7 +139,7 @@ class MensajesUsuarios
      * @param \AT\vocationetBundle\Entity\Usuarios $usuario
      * @return MensajesUsuarios
      */
-    public function setUsuario(\AT\vocationetBundle\Entity\Usuarios $usuario = null)
+    public function setUsuario($usuario = null)
     {
         $this->usuario = $usuario;
     

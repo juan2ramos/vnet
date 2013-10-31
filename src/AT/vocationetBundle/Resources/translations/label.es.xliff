@@ -517,6 +517,10 @@
                 <source>no.result.to.mensajes</source>
                 <target>No se encuentra la persona</target>
 			</trans-unit>
+			<trans-unit id="inbox-12">
+                <source>adjuntos</source>
+                <target>Adjuntos</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

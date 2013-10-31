@@ -67,7 +67,7 @@ class MensajesController extends Controller
                     $mensaje_serv = $this->get('mensajes');
                     $usuarioId = $security->getSessionValue('id');
                     
-                    if($mensaje_serv->enviarMensaje($usuarioId, $data['to'], $data['subject'], $data['message']))
+                    if($mensaje_serv->enviarMensaje($usuarioId, $data['to'], $data['subject'], $data['message'], $data['attachment']))
                     {
                         $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mensaje.enviado"), "text" => $this->get('translator')->trans("mensaje.enviado.correctamente")));
                     }
@@ -107,11 +107,13 @@ class MensajesController extends Controller
             'to' => null, 
             'subject' => null,
             'message' => null,
+            'attachment' => null
         );
         $form = $this->createFormBuilder($dataForm)
            ->add('to', 'choice', array('required' => true, 'choices' => $usuarios, 'expanded' => false, 'multiple' => true))
            ->add('subject', 'text', array('required' => true))
            ->add('message', 'textarea', array('required' => true))
+           ->add('attachment', 'file', array('required' => false))
            ->getForm();
         
         return $form;
