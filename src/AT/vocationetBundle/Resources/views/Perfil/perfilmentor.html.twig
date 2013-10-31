@@ -16,7 +16,6 @@
 
 	<div class='col-lg-9'>
 		<div class="row">
-			<a href='{{ path('perfil_sincronizar')}}'>sincronizar</a>
 			{# PERFIL MENTOR #}
 			{% if perfil %}
 				<aside class="profile-nav col-lg-4">
@@ -32,13 +31,16 @@
 						
 						<ul class="nav nav-pills nav-stacked">
 							<li class="active"><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
-							<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
-							<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-								<a href="#">
-									<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
-									<span class="label label-success pull-right r-activity">5</span>
-								</a>
-							</li>
+							{% if sess_user.id == perfil.usuarioId %}
+								<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+								<li class=""><a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
+								<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
+									<a href="#">
+										<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
+										<span class="label label-success pull-right r-activity">5</span>
+									</a>
+								</li>
+							{% endif %}
 						</ul>
 					</section>
 
@@ -160,29 +162,28 @@
 								<div class="col-lg-12">
 									<div class="panel">
 										<div class="panel-body bio-graph-info">
-											<h1>{% trans from "label" %}estudios{% endtrans %}</h1>
+											<h1><i class='icon-trophy'></i> {% trans from "label" %}estudios{% endtrans %}</h1>
 											{% for estudio in estudios %}
 												<div class='row-desk col-lg-12 row paddBtnEstTrb'>
 													<div class='col-lg-12'>
-	
-														<b>{{ estudio.nombreInstitucion }}</b><br>
-														{{ estudio.titulo }}
-														<hr STYLE='border-rop-width:3px;margin-top:1px;margin-bottom:2px;'>
-														{% if estudio.fechaInicio %}
-															<b>{% trans from "label" %}fecha.inicio{% endtrans %}:</b> {{ estudio.fechaInicio|date('y-m-d') }}<br>
-														{% endif %}
-														{% if estudio.fechaFinal %}
-															<b>{% trans from "label" %}fecha.fin{% endtrans %}:</b> {{ estudio.fechaFinal|date('y-m-d') }}<br>
-														{% endif %}
+														<b>{{ estudio.nombreInstitucion }}</b>
+														<br>{{ estudio.titulo }}
+														{% if estudio.campo %} , {{ estudio.campo }}{% endif %}
 														
+														<br>
+														<div STYLE='padding-bottom:5px;'>
+														{% if estudio.fechaInicio %}
+															{{ estudio.fechaInicio|date('Y') }}
+															{% if estudio.fechaFinal %}
+															- {{ estudio.fechaFinal|date('Y') }}<br>
+															{% endif %}
+														{% endif %}
+														</div>
 														{% if estudio.actividad %}
 															<b>{% trans from "label" %}actividad{% endtrans %}:</b> {{ estudio.actividad }}<br>
 														{% endif %}
-
 														{% if estudio.notas %}
-															<b>{% trans from "label" %}notas{% endtrans %}:</b> {{ estudio.notas }}<br>
-														{% endif %}
-														
+															<b>{% trans from "label" %}notas{% endtrans %}:</b> {{ estudio.notas }}{% endif %}<br>
 													</div>
 												</div>
 											{% endfor %}
@@ -200,27 +201,26 @@
 							<div class="col-lg-12">
 								<div class="panel">
 									<div class="panel-body bio-graph-info">
-										<h1>{% trans from "label" %}experiencia.laboral{% endtrans %}</h1>
+										<h1><i class='icon-file-text'></i>&nbsp;{% trans from "label" %}experiencia.laboral{% endtrans %}</h1>
 										{% for trabajo in trabajos %}
 											<div class='row-desk col-lg-12 row paddBtnEstTrb'>
 												<div class='col-lg-12'>
-
-													<b>{{ trabajo.empresa.nombre }}</b><br>
-													{{ trabajo.cargo }}&nbsp;{% if trabajo.esActual %}({% trans from "label" %}actualmente{% endtrans %}){% endif %}
-													<hr STYLE='border-rop-width:3px;margin-top:1px;margin-bottom:2px;'>
+													<b>{{ trabajo.cargo }}</b><br>
+													{{ trabajo.empresa.nombre }}<br>
 													{% if trabajo.fechaInicio %}
-														<b>{% trans from "label" %}fecha.inicio{% endtrans %}:</b> {{ trabajo.fechaInicio|date('y-m-d') }}<br>
+														{{ trabajo.fechaInicio|date('M \\d\\e Y') }} -
+														{% if trabajo.fechaFinal %}
+															{{ trabajo.fechaFinal|date('M \\d\\e Y') }}<br>
+														{% elseif trabajo.esActual %}
+															{% trans from "label" %}actualmente{% endtrans %}<br>
+														{% endif %}
 													{% endif %}
-													{% if trabajo.fechaFinal %}
-														<b>{% trans from "label" %}fecha.fin{% endtrans %}:</b> {{ trabajo.fechaFinal|date('y-m-d') }}<br>
-													{% endif %}
-													
 													{% if trabajo.resumen %}
 														<b>{% trans from "label" %}actividad{% endtrans %}:</b> {{ trabajo.resumen }}<br>
 													{% endif %}
-
 												</div>
 											</div>
+											
 										{% endfor %}
 										
 										<div class='col-lg-12 row'>

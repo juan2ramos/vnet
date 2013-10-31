@@ -257,7 +257,18 @@ class PerfilService
 			$newJob->setUsuario($Objusuario);
 			$newJob->setEmpresa($ObjCompany);
 			$newJob->setCargo($trabajo['title']);
-			$newJob->setEsActual($trabajo['isCurrent']);
+			$newJob->setResumen($trabajo['summary']);
+			if ($trabajo['startDateY'] && $trabajo['startDateM']) {
+				$newJob->setFechaInicio(new \DateTime($trabajo['startDateY'].'-'.$trabajo['startDateM'].'-01'));
+			}
+			if ($trabajo['endDateY'] && $trabajo['endDateM']) {
+				$newJob->setFechaFinal(new \DateTime($trabajo['endDateY'].'-'.$trabajo['endDateM'].'-01'));
+			}
+			$auxEA = ($trabajo['isCurrent']) ? 1 : 0;
+			$newJob->setEsActual($auxEA);
+			if ($trabajo['id']) {
+				$newJob->setIdLinkedin($trabajo['id']);
+			}
 			$em->persist($newJob);
 		}
 		$em->flush();

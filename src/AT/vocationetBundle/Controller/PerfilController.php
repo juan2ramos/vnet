@@ -93,15 +93,15 @@ class PerfilController extends Controller
      * @Template("vocationetBundle:Perfil:editperfilMentor.html.twig")
 	 * @Route("/edit-perfil", name="perfil_edit")
 	 * @param Request Form edicion
-     * 
 	 */
 	public function editAction(Request $request)
 	{
-		error_reporting(true);
-		$id = 7;
-		
+		$security = $this->get('security');
 		$pr = $this->get('perfil');
 		$tr = $this->get('translator');
+		
+		//error_reporting(true);
+		$id = $security->getSessionValue('id');
 		$perfil = $pr->getPerfil($id);
 
 		if (!$perfil) {
@@ -282,7 +282,10 @@ class PerfilController extends Controller
 	}
 
 	/**
+	 * Sincronizar el perfil de linkedin con vocationet
 	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1 
 	 * @Route("/sincronizar-perfil", name="perfil_sincronizar")
 	 * 
 	 */
@@ -298,7 +301,6 @@ class PerfilController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
 		$ultimaModDB = $usuario->getSyncLinkedin();
-
 		$ultimaModDB = ($ultimaModDB) ? ($ultimaModDB->getTimestamp() * 1000) : 0;
 
 		$ultimaModLinkedIn = $linkedin->getLastModifiedTimestamp($accessToken);
@@ -327,7 +329,6 @@ class PerfilController extends Controller
 				$em->flush();
 
 				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("perfil.sincronizado.correctamente")));
-				
 			}
 		}
 		else {
@@ -358,6 +359,7 @@ class PerfilController extends Controller
 		$hojaVida = $dataForm['hojaVida'];
 		$tarjetaProfesional = $dataForm['tarjetaProfesional'];
 
+		$countErrores = 0;
 		if (($hojaVida === null) && ($tarjetaProfesional === null)) {
 			$countErrores = 1;
 		}

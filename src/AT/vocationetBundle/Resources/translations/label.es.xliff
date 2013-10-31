@@ -155,6 +155,11 @@
                 <source>no.ha.sido.calculado</source>
                 <target>No ha sido calculado</target>
             </trans-unit>
+            <trans-unit id="perfil-32">
+                <source>sincronizar.perfil</source>
+                <target>Sincronizar perfil</target>
+            </trans-unit>
+            
 
 			<!-- PERFILES ESTUDIANTE perfile-x -->
             <trans-unit id="perfile-1">
@@ -421,9 +426,8 @@
 			</trans-unit>
 
             <!--
-				
+            
             -->
-  
         </body>
     </file>
 </xliff>
