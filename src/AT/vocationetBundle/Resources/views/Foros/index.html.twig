@@ -1,230 +1,101 @@
 {% extends "::base.html.twig" %}
 
-{% block body %}
+{% block style %}
+	<style>
+		.foro>td{
+			background-color:transparent !important;
+			padding:0px !important;
+			vertical-align:middle !important;
+		}
+		.foro:hover{
+			background-color:#f5f5f5;
+			cursor:  pointer;
+		}
+		.foro>td>div{
+			padding:10px 15px;
+			color: #333;
+			vertical-align:middle;
+		}
+	</style>
+{% endblock style %}
 
-              <!-- page start-->
-              <div class="row">
-                  <div class="col-lg-12">
-                      <section class="panel">
-                          <header class="panel-heading">
-                              Dynamic Table
-                          </header>
-                          <table class="table table-striped border-top" id="sample_1">
-                          <thead>
-                          <tr>
-                              <th style="width:8px;"><input type="checkbox" class="group-checkable" data-set="#sample_1 .checkboxes" /></th>
-                              <th>Username</th>
-                              <th class="hidden-phone">Email</th>
-                              <th class="hidden-phone">Points</th>
-                              <th class="hidden-phone">Joined</th>
-                              <th class="hidden-phone"></th>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          {% for car in carreras %}
-							<tr class="odd gradeX">
-								<td>{{ car.id }}</td>
-								<td>{{ car.nombre }}</td>
+{% block body %}
+	<div class="row">
+		<div class="col-lg-8">
+			<section class="panel">
+				
+				<header class="panel-heading">{% trans from "label" %}foros{% endtrans %}</header>
+				{% if foros %}
+					<table class="table table-striped border-top" id="sample_1">
+						<thead >
+							<tr>
+								<th>{% trans from "label" %}foro{% endtrans %}</th>
+								<th><i class="icon-comments-alt"></i></th>
+								<th>{% trans from "label" %}fecha.creacion{% endtrans %}</th>
 							</tr>
-                          {% endfor %}
-                          
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>gada</td>
-                              <td class="hidden-phone"><a href="mailto:gada-lal@gmail.com">gada-lal@gmail.com</a></td>
-                              <td class="hidden-phone">34</td>
-                              <td class="center hidden-phone">08.03.2013</td>
-                              <td class="hidden-phone"><span class="label label-warning">Suspended</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>soa bal</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@yahoo.com">soa bal@yahoo.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">1.12.2013</td>
-                              <td class="hidden-phone"><span class="label label-danger">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>ram sag</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">soa bal@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">7.2.2013</td>
-                              <td class="hidden-phone"><span class="label label-info">Blocked</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>durlab</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">test@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">03.07.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>durlab</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">05.04.2013</td>
-                              <td class="hidden-phone"><span class="label label-danger">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>sumon</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">05.04.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>bombi</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">05.04.2013</td>
-                              <td class="hidden-phone"><span class="label label-danger">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>ABC ho</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">05.04.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>test</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">05.04.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>soa bal</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">soa bal@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">03.07.2013</td>
-                              <td class="hidden-phone"><span class="label label-info">Blocked</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>test</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">test@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">03.07.2013</td>
-                              <td class="hidden-phone"><span class="label label-danger">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>goop</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">05.04.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>sumon</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">01.07.2013</td>
-                              <td class="hidden-phone"><span class="label label-info">Blocked</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>woeri</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">09.10.2013</td>
-                              <td class="hidden-phone"><span class="label label-danger">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>soa bal</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">soa bal@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">9.12.2013</td>
-                              <td class="hidden-phone"><span class="label label-info">Blocked</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>woeri</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">test@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">14.12.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>uirer</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">13.11.2013</td>
-                              <td class="hidden-phone"><span class="label label-warning">Suspended</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>samsu</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">17.11.2013</td>
-                              <td class="hidden-phone"><span class="label label-danger">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>dipsdf</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">05.04.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>soa bal</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">soa bal@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">03.07.2013</td>
-                              <td class="hidden-phone"><span class="label label-info">Blocked</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>hilor</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">test@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">03.07.2013</td>
-                              <td class="hidden-phone"><span class="label label-danger">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>test</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">19.12.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>botu</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">17.12.2013</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          <tr class="odd gradeX">
-                              <td><input type="checkbox" class="checkboxes" value="1" /></td>
-                              <td>sumon</td>
-                              <td class="hidden-phone"><a href="mailto:soa bal@gmail.com">lorem-ip@gmail.com</a></td>
-                              <td class="hidden-phone">33</td>
-                              <td class="center hidden-phone">15.11.2011</td>
-                              <td class="hidden-phone"><span class="label label-success">Approved</span></td>
-                          </tr>
-                          </tbody>
-                          </table>
-                      </section>
-                  </div>
-              </div>
-              <!-- page end-->
-          </section>
+						</thead>
+						<tbody>
+							{% for f in foros %}
+								<tr class="foro">
+									<td>
+										<div>
+											<h4 class="list-group-item-heading">{{ f.id }}- {{ f.titulo }}</h4>
+											<p>{{ f.temaNombre }}</p>
+											<p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit. camilo</p>
+										</div>
+									</td>
+									<td><div>{{ f.countComent}}</div></td>
+									<td><div>{% if f.created %}{{ f.created|date('Y/m/d') }}{% endif %}</div></td>	
+								</tr>
+								
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<div class="panel-body" STYLE='text-align:center;'>
+						{% trans from "label" %}no.hay.foros.en.esta.carrera.o.tema{% endtrans %}
+					</div>
+				{% endif %}
+			</section>
+		</div>
+		
+
+		<div class="col-lg-4">
+			{# CARRERAS #}
+			{% if carreras %}
+				<section class="panel">
+					<header class="panel-heading">{% trans from "label" %}carreras{% endtrans %}</header>
+					<div class="list-group">
+						{% for car in carreras %}
+							<a class="list-group-item {% if actual.carreraId == car.id %}active{% endif %}" href="{{ path('foros_temas', {'id' : car.id }) }}">
+								{{ car.nombre }}
+							</a>
+						{% endfor %}
+					</div>
+				</section>
+			{% endif %}
+
+			{# TEMAS #}
+			<section class="panel">
+				<header class="panel-heading">{% trans from "label" %}temas{% endtrans %}</header>
+				<div class="list-group">
+					{% for tem in temas %}
+						<a class="list-group-item {% if actual.temaId == tem.id %}active{% endif %}" href="{{ path('foros_temas', {'id' : actual.carreraId, 'temaId' : tem.id }) }}">
+							{{ tem.nombre }}
+						</a>
+					{% else %}
+						<p class="list-group-item">{% trans from "label" %}no.hay.temas{% endtrans %}</p>
+					{% endfor %}
+				</div>
+			</section>
+		</div>
+	</div>
 {% endblock body %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
+
+    <!--script for this page only-->
+    <script src="{{ asset('js/dynamic-table.js') }}"></script>
+{% endblock script%}
