@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use \Facebook;
 
 /**
  * controlador para autenticacion y registro de usuarios
@@ -105,7 +104,7 @@ class LoginController extends Controller
             $user_serv = $this->get('usuarios');
             
             // Verificar si el usuario ya esta registrado
-            $usuario = $user_serv->getUsuarioFacebook($userProfile['id']);
+            $usuario = $user_serv->getUsuarioFacebook($userProfile['id'], $userProfile['email']);
             
             if(!$usuario)
             {

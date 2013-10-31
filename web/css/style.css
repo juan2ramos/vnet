@@ -148,7 +148,7 @@ a, a:hover, a:focus {
     padding-right: 3px;
 }
 
-.login-social-link a.facebook {
+.login-social-link a.facebook{
     background: #5193ea;
     margin-right: 22px;
     box-shadow: 0 4px #2775e2;
@@ -161,12 +161,25 @@ a, a:hover, a:focus {
 	float:left;
 }
 
-.login-social-link a.linkedin {
+.login-social-link a.linkedin{
     background: #1A92BD;
     box-shadow: 0 4px #107CB7;
 	float:left;
 }
 
+.btn-facebook, .btn-facebook:hover {
+    background: #5193ea;
+    box-shadow: 0 4px #2775e2;
+    text-decoration: none;
+    color: #fff !important;
+}
+
+.btn-linkedin, .btn-linkedin:hover {
+    background: #1A92BD;
+    box-shadow: 0 4px #107CB7;
+    text-decoration: none;
+    color: #fff !important;
+}
 
 /*sidebar navigation*/
 

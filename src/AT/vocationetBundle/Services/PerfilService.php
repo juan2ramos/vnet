@@ -44,7 +44,7 @@ class PerfilService
 		 */
 		$dql="SELECT u.id as usuarioId, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioFechaNacimiento, u.usuarioEmail,
 				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional,
-				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion,
+				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero,
 				r.nombre as nombreRol,
 				col.nombre as nombreCol, col.id as colegioId
 			FROM vocationetBundle:Usuarios u
@@ -280,7 +280,7 @@ class PerfilService
 	 * 
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-	 * @return Array Con colegios (cursos)
+	 * @return Array Con colegios
 	 */
 	public function getColegios()
 	{
@@ -299,7 +299,7 @@ class PerfilService
 	 * 
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-	 * @return Array Con grados (cursos)
+	 * @return Array Con grados(cursos)
 	 */
 	public function getGrados()
 	{

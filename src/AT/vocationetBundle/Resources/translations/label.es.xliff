@@ -384,6 +384,53 @@
                 <source>linkedin</source>
                 <target>Linked In</target>
             </trans-unit>
+            <trans-unit id="login-9">
+                <source>registrarse</source>
+                <target>Registrarse</target>
+            </trans-unit>
+            <trans-unit id="login-10">
+                <source>para.mentores</source>
+                <target>para mentores</target>
+            </trans-unit>
+            <trans-unit id="login-11">
+                <source>para.estudiantes</source>
+                <target>para estudiantes</target>
+            </trans-unit>
+            <trans-unit id="login-12">
+                <source>cerrar.session</source>
+                <target>Cerrar sesión</target>
+            </trans-unit>
+            
+            <!-- REGISTRO registro-x -->
+            <trans-unit id="registro-1">
+                <source>registro.para.estudiantes</source>
+                <target>Registro para estudiantes</target>
+            </trans-unit>
+            <trans-unit id="registro-2">
+                <source>confirmar.contrasena</source>
+                <target>Confirmar contraseña</target>
+            </trans-unit>
+            <trans-unit id="registro-3">
+                <source>sugerencia.registro.estudiante</source>
+                <target>También puedes registrarte usando</target>
+            </trans-unit>
+            <trans-unit id="registro-4">
+                <source>sugerencia.registro.mentor</source>
+                <target>Si eres mentor registrate a través de</target>
+            </trans-unit>
+            <trans-unit id="registro-5">
+                <source>pass.invalido</source>
+                <target>Contraseña inválida</target>
+            </trans-unit>
+            <trans-unit id="registro-6">
+                <source>pass.no.coincide</source>
+                <target>Las contraseñas no coinciden</target>
+            </trans-unit>
+            <trans-unit id="registro-7">
+                <source>pass.inseguro</source>
+                <target>La contraseña no es lo suficientemente segura</target>
+            </trans-unit>
+            
 
             <!-- GRADOS grados-x -->
             <trans-unit id="grados-1">
@@ -425,7 +472,49 @@
                 <target>Guardar</target>
 			</trans-unit>
 
-            <!--
+            <!-- MENSAJES inbox-x -->
+			<trans-unit id="inbox-1">
+                <source>redactar</source>
+                <target>Nuevo mensaje</target>
+			</trans-unit>
+			<trans-unit id="inbox-2">
+                <source>inbox</source>
+                <target>Bandeja de entrada</target>
+			</trans-unit>
+			<trans-unit id="inbox-3">
+                <source>enviados</source>
+                <target>Enviados</target>
+			</trans-unit>
+			<trans-unit id="inbox-4">
+                <source>importantes</source>
+                <target>Importantes</target>
+			</trans-unit>
+			<trans-unit id="inbox-5">
+                <source>eliminados</source>
+                <target>Eliminados</target>
+			</trans-unit>
+			<trans-unit id="inbox-6">
+                <source>buscar.mensaje</source>
+                <target>Buscar mensaje</target>
+			</trans-unit>
+			<trans-unit id="inbox-7">
+                <source>para</source>
+                <target>Para</target>
+			</trans-unit>
+			<trans-unit id="inbox-8">
+                <source>asunto</source>
+                <target>Asunto</target>
+			</trans-unit>
+			<trans-unit id="inbox-9">
+                <source>mensaje</source>
+                <target>Mensaje</target>
+			</trans-unit>
+			<trans-unit id="inbox-10">
+                <source>enviar.mensaje</source>
+                <target>Enviar</target>
+			</trans-unit>
+
+			 <!--
             
             -->
         </body>

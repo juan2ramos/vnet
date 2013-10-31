@@ -5,7 +5,8 @@ INSERT INTO `roles` (`id`,`nombre`,`descripcion`) VALUES
 (4,'administrador','Administrador de la aplicación');
 
 INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso_routes`) VALUES 
-(1, 'acceso_basico', 'Acceso básico', 'Acceso básico a la aplicacion', 'homepage');
+(1, 'acceso_basico', 'Acceso básico', 'Acceso básico a la aplicacion', 'homepage'),
+(2, 'acceso_mensajes', 'Eviar y recibir mensajes', 'Acceso al envio y recepcion de mensajes', 'mensajes');
 
 INSERT INTO `permisos_roles` (`permisos_id`, `roles_id`) VALUES ('1', '1');
 

@@ -1,3 +1,5 @@
+{% set sess_user = app.session.get('sess_user') %}
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -36,12 +38,12 @@
 		<section id="container" class="">
 			<!--header start-->
 				<header class="header white-bg">
-					<div class="sidebar-toggle-box">
+					{#<div class="sidebar-toggle-box">
 						<div data-original-title="Toggle Navigation" data-placement="right" class="icon-reorder tooltips"></div>
-					</div>
+					</div>#}
 					
 					<!--logo start-->
-						<a href="#" class="logo" >Flat<span>lab</span></a>
+						<a href="{{ path('homepage') }}" class="logo" >Vocatio<span>net</span></a>
 					<!--logo end-->
 					
 					<div class="nav notify-row" id="top_menu">
@@ -49,94 +51,59 @@
 						<!--  notification start -->
 						<ul class="nav top-menu">
 							<!-- settings start - ICONO DE NOTIFICACIONES-->
-								<li class="dropdown">
-									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-										<i class="icon-tasks"></i>
-										<span class="badge bg-success">3</span>
-									</a>
-									<ul class="dropdown-menu extended tasks-bar">
-										<div class="notify-arrow notify-arrow-green"></div>
-										<li>
-											<p class="green">You have 6 pending tasks</p>
-										</li>
-										<li>
-											<a href="#">
-												<div class="task-info">
-													<div class="desc">Dashboard v1.3</div>
-													<div class="percent">40%</div>
-												</div>
-												<div class="progress progress-striped">
-													<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
-														<span class="sr-only">40% Complete (success)</span>
-													</div>
-												</div>
-											</a>
-										</li>
-										<li>
-											<a href="#">
-												<div class="task-info">
-													<div class="desc">Dashboard v1.3</div>
-													<div class="percent">45%</div>
-												</div>
-												<div class="progress progress-striped active">
-													<div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-														<span class="sr-only">45% Complete</span>
-													</div>
-												</div>
+                            <!--<li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <i class="icon-tasks"></i>
+                                    <span class="badge bg-success">3</span>
+                                </a>
+                                <ul class="dropdown-menu extended tasks-bar">
+                                    <div class="notify-arrow notify-arrow-green"></div>
+                                    <li>
+                                        <p class="green">You have 6 pending tasks</p>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="task-info">
+                                                <div class="desc">Dashboard v1.3</div>
+                                                <div class="percent">40%</div>
+                                            </div>
+                                            <div class="progress progress-striped">
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%">
+                                                    <span class="sr-only">40% Complete (success)</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <div class="task-info">
+                                                <div class="desc">Dashboard v1.3</div>
+                                                <div class="percent">45%</div>
+                                            </div>
+                                            <div class="progress progress-striped active">
+                                                <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                                                    <span class="sr-only">45% Complete</span>
+                                                </div>
+                                            </div>
 
-											</a>
-										</li>
-										<li class="external">
-											<a href="#">See All Tasks</a>
-										</li>
-									</ul>
-								</li>
+                                        </a>
+                                    </li>
+                                    <li class="external">
+                                        <a href="#">See All Tasks</a>
+                                    </li>
+                                </ul>
+                            </li>-->
 							<!-- settings end -->
 							
-							<!-- inbox dropdown start - ICONO DE INBOX -->
-								<li id="header_inbox_bar" class="dropdown">
-									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-										<i class="icon-envelope-alt"></i>
-										<span class="badge bg-important">5</span>
-									</a>
-									<ul class="dropdown-menu extended inbox">
-										<div class="notify-arrow notify-arrow-red"></div>
-										<li>
-											<p class="red">You have 5 new messages</p>
-										</li>
-										<li>
-											<a href="#">
-												<span class="photo"><img alt="avatar" src="{{ asset('./img/avatar-mini.jpg') }}"></span>
-													<span class="subject">
-													<span class="from">Jonathan Smith</span>
-													<span class="time">Just now</span>
-												</span>
-												<span class="message">
-													Hello, this is an example msg.
-												</span>
-											</a>
-										</li>
-										<li>
-											<a href="#">
-												<span class="photo"><img alt="avatar" src="{{ asset('./img/avatar-mini2.jpg') }}"></span>
-													<span class="subject">
-													<span class="from">Jhon Doe</span>
-													<span class="time">10 mins</span>
-												</span>
-												<span class="message">
-												 Hi, Jhon Doe Bhai how are you ?
-												</span>
-											</a>
-										</li>
-										<li>
-											<a href="#">See all messages</a>
-										</li>
-									</ul>
-								</li>
-							<!-- inbox dropdown end -->
+                            <li id="header_inbox_bar" class="dropdown">
+                                <a class="" href="{{ path('mensajes') }}">
+                                    <i class="icon-envelope-alt"></i>
+                                    <span class="badge bg-important">0</span>
+                                </a>									
+                            </li>							
 						  
 							<!-- notification dropdown start - ICONO CAMPANA -->
-								<li id="header_notification_bar" class="dropdown">
+							<!--<li id="header_notification_bar" class="dropdown">
 									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 										<i class="icon-bell-alt"></i>
 										<span class="badge bg-warning">7</span>
@@ -165,7 +132,7 @@
 											<a href="#">See all notifications</a>
 										</li>
 									</ul>
-								</li>
+								</li>-->
 							<!-- notification dropdown end -->
 
 						</ul>
@@ -173,30 +140,23 @@
 					
 					<div class="top-nav ">
 						<ul class="nav pull-right top-menu">
-							<li>
-								<input type="text" class="form-control search" placeholder="Search">
-							</li>
-							<!-- user login dropdown start-->
-								<li class="dropdown">
-									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-										<img alt="" src="{{ asset('img/avatar1_small.jpg') }}">
-										<span class="username">Jhon Doue</span>
-										<b class="caret"></b>
-									</a>
-									<ul class="dropdown-menu extended logout">
-										<div class="log-arrow-up"></div>
-										<li><a href="#"><i class=" icon-suitcase"></i>Profile</a></li>
-										<li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-										<li><a href="#"><i class="icon-bell-alt"></i> Notification</a></li>
-										<li><a href="{{ path('logout') }}"><i class="icon-key"></i> Log Out</a></li>
-									</ul>
-								</li>
-							<!-- user login dropdown end -->
-
+                            <li class="dropdown">
+                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                    <img alt="" src="{{ sess_user.usuarioImagen|default(asset(gui_default_img)) }}" style="width:29px; height: 29px;">
+                                    <span class="username">{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</span>
+                                    <b class="caret"></b>
+                                </a>
+                                <ul class="dropdown-menu extended logout">
+                                    <div class="log-arrow-up"></div>
+                                    <li><a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}"><i class=" icon-suitcase"></i>{% trans  from "label" %}perfil{% endtrans %}</a></li>
+                                    <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
+                                    <li><a href="#"><i class="icon-bell-alt"></i> Notification</a></li>
+                                    <li><a href="{{ path('logout') }}"><i class="icon-key"></i> {% trans  from "label" %}cerrar.session{% endtrans %}</a></li>
+                                </ul>
+                            </li>
 						</ul>
 					</div>
 				</header>
-			<!--header end-->
 
 			{#
 			<!--sidebar start MENU VETICAL IZQUIERDO -->

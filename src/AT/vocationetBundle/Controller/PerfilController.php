@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Controlador de perfil de usuarios de vocationet
  * @package vocationetBundle
- * @Route("/vocation")
+ * @Route("/")
  */
 class PerfilController extends Controller
 {
@@ -34,7 +34,7 @@ class PerfilController extends Controller
     {
 		$tr = $this->get('translator');
 		$pr = $this->get('perfil');
-		error_reporting(true);
+		//error_reporting(true);
 
 		$perfil = $pr->getPerfil($perfilId);
 		
@@ -101,7 +101,7 @@ class PerfilController extends Controller
 		$tr = $this->get('translator');
 		
 		//error_reporting(true);
-		$id = $security->getSessionValue('id');
+		$id = 4;
 		$perfil = $pr->getPerfil($id);
 
 		if (!$perfil) {
@@ -111,7 +111,7 @@ class PerfilController extends Controller
 		if ($perfil['nombreRol'] == 'estudiante')
 		{
 			// Genero (masculino o femenino del usuario)
-			$generoAct = $perfil['usuarioGenero'];
+			$generoAct = ($perfil['usuarioGenero']) ? $perfil['usuarioGenero'] : '';
 			$generos = Array('masculino' => $tr->trans("masculino"), 'femenino' => $tr->trans("femenino"));
 
 			// String de la fecha de nacimiento
@@ -121,19 +121,20 @@ class PerfilController extends Controller
 			}
 
 			// Fecha planeacion
-			$stringDATE = '';
+			$stringFPDATE = '';
 			if ($perfil['usuarioFechaPlaneacion']) {
 				$stringFPDATE = $perfil['usuarioFechaPlaneacion']->format('Y-m-d');
 			}
 
 			//Colegios
-			$colegioAct = $perfil['colegioId'];
+			$colegioAct = ($perfil['colegioId']) ? $perfil['colegioId'] : '';
 			$empty_value_col = (!$colegioAct) ? $tr->trans("seleccione.un.colegio", array(), 'label') : false;
+			
 			$colegios = $pr->getColegios();
 			$colegios['otro'] = $tr->trans("otro", array(), 'label');
 
 			// Grados
-			$gradoAct = $perfil['usuarioCursoActual'];
+			$gradoAct = ($perfil['usuarioCursoActual']) ? $perfil['usuarioCursoActual'] : '';
 			$empty_value_grado = (!$gradoAct) ? $tr->trans("seleccione.un.grado", array(), 'label') : false;
 			$grados = $pr->getGrados();
 
@@ -147,7 +148,7 @@ class PerfilController extends Controller
 			   ->add('genero', 'choice', array('choices'  => $generos,  'preferred_choices' => array($generoAct), 'required' => true))
 			   ->add('colegio', 'choice', array('choices'  => $colegios,  'preferred_choices' => array($colegioAct), 'required' => false, 'empty_value' => $empty_value_col))
 			   ->add('colegio_otro', 'text', array('required' => false))
-			   ->add('grado', 'choice', array('choices'  => $grados,  'preferred_choices' => array($gradoAct), 'required' => false, 'empty_value' => $empty_value_grado))
+			   ->add('grado', 'choice', array('choices'  => $grados, 'preferred_choices' => array($gradoAct), 'required' => false, 'empty_value' => $empty_value_grado))
 			   ->add('imagen', 'file', array('required' => false))
 			   ->getForm();
 
@@ -174,7 +175,7 @@ class PerfilController extends Controller
 								$em->persist($colegio);
 								$em->flush();
 							} else {
-								$colegio = $em->getRepository('vocationetBundle:colegios')->findOneById($dataForm['colegio']);
+								$colegio = $em->getRepository('vocationetBundle:Colegios')->findOneById($dataForm['colegio']);
 							}
 							$usuario->setColegio($colegio);
 						}
@@ -212,7 +213,6 @@ class PerfilController extends Controller
 			$pendientes = Array('msjsinleer' => 10 );
 			return $this->render('vocationetBundle:Perfil:editperfilEstudiante.html.twig', array(
 						'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView()));
-			
 		}
 		else {
 
@@ -287,7 +287,6 @@ class PerfilController extends Controller
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1 
 	 * @Route("/sincronizar-perfil", name="perfil_sincronizar")
-	 * 
 	 */
 	 public function sincronizarAction()
 	 {
