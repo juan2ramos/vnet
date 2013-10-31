@@ -28,13 +28,15 @@
 						
 						<ul class="nav nav-pills nav-stacked">
 							<li class="active"><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
-							<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
-							<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-								<a href="#">
-									<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
-									<span class="label label-success pull-right r-activity">{{ pendiente.msjsinleer }}</span>
-								</a>
-							</li>
+							{% if sess_user.id == perfil.usuarioId %}
+								<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+								<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
+									<a href="#">
+										<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
+										<span class="label label-success pull-right r-activity">{{ pendiente.msjsinleer }}</span>
+									</a>
+								</li>
+							{% endif %}
 						</ul>
 					</section>
 

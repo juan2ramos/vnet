@@ -246,6 +246,7 @@ class LinkedinService
 
 	/**
 	 * Funcion para obtener estudios realizados del perfil de linkedin
+	 * - Acceso desde PerfilController
 	 * 
 	 * @author Camilo Quijano <camilo@altactic.com>
 	 * @version 1
@@ -281,11 +282,19 @@ class LinkedinService
 		}
 	}
 
+	/**
+	 * Funcion para obtener trabajos registrados del perfil de linkedin
+	 * - Acceso desde PerfilController
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param string $access_token access_token devuelto por linkedin
+     * @return array arreglo bidimencional de trabajos registrados con sus respectivos detalles.
+	 */
 	public function getPositions($access_token)
 	{
 		$arr_access_token = array('oauth2_access_token'   =>  $access_token);
 		$positions = $this->sendRequest('https://api.linkedin.com/v1/people/~/positions', $arr_access_token);
-		//print_r($positions);
 
 		if ($positions === false) {
 			return false;
@@ -320,31 +329,35 @@ class LinkedinService
 	}
 
 	/**
-	 *
+	 * Funcion para obtener ultima fecha de modificado del perfil de linkedin
+	 * - Acceso desde PerfilController
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param string $access_token access_token devuelto por linkedin
+     * @return Int Valor en timestamp con la última fecha de modificación del perfil de linkedin
 	 */
 	public function getLastModifiedTimestamp($access_token)
 	{
 		$arr_access_token = array('oauth2_access_token'   =>  $access_token);
 		$lastMod = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/last-modified-timestamp', $arr_access_token));
-		//summary
-		//print('aca');
-		//print_r($lastMod);
-		//print('aca');
 		return $lastMod;
 	}
 
+	/**
+	 * Funcion para obtener campos adicionales necesarios del perfil de linkedin
+	 * - Acceso desde PerfilController
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param string $access_token access_token devuelto por linkedin
+     * @return Array Arreglo con campos adicionales necesarios del perfil de linkedin
+	 */
 	public function getFieldsAdditional($access_token)
 	{
 		$arr_access_token = array('oauth2_access_token'   =>  $access_token);
 		$fields['perfilProfesional'] = (string)simplexml_load_string($this->sendRequest('https://api.linkedin.com/v1/people/~/summary', $arr_access_token));
-		//summary
-		//print('aca');
-		//print_r($lastMod);
-		//print('aca');
 		return $fields;
 	}
-
-	
-	
 }
 ?>

@@ -1,0 +1,45 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * MensajesArchivos
+ *
+ * @ORM\Table(name="mensajes_archivos")
+ * @ORM\Entity
+ */
+class MensajesArchivos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \Mensajes
+     *
+     * @ORM\ManyToOne(targetEntity="Mensajes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="mensaje_id", referencedColumnName="id")
+     * })
+     */
+    private $mensaje;
+
+    /**
+     * @var \Archivos
+     *
+     * @ORM\ManyToOne(targetEntity="Archivos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="archivo_id", referencedColumnName="id")
+     * })
+     */
+    private $archivo;
+
+
+}

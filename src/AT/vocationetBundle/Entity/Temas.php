@@ -28,6 +28,16 @@ class Temas
      */
     private $nombre;
 
+    /**
+     * @var \Carreras
+     *
+     * @ORM\ManyToOne(targetEntity="Carreras")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="carrera_id", referencedColumnName="id")
+     * })
+     */
+    private $carrera;
+
 
 
     /**
@@ -61,5 +71,28 @@ class Temas
     public function getNombre()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set carrera
+     *
+     * @param \AT\vocationetBundle\Entity\Carreras $carrera
+     * @return Temas
+     */
+    public function setCarrera(\AT\vocationetBundle\Entity\Carreras $carrera = null)
+    {
+        $this->carrera = $carrera;
+    
+        return $this;
+    }
+
+    /**
+     * Get carrera
+     *
+     * @return \AT\vocationetBundle\Entity\Carreras 
+     */
+    public function getCarrera()
+    {
+        return $this->carrera;
     }
 }

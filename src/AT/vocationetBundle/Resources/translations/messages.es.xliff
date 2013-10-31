@@ -68,8 +68,7 @@
             <trans-unit id="editperfil-2">
                 <source>perfil.editado.correctamente</source>
                 <target>Los datos que editaste se registrarón con exito</target>
-            </trans-unit>
-			
+            </trans-unit>			
 			
 			<!-- MENSAJES inbox-x -->
 			<trans-unit id="inbox-1">
@@ -88,8 +87,28 @@
                 <source>mensaje.enviado.correctamente</source>
                 <target>Mensaje enviado correctamente</target>
             </trans-unit>
-			
-			
+
+            <!-- SINCRONIZACION PERFIL LINKEDIN sync-x -->
+            <trans-unit id="sync-1">
+                <source>error.sincronizacion</source>
+                <target>Error en la sincronización</target>
+            </trans-unit>
+            <trans-unit id="sync-2">
+                <source>ocurrio.un.error.al.sincronizar.con.su.perfil.de.linkedin</source>
+                <target>Ocurrio un error en la sincronización con su perfil</target>
+            </trans-unit>
+            <trans-unit id="sync-3">
+                <source>perfil.sincronizado</source>
+                <target>Perfil sincronizado</target>
+            </trans-unit>
+            <trans-unit id="sync-4">
+                <source>perfil.sincronizado.correctamente</source>
+                <target>Su perfil ha sido sincronizado correctamente</target>
+            </trans-unit>
+            <trans-unit id="sync-5">
+                <source>no.se.encontratron.cambios.para.sincronizacion</source>
+                <target>Su perfil se encuentra actualizado</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

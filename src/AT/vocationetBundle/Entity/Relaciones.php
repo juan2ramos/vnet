@@ -57,10 +57,10 @@ class Relaciones
      *
      * @ORM\ManyToOne(targetEntity="Usuarios")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_copy_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="usuario2_id", referencedColumnName="id")
      * })
      */
-    private $usuarioCopy;
+    private $usuario2;
 
 
 
@@ -167,25 +167,25 @@ class Relaciones
     }
 
     /**
-     * Set usuarioCopy
+     * Set usuario2
      *
-     * @param \AT\vocationetBundle\Entity\Usuarios $usuarioCopy
+     * @param \AT\vocationetBundle\Entity\Usuarios $usuario2
      * @return Relaciones
      */
-    public function setUsuarioCopy(\AT\vocationetBundle\Entity\Usuarios $usuarioCopy = null)
+    public function setUsuario2(\AT\vocationetBundle\Entity\Usuarios $usuario2 = null)
     {
-        $this->usuarioCopy = $usuarioCopy;
+        $this->usuario2 = $usuario2;
     
         return $this;
     }
 
     /**
-     * Get usuarioCopy
+     * Get usuario2
      *
      * @return \AT\vocationetBundle\Entity\Usuarios 
      */
-    public function getUsuarioCopy()
+    public function getUsuario2()
     {
-        return $this->usuarioCopy;
+        return $this->usuario2;
     }
 }

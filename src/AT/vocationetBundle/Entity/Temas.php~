@@ -28,5 +28,15 @@ class Temas
      */
     private $nombre;
 
+    /**
+     * @var \Carreras
+     *
+     * @ORM\ManyToOne(targetEntity="Carreras")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="carrera_id", referencedColumnName="id")
+     * })
+     */
+    private $carrera;
+
 
 }

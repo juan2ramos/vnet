@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Controlador de perfil de usuarios de vocationet
  * @package vocationetBundle
- * @Route("/vocation")
+ * @Route("/")
  */
 class PerfilController extends Controller
 {
@@ -32,9 +32,13 @@ class PerfilController extends Controller
 	 */
     public function indexAction($perfilId)
     {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
 		$tr = $this->get('translator');
 		$pr = $this->get('perfil');
-		error_reporting(true);
+		//error_reporting(true);
 
 		$perfil = $pr->getPerfil($perfilId);
 		
@@ -93,15 +97,19 @@ class PerfilController extends Controller
      * @Template("vocationetBundle:Perfil:editperfilMentor.html.twig")
 	 * @Route("/edit-perfil", name="perfil_edit")
 	 * @param Request Form edicion
-     * 
+	 * @Method({"GET", "POST"})
 	 */
 	public function editAction(Request $request)
 	{
-		error_reporting(true);
-		$id = 7;
-		
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
 		$pr = $this->get('perfil');
 		$tr = $this->get('translator');
+		
+		//error_reporting(true);
+		$id = $security->getSessionValue('id');
 		$perfil = $pr->getPerfil($id);
 
 		if (!$perfil) {
@@ -111,7 +119,7 @@ class PerfilController extends Controller
 		if ($perfil['nombreRol'] == 'estudiante')
 		{
 			// Genero (masculino o femenino del usuario)
-			$generoAct = $perfil['usuarioGenero'];
+			$generoAct = ($perfil['usuarioGenero']) ? $perfil['usuarioGenero'] : '';
 			$generos = Array('masculino' => $tr->trans("masculino"), 'femenino' => $tr->trans("femenino"));
 
 			// String de la fecha de nacimiento
@@ -121,19 +129,20 @@ class PerfilController extends Controller
 			}
 
 			// Fecha planeacion
-			$stringDATE = '';
+			$stringFPDATE = '';
 			if ($perfil['usuarioFechaPlaneacion']) {
 				$stringFPDATE = $perfil['usuarioFechaPlaneacion']->format('Y-m-d');
 			}
 
 			//Colegios
-			$colegioAct = $perfil['colegioId'];
+			$colegioAct = ($perfil['colegioId']) ? $perfil['colegioId'] : '';
 			$empty_value_col = (!$colegioAct) ? $tr->trans("seleccione.un.colegio", array(), 'label') : false;
+			
 			$colegios = $pr->getColegios();
 			$colegios['otro'] = $tr->trans("otro", array(), 'label');
 
 			// Grados
-			$gradoAct = $perfil['usuarioCursoActual'];
+			$gradoAct = ($perfil['usuarioCursoActual']) ? $perfil['usuarioCursoActual'] : '';
 			$empty_value_grado = (!$gradoAct) ? $tr->trans("seleccione.un.grado", array(), 'label') : false;
 			$grados = $pr->getGrados();
 
@@ -147,7 +156,7 @@ class PerfilController extends Controller
 			   ->add('genero', 'choice', array('choices'  => $generos,  'preferred_choices' => array($generoAct), 'required' => true))
 			   ->add('colegio', 'choice', array('choices'  => $colegios,  'preferred_choices' => array($colegioAct), 'required' => false, 'empty_value' => $empty_value_col))
 			   ->add('colegio_otro', 'text', array('required' => false))
-			   ->add('grado', 'choice', array('choices'  => $grados,  'preferred_choices' => array($gradoAct), 'required' => false, 'empty_value' => $empty_value_grado))
+			   ->add('grado', 'choice', array('choices'  => $grados, 'preferred_choices' => array($gradoAct), 'required' => false, 'empty_value' => $empty_value_grado))
 			   ->add('imagen', 'file', array('required' => false))
 			   ->getForm();
 
@@ -174,7 +183,7 @@ class PerfilController extends Controller
 								$em->persist($colegio);
 								$em->flush();
 							} else {
-								$colegio = $em->getRepository('vocationetBundle:colegios')->findOneById($dataForm['colegio']);
+								$colegio = $em->getRepository('vocationetBundle:Colegios')->findOneById($dataForm['colegio']);
 							}
 							$usuario->setColegio($colegio);
 						}
@@ -212,7 +221,6 @@ class PerfilController extends Controller
 			$pendientes = Array('msjsinleer' => 10 );
 			return $this->render('vocationetBundle:Perfil:editperfilEstudiante.html.twig', array(
 						'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView()));
-			
 		}
 		else {
 
@@ -282,13 +290,19 @@ class PerfilController extends Controller
 	}
 
 	/**
+	 * Sincronizar el perfil de linkedin con vocationet
 	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
 	 * @Route("/sincronizar-perfil", name="perfil_sincronizar")
-	 * 
+	 * @Method("GET")
 	 */
 	 public function sincronizarAction()
 	 {
 		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
 		$linkedin = $this->get('linkedin');
 		$pr = $this->get('perfil');
 
@@ -298,7 +312,6 @@ class PerfilController extends Controller
 		$em = $this->getDoctrine()->getManager();
 		$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
 		$ultimaModDB = $usuario->getSyncLinkedin();
-
 		$ultimaModDB = ($ultimaModDB) ? ($ultimaModDB->getTimestamp() * 1000) : 0;
 
 		$ultimaModLinkedIn = $linkedin->getLastModifiedTimestamp($accessToken);
@@ -327,7 +340,6 @@ class PerfilController extends Controller
 				$em->flush();
 
 				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("perfil.sincronizado.correctamente")));
-				
 			}
 		}
 		else {
@@ -358,6 +370,7 @@ class PerfilController extends Controller
 		$hojaVida = $dataForm['hojaVida'];
 		$tarjetaProfesional = $dataForm['tarjetaProfesional'];
 
+		$countErrores = 0;
 		if (($hojaVida === null) && ($tarjetaProfesional === null)) {
 			$countErrores = 1;
 		}

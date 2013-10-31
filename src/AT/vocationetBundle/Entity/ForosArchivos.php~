@@ -1,0 +1,45 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ForosArchivos
+ *
+ * @ORM\Table(name="foros_archivos")
+ * @ORM\Entity
+ */
+class ForosArchivos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \Foros
+     *
+     * @ORM\ManyToOne(targetEntity="Foros")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="foro_id", referencedColumnName="id")
+     * })
+     */
+    private $foro;
+
+    /**
+     * @var \Archivos
+     *
+     * @ORM\ManyToOne(targetEntity="Archivos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="archivo_id", referencedColumnName="id")
+     * })
+     */
+    private $archivo;
+
+
+}

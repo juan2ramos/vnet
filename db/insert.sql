@@ -29,3 +29,14 @@ INSERT INTO `estudios` (`usuario_id`, `nombre_institucion`, `campo`, `titulo`, `
 
 INSERT INTO `trabajos` (`cargo`, `resumen`, `es_actual`, `empresa_id`, `usuario_id`) VALUES ('cargo 1', 'test resumen 1', '0', '1', '2');
 INSERT INTO `trabajos` (`cargo`, `resumen`, `es_actual`, `empresa_id`, `usuario_id`) VALUES ('cargo 2', 'resumen 2', '1', '2', '2');
+
+INSERT INTO `carreras` (`id`, `nombre`) VALUES ('1', 'Ingenieria ambiental'),
+('2', 'Ingenieria industrial'),
+('3', 'Ingenieria de sistemas'),
+('4', 'Ingenieria Civil'),
+('5', 'Ingenieria automotriz'),
+('6', 'Mecanica'),
+('7', 'Telecomunicaciones'),
+('8', 'Contaduria pública'),
+('9', 'Periodismo'),
+('10', 'Diseño');

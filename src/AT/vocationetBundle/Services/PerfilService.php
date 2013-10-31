@@ -44,7 +44,7 @@ class PerfilService
 		 */
 		$dql="SELECT u.id as usuarioId, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioFechaNacimiento, u.usuarioEmail,
 				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional,
-				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion,
+				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero,
 				r.nombre as nombreRol,
 				col.nombre as nombreCol, col.id as colegioId
 			FROM vocationetBundle:Usuarios u
@@ -257,7 +257,18 @@ class PerfilService
 			$newJob->setUsuario($Objusuario);
 			$newJob->setEmpresa($ObjCompany);
 			$newJob->setCargo($trabajo['title']);
-			$newJob->setEsActual($trabajo['isCurrent']);
+			$newJob->setResumen($trabajo['summary']);
+			if ($trabajo['startDateY'] && $trabajo['startDateM']) {
+				$newJob->setFechaInicio(new \DateTime($trabajo['startDateY'].'-'.$trabajo['startDateM'].'-01'));
+			}
+			if ($trabajo['endDateY'] && $trabajo['endDateM']) {
+				$newJob->setFechaFinal(new \DateTime($trabajo['endDateY'].'-'.$trabajo['endDateM'].'-01'));
+			}
+			$auxEA = ($trabajo['isCurrent']) ? 1 : 0;
+			$newJob->setEsActual($auxEA);
+			if ($trabajo['id']) {
+				$newJob->setIdLinkedin($trabajo['id']);
+			}
 			$em->persist($newJob);
 		}
 		$em->flush();
@@ -269,7 +280,7 @@ class PerfilService
 	 * 
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-	 * @return Array Con colegios (cursos)
+	 * @return Array Con colegios
 	 */
 	public function getColegios()
 	{
@@ -288,7 +299,7 @@ class PerfilService
 	 * 
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-	 * @return Array Con grados (cursos)
+	 * @return Array Con grados(cursos)
 	 */
 	public function getGrados()
 	{
