@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="Temas" table="temas">
+  <entity name="Archivos" table="archivos">
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="nombre" type="string" column="nombre" length="255" nullable="false"/>
-    <many-to-one field="carrera" target-entity="Carreras">
-      <join-columns>
-        <join-column name="carrera_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
+    <field name="archivoNombre" type="string" column="archivo_nombre" length="100" nullable="false"/>
+    <field name="archivoPath" type="string" column="archivo_path" length="100" nullable="false"/>
+    <field name="archivoSize" type="string" column="archivo_size" length="100" nullable="true"/>
+    <field name="created" type="datetime" column="created" nullable="true"/>
   </entity>
 </doctrine-mapping>

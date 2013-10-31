@@ -237,20 +237,6 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
--- Table `temas`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `temas` ;
-
-SHOW WARNINGS;
-CREATE  TABLE IF NOT EXISTS `temas` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `nombre` VARCHAR(255) NOT NULL ,
-  PRIMARY KEY (`id`) )
-ENGINE = InnoDB;
-
-SHOW WARNINGS;
-
--- -----------------------------------------------------
 -- Table `carreras`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `carreras` ;
@@ -265,6 +251,27 @@ ENGINE = InnoDB;
 SHOW WARNINGS;
 
 -- -----------------------------------------------------
+-- Table `temas`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `temas` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `temas` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `nombre` VARCHAR(255) NOT NULL ,
+  `carrera_id` INT NOT NULL COMMENT 'Id de la carrera' ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_temas_carreras1_idx` (`carrera_id` ASC) ,
+  CONSTRAINT `fk_temas_carreras1`
+    FOREIGN KEY (`carrera_id` )
+    REFERENCES `carreras` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
 -- Table `foros`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `foros` ;
@@ -273,20 +280,13 @@ SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `foros` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `titulo` VARCHAR(255) NOT NULL ,
-  `carrera_id` INT NOT NULL ,
   `tema_id` INT NOT NULL ,
   `uduario_id` INT NOT NULL ,
   `created` DATETIME NOT NULL ,
   `modified` DATETIME NOT NULL ,
-  PRIMARY KEY (`id`, `tema_id`) ,
-  INDEX `fk_foros_1` (`carrera_id` ASC) ,
+  PRIMARY KEY (`id`) ,
   INDEX `fk_foros_2` (`tema_id` ASC) ,
   INDEX `fk_foros_3` (`uduario_id` ASC) ,
-  CONSTRAINT `fk_foros_1`
-    FOREIGN KEY (`carrera_id` )
-    REFERENCES `carreras` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_foros_2`
     FOREIGN KEY (`tema_id` )
     REFERENCES `temas` (`id` )
@@ -418,6 +418,79 @@ CREATE  TABLE IF NOT EXISTS `relaciones` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `archivos`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `archivos` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `archivos` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Id unico por registro' ,
+  `archivo_nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre del archivo para el usuario cliente' ,
+  `archivo_path` VARCHAR(100) NOT NULL COMMENT 'Nombre real en la carpeta en donde se almacenan los archivos' ,
+  `archivo_size` VARCHAR(100) NULL COMMENT 'Tamaño del archivo' ,
+  `created` DATETIME NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `foros_archivos`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `foros_archivos` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `foros_archivos` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador único' ,
+  `foro_id` INT NOT NULL COMMENT 'Id del foro' ,
+  `archivo_id` INT NOT NULL COMMENT 'Id del archivo' ,
+  INDEX `fk_foros_has_archivos_archivos1_idx` (`archivo_id` ASC) ,
+  INDEX `fk_foros_has_archivos_foros1_idx` (`foro_id` ASC) ,
+  PRIMARY KEY (`id`) ,
+  CONSTRAINT `fk_foros_has_archivos_foros1`
+    FOREIGN KEY (`foro_id` )
+    REFERENCES `foros` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_foros_has_archivos_archivos1`
+    FOREIGN KEY (`archivo_id` )
+    REFERENCES `archivos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+COMMENT = 'Tabla para archivos adjuntos en un foro';
+
+SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `mensajes_archivos`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mensajes_archivos` ;
+
+SHOW WARNINGS;
+CREATE  TABLE IF NOT EXISTS `mensajes_archivos` (
+  `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificados único' ,
+  `mensaje_id` INT NOT NULL COMMENT 'Id del mensaje' ,
+  `archivo_id` INT NOT NULL COMMENT 'Id del archivo' ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_mensajes_has_archivos_archivos1_idx` (`archivo_id` ASC) ,
+  INDEX `fk_mensajes_has_archivos_mensajes1_idx` (`mensaje_id` ASC) ,
+  CONSTRAINT `fk_mensajes_has_archivos_mensajes1`
+    FOREIGN KEY (`mensaje_id` )
+    REFERENCES `mensajes` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_mensajes_has_archivos_archivos1`
+    FOREIGN KEY (`archivo_id` )
+    REFERENCES `archivos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+COMMENT = 'Tabla para controlar archivos adjuntos de un mensaje';
 
 SHOW WARNINGS;
 

@@ -32,6 +32,10 @@ class PerfilController extends Controller
 	 */
     public function indexAction($perfilId)
     {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
 		$tr = $this->get('translator');
 		$pr = $this->get('perfil');
 		//error_reporting(true);
@@ -93,15 +97,19 @@ class PerfilController extends Controller
      * @Template("vocationetBundle:Perfil:editperfilMentor.html.twig")
 	 * @Route("/edit-perfil", name="perfil_edit")
 	 * @param Request Form edicion
+	 * @Method({"GET", "POST"})
 	 */
 	public function editAction(Request $request)
 	{
 		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
 		$pr = $this->get('perfil');
 		$tr = $this->get('translator');
 		
 		//error_reporting(true);
-		$id = 4;
+		$id = $security->getSessionValue('id');
 		$perfil = $pr->getPerfil($id);
 
 		if (!$perfil) {
@@ -285,12 +293,16 @@ class PerfilController extends Controller
 	 * Sincronizar el perfil de linkedin con vocationet
 	 *
 	 * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1 
+     * @version 1
 	 * @Route("/sincronizar-perfil", name="perfil_sincronizar")
+	 * @Method("GET")
 	 */
 	 public function sincronizarAction()
 	 {
 		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
 		$linkedin = $this->get('linkedin');
 		$pr = $this->get('perfil');
 

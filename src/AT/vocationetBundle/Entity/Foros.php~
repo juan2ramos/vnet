@@ -17,7 +17,7 @@ class Foros
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -43,21 +43,9 @@ class Foros
     private $modified;
 
     /**
-     * @var \Carreras
-     *
-     * @ORM\ManyToOne(targetEntity="Carreras")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="carrera_id", referencedColumnName="id")
-     * })
-     */
-    private $carrera;
-
-    /**
      * @var \Temas
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Temas")
+     * @ORM\ManyToOne(targetEntity="Temas")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="tema_id", referencedColumnName="id")
      * })

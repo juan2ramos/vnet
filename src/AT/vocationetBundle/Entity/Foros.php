@@ -17,7 +17,7 @@ class Foros
      *
      * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
@@ -43,21 +43,9 @@ class Foros
     private $modified;
 
     /**
-     * @var \Carreras
-     *
-     * @ORM\ManyToOne(targetEntity="Carreras")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="carrera_id", referencedColumnName="id")
-     * })
-     */
-    private $carrera;
-
-    /**
      * @var \Temas
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Temas")
+     * @ORM\ManyToOne(targetEntity="Temas")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="tema_id", referencedColumnName="id")
      * })
@@ -75,19 +63,6 @@ class Foros
     private $uduario;
 
 
-
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Foros
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    
-        return $this;
-    }
 
     /**
      * Get id
@@ -169,35 +144,12 @@ class Foros
     }
 
     /**
-     * Set carrera
-     *
-     * @param \AT\vocationetBundle\Entity\Carreras $carrera
-     * @return Foros
-     */
-    public function setCarrera(\AT\vocationetBundle\Entity\Carreras $carrera = null)
-    {
-        $this->carrera = $carrera;
-    
-        return $this;
-    }
-
-    /**
-     * Get carrera
-     *
-     * @return \AT\vocationetBundle\Entity\Carreras 
-     */
-    public function getCarrera()
-    {
-        return $this->carrera;
-    }
-
-    /**
      * Set tema
      *
      * @param \AT\vocationetBundle\Entity\Temas $tema
      * @return Foros
      */
-    public function setTema(\AT\vocationetBundle\Entity\Temas $tema)
+    public function setTema(\AT\vocationetBundle\Entity\Temas $tema = null)
     {
         $this->tema = $tema;
     
