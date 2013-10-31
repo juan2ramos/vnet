@@ -34,6 +34,7 @@ class MensajesController extends Controller
         $form = $this->createMensajeForm();
         
         
+        
         return array(
             'form' => $form->createView(),
         );
@@ -49,8 +50,44 @@ class MensajesController extends Controller
      */
     public function enviarMensajeAction(Request $request)
     {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
-        return new Response();
+        $form = $this->createMensajeForm();
+        if($request->getMethod() == 'POST') 
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                
+                if($this->validateMensajeForm($data))
+                {
+                    $mensaje_serv = $this->get('mensajes');
+                    $usuarioId = $security->getSessionValue('id');
+                    
+                    if($mensaje_serv->enviarMensaje($usuarioId, $data['to'], $data['subject'], $data['message']))
+                    {
+                        $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mensaje.enviado"), "text" => $this->get('translator')->trans("mensaje.enviado.correctamente")));
+                    }
+                    else
+                    {
+                        $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.envio"), "text" => $this->get('translator')->trans("ocurrio.error.envio.mensaje")));
+                    }
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            }
+        }       
+                
+        return $this->redirect($this->generateUrl('mensajes'));
     }
     
     /**
@@ -78,6 +115,26 @@ class MensajesController extends Controller
            ->getForm();
         
         return $form;
+    }
+   
+    /**
+     * Funcion para validar el formulario de mensajes
+     * 
+     * @param array $dataForm arreglo con los datos del formulario
+     * @return boolean
+     */
+    private function validateMensajeForm($dataForm)
+    {
+        $validate = false;
+        
+        if(count($dataForm['to']) > 0 )
+        {   
+            if(!empty($dataForm['subject']) && !empty($dataForm['message']))
+            {
+                $validate = true;
+            }
+        }
+        return $validate;
     }
 }
 ?>

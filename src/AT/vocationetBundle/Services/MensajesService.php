@@ -54,6 +54,12 @@ class MensajesService
         
         return $toList;
     }
+
+    
+    public function enviarMensaje($fromUsuarioId, $toList, $subject, $message)
+    {
+        return true;
+    }
     
 }
 ?>
