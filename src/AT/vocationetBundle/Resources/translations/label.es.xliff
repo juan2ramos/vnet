@@ -391,6 +391,10 @@
                 <source>para.estudiantes</source>
                 <target>para estudiantes</target>
             </trans-unit>
+            <trans-unit id="login-12">
+                <source>cerrar.session</source>
+                <target>Cerrar sesión</target>
+            </trans-unit>
             
             <!-- REGISTRO registro-x -->
             <trans-unit id="registro-1">
@@ -463,9 +467,47 @@
                 <target>Guardar</target>
 			</trans-unit>
 
-            <!--
-				
-            -->
+            <!-- MENSAJES inbox-x -->
+			<trans-unit id="inbox-1">
+                <source>redactar</source>
+                <target>Nuevo mensaje</target>
+			</trans-unit>
+			<trans-unit id="inbox-2">
+                <source>inbox</source>
+                <target>Bandeja de entrada</target>
+			</trans-unit>
+			<trans-unit id="inbox-3">
+                <source>enviados</source>
+                <target>Enviados</target>
+			</trans-unit>
+			<trans-unit id="inbox-4">
+                <source>importantes</source>
+                <target>Importantes</target>
+			</trans-unit>
+			<trans-unit id="inbox-5">
+                <source>eliminados</source>
+                <target>Eliminados</target>
+			</trans-unit>
+			<trans-unit id="inbox-6">
+                <source>buscar.mensaje</source>
+                <target>Buscar mensaje</target>
+			</trans-unit>
+			<trans-unit id="inbox-7">
+                <source>para</source>
+                <target>Para</target>
+			</trans-unit>
+			<trans-unit id="inbox-8">
+                <source>asunto</source>
+                <target>Asunto</target>
+			</trans-unit>
+			<trans-unit id="inbox-9">
+                <source>mensaje</source>
+                <target>Mensaje</target>
+			</trans-unit>
+			<trans-unit id="inbox-10">
+                <source>enviar.mensaje</source>
+                <target>Enviar</target>
+			</trans-unit>
   
         </body>
     </file>
