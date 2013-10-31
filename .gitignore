@@ -6,6 +6,10 @@
 !app/cache/.gitkeep
 !app/logs/.gitkeep
 !db/.gitkeep
+/uploads/mensajes/*
+!uploads/mensajes/.gitkeep
+/uploads/foros/*
+!uploads/foros/.gitkeep
 /build/
 /vendor/
 /bin/
