@@ -508,6 +508,10 @@
                 <source>enviar.mensaje</source>
                 <target>Enviar</target>
 			</trans-unit>
+			<trans-unit id="inbox-11">
+                <source>no.result.to.mensajes</source>
+                <target>No se encuentra la persona</target>
+			</trans-unit>
   
         </body>
     </file>
