@@ -44,7 +44,7 @@ class FileService
                 {
                     $size = $file->getClientSize();
                     $name = $file->getClientOriginalName();
-                    $ext = $this->getExtension($name, $file->guessExtension());
+                    $ext = $this->getExtension($name);
                     $pathName = uniqid('f', true).'.'.$ext;
                     $filePath = $path.$pathName;
 

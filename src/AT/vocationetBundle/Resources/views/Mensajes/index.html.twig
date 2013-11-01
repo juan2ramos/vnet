@@ -73,17 +73,16 @@
   {# MENU IZQUIERDO #}      
   <ul class="inbox-nav inbox-divider">
       <li class="active">
-          <a href="#"><i class="icon-inbox"></i> {% trans  from "label" %}inbox{% endtrans %}<span class="label label-danger pull-right">0</span></a>
-
+          <a style="cursor:pointer;" id="btn-inbox"><i class="icon-inbox"></i> {% trans  from "label" %}inbox{% endtrans %}<span class="label label-danger pull-right inbox-badge"></span></a>
       </li>
       <li>
-          <a href="#"><i class="icon-envelope-alt"></i> {% trans  from "label" %}enviados{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-unread"><i class="icon-check-empty"></i> {% trans  from "label" %}sin.leer{% endtrans %}</a>
       </li>
       <li>
-          <a href="#"><i class="icon-bookmark-empty"></i> {% trans  from "label" %}importantes{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-sent"><i class="icon-envelope-alt"></i> {% trans  from "label" %}enviados{% endtrans %}</a>
       </li>
       <li>
-          <a href="#"><i class=" icon-trash"></i> {% trans  from "label" %}eliminados{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-trash"><i class=" icon-trash"></i> {% trans  from "label" %}eliminados{% endtrans %}</a>
       </li>
   </ul>
 
@@ -91,48 +90,16 @@
         
 <aside class="lg-side">
   <div class="inbox-head">
-      <h3>{% trans  from "label" %}inbox{% endtrans %}</h3>
-      <form class="pull-right position" action="#">
+      <h3>{% trans  from "label" %}mensajes{% endtrans %}</h3>
+      {#<form class="pull-right position" action="#">
           <div class="input-append">
               <input type="text"  placeholder="{% trans  from "label" %}buscar.mensaje{% endtrans %}" class="sr-input">
               <button type="button" class="btn sr-btn"><i class="icon-search"></i></button>
           </div>
-      </form>
+      </form>#}
   </div>
-  <div class="inbox-body">
-      <table class="table table-inbox table-hover">
-        <tbody>
-          <tr class="unread">
-              <td class="inbox-small-cells"><i class="icon-star"></i></td>
-              <td class="view-message  dont-show">Vector Lab</td>
-              <td class="view-message ">Lorem ipsum dolor imit set.</td>
-              <td class="view-message  inbox-small-cells"></td>
-              <td class="view-message  text-right">9:27 AM</td>
-          </tr>
-          <tr class="unread">
-              <td class="inbox-small-cells"><i class="icon-star"></i></td>
-              <td class="view-message dont-show">Mosaddek Hossain</td>
-              <td class="view-message">Hi Bro, How are you?</td>
-              <td class="view-message inbox-small-cells"></td>
-              <td class="view-message text-right">March 15</td>
-          </tr>
-          <tr class="">
-              <td class="inbox-small-cells"><i class="icon-star"></i></td>
-              <td class="view-message dont-show">Dulal khan</td>
-              <td class="view-message">Lorem ipsum dolor sit amet</td>
-              <td class="view-message inbox-small-cells"></td>
-              <td class="view-message text-right">June 15</td>
-          </tr>
-          <tr class="">
-              <td class="inbox-small-cells"><i class="icon-star"></i></td>
-              <td class="view-message dont-show">Facebook</td>
-              <td class="view-message">Dolor sit amet, consectetuer adipiscing</td>
-              <td class="view-message inbox-small-cells"></td>
-              <td class="view-message text-right">April 01</td>
-          </tr>
-          
-      </tbody>
-      </table>
+  <div class="inbox-body" id="inbox-tbody">
+    
   </div>
 </aside>
 </div>
@@ -144,6 +111,78 @@
         $(".chosen").chosen({
             width: "100%",
             no_results_text: "{% trans  from "label" %}no.result.to.mensajes{% endtrans %}",
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
+            $.get("{{ path('get_mensajes') }}", {},
+                function(data){
+                    $("#inbox-tbody").html(data);
+            });
+            
+            
+            $("#btn-inbox").on('click', function(e){
+                e.preventDefault();
+                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
+                $.get("{{ path('get_mensajes') }}", {},
+                    function(data){
+                        $("#inbox-tbody").html(data);
+                });
+                
+                $(".inbox-nav li").removeClass('active');
+                $(this).parent().addClass('active');
+                
+            });
+            $("#btn-sent").on('click', function(e){
+                e.preventDefault();
+                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
+                $.get("{{ path('get_mensajes', {'tipo':1}) }}", {},
+                    function(data){
+                        $("#inbox-tbody").html(data);
+                });
+                
+                $(".inbox-nav li").removeClass('active');
+                $(this).parent().addClass('active');
+            });
+            $("#btn-unread").on('click', function(e){
+                e.preventDefault();
+                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
+                $.get("{{ path('get_mensajes', {'tipo':2, 'estado':0}) }}", {},
+                    function(data){
+                        $("#inbox-tbody").html(data);
+                });
+                
+                $(".inbox-nav li").removeClass('active');
+                $(this).parent().addClass('active');
+            });
+            $("#btn-trash").on('click', function(e){
+                e.preventDefault();
+                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
+                $.get("{{ path('get_mensajes', {'tipo':0, 'estado':2}) }}", {},
+                    function(data){
+                        $("#inbox-tbody").html(data);
+                });
+                
+                $(".inbox-nav li").removeClass('active');
+                $(this).parent().addClass('active');
+            });
+            
+            $("#inbox-tbody").on('click', '.lnk-msg', function(e){
+                e.preventDefault();
+                
+                var mid = $(this).data('id');
+                var route = '{{ path('show_mensaje', {'mid':'MID'}) }}';
+                route = route.replace("MID", mid);
+                
+                
+                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
+                $.get(route, {},
+                    function(data){
+                        $("#inbox-tbody").html(data);
+                        $().alertbadge();
+                });
+            });
         });
     </script>
 {% endblock script %}

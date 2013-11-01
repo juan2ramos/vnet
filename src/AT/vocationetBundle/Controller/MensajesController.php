@@ -138,5 +138,88 @@ class MensajesController extends Controller
         }
         return $validate;
     }
+    
+    /**
+     * Accion ajax para obtener mensajes
+     * 
+     * @Route("/get/{tipo}/{estado}", name="get_mensajes", defaults={"tipo"=2, "estado"=null})
+     * @Template("vocationetBundle:Mensajes:mensajes.html.twig")
+     * @param integer $tipo tipo de mensaje, 1: enviado, 2:recibido
+     * @param integer $estado estado de mensaje, 0: sin leer, 1: leido, 2:eliminado
+     */
+    public function mensajesAction($tipo, $estado)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $mensajes_serv = $this->get('mensajes');
+        $usuarioId = $security->getSessionValue('id');
+        
+        $mensajes = $mensajes_serv->getMensajes($usuarioId, $tipo, $estado);
+        
+//        $security->debug($mensajes);
+        
+        
+        
+        return array(
+            'mensajes' => $mensajes,
+        );        
+    }
+    
+    /**
+     * Accion ajax para mostrar el contenido de un mensaje
+     * 
+     * @Route("/mensaje/{mid}", name="show_mensaje")
+     * @Template("vocationetBundle:Mensajes:show.html.twig")
+     * @param integer $mid id de mensaje
+     */
+    public function showAction($mid)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $mensajes_serv = $this->get('mensajes');
+        $usuarioId = $security->getSessionValue('id');
+        
+        $mensaje = $mensajes_serv->getMensaje($usuarioId, $mid);
+        
+        // marcar mensaje como leido
+        $mensajes_serv->updateEstadoMensaje($usuarioId, $mid, 1);
+        
+        
+        return array(
+            'mid' => $mid,
+            'mensaje' => $mensaje['mensaje'],
+            'toList' => $mensaje['toList'],
+            'adjuntos' => $mensaje['adjuntos']
+        );
+    }
+    
+    
+    /**
+     * Accion ajax para obtener la cantidad de mensajes sin leer
+     * 
+     * @Route("/count", name="count_mensajes")
+     * @return string contador en formato json
+     */
+    public function countAction()
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+                
+        $mensajes_serv = $this->get('mensajes');
+        $usuarioId = $security->getSessionValue('id');
+        
+        $count = $mensajes_serv->countMensajesSinLeer($usuarioId);
+        
+        print(json_encode(array(
+            'mensajes_sin_leer' => $count
+        )));
+        
+        return new Response();
+    }
 }
 ?>
