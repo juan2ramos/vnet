@@ -101,7 +101,8 @@
 			}
 			});
 
-			$('.commentresponse').on('click', function(e){
+			$('.commentresponse').on('click',"a", function(e){
+				event.preventDefault();
 				comentId = $(this).data('comentid');
 				$('#commentresponseid'+comentId).css('display','inline');
 				//text = $('#txt_comment_rc'+comentId).val();

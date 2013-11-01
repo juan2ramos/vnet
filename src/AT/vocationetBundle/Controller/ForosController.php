@@ -127,11 +127,12 @@ class ForosController extends Controller
 
 		
 
-		$javascript = "<script>$('.commentresponse').on('click', function(e){
+		/*$javascript = "<script>$('.commentresponse').on('click', function(e){
 				comentId = $(this).data('comentid');
 				$('#commentresponseid'+comentId).css('display','inline');
 			});</script>";
-	
+	*/
+	$javascript='';
 		
 
         
