@@ -1,0 +1,27 @@
+{# CARRERAS #}
+{% if carreras %}
+	<section class="panel">
+		<header class="panel-heading">{% trans from "label" %}carreras{% endtrans %}</header>
+		<div class="list-group">
+			{% for car in carreras %}
+				<a class="list-group-item {% if actual.carreraId == car.id %}active{% endif %}" href="{{ path('foros_temas', {'id' : car.id }) }}">
+					{{ car.nombre }}
+				</a>
+			{% endfor %}
+		</div>
+	</section>
+{% endif %}
+
+{# TEMAS #}
+<section class="panel">
+	<header class="panel-heading">{% trans from "label" %}temas{% endtrans %}</header>
+	<div class="list-group">
+		{% for tem in temas %}
+			<a class="list-group-item {% if actual.temaId == tem.id %}active{% endif %}" href="{{ path('foros_temas', {'id' : actual.carreraId, 'temaId' : tem.id }) }}">
+				{{ tem.nombre }}
+			</a>
+		{% else %}
+			<p class="list-group-item">{% trans from "label" %}no.hay.temas{% endtrans %}</p>
+		{% endfor %}
+	</div>
+</section>

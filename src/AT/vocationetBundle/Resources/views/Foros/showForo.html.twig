@@ -1,0 +1,113 @@
+{% extends "::base.html.twig" %}
+
+
+
+{% block body %}
+{% set foroId = foro.id %}
+{% set usuarioId = sess_user.id %}
+							{% set imagen = sess_user.usuarioImagen %}
+
+<div class="row">
+		<div class="col-lg-8">
+					<a href='{{ path('foros_temas', {'id': actual.carreraId, 'temaId' : actual.temaId }) }}'>volver</a>
+				 <section class="panel">
+                          <header class="panel-heading">
+                              Chats
+                          </header>
+							<div class="panel-body">
+								<div class="timeline-messages">
+									{% for comment in comentarios %}
+										{% set imagen = comment.usuarioImagen %}
+										{% set nombre = comment.usuarioNombre ~ ' ' ~ comment.usuarioApellido  %}
+										{% set content = comment.texto %}
+										{% set usuarioId = comment.usuarioId %}
+										{% set fechaCreacion = comment.created %}
+										{% set respuesta = 0 %}
+										{% set comentarioId = comment.id %}
+										{% include 'vocationetBundle:Foros:comentarioShow.html.twig' %}
+
+									  {% if comment.cr is defined %}
+									 
+
+									  {% for comresp in comment.cr %}
+										 {% set imagen = comresp.usuarioImagen %}
+										 {% set nombre = comresp.usuarioNombre ~ ' ' ~ comresp.usuarioApellido  %}
+										 {% set content = comresp.texto %}
+										 {% set usuarioId = comresp.usuarioId %}
+										 {% set fechaCreacion = comresp.created %}
+										 {% set respuesta = 1 %}
+										 {% include 'vocationetBundle:Foros:comentarioShow.html.twig' %}
+										 
+									    {% endfor %}
+									
+
+									  {% endif %}
+									  {# RESPONDER AL COMENTARIO #}
+									    {% set respuesta = 1 %}
+									    {% set comentarioId = comment.id %}
+									    <div id='divnew1{{ foroId }}{{ comentarioId }}'></div>
+									    <div STYLE='display:none;' id='commentresponseid{{ comment.id }}' >
+											{% include 'vocationetBundle:Foros:comentarioNew.html.twig' %}
+										</div>
+                                  {% endfor %}
+                                  <div id='divnew0{{ foroId }}0'></div>
+                              </div>
+							{% set respuesta = 0 %}
+							{% set comentarioId = 0 %}
+							
+                            {% include 'vocationetBundle:Foros:comentarioNew.html.twig' %}
+                           
+                          </div>
+                      </section>
+
+
+
+
+
+				
+			
+		</div>
+		<div class="col-lg-4">
+			{% include 'vocationetBundle:Foros:sidebar.html.twig' %}
+		</div>
+{% endblock body %}
+
+{% block script %}
+	<script>
+		$(".btn_comment").on('click',function(e) {
+			e.preventDefault();
+			//id = {{ foro.id }};
+			id = $(this).data('foroid');
+			tipo = $(this).data('tipo');
+			cp = $(this).data('com');
+			txt = $.trim($("#foro_"+tipo+id+cp).val());
+			alert('ok');
+			alert(id);
+
+			//if (type  == 'rc'){
+				//$('#commentresponseid'+id).css('display', 'none');
+			//}
+        
+			if (txt != '')
+			{
+				$("#foro_"+tipo+id+cp).val('');
+				$('#divnew'+tipo+id+cp).append('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');
+				$.post('{{ path('crear_comentario')}}', { idforo: {{ foro.id }}, comentario: txt, tipo: tipo },
+				   function(data){
+						$('#divnew'+tipo+id+cp+' .loading-center').remove();
+						$('#divnew'+tipo+id+cp).append(data);
+					}
+				);
+			}
+			});
+
+			$('.commentresponse').on('click', function(e){
+				comentId = $(this).data('comentid');
+				$('#commentresponseid'+comentId).css('display','inline');
+				//text = $('#txt_comment_rc'+comentId).val();
+				//$('#txt_comment_rc'+comentId).val('');
+				//$('#txt_comment_rc'+comentId).focus();
+				//$('#txt_comment_rc'+comentId).val(text);
+			});
+	</script>
+{% endblock script%}

@@ -1,0 +1,27 @@
+{#
+	usuarioId = Id del usuario
+	imagen = 'Imagen del usuario que hace el comentario'
+	nombre = 'Nombre completo del usuario que hace el comentario'
+	content = 'Contentido o mentario'
+	fechaCreacion = "ObjDATE de fecha de creacion" 
+	respuesta = '1 => Si, 2 => No'
+	comentarioId = Id del comentario (Solo para principal, para respuesta no es necesario)
+#}
+{% set pathUser = path('perfil', {'perfilId': usuarioId }) %}
+{% set imagen = (imagen) ? imagen : gui_default_img %}
+
+<!-- Comment -->
+	<div class="msg-time-chat" {% if respuesta %}STYLE='padding-left:80px'{% endif %}>
+		<a href="{{ pathUser }}" class="message-img"><img class="avatar" src="{{ asset(imagen) }}" alt=""></a>
+		<div class="message-body msg-out" STYLE='margin-left:{% if respuesta %}60{% else %}80{% endif %}px;'>
+			<div class="text">
+				<p class="attribution"><a href="{{ pathUser }}">{{ nombre }}</a> {{ fechaCreacion|date('h:i a - d/M/Y') }}</p>
+				<p>{{ content }}</p>
+				{% if respuesta == 0 %}
+				<p STYLE='text-align:right'><a data-comentid='{{ comentarioId  }}' data-foroid="{{ foroId }}" class='commentresponse'>responder</a></p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+<!-- /comment -->
+

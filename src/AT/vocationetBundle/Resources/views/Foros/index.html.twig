@@ -36,7 +36,7 @@
 						</thead>
 						<tbody>
 							{% for f in foros %}
-								<tr class="foro">
+								<tr class="foro" data-href="{{ path('foros_temas', {'id': actual.carreraId, 'temaId' : actual.temaId, 'foroId' : f.id }) }}">
 									<td>
 										<div>
 											<h4 class="list-group-item-heading">{{ f.id }}- {{ f.titulo }}</h4>
@@ -47,7 +47,6 @@
 									<td><div>{{ f.countComent}}</div></td>
 									<td><div>{% if f.created %}{{ f.created|date('Y/m/d') }}{% endif %}</div></td>	
 								</tr>
-								
 							{% endfor %}
 						</tbody>
 					</table>
@@ -58,36 +57,9 @@
 				{% endif %}
 			</section>
 		</div>
-		
 
 		<div class="col-lg-4">
-			{# CARRERAS #}
-			{% if carreras %}
-				<section class="panel">
-					<header class="panel-heading">{% trans from "label" %}carreras{% endtrans %}</header>
-					<div class="list-group">
-						{% for car in carreras %}
-							<a class="list-group-item {% if actual.carreraId == car.id %}active{% endif %}" href="{{ path('foros_temas', {'id' : car.id }) }}">
-								{{ car.nombre }}
-							</a>
-						{% endfor %}
-					</div>
-				</section>
-			{% endif %}
-
-			{# TEMAS #}
-			<section class="panel">
-				<header class="panel-heading">{% trans from "label" %}temas{% endtrans %}</header>
-				<div class="list-group">
-					{% for tem in temas %}
-						<a class="list-group-item {% if actual.temaId == tem.id %}active{% endif %}" href="{{ path('foros_temas', {'id' : actual.carreraId, 'temaId' : tem.id }) }}">
-							{{ tem.nombre }}
-						</a>
-					{% else %}
-						<p class="list-group-item">{% trans from "label" %}no.hay.temas{% endtrans %}</p>
-					{% endfor %}
-				</div>
-			</section>
+			{% include 'vocationetBundle:Foros:sidebar.html.twig' %}
 		</div>
 	</div>
 {% endblock body %}
@@ -98,4 +70,10 @@
 
     <!--script for this page only-->
     <script src="{{ asset('js/dynamic-table.js') }}"></script>
+
+    <script>
+		$('.foro').click(function(){
+			window.location = $(this).data('href');
+		})
+    </script>
 {% endblock script%}

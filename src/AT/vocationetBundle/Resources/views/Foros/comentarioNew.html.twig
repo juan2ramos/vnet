@@ -1,0 +1,17 @@
+{% set pathUser = path('perfil', {'perfilId': usuarioId }) %}
+{% set imagen = (imagen) ? imagen : gui_default_img %}
+
+<div class="msg-time-chat" {% if respuesta %}STYLE='padding-left:80px'{% endif %}>
+	<a href="{{ pathUser }}" class="message-img"><img class="avatar" src="{{ asset(imagen) }}" alt=""></a>
+	<div class="message-body msg-out" STYLE='margin-left:{% if respuesta %}60{% else %}80{% endif %}px;'>
+		<div class="text ">
+			<div class="input-group m-bot15">
+				<textarea class="form-control" id='foro_{{ respuesta }}{{ foroId }}{{ comentarioId }}' STYLE='width:100%;resize:vertical' rows="1"></textarea>
+				<span class="input-group-btn ">
+					<button class="btn btn-info btn_comment" data-tipo={{ respuesta }} data-foroid='{{ foroId }}' data-com={{ comentarioId }} type="button">participar</button>
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+
