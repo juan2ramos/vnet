@@ -11,7 +11,7 @@
 {% set imagen = (imagen) ? imagen : gui_default_img %}
 
 <!-- Comment -->
-	<div class="msg-time-chat" {% if respuesta %}STYLE='padding-left:80px'{% endif %}>
+	<div class="msg-time-chat" STYLE='{% if respuesta %}padding-left:80px;{% endif %}padding-top:2px !important;'>
 		<a href="{{ pathUser }}" class="message-img"><img class="avatar" src="{{ asset(imagen) }}" alt=""></a>
 		<div class="message-body msg-out" STYLE='margin-left:{% if respuesta %}60{% else %}80{% endif %}px;'>
 			<div class="text">

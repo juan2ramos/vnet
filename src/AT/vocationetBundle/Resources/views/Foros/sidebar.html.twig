@@ -18,7 +18,7 @@
 	<div class="list-group">
 		{% for tem in temas %}
 			<a class="list-group-item {% if actual.temaId == tem.id %}active{% endif %}" href="{{ path('foros_temas', {'id' : actual.carreraId, 'temaId' : tem.id }) }}">
-				{{ tem.nombre }}
+				{{ tem.nombre }} ({{ tem.cantidadForos }})
 			</a>
 		{% else %}
 			<p class="list-group-item">{% trans from "label" %}no.hay.temas{% endtrans %}</p>

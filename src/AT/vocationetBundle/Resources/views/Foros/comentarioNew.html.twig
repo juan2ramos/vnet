@@ -6,9 +6,9 @@
 	<div class="message-body msg-out" STYLE='margin-left:{% if respuesta %}60{% else %}80{% endif %}px;'>
 		<div class="text ">
 			<div class="input-group m-bot15">
-				<textarea class="form-control" id='foro_{{ respuesta }}{{ foroId }}{{ comentarioId }}' STYLE='width:100%;resize:vertical' rows="1"></textarea>
-				<span class="input-group-btn ">
-					<button class="btn btn-info btn_comment" data-tipo={{ respuesta }} data-foroid='{{ foroId }}' data-com={{ comentarioId }} type="button">participar</button>
+				<textarea class="form-control" id='foro_{{ respuesta }}{{ foroId }}{{ comentarioId }}' STYLE='width:100%;resize:vertical;' rows="2"></textarea>
+				<span class="input-group-btn" STYLE='vertical-align:top;'>
+					<button class="btn btn-info btn_comment" data-tipo={{ respuesta }} data-foroid='{{ foroId }}' data-com={{ comentarioId }} type="button" STYLE='margin-left:5px;'>participar</button>
 				</span>
 			</div>
 		</div>
