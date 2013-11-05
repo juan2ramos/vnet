@@ -24,9 +24,16 @@ class Foros
     /**
      * @var string
      *
-     * @ORM\Column(name="titulo", type="string", length=255, nullable=false)
+     * @ORM\Column(name="foro_titulo", type="string", length=255, nullable=false)
      */
-    private $titulo;
+    private $foroTitulo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="foro_texto", type="text", nullable=true)
+     */
+    private $foroTexto;
 
     /**
      * @var \DateTime
@@ -43,6 +50,16 @@ class Foros
     private $modified;
 
     /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
      * @var \Temas
      *
      * @ORM\ManyToOne(targetEntity="Temas")
@@ -51,16 +68,6 @@ class Foros
      * })
      */
     private $tema;
-
-    /**
-     * @var \Usuarios
-     *
-     * @ORM\ManyToOne(targetEntity="Usuarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="uduario_id", referencedColumnName="id")
-     * })
-     */
-    private $uduario;
 
 
 }

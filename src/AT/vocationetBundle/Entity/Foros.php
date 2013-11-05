@@ -24,9 +24,16 @@ class Foros
     /**
      * @var string
      *
-     * @ORM\Column(name="titulo", type="string", length=255, nullable=false)
+     * @ORM\Column(name="foro_titulo", type="string", length=255, nullable=false)
      */
-    private $titulo;
+    private $foroTitulo;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="foro_texto", type="text", nullable=true)
+     */
+    private $foroTexto;
 
     /**
      * @var \DateTime
@@ -43,6 +50,16 @@ class Foros
     private $modified;
 
     /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
      * @var \Temas
      *
      * @ORM\ManyToOne(targetEntity="Temas")
@@ -51,16 +68,6 @@ class Foros
      * })
      */
     private $tema;
-
-    /**
-     * @var \Usuarios
-     *
-     * @ORM\ManyToOne(targetEntity="Usuarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="uduario_id", referencedColumnName="id")
-     * })
-     */
-    private $uduario;
 
 
 
@@ -75,26 +82,49 @@ class Foros
     }
 
     /**
-     * Set titulo
+     * Set foroTitulo
      *
-     * @param string $titulo
+     * @param string $foroTitulo
      * @return Foros
      */
-    public function setTitulo($titulo)
+    public function setForoTitulo($foroTitulo)
     {
-        $this->titulo = $titulo;
+        $this->foroTitulo = $foroTitulo;
     
         return $this;
     }
 
     /**
-     * Get titulo
+     * Get foroTitulo
      *
      * @return string 
      */
-    public function getTitulo()
+    public function getForoTitulo()
     {
-        return $this->titulo;
+        return $this->foroTitulo;
+    }
+
+    /**
+     * Set foroTexto
+     *
+     * @param string $foroTexto
+     * @return Foros
+     */
+    public function setForoTexto($foroTexto)
+    {
+        $this->foroTexto = $foroTexto;
+    
+        return $this;
+    }
+
+    /**
+     * Get foroTexto
+     *
+     * @return string 
+     */
+    public function getForoTexto()
+    {
+        return $this->foroTexto;
     }
 
     /**
@@ -144,6 +174,29 @@ class Foros
     }
 
     /**
+     * Set usuario
+     *
+     * @param \AT\vocationetBundle\Entity\Usuarios $usuario
+     * @return Foros
+     */
+    public function setUsuario(\AT\vocationetBundle\Entity\Usuarios $usuario = null)
+    {
+        $this->usuario = $usuario;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuario
+     *
+     * @return \AT\vocationetBundle\Entity\Usuarios 
+     */
+    public function getUsuario()
+    {
+        return $this->usuario;
+    }
+
+    /**
      * Set tema
      *
      * @param \AT\vocationetBundle\Entity\Temas $tema
@@ -164,28 +217,5 @@ class Foros
     public function getTema()
     {
         return $this->tema;
-    }
-
-    /**
-     * Set uduario
-     *
-     * @param \AT\vocationetBundle\Entity\Usuarios $uduario
-     * @return Foros
-     */
-    public function setUduario(\AT\vocationetBundle\Entity\Usuarios $uduario = null)
-    {
-        $this->uduario = $uduario;
-    
-        return $this;
-    }
-
-    /**
-     * Get uduario
-     *
-     * @return \AT\vocationetBundle\Entity\Usuarios 
-     */
-    public function getUduario()
-    {
-        return $this->uduario;
     }
 }
