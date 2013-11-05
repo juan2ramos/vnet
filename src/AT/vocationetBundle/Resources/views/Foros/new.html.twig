@@ -15,16 +15,22 @@
 								{{ form_errors(form) }}
 								
 								<div class="form-group">
-									<label class="col-lg-3 control-label">{% trans from "label" %}titulo.foro{% endtrans %}: </label>
-									<div class="col-lg-8">{{ form_widget(form.foroTitulo, { 'attr' : {'class': 'form-control'}}) }}</div>
+									<label class="col-lg-2 control-label">{% trans from "label" %}titulo.foro{% endtrans %}: </label>
+									<div class="col-lg-9">{{ form_widget(form.foroTitulo, { 'attr' : {'class': 'form-control'}}) }}</div>
 								</div>
 								<div class="form-group">
-									<label class="col-lg-3 control-label">{% trans from "label" %}texto.foro{% endtrans %}: </label>
-									<div class="col-lg-8">{{ form_widget(form.foroTexto, { 'attr' : {'class': 'form-control'}}) }}</div>
+									<label class="col-lg-2 control-label">{% trans from "label" %}texto.foro{% endtrans %}: </label>
+									<div class="col-lg-9">{{ form_widget(form.foroTexto, { 'attr' : {'class': 'form-control'}}) }}</div>
 								</div>
 								<div class="form-group">
-									<label class="col-lg-3 control-label">{% trans from "label" %}tema{% endtrans %}: </label>
-									<div class="col-lg-8">{{ form_widget(form.temaId, { 'attr' : {'class': 'form-control'}}) }}</div>
+									<label class="col-lg-2 control-label">{% trans from "label" %}tema{% endtrans %}: </label>
+									<div class="col-lg-9">{{ form_widget(form.temaId, { 'attr' : {'class': 'form-control'}}) }}</div>
+								</div>
+								 <div class="form-group">
+									<label class="col-lg-2 control-label">{% trans from "label" %}adjuntos{% endtrans %}</label>
+									<div class="col-lg-9">
+										<input type="file" id="form_attachment" name="form[attachment][]" class="form-control" multiple="">
+									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-lg-offset-8 col-lg-12">
@@ -32,7 +38,7 @@
 										<button type="submit" class="btn btn-info">{% trans from "label" %}guardar.cambios{% endtrans %}</button>
 									</div>
 								</div>
-								{{ form(form) }}
+								{# form(form) #}
 								
 							</form>
 						</div>

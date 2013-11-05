@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AT\vocationetBundle\Entity\Comentarios;
 use AT\vocationetBundle\Entity\Foros;
+use AT\vocationetBundle\Entity\ForosArchivos;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -62,6 +63,16 @@ class ForosController extends Controller
 					$carreraId = $ObjCarrera->getId();
 					$foroId = $newForo->getId();
 					$temaId = $ObjTema->getId();
+
+					$files_id = $this->get('file')->upload($dataForm['attachment'], 'foros/');
+					foreach($files_id as $idFile){
+						$ObjArchivo = $em->getRepository('vocationetBundle:Archivos')->findOneById($idFile);
+						$newFA = new ForosArchivos();
+						$newFA->setForo($newForo);
+						$newFA->setArchivo($ObjArchivo);
+						$em->persist($newFA);
+						$em->flush();
+					}
 					
 					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.creado"), "text" => $this->get('translator')->trans("foro.creado.correctamente")));
 					return $this->redirect($this->generateUrl('foros_temas', array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
@@ -83,6 +94,7 @@ class ForosController extends Controller
 		   ->add('foroTitulo', 'text', array('required' => true, 'attr' => Array('pattern' => '^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ-]*$' )))
 		   ->add('foroTexto', 'textarea', array('required' => true, 'attr' => Array('style' => 'resize:vertical;', 'rows' => 7) ))
 		   ->add('temaId', 'choice', array('choices'  => $temas,  'preferred_choices' => array($temaAct), 'required' => true))
+		   ->add('attachment', 'file', array('required' => false))
 		   ->getForm();
 		return $form;
 	}
@@ -102,6 +114,25 @@ class ForosController extends Controller
 		$countErrores += (count($this->get('validator')->validateValue($temaId, Array($NotBlank))) == 0) ? 0 : 1;
 		return $countErrores;
 	}
+
+	/**
+     * Funcion para obtener la lista de adjuntos de un mensaje
+     * 
+     * @param integer $mensajeId id de mensaje
+     * @return array arreglo de adjuntos
+     */
+    private function getAdjuntosForos($foroId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dql = "SELECT a.id, a.archivoNombre
+                FROM vocationetBundle:Archivos a
+                JOIN vocationetBundle:ForosArchivos fa WITH a.id = fa.archivo
+                WHERE fa.foro = :fid";
+        $query = $em->createQuery($dql);
+        $query->setParameter('fid', $foroId);
+        $adjuntos = $query->getResult();
+        return $adjuntos;
+    }
 	
     /**
      * Listado de foros y temas de la carrera que ingresa por parametro
@@ -132,9 +163,15 @@ class ForosController extends Controller
         {
 			// If hay foro seleccionado redireccionara el show del foro
 			$foro = $em->getRepository('vocationetBundle:Foros')->findOneById($foroId);
+			$foroAdjuntos = $this->getAdjuntosForos($foroId);
 			$comentarios = $this->getComentarios($foroId);
 			return $this->render('vocationetBundle:Foros:showForo.html.twig', array(
-				'carreras' => $carreras, 'temas' => $temas,	'actual' => $PosActual, 'foro' => $foro, 'comentarios' => $comentarios));
+				'carreras' => $carreras,
+				'temas' => $temas,
+				'actual' => $PosActual,
+				'foro' => $foro,
+				'foroAdjuntos' => $foroAdjuntos,
+				'comentarios' => $comentarios));
 		}
 
 		else

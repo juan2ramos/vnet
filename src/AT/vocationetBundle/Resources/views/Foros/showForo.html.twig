@@ -28,9 +28,16 @@
 					</div>
 					
 					<h3 STYLE='color:#39b5aa;margin-top:10px;'><b>{{ foro.foroTitulo }}</b></h3>
-					<div class='col-lg-12'>	{{ foro.foroTexto }}</div>
-					PENDIENTE ARCHIVOS ADJUNTOS
+					<div class='col-lg-12'>	{{ foro.foroTexto }}
+						{% if foroAdjuntos %}
+							<br><br>
+							{% for archivo in foroAdjuntos %}
+								<a href="{{ path('download_file', {'id':archivo.id}) }}">{{ archivo.archivoNombre }}</a><br/>
+							{% endfor %}
+						{% endif %}
+					</div>
 				</header>
+
 				<div class="panel-body">
 					<div class="timeline-messages">
 						{% set respuesta = 0 %}
