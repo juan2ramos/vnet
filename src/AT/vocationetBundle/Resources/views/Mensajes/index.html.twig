@@ -17,12 +17,12 @@
       </div>      
   </div>
   <div class="inbox-body">
-      <a class="btn btn-compose" data-toggle="modal" href="#myModal">
+      <a class="btn btn-compose" data-toggle="modal" href="#redactar">
           {% trans  from "label" %}redactar{% endtrans %}
       </a>
           
       {# MODAL NUEVO MENSAJE #}      
-      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal fade" id="redactar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
           <div class="modal-dialog">
               <div class="modal-content">
                   <div class="modal-header">
@@ -99,7 +99,7 @@
       </form>#}
   </div>
   <div class="inbox-body" id="inbox-tbody">
-    
+      {# contenedor ajax #}
   </div>
 </aside>
 </div>
@@ -128,6 +128,7 @@
                 $.get("{{ path('get_mensajes') }}", {},
                     function(data){
                         $("#inbox-tbody").html(data);
+                        $().alertbadge();
                 });
                 
                 $(".inbox-nav li").removeClass('active');
@@ -140,6 +141,7 @@
                 $.get("{{ path('get_mensajes', {'tipo':1}) }}", {},
                     function(data){
                         $("#inbox-tbody").html(data);
+                        $().alertbadge();
                 });
                 
                 $(".inbox-nav li").removeClass('active');
@@ -151,6 +153,7 @@
                 $.get("{{ path('get_mensajes', {'tipo':2, 'estado':0}) }}", {},
                     function(data){
                         $("#inbox-tbody").html(data);
+                        $().alertbadge();
                 });
                 
                 $(".inbox-nav li").removeClass('active');
@@ -162,6 +165,7 @@
                 $.get("{{ path('get_mensajes', {'tipo':0, 'estado':2}) }}", {},
                     function(data){
                         $("#inbox-tbody").html(data);
+                        $().alertbadge();
                 });
                 
                 $(".inbox-nav li").removeClass('active');
@@ -182,6 +186,89 @@
                         $("#inbox-tbody").html(data);
                         $().alertbadge();
                 });
+            });
+            
+            $("#inbox-tbody").on('click', '.btn-delete-msg, .btn-recovery-msg', function(e){
+                var href = $(this).data('href');
+                
+                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
+                $.ajax({
+                    type: "POST",
+                    url: href,
+                    dataType: "json",
+                    success: function (response){
+                        if(response.status === "success"){
+                            $(".inbox-nav li").removeClass('active');
+                            $("#btn-inbox").parent().addClass('active');
+                            
+                            $.get("{{ path('get_mensajes') }}", {},
+                                function(data){
+                                    $("#inbox-tbody").html(data);
+                                    $().alertbadge();
+                            });
+                        }
+                    },
+                    error: function() {
+                        console.error('AJAX Error');                    
+                    }
+                });
+            });
+            
+            $("#inbox-tbody").on('click', '.btn-forward', function(e){
+                $(".modal-forward").modal('show');
+            });
+            
+            $("#inbox-tbody").on('click', '.btn-reply', function(e){
+                $(".modal-reply").modal('show');
+            });
+            
+            
+            $("#inbox-tbody").on('submit', 'form', function(e){
+                e.preventDefault();        
+                console.log('Preparando para enviar');
+                var form = $(this);
+                var btn = $(":submit", this);
+
+                btn.attr('disabled', true);
+                btn.html('{% trans  from "label" %}enviando{% endtrans %}...');
+
+                
+                $.ajax({
+                    type: "POST",
+                    url: form.attr('action'),
+                    data: form.serialize(),
+                    dataType: "json",
+                    success: function (response){
+                        if(response.status == "success"){
+                            console.log("enviado");
+                            btn.removeAttr('disabled');
+                            btn.html('{% trans  from "label" %}enviar.mensaje{% endtrans %}');
+                            $.gritter.add({
+                                title: response.title_message,
+                                text: response.message,
+                                time: 5000,
+                                image: '{{ asset('img/success.png') }}',
+                            });                       
+                            $(".modal").modal('hide');
+
+                        }
+                        else if(response.status == "error"){
+                            btn.removeAttr('disabled');
+                            btn.html('{% trans  from "label" %}enviar.mensaje{% endtrans %}');
+                            $.gritter.add({
+                                title: response.title_message,
+                                text: response.message,
+                                time: 5000,
+                                image: '{{ asset('img/delete.png') }}',
+                            });
+                        }
+                    },
+                    error: function() {
+                        console.error('AJAX Error');                    
+                    }
+                });
+                return false;
+
             });
         });
     </script>

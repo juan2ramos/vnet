@@ -67,9 +67,10 @@ class MensajesService
      * @param array $toList arreglo de ids de usuarios
      * @param string $subject asunto del mensaje
      * @param string $message cuerpo del mensaje
-     * @return boolean
+     * @param integer $mensajeId id de mensaje padre
+     * @return Object entidad de nuevo mensaje
      */
-    public function enviarMensaje($fromUsuarioId, $toList, $subject, $message, $attachment = null)
+    public function enviarMensaje($fromUsuarioId, $toList, $subject, $message, $attachment = null, $mensajeId = null)
     {
         $em = $this->doctrine->getManager();
         
@@ -78,6 +79,11 @@ class MensajesService
         $mensaje->setAsunto($subject);
         $mensaje->setContenido($message);
         $mensaje->setFechaEnvio(new \DateTime());
+        if($mensajeId)
+        {
+            $mensajePadre = $em->getRepository('vocationetBundle:Mensajes')->findOneById($mensajeId);
+            $mensaje->setMensaje($mensajePadre);
+        }
         
         $em->persist($mensaje);
         
@@ -120,7 +126,7 @@ class MensajesService
         
         $em->flush();
         
-        return true;
+        return $mensaje;
     }
     
     /**
@@ -190,13 +196,15 @@ class MensajesService
                     m.id,
                     m.asunto,
                     m.contenido,
+                    u.id usuarioId,
                     u.usuarioNombre,
                     u.usuarioApellido,
                     u.usuarioImagen,
-                    m.fechaEnvio
+                    m.fechaEnvio,
+                    mu.estado
                 FROM
                     vocationetBundle:Mensajes m
-                    INNER JOIN vocationetBundle:MensajesUsuarios mu WITH m.id = mu.mensaje
+                    INNER JOIN vocationetBundle:MensajesUsuarios mu WITH m.id = mu.mensaje AND mu.usuario = :usuarioId
                     INNER JOIN vocationetBundle:MensajesUsuarios fu WITH m.id = fu.mensaje AND fu.tipo = 1
                     INNER JOIN vocationetBundle:Usuarios u WITH u.id = fu.usuario 
                 WHERE 
@@ -204,6 +212,7 @@ class MensajesService
                     ";
         $query = $em->createQuery($dql);
         $query->setParameter('mid', $mensajeId);
+        $query->setParameter('usuarioId', $usuarioId);
         $query->setMaxResults(1);
         $result = $query->getResult();
         
@@ -223,14 +232,7 @@ class MensajesService
             $toList = $query->getResult();
             
             // Consultar archivos adjuntos
-            
-            $dql = "SELECT a.id, a.archivoNombre
-                    FROM vocationetBundle:Archivos a
-                    JOIN vocationetBundle:MensajesArchivos ma WITH a.id = ma.archivo
-                    WHERE ma.mensaje = :mid";
-            $query = $em->createQuery($dql);
-            $query->setParameter('mid', $mensajeId);
-            $adjuntos = $query->getResult();
+            $adjuntos = $this->getAdjuntosMensaje($mensajeId);
         }
         
         
@@ -240,7 +242,27 @@ class MensajesService
             'adjuntos' => $adjuntos
         );
     }
-    
+        
+    /**
+     * Funcion para obtejer la lista de adjuntos de un mensaje
+     * 
+     * @param integer $mensajeId id de mensaje
+     * @return array arreglo de adjuntos
+     */
+    public function getAdjuntosMensaje($mensajeId)
+    {
+        $em = $this->doctrine->getManager();
+        $dql = "SELECT a.id, a.archivoNombre
+                FROM vocationetBundle:Archivos a
+                JOIN vocationetBundle:MensajesArchivos ma WITH a.id = ma.archivo
+                WHERE ma.mensaje = :mid";
+        $query = $em->createQuery($dql);
+        $query->setParameter('mid', $mensajeId);
+        $adjuntos = $query->getResult();
+        
+        return $adjuntos;
+    }
+        
     /**
      * Funcion para cambiar el estado de un mensaje
      * 

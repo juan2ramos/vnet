@@ -533,6 +533,26 @@
                 <source>no.hay.mensajes</source>
                 <target>No se encontraron mensajes</target>
             </trans-unit>
+			<trans-unit id="inbox-15">
+                <source>eliminar.mensaje</source>
+                <target>Eliminar</target>
+            </trans-unit>
+			<trans-unit id="inbox-16">
+                <source>mover.a.inbox</source>
+                <target>Mover a la bandeja de entrada</target>
+            </trans-unit>
+			<trans-unit id="inbox-17">
+                <source>responder</source>
+                <target>Responder</target>
+            </trans-unit>
+			<trans-unit id="inbox-18">
+                <source>reenviar</source>
+                <target>Reenviar</target>
+            </trans-unit>
+			<trans-unit id="inbox-19">
+                <source>enviando</source>
+                <target>Enviando</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
