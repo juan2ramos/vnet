@@ -2,7 +2,6 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-
 -- -----------------------------------------------------
 -- Table `roles`
 -- -----------------------------------------------------
@@ -280,21 +279,22 @@ DROP TABLE IF EXISTS `foros` ;
 SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `foros` (
   `id` INT NOT NULL AUTO_INCREMENT ,
-  `titulo` VARCHAR(255) NOT NULL ,
-  `tema_id` INT NOT NULL ,
-  `uduario_id` INT NOT NULL ,
-  `created` DATETIME NOT NULL ,
-  `modified` DATETIME NOT NULL ,
+  `foro_titulo` VARCHAR(255) NOT NULL COMMENT 'Titulo del foro' ,
+  `foro_texto` VARCHAR(45) NULL COMMENT 'Contenido del foro' ,
+  `tema_id` INT NOT NULL COMMENT 'Id del tema' ,
+  `usuario_id` INT NOT NULL COMMENT 'Id del usuario creador' ,
+  `created` DATETIME NOT NULL COMMENT 'Fecha de creacion' ,
+  `modified` DATETIME NOT NULL COMMENT 'Fecha de ultima modificación' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_foros_2` (`tema_id` ASC) ,
-  INDEX `fk_foros_3` (`uduario_id` ASC) ,
+  INDEX `fk_foros_3` (`usuario_id` ASC) ,
   CONSTRAINT `fk_foros_2`
     FOREIGN KEY (`tema_id` )
     REFERENCES `temas` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_foros_3`
-    FOREIGN KEY (`uduario_id` )
+    FOREIGN KEY (`usuario_id` )
     REFERENCES `usuarios` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
