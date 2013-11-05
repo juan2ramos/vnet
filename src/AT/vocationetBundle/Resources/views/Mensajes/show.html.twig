@@ -1,0 +1,143 @@
+
+<div>
+    <img src="{{ mensaje.usuarioImagen|default(asset(gui_default_img)) }}" style="width: 40px; height: 40px;"/>
+    <b style="font-size: 16px;">{{ mensaje.usuarioNombre ~ ' ' ~ mensaje.usuarioApellido }}</b>
+    <span style="float:right;">{{ mensaje.fechaEnvio|date('H:i d/m/y') }}</span>
+</div>
+<div class="row">
+    <div class="col-lg-9" style="font-size: 10px; margin-top: 10px;">
+        {% trans  from "label" %}para{% endtrans %}: 
+        {% for usuario in toList %} 
+            {% if loop.last and loop.length != 1 %} {% trans  from "label" %}y{% endtrans %} {% endif %}
+            {{ usuario.usuarioNombre ~ ' ' ~ usuario.usuarioApellido }}{% if loop.revindex > 2 %},{% endif %}
+        {% endfor %}
+    </div>
+    <div class="col-lg-3" style="text-align: right;">
+        {% if mensaje.estado == 2 %}
+            <button type="button" class="btn-recovery-msg btn btn-info btn-xs" data-href="{{ path('update_mensaje', {'mid': mensaje.id, 'e':'1'}) }}">{% trans  from "label" %}mover.a.inbox{% endtrans %}</button>
+        {% else %}
+            <button type="button" class="btn-reply btn btn-info btn-xs"><i class="icon-mail-reply"></i> {% trans  from "label" %}responder{% endtrans %}</button>
+            <button type="button" class="btn-forward btn btn-info btn-xs"><i class="icon-mail-forward"></i> {% trans  from "label" %}reenviar{% endtrans %}</button>
+            
+            <button type="button" class="btn-delete-msg btn btn-danger btn-xs" data-href="{{ path('update_mensaje', {'mid': mensaje.id, 'e':'2'}) }}"><i class="icon-trash"></i></button>
+        {% endif %}            
+    </div>
+</div>
+<div style="margin-top: 20px;">
+    <h4>{{ mensaje.asunto }}</h4>
+    <p>{{ mensaje.contenido|nl2br }}</p>
+</div>
+<div>
+    {% for archivo in adjuntos %}
+        <a href="{{ path('download_file', {'id':archivo.id}) }}">{{ archivo.archivoNombre }}</a><br/>
+    {% endfor %}
+</div>
+
+{# modal responder (reply) #}
+<div class="modal fade modal-reply" id="modal-reply-{{ mensaje.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">{% trans  from "label" %}responder{% endtrans %}</h4>
+          </div>
+          <div class="modal-body">
+              <form class="form-horizontal" role="form" action="{{ path('responder_mensaje', {'mid': mensaje.id }) }}" method="POST" {{ form_enctype(reply_form) }}  id="reply-form">
+                  <div class="form-group">
+                      <label  class="col-lg-2 control-label">{% trans  from "label" %}para{% endtrans %}</label>
+                      <div class="col-lg-10">
+                          {{ form_widget(reply_form.to, {'attr':{'class':'form-control chosen', 'required':'required', 'data-placeholder':'para'|trans({}, 'label') } }) }}                                  
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-2 control-label">{% trans  from "label" %}asunto{% endtrans %}</label>
+                      <div class="col-lg-10">
+                          {{ form_widget(reply_form.subject, {'attr':{'class':'form-control'} }) }}
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label class="col-lg-2 control-label">{% trans  from "label" %}mensaje{% endtrans %}</label>
+                      <div class="col-lg-10">
+                          {{ form_widget(reply_form.message, {'attr':{'class':'form-control', 'cols':'30', 'rows':'10' } }) }}
+                      </div>
+                  </div>
+                  {% if adjuntos %}
+                  <div class="form-group">
+                      <label class="col-lg-2 control-label">{% trans  from "label" %}adjuntos{% endtrans %}</label>
+                      <div class="col-lg-10">
+                          {% for archivo in adjuntos %}
+                             {{ archivo.archivoNombre }}<br/>
+                          {% endfor %}
+                      </div>
+                  </div>
+                  {% endif %}
+                  <div class="form-group">
+                      <div class="col-lg-offset-2 col-lg-10">
+                          {{ form_errors(reply_form)}}
+                          {{ form_widget(reply_form._token) }}
+                          <button type="submit" class="btn btn-send">{% trans  from "label" %}enviar.mensaje{% endtrans %}</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+    </div>
+</div>
+
+{# modal reenviar (forward) #}
+<div class="modal fade modal-forward" id="modal-forward-{{ mensaje.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                  <h4 class="modal-title">{% trans  from "label" %}reenviar{% endtrans %}</h4>
+              </div>
+              <div class="modal-body">
+                  <form class="form-horizontal" role="form" action="{{ path('reenviar_mensaje', {'mid': mensaje.id }) }}" method="POST" {{ form_enctype(forward_form) }} id="forward-form">
+                      <div class="form-group">
+                          <label  class="col-lg-2 control-label">{% trans  from "label" %}para{% endtrans %}</label>
+                          <div class="col-lg-10">
+                              {{ form_widget(forward_form.to, {'attr':{'class':'form-control chosen', 'required':'required', 'data-placeholder':'para'|trans({}, 'label') } }) }}                                  
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-lg-2 control-label">{% trans  from "label" %}asunto{% endtrans %}</label>
+                          <div class="col-lg-10">
+                              {{ form_widget(forward_form.subject, {'attr':{'class':'form-control'} }) }}
+                          </div>
+                      </div>
+                      <div class="form-group">
+                          <label class="col-lg-2 control-label">{% trans  from "label" %}mensaje{% endtrans %}</label>
+                          <div class="col-lg-10">
+                              {{ form_widget(forward_form.message, {'attr':{'class':'form-control', 'cols':'30', 'rows':'10' } }) }}
+                          </div>
+                      </div>
+                      {% if adjuntos %}
+                      <div class="form-group">
+                          <label class="col-lg-2 control-label">{% trans  from "label" %}adjuntos{% endtrans %}</label>
+                          <div class="col-lg-10">
+                              {% for archivo in adjuntos %}
+                                 {{ archivo.archivoNombre }}<br/>
+                              {% endfor %}
+                          </div>
+                      </div>
+                      {% endif %}
+                      <div class="form-group">
+                          <div class="col-lg-offset-2 col-lg-10">
+                              {{ form_errors(forward_form) }}
+                              {{ form_widget(forward_form._token) }}
+                              <button type="submit" class="btn btn-send">{% trans  from "label" %}enviar.mensaje{% endtrans %}</button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+<script type="text/javascript">
+    $(".chosen").chosen({
+        width: "100%",
+        no_results_text: "{% trans  from "label" %}no.result.to.mensajes{% endtrans %}",
+    });
+    
+</script>

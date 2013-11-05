@@ -1,7 +1,7 @@
-INSERT INTO `roles` (`id`,`nombre`,`descripcion`) VALUES 
+﻿INSERT INTO `roles` (`id`,`nombre`,`descripcion`) VALUES 
 (1,'estudiante','Estudiante'),
 (2,'mentor_e','Mentor experto'),
-(3,'mentor_ov','Mentor de orientación voacional'),
+(3,'mentor_ov','Mentor de orientacion voacional'),
 (4,'administrador','Administrador de la aplicación');
 
 INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso_routes`) VALUES 

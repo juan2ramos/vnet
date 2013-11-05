@@ -25,8 +25,13 @@ services:
         arguments: ["@doctrine", "@session"]
     mensajes:
         class: AT\vocationetBundle\Services\MensajesService
-        arguments: ["@doctrine", "@session", "@mail"]
+        arguments: ["@doctrine", "@session", "@mail", "@file"]
+    file:
+        class: AT\vocationetBundle\Services\FileService
+        arguments: ["@doctrine", "@session"]
     twig.extension.stringParserExtension:
         class: AT\vocationetBundle\Services\TwigExtensions\StringParser\stringParserExtension
         tags:
             - { name: twig.extension }
+       
+
