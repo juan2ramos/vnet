@@ -1,0 +1,46 @@
+{% extends "::base.html.twig" %}
+
+
+{% block body %}
+	<div class='col-lg-9'>
+		<div class="row">
+		
+			{# FORMULARIO DE CREACION DE UN FORO #}
+				<aside class="profile-nav col-lg-12">
+					<section class="panel">
+						<div class="panel-body bio-graph-info">
+							<h1>{% trans from "label" %}crear.foro{% endtrans %}</h1>
+							<form action="{{ path('crear_foro') }}" method='POST' {{ form_enctype(form) }} id="PerfilForm" type="post" class="form-horizontal" role="form">
+								{{ form_widget(form._token) }}
+								{{ form_errors(form) }}
+								
+								<div class="form-group">
+									<label class="col-lg-3 control-label">{% trans from "label" %}titulo.foro{% endtrans %}: </label>
+									<div class="col-lg-8">{{ form_widget(form.foroTitulo, { 'attr' : {'class': 'form-control'}}) }}</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">{% trans from "label" %}texto.foro{% endtrans %}: </label>
+									<div class="col-lg-8">{{ form_widget(form.foroTexto, { 'attr' : {'class': 'form-control'}}) }}</div>
+								</div>
+								<div class="form-group">
+									<label class="col-lg-3 control-label">{% trans from "label" %}tema{% endtrans %}: </label>
+									<div class="col-lg-8">{{ form_widget(form.temaId, { 'attr' : {'class': 'form-control'}}) }}</div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-offset-8 col-lg-12">
+										{#<a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}" type="button" class="btn btn-default">{% trans from "label" %}cancelar{% endtrans %}</a>#}
+										<button type="submit" class="btn btn-info">{% trans from "label" %}guardar.cambios{% endtrans %}</button>
+									</div>
+								</div>
+								{{ form(form) }}
+								
+							</form>
+						</div>
+					</section>
+				</aside>
+	
+{% endblock body %}
+
+{% block script %}
+
+{% endblock script%}

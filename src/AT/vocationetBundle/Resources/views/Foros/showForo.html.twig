@@ -1,77 +1,82 @@
 {% extends "::base.html.twig" %}
 
-
-
 {% block body %}
-{% set foroId = foro.id %}
-{% set usuarioId = sess_user.id %}
-							{% set imagen = sess_user.usuarioImagen %}
+	{% set foroId = foro.id %}
+	{% set usuarioId = sess_user.id %}
+	{% set imagen = sess_user.usuarioImagen %}
+	{% set imagen = (imagen) ? imagen : gui_default_img %}
+	{% set pathUser = path('perfil', {'perfilId': usuarioId }) %}
+	{% set usuarioNombre = sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido %}
 
-<div class="row">
+	<div class="row">
 		<div class="col-lg-8">
-		<div id='IrFinal'>aqio	</div>
-					<a href='{{ path('foros_temas', {'id': actual.carreraId, 'temaId' : actual.temaId }) }}'>volver</a>
-				 <section class="panel">
-                          <header class="panel-heading">
-                              Chats
-                          </header>
-							<div class="panel-body">
-								<div class="timeline-messages">
-									{% set respuesta = 0 %}
-							{% set comentarioId = 0 %}
-                            {% include 'vocationetBundle:Foros:comentarioNew.html.twig' %}
+			<section class="panel">
+				<header class="panel-heading" STYLE='text-align:right;'>
+					<a type="button"  STYLE='text-align:right;' class="btn btn-primary btn-xs" href='{{ path('foros_temas', {'id': actual.carreraId, 'temaId' : actual.temaId }) }}'>
+						{% trans from "label" %}volver{% endtrans %}
+					</a>
+				</header>
+				<header class="panel-body bio-graph-info">
+					<div class='' align='right'>
+						<a href="{{ pathUser }}" class="">
+							<img align='right' src="{{ asset(imagen) }}" alt="" STYLE='widtH:45px;'>
+						</a>
+						<div class="task-thumb-details" STYLE='margin:0 5px 0 0;'>
+							<h1 STYLE='margin-bottom:0px;'><a href="{{ pathUser }}">{{ usuarioNombre }}</a></h1>
+							<p STYLE='padding-top:0px;margin:0px;'>{% if foro.created %}{{ foro.created|date('Y/m/d') }}{% endif %}</p>
+						</div>
+					</div>
+					
+					<h3 STYLE='color:#39b5aa;margin-top:10px;'><b>{{ foro.foroTitulo }}</b></h3>
+					<div class='col-lg-12'>	{{ foro.foroTexto }}</div>
+					PENDIENTE ARCHIVOS ADJUNTOS
+				</header>
+				<div class="panel-body">
+					<div class="timeline-messages">
+						{% set respuesta = 0 %}
+						{% set comentarioId = 0 %}
+						{% include 'vocationetBundle:Foros:comentarioNew.html.twig' %}
                             
-									{% for comment in comentarios %}
-										{% set imagen = comment.usuarioImagen %}
-										{% set nombre = comment.usuarioNombre ~ ' ' ~ comment.usuarioApellido  %}
-										{% set content = comment.texto %}
-										{% set usuarioId = comment.usuarioId %}
-										{% set fechaCreacion = comment.created %}
-										{% set respuesta = 0 %}
-										{% set comentarioId = comment.id %}
-										{% include 'vocationetBundle:Foros:comentarioShow.html.twig' %}
+						{% for comment in comentarios %}
+							{% set imagen = comment.usuarioImagen %}
+							{% set nombre = comment.usuarioNombre ~ ' ' ~ comment.usuarioApellido  %}
+							{% set content = comment.texto %}
+							{% set usuarioId = comment.usuarioId %}
+							{% set fechaCreacion = comment.created %}
+							{% set respuesta = 0 %}
+							{% set comentarioId = comment.id %}
+							{% include 'vocationetBundle:Foros:comentarioShow.html.twig' %}
 
-									  {% if comment.cr is defined %}
-									 
+							{% if comment.cr is defined %}
+								{% for comresp in comment.cr %}
+									{% set imagen = comresp.usuarioImagen %}
+									{% set nombre = comresp.usuarioNombre ~ ' ' ~ comresp.usuarioApellido  %}
+									{% set content = comresp.texto %}
+									{% set usuarioId = comresp.usuarioId %}
+									{% set fechaCreacion = comresp.created %}
+									{% set respuesta = 1 %}
+									{% include 'vocationetBundle:Foros:comentarioShow.html.twig' %}
+								{% endfor %}
+							{% endif %}
 
-									  {% for comresp in comment.cr %}
-										 {% set imagen = comresp.usuarioImagen %}
-										 {% set nombre = comresp.usuarioNombre ~ ' ' ~ comresp.usuarioApellido  %}
-										 {% set content = comresp.texto %}
-										 {% set usuarioId = comresp.usuarioId %}
-										 {% set fechaCreacion = comresp.created %}
-										 {% set respuesta = 1 %}
-										 {% include 'vocationetBundle:Foros:comentarioShow.html.twig' %}
-										 
-									    {% endfor %}
-									
-
-									  {% endif %}
-									  {# RESPONDER AL COMENTARIO #}
-									    {% set respuesta = 1 %}
-									    {% set comentarioId = comment.id %}
-									    <div id='divnew1{{ foroId }}{{ comentarioId }}'></div>
-									    <div STYLE='display:none;' id='commentresponseid{{ comment.id }}' >
-											{% include 'vocationetBundle:Foros:comentarioNew.html.twig' %}
-										</div>
-                                  {% endfor %}
-                                  <div id='divnew0{{ foroId }}0'></div>
-                              </div>
-							
-                           
-                          </div>
-                      </section>
-
-
-
-
-
-				
-			
+							{# RESPONDER AL COMENTARIO #}
+							{% set respuesta = 1 %}
+							{% set comentarioId = comment.id %}
+							<div id='divnew1{{ foroId }}{{ comentarioId }}'></div>
+								<div STYLE='display:none;' id='commentresponseid{{ comment.id }}' >
+									{% include 'vocationetBundle:Foros:comentarioNew.html.twig' %}
+								</div>
+                        {% endfor %}
+						<div id='divnew0{{ foroId }}0'></div>
+					</div>
+				</div>
+			</section>
 		</div>
+
 		<div class="col-lg-4">
 			{% include 'vocationetBundle:Foros:sidebar.html.twig' %}
 		</div>
+	</div>
 {% endblock body %}
 
 {% block script %}
@@ -92,7 +97,7 @@
 				$("#foro_"+tipo+id+cp).val('');
 				$('#divnew'+tipo+id+cp).append('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');
 				$.post('{{ path('crear_comentario')}}', { idforo: {{ foro.id }}, comentario: txt, tipo: tipo, idcomrespuesta: cp },
-				   function(data){
+					function(data){
 						$('#divnew'+tipo+id+cp+' .loading-center').remove();
 						$('#divnew'+tipo+id+cp).append(data);
 

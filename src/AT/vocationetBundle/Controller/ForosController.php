@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AT\vocationetBundle\Entity\Comentarios;
+use AT\vocationetBundle\Entity\Foros;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * controlador de foros
@@ -16,6 +18,91 @@ use AT\vocationetBundle\Entity\Comentarios;
  */
 class ForosController extends Controller
 {
+	/**
+	 *
+	 * @Route("new", name="crear_foro")
+	 * @Template("vocationetBundle:Foros:new.html.twig")
+	 */
+	 public function newAction(Request $request)
+	 {
+		$security = $this->get('security');
+		if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+
+        $usuarioId = $security->getSessionValue('id');
+ 
+		$carreraId = 1;
+		$form = $this->formForo($carreraId);
+		if ($request->getMethod() == 'POST')
+		{
+			$form->bind($request);
+			if ($form->isvalid())
+			{
+				$dataForm = $form->getData();
+				$errores = $this->validateFormForo($dataForm);
+
+				if ($errores == 0)
+				{
+					$em = $this->getDoctrine()->getManager();
+					$ObjTema = $em->getRepository('vocationetBundle:Temas')->findOneById($dataForm['temaId']);
+					$ObjUsuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
+					$fechaCreacion = new \DateTime();
+					
+					$newForo = new Foros();
+					$newForo->setForoTitulo($dataForm['foroTitulo']);
+					$newForo->setForoTexto($dataForm['foroTexto']);
+					$newForo->setTema($ObjTema);
+					$newForo->setUsuario($ObjUsuario);
+					$newForo->setCreated($fechaCreacion);
+					$newForo->setModified($fechaCreacion);
+					$em->persist($newForo);
+					$em->flush();
+
+					$ObjCarrera = $ObjTema->getCarrera();
+					$carreraId = $ObjCarrera->getId();
+					$foroId = $newForo->getId();
+					$temaId = $ObjTema->getId();
+					
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.creado"), "text" => $this->get('translator')->trans("foro.creado.correctamente")));
+					return $this->redirect($this->generateUrl('foros_temas', array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
+				}
+			}
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+			
+		}
+		return array('form' => $form->createView());
+	 }
+
+	private function formForo($carreraId)
+	{
+		$temaAct = 1;
+		$temas= $this->getCarrerasTemasARRAY();
+		
+		$formData = Array('foroTitulo'=> null, 'foroTexto'=> null, 'temaId' => null);
+		$form = $this->createFormBuilder($formData)
+		   ->add('foroTitulo', 'text', array('required' => true, 'attr' => Array('pattern' => '^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ-]*$' )))
+		   ->add('foroTexto', 'textarea', array('required' => true, 'attr' => Array('style' => 'resize:vertical;', 'rows' => 7) ))
+		   ->add('temaId', 'choice', array('choices'  => $temas,  'preferred_choices' => array($temaAct), 'required' => true))
+		   ->getForm();
+		return $form;
+	}
+
+	private function validateFormForo($dataForm)
+	{
+		$foroTitulo = $dataForm['foroTitulo'];
+		$foroTexto = $dataForm['foroTexto'];
+		$temaId = $dataForm['temaId'];
+
+		$NotBlank = new Assert\NotBlank();
+		$Regex = new Assert\Regex(Array('pattern'=>'/^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ-]*$/'));
+
+		$countErrores = 0;
+		$countErrores += (count($this->get('validator')->validateValue($foroTitulo, Array($NotBlank, $Regex))) == 0) ? 0 : 1;
+		$countErrores += (count($this->get('validator')->validateValue($foroTexto, Array($NotBlank))) == 0) ? 0 : 1;
+		$countErrores += (count($this->get('validator')->validateValue($temaId, Array($NotBlank))) == 0) ? 0 : 1;
+		return $countErrores;
+	}
+	
     /**
      * Listado de foros y temas de la carrera que ingresa por parametro
      *
@@ -213,7 +300,7 @@ class ForosController extends Controller
 		 * INNER JOIN carreras c ON c.id = t.carrera_id
 		 * LEFT JOIN comentarios com ON com.foro_id = f.id;;
 		 */
-		$dql = "SELECT f.id, f.titulo, f.created, t.nombre AS temaNombre, COUNT(comment.id) AS countComent
+		$dql = "SELECT f.id, f.foroTitulo, f.foroTexto, f.created, t.nombre AS temaNombre, COUNT(comment.id) AS countComent
 				FROM vocationetBundle:Foros f
 				JOIN f.tema t
 				JOIN t.carrera c
@@ -244,6 +331,37 @@ class ForosController extends Controller
 		$query = $em->createQuery($dql);
 		$query->setParameter('carreraId', $carreraId);
 		return $query->getResult();
+	}
+
+	/**
+	 * Funcion que retorna un Array bidimencional para formulario de creacion en donde optgroup es el nombre de la carrera
+	 * y las opcioner organizadas por carreras son los temas.
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @return Arreglo Arreglo bidimensional
+	 */
+	private function getCarrerasTemasARRAY()
+	{
+		/**
+		 * @var String Consulta SQL de temas con su respectiva carrera
+		 * SELECT * FROM temas t join carreras c ON c.id = t.carrera_id ORDER BY c.id;
+		 */
+		$em = $this->getDoctrine()->getManager();
+		$dql = "SELECT t.id AS temaId, t.nombre AS temaNombre, c.id, c.nombre AS nombreCarrera
+				FROM vocationetBundle:Temas t
+				LEFT JOIN vocationetBundle:Carreras c WITH c.id = t.carrera
+				ORDER BY c.id";
+		$query = $em->createQuery($dql);
+		$result = $query->getResult();
+
+		$ArrayCarTem = Array();
+		if ($result) {
+			foreach ($result as $res) {
+				$ArrayCarTem[$res['nombreCarrera']]["".$res['temaId'].""] = $res['temaNombre'];
+			}
+		}
+		return $ArrayCarTem;
 	}
 }
 ?>

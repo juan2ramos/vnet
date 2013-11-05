@@ -39,9 +39,9 @@
 								<tr class="foro" data-href="{{ path('foros_temas', {'id': actual.carreraId, 'temaId' : actual.temaId, 'foroId' : f.id }) }}">
 									<td>
 										<div>
-											<h4 class="list-group-item-heading">{{ f.id }}- {{ f.titulo }}</h4>
+											<h4 class="list-group-item-heading">{{ f.foroTitulo }}</h4>
 											<p>{{ f.temaNombre }}</p>
-											<p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit. camilo</p>
+											<p class="list-group-item-text">{% if f.foroTexto %}{{ f.foroTexto|summary(200) }}{% endif %}</p>
 										</div>
 									</td>
 									<td><div>{{ f.countComent}}</div></td>

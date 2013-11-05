@@ -26,4 +26,7 @@ services:
     mensajes:
         class: AT\vocationetBundle\Services\MensajesService
         arguments: ["@doctrine", "@session", "@mail"]
-       
+    twig.extension.stringParserExtension:
+        class: AT\vocationetBundle\Services\TwigExtensions\StringParser\stringParserExtension
+        tags:
+            - { name: twig.extension }
