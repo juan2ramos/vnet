@@ -475,6 +475,14 @@
                 <source>y</source>
                 <target>y</target>
 			</trans-unit>
+			<trans-unit id="generico-4">
+                <source>fecha</source>
+                <target>Fecha</target>
+			</trans-unit>
+			<trans-unit id="generico-5">
+                <source>hora</source>
+                <target>Hora</target>
+			</trans-unit>
 
             <!-- MENSAJES inbox-x -->
 			<trans-unit id="inbox-1">
@@ -553,6 +561,14 @@
                 <source>enviando</source>
                 <target>Enviando</target>
             </trans-unit>
+            
+            <!-- mentorias ment-x -->
+			<trans-unit id="ment-1">
+                <source>agregar.mentoria</source>
+                <target>Agregar mentoria</target>
+            </trans-unit>
+            
+            
         </body>
     </file>
 </xliff>

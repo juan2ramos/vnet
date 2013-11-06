@@ -3,6 +3,7 @@
 namespace AT\vocationetBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -23,9 +24,68 @@ class AgendaMentorController extends Controller
      * @Template("vocationetBundle:AgendaMentor:index.html.twig")
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        return array();
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $form = $this->createMentoriaForm();
+        
+        if($request->getMethod() == 'POST') 
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $data = $form->getData();
+                $usuarioId = $security->getSessionValue('id');
+                
+                $mentoriaInicio = new \DateTime($data['fecha'].' '.$data['hora'].':'.$data['min'].':00');
+                $mentoriaFin = new \DateTime();
+                $mentoriaFin->setTimestamp($mentoriaInicio->getTimestamp());
+                $mentoriaFin->modify('+1 hour');
+//                
+//                $security->debug($mentoriaInicio);
+//                $security->debug($mentoriaFin);
+                
+                $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
+                $mentoria->setUsuarioMentor($usuarioId);
+                $mentoria->setMentoriaInicio($mentoriaInicio);
+                $mentoria->setMentoriaFin($mentoriaFin);
+                
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($mentoria);
+                $em->flush();
+                
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            }
+        }
+        
+        return array(
+            'form' => $form->createView(),
+        );
     }
+    
+    private function createMentoriaForm()
+    {
+        $data = array(
+            'fecha' => date('Y-m-d'),
+            'hora' => null,
+            'min' => null
+        );
+        $form = $this->createFormBuilder($data)
+           ->add('fecha', 'text', array('required' => true))
+           ->add('hora', 'text', array('required' => true))
+           ->add('min', 'text', array('required' => true))
+           ->getForm();
+        
+        return $form; 
+    }
+    
+    
 }
 ?>

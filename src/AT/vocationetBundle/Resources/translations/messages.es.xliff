@@ -109,6 +109,16 @@
                 <source>no.se.encontratron.cambios.para.sincronizacion</source>
                 <target>Su perfil se encuentra actualizado</target>
             </trans-unit>
+			
+			<!-- mentorias ment-x -->
+            <trans-unit id="ment-1">
+                <source>mentoria.agregada</source>
+                <target>Mentoria agregada</target>
+            </trans-unit>            
+			<trans-unit id="ment-2">
+                <source>mentoria.agregada.correctamente</source>
+                <target>Mentoria agregada correctamente</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
