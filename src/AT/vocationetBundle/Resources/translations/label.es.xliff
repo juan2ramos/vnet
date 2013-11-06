@@ -567,6 +567,14 @@
                 <source>agregar.mentoria</source>
                 <target>Agregar mentoria</target>
             </trans-unit>
+			<trans-unit id="ment-2">
+                <source>mentoria.disponible</source>
+                <target>Disponible</target>
+            </trans-unit>
+			<trans-unit id="ment-3">
+                <source>mentoria.con.%user%</source>
+                <target>Mentoria con %user%</target>
+            </trans-unit>
             
             
         </body>

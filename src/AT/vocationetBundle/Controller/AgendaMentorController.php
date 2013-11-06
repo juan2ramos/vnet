@@ -29,6 +29,8 @@ class AgendaMentorController extends Controller
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        $usuarioId = $security->getSessionValue('id');
+        
         
         $form = $this->createMentoriaForm();
         
@@ -44,9 +46,6 @@ class AgendaMentorController extends Controller
                 $mentoriaFin = new \DateTime();
                 $mentoriaFin->setTimestamp($mentoriaInicio->getTimestamp());
                 $mentoriaFin->modify('+1 hour');
-//                
-//                $security->debug($mentoriaInicio);
-//                $security->debug($mentoriaFin);
                 
                 $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
                 $mentoria->setUsuarioMentor($usuarioId);
@@ -65,8 +64,10 @@ class AgendaMentorController extends Controller
             }
         }
         
+        $mentorias = $this->getMentorias($usuarioId);
         return array(
             'form' => $form->createView(),
+            'mentorias' => $mentorias
         );
     }
     
@@ -86,6 +87,33 @@ class AgendaMentorController extends Controller
         return $form; 
     }
     
+    /**
+     * Funcion para obtener las mentorias registradas por el usuario
+     * 
+     * @param type $usuarioId
+     */
+    private function getMentorias($usuarioId)
+    {
+        $dql = "SELECT
+                    m.id,
+                    m.mentoriaInicio,
+                    m.mentoriaFin,
+                    u.id estudianteId,
+                    u.usuarioNombre,
+                    u.usuarioApellido
+                FROM 
+                    vocationetBundle:Mentorias m
+                    LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
+                WHERE
+                    m.usuarioMentor = :usuarioId";
+        
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $result = $query->getResult();
+        
+        return $result;
+    }
     
 }
 ?>
