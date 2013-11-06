@@ -6,7 +6,7 @@
 
 INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso_routes`) VALUES 
 (1, 'acceso_basico', 'Acceso básico', 'Acceso básico a la aplicacion', 'homepage'),
-(2, 'acceso_mensajes', 'Eviar y recibir mensajes', 'Acceso al envio y recepcion de mensajes', 'mensajes'),
+(2, 'acceso_mensajes', 'Eviar y recibir mensajes', 'Acceso al envio y recepcion de mensajes', 'mensajes,enviar_mensajes,get_mensajes,show_mensaje,count_mensajes,update_mensaje,responder_mensaje,reenviar_mensaje'),
 (3, 'acceso_perfiles', 'Acceso básico', 'Acceso a perfiles', 'perfil,perfil_edit,perfil_sincronizar');
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 
@@ -17,4 +17,9 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('3', '1'),
 ('3', '2'),
 ('3', '3'),
-('3', '4');
+('3', '4'),
+('2', '1'),
+('2', '2'),
+('2', '3'),
+('2', '4');
+

@@ -11,17 +11,19 @@ use AT\vocationetBundle\Entity\MensajesUsuarios;
  */
 class MensajesService
 {
+    var $serv_cont;
     var $doctrine;
     var $session;
     var $mail;
     var $file;
         
-    function __construct($doctrine, $session, $mail, $file) 
+    function __construct($service_container) 
     {
-        $this->doctrine = $doctrine;
-        $this->session = $session;
-        $this->mail = $mail;
-        $this->file = $file;
+        $this->serv_cont = $service_container;
+        $this->doctrine = $service_container->get('doctrine');
+        $this->session = $service_container->get('session');
+        $this->mail = $service_container->get('mail');
+        $this->file = $service_container->get('file');
     }
     
     /**
@@ -125,6 +127,20 @@ class MensajesService
         }
         
         $em->flush();
+        
+        // Enviar notificacion al correo
+        $emails = $this->getEmailAddress($toList);
+        $subject_mail = $this->serv_cont->get('translator')->trans("tiene.un.nuevo.mensaje", array(), 'mail');
+        
+        $link = $this->serv_cont->get('request')->getSchemeAndHttpHost().$this->serv_cont->get('router')->generate('mensajes'); 
+        $dataRender = array(
+            'title' => $subject,
+            'body' => $message,
+            'link' => $link,
+            'link_text' => $this->serv_cont->get('translator')->trans("ir.a.inbox", array(), 'mail')
+        );
+        
+        $this->mail->sendMail($emails, $subject_mail, $dataRender);
         
         return $mensaje;
     }
@@ -306,6 +322,35 @@ class MensajesService
             $count = $result[0]['c'];
         
         return $count;
+    }
+    
+    /**
+     * Funcion que obtiene un array de correos a partir de un array de ids de usuario
+     * 
+     * @param array $arr_id array de ids de usuario
+     */
+    public function getEmailAddress($arr_id)
+    {
+        $emails = array();
+        
+        if(count($arr_id) > 0)
+        {
+            $where = implode(" OR u.id = ", $arr_id);
+            $dql = "SELECT u.usuarioEmail FROM vocationetBundle:Usuarios u
+                    WHERE u.id = ".$where." ";
+            $em = $this->doctrine->getManager();
+            $query = $em->createQuery($dql);
+            $return = $query->getResult();
+            
+            if(count($return) > 0)
+            {
+                foreach($return as $r)
+                {
+                    $emails[] = $r['usuarioEmail'];
+                }
+            }
+        }
+        return $emails;
     }
 }
 ?>

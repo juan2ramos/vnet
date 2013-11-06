@@ -16,7 +16,7 @@ class MailService
     /**
      * Funcion para enviar un correo
      * 
-     * @param string|array $email correo o lista de correos emisores
+     * @param string|array $email correo o lista de correos
      * @param string $subject asunto
      * @param array $data arreglo de datos para la vista del email
      */
