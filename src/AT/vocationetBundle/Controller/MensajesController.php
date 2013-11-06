@@ -225,31 +225,6 @@ class MensajesController extends Controller
         );
         
     }
-        
-    /**
-     * Accion ajax para obtener la cantidad de mensajes sin leer
-     * 
-     * @Route("/count", name="count_mensajes")
-     * @return string contador en formato json
-     */
-    public function countAction()
-    {
-        $security = $this->get('security');
-        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-        if(!$this->getRequest()->isXmlHttpRequest()) throw $this->createNotFoundException();
-        
-        $mensajes_serv = $this->get('mensajes');
-        $usuarioId = $security->getSessionValue('id');
-        
-        $count = $mensajes_serv->countMensajesSinLeer($usuarioId);
-        
-        print(json_encode(array(
-            'mensajes_sin_leer' => $count
-        )));
-        
-        return new Response();
-    }
     
     /**
      * Accion ajax para cambiar el estado de un mensaje
@@ -357,7 +332,6 @@ class MensajesController extends Controller
         
         return new Response();
     }
-    
     
     /**
      * Accion para reenviar mensajes
