@@ -25,5 +25,8 @@ services:
         arguments: ["@doctrine", "@session"]
     mensajes:
         class: AT\vocationetBundle\Services\MensajesService
-        arguments: ["@doctrine", "@session", "@mail"]
+        arguments: ["@service_container"]
+    file:
+        class: AT\vocationetBundle\Services\FileService
+        arguments: ["@doctrine", "@session"]
        

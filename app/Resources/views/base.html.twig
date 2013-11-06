@@ -98,7 +98,7 @@
                             <li id="header_inbox_bar" class="dropdown">
                                 <a class="" href="{{ path('mensajes') }}">
                                     <i class="icon-envelope-alt"></i>
-                                    <span class="badge bg-important">0</span>
+                                    <span class="badge bg-important inbox-badge"></span>
                                 </a>									
                             </li>							
 						  
@@ -142,7 +142,7 @@
 						<ul class="nav pull-right top-menu">
                             <li class="dropdown">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                    <img alt="" src="{{ sess_user.usuarioImagen|default(asset(gui_default_img)) }}" style="width:29px; height: 29px;">
+                                    <img alt="" src="{{ sess_user.usuarioImagen|default(asset(gui_default_img)) ~ '?type=small' }}" style="width:29px; height: 29px;">
                                     <span class="username">{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</span>
                                     <b class="caret"></b>
                                 </a>
@@ -217,10 +217,14 @@
 		<script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
 		<script src="{{ asset('js/jquery.nicescroll.js') }}" type="text/javascript"></script>
         <script type="text/javascript" src="{{ asset('assets/gritter/js/jquery.gritter.js') }}"></script>
+        <script src="{{ asset('js/disable-submit.js') }}" type="text/javascript"></script>
+        
         {% include '::alerts.html.twig' %}
-
+        {% include '::badge.html.twig' %}
+        
+        
 		<!--common script for all pages-->
-		<script src="{{ asset('js/common-scripts.js') }}"></script>
+		<!--<script src="{{ asset('js/common-scripts.js') }}"></script>-->
 
         {% block script %}{% endblock %}
 	</body>

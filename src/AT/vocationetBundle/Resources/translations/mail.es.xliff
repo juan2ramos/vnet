@@ -15,6 +15,17 @@
                 <source>confirmacion.registro.link</source>
                 <target>Confirmar registro</target>
             </trans-unit>
+			
+			<!-- notificaciones -->
+            <trans-unit id="notice-1">
+                <source>tiene.un.nuevo.mensaje</source>
+                <target>Tiene un nuevo mensaje</target>
+            </trans-unit>            
+			<trans-unit id="notice-2">
+                <source>ir.a.inbox</source>
+                <target>Ir a la bandeja de entrada</target>
+            </trans-unit>
+			
         </body>
     </file>
 </xliff>

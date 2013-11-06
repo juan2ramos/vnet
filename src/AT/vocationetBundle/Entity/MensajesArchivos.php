@@ -34,10 +34,7 @@ class MensajesArchivos
     /**
      * @var \Archivos
      *
-     * @ORM\ManyToOne(targetEntity="Archivos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="archivo_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="archivo_id", type="integer", nullable=false)
      */
     private $archivo;
 
@@ -82,7 +79,7 @@ class MensajesArchivos
      * @param \AT\vocationetBundle\Entity\Archivos $archivo
      * @return MensajesArchivos
      */
-    public function setArchivo(\AT\vocationetBundle\Entity\Archivos $archivo = null)
+    public function setArchivo( $archivo = null)
     {
         $this->archivo = $archivo;
     

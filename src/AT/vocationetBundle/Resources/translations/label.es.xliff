@@ -471,6 +471,10 @@
                 <source>guardar.cambios</source>
                 <target>Guardar</target>
 			</trans-unit>
+			<trans-unit id="generico-3">
+                <source>y</source>
+                <target>y</target>
+			</trans-unit>
 
             <!-- MENSAJES inbox-x -->
 			<trans-unit id="inbox-1">
@@ -486,8 +490,8 @@
                 <target>Enviados</target>
 			</trans-unit>
 			<trans-unit id="inbox-4">
-                <source>importantes</source>
-                <target>Importantes</target>
+                <source>sin.leer</source>
+                <target>Sin leer</target>
 			</trans-unit>
 			<trans-unit id="inbox-5">
                 <source>eliminados</source>
@@ -513,10 +517,42 @@
                 <source>enviar.mensaje</source>
                 <target>Enviar</target>
 			</trans-unit>
-
-			 <!--
-            
-            -->
+			<trans-unit id="inbox-11">
+                <source>no.result.to.mensajes</source>
+                <target>No se encuentra la persona</target>
+			</trans-unit>
+			<trans-unit id="inbox-12">
+                <source>adjuntos</source>
+                <target>Adjuntos</target>
+            </trans-unit>
+			<trans-unit id="inbox-13">
+                <source>mensajes</source>
+                <target>Mensajes</target>
+            </trans-unit>
+			<trans-unit id="inbox-14">
+                <source>no.hay.mensajes</source>
+                <target>No se encontraron mensajes</target>
+            </trans-unit>
+			<trans-unit id="inbox-15">
+                <source>eliminar.mensaje</source>
+                <target>Eliminar</target>
+            </trans-unit>
+			<trans-unit id="inbox-16">
+                <source>mover.a.inbox</source>
+                <target>Mover a la bandeja de entrada</target>
+            </trans-unit>
+			<trans-unit id="inbox-17">
+                <source>responder</source>
+                <target>Responder</target>
+            </trans-unit>
+			<trans-unit id="inbox-18">
+                <source>reenviar</source>
+                <target>Reenviar</target>
+            </trans-unit>
+			<trans-unit id="inbox-19">
+                <source>enviando</source>
+                <target>Enviando</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -1,0 +1,14 @@
+<table class="table table-inbox table-hover">
+    <tbody>       
+{% for mensaje in mensajes %}
+    <tr class="lnk-msg {% if not mensaje.estado %} unread {% endif %}" data-id="{{ mensaje.id }}">
+        <td class="view-message dont-show">{{ mensaje.usuarioNombre ~ ' ' ~ mensaje.usuarioApellido }}</td>
+        <td class="view-message">{{ mensaje.asunto }}</td>
+        <td class="view-message inbox-small-cells"> {% if mensaje.adjuntos > 0 %} {{ mensaje.adjuntos }} <i class="icon-paper-clip"></i>{% endif %}</td>
+        <td class="view-message text-right">{{ mensaje.fechaEnvio|date('H:i d/m/y') }}</td>
+    </tr>
+{% else %}
+    <div style="text-align: center; font-size: 16px;">{% trans from "label" %}no.hay.mensajes{% endtrans %}</div>
+{% endfor %} 
+    </tbody>
+</table>
