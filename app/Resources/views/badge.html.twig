@@ -2,7 +2,7 @@
     
 $.fn.alertbadge = function()
 {
-    $.getJSON("{{ path('count_mensajes') }}", function(json){
+    $.getJSON("{{ path('alert_badge') }}", function(json){
         if(json.mensajes_sin_leer != 0)
             $('.inbox-badge').html(json.mensajes_sin_leer);
         else
