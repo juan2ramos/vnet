@@ -15,14 +15,23 @@
 					<a type="button"  STYLE='text-align:right;' class="btn btn-primary btn-xs" href='{{ path('foros_temas', {'id': actual.carreraId, 'temaId' : actual.temaId }) }}'>
 						{% trans from "label" %}volver{% endtrans %}
 					</a>
+					{% if foro.usuario.id == usuarioId %}
+						<a type="button"  STYLE='text-align:right;' class="btn btn-primary btn-xs" href='{{ path('edit_foro', {'foroId': foroId }) }}'>
+							{% trans from "label" %}editar.foro{% endtrans %}
+						</a>
+					{% endif %}
 				</header>
 				<header class="panel-body bio-graph-info">
 					<div class='' align='right'>
-						<a href="{{ pathUser }}" class="">
-							<img align='right' src="{{ asset(imagen) }}" alt="" STYLE='widtH:45px;'>
+						
+						{% set pathUserC = path('perfil', {'perfilId': foro.usuario.id }) %}
+						{% set imagenC = (foro.usuario.usuarioImagen) ? foro.usuario.usuarioImagen : gui_default_img %}
+						{% set usuarioNombreC = foro.usuario.usuarioNombre ~ ' ' ~ foro.usuario.usuarioApellido %}
+						<a href="{{ pathUserC }}" class="">
+							<img align='right' src="{{ asset(imagenC) }}" alt="" STYLE='widtH:45px;'>
 						</a>
 						<div class="task-thumb-details" STYLE='margin:0 5px 0 0;'>
-							<h1 STYLE='margin-bottom:0px;'><a href="{{ pathUser }}">{{ usuarioNombre }}</a></h1>
+							<h1 STYLE='margin-bottom:0px;'><a href="{{ pathUserC }}">{{ usuarioNombreC }}</a></h1>
 							<p STYLE='padding-top:0px;margin:0px;'>{% if foro.created %}{{ foro.created|date('Y/m/d') }}{% endif %}</p>
 						</div>
 					</div>

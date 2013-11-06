@@ -9,8 +9,8 @@
 				<aside class="profile-nav col-lg-12">
 					<section class="panel">
 						<div class="panel-body bio-graph-info">
-							<h1>{% trans from "label" %}crear.foro{% endtrans %}</h1>
-							<form action="{{ path('crear_foro') }}" method='POST' {{ form_enctype(form) }} id="PerfilForm" type="post" class="form-horizontal" role="form">
+							<h1>{% trans from "label" %}editar.foro{% endtrans %}</h1>
+							<form action="{{ path('edit_foro', {'foroId': foroId }) }}" method='POST' {{ form_enctype(form) }} id="PerfilForm" type="post" class="form-horizontal" role="form">
 								{{ form_widget(form._token) }}
 								{{ form_errors(form) }}
 								
@@ -30,11 +30,21 @@
 									<label class="col-lg-2 control-label">{% trans from "label" %}adjuntos{% endtrans %}</label>
 									<div class="col-lg-9">
 										<input type="file" id="form_attachment" name="form[attachment][]" class="form-control" multiple="">
+										<input type="hidden" id="del_adj" name="del_adj">
+										{% if foroAdjuntos %}
+											<hr>
+											{% for archivo in foroAdjuntos %}
+											<div>
+												<a href="{{ path('download_file', {'id':archivo.id}) }}">{{ archivo.archivoNombre }}</a>
+												<a class="icon_lnk del_adj" data-id="{{ archivo.id }}"> <i class="icon-remove"></i></a>
+											</div>
+											{% endfor %}
+										{% endif %}
 									</div>
 								</div>
 								<div class="form-group">
 									<div class="col-lg-offset-8 col-lg-12">
-										<a href="{{ path('foros_temas')}}" type="button" class="btn btn-default">{% trans from "label" %}cancelar{% endtrans %}</a>
+										<a href="{{ path('foros_temas', {'foroId' : foroId, 'id' : actual.carreraId, 'temaId' : actual.temaId }) }}" type="button" class="btn btn-default">{% trans from "label" %}cancelar{% endtrans %}</a>
 										<button type="submit" class="btn btn-info">{% trans from "label" %}guardar.cambios{% endtrans %}</button>
 									</div>
 								</div>
@@ -48,5 +58,11 @@
 {% endblock body %}
 
 {% block script %}
-
+	<script>
+		$('.del_adj').on('click', function(e) {
+			e.preventDefault();
+			$('#del_adj').attr('value', $('#del_adj').val()+$(this).data('id')+',');
+			$(this).parent().remove();
+		});
+	</script>
 {% endblock script%}

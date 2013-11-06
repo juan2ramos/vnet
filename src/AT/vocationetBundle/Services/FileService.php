@@ -119,5 +119,16 @@ class FileService
         
         return strtolower($ext);
     }
+
+	/**
+     * Funcion que elimina un archivo del disco duto
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param String $archivoPATH Ruta del archivo a eliminar
+     */
+    public function deleteFile($archivoPATH) {
+		@unlink($this->root.$archivoPATH);
+	}
 }
 ?>

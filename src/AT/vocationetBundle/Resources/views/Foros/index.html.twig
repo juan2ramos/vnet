@@ -72,7 +72,7 @@
     <script src="{{ asset('js/dynamic-table.js') }}"></script>
 
     <script>
-		$('.foro').click(function(){
+		$('.table').on('click', '.foro', function(){
 			window.location = $(this).data('href');
 		})
     </script>

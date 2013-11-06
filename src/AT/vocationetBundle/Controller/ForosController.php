@@ -13,133 +13,18 @@ use AT\vocationetBundle\Entity\ForosArchivos;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * controlador de foros
+ * Controlador de foros
  * @package vocationetBundle
  * @Route("/foros/")
  */
 class ForosController extends Controller
 {
-	/**
-	 *
-	 * @Route("new", name="crear_foro")
-	 * @Template("vocationetBundle:Foros:new.html.twig")
-	 */
-	 public function newAction(Request $request)
-	 {
-		$security = $this->get('security');
-		if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-
-        $usuarioId = $security->getSessionValue('id');
- 
-		$carreraId = 1;
-		$form = $this->formForo($carreraId);
-		if ($request->getMethod() == 'POST')
-		{
-			$form->bind($request);
-			if ($form->isvalid())
-			{
-				$dataForm = $form->getData();
-				$errores = $this->validateFormForo($dataForm);
-
-				if ($errores == 0)
-				{
-					$em = $this->getDoctrine()->getManager();
-					$ObjTema = $em->getRepository('vocationetBundle:Temas')->findOneById($dataForm['temaId']);
-					$ObjUsuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
-					$fechaCreacion = new \DateTime();
-					
-					$newForo = new Foros();
-					$newForo->setForoTitulo($dataForm['foroTitulo']);
-					$newForo->setForoTexto($dataForm['foroTexto']);
-					$newForo->setTema($ObjTema);
-					$newForo->setUsuario($ObjUsuario);
-					$newForo->setCreated($fechaCreacion);
-					$newForo->setModified($fechaCreacion);
-					$em->persist($newForo);
-					$em->flush();
-
-					$ObjCarrera = $ObjTema->getCarrera();
-					$carreraId = $ObjCarrera->getId();
-					$foroId = $newForo->getId();
-					$temaId = $ObjTema->getId();
-
-					$files_id = $this->get('file')->upload($dataForm['attachment'], 'foros/');
-					foreach($files_id as $idFile){
-						$ObjArchivo = $em->getRepository('vocationetBundle:Archivos')->findOneById($idFile);
-						$newFA = new ForosArchivos();
-						$newFA->setForo($newForo);
-						$newFA->setArchivo($ObjArchivo);
-						$em->persist($newFA);
-						$em->flush();
-					}
-					
-					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.creado"), "text" => $this->get('translator')->trans("foro.creado.correctamente")));
-					return $this->redirect($this->generateUrl('foros_temas', array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
-				}
-			}
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
-			
-		}
-		return array('form' => $form->createView());
-	 }
-
-	private function formForo($carreraId)
-	{
-		$temaAct = 1;
-		$temas= $this->getCarrerasTemasARRAY();
-		
-		$formData = Array('foroTitulo'=> null, 'foroTexto'=> null, 'temaId' => null);
-		$form = $this->createFormBuilder($formData)
-		   ->add('foroTitulo', 'text', array('required' => true, 'attr' => Array('pattern' => '^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ-]*$' )))
-		   ->add('foroTexto', 'textarea', array('required' => true, 'attr' => Array('style' => 'resize:vertical;', 'rows' => 7) ))
-		   ->add('temaId', 'choice', array('choices'  => $temas,  'preferred_choices' => array($temaAct), 'required' => true))
-		   ->add('attachment', 'file', array('required' => false))
-		   ->getForm();
-		return $form;
-	}
-
-	private function validateFormForo($dataForm)
-	{
-		$foroTitulo = $dataForm['foroTitulo'];
-		$foroTexto = $dataForm['foroTexto'];
-		$temaId = $dataForm['temaId'];
-
-		$NotBlank = new Assert\NotBlank();
-		$Regex = new Assert\Regex(Array('pattern'=>'/^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ-]*$/'));
-
-		$countErrores = 0;
-		$countErrores += (count($this->get('validator')->validateValue($foroTitulo, Array($NotBlank, $Regex))) == 0) ? 0 : 1;
-		$countErrores += (count($this->get('validator')->validateValue($foroTexto, Array($NotBlank))) == 0) ? 0 : 1;
-		$countErrores += (count($this->get('validator')->validateValue($temaId, Array($NotBlank))) == 0) ? 0 : 1;
-		return $countErrores;
-	}
-
-	/**
-     * Funcion para obtener la lista de adjuntos de un mensaje
-     * 
-     * @param integer $mensajeId id de mensaje
-     * @return array arreglo de adjuntos
-     */
-    private function getAdjuntosForos($foroId)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $dql = "SELECT a.id, a.archivoNombre
-                FROM vocationetBundle:Archivos a
-                JOIN vocationetBundle:ForosArchivos fa WITH a.id = fa.archivo
-                WHERE fa.foro = :fid";
-        $query = $em->createQuery($dql);
-        $query->setParameter('fid', $foroId);
-        $adjuntos = $query->getResult();
-        return $adjuntos;
-    }
-	
     /**
      * Listado de foros y temas de la carrera que ingresa por parametro
      *
      * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-     * @Route("c_{id}/t_{temaId}/f_{foroId}", name="foros_temas", defaults={"temaId" = 0, "foroId" = 0})
+     * @Route("c_{id}/t_{temaId}/f_{foroId}", name="foros_temas", defaults={"temaId" = 0, "foroId" = 0, "id" = 0})
      * @Template("vocationetBundle:Foros:index.html.twig")
      * @Template("vocationetBundle:Foros:showForo.html.twig")
      * @Method("GET")
@@ -150,12 +35,18 @@ class ForosController extends Controller
      */
     public function indexAction($id, $temaId, $foroId)
     {
-        $security = $this->get('security');
+		$security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$em = $this->getDoctrine()->getManager();
         $carreras = $em->getRepository('vocationetBundle:Carreras')->findAll();
+
+        if($id == 0){
+			if($carreras){
+				$id = $carreras[0]->getId();
+			}
+		}
         $temas = $this->getTemasCountForos($id);
         $PosActual = Array('carreraId' => $id, 'temaId' => $temaId);
 
@@ -163,6 +54,17 @@ class ForosController extends Controller
         {
 			// If hay foro seleccionado redireccionara el show del foro
 			$foro = $em->getRepository('vocationetBundle:Foros')->findOneById($foroId);
+
+			if (!$foro){
+				throw $this->createNotFoundException($this->get('translator')->trans("foro.no.existe"));
+			}
+
+			// Validacion de que al foro que intenta acceder corresponde a la carrera seleccionada
+			if ($foro->getTema()->getCarrera()->getId() != $id) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ingreso.invalido")));
+				return $this->redirect($this->generateUrl('foros_temas', array('id'=> $id, 'temaId' => $temaId)));
+			}
+
 			$foroAdjuntos = $this->getAdjuntosForos($foroId);
 			$comentarios = $this->getComentarios($foroId);
 			return $this->render('vocationetBundle:Foros:showForo.html.twig', array(
@@ -176,17 +78,10 @@ class ForosController extends Controller
 
 		else
 		{
-			// If no hay foro seleccionado, enlista los foros de la carrera y/o tema seleccionado
 			$foros = $this->ForosCarrerasTemas($id, $temaId);
 			return $this->render('vocationetBundle:Foros:index.html.twig', array(
 					'carreras' => $carreras, 'temas' => $temas,	'actual' => $PosActual,	'foros' => $foros ));
 		}
-        
-        return array(
-			'carreras' => $carreras,
-			'temas' => $temas,
-			'actual' => $PosActual,
-			'foros' => $foros);
     }
 
 	/**
@@ -208,6 +103,10 @@ class ForosController extends Controller
     public function comentarAction(Request $request)
     {
 		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+		$security = $this->get('security');
 		$usuarioId = $security->getSessionValue('id');
 		$usuarioImagen = $security->getSessionValue('usuarioImagen');
 		$usuarioName = $security->getSessionValue('usuarioNombre')." ".$security->getSessionValue('usuarioApellido');
@@ -216,7 +115,6 @@ class ForosController extends Controller
         $comentarioTexto = $request->get('comentario');
         $tipo = $request->get('tipo');
         $comentarioRespuestaId = $request->get('idcomrespuesta');
-        
         $fechaCreacion = new \DateTime();
 
         $em = $this->getDoctrine()->getManager();
@@ -272,6 +170,279 @@ class ForosController extends Controller
 		}
 		return new Response($return);
     }
+
+    /**
+	 * Crear un foro
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @Template("vocationetBundle:Foros:new.html.twig")
+	 * @Route("new", name="crear_foro")
+	 * @Method({"GET","POST"})
+	 * @param Request Form de nuevo foro
+	 * @return Render
+	 */
+	 public function newAction(Request $request)
+	{
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+
+        $usuarioId = $security->getSessionValue('id');
+ 
+		$form = $this->formForo();
+		if ($request->getMethod() == 'POST')
+		{
+			$form->bind($request);
+			if ($form->isvalid())
+			{
+				$dataForm = $form->getData();
+				$errores = $this->validateFormForo($dataForm);
+
+				if ($errores == 0)
+				{
+					$em = $this->getDoctrine()->getManager();
+					$ObjTema = $em->getRepository('vocationetBundle:Temas')->findOneById($dataForm['temaId']);
+					$ObjUsuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
+					$fechaCreacion = new \DateTime();
+					
+					$newForo = new Foros();
+					$newForo->setForoTitulo($dataForm['foroTitulo']);
+					$newForo->setForoTexto($dataForm['foroTexto']);
+					$newForo->setTema($ObjTema);
+					$newForo->setUsuario($ObjUsuario);
+					$newForo->setCreated($fechaCreacion);
+					$newForo->setModified($fechaCreacion);
+					$em->persist($newForo);
+					$em->flush();
+
+					$ObjCarrera = $ObjTema->getCarrera();
+					$carreraId = $ObjCarrera->getId();
+					$foroId = $newForo->getId();
+					$temaId = $ObjTema->getId();
+
+					$files_id = $this->get('file')->upload($dataForm['attachment'], 'foros/');
+					foreach($files_id as $idFile){
+						$ObjArchivo = $em->getRepository('vocationetBundle:Archivos')->findOneById($idFile);
+						$newFA = new ForosArchivos();
+						$newFA->setForo($newForo);
+						$newFA->setArchivo($ObjArchivo);
+						$em->persist($newFA);
+						$em->flush();
+					}
+					
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.creado"), "text" => $this->get('translator')->trans("foro.creado.correctamente")));
+					return $this->redirect($this->generateUrl('foros_temas', array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
+				}
+			}
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+			
+		}
+		return array('form' => $form->createView());
+	}
+
+	/**
+	 * Editar un foro
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @Template("vocationetBundle:Foros:edit.html.twig")
+	 * @Route("{foroId}/edit", name="edit_foro")
+	 * @Method({"GET","POST"})
+	 * @param Request $request Form de edicion del foro
+	 * @param Request $foroId Id del foro a editar
+	 * @return Render
+	 */
+	 public function editAction(Request $request, $foroId)
+	{
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+
+        $em = $this->getDoctrine()->getManager();
+        $usuarioId = $security->getSessionValue('id');
+		$foro = $em->getRepository('vocationetBundle:Foros')->findOneBy(Array('id'=>$foroId));
+		
+        if (!$foro) {
+			throw $this->createNotFoundException($this->get('translator')->trans("foro.no.existe"));
+		}
+		
+		$usuarioCreador = $foro->getUsuario()->getId();
+		$sess_permissions = $security->session->get('sess_permissions');
+        if ((in_array('acceso_edit_delete_foro', $sess_permissions['permissions'])) || ($usuarioCreador === $usuarioId)){
+			
+			$form = $this->formForo($foro);
+			$foroAdjuntos = $this->getAdjuntosForos($foroId);
+
+			$PosActual = Array('carreraId' => $foro->getTema()->getCarrera()->getId(), 'temaId' => $foro->getTema()->getId());
+
+			if ($request->getMethod() == "POST") {
+				$form->bind($request);
+				if ($form->isvalid())
+				{
+					$dataForm = $form->getData();
+					$errores = $this->validateFormForo($dataForm);
+
+					if ($errores == 0)
+					{
+						$ObjTema = $em->getRepository('vocationetBundle:Temas')->findOneById($dataForm['temaId']);
+
+						$foro->setForoTitulo($dataForm['foroTitulo']);
+						$foro->setForoTexto(stripslashes($dataForm['foroTexto']));
+						$foro->setTema($ObjTema);
+						$foro->setModified(new \DateTime());
+						$em->persist($foro);
+						$em->flush();
+
+						$ObjCarrera = $ObjTema->getCarrera();
+						$carreraId = $ObjCarrera->getId();
+						$foroId = $foro->getId();
+						$temaId = $ObjTema->getId();
+
+						$this->eliminarAdjuntos($request->request->get('del_adj'), $foro);
+						
+						$files_id = $this->get('file')->upload($dataForm['attachment'], 'foros/');
+						foreach($files_id as $idFile){
+							$ObjArchivo = $em->getRepository('vocationetBundle:Archivos')->findOneById($idFile);
+							$newFA = new ForosArchivos();
+							$newFA->setForo($foro);
+							$newFA->setArchivo($ObjArchivo);
+							$em->persist($newFA);
+							$em->flush();
+						}
+						
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.creado"), "text" => $this->get('translator')->trans("foro.creado.correctamente")));
+						return $this->redirect($this->generateUrl('foros_temas', array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
+					}
+				}
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+			}
+		}
+		else {
+			throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));
+		}
+
+        return array('form' => $form->createView(), 'foroId' => $foroId, 'foroAdjuntos' => $foroAdjuntos, 'actual' => $PosActual);
+	}
+
+
+	// FUNCIONES Y METODOS
+	
+	/*
+     * Funcion para eliminar archivos adjuntos de un foro
+     *
+     * Funcion que elimina tanto fisicamente(en disco duro), como en base de datos los archivos del foro pasados por parametro
+     * 
+     * $delAdj = string con los id de los archivos que se eliminaran separados por comas
+     * $foro = entidad del foro
+     */
+    function eliminarAdjuntos($delAdj, $foro)
+    {
+        $archivos= explode(',', $delAdj);
+        unset($archivos[count($archivos)-1]);
+
+        if(count($archivos)>0)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $dql_ids = array();
+            $dqlII_ids = array();
+
+            foreach($archivos as $archivoId)
+            {
+                $archivo = $em->getRepository('vocationetBundle:Archivos')->findOneById($archivoId);
+                if ($archivo) {
+					$this->get('file')->deleteFile($archivo->getArchivoPath());
+					$dql_ids[] = 'fa.archivo = '.$archivoId;
+					$dqlII_ids[] = 'a.id = '.$archivoId;
+				}
+            }
+
+            if(count($dql_ids)>0)
+            {
+                $dql = "DELETE FROM vocationetBundle:ForosArchivos fa
+                        WHERE fa.foro =:foro AND (". implode(' OR ', $dql_ids) .")";
+                $query = $em->createQuery($dql);
+                $query->setParameter('foro', $foro);
+                $query->getResult();
+
+                $dql ="DELETE FROM vocationetBundle:Archivos a
+					   WHERE (". implode(' OR ', $dqlII_ids) .")";
+				$query = $em->createQuery($dql);
+				$query->getResult();
+            }
+        }
+    }
+
+	
+	/**
+	 * Estructura del formulario de creacion y edicion de foro
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Objeto $foro objeto del foro si es caso edicion
+     * @return Formulario de creacion de foro
+	 */
+	private function formForo($foro = false)
+	{
+		$temas= $this->getCarrerasTemasARRAY();
+		$foroTitulo = ($foro) ? $foro->getForoTitulo()  : null;
+		$foroText = ($foro) ? $foro->getForoTexto()  : null;
+		$temaAct = ($foro) ? $foro->getTema()->getId() : 1;
+		
+		$formData = Array('foroTitulo'=> $foroTitulo, 'foroTexto'=> $foroText, 'temaId' => null);
+		$form = $this->createFormBuilder($formData)
+		   ->add('foroTitulo', 'text', array('required' => true, 'attr' => Array('pattern' => '^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ-]*$' )))
+		   ->add('foroTexto', 'textarea', array('required' => true, 'attr' => Array('style' => 'resize:vertical;', 'rows' => 7) ))
+		   ->add('temaId', 'choice', array('choices'  => $temas,  'preferred_choices' => array($temaAct), 'required' => true))
+		   ->add('attachment', 'file', array('required' => false))
+		   ->getForm();
+		return $form;
+	}
+
+	/**
+	 * validacion del formulario de creacion de foro
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Array $dataForm Datos del formulario
+     * @return Int (Mayor a 0, no paso la validación)
+	 */
+	private function validateFormForo($dataForm)
+	{
+		$foroTitulo = $dataForm['foroTitulo'];
+		$foroTexto = $dataForm['foroTexto'];
+		$temaId = $dataForm['temaId'];
+
+		$NotBlank = new Assert\NotBlank();
+		$Regex = new Assert\Regex(Array('pattern'=>'/^[a-zA-Z0-9 áéíóúÁÉÍÓÚñÑ-]*$/'));
+
+		$countErrores = 0;
+		$countErrores += (count($this->get('validator')->validateValue($foroTitulo, Array($NotBlank, $Regex))) == 0) ? 0 : 1;
+		//$countErrores += (count($this->get('validator')->validateValue($foroTexto, Array($NotBlank))) == 0) ? 0 : 1;
+		$countErrores += (count($this->get('validator')->validateValue($temaId, Array($NotBlank))) == 0) ? 0 : 1;
+		return $countErrores;
+	}
+
+	/**
+     * Funcion para obtener la lista de adjuntos de un foro
+     *
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Int $foroId id de foro
+     * @return Array arreglo de adjuntos
+     */
+    private function getAdjuntosForos($foroId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $dql = "SELECT a.id, a.archivoNombre
+                FROM vocationetBundle:Archivos a
+                JOIN vocationetBundle:ForosArchivos fa WITH a.id = fa.archivo
+                WHERE fa.foro = :fid";
+        $query = $em->createQuery($dql);
+        $query->setParameter('fid', $foroId);
+        $adjuntos = $query->getResult();
+        return $adjuntos;
+    }
     
 	/**
 	 * Comentario del foro que ingresa por parametro
@@ -284,7 +455,7 @@ class ForosController extends Controller
 	 * @param Int $foroId Id del foro
 	 * @return Array Arreblo bidimensional
 	 */
-    function getComentarios($foroId)
+    private function getComentarios($foroId)
     {
 		$em = $this->getDoctrine()->getManager();
 		$dql = "SELECT c.id, c.texto, c.created, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.id AS usuarioId,

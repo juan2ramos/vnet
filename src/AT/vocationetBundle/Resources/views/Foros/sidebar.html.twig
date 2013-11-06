@@ -1,6 +1,12 @@
 {# CARRERAS #}
 {% if carreras %}
 	<section class="panel">
+		<header class="panel-heading">
+			<a type="button" href="{{ path('crear_foro') }}" class="btn btn-primary btn-block">{% trans from "label" %}nuevo.foro{% endtrans %}</a>
+		</header>
+	</section>
+	
+	<section class="panel">
 		<header class="panel-heading">{% trans from "label" %}carreras{% endtrans %}</header>
 		<div class="list-group">
 			{% for car in carreras %}
