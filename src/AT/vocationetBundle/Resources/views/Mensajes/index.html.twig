@@ -225,13 +225,12 @@
             
             $("#inbox-tbody").on('submit', 'form', function(e){
                 e.preventDefault();        
-                console.log('Preparando para enviar');
+                
                 var form = $(this);
                 var btn = $(":submit", this);
 
                 btn.attr('disabled', true);
                 btn.html('{% trans  from "label" %}enviando{% endtrans %}...');
-
                 
                 $.ajax({
                     type: "POST",
@@ -240,7 +239,6 @@
                     dataType: "json",
                     success: function (response){
                         if(response.status == "success"){
-                            console.log("enviado");
                             btn.removeAttr('disabled');
                             btn.html('{% trans  from "label" %}enviar.mensaje{% endtrans %}');
                             $.gritter.add({
