@@ -483,6 +483,10 @@
                 <source>hora</source>
                 <target>Hora</target>
 			</trans-unit>
+			<trans-unit id="generico-6">
+                <source>eliminar</source>
+                <target>Eliminar</target>
+			</trans-unit>
 
             <!-- MENSAJES inbox-x -->
 			<trans-unit id="inbox-1">
@@ -574,6 +578,10 @@
 			<trans-unit id="ment-3">
                 <source>mentoria.con.%user%</source>
                 <target>Mentoria con %user%</target>
+            </trans-unit>
+			<trans-unit id="ment-4">
+                <source>mentoria</source>
+                <target>Mentoria</target>
             </trans-unit>
             
             

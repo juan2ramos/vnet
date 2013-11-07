@@ -118,6 +118,34 @@
 			<trans-unit id="ment-2">
                 <source>mentoria.agregada.correctamente</source>
                 <target>Mentoria agregada correctamente</target>
+            </trans-unit>            
+			<trans-unit id="ment-3">
+                <source>fecha.invalida</source>
+                <target>Fecha inválida</target>
+            </trans-unit>            
+			<trans-unit id="ment-4">
+                <source>fecha.hora.incorrecta</source>
+                <target>No puede seleccionar una fecha anterior a la actual</target>
+            </trans-unit>            
+			<trans-unit id="ment-5">
+                <source>mentoria.eliminada</source>
+                <target>Mentoria eliminada</target>
+            </trans-unit>            
+			<trans-unit id="ment-6">
+                <source>mentoria.eliminada.correctamente</source>
+                <target>Mentoria eliminada correctamente</target>
+            </trans-unit>            
+			<trans-unit id="ment-7">
+                <source>mentoria.no.eliminada</source>
+                <target>Mentoria no eliminada</target>
+            </trans-unit>            
+			<trans-unit id="ment-8">
+                <source>mentoria.ya.esta.asignada</source>
+                <target>La mentoria ya ha sido apartada por un estudiante</target>
+            </trans-unit>            
+			<trans-unit id="ment-9">
+                <source>mentoria.no.se.puede.eliminar</source>
+                <target>La mentoria no se puede eliminar</target>
             </trans-unit>
         </body>
     </file>
