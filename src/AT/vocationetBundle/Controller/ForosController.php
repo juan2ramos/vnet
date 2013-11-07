@@ -67,13 +67,16 @@ class ForosController extends Controller
 
 			$foroAdjuntos = $this->getAdjuntosForos($foroId);
 			$comentarios = $this->getComentarios($foroId);
+			$deleteForm = $this->createDeleteForm($foroId);
+			
 			return $this->render('vocationetBundle:Foros:showForo.html.twig', array(
 				'carreras' => $carreras,
 				'temas' => $temas,
 				'actual' => $PosActual,
 				'foro' => $foro,
 				'foroAdjuntos' => $foroAdjuntos,
-				'comentarios' => $comentarios));
+				'comentarios' => $comentarios,
+				'delete_form' => $deleteForm->createView()));
 		}
 
 		else
@@ -253,7 +256,7 @@ class ForosController extends Controller
 	 * @param Request $foroId Id del foro a editar
 	 * @return Render
 	 */
-	 public function editAction(Request $request, $foroId)
+	public function editAction(Request $request, $foroId)
 	{
 		$security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
@@ -325,8 +328,104 @@ class ForosController extends Controller
         return array('form' => $form->createView(), 'foroId' => $foroId, 'foroAdjuntos' => $foroAdjuntos, 'actual' => $PosActual);
 	}
 
+	/**
+     * Borrar un foro
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar foro
+     * @param Int $foroId Id del foro a eliminar
+     * @return Redirect 
+     * @Route("{foroId}/delete", name="delete_foro")
+     * @Method("DELETE")
+     */
+	public function deleteAction(Request $request, $foroId)
+	{
+		$form = $this->createDeleteForm($foroId);
+        $form->handleRequest($request);
+
+        $em = $this->getDoctrine()->getManager();
+		$foro = $em->getRepository('vocationetBundle:Foros')->findOneBy(Array('id'=>$foroId));
+
+		if (!$foro) {
+			throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));
+		}
+
+		$temaId = $foro->getTema()->getId();
+		$carreraId = $foro->getTema()->getCarrera()->getId();
+
+        if ($form->isValid()) {
+            $usuarioCreador = $foro->getUsuario()->getId();
+            $security = $this->get('security');
+            $usuarioId = $security->getSessionValue('id');
+			$sess_permissions = $security->session->get('sess_permissions');
+			if ((in_array('acceso_edit_delete_foro', $sess_permissions['permissions'])) || ($usuarioCreador === $usuarioId))
+			{
+				//Eliminar comentarios del foro
+				$this->deleteComentariosForo($foroId);
+
+				//Eliminar archivos adjuntos del foro
+				$adjuntos = $this->getAdjuntosForos($foroId);
+				if ($adjuntos) {
+					$ConcatenacionIds = '';
+					foreach ($adjuntos as $adj) {
+						$ConcatenacionIds .= $adj['id'].',' ;
+					}
+					$this->eliminarAdjuntos($ConcatenacionIds, $foro);
+				}
+
+				$em->remove($foro);
+				$em->flush();
+
+				$foroId = 0;
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.eliminado"), "text" => $this->get('translator')->trans("foro.eliminado.correctamente")));
+			}
+			else {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("acceso.denegado"), "text" => $this->get('translator')->trans("no.tiene.permisos.para.realizar.esta.accion")));
+			}
+		}
+		else
+		{
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("acceso.invalido"), "text" => $this->get('translator')->trans("acceso.invalido")));
+		}
+		return $this->redirect($this->generateUrl('foros_temas', Array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
+	}
+
 
 	// FUNCIONES Y METODOS
+
+	/**
+     * Creación de formulario para eliminar un foro
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Int $id Id del foro
+     * @return \Symfony\Component\Form\Form Formulario de eliminacion
+     */
+	private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('delete_foro', Array('foroId' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'button', array('label' => $this->get('translator')->trans("delete.foro"), 'attr' => array ('class' => 'btn btn-primary btn-xs confirmdelete' )))
+            ->getForm();
+    }
+
+	/**
+	 * Funcion privada para eliminar comentarios de un foro
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Objeto $foroId Id del foro
+	 */
+    private function deleteComentariosForo($foroId)
+    {
+		$em = $this->getDoctrine()->getManager();
+        $dql = "DELETE FROM vocationetBundle:Comentarios c
+                WHERE c.foro =:foroId";
+        $query = $em->createQuery($dql);
+        $query->setParameter('foroId', $foroId);
+        $query->getResult();
+	}
 	
 	/*
      * Funcion para eliminar archivos adjuntos de un foro

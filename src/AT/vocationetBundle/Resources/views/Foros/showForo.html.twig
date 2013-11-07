@@ -16,9 +16,10 @@
 						{% trans from "label" %}volver{% endtrans %}
 					</a>
 					{% if foro.usuario.id == usuarioId %}
-						<a type="button"  STYLE='text-align:right;' class="btn btn-primary btn-xs" href='{{ path('edit_foro', {'foroId': foroId }) }}'>
+						<a type="button" class="btn btn-primary btn-xs" href='{{ path('edit_foro', {'foroId': foroId }) }}'>
 							{% trans from "label" %}editar.foro{% endtrans %}
 						</a>
+						<div style='display:inline-block;'>{{ form(delete_form, {'attr':{'id':'formdeleteforo'}}) }}</div>
 					{% endif %}
 				</header>
 				<header class="panel-body bio-graph-info">
@@ -132,5 +133,12 @@
 			$('#'+textarea).val('');
 			$('#'+textarea).focus();
 		});
+
+		// Confirmacion de eliminar un tipo de investigacion
+        $('.confirmdelete').click(function(){
+            if (confirm('{% trans from "label" %}desea.eliminar.este.foro{% endtrans %}')) {
+                $('#formdeleteforo').submit();
+            }
+        });
 	</script>
 {% endblock script%}

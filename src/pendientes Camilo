@@ -22,13 +22,14 @@ COMPLETADAS
 VOCATIONET
 -- BUSCADOR EN COMBOBOX DE COLEGIOS
 -- filtro de elementos dependiendo quien visite el perfil
+- PENDIENTE REVISAR LO DEL /// CON CARACTERES ESPECIALES EN FORMS
 	FOROS
 	- A QUE CARRERAS EL USUARIO VA A TENER ACCESO
+	- ELIMINAR COMENTARIOS??
 	- NOTIFICACIONES DE COMENTARIO EN INBOX
 	- TRADUCCION TABLAS
 	- TRADUCCIONES DE TODOS LOS ARCHIVOS
 	- ELIMINAR FORO
-	- PENDIENTE REVISAR LO DEL /// CON CARACTERES ESPECIALES EN FORMS
 
 VOTACIONES
 -- REVISAR ENCRIPTAR VOTO - SELECT * FROM tbl_votaciones;
@@ -56,8 +57,13 @@ tema
 foro.no.existe
 editar.foro
 nuevo.foro
+delete.foro
+desea.eliminar.este.foro
 
 MENSAJES
 foro.creado
 foro.creado.correctamente
 ingreso.invalido
+foro.eliminado.correctamente
+foro.eliminado
+acceso.invalido
