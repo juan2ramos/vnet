@@ -124,8 +124,22 @@ class ForosController extends Controller
         $usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
         $foro = $em->getRepository('vocationetBundle:Foros')->findOneById($id);
 
+		// Agregar a usuario creador del foro para notificacion del comentario
+		$toList = Array();
+        $usuarioForo = $foro->getUsuario()->getId();
+        if ($usuarioId != $usuarioForo) {
+				$toList[] = $usuarioForo;
+			}
+        
+
         if ($comentarioRespuestaId != 0) {
 			$comentarioRespuesta = $em->getRepository('vocationetBundle:Comentarios')->findOneById($comentarioRespuestaId);
+
+			// Agregar a usuario del comentario que estoy respondiendo para notificacion del comentario
+			$usuarioCommentR = $comentarioRespuesta->getUsuario()->getId();
+			if ($usuarioId != $usuarioCommentR) {
+				$toList[] = $usuarioCommentR;
+			}
 		} else {
 			$comentarioRespuesta = null;
 		}
@@ -142,6 +156,12 @@ class ForosController extends Controller
 		$em->flush();
 		
 		$comentarioId = $newComentario->getId();
+
+		if (count($toList)>0) {
+			$subject = $this->get('translator')->trans("nuevo.comentario", Array(), 'label');
+			$message = $usuarioName .' '. $this->get('translator')->trans("ha.escrito.un.comentario", Array(), 'label').'\nl"'.$comentarioTexto.'"';
+			$mensaje_serv = $this->get('mensajes')->enviarMensaje($usuarioId, $toList, $subject, $message, null, null);
+		}
         
 		$renderComentario =  $this->renderView('vocationetBundle:Foros:comentarioShow.html.twig', array(
             'usuarioId' => $usuarioId,
@@ -314,7 +334,7 @@ class ForosController extends Controller
 							$em->flush();
 						}
 						
-						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.creado"), "text" => $this->get('translator')->trans("foro.creado.correctamente")));
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.editado"), "text" => $this->get('translator')->trans("foro.editado.correctamente")));
 						return $this->redirect($this->generateUrl('foros_temas', array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
 					}
 				}
@@ -406,7 +426,7 @@ class ForosController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('delete_foro', Array('foroId' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'button', array('label' => $this->get('translator')->trans("delete.foro"), 'attr' => array ('class' => 'btn btn-primary btn-xs confirmdelete' )))
+            ->add('submit', 'button', array('label' => $this->get('translator')->trans("delete.foro", Array(), 'label'), 'attr' => array ('class' => 'btn btn-primary btn-xs confirmdelete' )))
             ->getForm();
     }
 

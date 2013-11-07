@@ -11,7 +11,15 @@
                 <source>verifique.los datos.suministrados</source>
                 <target>Verifique los datos ingresados</target>
             </trans-unit>
-            
+            <trans-unit id="generic-3">
+                <source>Acceso denegado</source>
+                <target>Acceso denegado</target>
+            </trans-unit>
+            <trans-unit id="generic-4">
+                <source>acceso.invalido</source>
+                <target>Acceso invalido</target>
+            </trans-unit>
+                        
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
                 <source>autenticacion.fallida</source>
@@ -108,6 +116,48 @@
             <trans-unit id="sync-5">
                 <source>no.se.encontratron.cambios.para.sincronizacion</source>
                 <target>Su perfil se encuentra actualizado</target>
+            </trans-unit>
+
+			<!-- FOROS foros-x -->
+            <trans-unit id="foros-1">
+                <source>foro.no.existe</source>
+                <target>Foro no existe</target>
+            </trans-unit>
+            <trans-unit id="foros-2">
+                <source>foro.creado</source>
+                <target>Foro creado</target>
+            </trans-unit>
+            <trans-unit id="foros-3">
+                <source>foro.creado.correctamente</source>
+                <target>El foro fue creado correctamente</target>
+            </trans-unit>
+            <trans-unit id="foros-4">
+                <source>foro.eliminado</source>
+                <target>Foro eliminado</target>
+            </trans-unit>
+            <trans-unit id="foros-5">
+                <source>foro.eliminado.correctamente</source>
+                <target>El foro fue eliminado correctamente</target>
+            </trans-unit>
+            <trans-unit id="foros-6">
+                <source>acceso.denegado</source>
+                <target>Acceso denegado</target>
+            </trans-unit>
+            <trans-unit id="foros-7">
+                <source>no.tiene.permisos.para.realizar.esta.accion</source>
+                <target>No tiene permisos para realizar esta acción</target>
+            </trans-unit>
+            <trans-unit id="foros-8">
+                <source></source>
+                <target></target>
+            </trans-unit>
+            <trans-unit id="foros-9">
+                <source>foro.editado</source>
+                <target>Foro editado</target>
+            </trans-unit>
+            <trans-unit id="foros-10">
+                <source>foro.editado.correctamente</source>
+                <target>El foro ha sido editado correctamente</target>
             </trans-unit>
         </body>
     </file>

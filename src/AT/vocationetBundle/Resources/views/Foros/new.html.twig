@@ -1,15 +1,14 @@
 {% extends "::base.html.twig" %}
 
-
 {% block body %}
 	<div class='col-lg-9'>
 		<div class="row">
-		
+
 			{# FORMULARIO DE CREACION DE UN FORO #}
 				<aside class="profile-nav col-lg-12">
 					<section class="panel">
 						<div class="panel-body bio-graph-info">
-							<h1>{% trans from "label" %}crear.foro{% endtrans %}</h1>
+							<h1>{% trans from "label" %}nuevo.foro{% endtrans %}</h1>
 							<form action="{{ path('crear_foro') }}" method='POST' {{ form_enctype(form) }} id="PerfilForm" type="post" class="form-horizontal" role="form">
 								{{ form_widget(form._token) }}
 								{{ form_errors(form) }}
@@ -44,9 +43,4 @@
 						</div>
 					</section>
 				</aside>
-	
 {% endblock body %}
-
-{% block script %}
-
-{% endblock script%}

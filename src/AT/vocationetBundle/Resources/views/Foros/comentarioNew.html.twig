@@ -8,7 +8,9 @@
 			<div class="input-group m-bot15">
 				<textarea class="form-control" id='foro_{{ respuesta }}{{ foroId }}{{ comentarioId }}' STYLE='width:100%;resize:vertical;' rows="2"></textarea>
 				<span class="input-group-btn" STYLE='vertical-align:top;'>
-					<button class="btn btn-primary btn_comment" data-tipo={{ respuesta }} data-foroid='{{ foroId }}' data-com={{ comentarioId }} type="button" STYLE='margin-left:5px;'>participar</button>
+					<button class="btn btn-primary btn_comment" data-tipo={{ respuesta }} data-foroid='{{ foroId }}' data-com={{ comentarioId }} type="button" STYLE='margin-left:5px;'>
+						{% trans  from "label" %}participar{% endtrans %}
+					</button>
 				</span>
 			</div>
 		</div>

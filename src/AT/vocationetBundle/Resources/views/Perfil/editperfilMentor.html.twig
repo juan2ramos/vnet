@@ -18,7 +18,7 @@
 					<section class="panel">
 						<div class="user-heading round">
 							{% set imagen = (perfil.usuarioImagen) ? perfil.usuarioImagen : gui_default_img %}
-							<a href="#"><img src="{{ asset(imagen) }}" alt=""></a>
+							<a href="#"><img src="{{ asset(imagen ~ '?type=large') }}" alt=""></a>
 							<h1>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</h1>
 							<p>{{ perfil.usuarioEmail }}</p>
 						</div>
