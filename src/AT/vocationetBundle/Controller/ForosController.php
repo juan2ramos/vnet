@@ -109,7 +109,6 @@ class ForosController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
-		$security = $this->get('security');
 		$usuarioId = $security->getSessionValue('id');
 		$usuarioImagen = $security->getSessionValue('usuarioImagen');
 		$usuarioName = $security->getSessionValue('usuarioNombre')." ".$security->getSessionValue('usuarioApellido');
