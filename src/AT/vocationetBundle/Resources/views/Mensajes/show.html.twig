@@ -25,7 +25,7 @@
 </div>
 <div style="margin-top: 20px;">
     <h4>{{ mensaje.asunto }}</h4>
-    <p>{{ mensaje.contenido|nl2br }}</p>
+    <p>{{ mensaje.contenido|raw|nl2br }}</p>
 </div>
 <div>
     {% for archivo in adjuntos %}

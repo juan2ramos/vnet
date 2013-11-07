@@ -583,7 +583,14 @@
                 <source>mentoria</source>
                 <target>Mentoria</target>
             </trans-unit>
-            
+			<trans-unit id="ment-5">
+                <source>participar.mentoria</source>
+                <target>Separar mentoria</target>
+            </trans-unit>
+			<trans-unit id="ment-6">
+                <source>mentoria.separada.por.mi</source>
+                <target>Ya separaste esta mentoria</target>
+            </trans-unit>
             
         </body>
     </file>
