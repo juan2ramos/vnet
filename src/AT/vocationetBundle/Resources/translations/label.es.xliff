@@ -103,6 +103,10 @@
                 <source>no.ha.sido.suministrada</source>
                 <target>No ha sido suministrada</target>
             </trans-unit>
+            <trans-unit id="perfil-18-A">
+                <source>no.ha.sido.suministrado</source>
+                <target>No ha sido suministrado</target>
+            </trans-unit>
             <trans-unit id="perfil-19">
                 <source>tarjeta.profesional</source>
                 <target>Tarjeta profesional</target>
@@ -479,6 +483,10 @@
                 <source>volver</source>
                 <target>Volver</target>
 			</trans-unit>
+			<trans-unit id="generico-5">
+                <source>opciones</source>
+                <target>Opciones</target>
+			</trans-unit>
 
             <!-- MENSAJES inbox-x -->
 			<trans-unit id="inbox-1">
@@ -629,7 +637,94 @@
                 <source>ha.escrito.un.comentario</source>
                 <target>ha escrito un comentario</target>
             </trans-unit>
-            
+
+            <!-- DATATABLES datatb-x -->
+            <trans-unit id="datatb-1">
+                <source>DT.registros</source>
+                <target>Registros</target>
+			</trans-unit>
+            <trans-unit id="datatb-2">
+                <source>DT.no.se.datos.que.coincidan.con.la.busqueda</source>
+                <target>No se encontraron coinicidencias en la búsqueda</target>
+			</trans-unit>
+            <trans-unit id="datatb-3">
+                <source>DT.ningun.dato.disponible.en.esta.tabla</source>
+                <target>No hay datos disponibles en la tabla</target>
+			</trans-unit>
+            <trans-unit id="datatb-4">
+                <source>DT.buscar</source>
+                <target>Buscar</target>
+			</trans-unit>
+            <trans-unit id="datatb-5">
+                <source>DT.primero</source>
+                <target>Primero</target>
+			</trans-unit>
+            <trans-unit id="datatb-6">
+                <source>DT.ultimo</source>
+                <target>Último</target>
+			</trans-unit>
+            <trans-unit id="datatb-7">
+                <source>DT.siguiente</source>
+                <target>Siguiente</target>
+			</trans-unit>
+            <trans-unit id="datatb-8">
+                <source>DT.anterior</source>
+                <target>Anterior</target>
+			</trans-unit>
+
+			<!-- CONTACTOS contact-x -->
+			<trans-unit id="contact-1">
+                <source>contactos</source>
+                <target>Contactos</target>
+			</trans-unit>
+			<trans-unit id="contact-2">
+                <source>apellido</source>
+                <target>Apellido</target>
+			</trans-unit>
+			<trans-unit id="contact-3">
+                <source>nombre</source>
+                <target>Nombre</target>
+			</trans-unit>
+			<trans-unit id="contact-4">
+                <source>rol</source>
+                <target>Rol</target>
+			</trans-unit>
+			<trans-unit id="contact-5">
+                <source>estado</source>
+                <target>Estado</target>
+			</trans-unit>
+			<trans-unit id="contact-6">
+                <source>carrera</source>
+                <target>Carrera</target>
+			</trans-unit>
+			<trans-unit id="contact-7">
+                <source>profesion</source>
+                <target>Profesión</target>
+			</trans-unit>
+			<trans-unit id="contact-8">
+                <source>universidad</source>
+                <target>Universidad</target>
+			</trans-unit>
+			<trans-unit id="contact-9">
+                <source>eliminar.contacto</source>
+                <target>Eliminar contacto</target>
+			</trans-unit>
+			<trans-unit id="contact-10">
+                <source>aprobar</source>
+                <target>Aprobar</target>
+			</trans-unit>
+			<trans-unit id="contact-11">
+                <source>rechazar</source>
+                <target>Rechazar</target>
+			</trans-unit>
+			<trans-unit id="contact-12">
+                <source>no.tiene.ningun.contacto</source>
+                <target>No tiene ningún contacto</target>
+			</trans-unit>
+			<trans-unit id="contact-13">
+                <source>error.en.solicitud</source>
+                <target>Error en solicitud</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

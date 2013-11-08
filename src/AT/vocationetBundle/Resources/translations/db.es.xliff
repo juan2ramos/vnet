@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="es" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- ROLES rol-x -->
+            <trans-unit id="rol-1">
+                <source>estudiante</source>
+                <target>Estudiante</target>
+            </trans-unit>
+            <trans-unit id="rol-2">
+                <source>mentor_e</source>
+                <target>Mentor experto</target>
+            </trans-unit>
+            <trans-unit id="rol-3">
+                <source>mentor_ov</source>
+                <target>Mentor de orientación vocacional</target>
+            </trans-unit>
+            <trans-unit id="rol-4">
+                <source>administrador</source>
+                <target>Administrador</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

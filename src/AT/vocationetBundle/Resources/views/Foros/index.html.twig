@@ -68,8 +68,7 @@
     <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
 
-    <!--script for this page only-->
-    <script src="{{ asset('js/dynamic-table.js') }}"></script>
+    {% include '::dynamic-table.js.twig' %}
 
     <script>
 		$('.table').on('click', '.foro', function(){

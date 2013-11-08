@@ -1,0 +1,49 @@
+{# IMPORT FROM Foros:index - Contactos:index #}
+<script>
+	//$(document).ready(function() {
+	//var Script = function () {
+
+        // begin first table
+        var tbl = $('#sample_1').dataTable({
+            "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col-sm-6'p>>",
+            "sPaginationType": "bootstrap",
+            "oLanguage": {
+				"sInfo": 		"Registros del _START_ al _END_ de un total de _TOTAL_ registros",
+				"sInfoEmpty":   "Registros del 0 al 0 de un total de 0 registros",
+				"sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+				"sLengthMenu":  "_MENU_ {% trans from 'label' %}DT.registros{% endtrans %}",
+                "sZeroRecords": "{% trans from 'label' %}DT.no.se.datos.que.coincidan.con.la.busqueda{% endtrans %}",
+                "sEmptyTable":  "{% trans from 'label' %}DT.ningun.dato.disponible.en.esta.tabla{% endtrans %}",
+                "sSearch": 		"{% trans from 'label' %}DT.buscar{% endtrans %}:",
+                "oPaginate": {
+                    "sFirst":    "{% trans from 'label' %}DT.primero{% endtrans %}",
+                    "sLast":     "{% trans from 'label' %}DT.ultimo{% endtrans %}",
+                    "sNext":     "{% trans from 'label' %}DT.siguiente{% endtrans %}",
+                    "sPrevious": "{% trans  from 'label' %}DT.anterior{% endtrans %}"
+                }
+            },
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [0]
+            }]
+        });
+
+        /**
+         * jQuery('#sample_1 .group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+        * */
+
+        jQuery('#sample_1_wrapper .dataTables_filter input').addClass("form-control"); // modify table search input
+        jQuery('#sample_1_wrapper .dataTables_length select').addClass("form-control"); // modify table per page dropdown
+	//});
+</script>
