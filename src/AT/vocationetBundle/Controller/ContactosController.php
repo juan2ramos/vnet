@@ -16,12 +16,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ContactosController extends Controller
 {
     /**
-     * PENDIENTE DOCUMENTACION
-     * PENDIENTE DOCUMENTACION
+     * Lista de amistades y solicitudes.
+     *
+     * Listado de amistades, y solicitudes que tiene el usuario
+     * y acceso a eliminar amistades y/o aprobarlas
      * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
      * @Route("/", name="contactos")
      * @Template("vocationetBundle:Contactos:index.html.twig")
-     * @return Response
+     * @Method("GET")
+     * @return Render Listado de contactos
      */
     public function indexAction()
     {
@@ -31,16 +36,35 @@ class ContactosController extends Controller
 
 		$usuarioId = $security->getSessionValue('id');
         $contactos = $this->getAmistades($usuarioId);
-        //print_r($contactos);
-        //$contactos = Array();
         return array('contactos' => $contactos);
     }
 
 	/**
-     * PENDIENTE DOCUMENTACION AJAX POST
-     * PENDIENTE DOCUMENTACION
-     * 
+	 * @Route("/buscar", name="busqueda")
+	 * @Template("vocationetBundle:Contactos:busqueda.html.twig")
+	 */
+    public function busquedaAction()
+    {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+
+		$usuarioId = $security->getSessionValue('id');
+        $contactos = $this->getAmistades($usuarioId);
+
+        $form = $this->formBusqueda();
+
+        
+        return array('contactos' => $contactos, 'form' => $form->createView());
+	}
+
+	/**
+     * Peticion de amistad, solicitud, aprobacion, rechazar, y eliminar relacion entre usuarios por AJAX
+     *
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
      * @Route("/estado", name="edit_estado_relacion")
+     * @Method("POST")
      * @return Response
      */
     public function EditEstadoRelacionAction(Request $request)
@@ -78,7 +102,14 @@ class ContactosController extends Controller
 	}
 
     /**
-     * PENDIENTE DOCUMENTACION
+     * Listado de amistades del usuario
+     *
+     * Retorna array bidimencional en donde en primer nivel estan los usuarios y un subnivel por usuario estan los estudios
+     *
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Int $usuarioId Id del usuario a consultarle las amistades
+     * @return Array Arreglo bi-dimensional de usuarios
      */
      private function getAmistades($usuarioId)
     {
@@ -91,7 +122,8 @@ class ContactosController extends Controller
 		 * LEFT JOIN estudios est ON u.id = est.usuario_id
 		 * JOIN relaciones r ON r.usuario_id = u.id OR r.usuario2_id = u.id
 		 * WHERE r.tipo = 1 AND  u.id != 7
-		 * 	AND (((r.usuario_id = 7 OR r.usuario2_id = 7) AND r.estado = 1)  OR  (r.usuario2_id = 7 and r.estado = 0));
+		 * 	AND (((r.usuario_id = 7 OR r.usuario2_id = 7) AND r.estado = 1)  OR  (r.usuario2_id = 7 and r.estado = 0))
+		 * ORDER BY r.estado, u.id;
 		 */
         $dql = "SELECT u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen,
 						rol.nombre AS rolNombre,
@@ -137,9 +169,51 @@ class ContactosController extends Controller
 				}
 			}
 		}
-
 		//return $contactos;
 		return $arrContactos;
 	}
+
+
+	private function getBusquedaDetallada($busqueda)
+	{
+		/**
+		 *
+		 * SELECT u.id, est.id, r.*, SUM(CASE WHEN (r.usuario_id = 7 OR r.usuario2_id = 7) THEN 1 ELSE 0 END) AS relacionExistente 
+FROM usuarios u
+LEFT JOIN relaciones r ON (r.usuario_id = u.id OR r.usuario2_id = u.id) AND r.tipo = 1
+LEFT JOIN estudios est ON u.id = est.usuario_id
+WHERE u.id != 7
+GROUP BY u.id, est.id;
+;
+*/
+	}
+
+	private function formBusqueda()
+	{
+		$pr = $this->get('perfil');
+		// Grados
+		//$gradoAct = ($perfil['usuarioCursoActual']) ? $perfil['usuarioCursoActual'] : '';
+		//$empty_value_grado = (!$gradoAct) ? $tr->trans("seleccione.un.grado", array(), 'label') : false;
+		
+		// TipoUsuario ROL
+		$rolAct = '';
+		$roles = $pr->getRolesBusqueda();
+
+		$colAct = '';
+		$colegios = $pr->getColegios();
+
+		$formData = Array('nombre'=> '');
+		return $form = $this->createFormBuilder($formData)
+			->add('tipoUsuario', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolAct), 'required' => true))
+			->add('colegio', 'choice', array('choices'  => $colegios,  'preferred_choices' => array($colAct), 'required' => true))
+			// Si es usuario Estudiante
+			//->add('colegio', 'text', array('required' => false))
+			->add('universidad', 'text', array('required' => false))
+			//Si es usuario Mentor
+			->add('profesion', 'text', array('required' => false))
+			->add('alternativaEstudio', 'text', array('required' => false))
+			->getForm();
+	}
+		
 }
 ?>

@@ -316,6 +316,23 @@ class PerfilService
 	}
 
 	/**
+	 * Funcion que retorna un array con los roles por los que puede buscar un estudiante
+	 * - Acceso desde ContactosController
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Array con roles
+	 */
+	public function getRolesBusqueda() {
+		$tr = $this->translate;
+		return $rolesBusqueda = Array(
+					'1' => $tr->trans("estudiante", array(), 'db'),
+					'2' => $tr->trans("mentor_e", array(), 'db'),
+					'3' => $tr->trans("mentor_ov", array(), 'db'),
+				);
+	}
+
+	/**
 	 * Funcion que retorna la ruta en donde se van a guardar y de adonde se van a acceder las hojas de vida
 	 * - Acceso desde PerfilController
 	 * 
