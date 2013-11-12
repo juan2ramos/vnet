@@ -147,6 +147,30 @@
                 <source>mentoria.no.se.puede.eliminar</source>
                 <target>La mentoria no se puede eliminar</target>
             </trans-unit>
+			<trans-unit id="ment-10">
+                <source>mentoria.separada.correctamente</source>
+                <target>Mentoria separada correctamente</target>
+            </trans-unit>
+			<trans-unit id="ment-11">
+                <source>mentoria.separada</source>
+                <target>Mentoria separada</target>
+            </trans-unit>
+			<trans-unit id="ment-12">
+                <source>mentoria.no.separada</source>
+                <target>No se logro separar la mentoria</target>
+            </trans-unit>
+			<trans-unit id="ment-13">
+                <source>mentoria.no.se.puede.separar</source>
+                <target>Probablemente esta mentoria ya ha sido separada por otra persona</target>
+            </trans-unit>
+			<trans-unit id="ment-14">
+                <source>%user%.ha.separado.mentoria</source>
+                <target>%user% ha separado una mentoria</target>
+            </trans-unit>
+			<trans-unit id="ment-15">
+                <source>%user%.ha.separado.mentoria.%detalle%</source>
+                <target>%user% ha se parado una mentoria a las %detalle%</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -79,5 +79,45 @@
             $(".modal-body").html(response);
         });
     });
+    
+    $(".modal-body").on("click", ".btn-participar-mentoria", function(e){
+        e.preventDefault();
+        
+        var btn = $(this);
+        
+        if(confirm("{% trans  from "label" %}desea.separar.mentoria{% endtrans %}"))
+        {
+            var href = $(this).attr('href');            
+            var btnText = btn.html();
+            
+            btn.attr('disabled', true);
+            btn.html("{% trans  from "label" %}enviando{% endtrans %}...");
+            
+            $.ajax({
+                type: "POST",
+                url: href,
+                dataType: "json",
+                success: function (response){                    
+                    if(response.status === "success"){
+                        location.reload();
+                    }
+                    else if(response.status === "error"){
+                        $.gritter.add({
+                            title: response.message,
+                            text: response.detail,
+                            time: 5000,
+                            image: '{{ asset('img/delete.png') }}',
+                        });
+                        btn.attr('disabled', false);
+                        btn.html(btnText);
+                    }
+                },
+                error: function() {
+                    console.error('AJAX Error');                    
+                }
+            });
+        }        
+    });
+    
 </script>
 {% endblock script %}

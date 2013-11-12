@@ -591,7 +591,10 @@
                 <source>mentoria.separada.por.mi</source>
                 <target>Ya separaste esta mentoria</target>
             </trans-unit>
-            
+			<trans-unit id="ment-7">
+                <source>desea.separar.mentoria</source>
+                <target>¿Deseas separar esta mentoria?</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
