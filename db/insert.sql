@@ -40,3 +40,18 @@ INSERT INTO `carreras` (`id`, `nombre`) VALUES ('1', 'Ingenieria ambiental'),
 ('8', 'Contaduria pública'),
 ('9', 'Periodismo'),
 ('10', 'Diseño');
+
+INSERT INTO `temas` (`id`, `nombre`, `carrera_id`) VALUES ('1', 'TEMA 1 ambiente', '1');
+INSERT INTO `temas` (`id`, `nombre`, `carrera_id`) VALUES ('2', 'TEMA 2 ambiente', '1');
+
+INSERT INTO `foros` (`titulo`, `tema_id`, `uduario_id`) VALUES ('Foro No. 1.1', '1', '1'),
+('Foro No. 1.2', '1', '1'),
+('Foro No. 1.3', '1', '1'),
+('Foro No. 1.4', '1', '1'),
+('Foro No. 1.5', '1', '1');
+
+INSERT INTO `foros` (`titulo`, `tema_id`, `uduario_id`) VALUES ('Foro No. 2.1', '2', '1'),
+('Foro No. 2.2', '2', '1'),
+('Foro No. 2.3', '2', '1'),
+('Foro No. 2.4', '2', '1'),
+('Foro No. 2.5', '2', '1');

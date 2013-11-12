@@ -108,6 +108,13 @@ class Usuarios
     /**
      * @var string
      *
+     * @ORM\Column(name="usuario_profesion", type="string", length=70, nullable=true)
+     */
+    private $usuarioProfesion;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="usuario_perfil_profesional", type="text", nullable=true)
      */
     private $usuarioPerfilProfesional;
@@ -165,16 +172,6 @@ class Usuarios
     private $rol;
 
     /**
-     * @var \Georeferencias
-     *
-     * @ORM\ManyToOne(targetEntity="Georeferencias")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="georeferencia_id", referencedColumnName="id")
-     * })
-     */
-    private $georeferencia;
-
-    /**
      * @var \Colegios
      *
      * @ORM\ManyToOne(targetEntity="Colegios")
@@ -183,6 +180,16 @@ class Usuarios
      * })
      */
     private $colegio;
+
+    /**
+     * @var \Georeferencias
+     *
+     * @ORM\ManyToOne(targetEntity="Georeferencias")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="georeferencia_id", referencedColumnName="id")
+     * })
+     */
+    private $georeferencia;
 
 
 }

@@ -24,7 +24,7 @@
 					<section class="panel">
 						<div class="user-heading round">
 							{% set imagen = (perfil.usuarioImagen) ? perfil.usuarioImagen : gui_default_img %}
-							<a href="#"><img src="{{ asset(imagen) }}" alt=""></a>
+							<a href="#"><img src="{{ asset(imagen ~ '?type=large') }}" alt=""></a>
 							<h1>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</h1>
 							<p>{{ perfil.usuarioEmail }}</p>
 						</div>
@@ -34,6 +34,9 @@
 							{% if sess_user.id == perfil.usuarioId %}
 								<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
 								<li class=""><a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
+								<li data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
+									<a href="{{ path('foros_temas')}}"> <i class="icon-list-alt"></i> {% trans from "label" %}foros{% endtrans %}</a>
+								</li>
 								<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 									<a href="#">
 										<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
@@ -131,12 +134,6 @@
 							<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.grado{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}grado{% endtrans %}:
-								</div>
-								<div class='col-lg-8'>PENDIENTE</div>
-							</div>
-							<div class="row-desk col-lg-12 row paddBtn">
-								<div data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
-									{% trans from "label" %}foros{% endtrans %}:
 								</div>
 								<div class='col-lg-8'>PENDIENTE</div>
 							</div>

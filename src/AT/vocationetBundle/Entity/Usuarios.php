@@ -108,6 +108,13 @@ class Usuarios
     /**
      * @var string
      *
+     * @ORM\Column(name="usuario_profesion", type="string", length=70, nullable=true)
+     */
+    private $usuarioProfesion;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="usuario_perfil_profesional", type="text", nullable=true)
      */
     private $usuarioPerfilProfesional;
@@ -165,16 +172,6 @@ class Usuarios
     private $rol;
 
     /**
-     * @var \Georeferencias
-     *
-     * @ORM\ManyToOne(targetEntity="Georeferencias")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="georeferencia_id", referencedColumnName="id")
-     * })
-     */
-    private $georeferencia;
-
-    /**
      * @var \Colegios
      *
      * @ORM\ManyToOne(targetEntity="Colegios")
@@ -183,6 +180,16 @@ class Usuarios
      * })
      */
     private $colegio;
+
+    /**
+     * @var \Georeferencias
+     *
+     * @ORM\ManyToOne(targetEntity="Georeferencias")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="georeferencia_id", referencedColumnName="id")
+     * })
+     */
+    private $georeferencia;
 
 
 
@@ -473,6 +480,29 @@ class Usuarios
     }
 
     /**
+     * Set usuarioProfesion
+     *
+     * @param string $usuarioProfesion
+     * @return Usuarios
+     */
+    public function setUsuarioProfesion($usuarioProfesion)
+    {
+        $this->usuarioProfesion = $usuarioProfesion;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioProfesion
+     *
+     * @return string 
+     */
+    public function getUsuarioProfesion()
+    {
+        return $this->usuarioProfesion;
+    }
+
+    /**
      * Set usuarioPerfilProfesional
      *
      * @param string $usuarioPerfilProfesional
@@ -657,29 +687,6 @@ class Usuarios
     }
 
     /**
-     * Set georeferencia
-     *
-     * @param \AT\vocationetBundle\Entity\Georeferencias $georeferencia
-     * @return Usuarios
-     */
-    public function setGeoreferencia(\AT\vocationetBundle\Entity\Georeferencias $georeferencia = null)
-    {
-        $this->georeferencia = $georeferencia;
-    
-        return $this;
-    }
-
-    /**
-     * Get georeferencia
-     *
-     * @return \AT\vocationetBundle\Entity\Georeferencias 
-     */
-    public function getGeoreferencia()
-    {
-        return $this->georeferencia;
-    }
-
-    /**
      * Set colegio
      *
      * @param \AT\vocationetBundle\Entity\Colegios $colegio
@@ -700,5 +707,28 @@ class Usuarios
     public function getColegio()
     {
         return $this->colegio;
+    }
+
+    /**
+     * Set georeferencia
+     *
+     * @param \AT\vocationetBundle\Entity\Georeferencias $georeferencia
+     * @return Usuarios
+     */
+    public function setGeoreferencia(\AT\vocationetBundle\Entity\Georeferencias $georeferencia = null)
+    {
+        $this->georeferencia = $georeferencia;
+    
+        return $this;
+    }
+
+    /**
+     * Get georeferencia
+     *
+     * @return \AT\vocationetBundle\Entity\Georeferencias 
+     */
+    public function getGeoreferencia()
+    {
+        return $this->georeferencia;
     }
 }

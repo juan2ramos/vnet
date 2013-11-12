@@ -487,6 +487,10 @@
                 <source>eliminar</source>
                 <target>Eliminar</target>
 			</trans-unit>
+			<trans-unit id="generico-7">
+                <source>volver</source>
+                <target>Volver</target>
+			</trans-unit>
 
             <!-- MENSAJES inbox-x -->
 			<trans-unit id="inbox-1">
@@ -595,6 +599,79 @@
                 <source>desea.separar.mentoria</source>
                 <target>¿Deseas separar esta mentoria?</target>
             </trans-unit>
+
+			 <!-- FOROS foros-x -->
+            <trans-unit id="foros-1">
+                <source>carreras</source>
+                <target>Carreras</target>
+            </trans-unit>
+            <trans-unit id="foros-2">
+                <source>temas</source>
+                <target>Temas</target>
+            </trans-unit>
+            <trans-unit id="foros-3">
+                <source>no.hay.temas</source>
+                <target>No hay temas</target>
+            </trans-unit>
+            <trans-unit id="foros-4">
+                <source>nuevo.foro</source>
+                <target>Nuevo foro</target>
+            </trans-unit>
+            <trans-unit id="foros-5">
+                <source>no.hay.foros.en.esta.carrera.o.tema</source>
+                <target>No hay foros en esta carrera o tema</target>
+            </trans-unit>
+            <trans-unit id="foros-6">
+                <source>foro</source>
+                <target>Foro</target>
+            </trans-unit>
+            <trans-unit id="foros-7">
+                <source>fecha.creacion</source>
+                <target>Fecha creación</target>
+            </trans-unit>
+            <trans-unit id="foros-8">
+                <source>titulo.foro</source>
+                <target>Titulo</target>
+            </trans-unit>
+            <trans-unit id="foros-9">
+                <source>texto.foro</source>
+                <target>Descripción</target>
+            </trans-unit>
+            <trans-unit id="foros-10">
+                <source>tema</source>
+                <target>Tema</target>
+            </trans-unit>
+            <trans-unit id="foros-11">
+                <source>editar.foro</source>
+                <target>Editar</target>
+            </trans-unit>
+            <trans-unit id="foros-12">
+                <source>delete.foro</source>
+                <target>Borrar</target>
+            </trans-unit>
+            <trans-unit id="foros-13">
+                <source>desea.eliminar.este.foro</source>
+                <target>¿Esta seguro que quiere eliminar este foro?</target>
+            </trans-unit>
+            <trans-unit id="foros-14">
+                <source>responder</source>
+                <target>Responder</target>
+            </trans-unit>
+            <trans-unit id="foros-15">
+                <source>participar</source>
+                <target>Participar</target>
+            </trans-unit>
+
+            <!-- notificacion de comentarios notcom-X -->
+            <trans-unit id="notcom-1">
+                <source>nuevo.comentario</source>
+                <target>Nuevo comentario</target>
+            </trans-unit>
+            <trans-unit id="notcom-2">
+                <source>ha.escrito.un.comentario</source>
+                <target>ha escrito un comentario</target>
+            </trans-unit>
+
         </body>
     </file>
 </xliff>
