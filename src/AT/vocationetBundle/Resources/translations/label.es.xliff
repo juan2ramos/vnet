@@ -2,6 +2,41 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
     <file source-language="es" datatype="plaintext" original="file.ext">
         <body>
+            <!-- GENERICOS generico-x -->
+			<trans-unit id="generico-1">
+                <source>cancelar</source>
+                <target>Cancelar</target>
+			</trans-unit>
+			<trans-unit id="generico-2">
+                <source>guardar.cambios</source>
+                <target>Guardar</target>
+			</trans-unit>
+			<trans-unit id="generico-3">
+                <source>y</source>
+                <target>y</target>
+			</trans-unit>
+			<trans-unit id="generico-4">
+                <source>fecha</source>
+                <target>Fecha</target>
+			</trans-unit>
+			<trans-unit id="generico-5">
+                <source>hora</source>
+                <target>Hora</target>
+			</trans-unit>
+			<trans-unit id="generico-6">
+                <source>eliminar</source>
+                <target>Eliminar</target>
+			</trans-unit>
+			<trans-unit id="generico-7">
+                <source>volver</source>
+                <target>Volver</target>
+			</trans-unit>
+			<trans-unit id="generico-8">
+                <source>inicio</source>
+                <target>Inicio</target>
+			</trans-unit>
+            
+            
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
                 <source>perfil.mentor</source>
@@ -45,11 +80,11 @@
             </trans-unit>
             <trans-unit id="perfil-7">
                 <source>solicitudes.de.mentorias</source>
-                <target>Solicitudes de mentorias</target>
+                <target>Solicitudes de mentorías</target>
             </trans-unit>
             <trans-unit id="perfil-7-des">
                 <source>descripcion.solicitudes.de.mentorias</source>
-                <target>Descripción de Solicitudes de mentorias</target>
+                <target>Descripción de Solicitudes de mentorías</target>
             </trans-unit>
             <trans-unit id="perfil-8">
                 <source>amigos.y.mentores</source>
@@ -121,15 +156,15 @@
             </trans-unit>
             <trans-unit id="perfil-23">
                 <source>mentorias.realizadas</source>
-                <target>Mentorias realizadas</target>
+                <target>Mentorías realizadas</target>
             </trans-unit>
             <trans-unit id="perfil-24">
                 <source>definicion.de.valor.mentoria</source>
-                <target>Definición de valor de mentoria</target>
+                <target>Definición de valor de mentoría</target>
             </trans-unit>
             <trans-unit id="perfil-25">
                 <source>explicacion.definicion.de.valor.mentoria</source>
-                <target>Vocationet tiene una tabla para calcular el valor de su mentoria según su profesion y los años de experiencia.</target>
+                <target>Vocationet tiene una tabla para calcular el valor de su mentoría según su profesion y los años de experiencia.</target>
             </trans-unit>
             <trans-unit id="perfil-26">
                 <source>valor</source>
@@ -280,7 +315,7 @@
             </trans-unit>
             <trans-unit id="perfile-20-exp">
                 <source>explicacion.red.mentores</source>
-                <target>No. de mentorias según programa que page</target>
+                <target>No. de mentorías según programa que page</target>
             </trans-unit>
             <trans-unit id="perfile-21">
                 <source>ponderacion</source>
@@ -461,36 +496,7 @@
                 <source>doce</source>
                 <target>Doce</target>
             </trans-unit>
-
-            <!-- GENERICOS generico-x -->
-			<trans-unit id="generico-1">
-                <source>cancelar</source>
-                <target>Cancelar</target>
-			</trans-unit>
-			<trans-unit id="generico-2">
-                <source>guardar.cambios</source>
-                <target>Guardar</target>
-			</trans-unit>
-			<trans-unit id="generico-3">
-                <source>y</source>
-                <target>y</target>
-			</trans-unit>
-			<trans-unit id="generico-4">
-                <source>fecha</source>
-                <target>Fecha</target>
-			</trans-unit>
-			<trans-unit id="generico-5">
-                <source>hora</source>
-                <target>Hora</target>
-			</trans-unit>
-			<trans-unit id="generico-6">
-                <source>eliminar</source>
-                <target>Eliminar</target>
-			</trans-unit>
-			<trans-unit id="generico-7">
-                <source>volver</source>
-                <target>Volver</target>
-			</trans-unit>
+            
 
             <!-- MENSAJES inbox-x -->
 			<trans-unit id="inbox-1">
@@ -573,7 +579,7 @@
             <!-- mentorias ment-x -->
 			<trans-unit id="ment-1">
                 <source>agregar.mentoria</source>
-                <target>Agregar mentoria</target>
+                <target>Agregar mentoría</target>
             </trans-unit>
 			<trans-unit id="ment-2">
                 <source>mentoria.disponible</source>
@@ -581,23 +587,31 @@
             </trans-unit>
 			<trans-unit id="ment-3">
                 <source>mentoria.con.%user%</source>
-                <target>Mentoria con %user%</target>
+                <target>Mentoría con %user%</target>
             </trans-unit>
 			<trans-unit id="ment-4">
                 <source>mentoria</source>
-                <target>Mentoria</target>
+                <target>Mentoría</target>
             </trans-unit>
 			<trans-unit id="ment-5">
                 <source>participar.mentoria</source>
-                <target>Separar mentoria</target>
+                <target>Separar mentoría</target>
             </trans-unit>
 			<trans-unit id="ment-6">
                 <source>mentoria.separada.por.mi</source>
-                <target>Ya separaste esta mentoria</target>
+                <target>Ya separaste esta mentoría</target>
             </trans-unit>
 			<trans-unit id="ment-7">
                 <source>desea.separar.mentoria</source>
-                <target>¿Deseas separar esta mentoria?</target>
+                <target>¿Deseas separar esta mentoría?</target>
+            </trans-unit>
+			<trans-unit id="ment-8">
+                <source>agenda.mentor</source>
+                <target>Mentorías</target>
+            </trans-unit>
+			<trans-unit id="ment-9">
+                <source>agenda.estudiante</source>
+                <target>Mentorías</target>
             </trans-unit>
 
 			 <!-- FOROS foros-x -->
