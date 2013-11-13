@@ -1,0 +1,35 @@
+<section class="panel">
+    <div class="panel-body" style="padding-top: 0px;">
+        <a class="task-thumb">
+            <img src="{{ mentoria.usuarioImagen|default(asset(gui_default_img)) ~ '?type=large' }}" alt="">
+        </a>
+        <div class="task-thumb-details">
+            <h1>{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}</h1>
+        </div>                  
+    </div>
+    <table class="table table-hover personal-task">
+      <tbody>
+        <tr>
+            <td style="width: 40px;">
+                <i class=" icon-calendar"></i>
+            </td>
+            <td style="text-align: left;"><b>Día:</b> {{ mentoria.mentoriaInicio|date('d/m/Y') }}</td>
+        </tr>
+        <tr>
+            <td style="width: 40px;">
+                <i class=" icon-calendar"></i>
+            </td>
+            <td style="text-align: left;"><b>Hora:</b> {{ mentoria.mentoriaInicio|date('H:i') }} - {{ mentoria.mentoriaFin|date('H:i') }}</td>
+        </tr>
+      </tbody>
+    </table>
+    {% if mentoria.estudianteId %}
+        <div style="text-align: right;">
+            <span class="label label-success">{% trans  from "label" %}mentoria.separada.por.mi{% endtrans %}</span>
+        </div>
+    {% else %}
+        <div style="text-align: right;">
+            <a href="{{ path('separar_mentoria_estudiante', {'id': mentoria.id }) }}" class="btn btn-info btn-participar-mentoria">{% trans  from "label" %}participar.mentoria{% endtrans %}</a>
+        </div>
+    {% endif %}
+</section>

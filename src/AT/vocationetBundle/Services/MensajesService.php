@@ -44,9 +44,12 @@ class MensajesService
                     u.usuarioApellido
                 FROM 
                     vocationetBundle:Usuarios u
+                    JOIN vocationetBundle:Relaciones r WITH r.usuario = u.id OR r.usuario2 = u.id
                 WHERE 
-                    u.usuarioEstado = 1
-                    AND u.id != :usuarioId";
+                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
+                    AND u.id != :usuarioId
+                    AND r.estado = 1
+                    AND u.usuarioEstado = 1";
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $result = $query->getResult();

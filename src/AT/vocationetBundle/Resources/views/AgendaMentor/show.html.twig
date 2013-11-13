@@ -1,0 +1,35 @@
+<section class="panel">
+    <div class="panel-body" style="padding-top: 0px;">
+        {% if mentoria.estudianteId %}  
+            <a class="task-thumb">
+                <img src="{{ mentoria.usuarioImagen|default(asset(gui_default_img)) ~ '?type=large' }}" alt="">
+            </a>
+            <div class="task-thumb-details">
+                <h1>{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}</h1>
+            </div>
+        {% else %}
+            <h1>{% trans  from "label" %}mentoria.disponible{% endtrans %}</h1>
+        {% endif %}
+    </div>
+    <table class="table table-hover personal-task">
+      <tbody>
+        <tr>
+            <td style="width: 40px;">
+                <i class=" icon-calendar"></i>
+            </td>
+            <td style="text-align: left;"><b>Día:</b> {{ mentoria.mentoriaInicio|date('d/m/Y') }}</td>
+        </tr>
+        <tr>
+            <td style="width: 40px;">
+                <i class=" icon-calendar"></i>
+            </td>
+            <td style="text-align: left;"><b>Hora:</b> {{ mentoria.mentoriaInicio|date('H:i') }} - {{ mentoria.mentoriaFin|date('H:i') }}</td>
+        </tr>
+      </tbody>
+    </table>
+    {% if not mentoria.estudianteId %}
+        <div style="text-align: right;">
+            <a href="{{ path('delete_mentoria_mentor', {'id': mentoria.id }) }}" class="btn btn-danger btn-delete-mentoria">{% trans  from "label" %}eliminar{% endtrans %}</a>
+        </div>
+    {% endif %}
+</section>

@@ -1,0 +1,66 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Mentorias
+ *
+ * @ORM\Table(name="mentorias")
+ * @ORM\Entity
+ */
+class Mentorias
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="mentoria_inicio", type="datetime", nullable=false)
+     */
+    private $mentoriaInicio;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="mentoria_fin", type="datetime", nullable=false)
+     */
+    private $mentoriaFin;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="mentoria_estado", type="boolean", nullable=true)
+     */
+    private $mentoriaEstado;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_mentor_id", referencedColumnName="id")
+     * })
+     */
+    private $usuarioMentor;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_estudiante_id", referencedColumnName="id")
+     * })
+     */
+    private $usuarioEstudiante;
+
+
+}
