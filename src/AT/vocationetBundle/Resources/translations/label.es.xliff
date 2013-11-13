@@ -35,8 +35,11 @@
                 <source>inicio</source>
                 <target>Inicio</target>
 			</trans-unit>
-            
-            
+			<trans-unit id="generico-9">
+                <source>opciones</source>
+                <target>Opciones</target>
+			</trans-unit>
+
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
                 <source>perfil.mentor</source>
@@ -500,28 +503,6 @@
                 <source>doce</source>
                 <target>Doce</target>
             </trans-unit>
-
-            <!-- GENERICOS generico-x -->
-			<trans-unit id="generico-1">
-                <source>cancelar</source>
-                <target>Cancelar</target>
-			</trans-unit>
-			<trans-unit id="generico-2">
-                <source>guardar.cambios</source>
-                <target>Guardar</target>
-			</trans-unit>
-			<trans-unit id="generico-3">
-                <source>y</source>
-                <target>y</target>
-			</trans-unit>
-			<trans-unit id="generico-4">
-                <source>volver</source>
-                <target>Volver</target>
-			</trans-unit>
-			<trans-unit id="generico-5">
-                <source>opciones</source>
-                <target>Opciones</target>
-			</trans-unit>
 
             <!-- MENSAJES inbox-x -->
 			<trans-unit id="inbox-1">
