@@ -23,7 +23,17 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<section class="panel">
-				<header class="panel-heading">{% trans from "label" %}contactos{% endtrans %}</header>
+				<header class="panel-heading">
+                    <div STYLE='text-align:right;'>
+                        <a type="button" class="btn btn-primary btn-xs" href='{{ path('contactos') }}'>
+                            {% trans from "label" %}contactos{% endtrans %}
+                        </a>
+                        <a type="button" class="btn btn-primary btn-xs" href='{{ path('busqueda') }}'>
+                            {% trans from "label" %}busqueda.contactos{% endtrans %}
+                        </a>
+                    </div>
+                    {% trans from "label" %}contactos{% endtrans %}
+                </header>
 				{% if contactos %}
 					<table class="table table-striped border-top" id="sample_1">
 						<thead>

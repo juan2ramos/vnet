@@ -292,6 +292,55 @@ class PerfilService
 		}
 		return $arrayColegios;
 	}
+    
+    /**
+	 * Funcion que trae los titulo registrados
+	 * - Acceso desde ContactosController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Array Arreglo con titulo y profesiones
+	 */
+	public function getTitulos()
+	{
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT u.usuarioProfesion, e.titulo FROM vocationetBundle:Usuarios u
+			LEFT JOIN vocationetBundle:Estudios e WITH u.id = e.usuario
+            GROUP BY u.usuarioProfesion, e.titulo";
+        $query = $em->createQuery($dql);
+		$titulos = $query->getResult();
+        
+        $ArrTitulos = Array();
+        foreach ($titulos as $t) {
+            $ArrTitulos[] = $t['usuarioProfesion'];
+            $ArrTitulos[] = $t['titulo'];
+        }
+        return $ArrTitulos;
+	}
+    
+    /**
+	 * Funcion que trae las universidades
+	 * - Acceso desde ContactosController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Array Arreglo con universidades
+	 */
+	public function getUniversidades()
+	{
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT e.nombreInstitucion
+                FROM vocationetBundle:Estudios e
+                GROUP BY e.nombreInstitucion";
+        $query = $em->createQuery($dql);
+		$universidades = $query->getResult();
+        
+        $ArrUniversidades = Array();
+        foreach ($universidades as $univ) {
+            $ArrUniversidades[] = $univ['nombreInstitucion'];
+        }
+        return $ArrUniversidades;
+	}
 
 	/**
 	 * Funcion que retorna un array con los grados (cursos) a seleccionar por el estudiante
@@ -356,6 +405,32 @@ class PerfilService
 	public function getRutaTarjetaProfesional()
 	{
 		return 'img/vocationet/usuarios/';
+	}
+	
+	/**
+	 * Funcion que cantidad de amistades enviadas sin aprobar
+	 * - Acceso desde AlertBaggeController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int Id del usuario
+	 * @return Int Cantidad de relaciones sin aprobar
+	 */
+	public function getCantidadAmistades($usuarioId)
+	{
+		$em = $this->doctrine->getManager();
+		/**
+		* @var String Consulta SQL qu trae la cantidad de amistades sin responder
+		* SELECT COUNT(r.id) AS cantidad FROM relaciones r
+		* WHERE r.usuario2_id = 7 AND r.tipo= 1 AND r.estado = 0;
+		*/
+		$dql= "SELECT COUNT(r.id) AS cantidad
+                FROM vocationetBundle:Relaciones r
+				WHERE r.usuario2 =:usuarioId AND r.tipo= 1 AND r.estado = 0";
+        $query = $em->createQuery($dql);
+		$query->setParameter('usuarioId', $usuarioId);
+		$cantidad = $query->getResult();
+        return $cantidad[0]['cantidad'];
 	}
 }
 ?>

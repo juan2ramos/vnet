@@ -6,7 +6,12 @@ $.fn.alertbadge = function()
         if(json.mensajes_sin_leer != 0)
             $('.inbox-badge').html(json.mensajes_sin_leer);
         else
-            $('.inbox-badge').html('');        
+            $('.inbox-badge').html('');
+        
+        if(json.amistades_sin_aprobar != 0)
+            $('.amistades-badge').html(json.amistades_sin_aprobar);
+        else
+            $('.amistades-badge').html('');
     });
 }
     

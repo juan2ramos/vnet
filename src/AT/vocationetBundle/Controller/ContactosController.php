@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use AT\vocationetBundle\Entity\Relaciones;
 
 /**
  * Controlador de contactos y busqueda de usuarios y/o mentores
@@ -40,22 +41,55 @@ class ContactosController extends Controller
     }
 
 	/**
+     * Action con formulario de busqueda detallada
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
 	 * @Route("/buscar", name="busqueda")
 	 * @Template("vocationetBundle:Contactos:busqueda.html.twig")
+     * @Method({"GET", "POST"})
+     * @param Request $request Request enviado con busqueda avanzada
+     * @return Render vista renderizada con filtro aplicado
 	 */
-    public function busquedaAction()
+    public function busquedaAction(Request $request)
     {
 		$security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
-        $contactos = $this->getAmistades($usuarioId);
-
-        $form = $this->formBusqueda();
-
         
-        return array('contactos' => $contactos, 'form' => $form->createView());
+        $pr = $this->get('perfil');
+        $autoCompletarColegios = $pr->getColegios();
+        $autoCompletarTitulos = $pr->getTitulos();
+        $autoCompletarUniversidades = $pr->getUniversidades();
+        
+        $formData = Array('tipoUsuario' => 1, 'colegio'=>null, 'universidad'=>null, 'profesion'=>null, 'alternativaEstudio'=>null);
+        $form = $this->formBusqueda($formData);
+        
+        if ($request->getMethod() == "POST") {
+            
+            $form->bind($request);
+			if ($form->isvalid())
+            {
+                $formData = $form->getData();
+                $contactos = $this->getBusquedaDetallada($usuarioId, $formData);
+            } else {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ingreso.invalido")));
+            }
+        }
+        else {
+            $contactos = $this->getBusquedaDetallada($usuarioId, $formData);
+        }
+
+        return array(
+            'contactos' => $contactos, 
+            'form' => $form->createView(),
+            'acColegios' => $autoCompletarColegios,
+            'acTitulo' => $autoCompletarTitulos,
+            'acUnivers' => $autoCompletarUniversidades,
+            'formDT' => $formData
+        );
 	}
 
 	/**
@@ -72,9 +106,9 @@ class ContactosController extends Controller
 		$security = $this->get('security');
 		$usuarioId = $security->getSessionValue('id');
 		
-		$usuario = $request->request->get('u');
-		$relacionId = $request->request->get('r');
-		$tipo = $request->request->get('t'); //Tipo r=>Rechazar c=>Cancelar a=>Aprobar
+		$usuario = $request->request->get('u'); // Usuario al que sele va a hace la solicitud
+		$relacionId = $request->request->get('r'); // Id de la relacion
+		$tipo = $request->request->get('t'); //Tipo r=>Rechazar c=>Cancelar a=>Aprobar sa=>solicitud de amistad
 
 		$em = $this->getDoctrine()->getManager();
 
@@ -94,7 +128,20 @@ class ContactosController extends Controller
 				$relacion->setEstado(1);
 				$em->persist($relacion);
 			}
-		}
+		} elseif ($tipo == 'sa') {
+            $usuario1 = $em->getRepository('vocationetBundle:Usuarios')->findOneBy(Array('id' => $usuario));
+            $usuario2 = $em->getRepository('vocationetBundle:Usuarios')->findOneBy(Array('id' => $usuarioId));
+            if ($usuario1 && $usuario2) {
+                $newR = new Relaciones();
+                $newR->setUsuario($usuario2);
+                $newR->setUsuario2($usuario1);
+                $newR->setTipo(1);
+                $newR->setCreated(new \DateTime());
+                $newR->setEstado(0);
+                $em->persist($newR);
+            }
+            $estadoReturn = ($usuario1 && $usuario2) ? 'nuevaAmistad' : 'error'; 
+        }
 		
 		$em->flush();
 		$renderBtn =  $this->renderView('vocationetBundle:Contactos:ajaxBtn.html.twig', array('id'=> $usuario, 'relacionId' => $relacionId, 'estadoReturn' =>$estadoReturn));
@@ -161,6 +208,11 @@ class ContactosController extends Controller
 						'usuarioCursoActual' => $cont['usuarioCursoActual'],
 						'estado' => $cont['estado'],
 						'relacionId' => $cont['relacionId']);
+                    if ($cont['nombreInstitucion']) {
+                        $arrContactos[$cont['id']]['estudios'][] = Array(
+                            'nombreInstitucion' => $cont['nombreInstitucion'],
+                            'titulo' => $cont['titulo']);
+                    }
 					$auxId = $cont['id'];
 				} else {
 					$arrContactos[$cont['id']]['estudios'][] = Array(
@@ -173,47 +225,121 @@ class ContactosController extends Controller
 		return $arrContactos;
 	}
 
-
-	private function getBusquedaDetallada($busqueda)
-	{
-		/**
-		 *
-		 * SELECT u.id, est.id, r.*, SUM(CASE WHEN (r.usuario_id = 7 OR r.usuario2_id = 7) THEN 1 ELSE 0 END) AS relacionExistente 
-FROM usuarios u
-LEFT JOIN relaciones r ON (r.usuario_id = u.id OR r.usuario2_id = u.id) AND r.tipo = 1
-LEFT JOIN estudios est ON u.id = est.usuario_id
-WHERE u.id != 7
-GROUP BY u.id, est.id;
-;
-*/
-	}
-
-	private function formBusqueda()
+    /**
+     * Formulario de busqueda
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Array $formData Arreglo de campos para crear el form
+     * @return Form Formulario de busqueda
+     */
+	private function formBusqueda($formData)
 	{
 		$pr = $this->get('perfil');
-		// Grados
-		//$gradoAct = ($perfil['usuarioCursoActual']) ? $perfil['usuarioCursoActual'] : '';
-		//$empty_value_grado = (!$gradoAct) ? $tr->trans("seleccione.un.grado", array(), 'label') : false;
 		
 		// TipoUsuario ROL
 		$rolAct = '';
 		$roles = $pr->getRolesBusqueda();
 
-		$colAct = '';
-		$colegios = $pr->getColegios();
-
-		$formData = Array('nombre'=> '');
 		return $form = $this->createFormBuilder($formData)
 			->add('tipoUsuario', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolAct), 'required' => true))
-			->add('colegio', 'choice', array('choices'  => $colegios,  'preferred_choices' => array($colAct), 'required' => true))
 			// Si es usuario Estudiante
-			//->add('colegio', 'text', array('required' => false))
+			->add('colegio', 'text', array('required' => false))
 			->add('universidad', 'text', array('required' => false))
 			//Si es usuario Mentor
 			->add('profesion', 'text', array('required' => false))
 			->add('alternativaEstudio', 'text', array('required' => false))
 			->getForm();
 	}
-		
+        
+    /**
+     * Funcion de busqueda detallada
+     * 
+     * Funcion que busca en los usuarios en modo de busqueda personalizada, en la que se puede buscar por perfil 
+     * de usuario, universidad y estudios retornando un arreglo bidimensional
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Int $usuarioId Id del usuario que busca
+     * @param Array $busqueda Array con claves de busqueda
+     * @return Array Arreglo bi-dimencional de registros que cumplan este filtro
+     */
+    private function getBusquedaDetallada($usuarioId, $busqueda)
+	{
+        $having = "HAVING rolId =".$busqueda['tipoUsuario']."";
+        if ($busqueda['tipoUsuario'] == 1) {
+            if ($busqueda['colegio']) {
+                $having .= " AND c.nombre LIKE '%".$busqueda['colegio']."%'";
+            }
+        } else {
+            if ($busqueda['universidad']) {
+                $having .= " AND est.nombreInstitucion LIKE '%".$busqueda['universidad']."%'";
+            }
+            if ($busqueda['profesion']) {
+                $having .= " AND (u.usuarioProfesion LIKE '%".$busqueda['profesion']."%' OR est.titulo LIKE '%".$busqueda['profesion']."%')";
+            }
+        }
+        $em = $this->getDoctrine()->getManager();
+		/**
+		 * SELECT u.id, est.id, r.*, SUM(CASE WHEN (r.usuario_id = 7 OR r.usuario2_id = 7) THEN 1 ELSE 0 END) AS relacionExistente 
+         * FROM usuarios u
+         * LEFT JOIN relaciones r ON (r.usuario_id = u.id OR r.usuario2_id = u.id) AND r.tipo = 1
+         * LEFT JOIN estudios est ON u.id = est.usuario_id
+         * WHERE u.id != 7
+         * GROUP BY u.id, est.id;
+        */
+        $dql = "SELECT u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen,
+						rol.id as rolId, rol.nombre AS rolNombre,
+						u.usuarioProfesion,
+						c.nombre AS nombreColegio, u.usuarioCursoActual,
+						est.nombreInstitucion, est.titulo,
+						r.estado, r.id AS relacionId,
+                        SUM(CASE WHEN ((r.usuario =:usuarioId OR r.usuario2 =:usuarioId) AND r.tipo = 1) THEN 1 ELSE 0 END) AS relacionExistente
+                FROM vocationetBundle:Usuarios u
+                JOIN u.rol rol
+                LEFT JOIN u.colegio c
+                LEFT JOIN vocationetBundle:Estudios est WITH u.id = est.usuario
+                LEFT JOIN vocationetBundle:Relaciones r WITH (r.usuario = u.id OR r.usuario2 = u.id) AND r.tipo = 1
+                WHERE u.id !=:usuarioId
+                GROUP BY u.id, est.id
+                ".$having."
+                ORDER BY u.id, r.estado";
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $contactos = $query->getResult();
+        
+        $arrContactos = Array();
+        if ($contactos) {
+			$auxId = 0;
+			foreach ($contactos as $cont)
+			{
+				if ($auxId != $cont['id']) {
+					$arrContactos[$cont['id']] = Array(
+						'id' => $cont['id'],
+						'usuarioImagen' => $cont['usuarioImagen'],
+						'usuarioNombre' => $cont['usuarioNombre'],
+						'usuarioApellido' => $cont['usuarioApellido'],
+						'rolNombre' => $cont['rolNombre'],
+						'usuarioProfesion' => $cont['usuarioProfesion'],
+						'nombreColegio' => $cont['nombreColegio'],
+						'usuarioCursoActual' => $cont['usuarioCursoActual'],
+						'estado' => $cont['estado'],
+						'relacionId' => $cont['relacionId'],
+                        'relacionExistente' => $cont['relacionExistente']);
+                    if ($cont['nombreInstitucion']) {
+                        $arrContactos[$cont['id']]['estudios'][] = Array(
+                            'nombreInstitucion' => $cont['nombreInstitucion'],
+                            'titulo' => $cont['titulo']);
+                    }
+                    $auxId = $cont['id'];
+				} else {
+					$arrContactos[$cont['id']]['estudios'][] = Array(
+						'nombreInstitucion' => $cont['nombreInstitucion'],
+						'titulo' => $cont['titulo']);
+				}
+			}
+		}
+		return $arrContactos;
+	}
 }
 ?>

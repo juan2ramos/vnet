@@ -1,7 +1,9 @@
 {% if estadoReturn == 'delete' %}
+{% elseif estadoReturn == 'nuevaAmistad'  %}
+    <a type="button" class="btn btn-default btn-xs">{{ 'relacion.existente'|trans({}, 'label') }}</a>
 {% elseif estadoReturn == 'error'  %}
 	<a type="button" class="btn btn-danger btn-xs">{{ 'error.en.solicitud'|trans({}, 'label') }}</a>
 {% elseif estadoReturn == 'cancelar'  %}
-<a type="button" class="cambiarEstado btn btn-primary btn-xs" data-t='c' data-u='{{ id }}' data-r='{{ relacionId }}'>
-	{{ 'eliminar.contacto'|trans({}, 'label') }}</a>
+    <a type="button" class="cambiarEstado btn btn-primary btn-xs" data-t='c' data-u='{{ id }}' data-r='{{ relacionId }}'>
+        {{ 'eliminar.contacto'|trans({}, 'label') }}</a>
 {% endif %}

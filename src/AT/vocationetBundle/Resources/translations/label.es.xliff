@@ -725,6 +725,30 @@
                 <source>error.en.solicitud</source>
                 <target>Error en solicitud</target>
 			</trans-unit>
+			<trans-unit id="contact-14">
+                <source>alternativa.estudio</source>
+                <target>Alternativa de estudio</target>
+			</trans-unit>
+			<trans-unit id="contact-15">
+                <source>relacion.existente</source>
+                <target>Relación existente</target>
+			</trans-unit>
+			<trans-unit id="contact-16">
+                <source>buscar</source>
+                <target>Buscar</target>
+			</trans-unit>
+			<trans-unit id="contact-17">
+                <source>solicitud.de.amistad</source>
+                <target>Solicitud de amistad</target>
+			</trans-unit>
+			<trans-unit id="contact-18">
+                <source>no.hay.coincidencias.en.la.busqueda</source>
+                <target>No hay coinicidencias en la búsqueda</target>
+			</trans-unit>
+			<trans-unit id="contact-19">
+                <source>busqueda.contactos</source>
+                <target>Búsqueda avanzada de contactos</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>
