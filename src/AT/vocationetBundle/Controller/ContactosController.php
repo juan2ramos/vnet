@@ -33,7 +33,7 @@ class ContactosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
         $contactos = $this->getAmistades($usuarioId);
@@ -55,7 +55,7 @@ class ContactosController extends Controller
     {
 		$security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
         
@@ -103,7 +103,10 @@ class ContactosController extends Controller
      */
     public function EditEstadoRelacionAction(Request $request)
     {
-		$security = $this->get('security');
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
 		$usuarioId = $security->getSessionValue('id');
 		
 		$usuario = $request->request->get('u'); // Usuario al que sele va a hace la solicitud
@@ -147,7 +150,10 @@ class ContactosController extends Controller
 		$renderBtn =  $this->renderView('vocationetBundle:Contactos:ajaxBtn.html.twig', array('id'=> $usuario, 'relacionId' => $relacionId, 'estadoReturn' =>$estadoReturn));
 		return new response($renderBtn);
 	}
-
+    
+    
+    // FUNCIONES Y METODOS
+    
     /**
      * Listado de amistades del usuario
      *
