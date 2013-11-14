@@ -286,7 +286,7 @@ class PerfilService
 	{
 		$arrayColegios = Array();
 		$em = $this->doctrine->getManager();
-		$colegios = $em->getRepository('vocationetBundle:colegios')->findAll();
+		$colegios = $em->getRepository('vocationetBundle:Colegios')->findAll();
 		foreach($colegios as $colegio){
 			$arrayColegios[$colegio->getId()] = $colegio->getNombre();
 		}
