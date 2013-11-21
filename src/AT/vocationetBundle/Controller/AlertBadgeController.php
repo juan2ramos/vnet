@@ -27,18 +27,15 @@ class AlertBadgeController extends Controller
         if(!$security->authentication()){ throw $this->createNotFoundException();} 
         if(!$this->getRequest()->isXmlHttpRequest()) throw $this->createNotFoundException();
         
-        $mensajes_serv = $this->get('mensajes');
         $usuarioId = $security->getSessionValue('id');
         
-        $count = $mensajes_serv->countMensajesSinLeer($usuarioId);
+        $count = $this->get('mensajes')->countMensajesSinLeer($usuarioId);
 		$countCA = $this->get('perfil')->getCantidadAmistades($usuarioId);
         
-        print(json_encode(array(
+        return new Response(json_encode(array(
             'mensajes_sin_leer' => $count,
 			'amistades_sin_aprobar' => $countCA
         )));
-        
-        return new Response();
     }
 }
 ?>

@@ -1,0 +1,25 @@
+{# variables globales javascript cuyos valores necesitan twig #}
+<script type="text/javascript">
+    var refreshAlertBadge = (function(){
+        AlertBadge({route: '{{ path('alert_badge') }}'});
+    });    
+    var submit_text = '{% trans  from "label" %}enviando{% endtrans %}...';
+    var asset_path = '{{ asset('') }}';
+    var datatable_trans = {
+        "sInfo": 		"Registros del _START_ al _END_ de un total de _TOTAL_ registros",
+        "sInfoEmpty":   "Registros del 0 al 0 de un total de 0 registros",
+        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+        "sLengthMenu":  "_MENU_ {% trans from 'label' %}DT.registros{% endtrans %}",
+        "sZeroRecords": "{% trans from 'label' %}DT.no.se.datos.que.coincidan.con.la.busqueda{% endtrans %}",
+        "sEmptyTable":  "{% trans from 'label' %}DT.ningun.dato.disponible.en.esta.tabla{% endtrans %}",
+        "sSearch": 		"{% trans from 'label' %}DT.buscar{% endtrans %}:",
+        "oPaginate": {
+            "sFirst":    "{% trans from 'label' %}DT.primero{% endtrans %}",
+            "sLast":     "{% trans from 'label' %}DT.ultimo{% endtrans %}",
+            "sNext":     "{% trans from 'label' %}DT.siguiente{% endtrans %}",
+            "sPrevious": "{% trans  from 'label' %}DT.anterior{% endtrans %}"
+        }
+    };
+    
+    
+</script>

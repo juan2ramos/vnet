@@ -238,7 +238,6 @@
 		<script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
 		<script type="text/javascript" src="{{ asset('js/jquery.nicescroll.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/gritter/js/jquery.gritter.js') }}"></script>
-        <script type="text/javascript" src="{{ asset('js/disable-submit.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/owl.carousel.js') }}"></script>
         
 		<!--common script for all pages-->
@@ -247,8 +246,15 @@
 		<!--script for this page only-->
 		<script src="{{ asset('js/gritter.js') }}" type="text/javascript"></script>
 
+        {% include '::globals.js.twig' %}
+        
+        <!-- script para alert-badge -->
+        <script src="{{ asset('js/vocationet/alert-badge.js') }}" type="text/javascript"></script>
+        
+        <script type="text/javascript" src="{{ asset('js/vocationet/disable-submit.js') }}"></script>
+        
+        
         {% include '::alerts.html.twig' %}
-        {% include '::badge.html.twig' %}
         
         {% block script %}{% endblock %}
 	</body>

@@ -35,7 +35,7 @@
                     {% trans from "label" %}contactos{% endtrans %}
                 </header>
 				{% if contactos %}
-					<table class="table table-striped border-top" id="sample_1">
+					<table class="table table-striped border-top datetable">
 						<thead>
 							<tr>
 								<th></th>
@@ -120,8 +120,8 @@
 {% block script %}
     <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
 
-    {% include '::dynamic-table.js.twig' %}
 
     <script>
 		$('.table').on('click', '.href', function(){
