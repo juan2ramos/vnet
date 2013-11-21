@@ -246,15 +246,16 @@
 		<!--script for this page only-->
 		<script src="{{ asset('js/gritter.js') }}" type="text/javascript"></script>
 
+        {# SCRIPTS VOCATIONET #}
         {% include '::globals.js.twig' %}
+        {% include '::alerts.html.twig' %}
         
         <!-- script para alert-badge -->
         <script src="{{ asset('js/vocationet/alert-badge.js') }}" type="text/javascript"></script>
+        <!-- deshabilitar boton submit trasn envio de formulario -->
+        <script src="{{ asset('js/vocationet/disable-submit.js') }}" type="text/javascript"></script>
         
-        <script type="text/javascript" src="{{ asset('js/vocationet/disable-submit.js') }}"></script>
         
-        
-        {% include '::alerts.html.twig' %}
         
         {% block script %}{% endblock %}
 	</body>
