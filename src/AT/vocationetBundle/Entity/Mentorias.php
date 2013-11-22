@@ -43,17 +43,31 @@ class Mentorias
     private $mentoriaEstado;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="calificacion", type="integer", nullable=true)
+     */
+    private $calificacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="resena", type="string", length=100, nullable=true)
+     */
+    private $resena;
+
+    /**
      * @var \Usuarios
      * 
      * @ORM\Column(name="usuario_mentor_id", type="integer", nullable=false)
      */
     private $usuarioMentor;
 
-    /**
+	/**
      * @var \Usuarios
      * 
      * @ORM\Column(name="usuario_estudiante_id", type="integer", nullable=true)
-     */
+	 */
     private $usuarioEstudiante;
 
 
@@ -135,6 +149,52 @@ class Mentorias
     public function getMentoriaEstado()
     {
         return $this->mentoriaEstado;
+    }
+
+    /**
+     * Set calificacion
+     *
+     * @param integer $calificacion
+     * @return Mentorias
+     */
+    public function setCalificacion($calificacion)
+    {
+        $this->calificacion = $calificacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get calificacion
+     *
+     * @return integer 
+     */
+    public function getCalificacion()
+    {
+        return $this->calificacion;
+    }
+
+    /**
+     * Set resena
+     *
+     * @param string $resena
+     * @return Mentorias
+     */
+    public function setResena($resena)
+    {
+        $this->resena = $resena;
+    
+        return $this;
+    }
+
+    /**
+     * Get resena
+     *
+     * @return string 
+     */
+    public function getResena()
+    {
+        return $this->resena;
     }
 
     /**

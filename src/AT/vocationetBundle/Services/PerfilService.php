@@ -432,5 +432,34 @@ class PerfilService
 		$cantidad = $query->getResult();
         return $cantidad[0]['cantidad'];
 	}
+
+	//MENTORIAS
+	public function mentoriasSinCalificar()
+	{
+		/**
+		 * @var String Consulta SQL de mentorias que estan ejecutadas pero no estan calificadas
+		 * SELECT * FROM mentorias
+where usuario_mentor_id = 8 AND usuario_estudiante_id = 12 AND mentoria_estado = 1 AND calificacion IS NULL;
+		 */
+		 $dql = "SELECT
+                    m.id,
+                    m.mentoriaInicio,
+                    m.mentoriaFin,
+                    u.id estudianteId,
+                    u.usuarioNombre,
+                    u.usuarioApellido
+                FROM 
+                    vocationetBundle:Mentorias m
+                    LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
+                WHERE
+                    m.usuarioMentor = :usuarioId";
+        
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $result = $query->getResult();
+        
+        return $result;
+	}
 }
 ?>

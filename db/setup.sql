@@ -11,7 +11,7 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (4, 'acceso_agenda_mentor', 'Acceso a la agenda de mentor', 'Acceso a la agenda de mentorias para mentores', 'agenda_mentor,show_mentoria_mentor,delete_mentoria_mentor'),
 (5, 'acceso_agenda_estudiante', 'Acceso a la agenda de estudiante', 'Acceso a la agenda de mentorias para estudiantes', 'agenda_estudiante,show_mentoria_estudiante,separar_mentoria_estudiante'),
 (6, 'acceso_foros', 'Acceso a foros', 'Acceso a foros, y comentar', 'foros_temas,crear_comentario,crear_foro,edit_foro,delete_foro'),
-(7, 'acceso_edit_delete_foro', 'Acceso a eliminar y editar foro','Acceso de edicion y eliminacion de foros', 'edit_foro,delete_foro');
+(7, 'acceso_edit_delete_foro', 'Acceso a eliminar y editar foro','Acceso de edicion y eliminacion de foros', 'edit_foro,delete_foro'),
 (8, 'acceso_contactos', 'Acceso a contactos','Acceso a contactos y a establecer relaciones entre ellos', 'contactos,busqueda,edit_estado_relacion');
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 

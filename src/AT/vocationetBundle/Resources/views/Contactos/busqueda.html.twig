@@ -89,7 +89,7 @@
                     <hr STYLE="margin: 0 0 5px 0;">
                 
                 {% if contactos %}   
-					<table class="table table-striped border-top" id="sample_1">
+					<table class="table table-striped border-top datatable">
 						<thead>
 							<tr>
 								<th></th>
@@ -171,7 +171,7 @@
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
-    {% include '::dynamic-table.js.twig' %}
+    <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
 
     <script>
         {% if acColegios %}
@@ -238,7 +238,7 @@
 			var u = $(this).data('u'); //Usuario con el que existe la relacion
 			var r = $(this).data('r'); //Id de la relacion
 			var row = $(this).closest('tr').attr('id');
-            var nRow =  $('#sample_1 tbody tr[id='+row+']')[0];
+            var nRow =  $('.datatable tbody tr[id='+row+']')[0];
 			var posActual = $(this).parent();
 
 			posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');

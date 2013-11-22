@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use AT\vocationetBundle\Entity\colegios;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -52,8 +53,17 @@ class PerfilController extends Controller
 			$estudios = $pr->getEstudiosPerfil($perfilId);
 			$trabajos = $pr->getTrabajosPerfil($perfilId);
 			$rutas = Array('HV'=>$pr->getRutaHojaVida(), 'TP' => $pr->getRutaTarjetaProfesional());
+
+			$form1 = $this->formCalificarMentoria(1);
+			$form2 = $this->formCalificarMentoria(2);
+			
+			
+			$calificarMentor[0]['id'] = 1;
+			$calificarMentor[1]['id'] = 2;
+			$calificarMentor[0]['form'] = $form1->createView();
+			$calificarMentor[1]['form'] = $form2->createView();
 			return $this->render('vocationetBundle:Perfil:perfilmentor.html.twig', array(
-						'perfil' => $perfil, 'estudios' => $estudios, 'trabajos' => $trabajos, 'rutas' => $rutas ));
+					'perfil' => $perfil, 'estudios' => $estudios, 'trabajos' => $trabajos, 'rutas' => $rutas, 'mentorias' => $calificarMentor));
 		}
 		else
 		{
@@ -80,7 +90,54 @@ class PerfilController extends Controller
 		}
     }
 
+	/**
+	 * PENDIENTE DOCUMENTACION
+	 * @Route("/{perfilId}/calificar", name="calificar_mentor")
+	 * @Method("POST")
+	 */
+	public function calificarAction(Request $request, $perfilId)
+	{
+		//echo $perfilId;
 
+		$form = $this->formCalificarMentoria(1);
+		$msg = $this->get('translator')->trans("error.en.solicitud");
+		if ($request->getMethod() == "POST")
+		{
+			$form->bind($request);
+			if ($form->isvalid()) {
+				$formData = $form->getData();
+				//print_r($formData);
+
+				$msg = $this->get('translator')->trans("calificacion.guardada.correctamente");
+			}
+		}
+
+		return new Response(json_encode(array(
+            'status' => 'success', //success - error
+			'message' => $msg,
+			//'detail' => '',
+        )));
+        
+		//return new response(1);
+		//$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("perfil.sincronizado"), "text" => $this->get('translator')->trans("perfil.editado.correctamente")));
+		//return $this->redirect($this->generateUrl('perfil', array('perfilId'=> $id)));
+	}
+
+	public function formCalificarMentoria($mentoriaId)
+	{
+		$calificacion = Array('0'=> 0, '1'=>1, '2'=>2, '3'=>3, '4'=>4, '5'=>5);
+	// Formulario de edicion con datos actuales del usuario
+			$formData = Array('calificacion'=> '', 'resena' => '');
+			$form = $this->createFormBuilder($formData)
+			   ->add('calificacion', 'choice', array('choices'  => $calificacion, 'required' => true, 'empty_value' => false))
+			   ->add('mentoriaId', 'hidden', array('required' => true))
+			   ->add('resena', 'textarea', array('required' => true))
+			   ->getForm();
+			   return $form;
+	}
+
+	
+	
 	/**
 	 * Editar perfil de usuario
 	 *
