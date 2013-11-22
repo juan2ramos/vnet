@@ -1,5 +1,119 @@
 {% extends "::base.html.twig" %}
 
-{% block body %}
 
+{% block style %}
+<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}" type="text/css">
+<style>
+#owl-demo .item{
+    background: #58C9F3;
+    padding: 3px 3px;
+    margin: 5px;
+    color: #FFF;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    cursor: pointer;
+}
+#owl-demo .item.active{
+    background: #F8D347;    
+}
+#owl-demo .item img{
+    width: 100%;
+    height: auto;
+}
+#owl-demo .item .title-item{
+    padding-top: 5px;
+    height: 50px;
+    line-height: 15px;
+    vertical-align: middle;
+}
+
+
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-9">
+        <section class="panel">
+            <div class="panel-body">
+                <div id="owl-demo" class="owl-carousel owl-theme">
+                  <div class="item" data-id="11"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="12"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="13"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1 con texto largo para prueba de css</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2 con texto largo para prueba de css</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3 con texto largo para prueba de css</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+
+                </div>
+                <div class="olw-navigation" style="text-align: center;">
+                    <button class="btn btn-info btn-xs prev" type="button"><< {% trans  from "label" %}anterior{% endtrans %}</button>
+                    <button class="btn btn-info btn-xs next" type="button">{% trans  from "label" %}siguiente{% endtrans %} >></button>
+                </div>    
+                <div style="text-align: right;">
+                    <input type="hidden" id="avatar-input" value="0"/>   
+                    <button type="submit" class="btn btn-info">{% trans  from "label" %}elegir.avatar{% endtrans %}</button>
+                </div>
+            </div>   
+        </section>
+    </div>   
+</div>   
 {% endblock body %}
+
+{% block script %}
+<!--<script src="{{ asset('js/owl.carousel.js') }}" ></script>-->
+<script >
+ 
+$(document).ready(function() {
+    var owl = $("#owl-demo");
+
+    owl.owlCarousel({
+      items : 6, //10 items above 1000px browser width
+      itemsDesktop : [1000,4], //5 items between 1000px and 901px
+      itemsDesktopSmall : [900,3], // betweem 900px and 601px
+      itemsTablet: [600,2], //2 items between 600 and 0
+      itemsMobile : false // itemsMobile disabled - inherit from itemsTablet option
+    });
+
+    // Custom Navigation Events
+    $(".next").click(function(){
+        owl.trigger('owl.next');
+    })
+    $(".prev").click(function(){
+        owl.trigger('owl.prev');
+    })
+ 
+    $(".item").click(function(){
+        $(".item").removeClass('active');
+        $(this).addClass('active');
+        $("#avatar-input").val($(this).data('id'));
+    });
+    
+    
+});
+</script>
+{% endblock script %}
