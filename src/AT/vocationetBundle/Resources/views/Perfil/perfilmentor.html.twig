@@ -1,48 +1,38 @@
 {% extends "::base.html.twig" %}
 
 {% block style %}
-<style>
-	.paddBtn{
-		padding-bottom: 10px;
-	}
-	.paddBtnEstTrb{
-		padding-bottom: 30px;
-	}
+	<style>
+		.paddBtn{
+			padding-bottom: 10px;
+		}
+		.paddBtnEstTrb{
+			padding-bottom: 30px;
+		}
 
-	div.bigstars div.rateit-range
-{
-    background: url({{ asset('rateit/star-white32.png') }});
-    height: 32px !important;
-}
- 
-div.bigstars div.rateit-hover
-{
-    
-    
-    background: url({{ asset('rateit/star-gold32.png') }});
-}
- 
-div.bigstars div.rateit-selected
-{
-    background: url({{ asset('rateit/star-gold32.png') }});
-}
- 
-div.bigstars div.rateit-reset
-{
-    background: url({{ asset('rateit/star-black32.png') }});
-    width: 32px !important;
-    height: 32px !important;;
-}
- 
-div.bigstars div.rateit-reset:hover
-{
-    background: url({{ asset('rateit/star-white32.png') }});
-}
-
-</style>
-
-<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
-
+		div.bigstars div.rateit-range {
+			background: url({{ asset('rateit/star-white32.png') }});
+			height: 32px !important;
+		}
+	 
+		div.bigstars div.rateit-hover {
+			background: url({{ asset('rateit/star-gold32.png') }});
+		}
+	 
+		div.bigstars div.rateit-selected {
+			background: url({{ asset('rateit/star-gold32.png') }});
+		}
+	 
+		div.bigstars div.rateit-reset {
+			background: url({{ asset('rateit/star-black32.png') }});
+			width: 32px !important;
+			height: 32px !important;;
+		}
+	 
+		div.bigstars div.rateit-reset:hover {
+			background: url({{ asset('rateit/star-white32.png') }});
+		}
+	</style>
+	<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
 {% endblock style %}
 
 {% block body %}
@@ -118,6 +108,47 @@ div.bigstars div.rateit-reset:hover
 						</div>
 					</section>
 
+					{# VALORACIONES DE CLIENTES #}
+					<section class="panel">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel">
+									<div class="panel-body bio-graph-info">
+										<h1>{% trans from "label" %}valoraciones.de.clientes{% endtrans %}</h1>
+										<div class='col-lg-12 row'><b>{% trans from "label" %}promedio.de.valoracion{% endtrans %}</b></div><br>
+										<div class='col-lg-12' >
+											{% set estrellasPromedio = (calificaciones.totalCalificacion > 0) ? (( calificaciones.totalCalificacion / calificaciones.totalUsuarios)) : 0 %}
+
+											<div class='col-lg-6' STYLE='text-align:right;padding:0 3px 0 3px;'>
+												<div class="rateit" data-rateit-value="{{ estrellasPromedio }}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
+											</div>
+											<div class='col-lg-6'>
+												{{ calificaciones.totalUsuarios }}&nbsp;{% trans from "label" %}valoraciones{% endtrans %}
+											</div>
+											<br><hr>
+
+											{# VALORACIONES DE CLIENTES - CALIFICACION ESTRELLAS #}
+											{% for i in 5..0 %}
+												{% set porcent = (calificaciones.totalUsuarios > 0) ? ((calificaciones[i] / calificaciones.totalUsuarios) * 100) : 0 %}
+												<div class='col-lg-7' STYLE='text-align:right;padding:0 3px 0 3px;'>
+													<div class="rateit" data-rateit-value="{{ i }}" data-rateit-max="{{ i }}" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
+												</div>
+												<div class='col-lg-5'>
+													<div class="progress progress-xs tooltips" STYLE='margin:4px 0 0 0;' data-toggle="tooltip" data-placement="right" data-original-title="{{ calificaciones[i] }}">
+														<div class="progress-bar" role="progressbar" STYLE='width:{{ porcent }}%;background-color:#5E5E5E;'></div>
+													</div>
+												</div>
+												<br>
+											{% endfor %}
+											<hr>
+											<a type="button" href="{{ path('mentor_resenas', {'perfilId' : perfil.usuarioId }) }}" class="btn btn-success btn-xs btn-block">{% trans from "label" %}resenas{% endtrans %}</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</section>
+
 					{# DEFINICION DEL VALOR DE MENTORIA #}
 					<section class="panel">
 						<div class="row">
@@ -127,20 +158,20 @@ div.bigstars div.rateit-reset:hover
 										<h1>{% trans from "label" %}definicion.de.valor.mentoria{% endtrans %}</h1>
 										<p>{% trans from "label" %}explicacion.definicion.de.valor.mentoria{% endtrans %}</p>
 										<div class='col-lg-12 row'><b>{% trans from "label" %}valor{% endtrans %}: </b></div>
-											<div class='col-lg-2'>&nbsp;</div>
-											{% if perfil.usuarioValorMentoria %}
-												<div class='col-lg-10'>
-													<h1><b>$ {{ perfil.usuarioValorMentoria|number_format(0, '', '.') }}</b></h1>
-												</div>
-												<br>
-												<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
-													<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button>
-												</div>
-											{% else %}
-												<div class='col-lg-10'>
-													{% trans from "label" %}no.ha.sido.calculado{% endtrans %}
-												</div>
-											{% endif %}
+										<div class='col-lg-2'>&nbsp;</div>
+										{% if perfil.usuarioValorMentoria %}
+											<div class='col-lg-10'>
+												<h1><b>$ {{ perfil.usuarioValorMentoria|number_format(0, '', '.') }}</b></h1>
+											</div>
+											<br>
+											<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
+												<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button>
+											</div>
+										{% else %}
+											<div class='col-lg-10'>
+												{% trans from "label" %}no.ha.sido.calculado{% endtrans %}
+											</div>
+										{% endif %}
 									</div>
 								</div>
 							</div>
@@ -151,84 +182,53 @@ div.bigstars div.rateit-reset:hover
 
 				<aside class="profile-info col-lg-8">
 
-					
-					<div class="panel-group m-bot20" id="accordion">
-                          
-                              {% for mentoria in mentorias %}
-                              
-                              <div class="panel panel-default">
-                              <div class="panel-heading">
-                                  <h4 class="panel-title">
-                                      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ mentoria.id }}">
-                                          {% trans from "label" %}calificacion.mentoria REVISA TITULO{% endtrans %} #1
-                                      </a>
-                                  </h4>
-                              </div>
-                              <div id="collapse_{{ mentoria.id }}" class="panel-collapse in" style="height: auto;">
-                                  <div class="panel-body">
-										<form action="{{ path('calificar_mentor', {'perfilId' : perfil.usuarioId }) }}" method='POST' {{ form_enctype(mentoria.form) }} id="calificar_mentoria_{{ mentoria.id }}" type="post" class="form-horizontal" role="form">
-											<div class="form-group">
-												<label class="col-lg-4 control-label">{% trans from "label" %}calificacion{% endtrans %}: </label>
-												<div class="col-lg-8">
-													{{ form_widget(mentoria.form.calificacion, { 'id' : 'form_calificacion'~mentoria.id}) }}
-													<div class="rateit bigstars" data-rateit-backingfld="#form_calificacion{{ mentoria.id }}" data-rateit-max="5" data-rateit-starwidth="31" data-rateit-starheight="32"></div>
+					{# CALIFICACION DE MENTORIAS #}
+					{% if mentorias %}
+						<div class="panel-group m-bot20" id="accordion">
+							{% set auxCollapsed = 1 %}
+							{% for mentoria in mentorias %}
+								<div class="panel panel-default" id="calificarMentoriaContainer_{{ mentoria.id }}">
+									<div class="panel-heading">
+										<h4 class="panel-title">
+											<a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse_{{ mentoria.id }}">
+												{% trans from "label" %}por.favor.califique.la.mentoria.realizada.el{% endtrans %}&nbsp;{{ mentoria.mentoriaInicio|date('Y-m-d')}}
+											</a>
+										</h4>
+									</div>
+									
+									<div id="collapse_{{ mentoria.id }}" class="panel-collapse {% if auxCollapsed == 0 %}collapse{% else %} in {% endif %}" style="height: auto;">
+										<div class="panel-body">
+											<form action="{{ path('calificar_mentor', {'perfilId' : perfil.usuarioId, 'mentoriaId' : mentoria.id }) }}" method='POST' {{ form_enctype(mentoria.form) }} id="calificar_mentoria_{{ mentoria.id }}" type="post" class="form-horizontal" role="form" data-id='{{ mentoria.id }}'>
+												<div class="form-group">
+													<label class="col-lg-3 control-label">{% trans from "label" %}calificacion{% endtrans %}: </label>
+													<div class="col-lg-9">
+														{{ form_widget(mentoria.form.calificacion, { 'id' : 'form_calificacion'~mentoria.id}) }}
+														<div class="rateit bigstars" data-rateit-backingfld="#form_calificacion{{ mentoria.id }}" data-rateit-max="5" data-rateit-starwidth="31" data-rateit-starheight="32"></div>
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="col-lg-3 control-label">{% trans from "label" %}resena{% endtrans %}: </label>
+													<div class="col-lg-9">{{ form_widget(mentoria.form.resena, { attr : {'class':'form-control', 'STYLE':'width:80%'}}) }}</div>
 												</div>
 												
-											</div>
-
-
-											<div class="form-group">
-												<label class="col-lg-4 control-label">{% trans from "label" %}resena{% endtrans %}: </label>
-												<div class="col-lg-8">{{ form_widget(mentoria.form.resena, { attr : {'class':'form-control', 'STYLE':'width:80%'}}) }}</div>
-											</div>
-											<div class="form-group">
-												<div class="col-lg-12">DAtos de la mentoria realizada el: xsass
+												{# form(mentoria.form) #}
+												
+												{{ form_widget(mentoria.form.mentoriaId) }}
+												{{ form_widget(mentoria.form._token) }}
+												{{ form_errors(mentoria.form) }}
+												<div class="form-group">
+													<div class="col-lg-12" STYLE='text-align:right;padding-right:60px;'>
+														<button type="submit" class="btn btn-info btn-save-calificacion">{% trans from "label" %}calificar{% endtrans %}</button>
+													</div>
 												</div>
-											</div>
-											
-											{# form(mentoria.form) #}
-											{{ form_widget(mentoria.form._token) }}
-											{{ form_errors(mentoria.form) }}
-											<div class="form-group">
-												<div class="col-lg-12" STYLE='text-align:right;padding-right:60px;'>
-													<button type="submit" data-id='{{ mentoria.id }}' class="btn btn-info btn-save-calificacion">{% trans from "label" %}guardar.cambios{% endtrans %}</button>
-												</div>
-											</div>
-										</form>	
-                                  </div>
-                              </div>
-                              </div>
-                              {% endfor %}
-                          
-                          <div class="panel panel-default">
-                              <div class="panel-heading">
-                                  <h4 class="panel-title">
-                                      <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                          Collapsible Group Item #2
-                                      </a>
-                                  </h4>
-                              </div>
-                              <div id="collapseTwo" class="panel-collapse collapse" style="height: 0px;">
-                                  <div class="panel-body">
-                                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="panel panel-default">
-                              <div class="panel-heading">
-                                  <h4 class="panel-title">
-                                      <a class="accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree">
-                                          Collapsible Group Item #3
-                                      </a>
-                                  </h4>
-                              </div>
-                              <div id="collapseThree" class="panel-collapse collapse">
-                                  <div class="panel-body">
-                                      Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
+											</form>
+										</div>
+									</div>
+								</div>
+								{% set auxCollapsed = 0 %}
+							{% endfor %}
+						</div>
+					{% endif %}
 	
 					<section class="panel">
 						<div class="panel-body bio-graph-info">
@@ -386,65 +386,45 @@ div.bigstars div.rateit-reset:hover
 	
 {% endblock body %}
 
-
-
 {% block script %}
 	<script src="{{ asset('rateit/src/jquery.rateit.js') }}" type="text/javascript"></script>
 
 	<script>
-		//$(".btn-save-calificacion").click(function (e){
 		$("body").on("submit", "form", function(e) {
 			e.preventDefault();
 			var mentoriaId = $(this).data('id');
 			var form = $(this);
 			var parent = form.parent();
-			alert('dsa');
-			
-			
-			
-					$.ajax({
-					  type: "POST",
-					  url: form.attr('action'),
-					  data: form.serialize(),
-					  dataType: "script",
-					  beforeSend: function(objeto){
-						parent.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');
-						//$("#invitaciones").html("Mensaje: Cargando...");
-					  },
-					  success: function(response){
-					  if  (response.status == 'success') {
-						msgtext = '<a STYLE="text-align:center;width:100%;" type="button" class="btn btn-success btn-xs">'+response.message+'</a>'
-					  } else {
-						msgtext = '<a STYLE="text-align:center;width:100%" type="button" class="btn btn-danger btn-xs">'+ response.message+'</a>'
-					  }
-						alert ('ok');
-						if (msg == 1) {
-							
-						} else {
-							
-						}
-						parent.animate("slow");
-						parent.html(msgtext);
-						
-					  },
-					  error: function(objeto, quepaso, otroobj){
-						msgtext = '<a STYLE="text-align:center;width:100%" type="button" class="btn btn-danger btn-xs">Ocurrio un error al calificar</a>'
-						parent.animate("slow");
-						parent.html(msgtext);
-						//msgtext = '<a STYLE="text-align:center;" type="button" class="btn btn-danger btn-xs">Ocurrio un error al calificar</a>'
-						//alert("ERROR!! La Put... madre. Pasó lo siguiente: "+quepaso);
-						//alert ('errror')
-					  }
+			var container = $('#calificarMentoriaContainer_'+mentoriaId);
 
-				});
-			
+			$.ajax({
+				type: "POST",
+				url: form.attr('action'),
+				data: form.serialize(),
+				dataType: "json",
+				beforeSend: function(objeto){
+					parent.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');
+				},
+				success: function(response){
+					if (response.status == 'success') {
+						msgtext = '<a STYLE="text-align:center;width:100%;" type="button" class="btn btn-success btn-xs">'+response.message+'</a>'
+					} else {
+						msgtext = '<a STYLE="text-align:center;width:100%" type="button" class="btn btn-danger btn-xs">'+ response.message+'</a>'
+					}
+					parent.animate("slow");
+					parent.html(msgtext);
+					setTimeout(function(){ container.hide('slow'); }, 2000);
+				},
+				error: function(objeto, quepaso, otroobj){
+					msgtext = '<a STYLE="text-align:center;width:100%" type="button" class="btn btn-danger btn-xs">{% trans from "messages" %}error.en.solicitud.calificar{% endtrans %}</a>'
+					parent.animate("slow");
+					parent.html(msgtext);
+					setTimeout(function(){ container.hide('slow'); }, 2000);
+				}
+			});
 		});
 
-
-		
-	
-
-	 $("#clsRateit").bind('rated', function (event, value) { console.log(value); });
+		//$("#clsRateit").bind('rated', function (event, value) { console.log(value); });
 	</script>
 {% endblock %}
 

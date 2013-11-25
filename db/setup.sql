@@ -7,7 +7,7 @@
 INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso_routes`) VALUES 
 (1, 'acceso_basico', 'Acceso básico', 'Acceso básico a la aplicacion', 'homepage'),
 (2, 'acceso_mensajes', 'Eviar y recibir mensajes', 'Acceso al envio y recepcion de mensajes', 'mensajes,enviar_mensajes,get_mensajes,show_mensaje,count_mensajes,update_mensaje,responder_mensaje,reenviar_mensaje'),
-(3, 'acceso_perfiles', 'Acceso a perfiles', 'Acceso a perfiles, sincronizacion y edicion', 'perfil,perfil_edit,perfil_sincronizar'),
+(3, 'acceso_perfiles', 'Acceso a perfiles', 'Acceso a perfiles, sincronizacion y edicion', 'perfil,perfil_edit,perfil_sincronizar,mentor_resenas,calificar_mentor'),
 (4, 'acceso_agenda_mentor', 'Acceso a la agenda de mentor', 'Acceso a la agenda de mentorias para mentores', 'agenda_mentor,show_mentoria_mentor,delete_mentoria_mentor'),
 (5, 'acceso_agenda_estudiante', 'Acceso a la agenda de estudiante', 'Acceso a la agenda de mentorias para estudiantes', 'agenda_estudiante,show_mentoria_estudiante,separar_mentoria_estudiante'),
 (6, 'acceso_foros', 'Acceso a foros', 'Acceso a foros, y comentar', 'foros_temas,crear_comentario,crear_foro,edit_foro,delete_foro'),

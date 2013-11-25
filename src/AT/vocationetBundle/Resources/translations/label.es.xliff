@@ -803,6 +803,48 @@
                 <source>busqueda.contactos</source>
                 <target>Búsqueda avanzada de contactos</target>
 			</trans-unit>
+
+			<!-- CALIFICAR MENTORIA cal-x -->
+			<trans-unit id="cal-1">
+                <source>calificar</source>
+                <target>Calificar</target>
+			</trans-unit>
+			<trans-unit id="cal-2">
+                <source>resena</source>
+                <target>Reseña</target>
+			</trans-unit>
+			<trans-unit id="cal-3">
+                <source>calificacion</source>
+                <target>calificación</target>
+			</trans-unit>
+			<trans-unit id="cal-4">
+                <source>por.favor.califique.la.mentoria.realizada.el</source>
+                <target>Por favor califique la mentoria realizada el</target>
+			</trans-unit>
+			<trans-unit id="cal-5">
+                <source>valoraciones.de.clientes</source>
+                <target>Valoraciones de clientes</target>
+			</trans-unit>
+			<trans-unit id="cal-6">
+                <source>promedio.de.valoracion</source>
+                <target>Promedio de valoración</target>
+			</trans-unit>
+			<trans-unit id="cal-7">
+                <source>valoraciones</source>
+                <target>Valoraciones</target>
+			</trans-unit>
+			<trans-unit id="cal-8">
+                <source>resenas</source>
+                <target>Reseñas</target>
+			</trans-unit>
+			<trans-unit id="cal-9">
+                <source>el.usuario.no.tiene.resenas</source>
+                <target>El usuario no tiene reseñas</target>
+			</trans-unit>
+			<trans-unit id="cal-10">
+                <source>ultimas.25</source>
+                <target>últimas 25 ingresadas</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

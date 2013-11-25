@@ -54,7 +54,11 @@ class PerfilService
 		$query = $em->createQuery($dql);
 		$query->setParameter('perfilId', $perfilId);
 		$perfil =$query->getResult();
-		return $perfil[0];
+		if($perfil) {
+			return $perfil[0];
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -409,11 +413,11 @@ class PerfilService
 	
 	/**
 	 * Funcion que cantidad de amistades enviadas sin aprobar
-	 * - Acceso desde AlertBaggeController
+	 * - Acceso desde AlertBageController
 	 *
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-	 * @param Int Id del usuario
+	 * @param Int $usuarioId Id del usuario
 	 * @return Int Cantidad de relaciones sin aprobar
 	 */
 	public function getCantidadAmistades($usuarioId)
@@ -434,31 +438,105 @@ class PerfilService
 	}
 
 	//MENTORIAS
-	public function mentoriasSinCalificar()
+
+	/**
+	 * Funcion que retorna los ID de las mentorias que aún no han sido calificadas entre los usuarios que ingresan como parametro
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $mentor Id del usuario Mentor
+	 * @param Int $estudiante Id del usuario Estudiante
+	 * @return Array Arreglo con usuarios mentorias no calificadas
+	 */
+	public function mentoriasSinCalificar($mentor, $estudiante)
 	{
 		/**
 		 * @var String Consulta SQL de mentorias que estan ejecutadas pero no estan calificadas
 		 * SELECT * FROM mentorias
-where usuario_mentor_id = 8 AND usuario_estudiante_id = 12 AND mentoria_estado = 1 AND calificacion IS NULL;
+		 * WHERE usuario_mentor_id = 8 AND usuario_estudiante_id = 12 AND mentoria_estado = 1 AND calificacion IS NULL;
 		 */
-		 $dql = "SELECT
-                    m.id,
-                    m.mentoriaInicio,
-                    m.mentoriaFin,
-                    u.id estudianteId,
-                    u.usuarioNombre,
-                    u.usuarioApellido
-                FROM 
-                    vocationetBundle:Mentorias m
-                    LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
+		$dql = "SELECT m.id, m.mentoriaEstado, m.calificacion, m.resena, m.mentoriaInicio, m.mentoriaFin
+                FROM vocationetBundle:Mentorias m
                 WHERE
-                    m.usuarioMentor = :usuarioId";
-        
-        $em = $this->getDoctrine()->getManager();
+					m.usuarioMentor =:usuarioMenId AND m.usuarioEstudiante =:usuarioEstId AND m.mentoriaEstado = 1 AND m.calificacion IS NULL";
+        $em = $this->doctrine->getManager();
         $query = $em->createQuery($dql);
-        $query->setParameter('usuarioId', $usuarioId);
+        $query->setParameter('usuarioMenId', $mentor);
+        $query->setParameter('usuarioEstId', $estudiante);
         $result = $query->getResult();
-        
+        return $result;
+	}
+
+	/**
+	 * Funcion que retorna las calificaciones que ha recibido un mentor, agrupadas por No. de estrellas (5=> x-usuarios, 4=> y-usuarios...)
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $mentor Id del usuario Mentor
+	 * @return Array Arreglo con calificaciones, y totales
+	 */
+	public function mentoriasCalificadas($mentor)
+	{
+		/**
+		 * @var String $dql Consulta SQL que trae agrupados calificaciones por cantidad de usuarios (5=> x-usuarios, 4=> y-usuarios...)
+		 * SELECT id, COUNT(usuario_estudiante_id), calificacion FROM mentorias
+		 * WHERE usuario_mentor_id = 8 AND mentoria_estado = 1 AND calificacion IS NOT NULL
+		 * GROUP BY calificacion;
+		 */
+		$dql = "SELECT COUNT(m.id) AS cantidadUsuarios, m.calificacion
+				FROM vocationetBundle:Mentorias m
+                WHERE m.usuarioMentor =:usuarioMenId AND m.mentoriaEstado = 1 AND m.calificacion IS NOT NULL
+                GROUP BY m.calificacion";
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioMenId', $mentor);
+        $result = $query->getResult();
+
+		$Aux = Array('totalUsuarios' => 0,
+					'totalCalificacion' => 0,
+					'5'=>0, '4'=>0,	'3'=>0,	'2'=>0,	'1'=>0,	'0'=>0);
+		
+		$auxTotalUsuarios = 0;
+        foreach ($result as $cal) {
+			$calificacion = $cal['calificacion'];
+			$users = $cal['cantidadUsuarios'];
+			$Aux[$calificacion] = $users;
+			$Aux['totalUsuarios'] += $users;
+			$Aux['totalCalificacion'] += ($calificacion*$users);
+		}
+        return $Aux;
+	}
+
+	/**
+	 * Funcion que retorna las 25 últimas reseñas que le han hecho a un mentor, con la informacion del usuario
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $mentorId Id del usuario Mentor
+	 * @return Array Arreglo con últimas 25 reseñas
+	 */
+	public function getResenasMentor($mentorId)
+	{
+		/**
+		 * @var String $dql Consulta SQL que trae las reseñas o comentarios de los usuarios que han calificado al mentor
+		 * SELECT m.*, u.* FROM mentorias m
+		 * LEFT JOIN usuarios u ON u.id = m.usuario_estudiante_id
+		 * WHERE usuario_mentor_id = 8 AND mentoria_estado = 1 AND calificacion IS NOT NULL;
+		 */
+		$dql = "SELECT m.id, m.calificacion, m.resena, m.mentoriaInicio,
+					u.id AS usuarioId, u.usuarioApellido, u.usuarioNombre, u.usuarioEmail, u.usuarioImagen
+				FROM vocationetBundle:Mentorias m
+				LEFT JOIN vocationetBundle:Usuarios u WITH u.id = m.usuarioEstudiante
+                WHERE m.usuarioMentor =:usuarioMenId AND m.mentoriaEstado = 1 AND m.calificacion IS NOT NULL
+                ORDER BY m.id DESC";
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $query->setMaxResults(25);
+        $query->setParameter('usuarioMenId', $mentorId);
+        $result = $query->getResult();
         return $result;
 	}
 }
