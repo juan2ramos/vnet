@@ -515,9 +515,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `preguntastipos`
+-- Table `preguntas_tipos`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `preguntastipos` (
+CREATE  TABLE IF NOT EXISTS `preguntas_tipos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`id`) )
@@ -556,7 +556,7 @@ CREATE  TABLE IF NOT EXISTS `preguntas` (
   INDEX `fk_preguntas_1` (`formulario_id` ASC) ,
   CONSTRAINT `fk_pregunta_2`
     FOREIGN KEY (`preguntastipo_id` )
-    REFERENCES `preguntastipos` (`id` )
+    REFERENCES `preguntas_tipos` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_preguntas_1`

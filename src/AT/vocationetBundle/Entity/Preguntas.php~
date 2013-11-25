@@ -46,9 +46,9 @@ class Preguntas
     private $formulario;
 
     /**
-     * @var \Preguntastipos
+     * @var \PreguntasTipos
      *
-     * @ORM\ManyToOne(targetEntity="Preguntastipos")
+     * @ORM\ManyToOne(targetEntity="PreguntasTipos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="preguntastipo_id", referencedColumnName="id")
      * })

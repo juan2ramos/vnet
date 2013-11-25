@@ -46,9 +46,9 @@ class Preguntas
     private $formulario;
 
     /**
-     * @var \Preguntastipos
+     * @var \PreguntasTipos
      *
-     * @ORM\ManyToOne(targetEntity="Preguntastipos")
+     * @ORM\ManyToOne(targetEntity="PreguntasTipos")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="preguntastipo_id", referencedColumnName="id")
      * })
@@ -139,10 +139,10 @@ class Preguntas
     /**
      * Set preguntastipo
      *
-     * @param \AT\vocationetBundle\Entity\Preguntastipos $preguntastipo
+     * @param \AT\vocationetBundle\Entity\PreguntasTipos $preguntastipo
      * @return Preguntas
      */
-    public function setPreguntastipo(\AT\vocationetBundle\Entity\Preguntastipos $preguntastipo = null)
+    public function setPreguntastipo(\AT\vocationetBundle\Entity\PreguntasTipos $preguntastipo = null)
     {
         $this->preguntastipo = $preguntastipo;
     
@@ -152,7 +152,7 @@ class Preguntas
     /**
      * Get preguntastipo
      *
-     * @return \AT\vocationetBundle\Entity\Preguntastipos 
+     * @return \AT\vocationetBundle\Entity\PreguntasTipos 
      */
     public function getPreguntastipo()
     {

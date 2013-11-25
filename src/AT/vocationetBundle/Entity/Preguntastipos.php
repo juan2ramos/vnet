@@ -5,12 +5,12 @@ namespace AT\vocationetBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Preguntastipos
+ * PreguntasTipos
  *
- * @ORM\Table(name="preguntastipos")
+ * @ORM\Table(name="preguntas_tipos")
  * @ORM\Entity
  */
-class Preguntastipos
+class PreguntasTipos
 {
     /**
      * @var integer
@@ -44,7 +44,7 @@ class Preguntastipos
      * Set nombre
      *
      * @param string $nombre
-     * @return Preguntastipos
+     * @return PreguntasTipos
      */
     public function setNombre($nombre)
     {
