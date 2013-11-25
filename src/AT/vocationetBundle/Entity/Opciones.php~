@@ -1,0 +1,56 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Opciones
+ *
+ * @ORM\Table(name="opciones")
+ * @ORM\Entity
+ */
+class Opciones
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=255, nullable=true)
+     */
+    private $nombre;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="peso", type="integer", nullable=true)
+     */
+    private $peso;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="factor", type="integer", nullable=true)
+     */
+    private $factor;
+
+    /**
+     * @var \Preguntas
+     *
+     * @ORM\ManyToOne(targetEntity="Preguntas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
+     * })
+     */
+    private $pregunta;
+
+
+}

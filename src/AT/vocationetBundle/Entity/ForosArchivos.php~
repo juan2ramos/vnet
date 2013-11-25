@@ -22,16 +22,6 @@ class ForosArchivos
     private $id;
 
     /**
-     * @var \Foros
-     *
-     * @ORM\ManyToOne(targetEntity="Foros")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="foro_id", referencedColumnName="id")
-     * })
-     */
-    private $foro;
-
-    /**
      * @var \Archivos
      *
      * @ORM\ManyToOne(targetEntity="Archivos")
@@ -40,6 +30,16 @@ class ForosArchivos
      * })
      */
     private $archivo;
+
+    /**
+     * @var \Foros
+     *
+     * @ORM\ManyToOne(targetEntity="Foros")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="foro_id", referencedColumnName="id")
+     * })
+     */
+    private $foro;
 
 
 }

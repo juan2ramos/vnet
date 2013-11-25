@@ -113,6 +113,13 @@ class Usuarios
     private $usuarioProfesion;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="usuario_puntos", type="integer", nullable=true)
+     */
+    private $usuarioPuntos;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="usuario_perfil_profesional", type="text", nullable=true)
@@ -500,6 +507,29 @@ class Usuarios
     public function getUsuarioProfesion()
     {
         return $this->usuarioProfesion;
+    }
+
+    /**
+     * Set usuarioPuntos
+     *
+     * @param integer $usuarioPuntos
+     * @return Usuarios
+     */
+    public function setUsuarioPuntos($usuarioPuntos)
+    {
+        $this->usuarioPuntos = $usuarioPuntos;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioPuntos
+     *
+     * @return integer 
+     */
+    public function getUsuarioPuntos()
+    {
+        return $this->usuarioPuntos;
     }
 
     /**

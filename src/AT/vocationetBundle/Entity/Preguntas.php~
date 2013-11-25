@@ -1,0 +1,52 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Preguntas
+ *
+ * @ORM\Table(name="preguntas")
+ * @ORM\Entity
+ */
+class Preguntas
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="pregunta", type="string", length=255, nullable=true)
+     */
+    private $pregunta;
+
+    /**
+     * @var \Preguntastipos
+     *
+     * @ORM\ManyToOne(targetEntity="Preguntastipos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="preguntastipo_id", referencedColumnName="id")
+     * })
+     */
+    private $preguntastipo;
+
+    /**
+     * @var \Formularios
+     *
+     * @ORM\ManyToOne(targetEntity="Formularios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="formulario_id", referencedColumnName="id")
+     * })
+     */
+    private $formulario;
+
+
+}

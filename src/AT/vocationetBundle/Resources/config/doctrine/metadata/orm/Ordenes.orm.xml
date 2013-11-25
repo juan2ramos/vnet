@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Ordenes" table="ordenes">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="cantidad" type="integer" column="cantidad" nullable="true"/>
+    <field name="valorTotal" type="integer" column="valor_total" nullable="true"/>
+    <field name="fechaHoraCompra" type="datetime" column="fecha_hora_compra" nullable="true"/>
+    <field name="estado" type="integer" column="estado" nullable="true"/>
+    <many-to-one field="mentoria" target-entity="Mentorias">
+      <join-columns>
+        <join-column name="mentoria_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="usuario" target-entity="Usuarios">
+      <join-columns>
+        <join-column name="usuario_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="producto" target-entity="Productos">
+      <join-columns>
+        <join-column name="producto_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
