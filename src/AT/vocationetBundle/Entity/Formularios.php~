@@ -28,5 +28,22 @@ class Formularios
      */
     private $nombre;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero", type="integer", nullable=true)
+     */
+    private $numero;
+
+    /**
+     * @var \Formularios
+     *
+     * @ORM\ManyToOne(targetEntity="Formularios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="formulario_id", referencedColumnName="id")
+     * })
+     */
+    private $formulario;
+
 
 }

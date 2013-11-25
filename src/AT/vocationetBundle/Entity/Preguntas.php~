@@ -29,14 +29,11 @@ class Preguntas
     private $pregunta;
 
     /**
-     * @var \Preguntastipos
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Preguntastipos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="preguntastipo_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="numero", type="integer", nullable=true)
      */
-    private $preguntastipo;
+    private $numero;
 
     /**
      * @var \Formularios
@@ -47,6 +44,16 @@ class Preguntas
      * })
      */
     private $formulario;
+
+    /**
+     * @var \Preguntastipos
+     *
+     * @ORM\ManyToOne(targetEntity="Preguntastipos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="preguntastipo_id", referencedColumnName="id")
+     * })
+     */
+    private $preguntastipo;
 
 
 }

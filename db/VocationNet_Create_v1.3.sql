@@ -530,7 +530,15 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `formularios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(100) NOT NULL ,
-  PRIMARY KEY (`id`) )
+  `numero` INT NULL ,
+  `formulario_id` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_formularios_formularios1_idx` (`formulario_id` ASC) ,
+  CONSTRAINT `fk_formularios_formularios1`
+    FOREIGN KEY (`formulario_id` )
+    REFERENCES `formularios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -540,6 +548,7 @@ ENGINE = InnoDB;
 CREATE  TABLE IF NOT EXISTS `preguntas` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `pregunta` VARCHAR(255) NULL ,
+  `numero` INT NULL ,
   `preguntastipo_id` INT NULL ,
   `formulario_id` INT NULL ,
   PRIMARY KEY (`id`) ,

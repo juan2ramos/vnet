@@ -5,14 +5,15 @@
       <generator strategy="IDENTITY"/>
     </id>
     <field name="pregunta" type="string" column="pregunta" length="255" nullable="true"/>
-    <many-to-one field="formulario" target-entity="Formularios">
-      <join-columns>
-        <join-column name="formulario_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
+    <field name="numero" type="integer" column="numero" nullable="true"/>
     <many-to-one field="preguntastipo" target-entity="Preguntastipos">
       <join-columns>
         <join-column name="preguntastipo_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="formulario" target-entity="Formularios">
+      <join-columns>
+        <join-column name="formulario_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

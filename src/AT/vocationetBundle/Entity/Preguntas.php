@@ -29,14 +29,11 @@ class Preguntas
     private $pregunta;
 
     /**
-     * @var \Preguntastipos
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Preguntastipos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="preguntastipo_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="numero", type="integer", nullable=true)
      */
-    private $preguntastipo;
+    private $numero;
 
     /**
      * @var \Formularios
@@ -47,6 +44,16 @@ class Preguntas
      * })
      */
     private $formulario;
+
+    /**
+     * @var \Preguntastipos
+     *
+     * @ORM\ManyToOne(targetEntity="Preguntastipos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="preguntastipo_id", referencedColumnName="id")
+     * })
+     */
+    private $preguntastipo;
 
 
 
@@ -84,26 +91,26 @@ class Preguntas
     }
 
     /**
-     * Set preguntastipo
+     * Set numero
      *
-     * @param \AT\vocationetBundle\Entity\Preguntastipos $preguntastipo
+     * @param integer $numero
      * @return Preguntas
      */
-    public function setPreguntastipo(\AT\vocationetBundle\Entity\Preguntastipos $preguntastipo = null)
+    public function setNumero($numero)
     {
-        $this->preguntastipo = $preguntastipo;
+        $this->numero = $numero;
     
         return $this;
     }
 
     /**
-     * Get preguntastipo
+     * Get numero
      *
-     * @return \AT\vocationetBundle\Entity\Preguntastipos 
+     * @return integer 
      */
-    public function getPreguntastipo()
+    public function getNumero()
     {
-        return $this->preguntastipo;
+        return $this->numero;
     }
 
     /**
@@ -127,5 +134,28 @@ class Preguntas
     public function getFormulario()
     {
         return $this->formulario;
+    }
+
+    /**
+     * Set preguntastipo
+     *
+     * @param \AT\vocationetBundle\Entity\Preguntastipos $preguntastipo
+     * @return Preguntas
+     */
+    public function setPreguntastipo(\AT\vocationetBundle\Entity\Preguntastipos $preguntastipo = null)
+    {
+        $this->preguntastipo = $preguntastipo;
+    
+        return $this;
+    }
+
+    /**
+     * Get preguntastipo
+     *
+     * @return \AT\vocationetBundle\Entity\Preguntastipos 
+     */
+    public function getPreguntastipo()
+    {
+        return $this->preguntastipo;
     }
 }

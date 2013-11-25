@@ -28,6 +28,23 @@ class Formularios
      */
     private $nombre;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="numero", type="integer", nullable=true)
+     */
+    private $numero;
+
+    /**
+     * @var \Formularios
+     *
+     * @ORM\ManyToOne(targetEntity="Formularios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="formulario_id", referencedColumnName="id")
+     * })
+     */
+    private $formulario;
+
 
 
     /**
@@ -61,5 +78,51 @@ class Formularios
     public function getNombre()
     {
         return $this->nombre;
+    }
+
+    /**
+     * Set numero
+     *
+     * @param integer $numero
+     * @return Formularios
+     */
+    public function setNumero($numero)
+    {
+        $this->numero = $numero;
+    
+        return $this;
+    }
+
+    /**
+     * Get numero
+     *
+     * @return integer 
+     */
+    public function getNumero()
+    {
+        return $this->numero;
+    }
+
+    /**
+     * Set formulario
+     *
+     * @param \AT\vocationetBundle\Entity\Formularios $formulario
+     * @return Formularios
+     */
+    public function setFormulario(\AT\vocationetBundle\Entity\Formularios $formulario = null)
+    {
+        $this->formulario = $formulario;
+    
+        return $this;
+    }
+
+    /**
+     * Get formulario
+     *
+     * @return \AT\vocationetBundle\Entity\Formularios 
+     */
+    public function getFormulario()
+    {
+        return $this->formulario;
     }
 }
