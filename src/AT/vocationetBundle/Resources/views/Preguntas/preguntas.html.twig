@@ -1,0 +1,38 @@
+{% if pregunta.pregunaTipoId == 1 %} {# opcion multiple unica respuesta #}
+    {% if pregunta.opciones is defined %}
+        {% for opcion in pregunta.opciones %}
+            <label><input type="radio" name="pregunta[{{ pregunta.id }}]" value="{{ opcion.id }}"/> {{ opcion.nombre }}</label>
+        {% endfor %}
+    {% endif %}
+{% elseif pregunta.pregunaTipoId == 2 %} {# opcion multiple multiple respuesta #}            
+    {% if pregunta.opciones is defined %}
+        {% for opcion in pregunta.opciones %}
+            <label><input type="checkbox" name="pregunta[{{ pregunta.id }}][]" value="{{ opcion.id }}"/> {{ opcion.nombre }}</label>
+        {% endfor %}
+    {% endif %}            
+{% elseif pregunta.pregunaTipoId == 3 %} {# ordenamiento #}
+     {% if pregunta.opciones is defined %}
+        {% for opcion in pregunta.opciones %}
+            <label>{{ opcion.nombre }}</label>
+        {% endfor %}
+    {% endif %} 
+{% elseif pregunta.pregunaTipoId == 4 %} {# si no #}
+    <label><input type="radio" name="pregunta[{{ pregunta.id }}]" value="1"/> {% trans  from "label" %}si{% endtrans %}</label>   
+    <label><input type="radio" name="pregunta[{{ pregunta.id }}]" value="0"/> {% trans  from "label" %}no{% endtrans %}</label>   
+{% elseif pregunta.pregunaTipoId == 5 %} {# numerica #}
+    <input type="number" name="pregunta[{{ pregunta.id }}]" />             
+{% elseif pregunta.pregunaTipoId == 6 %} {# porcentual #}
+    <input type="number" name="pregunta[{{ pregunta.id }}]" />       
+{% elseif pregunta.pregunaTipoId == 7 %} {# rango #}
+    <div class="slider-container">
+        <div class="col-lg-1" style="text-align: right;">
+            <div class="slider-info">1</div>
+            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="1" class="slider-value"/>
+        </div>
+        <div class="col-lg-7" style="padding-top: 20px;">
+            <div class="slider"></div>
+        </div>
+    </div>
+{% elseif pregunta.pregunaTipoId == 8 %} {# abierta #}
+    <textarea name="pregunta[{{ pregunta.id }}]" ></textarea>          
+{% endif %}

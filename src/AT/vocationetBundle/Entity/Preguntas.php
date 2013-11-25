@@ -53,7 +53,7 @@ class Preguntas
      *   @ORM\JoinColumn(name="preguntastipo_id", referencedColumnName="id")
      * })
      */
-    private $preguntastipo;
+    private $preguntaTipo;
 
 
 
@@ -137,25 +137,25 @@ class Preguntas
     }
 
     /**
-     * Set preguntastipo
+     * Set preguntaTipo
      *
-     * @param \AT\vocationetBundle\Entity\PreguntasTipos $preguntastipo
+     * @param \AT\vocationetBundle\Entity\PreguntasTipos $preguntaTipo
      * @return Preguntas
      */
-    public function setPreguntastipo(\AT\vocationetBundle\Entity\PreguntasTipos $preguntastipo = null)
+    public function setPreguntaTipo(\AT\vocationetBundle\Entity\PreguntasTipos $preguntaTipo = null)
     {
-        $this->preguntastipo = $preguntastipo;
+        $this->preguntaTipo = $preguntaTipo;
     
         return $this;
     }
 
     /**
-     * Get preguntastipo
+     * Get preguntaTipo
      *
      * @return \AT\vocationetBundle\Entity\PreguntasTipos 
      */
-    public function getPreguntastipo()
+    public function getPreguntaTipo()
     {
-        return $this->preguntastipo;
+        return $this->preguntaTipo;
     }
 }

@@ -41,3 +41,14 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('8', '2'),
 ('8', '3'),
 ('8', '4');
+
+
+INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
+(1, 'selección múltiple con única respuesta'),
+(2, 'selección múltiple con múltiple respuesta'),
+(3, 'ordenamiento'),
+(4, 'si o no'),
+(5, 'numérica'),
+(6, 'porcentual'),
+(7, 'slider'),
+(8, 'abierta');
