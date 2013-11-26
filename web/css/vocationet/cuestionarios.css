@@ -1,0 +1,70 @@
+.form-group .row{
+        margin-left: 0px;
+    }    
+        
+.form-test{
+    padding: 10px 40px;
+}    
+
+.respuesta{
+    margin: 20px 20px;
+}
+
+.slider-container{
+    margin-top: 20px;
+}
+
+.slider-info{
+    padding: 0px;
+    background-color: #22BACF;
+    border-color: #22BACF;
+    border-radius: 4px;
+    color: #fff;
+    text-align: center;
+    line-height: 50px;
+    font-size: 24px;
+}
+
+.sortable .label{
+    display: block;
+    margin: 5px;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: left;
+    width: auto;
+    cursor: move;
+}
+
+.option, .option-check{
+    background: #59ACE2;        
+    margin: 5px;
+    color: #FFF;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    vertical-align: middle;
+}
+
+.option label, .option-check label{
+    font-weight: normal !important;        
+    cursor: pointer;
+    padding: 8px 3px;
+    min-height: 50px;
+    vertical-align: middle;
+}
+
+.option.active, .option-check.active{
+    background: #FCB322;
+}
+
+.option input[type=radio], .option-check input[type=checkbox]{
+    /*display: none;*/
+    opacity: 0;
+}
+
+.error{
+    color: #E56155;
+}

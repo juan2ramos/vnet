@@ -33,12 +33,11 @@ class DiagnosticoController extends Controller
         $preguntas_serv = $this->get('preguntas');
         
         $formularios = $preguntas_serv->getFormulario(1);
-        
-//        $security->debug($formularios);
-        
+        $form = $this->createFormCuestionario();
         
         return array(
-            'formularios' => $formularios
+            'formularios' => $formularios,
+            'form' => $form->createView(),
         );
     }
     
@@ -47,6 +46,7 @@ class DiagnosticoController extends Controller
      * Accion que recibe y procesa el cuestionario de diagnostico
      * 
      * @Route("/procesar", name="procesar_diagnostico")
+     * @Method({"POST"})
      * @param \AT\vocationetBundle\Controller\Request $request
      */
     public function procesarCuestionario(Request $request)
@@ -55,14 +55,27 @@ class DiagnosticoController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
+        $form = $this->createFormCuestionario();
         
-        $respuestas = $request->get('pregunta');
-        
-        $security->debug($respuestas);
-        
+        if($request->getMethod() == 'POST') 
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $respuestas = $request->get('pregunta');
+                
+                $security->debug($respuestas);
+            }
+        }
         return new Response();
     }
             
-    
+    private function createFormCuestionario()
+    {
+        $form = $this->createFormBuilder()
+            ->getForm();
+        
+        return $form;
+    }
 }
 ?>
