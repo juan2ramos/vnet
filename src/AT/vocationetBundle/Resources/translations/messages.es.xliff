@@ -75,7 +75,7 @@
             </trans-unit>
             <trans-unit id="editperfil-2">
                 <source>perfil.editado.correctamente</source>
-                <target>Los datos que editaste se registrarón con exito</target>
+                <target>Perfil editado correctamente</target>
             </trans-unit>			
 			
 			<!-- MENSAJES inbox-x -->
@@ -221,6 +221,16 @@
             <trans-unit id="foros-10">
                 <source>foro.editado.correctamente</source>
                 <target>El foro ha sido editado correctamente</target>
+            </trans-unit>
+
+			<!-- CALIFICAR MENTORIA cal-x -->
+            <trans-unit id="cal-1">
+                <source>error.en.solicitud.calificar</source>
+                <target>Ocurrio un error al realizar la calificación de esta mentoria, por favor intentelo más tarde.</target>
+			</trans-unit>
+			<trans-unit id="cal-2">
+                <source>calificacion.guardada.correctamente</source>
+                <target>La calificación de esta mentoría se realizó correctamente</target>
             </trans-unit>
         </body>
     </file>

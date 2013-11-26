@@ -89,7 +89,7 @@
                     <hr STYLE="margin: 0 0 5px 0;">
                 
                 {% if contactos %}   
-					<table class="table table-striped border-top" id="sample_1">
+					<table class="table table-striped border-top datatable">
 						<thead>
 							<tr>
 								<th></th>
@@ -238,7 +238,8 @@
 			var u = $(this).data('u'); //Usuario con el que existe la relacion
 			var r = $(this).data('r'); //Id de la relacion
 			var row = $(this).closest('tr').attr('id');
-            var nRow =  $('datetable tbody tr[id='+row+']')[0];
+
+            var nRow =  $('.datatable tbody tr[id='+row+']')[0];
 			var posActual = $(this).parent();
 
 			posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');
