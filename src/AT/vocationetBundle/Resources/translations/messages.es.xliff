@@ -75,7 +75,7 @@
             </trans-unit>
             <trans-unit id="editperfil-2">
                 <source>perfil.editado.correctamente</source>
-                <target>Los datos que editaste se registrarón con exito</target>
+                <target>Perfil editado correctamente</target>
             </trans-unit>			
 			
 			<!-- MENSAJES inbox-x -->

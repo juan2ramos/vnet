@@ -201,7 +201,22 @@
                 <source>sincronizar.perfil</source>
                 <target>Sincronizar perfil</target>
             </trans-unit>
-            
+            <trans-unit id="perfil-33">
+                <source>valor.hora</source>
+                <target>Valor hora</target>
+            </trans-unit>
+            <trans-unit id="perfil-34">
+                <source>valor.mentoria</source>
+                <target>Valor de la mentoria</target>
+            </trans-unit>
+            <trans-unit id="perfil-35">
+                <source>definicion.mentor</source>
+                <target>Definición del tipo de mentor</target>
+            </trans-unit>
+            <trans-unit id="perfil-37">
+                <source>aun.falta.la.siguiente.informacion</source>
+                <target>Al perfil le hace falta la siguiente información</target>
+            </trans-unit>
 
 			<!-- PERFILES ESTUDIANTE perfile-x -->
             <trans-unit id="perfile-1">

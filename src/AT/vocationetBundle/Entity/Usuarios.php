@@ -66,6 +66,13 @@ class Usuarios
     /**
      * @var integer
      *
+     * @ORM\Column(name="usuario_rol_estado", type="integer", nullable=false)
+     */
+    private $usuarioRolEstado;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="usuario_facebookid", type="integer", nullable=true)
      */
     private $usuarioFacebookid;
@@ -346,6 +353,29 @@ class Usuarios
     public function getUsuarioEstado()
     {
         return $this->usuarioEstado;
+    }
+
+    /**
+     * Set usuarioRolEstado
+     *
+     * @param integer $usuarioRolEstado
+     * @return Usuarios
+     */
+    public function setUsuarioRolEstado($usuarioRolEstado)
+    {
+        $this->usuarioRolEstado = $usuarioRolEstado;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioRolEstado
+     *
+     * @return integer 
+     */
+    public function getUsuarioRolEstado()
+    {
+        return $this->usuarioRolEstado;
     }
 
     /**

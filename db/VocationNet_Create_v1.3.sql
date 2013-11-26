@@ -70,6 +70,7 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `usuario_estado` INT(2) NOT NULL ,
   `usuario_facebookid` INT NULL ,
   `rol_id` INT NOT NULL ,
+  `usuario_rol_estado` INT(2) NULL COMMENT 'Variable para controlar el estado del rol del usuario 0-No seleccionado, 1-Seleccionado 2-Aprobado' ,
   `georeferencia_id` INT NULL ,
   `usuario_fecha_nacimiento` DATE NULL ,
   `usuario_genero` VARCHAR(45) NULL ,

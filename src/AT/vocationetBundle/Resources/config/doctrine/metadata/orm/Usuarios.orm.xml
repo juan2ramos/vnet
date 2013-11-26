@@ -25,6 +25,7 @@
     <field name="created" type="datetime" column="created" nullable="true"/>
     <field name="modified" type="datetime" column="modified" nullable="true"/>
     <field name="syncLinkedin" type="datetime" column="sync_linkedin" nullable="true"/>
+    <field name="usuarioRolEstado" type="integer" column="usuario_rol_estado" nullable="false"/>
     <many-to-one field="georeferencia" target-entity="Georeferencias">
       <join-columns>
         <join-column name="georeferencia_id" referenced-column-name="id"/>

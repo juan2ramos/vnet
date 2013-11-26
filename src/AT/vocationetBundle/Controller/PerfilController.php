@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AT\vocationetBundle\Entity\Colegios;
-//use AT\vocationetBundle\Entity\Mentorias;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -68,9 +67,24 @@ class PerfilController extends Controller
 			// Calificaciones actuales del mentos, clasificados por No. de estrellas
 			$calificaciones = $pr->mentoriasCalificadas($perfilId);
 
+			if ($perfilId == $usuarioId) {
+				// Campos vacios para pedir que sean diligenciados
+				$auxRol = ($perfil['usuarioRolEstado'] == 0) ? 1 : 0;
+				$auxVM = ($perfil['usuarioValorMentoria']) ? 0 : 1;
+				$auxTP = ($perfil['usuarioTarjetaProfesional']) ? 0 : 1;
+				$auxHV = ($perfil['usuarioHojaVida']) ? 0 : 1;
+				$auxTotal = $auxRol + $auxVM + $auxTP + $auxHV;
+				
+				$camposVacios = Array('rol' => $auxRol, 'valorhora' => $auxVM, 'tarjetaProfesional' => $auxTP,
+					'hojaVida' => $auxHV, 'total' => $auxTotal );
+			} else {
+				$camposVacios = Array('total' => 0);
+			}
+
 			return $this->render('vocationetBundle:Perfil:perfilmentor.html.twig', array(
 					'perfil' => $perfil, 'estudios' => $estudios, 'trabajos' => $trabajos, 'rutas' => $rutas,
-					'mentorias' => $calificarMentor, 'calificaciones' => $calificaciones));
+					'mentorias' => $calificarMentor, 'calificaciones' => $calificaciones,
+					'camposvacios' => $camposVacios, ));
 		}
 		else
 		{
@@ -98,100 +112,6 @@ class PerfilController extends Controller
 		}
     }
 
-	/**
-	 * Ultimas 25 Reseñas del mentor
-	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1
-     * @param Int $pefilId Id del mentor
-     * @return Render Vista renderizada del perfil, con reseñas
-	 * @Template("vocationetBundle:Perfil:resenasMentor.html.twig")
-	 * @Route("/{perfilId}/resenas", name="mentor_resenas")
-	 * @Method("GET")
-	 */
-    public function resenasAction($perfilId)
-    {
-		$security = $this->get('security');
-        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-        
-		$tr = $this->get('translator');
-		$pr = $this->get('perfil');
-
-		$perfil = $pr->getPerfil($perfilId);
-		
-		if (!$perfil) {
-			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
-		}
- 
-		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov')
-		{
-			$resenas = $pr->getResenasMentor($perfilId);
-
-			// Calificaciones actuales del mentos, clasificados por No. de estrellas
-			$calificaciones = $pr->mentoriasCalificadas($perfilId);
-		}
-		else
-		{
-			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
-		}
-
-		return array('perfil' => $perfil, 'calificaciones' => $calificaciones, 'resenas' => $resenas);
-	}
-
-	/**
-	 * Calificar un mentor por AJAX
-	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1
-     * @Template("vocationetBundle:Perfil:perfilmentor.html.twig")
-     * @param Request $request Form de calificación de mentoria
-     * @param Int $pefilId Id del mentor
-     * @param Int $mentoriaId Id de la mentoria
-	 * @Route("/{perfilId}/{mentoriaId}/calificar", name="calificar_mentor")
-	 * @Method("POST")
-	 * @return Response JSON
-	 */
-	public function calificarAction(Request $request, $perfilId, $mentoriaId)
-	{
-		$security = $this->get('security');
-        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-
-		$form = $this->formCalificarMentoria($mentoriaId);
-		$msg = $this->get('translator')->trans("error.en.solicitud.calificar", array(), 'messages');
-		$status = 'error';
-		
-		if ($request->getMethod() == "POST")
-		{
-			$form->bind($request);
-			if ($form->isvalid())
-			{
-				$formData = $form->getData();
-				$em = $this->getDoctrine()->getManager();
-				$mentoria = $em->getRepository('vocationetBundle:Mentorias')->findOneBy(Array('id' => $mentoriaId, 'mentoriaEstado' => 1));
-
-				$calificacion = $formData['calificacion'];
-				$resena = $formData['resena'];
-				
-				if ($mentoria && ($calificacion>=0 && $calificacion<=5) && ($resena != '') && ($formData['mentoriaId'] == $mentoriaId)) {
-					$mentoria->setCalificacion($calificacion);
-					$mentoria->setResena($resena);
-					$em->persist($mentoria);
-					$em->flush();
-
-					$status = 'success';
-					$msg = $this->get('translator')->trans("calificacion.guardada.correctamente", array(), 'messages');
-				}
-			}
-		}
-
-		return new Response(json_encode(array(
-            'status' => $status,
-			'message' => $msg,
-        )));
-	}
-	
 	/**
 	 * Editar perfil de usuario
 	 *
@@ -334,24 +254,49 @@ class PerfilController extends Controller
 						'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView()));
 		}
 		else {
+			
+			if ($perfil['usuarioRolEstado'] == 0) {
+				
+				$rolActual = $perfil['rolId'];
+				$roles = $pr->getRolesMentor();
+				
+				$formData = Array('hojaVida' => null, 'tarjetaProfesional' => null, 'valorHora' => 0);
+				$form = $this->createFormBuilder($formData)
+					->add('rol', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolActual), 'required' => true))
+					->add('valorHora', 'text', array('required' => true, 'data'=> $perfil['usuarioValorMentoria'], 'attr' => Array('pattern' => '^[0-9]*$')))
+					->add('hojaVida', 'file', array('required' => false))
+					->add('tarjetaProfesional', 'file', array('required' => false))
+					->getForm();
+			} else {
+				$formData = Array('hojaVida' => null, 'tarjetaProfesional' => null, 'valorHora' => 0);
+				$form = $this->createFormBuilder($formData)
+					->add('valorHora', 'text', array('required' => true, 'data'=> $perfil['usuarioValorMentoria'], 'attr' => Array('pattern' => '^[0-9]*$')))
+					->add('hojaVida', 'file', array('required' => false))
+					->add('tarjetaProfesional', 'file', array('required' => false))
+					->getForm();
+			}
 
-			$formData = Array('hojaVida' => null, 'tarjetaProfesional' => null);
-			$form = $this->createFormBuilder($formData)
-				->add('hojaVida', 'file', array('required' => false))
-				->add('tarjetaProfesional', 'file', array('required' => false))
-				->getForm();
 
+			$em = $this->getDoctrine()->getManager();
 			if ($request->getMethod() == 'POST')
 			{
 				$form->bind($request);
 				if ($form->isvalid())
 				{
 					$dataForm = $form->getData();
-					$errores = $this->validatePerfilEditMentor($dataForm);
+					$formIncludeRol = ($perfil['usuarioRolEstado'] == 0) ? true : false;
+					$errores = $this->validatePerfilEditMentor($dataForm, $formIncludeRol);
+
+					//Validación del rol seleccionado
+					if ($perfil['usuarioRolEstado'] == 0) {
+						$rolMentor = $em->getRepository('vocationetBundle:Roles')->findOneById($dataForm['rol']);
+						if (!$rolMentor) {
+							$errores += 1;
+						}
+					}
 
 					if ($errores == 0)
 					{
-						$em = $this->getDoctrine()->getManager();
 						$usuario = $em->getRepository('vocationetBundle:usuarios')->findOneById($id);
 						
 						if ($dataForm['hojaVida']) {
@@ -370,8 +315,8 @@ class PerfilController extends Controller
 
 						if ($dataForm['tarjetaProfesional']) {
 							$rutaTP = $this->get('perfil')->getRutaTarjetaProfesional();
-							if ($usuario->GetUsuarioTarjetaProfesional()){
-								$nameTP = $usuario->GetUsuarioTarjetaProfesional();
+							if ($usuario->getUsuarioTarjetaProfesional()){
+								$nameTP = $usuario->getUsuarioTarjetaProfesional();
 							}
 							else {
 								$stdate = strtotime(date('Y-m-d H:i:s'));
@@ -381,6 +326,12 @@ class PerfilController extends Controller
 							$form['tarjetaProfesional']->getData()->move($rutaTP, $nameTP);
 						}
 
+						if ($perfil['usuarioRolEstado'] == 0) {
+								$usuario->setRol($rolMentor);
+								$usuario->setUsuarioRolEstado(1);
+						}
+
+						$usuario->setUsuarioValorMentoria($dataForm['valorHora']);
 						$usuario->setModified(new \DateTime());
 						$em->persist($usuario);
 						$em->flush();
@@ -458,42 +409,143 @@ class PerfilController extends Controller
 		}
 		return $this->redirect($this->generateUrl('perfil', array('perfilId'=> $usuarioId)));
 	 }
-	
+
+	/**
+	 * Ultimas 25 Reseñas del mentor
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Int $pefilId Id del mentor
+     * @return Render Vista renderizada del perfil, con reseñas
+	 * @Template("vocationetBundle:Perfil:resenasMentor.html.twig")
+	 * @Route("/{perfilId}/resenas", name="mentor_resenas")
+	 * @Method("GET")
+	 */
+    public function resenasAction($perfilId)
+    {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+		$tr = $this->get('translator');
+		$pr = $this->get('perfil');
+
+		$perfil = $pr->getPerfil($perfilId);
+		
+		if (!$perfil) {
+			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
+		}
+ 
+		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov')
+		{
+			$resenas = $pr->getResenasMentor($perfilId);
+
+			// Calificaciones actuales del mentos, clasificados por No. de estrellas
+			$calificaciones = $pr->mentoriasCalificadas($perfilId);
+		}
+		else
+		{
+			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
+		}
+
+		return array('perfil' => $perfil, 'calificaciones' => $calificaciones, 'resenas' => $resenas);
+	}
+
+	/**
+	 * Calificar un mentor por AJAX
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @Template("vocationetBundle:Perfil:perfilmentor.html.twig")
+     * @param Request $request Form de calificación de mentoria
+     * @param Int $pefilId Id del mentor
+     * @param Int $mentoriaId Id de la mentoria
+	 * @Route("/{perfilId}/{mentoriaId}/calificar", name="calificar_mentor")
+	 * @Method("POST")
+	 * @return Response JSON
+	 */
+	public function calificarAction(Request $request, $perfilId, $mentoriaId)
+	{
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+
+		$form = $this->formCalificarMentoria($mentoriaId);
+		$msg = $this->get('translator')->trans("error.en.solicitud.calificar", array(), 'messages');
+		$status = 'error';
+		
+		if ($request->getMethod() == "POST")
+		{
+			$form->bind($request);
+			if ($form->isvalid())
+			{
+				$formData = $form->getData();
+				$em = $this->getDoctrine()->getManager();
+				$mentoria = $em->getRepository('vocationetBundle:Mentorias')->findOneBy(Array('id' => $mentoriaId, 'mentoriaEstado' => 1));
+
+				$calificacion = $formData['calificacion'];
+				$resena = $formData['resena'];
+				
+				if ($mentoria && ($calificacion>=0 && $calificacion<=5) && ($resena != '') && ($formData['mentoriaId'] == $mentoriaId)) {
+					$mentoria->setCalificacion($calificacion);
+					$mentoria->setResena($resena);
+					$em->persist($mentoria);
+					$em->flush();
+
+					$status = 'success';
+					$msg = $this->get('translator')->trans("calificacion.guardada.correctamente", array(), 'messages');
+				}
+			}
+		}
+
+		return new Response(json_encode(array(
+            'status' => $status,
+			'message' => $msg,
+        )));
+	}
+
 	/**
 	 * Funcion Privada de validación de formulario del usuario tipo mentor
 	 * (hoja de vida y tarjeta profesional)
 	 *
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-     * @param Object Formulario a validar
+     * @param Array $dataForm Formulario a validar
+     * @param Boolean $formIncludeRol Para validar campo de seleccion de tipo de mentor por primera vez
      * @return Int Cantidad de errores encontrados
 	 */
-	private function validatePerfilEditMentor($dataForm)
+	private function validatePerfilEditMentor($dataForm, $formIncludeRol)
 	{
 		/**
 		 * Validacione aplicadas
+		 * valorHora => NotBlank, Regex(Solo numeros)
 		 * hojaVida => File(Formatos permitidos)
 		 * tarjetaProfesional => File(Formatos permitidos)
 		 */
-		
+
+		$NotBlank = new Assert\NotBlank();
 		$File = new Assert\File(Array('mimeTypes' => Array("application/pdf")));
+		$Regex = new Assert\Regex(Array('pattern'=>'/^[0-9]*$/'));
 
 		$hojaVida = $dataForm['hojaVida'];
 		$tarjetaProfesional = $dataForm['tarjetaProfesional'];
+		$valorHora = $dataForm['valorHora'];
 
 		$countErrores = 0;
-		if (($hojaVida === null) && ($tarjetaProfesional === null)) {
-			$countErrores = 1;
-		}
-		else
-		{
-			if ($hojaVida) {
-				$countErrores += (count($this->get('validator')->validateValue($hojaVida, $File)) == 0) ? 0 : 1;
-			}
-			if ($tarjetaProfesional) {
-				$countErrores += (count($this->get('validator')->validateValue($tarjetaProfesional, $File)) == 0) ? 0 : 1;
+		$countErrores += (count($this->get('validator')->validateValue($valorHora, Array($Regex, $NotBlank))) == 0) ? 0 : 1;
+		
+		if ($formIncludeRol) {
+			if (($dataForm['rol'] != 2) and ($dataForm['rol'] != 3)) {
+				$countErrores += 1;
 			}
 		}
+		if ($hojaVida) {
+			$countErrores += (count($this->get('validator')->validateValue($hojaVida, $File)) == 0) ? 0 : 1;
+		}
+		if ($tarjetaProfesional) {
+			$countErrores += (count($this->get('validator')->validateValue($tarjetaProfesional, $File)) == 0) ? 0 : 1;
+		}
+		
 		return $countErrores;
 	}
 

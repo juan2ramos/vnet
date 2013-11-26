@@ -49,6 +49,7 @@
 							<a href="#"><img src="{{ asset(imagen ~ '?type=large') }}" alt=""></a>
 							<h1>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</h1>
 							<p>{{ perfil.usuarioEmail }}</p>
+							<p>{{ perfil.nombreRol|trans({}, "db") }}</p>
 						</div>
 						
 						<ul class="nav nav-pills nav-stacked">
@@ -181,6 +182,25 @@
 				</aside>
 
 				<aside class="profile-info col-lg-8">
+
+					{% if (camposvacios.total > 0) and (sess_user.id == perfil.usuarioId) %}
+						<div class="alert alert-danger fade in" >
+							<button data-dismiss="alert" class="close close-sm" type="button">
+								<i class="icon-remove"></i>
+							</button>
+							<div class='redirectEdit' data-href="{{ path('perfil_edit') }}" STYLE='cursor:pointer'>
+							<strong>{% trans from "label" %}aun.falta.la.siguiente.informacion{% endtrans %}</strong><br>
+							{% if camposvacios.rol %}
+								<i class='icon-long-arrow-right'></i>&nbsp;{{ 'definicion.mentor'|trans({}, "label" ) }}<br>{% endif %}
+							{% if camposvacios.valorhora %}
+								<i class='icon-long-arrow-right'></i>&nbsp;{{ 'valor.mentoria'|trans({}, "label" ) }}<br>{% endif %}
+							{% if camposvacios.tarjetaProfesional %}
+								<i class='icon-long-arrow-right'></i>&nbsp;{{ 'tarjeta.profesional'|trans({}, "label" ) }}<br>{% endif %}
+							{% if camposvacios.hojaVida %}
+								<i class='icon-long-arrow-right'></i>&nbsp;{{ 'hoja.vida'|trans({}, "label" ) }}<br>{% endif %}
+							</div>
+						</div>
+					{% endif %}
 
 					{# CALIFICACION DE MENTORIAS #}
 					{% if mentorias %}
@@ -382,8 +402,6 @@
 		<div><h2>PUBLICIDAD</h2></div>
 	</div>
 
-
-	
 {% endblock body %}
 
 {% block script %}
@@ -425,6 +443,10 @@
 		});
 
 		//$("#clsRateit").bind('rated', function (event, value) { console.log(value); });
+
+		$('.redirectEdit').click(function(){
+			window.location = $(this).data('href');
+		});
 	</script>
 {% endblock %}
 

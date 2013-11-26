@@ -47,6 +47,7 @@
 						<a href="#"><img src="{{ asset(imagen ~ '?type=large') }}" alt=""></a>
 						<h1>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</h1>
 						<p>{{ perfil.usuarioEmail }}</p>
+						<p>{{ perfil.nombreRol|trans({}, "db") }}</p>
 					</div>
 					
 					<ul class="nav nav-pills nav-stacked">

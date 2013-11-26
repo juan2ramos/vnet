@@ -44,8 +44,8 @@ class PerfilService
 		 */
 		$dql="SELECT u.id as usuarioId, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioFechaNacimiento, u.usuarioEmail,
 				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional,
-				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero,
-				r.nombre as nombreRol,
+				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero, u.usuarioRolEstado,
+				r.id AS rolId, r.nombre as nombreRol,
 				col.nombre as nombreCol, col.id as colegioId
 			FROM vocationetBundle:Usuarios u
 			JOIN u.rol r
@@ -380,6 +380,22 @@ class PerfilService
 		$tr = $this->translate;
 		return $rolesBusqueda = Array(
 					'1' => $tr->trans("estudiante", array(), 'db'),
+					'2' => $tr->trans("mentor_e", array(), 'db'),
+					'3' => $tr->trans("mentor_ov", array(), 'db'),
+				);
+	}
+
+	/**
+	 * Funcion que retorna un array con los roles para seleccionar un mentor
+	 * - Acceso desde PerfilController
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Array con roles que puede escoger el mentor
+	 */
+	public function getRolesMentor() {
+		$tr = $this->translate;
+		return $rolesBusqueda = Array(
 					'2' => $tr->trans("mentor_e", array(), 'db'),
 					'3' => $tr->trans("mentor_ov", array(), 'db'),
 				);
