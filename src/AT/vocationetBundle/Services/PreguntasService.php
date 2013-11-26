@@ -35,12 +35,16 @@ class PreguntasService
      */
     public function getFormulario($id)
     {
+        // Query para obtener informacion del formulario
+        $formulario = $this->em->getRepository("vocationetBundle:Formularios")->findOneById($id);
+        
         $formularios = array();
         
-        // Query para formularios
+        // Query para sub-formularios
         $dql = "SELECT
                     f.id,
                     f.nombre,
+                    f.descripcion,
                     f.numero
                 FROM
                     vocationetBundle:Formularios f
@@ -70,7 +74,10 @@ class PreguntasService
                 $formularios[$p['formularioId']]['preguntas'][] = $p;
             }
         }
-        return $formularios;
+        return array(
+            'formulario' => $formulario,
+            'formularios' => $formularios,
+        );
     }
     
     /**

@@ -36,6 +36,20 @@ class Formularios
     private $numero;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="encabezado", type="text", nullable=true)
+     */
+    private $encabezado;
+
+    /**
      * @var \Formularios
      *
      * @ORM\ManyToOne(targetEntity="Formularios")
@@ -101,6 +115,52 @@ class Formularios
     public function getNumero()
     {
         return $this->numero;
+    }
+
+    /**
+     * Set descripcion
+     *
+     * @param string $descripcion
+     * @return Formularios
+     */
+    public function setDescripcion($descripcion)
+    {
+        $this->descripcion = $descripcion;
+    
+        return $this;
+    }
+
+    /**
+     * Get descripcion
+     *
+     * @return string 
+     */
+    public function getDescripcion()
+    {
+        return $this->descripcion;
+    }
+
+    /**
+     * Set encabezado
+     *
+     * @param string $encabezado
+     * @return Formularios
+     */
+    public function setEncabezado($encabezado)
+    {
+        $this->encabezado = $encabezado;
+    
+        return $this;
+    }
+
+    /**
+     * Get encabezado
+     *
+     * @return string 
+     */
+    public function getEncabezado()
+    {
+        return $this->encabezado;
     }
 
     /**
