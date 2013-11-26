@@ -285,4 +285,15 @@ class SecurityService
         }
         return $validate;
     }
+
+    public function getEnlaceTestVocacional()
+    {
+		return 'http://www.uanl.mx/utilerias/test/';
+	}
+
+	public function getRutaEnlaceTestVocacionalInfo()
+    {
+		return 'uploads/vocationet/testvocacional.pdf';
+	}
+	
 }

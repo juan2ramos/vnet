@@ -860,6 +860,28 @@
                 <source>ultimas.25</source>
                 <target>últimas 25 ingresadas</target>
 			</trans-unit>
+
+			<!-- TEST VOCACIONAL TestVocacional-x -->
+			<trans-unit id="TestVocacional-1">
+                <source>test.vocacional</source>
+                <target>Test vocacional</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-2">
+                <source>explicacion.test.vocacional</source>
+                <target>Esta prueba esta desarrollada por una empresa dedicada a la generación de pruebas psicológicas y será analizada por el experto que has escogido como guía de tu programa. Después de la próxima asesoría podrás ver los resultados.</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-3">
+                <source>recomendacion.leer.guia.test.vocacional</source>
+                <target>Antes de continuar con esta prueba por favor  leer nuestra guia, que te dara las recomendaciones necesarias para que le saques el mejor provecho a eset test.</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-4">
+                <source>explicacion.paso.a.paso.test.vocacional</source>
+                <target>Por favor ingresa a este enlace y diligencia el test de orientación vocacional, utilizando el PIN que aparece abajo. Tan pronto el Test este completo, continúe con el programa agendado una mentoría con su Experto OV, el habrá recibido los resultados, los habrá analizado y tendrá un informe que le entregara en la mentoría.</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-5">
+                <source></source>
+                <target></target>
+			</trans-unit>
         </body>
     </file>
 </xliff>
