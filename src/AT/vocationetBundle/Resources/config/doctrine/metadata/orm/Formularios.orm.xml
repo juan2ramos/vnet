@@ -6,6 +6,8 @@
     </id>
     <field name="nombre" type="string" column="nombre" length="100" nullable="false"/>
     <field name="numero" type="integer" column="numero" nullable="true"/>
+    <field name="descripcion" type="text" column="descripcion" nullable="true"/>
+    <field name="encabezado" type="text" column="encabezado" nullable="true"/>
     <many-to-one field="formulario" target-entity="Formularios">
       <join-columns>
         <join-column name="formulario_id" referenced-column-name="id"/>

@@ -36,7 +36,8 @@ class DiagnosticoController extends Controller
         $form = $this->createFormCuestionario();
         
         return array(
-            'formularios' => $formularios,
+            'formularios' => $formularios['formularios'],
+            'formulario_info' => $formularios['formulario'],
             'form' => $form->createView(),
         );
     }

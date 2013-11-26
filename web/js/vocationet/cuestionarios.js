@@ -68,4 +68,6 @@
 
     $("#form").validate();
     
+    $("fieldset").removeAttr('title');
+    
 })();

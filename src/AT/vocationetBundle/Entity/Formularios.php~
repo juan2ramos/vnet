@@ -36,6 +36,20 @@ class Formularios
     private $numero;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="descripcion", type="text", nullable=true)
+     */
+    private $descripcion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="encabezado", type="text", nullable=true)
+     */
+    private $encabezado;
+
+    /**
      * @var \Formularios
      *
      * @ORM\ManyToOne(targetEntity="Formularios")

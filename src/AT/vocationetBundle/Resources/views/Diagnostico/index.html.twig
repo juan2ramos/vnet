@@ -16,7 +16,7 @@
                   <span class="arrow-pro right"></span>
                   <div class="panel-body">
                       <div class="text-center twite">
-                          <h1 style="font-size: 40px;">Diagnóstico</h1>
+                          <h1 style="font-size: 40px;">{{ formulario_info.nombre }}</h1>
                       </div>
                   </div>
               </div>
@@ -24,7 +24,7 @@
             <aside class="post-highlight terques v-align">
               <div class="panel-body text-center">
                   <div class="panel-body">
-                      <h2>Este diagnostico es Gratuito y evalúa el estado en el cual te encuentras y a su ves dará recomendaciones para comenzar con la búsqueda de tu vocación ideal para ti.</h2>
+                      <h2>{{ formulario_info.encabezado }}</h2>
                   </div>
               </div>
             </aside>
@@ -32,11 +32,10 @@
         
         <section class="panel">
             <header class="panel-heading">
-                Diagnóstico
+                {{ formulario_info.nombre }}
             </header>
             <div class="panel-body">
-                <p>Realiza el siguiente test gratuito que te indicará en qué parte del proceso para escoger carrera te encuentras y qué recomendaciones te sugerimos para escoger la carrera más acorde a tu perfil reduciendo las posibilidades de equivocarte.</p>
-                <p>A continuación te presentamos una serie de afirmaciones relacionadas con tu proceso de decisión de carrera. Te recordamos que todas las respuestas son válidas y no existen respuestas correctas o incorrectas.</p>
+                {{ formulario_info.descripcion|raw }}
                 <div class="stepy-tab">
                     <ul id="default-titles" class="stepy-titles clearfix">
                         {% for formulario in formularios %}
@@ -50,7 +49,7 @@
                     {% for formulario in formularios %}
                         <fieldset title="{{ formulario.nombre }}" class="step">
                             <legend></legend>
-                            
+                            {% if formulario.descripcion %}<p>{{ formulario.descripcion }}</p>{% endif %}
                             {% for pregunta in formulario.preguntas %}
                                 <div class="form-group">
                                   <label class="col-lg-12 control-label"><b>{{ pregunta.numero }}. </b>{{ pregunta.pregunta }}</label>
