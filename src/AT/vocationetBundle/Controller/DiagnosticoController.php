@@ -29,8 +29,16 @@ class DiagnosticoController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
+        $preguntas_serv = $this->get('preguntas');
         
-        return array();
+        $formularios = $preguntas_serv->getFormulario(1);
+        
+//        $security->debug($formularios);
+        
+        
+        return array(
+            'formularios' => $formularios
+        );
     }
 }
 ?>

@@ -1447,8 +1447,8 @@ h3.timeline-title {
     /* Safari and Chrome */
     .panel-footer.revenue-foot {
         margin-bottom: -4px;
-    };
     }
+}
 
 
 .panel-footer.revenue-foot ul  {
@@ -3650,22 +3650,24 @@ table.sliders tr td {
     color: #fff;
     cursor: auto;
     background: #A9D86E;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    width: 150px;
+    /*height: 100px;
+    line-height: 100px;*/
+    padding: 10px;
 }
 
 .stepy-titles li div{
     font-size:16px;
     font-weight: 300;
     background: #eee;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    width: 150px;
+    /*height: 100px;
+    line-height: 100px;*/
+    padding: 10px;
 }
 
 

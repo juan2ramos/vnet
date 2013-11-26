@@ -1,0 +1,67 @@
+{% if pregunta.pregunaTipoId == 8 %} {# opcion multiple unica respuesta #}
+    {% if pregunta.opciones is defined %}
+        <div class="options-container">
+        {% for opcion in pregunta.opciones %}
+            <div class="option col-lg-5">
+                <label><input type="radio" name="pregunta[{{ pregunta.id }}]" value="{{ opcion.id }}"/> {{ opcion.nombre }}</label>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}
+{% elseif pregunta.pregunaTipoId == 2 %} {# opcion multiple multiple respuesta #}            
+    {% if pregunta.opciones is defined %}
+        <div class="options-container">
+        {% for opcion in pregunta.opciones %}
+            <div class="option-check col-lg-5">
+                <label><input type="checkbox" name="pregunta[{{ pregunta.id }}][]" value="{{ opcion.id }}"/> {{ opcion.nombre }}</label>
+            </div>
+        {% endfor %}
+        </div>
+    {% endif %}          
+{% elseif pregunta.pregunaTipoId == 3 %} {# ordenamiento #}
+     {% if pregunta.opciones is defined %}
+        {% set sort_value = '' %}
+        <ul class="sortable">
+        {% for opcion in pregunta.opciones %}
+            <li class="label label-primary" id="{{ opcion.id }}" >{{ loop.index~'. '~opcion.nombre }}</li>
+            {% set sort_value %}{{ sort_value~opcion.id }}{% if not loop.last %},{% endif %}{% endset %}
+        {% endfor %}
+        </ul>
+        <input type="hidden" value="{{ sort_value }}" name="pregunta[{{ pregunta.id }}]" class="sort-value"/>    
+    {% endif %} 
+{% elseif pregunta.pregunaTipoId == 4 %} {# si no #}
+     <div class="options-container">
+        <div class="option col-lg-5">
+            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="1"/> {% trans  from "label" %}si{% endtrans %}</label>
+        </div>
+        <div class="option col-lg-5">
+            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="0"/> {% trans  from "label" %}no{% endtrans %}</label>
+        </div>
+    </div>  
+{% elseif pregunta.pregunaTipoId == 5 %} {# numerica #}
+    <div class="col-lg-2">
+        <input type="text" name="pregunta[{{ pregunta.id }}]" class="input-number" value="0"/>             
+    </div>
+{% elseif pregunta.pregunaTipoId == 6 %} {# porcentual #}
+    <div class="slider-container">
+        <div class="col-lg-2" style="text-align: right;">
+            <div class="slider-info">0%</div>
+            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="0" class="slider-value"/>
+        </div>
+        <div class="col-lg-7" style="padding-top: 20px;">
+            <div class="slider-percent"></div>
+        </div>
+    </div>     
+{% elseif pregunta.pregunaTipoId == 7 %} {# slider #}
+    <div class="slider-container">
+        <div class="col-lg-1" style="text-align: right;">
+            <div class="slider-info">1</div>
+            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="1" class="slider-value"/>
+        </div>
+        <div class="col-lg-7" style="padding-top: 20px;">
+            <div class="slider"></div>
+        </div>
+    </div>
+{% elseif pregunta.pregunaTipoId == 1 %} {# abierta #}
+    <textarea name="pregunta[{{ pregunta.id }}]" class="form-control" cols="60" rows="5"></textarea>
+{% endif %}
