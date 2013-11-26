@@ -29,6 +29,9 @@ services:
     file:
         class: AT\vocationetBundle\Services\FileService
         arguments: ["@doctrine", "@session"]
+    preguntas:
+        class: AT\vocationetBundle\Services\PreguntasService
+        arguments: ["@doctrine", "@session"]
     twig.extension.stringParserExtension:
         class: AT\vocationetBundle\Services\TwigExtensions\StringParser\stringParserExtension
         tags:
