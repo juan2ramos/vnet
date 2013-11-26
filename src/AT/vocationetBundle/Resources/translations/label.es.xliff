@@ -39,6 +39,30 @@
                 <source>opciones</source>
                 <target>Opciones</target>
 			</trans-unit>
+			<trans-unit id="generico-10">
+                <source>anterior</source>
+                <target>Anterior</target>
+			</trans-unit>
+			<trans-unit id="generico-11">
+                <source>siguiente</source>
+                <target>Siguiente</target>
+			</trans-unit>
+			<trans-unit id="generico-12">
+                <source>enviar</source>
+                <target>Enviar</target>
+			</trans-unit>
+			<trans-unit id="generico-13">
+                <source>si</source>
+                <target>Si</target>
+			</trans-unit>
+			<trans-unit id="generico-14">
+                <source>no</source>
+                <target>No</target>
+			</trans-unit>
+			<trans-unit id="generico-15">
+                <source>pregunta.obligatoria</source>
+                <target>Debes contestar esta pregunta</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">

@@ -4,7 +4,7 @@
         backLabel: prev_trans,
         block: true,
         nextLabel: next_trans,
-        titleClick: true,
+        titleClick: false,
         titleTarget: '.stepy-tab',
         validate: true
     });
