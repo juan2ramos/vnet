@@ -51,4 +51,3 @@ INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES
 (6, 'porcentual'),
 (7, 'slider'),
 (8, 'abierta');
-
