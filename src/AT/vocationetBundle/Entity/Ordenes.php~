@@ -1,0 +1,83 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Ordenes
+ *
+ * @ORM\Table(name="ordenes")
+ * @ORM\Entity
+ */
+class Ordenes
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="cantidad", type="integer", nullable=true)
+     */
+    private $cantidad;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="valor_total", type="integer", nullable=true)
+     */
+    private $valorTotal;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=true)
+     */
+    private $fechaHoraCompra;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=true)
+     */
+    private $estado;
+
+    /**
+     * @var \Productos
+     *
+     * @ORM\ManyToOne(targetEntity="Productos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     * })
+     */
+    private $producto;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
+     * @var \Mentorias
+     *
+     * @ORM\ManyToOne(targetEntity="Mentorias")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="mentoria_id", referencedColumnName="id")
+     * })
+     */
+    private $mentoria;
+
+
+}

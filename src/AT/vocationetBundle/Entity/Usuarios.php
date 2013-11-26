@@ -66,6 +66,13 @@ class Usuarios
     /**
      * @var integer
      *
+     * @ORM\Column(name="usuario_rol_estado", type="integer", nullable=false)
+     */
+    private $usuarioRolEstado;
+
+    /**
+     * @var integer
+     *
      * @ORM\Column(name="usuario_facebookid", type="integer", nullable=true)
      */
     private $usuarioFacebookid;
@@ -111,6 +118,13 @@ class Usuarios
      * @ORM\Column(name="usuario_profesion", type="string", length=70, nullable=true)
      */
     private $usuarioProfesion;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="usuario_puntos", type="integer", nullable=true)
+     */
+    private $usuarioPuntos;
 
     /**
      * @var string
@@ -342,6 +356,29 @@ class Usuarios
     }
 
     /**
+     * Set usuarioRolEstado
+     *
+     * @param integer $usuarioRolEstado
+     * @return Usuarios
+     */
+    public function setUsuarioRolEstado($usuarioRolEstado)
+    {
+        $this->usuarioRolEstado = $usuarioRolEstado;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioRolEstado
+     *
+     * @return integer 
+     */
+    public function getUsuarioRolEstado()
+    {
+        return $this->usuarioRolEstado;
+    }
+
+    /**
      * Set usuarioFacebookid
      *
      * @param integer $usuarioFacebookid
@@ -500,6 +537,29 @@ class Usuarios
     public function getUsuarioProfesion()
     {
         return $this->usuarioProfesion;
+    }
+
+    /**
+     * Set usuarioPuntos
+     *
+     * @param integer $usuarioPuntos
+     * @return Usuarios
+     */
+    public function setUsuarioPuntos($usuarioPuntos)
+    {
+        $this->usuarioPuntos = $usuarioPuntos;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioPuntos
+     *
+     * @return integer 
+     */
+    public function getUsuarioPuntos()
+    {
+        return $this->usuarioPuntos;
     }
 
     /**

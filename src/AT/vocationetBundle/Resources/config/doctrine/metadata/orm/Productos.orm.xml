@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-  <entity name="ForosArchivos" table="foros_archivos">
+  <entity name="Productos" table="productos">
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <many-to-one field="foro" target-entity="Foros">
-      <join-columns>
-        <join-column name="foro_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
-    <many-to-one field="archivo" target-entity="Archivos">
-      <join-columns>
-        <join-column name="archivo_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
+    <field name="nombre" type="string" column="nombre" length="155" nullable="true"/>
+    <field name="descripcion" type="text" column="descripcion" nullable="true"/>
+    <field name="valor" type="integer" column="valor" nullable="true"/>
   </entity>
 </doctrine-mapping>

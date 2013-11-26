@@ -43,6 +43,20 @@ class Mentorias
     private $mentoriaEstado;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="calificacion", type="integer", nullable=true)
+     */
+    private $calificacion;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="resena", type="string", length=100, nullable=true)
+     */
+    private $resena;
+
+    /**
      * @var \Usuarios
      *
      * @ORM\ManyToOne(targetEntity="Usuarios")

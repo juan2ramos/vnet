@@ -5,12 +5,12 @@ namespace AT\vocationetBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * MensajesArchivos
+ * PermisosProductos
  *
- * @ORM\Table(name="mensajes_archivos")
+ * @ORM\Table(name="permisos_productos")
  * @ORM\Entity
  */
-class MensajesArchivos
+class PermisosProductos
 {
     /**
      * @var integer
@@ -22,24 +22,24 @@ class MensajesArchivos
     private $id;
 
     /**
-     * @var \Archivos
+     * @var \Permisos
      *
-     * @ORM\ManyToOne(targetEntity="Archivos")
+     * @ORM\ManyToOne(targetEntity="Permisos")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="archivo_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="permiso_id", referencedColumnName="id")
      * })
      */
-    private $archivo;
+    private $permiso;
 
     /**
-     * @var \Mensajes
+     * @var \Productos
      *
-     * @ORM\ManyToOne(targetEntity="Mensajes")
+     * @ORM\ManyToOne(targetEntity="Productos")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mensaje_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
      * })
      */
-    private $mensaje;
+    private $producto;
 
 
 }

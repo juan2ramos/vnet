@@ -7,6 +7,8 @@
     <field name="mentoriaInicio" type="datetime" column="mentoria_inicio" nullable="false"/>
     <field name="mentoriaFin" type="datetime" column="mentoria_fin" nullable="false"/>
     <field name="mentoriaEstado" type="boolean" column="mentoria_estado" nullable="true"/>
+    <field name="calificacion" type="integer" column="calificacion" nullable="true"/>
+    <field name="resena" type="string" column="resena" length="100" nullable="true"/>
     <many-to-one field="usuarioEstudiante" target-entity="Usuarios">
       <join-columns>
         <join-column name="usuario_estudiante_id" referenced-column-name="id"/>
