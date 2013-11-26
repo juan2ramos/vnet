@@ -58,14 +58,14 @@ class Mentorias
 
     /**
      * @var \Usuarios
-     * 
+     *
      * @ORM\Column(name="usuario_mentor_id", type="integer", nullable=false)
      */
     private $usuarioMentor;
 
 	/**
      * @var \Usuarios
-     * 
+     *
      * @ORM\Column(name="usuario_estudiante_id", type="integer", nullable=true)
 	 */
     private $usuarioEstudiante;

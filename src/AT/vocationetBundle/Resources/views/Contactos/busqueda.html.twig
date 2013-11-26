@@ -238,6 +238,7 @@
 			var u = $(this).data('u'); //Usuario con el que existe la relacion
 			var r = $(this).data('r'); //Id de la relacion
 			var row = $(this).closest('tr').attr('id');
+
             var nRow =  $('.datatable tbody tr[id='+row+']')[0];
 			var posActual = $(this).parent();
 
@@ -246,7 +247,7 @@
 				posActual.html(data);
 				if (data === '') {
 					$('#rel_'+r).hide('slow');
-					setTimeout(function(){ tbl.fnDeleteRow( nRow, null, true ); }, 1000);
+					setTimeout(function(){ dateTable.table.fnDeleteRow( nRow, null, true ); }, 1000);
 				}
 			});
 		});

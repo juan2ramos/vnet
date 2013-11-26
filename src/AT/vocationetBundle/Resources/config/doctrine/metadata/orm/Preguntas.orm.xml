@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="Preguntas" table="preguntas">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="pregunta" type="string" column="pregunta" length="255" nullable="true"/>
+    <field name="numero" type="integer" column="numero" nullable="true"/>
+    <many-to-one field="preguntastipo" target-entity="PreguntasTipos">
+      <join-columns>
+        <join-column name="preguntastipo_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="formulario" target-entity="Formularios">
+      <join-columns>
+        <join-column name="formulario_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

@@ -2,12 +2,10 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+
 -- -----------------------------------------------------
 -- Table `roles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `roles` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `roles` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(45) NOT NULL ,
@@ -15,14 +13,10 @@ CREATE  TABLE IF NOT EXISTS `roles` (
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `georeferencias`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `georeferencias` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `georeferencias` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `georeferencia_padre_id` INT NULL ,
@@ -34,20 +28,16 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `colegios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `colegios` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `colegios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(45) NOT NULL ,
   `georeferencia_id` INT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_colegios_1` (`georeferencia_id` ASC) ,
+  INDEX `fk_colegios_1_idx` (`georeferencia_id` ASC) ,
   CONSTRAINT `fk_colegios_1`
     FOREIGN KEY (`georeferencia_id` )
     REFERENCES `georeferencias` (`id` )
@@ -55,14 +45,21 @@ CREATE  TABLE IF NOT EXISTS `colegios` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `avatars`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `avatars` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `nombre` VARCHAR(60) NOT NULL ,
+  `imagen` VARCHAR(200) NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `usuarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `usuarios` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `usuario_nombre` VARCHAR(45) NOT NULL ,
@@ -80,6 +77,7 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `usuario_tarjeta_profesional` VARCHAR(155) NULL ,
   `usuario_hoja_vida` VARCHAR(155) NULL ,
   `usuario_profesion` VARCHAR(70) NULL ,
+  `usuario_puntos` INT NULL ,
   `usuario_perfil_profesional` TEXT NULL ,
   `usuario_valor_mentoria` FLOAT NULL ,
   `colegio_id` INT NULL ,
@@ -88,11 +86,13 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `created` DATETIME NULL ,
   `modified` DATETIME NULL ,
   `sync_linkedin` DATETIME NULL COMMENT 'Ultima sincronización realizada con linkedin' ,
+  `avatar_id` INT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_usuarios_1` (`rol_id` ASC) ,
+  INDEX `fk_usuarios_1_idx` (`rol_id` ASC) ,
   UNIQUE INDEX `usuario_email_UNIQUE` (`usuario_email` ASC) ,
   INDEX `fk_usuarios_georeferencias1_idx` (`georeferencia_id` ASC) ,
   INDEX `fk_usuarios_colegios1_idx` (`colegio_id` ASC) ,
+  INDEX `fk_usuarios_avatars1_idx` (`avatar_id` ASC) ,
   CONSTRAINT `fk_usuarios_1`
     FOREIGN KEY (`rol_id` )
     REFERENCES `roles` (`id` )
@@ -107,19 +107,20 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
     FOREIGN KEY (`colegio_id` )
     REFERENCES `colegios` (`id` )
     ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuarios_avatars1`
+    FOREIGN KEY (`avatar_id` )
+    REFERENCES `avatars` (`id` )
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8
 COLLATE = utf8_unicode_ci;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `empresas`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `empresas` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `empresas` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(155) NOT NULL COMMENT '\\n	' ,
@@ -130,14 +131,10 @@ CREATE  TABLE IF NOT EXISTS `empresas` (
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `trabajos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `trabajos` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `trabajos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `usuario_id` INT NOT NULL ,
@@ -149,7 +146,7 @@ CREATE  TABLE IF NOT EXISTS `trabajos` (
   `es_actual` INT(2) NOT NULL ,
   `id_linkedin` INT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_trabajos_2` (`empresa_id` ASC) ,
+  INDEX `fk_trabajos_2_idx` (`empresa_id` ASC) ,
   INDEX `fk_trabajos_usuarios1_idx` (`usuario_id` ASC) ,
   CONSTRAINT `fk_trabajos_2`
     FOREIGN KEY (`empresa_id` )
@@ -163,14 +160,10 @@ CREATE  TABLE IF NOT EXISTS `trabajos` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `estudios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `estudios` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `estudios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre_institucion` VARCHAR(100) NULL ,
@@ -191,14 +184,10 @@ CREATE  TABLE IF NOT EXISTS `estudios` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `permisos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `permisos` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `permisos` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `identificador` VARCHAR(45) NOT NULL ,
@@ -208,14 +197,10 @@ CREATE  TABLE IF NOT EXISTS `permisos` (
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `permisos_roles`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `permisos_roles` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `permisos_roles` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `permiso_id` INT NOT NULL ,
@@ -235,28 +220,20 @@ CREATE  TABLE IF NOT EXISTS `permisos_roles` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `carreras`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `carreras` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `carreras` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(250) NOT NULL ,
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `temas`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `temas` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `temas` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(255) NOT NULL ,
@@ -270,14 +247,10 @@ CREATE  TABLE IF NOT EXISTS `temas` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `foros`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `foros` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `foros` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `foro_titulo` VARCHAR(255) NOT NULL COMMENT 'Titulo del foro' ,
@@ -287,8 +260,8 @@ CREATE  TABLE IF NOT EXISTS `foros` (
   `created` DATETIME NOT NULL COMMENT 'Fecha de creacion' ,
   `modified` DATETIME NOT NULL COMMENT 'Fecha de ultima modificación' ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_foros_2` (`tema_id` ASC) ,
-  INDEX `fk_foros_3` (`usuario_id` ASC) ,
+  INDEX `fk_foros_2_idx` (`tema_id` ASC) ,
+  INDEX `fk_foros_3_idx` (`usuario_id` ASC) ,
   CONSTRAINT `fk_foros_2`
     FOREIGN KEY (`tema_id` )
     REFERENCES `temas` (`id` )
@@ -301,14 +274,10 @@ CREATE  TABLE IF NOT EXISTS `foros` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `comentarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `comentarios` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `comentarios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `created` DATETIME NOT NULL ,
@@ -319,9 +288,9 @@ CREATE  TABLE IF NOT EXISTS `comentarios` (
   `comentario_id` INT NULL ,
   `usuario_id` INT NOT NULL ,
   PRIMARY KEY (`id`) ,
-  INDEX `fk_comentarios_1` (`foro_id` ASC) ,
-  INDEX `fk_comentarios_2` (`comentario_id` ASC) ,
-  INDEX `fk_comentarios_3` (`usuario_id` ASC) ,
+  INDEX `fk_comentarios_1_idx` (`foro_id` ASC) ,
+  INDEX `fk_comentarios_2_idx` (`comentario_id` ASC) ,
+  INDEX `fk_comentarios_3_idx` (`usuario_id` ASC) ,
   CONSTRAINT `fk_comentarios_1`
     FOREIGN KEY (`foro_id` )
     REFERENCES `foros` (`id` )
@@ -339,14 +308,10 @@ CREATE  TABLE IF NOT EXISTS `comentarios` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `mensajes`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mensajes` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `mensajes` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `asunto` VARCHAR(145) NOT NULL ,
@@ -362,14 +327,10 @@ CREATE  TABLE IF NOT EXISTS `mensajes` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `mensajes_usuarios`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mensajes_usuarios` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `mensajes_usuarios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `mensaje_id` INT NOT NULL ,
@@ -391,14 +352,10 @@ CREATE  TABLE IF NOT EXISTS `mensajes_usuarios` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `relaciones`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `relaciones` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `relaciones` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `usuario_id` INT NOT NULL ,
@@ -421,14 +378,10 @@ CREATE  TABLE IF NOT EXISTS `relaciones` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `archivos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `archivos` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `archivos` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Id unico por registro' ,
   `archivo_nombre` VARCHAR(100) NOT NULL COMMENT 'Nombre del archivo para el usuario cliente' ,
@@ -438,14 +391,10 @@ CREATE  TABLE IF NOT EXISTS `archivos` (
   PRIMARY KEY (`id`) )
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `foros_archivos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `foros_archivos` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `foros_archivos` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificador único' ,
   `foro_id` INT NOT NULL COMMENT 'Id del foro' ,
@@ -466,14 +415,10 @@ CREATE  TABLE IF NOT EXISTS `foros_archivos` (
 ENGINE = InnoDB
 COMMENT = 'Tabla para archivos adjuntos en un foro';
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `mensajes_archivos`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mensajes_archivos` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `mensajes_archivos` (
   `id` INT NOT NULL AUTO_INCREMENT COMMENT 'Identificados único' ,
   `mensaje_id` INT NOT NULL COMMENT 'Id del mensaje' ,
@@ -494,14 +439,10 @@ CREATE  TABLE IF NOT EXISTS `mensajes_archivos` (
 ENGINE = InnoDB
 COMMENT = 'Tabla para controlar archivos adjuntos de un mensaje';
 
-SHOW WARNINGS;
 
 -- -----------------------------------------------------
 -- Table `mentorias`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mentorias` ;
-
-SHOW WARNINGS;
 CREATE  TABLE IF NOT EXISTS `mentorias` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `usuario_mentor_id` INT NOT NULL ,
@@ -509,6 +450,8 @@ CREATE  TABLE IF NOT EXISTS `mentorias` (
   `mentoria_inicio` DATETIME NOT NULL ,
   `mentoria_fin` DATETIME NOT NULL ,
   `mentoria_estado` TINYINT(2) NULL ,
+  `calificacion` INT(2) NULL COMMENT 'Calificacion del estudiante ' ,
+  `resena` VARCHAR(100) NULL COMMENT 'Descripcion de la calificacion	' ,
   PRIMARY KEY (`id`) ,
   INDEX `fk_mentorias_usuarios1_idx` (`usuario_mentor_id` ASC) ,
   INDEX `fk_mentorias_usuarios2_idx` (`usuario_estudiante_id` ASC) ,
@@ -524,7 +467,173 @@ CREATE  TABLE IF NOT EXISTS `mentorias` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-SHOW WARNINGS;
+
+-- -----------------------------------------------------
+-- Table `productos`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `productos` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `nombre` VARCHAR(155) NULL ,
+  `descripcion` TEXT NULL ,
+  `valor` INT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ordenes`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `ordenes` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `producto_id` INT NULL ,
+  `mentoria_id` INT NULL ,
+  `cantidad` INT(2) NULL DEFAULT 0 ,
+  `valor_total` INT NULL ,
+  `fecha_hora_compra` DATETIME NULL ,
+  `usuario_id` INT NULL ,
+  `estado` INT(2) NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_ordenes_1_idx` (`producto_id` ASC) ,
+  INDEX `fk_ordenes_2_idx` (`usuario_id` ASC) ,
+  INDEX `fk_ordenes_3_idx` (`mentoria_id` ASC) ,
+  CONSTRAINT `fk_ordenes_1`
+    FOREIGN KEY (`producto_id` )
+    REFERENCES `productos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ordenes_2`
+    FOREIGN KEY (`usuario_id` )
+    REFERENCES `usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ordenes_3`
+    FOREIGN KEY (`mentoria_id` )
+    REFERENCES `mentorias` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `preguntas_tipos`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `preguntas_tipos` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `nombre` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `formularios`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `formularios` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `nombre` VARCHAR(100) NOT NULL ,
+  `numero` INT NULL ,
+  `formulario_id` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_formularios_formularios1_idx` (`formulario_id` ASC) ,
+  CONSTRAINT `fk_formularios_formularios1`
+    FOREIGN KEY (`formulario_id` )
+    REFERENCES `formularios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `preguntas`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `preguntas` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `pregunta` VARCHAR(255) NULL ,
+  `numero` INT NULL ,
+  `preguntastipo_id` INT NULL ,
+  `formulario_id` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_pregunta_2` (`preguntastipo_id` ASC) ,
+  INDEX `fk_preguntas_1` (`formulario_id` ASC) ,
+  CONSTRAINT `fk_pregunta_2`
+    FOREIGN KEY (`preguntastipo_id` )
+    REFERENCES `preguntas_tipos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_preguntas_1`
+    FOREIGN KEY (`formulario_id` )
+    REFERENCES `formularios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `permisos_productos`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `permisos_productos` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `permiso_id` INT NULL ,
+  `producto_id` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_permisos_productos_1` (`permiso_id` ASC) ,
+  INDEX `fk_permisos_productos_2` (`producto_id` ASC) ,
+  CONSTRAINT `fk_permisos_productos_1`
+    FOREIGN KEY (`permiso_id` )
+    REFERENCES `permisos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_permisos_productos_2`
+    FOREIGN KEY (`producto_id` )
+    REFERENCES `productos` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `preguntas_usuarios`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `preguntas_usuarios` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `usuario_id` INT NOT NULL ,
+  `pregunta_id` INT NOT NULL ,
+  `respuesta_numerica` INT NULL ,
+  `respuesta_texto` VARCHAR(255) NULL ,
+  `valor` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_preguntas_usuarios_1` (`usuario_id` ASC) ,
+  INDEX `fk_preguntas_usuarios_2` (`pregunta_id` ASC) ,
+  CONSTRAINT `fk_preguntas_usuarios_1`
+    FOREIGN KEY (`usuario_id` )
+    REFERENCES `usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_preguntas_usuarios_2`
+    FOREIGN KEY (`pregunta_id` )
+    REFERENCES `preguntas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `opciones`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `opciones` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `nombre` VARCHAR(255) NULL ,
+  `pregunta_id` INT NULL ,
+  `peso` INT NULL ,
+  `factor` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_opciones_1` (`pregunta_id` ASC) ,
+  CONSTRAINT `fk_opciones_1`
+    FOREIGN KEY (`pregunta_id` )
+    REFERENCES `preguntas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

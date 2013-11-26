@@ -1,0 +1,66 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * PreguntasUsuarios
+ *
+ * @ORM\Table(name="preguntas_usuarios")
+ * @ORM\Entity
+ */
+class PreguntasUsuarios
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="respuesta_numerica", type="integer", nullable=true)
+     */
+    private $respuestaNumerica;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="respuesta_texto", type="string", length=255, nullable=true)
+     */
+    private $respuestaTexto;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="valor", type="integer", nullable=true)
+     */
+    private $valor;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
+
+    /**
+     * @var \Preguntas
+     *
+     * @ORM\ManyToOne(targetEntity="Preguntas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
+     * })
+     */
+    private $pregunta;
+
+
+}

@@ -1,4 +1,4 @@
-(function () {
+dateTable = (function () {
     // begin first table
     var tbl = $('.datetable').dataTable({
         "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col-sm-6'p>>",
@@ -27,4 +27,10 @@
 
     jQuery('.dataTables_wrapper .dataTables_filter input').addClass("form-control"); // modify table search input
     jQuery('.dataTables_wrapper .dataTables_length select').addClass("form-control"); // modify table per page dropdown
+    
+    
+    return {
+        table: tbl
+    }
+    
 })();

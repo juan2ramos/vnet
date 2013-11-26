@@ -50,16 +50,6 @@ class Foros
     private $modified;
 
     /**
-     * @var \Usuarios
-     *
-     * @ORM\ManyToOne(targetEntity="Usuarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     * })
-     */
-    private $usuario;
-
-    /**
      * @var \Temas
      *
      * @ORM\ManyToOne(targetEntity="Temas")
@@ -68,6 +58,16 @@ class Foros
      * })
      */
     private $tema;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuario;
 
 
 }
