@@ -1,24 +1,31 @@
-{% if pregunta.pregunaTipoId == 8 %} {# opcion multiple unica respuesta #}
+{# opcion multiple unica respuesta #}
+{% if pregunta.pregunaTipoId == 1 %} 
     {% if pregunta.opciones is defined %}
-        <div class="options-container">
+        <div class="row options-container">
         {% for opcion in pregunta.opciones %}
             <div class="option col-lg-5">
-                <label><input type="radio" name="pregunta[{{ pregunta.id }}]" value="{{ opcion.id }}"/> {{ opcion.nombre }}</label>
+                <label><input type="radio" name="pregunta[{{ pregunta.id }}]" value="{{ opcion.id }}" {% if loop.first %}required="required"{% endif %} /> {{ opcion.nombre }}</label>
             </div>
         {% endfor %}
         </div>
+        <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
     {% endif %}
-{% elseif pregunta.pregunaTipoId == 2 %} {# opcion multiple multiple respuesta #}            
+        
+{# opcion multiple multiple respuesta #}        
+{% elseif pregunta.pregunaTipoId == 2 %}             
     {% if pregunta.opciones is defined %}
-        <div class="options-container">
+        <div class="row options-container">
         {% for opcion in pregunta.opciones %}
             <div class="option-check col-lg-5">
-                <label><input type="checkbox" name="pregunta[{{ pregunta.id }}][]" value="{{ opcion.id }}"/> {{ opcion.nombre }}</label>
+                <label><input type="checkbox" name="pregunta[{{ pregunta.id }}][]" value="{{ opcion.id }}" {% if loop.first %}required="required"{% endif %}/> {{ opcion.nombre }}</label>
             </div>
         {% endfor %}
         </div>
-    {% endif %}          
-{% elseif pregunta.pregunaTipoId == 3 %} {# ordenamiento #}
+        <label for="pregunta[{{ pregunta.id }}][]" class="error" style="display:none;"></label>
+    {% endif %}
+        
+{# ORDENAMIENTO #}        
+{% elseif pregunta.pregunaTipoId == 3 %} 
      {% if pregunta.opciones is defined %}
         {% set sort_value = '' %}
         <ul class="sortable">
@@ -27,41 +34,57 @@
             {% set sort_value %}{{ sort_value~opcion.id }}{% if not loop.last %},{% endif %}{% endset %}
         {% endfor %}
         </ul>
-        <input type="hidden" value="{{ sort_value }}" name="pregunta[{{ pregunta.id }}]" class="sort-value"/>    
+        <input type="hidden" value="{{ sort_value }}" name="pregunta[{{ pregunta.id }}]" class="sort-value" required="required"/> 
+        <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
     {% endif %} 
-{% elseif pregunta.pregunaTipoId == 4 %} {# si no #}
-     <div class="options-container">
+        
+{# SI O NO #}        
+{% elseif pregunta.pregunaTipoId == 4 %} 
+     <div class="row options-container">
         <div class="option col-lg-5">
-            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="1"/> {% trans  from "label" %}si{% endtrans %}</label>
+            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="1" required="required"/> {% trans  from "label" %}si{% endtrans %}</label>
         </div>
         <div class="option col-lg-5">
             <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="0"/> {% trans  from "label" %}no{% endtrans %}</label>
         </div>
     </div>  
-{% elseif pregunta.pregunaTipoId == 5 %} {# numerica #}
+    <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label> 
+    
+{# NUMERICA #}    
+{% elseif pregunta.pregunaTipoId == 5 %} 
     <div class="col-lg-2">
-        <input type="text" name="pregunta[{{ pregunta.id }}]" class="input-number" value="0"/>             
+        <input type="text" name="pregunta[{{ pregunta.id }}]" class="input-number" value="0" required="required"/>             
     </div>
-{% elseif pregunta.pregunaTipoId == 6 %} {# porcentual #}
+    <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
+    
+{# PORCENTAJE #}    
+{% elseif pregunta.pregunaTipoId == 6 %} 
     <div class="slider-container">
         <div class="col-lg-2" style="text-align: right;">
             <div class="slider-info">0%</div>
-            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="0" class="slider-value"/>
+            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="0" class="slider-value" required="required"/>
         </div>
         <div class="col-lg-7" style="padding-top: 20px;">
             <div class="slider-percent"></div>
         </div>
     </div>     
-{% elseif pregunta.pregunaTipoId == 7 %} {# slider #}
+    <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
+    
+{# SLIDER #}   
+{% elseif pregunta.pregunaTipoId == 7 %} 
     <div class="slider-container">
         <div class="col-lg-1" style="text-align: right;">
             <div class="slider-info">1</div>
-            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="1" class="slider-value"/>
+            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="1" class="slider-value" required="required"/>
         </div>
         <div class="col-lg-7" style="padding-top: 20px;">
             <div class="slider"></div>
         </div>
     </div>
-{% elseif pregunta.pregunaTipoId == 1 %} {# abierta #}
-    <textarea name="pregunta[{{ pregunta.id }}]" class="form-control" cols="60" rows="5"></textarea>
+    <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
+    
+{# ABIERTA #}
+{% elseif pregunta.pregunaTipoId == 8 %} 
+    <textarea name="pregunta[{{ pregunta.id }}]" class="form-control" cols="60" rows="5" required="required"></textarea>
+    <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
 {% endif %}

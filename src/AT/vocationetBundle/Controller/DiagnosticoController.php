@@ -3,6 +3,7 @@
 namespace AT\vocationetBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -40,5 +41,28 @@ class DiagnosticoController extends Controller
             'formularios' => $formularios
         );
     }
+    
+    
+    /**
+     * Accion que recibe y procesa el cuestionario de diagnostico
+     * 
+     * @Route("/procesar", name="procesar_diagnostico")
+     * @param \AT\vocationetBundle\Controller\Request $request
+     */
+    public function procesarCuestionario(Request $request)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        
+        $respuestas = $request->get('pregunta');
+        
+        $security->debug($respuestas);
+        
+        return new Response();
+    }
+            
+    
 }
 ?>
