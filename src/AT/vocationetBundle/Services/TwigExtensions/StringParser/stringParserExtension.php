@@ -1,6 +1,9 @@
 <?php
 namespace AT\vocationetBundle\Services\TwigExtensions\StringParser;
 
+use AT\vocationetBundle\Services\SecurityService as SecurityService;
+
+
 class stringParserExtension extends \Twig_Extension
 {
     public function getFunctions() {
@@ -9,6 +12,7 @@ class stringParserExtension extends \Twig_Extension
             'implode' => new \Twig_Function_Method($this, 'implode'),
             'strlen' => new \Twig_Function_Method($this, 'strLength'),
             'countArray' => new \Twig_Function_Method($this, 'countArray'),
+            'getParameter' => new \Twig_Function_Method($this, 'getParameter'),
         );
     }
     
@@ -73,6 +77,17 @@ class stringParserExtension extends \Twig_Extension
     public function strLength($string)
     {
         return strlen($string);
+    }
+    
+    /**
+     * Funcion para obtener parametros de vocationet
+     * 
+     * @param string $parameter nombre del parametro
+     * @return string|array
+     */
+    public function getParameter($parameter = false)
+    {
+        return SecurityService::getParameter($parameter);        
     }
     
     // FILTROS

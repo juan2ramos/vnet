@@ -68,3 +68,7 @@
 .error{
     color: #E56155;
 }
+
+.button-back{
+    display: none;
+}

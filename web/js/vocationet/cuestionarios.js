@@ -6,7 +6,12 @@
         nextLabel: next_trans,
         titleClick: false,
         titleTarget: '.stepy-tab',
-        validate: true
+        validate: true,
+        next: function(){
+            $('html,body').animate({
+                scrollTop: $("#div-cuestionario").offset().top
+            });
+        }
     });
 
     $( ".slider" ).slider({
@@ -69,5 +74,8 @@
     $("#form").validate();
     
     $("fieldset").removeAttr('title');
+    
+    $(".button-back").remove();
+    
     
 })();

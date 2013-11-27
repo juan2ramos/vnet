@@ -43,22 +43,16 @@ class PreguntasUsuarios
     private $valor;
 
     /**
-     * @var \Usuarios
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Usuarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
      */
     private $usuario;
 
     /**
-     * @var \Preguntas
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Preguntas")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="pregunta_id", type="integer", nullable=false)
      */
     private $pregunta;
 
@@ -146,10 +140,10 @@ class PreguntasUsuarios
     /**
      * Set usuario
      *
-     * @param \AT\vocationetBundle\Entity\Usuarios $usuario
+     * @param integer $usuario
      * @return PreguntasUsuarios
      */
-    public function setUsuario(\AT\vocationetBundle\Entity\Usuarios $usuario = null)
+    public function setUsuario($usuario = null)
     {
         $this->usuario = $usuario;
     
@@ -159,7 +153,7 @@ class PreguntasUsuarios
     /**
      * Get usuario
      *
-     * @return \AT\vocationetBundle\Entity\Usuarios 
+     * @return integer
      */
     public function getUsuario()
     {
@@ -169,10 +163,10 @@ class PreguntasUsuarios
     /**
      * Set pregunta
      *
-     * @param \AT\vocationetBundle\Entity\Preguntas $pregunta
+     * @param integer $pregunta
      * @return PreguntasUsuarios
      */
-    public function setPregunta(\AT\vocationetBundle\Entity\Preguntas $pregunta = null)
+    public function setPregunta($pregunta = null)
     {
         $this->pregunta = $pregunta;
     
@@ -182,7 +176,7 @@ class PreguntasUsuarios
     /**
      * Get pregunta
      *
-     * @return \AT\vocationetBundle\Entity\Preguntas 
+     * @return integer
      */
     public function getPregunta()
     {
