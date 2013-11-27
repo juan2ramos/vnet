@@ -1,76 +1,9 @@
 {% extends '::base.html.twig' %}
 
-{% block style %}
-<link href="{{ asset('assets/jquery-ui/jquery-ui-1.10.1.custom.min.css') }}" rel="stylesheet"/>
-<style>
-    .form-test{
-        padding: 10px 40px;
-    }    
-    
-    .respuesta{
-        margin: 20px 20px;
-    }
-        
-    .slider-container{
-        margin-top: 20px;
-    }
-        
-    .slider-info{
-        padding: 0px;
-        background-color: #22BACF;
-        border-color: #22BACF;
-        border-radius: 4px;
-        color: #fff;
-        text-align: center;
-        line-height: 50px;
-        font-size: 24px;
-    }
-    
-    .sortable .label{
-        display: block;
-        margin: 5px;
-        font-weight: normal;
-        font-size: 14px;
-        text-align: left;
-        width: auto;
-        cursor: move;
-    }
-    
-    .option, .option-check{
-        background: #59ACE2;        
-        margin: 5px;
-        color: #FFF;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        text-align: center;
-        overflow: hidden;
-        text-overflow:ellipsis;
-        vertical-align: middle;
-    }
-    
-    .option label, .option-check label{
-        font-weight: normal !important;        
-        cursor: pointer;
-        padding: 8px 3px;
-        min-height: 50px;
-        vertical-align: middle;
-    }
-    
-    .option.active, .option-check.active{
-        background: #FCB322;
-    }
-    
-    .option input[type=radio], .option-check input[type=checkbox]{
-        display: none;
-    }
-</style>
-{% endblock style %}
-
 {% block body %}
 <div class="row">
     <div class="col-lg-12">
-        
+    
         {# HEADER #}
         <section class="panel post-wrap pro-box">
             <aside>
@@ -106,83 +39,16 @@
 				<hr>
 				<p>{% trans from "label" %}explicacion.paso.a.paso.test.vocacional{% endtrans %}</p>
 				<br>
-				<p STYLE='text-align:center'><a href='{{ linkTestVocacional }}' target='_blank' type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.test.vocacional{% endtrans %}</a></p>
+				<p class='text-center'><a href='{{ linkTestVocacional }}' target='_blank' type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.test.vocacional{% endtrans %}</a></p>
+				<hr>
+				<div class="panel-body text-center">
+					<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+					{#<a type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>#}
+					<a href='{{ path('agenda_estudiante') }}'type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+				</div>
             </div>
         </section>
         
     </div>
 </div>
 {% endblock body %}
-{% block script %}
-<script src="{{ asset('assets/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/sliders.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/jquery.stepy.js') }}"></script>
-<script src="{{ asset('js/jquery.validate.min.js') }}" type="text/javascript"></script>
-<script src="{{ asset('js/bootstrap.touchspin.js') }}"></script>
-<script>
-$(function() {
-    $('#form').stepy({
-        backLabel: '{% trans  from "label" %}anterior{% endtrans %}',
-        block: true,
-        nextLabel: '{% trans  from "label" %}siguiente{% endtrans %}',
-        titleClick: true,
-        titleTarget: '.stepy-tab'
-    });
-
-    $( ".slider" ).slider({
-        min: 1,
-        max: 5,
-        slide: function( event, ui ) {
-            parent = $(this).parents(".slider-container");            
-            parent.find(".slider-info").html(ui.value);
-            parent.find(".slider-value").val(ui.value);
-        }
-    });
-
-    $(".sortable").sortable({
-        update: function(event, ui){
-            var orden = $(this).sortable('toArray').toString();
-            $(this).siblings(".sort-value").val(orden);
-        },
-    }).disableSelection();
-    
-    $(".input-number").TouchSpin({
-        min: 1,
-        max: 3,
-    });
-    
-    $(".slider-percent").slider({
-        min:0,
-        max:100,
-        slide: function( event, ui ) {
-            parent = $(this).parents(".slider-container");            
-            parent.find(".slider-info").html(ui.value+"%");
-            parent.find(".slider-value").val(ui.value);
-        }
-    });
-    
-    $('.option label').click(function(){
-        var container = $(this).parents(".options-container");
-        var parent = $(this).parent();
-        
-        container.find(".option").removeClass("active");        
-        parent.addClass("active");
-    });
-    
-    $('.option-check label').click(function(){
-        var container = $(this).parents(".options-container");
-        var checkbox = $(this).find("input[type=checkbox]");
-        var parent = $(this).parent();
-        
-        if(checkbox.is(":checked")){
-            parent.addClass("active");        
-        }
-        else{
-            parent.removeClass("active");        
-        }
-    });
-    
-});
-</script>
-
-{% endblock script %}

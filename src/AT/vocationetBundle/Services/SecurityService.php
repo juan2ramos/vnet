@@ -285,15 +285,28 @@ class SecurityService
         }
         return $validate;
     }
-
+	 
+    /**
+     * Funcion que retorna el enlace de la prueba del test Vocacional
+     *
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @return String
+     */
     public function getEnlaceTestVocacional()
     {
 		return 'http://www.uanl.mx/utilerias/test/';
 	}
 
+	/**
+     * Funcion que retorna la ruta del archivo de informacion al que hace referencia el test vocacional
+     *
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @return String
+     */
 	public function getRutaEnlaceTestVocacionalInfo()
     {
 		return 'uploads/vocationet/testvocacional.pdf';
 	}
-	
 }
