@@ -35,7 +35,7 @@
                     {% trans from "label" %}contactos{% endtrans %}
                 </header>
 				{% if contactos %}
-					<table class="table table-striped border-top datetable">
+					<table class="table table-striped border-top datatable">
 						<thead>
 							<tr>
 								<th></th>
@@ -141,7 +141,7 @@
 				posActual.html(data);
 				if (data == '') {
 					$('#rel_'+r).hide('slow');
-					setTimeout(function(){ dateTable.table.fnDeleteRow( nRow, null, true ); }, 1000);
+					setTimeout(function(){ dataTable.table.fnDeleteRow( nRow, null, true ); }, 1000);
 				}
 			});
 		});

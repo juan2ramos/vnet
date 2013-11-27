@@ -1,6 +1,6 @@
-dateTable = (function () {
+dataTable = (function () {
     // begin first table
-    var tbl = $('.datetable').dataTable({
+    var tbl = $('.datatable').dataTable({
         "sDom": "<'row'<'col-sm-6'l><'col-sm-6'f>r>t<'row'<'col-sm-6'i><'col-sm-6'p>>",
         "sPaginationType": "bootstrap",
         "oLanguage": datatable_trans,

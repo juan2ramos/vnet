@@ -150,7 +150,64 @@ class ContactosController extends Controller
 		$renderBtn =  $this->renderView('vocationetBundle:Contactos:ajaxBtn.html.twig', array('id'=> $usuario, 'relacionId' => $relacionId, 'estadoReturn' =>$estadoReturn));
 		return new response($renderBtn);
 	}
-    
+
+    /**
+     * Action con formulario de busqueda detallada
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @Route("/seleccionarMentor", name="select_mentor")
+	 * @Template("vocationetBundle:Contactos:MentoresVocacional.html.twig")
+     * @Method({"GET", "POST"})
+     * @param Request $request Request enviado con busqueda avanzada
+     * @return Render vista renderizada con filtro aplicado
+	 */
+    public function MentoresVocacionalAction(Request $request)
+    {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+
+		$usuarioId = $security->getSessionValue('id');
+        
+        $pr = $this->get('perfil');
+        $autoCompletarColegios = Array();//$pr->getColegios();
+        $autoCompletarTitulos = $pr->getTitulos();
+        $autoCompletarUniversidades = $pr->getUniversidades();
+        
+        $formData = Array('tipoUsuario' => 3, 'universidad'=>null, 'profesion'=>null);
+        $form = $this->formBusqueda($formData, true);
+        
+        if ($request->getMethod() == "POST") {
+            
+            $form->bind($request);
+			if ($form->isvalid())
+            {
+                $formData = $form->getData();
+                $contactos = $this->getBusquedaDetallada($usuarioId, $formData);
+            } else {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ingreso.invalido")));
+            }
+        }
+        else {
+            $contactos = $this->getBusquedaDetallada($usuarioId, $formData);
+        }
+
+        return array(
+            'contactos' => $contactos, 
+            'form' => $form->createView(),
+            'acColegios' => $autoCompletarColegios,
+            'acTitulo' => $autoCompletarTitulos,
+            'acUnivers' => $autoCompletarUniversidades,
+            'formDT' => $formData
+        );
+	}
+
+
+
+
+
+
     
     // FUNCIONES Y METODOS
     
@@ -239,7 +296,7 @@ class ContactosController extends Controller
      * @param Array $formData Arreglo de campos para crear el form
      * @return Form Formulario de busqueda
      */
-	private function formBusqueda($formData)
+	private function formBusqueda($formData, $seleccionarMentor = false)
 	{
 		$pr = $this->get('perfil');
 		
@@ -247,15 +304,31 @@ class ContactosController extends Controller
 		$rolAct = '';
 		$roles = $pr->getRolesBusqueda();
 
-		return $form = $this->createFormBuilder($formData)
-			->add('tipoUsuario', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolAct), 'required' => true))
-			// Si es usuario Estudiante
-			->add('colegio', 'text', array('required' => false))
-			->add('universidad', 'text', array('required' => false))
-			//Si es usuario Mentor
-			->add('profesion', 'text', array('required' => false))
-			->add('alternativaEstudio', 'text', array('required' => false))
-			->getForm();
+		if (!$seleccionarMentor) {
+			$form = $this->createFormBuilder($formData)
+				->add('tipoUsuario', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolAct), 'required' => true))
+				// Si es usuario Estudiante
+				->add('colegio', 'text', array('required' => false))
+				->add('universidad', 'text', array('required' => false))
+				//Si es usuario Mentor
+				->add('profesion', 'text', array('required' => false))
+				->add('alternativaEstudio', 'text', array('required' => false))
+				->getForm();
+		}
+
+		else {
+			unset($roles[1]);
+			unset($roles[2]);
+			$form = $this->createFormBuilder($formData)
+				->add('tipoUsuario', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolAct), 'required' => true))
+				//Si es usuario Mentor
+				->add('profesion', 'text', array('required' => false))
+				->add('alternativaEstudio', 'text', array('required' => false))
+				->getForm();
+
+		}
+
+		return $form;
 	}
         
     /**
