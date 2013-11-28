@@ -244,11 +244,11 @@
                 <target>Haz clic AQUÍ</target>
             </trans-unit>
 			<trans-unit id="diag-3">
-                <source>diagnostico.titulo.resultado.1</source>
+                <source>diagnostico.titulo.resultado.3</source>
                 <target>Felicitaciones!</target>
             </trans-unit>
 			<trans-unit id="diag-4">
-                <source>diagnostico.mensaje.resultado.1</source>
+                <source>diagnostico.mensaje.resultado.3</source>
                 <target>Has avanzado mucho en la elección de tu carrera y entiendes la importancia de este proceso. Entiendes que esta es una decisión que involucra gran diversidad de aspectos y muy seguramente, requieres orientación en la forma de articularlos para poder tomar la decisión final. Si deseas, nosotros podemos ayudarte.</target>
             </trans-unit>
 			<trans-unit id="diag-5">
@@ -260,11 +260,11 @@
                 <target>Sin duda te has esforzado por avanzar en la decisión de tu carrera y todos estos avances se verán reflejados en el proceso. Hasta ahora, has tenido en cuenta aspectos muy importantes para decidir. Sin embargo, muy probablemente se te están escapando algunos otros que son claves en la decisión. No te preocupes, si lo deseas, podemos ayudarte a decidir mejor.</target>
             </trans-unit>
 			<trans-unit id="diag-7">
-                <source>diagnostico.titulo.resultado.3</source>
+                <source>diagnostico.titulo.resultado.1</source>
                 <target>Avanza con precaución</target>
             </trans-unit>
 			<trans-unit id="diag-8">
-                <source>diagnostico.mensaje.resultado.3</source>
+                <source>diagnostico.mensaje.resultado.1</source>
                 <target>Hasta ahora has empezado a observar aspectos que son importantes para que identifiques qué es lo que más te interesa en la vida. Sabemos que este es un proceso complejo y que no siempre es fácil saber qué tiene más importancia para la decisión. Sin embargo, ha llegado el momento para que le dediques más tiempo y atención a esta decisión. No hacerlo puede tener grandes consecuencias a nivel emocional, económico y social en tu vida. Nosotros podemos ayudarte a avanzar rápidamente para que puedas decidir mejor.</target>
             </trans-unit>
             
