@@ -98,6 +98,7 @@ class FormulariosService
                     p.pregunta,
                     p.numero,
                     pt.id pregunaTipoId,
+                    pt.nombre preguntaTipo,
                     f.id formularioId
                 FROM
                     vocationetBundle:Preguntas p

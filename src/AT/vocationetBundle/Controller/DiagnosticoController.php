@@ -20,7 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DiagnosticoController extends Controller
 {
     /**
-     * Index de el cuestionario de diagnostico
+     * Index del cuestionario de diagnostico
      * 
      * @Route("/", name="diagnostico")
      * @Template("vocationetBundle:Diagnostico:index.html.twig")
