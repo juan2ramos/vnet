@@ -3,13 +3,16 @@
 namespace AT\vocationetBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * controlador para el cuestionario de diagnostico
+ * Controlador para el cuestionario de diagnostico
+ * 
+ * El id para este formulario principal es 1
  *
  * @Route("/diagnostico")
  * @author Diego Malagón <diego@altactic.com>
@@ -29,16 +32,92 @@ class DiagnosticoController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
-        $preguntas_serv = $this->get('preguntas');
+        $formularios_serv = $this->get('formularios');
+        $form_id = 1;
         
-        $formularios = $preguntas_serv->getFormulario(1);
-        
-//        $security->debug($formularios);
-        
+        $formularios = $formularios_serv->getFormulario($form_id);
+        $formulario = $formularios_serv->getInfoFormulario($form_id);
+        $form = $this->createFormCuestionario();
         
         return array(
-            'formularios' => $formularios
+            'formularios' => $formularios,
+            'formulario_info' => $formulario,
+            'form' => $form->createView(),
         );
+    }
+    
+    
+    /**
+     * Accion que recibe y procesa el cuestionario de diagnostico
+     * 
+     * @Route("/procesar", name="procesar_diagnostico")
+     * @Template("vocationetBundle:Diagnostico:resultado.html.twig")
+     * @Method({"POST"})
+     * @param \AT\vocationetBundle\Controller\Request $request
+     */
+    public function procesarCuestionario(Request $request)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $form = $this->createFormCuestionario();
+        $form_id = 1;
+        
+        if($request->getMethod() == 'POST') 
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $respuestas = $request->get('pregunta');
+                //$security->debug($respuestas);
+                
+                $formularios_serv = $this->get('formularios');
+                
+                $usuarioId = $security->getSessionValue('id');
+                
+                //Validar formulario
+                $resultados = $formularios_serv->procesarFormulario($form_id, $usuarioId, $respuestas);
+                
+                if($resultados['validate'])
+                {
+                    
+                    return array(
+                        'titulo_mensaje' => $this->get('translator')->trans("diagnostico.titulo.resultado.1"),
+                        'mensaje' => $this->get('translator')->trans("diagnostico.mensaje.resultado.1")
+                    );
+                    
+                    //$security->debug($resultados);
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+                    return $this->redirect($this->generateUrl('diagnostico'));
+                }
+                
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+                return $this->redirect($this->generateUrl('diagnostico'));
+            }
+        }
+        return new Response();
+    }
+    
+    /**
+     * Funcion para crear un formulario vacio para cuestionarios
+     * 
+     * Se usa unicamente para proteccion csrf
+     * 
+     * @return Object formulario
+     */
+    private function createFormCuestionario()
+    {
+        $form = $this->createFormBuilder()
+            ->getForm();
+        
+        return $form;
     }
 }
 ?>

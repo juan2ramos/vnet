@@ -1,0 +1,25 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <section>
+              <div class="panel panel-primary">
+                  <div class="panel-heading" style="font-size: 21px">{{ titulo_mensaje }}</div>
+                  <div class="panel-body">
+                      {{ mensaje }}
+                      <br/>
+                      <br/>
+                      {% trans %}vocationet.info{% endtrans %} <a href="{{ getParameter('enlace_vocationet_info') }}">{% trans %}vocationet.link{% endtrans %}</a>.
+                      <br/>
+                      <br/>
+                      <div style="text-align: center;">
+                          <a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+                          <a href="" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+                      </div>
+                  </div>
+              </div>
+          </section>
+    </div>
+</div>
+{% endblock body %}

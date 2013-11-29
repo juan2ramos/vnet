@@ -9,6 +9,13 @@ INSERT INTO `formularios` (`id`, `nombre`, `numero`, `formulario_id`) VALUES
 (6, 'Decisión consciente', '5', '1');
 
 
+UPDATE `formularios` SET `descripcion`='<p>Realiza el siguiente test gratuito que te indicará en qué parte del proceso para escoger carrera te encuentras y qué recomendaciones te sugerimos para escoger la carrera más acorde a tu perfil reduciendo las posibilidades de equivocarte.</p><p>A continuación te presentamos una serie de afirmaciones relacionadas con tu proceso de decisión de carrera. Te recordamos que todas las respuestas son válidas y no existen respuestas correctas o incorrectas.</p>', `encabezado`='Este diagnostico es Gratuito y evalúa el estado en el cual te encuentras y a su ves dará recomendaciones para comenzar con la búsqueda de tu vocación ideal.' WHERE `id`='1';
+UPDATE `formularios` SET `descripcion`='Para cada afirmación a continuación  debes desplazar la barra de interés en una escala de 1 a 5 (las opciones de respuesta significa 1 muy poco y 5 mucho).' WHERE `id`='3';
+UPDATE `formularios` SET `descripcion`='Para cada afirmación debes responder en una escala de 1 a 3. Cada una de las opciones de respuesta significa lo siguiente: 1 Nada, 2 Algo y 3 Mucho' WHERE `id`='4';
+UPDATE `formularios` SET `descripcion`='Para cada afirmación debes responder en una escala de 1 a 3. Cada una de las opciones de respuesta significa lo siguiente: 1 Nada, 2 Algo y 3 Mucho' WHERE `id`='5';
+UPDATE `formularios` SET `descripcion`='Para cada afirmación a continuación  debes desplazar la barra de interés en una escala de 1 a 5 (las opciones de respuesta significa 1 muy poco y 5 mucho).' WHERE `id`='6';
+
+
 
 
 INSERT INTO `preguntas` (`id`, `pregunta`, `numero`, `preguntastipo_id`, `formulario_id`) VALUES 
