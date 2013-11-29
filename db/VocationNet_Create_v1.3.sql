@@ -78,7 +78,7 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `usuario_tarjeta_profesional` VARCHAR(155) NULL ,
   `usuario_hoja_vida` VARCHAR(155) NULL ,
   `usuario_profesion` VARCHAR(70) NULL ,
-  `usuario_puntos` INT NULL ,
+  `usuario_puntos` FLOAT NULL DEFAULT 0,
   `usuario_perfil_profesional` TEXT NULL ,
   `usuario_valor_mentoria` FLOAT NULL ,
   `colegio_id` INT NULL ,

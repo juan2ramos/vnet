@@ -555,5 +555,32 @@ class PerfilService
         $result = $query->getResult();
         return $result;
 	}
+
+	/**
+	 * Funcion que retorna true si el usuario ya ha seleccionado mentor de orientación vocacional, false si no lo ha hecho
+	 * - Acceso desde ContactosController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $estudianteId Id del usuario Estudiante
+	 * @return Boolean True=>Ya seleccionó mentorOV  False => No ha seleccionado mentorOV
+	 */
+	public function confirmarMentorOrientacionVocacional($estudianteId)
+	{
+		$return = false;
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT u.id
+                FROM vocationetBundle:Relaciones r
+                JOIN vocationetBundle:Usuarios u WITH u.id = r.usuario
+				WHERE r.usuario2 =:estudianteId AND r.tipo = 2 AND r.estado = 1";
+        $query = $em->createQuery($dql);
+		$query->setParameter('estudianteId', $estudianteId);
+		$mentor = $query->getResult();
+        if ($mentor) {
+			//$return = true;
+			$return = $mentor[0];
+		}
+		return $return;
+	}
 }
 ?>

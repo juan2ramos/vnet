@@ -17,7 +17,7 @@
     <field name="usuarioTarjetaProfesional" type="string" column="usuario_tarjeta_profesional" length="155" nullable="true"/>
     <field name="usuarioHojaVida" type="string" column="usuario_hoja_vida" length="155" nullable="true"/>
     <field name="usuarioProfesion" type="string" column="usuario_profesion" length="70" nullable="true"/>
-    <field name="usuarioPuntos" type="integer" column="usuario_puntos" nullable="true"/>
+    <field name="usuarioPuntos" type="float" column="usuario_puntos" nullable="true"/>
     <field name="usuarioPerfilProfesional" type="text" column="usuario_perfil_profesional" nullable="true"/>
     <field name="usuarioValorMentoria" type="float" column="usuario_valor_mentoria" nullable="true"/>
     <field name="usuarioCursoActual" type="integer" column="usuario_curso_actual" nullable="true"/>

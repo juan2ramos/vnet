@@ -29,9 +29,17 @@ class TestVocacionalController extends Controller
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 		//if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-        
-        $enlaceTV = $security->getEnlaceTestVocacional();
-        $informTV = $security->getRutaEnlaceTestVocacionalInfo();
+
+		$usuarioId = $security->getSessionValue('id');
+        $seleccionarMentor = $pr->confirmarMentorOrientacionVocacional($usuarioId);
+
+        if($seleccionarMentor) {
+			$enlaceTV = $security->getEnlaceTestVocacional();
+			$informTV = $security->getRutaEnlaceTestVocacionalInfo();
+		} else {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
+			return $this->redirect($this->generateUrl('lista_mentores_ov'));
+		}
         
         return array(
             'informacion' => $informTV,

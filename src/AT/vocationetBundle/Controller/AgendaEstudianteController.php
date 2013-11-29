@@ -19,6 +19,7 @@ class AgendaEstudianteController extends Controller
 {
     /**
      * Index de la agenda de estudiante
+     * - Redireccionado desde ContactosController:seleccionarMentorAction
      * 
      * @Route("/", name="agenda_estudiante")
      * @Template("vocationetBundle:AgendaEstudiante:index.html.twig")

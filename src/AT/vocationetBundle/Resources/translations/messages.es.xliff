@@ -211,14 +211,10 @@
                 <target>No tiene permisos para realizar esta acción</target>
             </trans-unit>
             <trans-unit id="foros-8">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="foros-9">
                 <source>foro.editado</source>
                 <target>Foro editado</target>
             </trans-unit>
-            <trans-unit id="foros-10">
+            <trans-unit id="foros-9">
                 <source>foro.editado.correctamente</source>
                 <target>El foro ha sido editado correctamente</target>
             </trans-unit>
@@ -231,6 +227,36 @@
 			<trans-unit id="cal-2">
                 <source>calificacion.guardada.correctamente</source>
                 <target>La calificación de esta mentoría se realizó correctamente</target>
+            </trans-unit>
+
+            <!-- SELECCIONAR MENTOR ORIENTACION VOCACIONAL selectMentorOV-x -->
+            <trans-unit id="selectMentorOV-1">
+                <source>elegir.mentor</source>
+                <target>Seleccionar mentor</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-2">
+                <source>error.elegir.mentor</source>
+                <target>Error al elegir mentor</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-3">
+                <source>ha.seleccionado.mentor.contactese.con.el</source>
+                <target>El mentor que seleccionó se ha registrado correctamente, por favor agende su primera mentoria con él</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-4">
+                <source>error.en.seleccion.de.mentor</source>
+                <target>Ocurrió un error al seleccionar el mentor</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-5">
+                <source>usuario.ya.eligio.mentor</source>
+                <target>La acción que intenta realizar no es posible, por favor agende una mentoría con su mentor de orientación vocacional</target>
+            </trans-unit>
+			<trans-unit id="selectMentorOV-6">
+                <source>mensaje.agendar.mentoria</source>
+                <target>Por favor agende una mentoría con su mentor de orientación vocacional</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-7">
+                <source>no.ha.seleccionado.mentor.ov</source>
+                <target>No ha seleccionado mentor de orientación vocacional</target>
             </trans-unit>
         </body>
     </file>

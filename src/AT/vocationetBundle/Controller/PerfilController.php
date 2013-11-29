@@ -454,6 +454,8 @@ class PerfilController extends Controller
 	/**
 	 * Calificar un mentor por AJAX
 	 *
+	 * Esta función registra la calificación del usuario y actualiza el promedio de la calificación del mentor
+	 *
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
      * @Template("vocationetBundle:Perfil:perfilmentor.html.twig")
@@ -481,19 +483,32 @@ class PerfilController extends Controller
 			{
 				$formData = $form->getData();
 				$em = $this->getDoctrine()->getManager();
-				$mentoria = $em->getRepository('vocationetBundle:Mentorias')->findOneBy(Array('id' => $mentoriaId, 'mentoriaEstado' => 1));
-
+				$mentoria = $em->getRepository('vocationetBundle:Mentorias')->findOneBy(Array('id' => $mentoriaId, 'mentoriaEstado' => 1, 'usuarioMentor'=>$perfilId));
+				
 				$calificacion = $formData['calificacion'];
 				$resena = $formData['resena'];
 				
 				if ($mentoria && ($calificacion>=0 && $calificacion<=5) && ($resena != '') && ($formData['mentoriaId'] == $mentoriaId)) {
-					$mentoria->setCalificacion($calificacion);
-					$mentoria->setResena($resena);
-					$em->persist($mentoria);
-					$em->flush();
 
-					$status = 'success';
-					$msg = $this->get('translator')->trans("calificacion.guardada.correctamente", array(), 'messages');
+					$usuarioMentor = $em->getRepository('vocationetBundle:Usuarios')->findOneById($perfilId);
+					if ($usuarioMentor) {
+						
+						$mentoria->setCalificacion($calificacion);
+						$mentoria->setResena($resena);
+						$em->persist($mentoria);
+						$em->flush();
+
+						$pr = $this->get('perfil');
+						$calificaciones = $pr->mentoriasCalificadas($perfilId);
+						$Puntuacion = ($calificaciones['totalCalificacion'] > 0) ? ($calificaciones['totalCalificacion']/$calificaciones['totalUsuarios']) : 0;
+
+						$usuarioMentor->setUsuarioPuntos($Puntuacion);
+						$em->persist($usuarioMentor);
+						$em->flush();
+
+						$status = 'success';
+						$msg = $this->get('translator')->trans("calificacion.guardada.correctamente", array(), 'messages');
+					}
 				}
 			}
 		}

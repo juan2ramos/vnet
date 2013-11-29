@@ -33,7 +33,32 @@
         .ui-widget-content {
             background-color: transparent !important;
         }
+
+        div.bigstars div.rateit-range {
+			background: url({{ asset('rateit/star-white32.png') }});
+			height: 32px !important;
+		}
+	 
+		div.bigstars div.rateit-hover {
+			background: url({{ asset('rateit/star-gold32.png') }});
+		}
+	 
+		div.bigstars div.rateit-selected {
+			background: url({{ asset('rateit/star-gold32.png') }});
+		}
+	 
+		div.bigstars div.rateit-reset {
+			background: url({{ asset('rateit/star-black32.png') }});
+			width: 32px !important;
+			height: 32px !important;;
+		}
+	 
+		div.bigstars div.rateit-reset:hover {
+			background: url({{ asset('rateit/star-white32.png') }});
+		}
+		
 	</style>
+	<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
 {% endblock style %}
 
 {% block body %}
@@ -41,52 +66,28 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<section class="panel">
-				<header class="panel-heading">
-                    <div STYLE='text-align:right;'>
-                        <a type="button" class="btn btn-primary btn-xs" href='{{ path('contactos') }}'>
-                            {% trans from "label" %}contactos{% endtrans %}
-                        </a>
-                        <a type="button" class="btn btn-primary btn-xs" href='{{ path('busqueda') }}'>
-                            {% trans from "label" %}busqueda.contactos{% endtrans %}
-                        </a>
-                    </div>
-                    {% trans from "label" %}busqueda.contactos{% endtrans %}
-                </header>
-                    <div class="panel-body">
-                        <form action="{{ path('busqueda') }}" method='POST' {{ form_enctype(form) }} type="post">
-                            <div class="form-group col-lg-4">
-                                <label>{% trans from "label" %}perfil{% endtrans %}</label>
-                                {{ form_widget(form.tipoUsuario, { 'attr' : {'class': 'form-control col-lg-4'}}) }}
-                            </div>
-                            <div class='estudiante'{% if formDT.tipoUsuario != 1 %}style='display:none;'{% endif %}>
-                                <div class="form-group col-lg-4">
-                                    <label>{% trans from "label" %}colegio{% endtrans %}</label>
-                                    {{ form_widget(form.colegio, { 'attr' : {'class': 'form-control'}}) }}
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>{% trans from "label" %}alternativa.estudio{% endtrans %}</label>
-                                    {{ form_widget(form.alternativaEstudio, { 'attr' : {'class': 'form-control', 'placeholder': 'PENDIENTE'}}) }}
-                                </div>
-                            </div>
-                            <div class='mentor' {% if formDT.tipoUsuario == 1 %}style='display:none;'{% endif %}>
-                                <div class="form-group col-lg-4">
-                                    <label>{% trans from "label" %}universidad{% endtrans %}</label>
-                                    {{ form_widget(form.universidad, { 'attr' : {'class': 'form-control'}}) }}
-                                </div>
-                                <div class="form-group col-lg-4">
-                                    <label>{% trans from "label" %}profesion{% endtrans %}</label>
-                                    {{ form_widget(form.profesion, { 'attr' : {'class': 'form-control'}}) }}
-                                </div>
-                            </div>
-                            {# form(form) #}
-                            {{ form_widget(form._token) }}
-                            {{ form_errors(form) }}
-                            <div class="form-group" STYLE='text-align:right;'>
-                                <button type="submit" class="btn btn-info"><i class='icon-search'></i>&nbsp;{% trans from "label" %}buscar{% endtrans %}</button>
-                            </div>
-                        </form>
-                    </div>
-                    <hr STYLE="margin: 0 0 5px 0;">
+				{% set titleHeader = (selectMentor == false) ? 'seleccionar.mentor.vocacional'|trans({}, "label") : 'seleccionado.mentor.vocacional'|trans({}, "label") %}
+				<header class="panel-heading">{{ titleHeader }}</header>
+
+                {% if selectMentor == false %}
+					<div class="panel-body">
+						{# FORMULARIO DE BUSQUEDA AVANZADA #}
+						<form class="form-inline text-center" role="form" action="{{ path('lista_mentores_ov') }}" method='POST' {{ form_enctype(form) }} type="post">
+							<div class="form-group">
+								{{ form_widget(form.universidad, { 'attr' : {'class': 'form-control', 'placeholder' : 'universidad'|trans({}, "label"), 'STYLE':'width:280px;' }}) }}
+							</div>
+							<div class="form-group">
+								{{ form_widget(form.profesion, { 'attr' : {'class': 'form-control', 'placeholder' : 'profesion'|trans({}, "label"), 'STYLE':'width:280px;' }}) }}
+							</div>
+							<button type="submit" class="btn btn-info"><i class='icon-search'></i>&nbsp;{% trans from "label" %}buscar{% endtrans %}</button>
+							<a href='{{ path('lista_mentores_ov') }}' class="btn btn-success">&nbsp;{% trans from "label" %}quitar.filtros{% endtrans %}</a>
+							{# form(form) #}
+							{{ form_widget(form._token) }}
+							{{ form_errors(form) }}
+						</form>
+					</div>
+					<hr STYLE="margin: 0 0 5px 0;">
+				{% endif %}
                 
                 {% if contactos %}
 					<table class="table table-striped border-top datatable">
@@ -95,11 +96,13 @@
 								<th></th>
 								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}nombre{% endtrans %}</th>
-								<th>{% trans from "label" %}rol{% endtrans %}</th>
-								<th>{% trans from "label" %}estado{% endtrans %}</th>
-								<th>{% trans from "label" %}carrera{% endtrans %}/{% trans from "label" %}profesion{% endtrans %}</th>
-								<th>{% trans from "label" %}colegio{% endtrans %}/{% trans from "label" %}universidad{% endtrans %}</th>
-								<th>{% trans from "label" %}opciones{% endtrans %}</th>
+								{#<th>{% trans from "label" %}rol{% endtrans %}</th>#}
+								<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>
+								<th>{% trans from "label" %}profesion{% endtrans %}</th>
+								<th>{% trans from "label" %}universidad{% endtrans %}</th>
+								{% if selectMentor == false %}
+									<th>{% trans from "label" %}opciones{% endtrans %}</th>
+								{% endif %}
 							</tr>
 						</thead>
 						<tbody>
@@ -112,46 +115,38 @@
 									</td>
 									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioApellido }}</div></td>
 									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioNombre }}</div></td>
-									<td class='href' data-href='{{ pathUser }}'><div>{{ c.rolNombre|trans({}, 'db') }}</div></td>
-									<td class='href' data-href='{{ pathUser }}'><div>PENDIENTE PUNTUACION</div></td>
+									{#<td class='href' data-href='{{ pathUser }}'><div>{{ c.rolNombre|trans({}, 'db') }}</div></td>#}
 									<td class='href' data-href='{{ pathUser }}'>
-										<div>
-											{% if c.rolNombre == 'estudiante' %}
-												PENDIENTE CARRERA
-											{% elseif c.rolNombre == 'mentor_e' or c.rolNombre == 'mentor_ov' %}
-												{% if c.usuarioProfesion %}
-													{{ c.usuarioProfesion }}
-												{% else %}
-													{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
-												{% endif %}
-											{% endif %}
+										<div class='text-center';>
+											{% set estrellasPromedio = (c.usuarioPuntos >= 0 and c.usuarioPuntos <= 5) ? c.usuarioPuntos : 0 %}
+											<div class="rateit" data-rateit-value="{{ estrellasPromedio }}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
+											<BR><div>{{ c.cantidadMentorias}}&nbsp;{% trans from "label" %}valoraciones{% endtrans %}</div>
 										</div>
 									</td>
 									<td class='href' data-href='{{ pathUser }}'>
+										<div>{{ c.usuarioProfesion|default('no.ha.sido.suministrada'|trans({}, "label")) }}</div>
+									</td>
+									<td class='href' data-href='{{ pathUser }}'>
 										<div>
-											{% if c.rolNombre == 'estudiante' %}
-												{% set colegio = (c.nombreColegio) ? c.nombreColegio : 'no.ha.sido.suministrado'|trans({}, 'label')  %}
-												{% set grado = (c.usuarioCursoActual) ? " ("  ~ c.usuarioCursoActual ~ ")" : '' %}
-												{{ colegio }}{{ grado }}
-											{% elseif c.rolNombre == 'mentor_e' or c.rolNombre == 'mentor_ov' %}
-												{% if c.estudios is defined %}
-													{% for est in c.estudios %}
-														- {{ est.titulo }}&nbsp;({{ est.nombreInstitucion }})<br>
-													{% endfor %}
-												{% else %}
-													{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
-												{% endif %}
+											{% if c.estudios is defined %}
+												{% for est in c.estudios %}
+													- {{ est.titulo }}&nbsp;({{ est.nombreInstitucion }})<br>
+												{% endfor %}
+											{% else %}
+												{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
 											{% endif %}
 										</div>
 									</td>
-									<td>
-                                        {% if c.relacionExistente %}
-                                            <a type="button" class="btn btn-default btn-xs">{{ 'relacion.existente'|trans({}, 'label') }}</a>
-                                        {% else %}    
-                                            <a type="button" class="cambiarEstado btn btn-primary btn-xs" data-t='sa' data-u='{{ c.id }}'>
-													{{ 'solicitud.de.amistad'|trans({}, 'label') }}</a>
-                                        {% endif %}
-									</td>
+									{% if selectMentor == false %}
+										<td class="text-center">
+											<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
+											<br>
+											<form action="{{ path('seleccionar_mentor') }}" method='POST' {{ form_enctype(form) }} type="post">
+												<input type='hidden' name='mentorOV' value='{{ c.id }}'/>
+												<button type='button' STYLE='margin:2px;width:90%;' data-info='{{ c.usuarioNombre ~ ' ' ~ c.usuarioApellido }}' type="button" class="btn btn-primary btn-xs seleccionarMentor">{{ 'seleccionar'|trans({}, 'label') }}</button>
+											</form>
+										</td>
+									{% endif %}
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -162,6 +157,12 @@
 					</div>
 				{% endif %}
 			</section>
+			<hr>
+				<div class="panel-body text-center">
+					<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+					<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>
+					<a href='{{ path('test_vocacional') }}'type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+				</div>
 		</div>
 	</div>
 {% endblock body %}
@@ -172,21 +173,9 @@
     <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('rateit/src/jquery.rateit.js') }}"></script>
 
     <script>
-        {% if acColegios %}
-           $(function() {
-               var availableCols = [
-                   {% for col in acColegios %}
-                       "{{ col }}",
-                   {% endfor %}
-               ];
-               $( "#form_colegio" ).autocomplete({
-                   source: availableCols
-               });
-           });
-         {% endif %}
-     
         {% if acTitulo %}
            $(function() {
                var availableTitul = [
@@ -211,45 +200,21 @@
                    source: availableUniver
                });
            });
-         {% endif %}
-     
-        $('#form_tipoUsuario').change(function(){
-           //alert('ok'); 
-           var perfilId = $(this).val();
-           //alert(perfilId); 
-           if (perfilId === "1") {
-               $('.mentor').hide('slow');
-               setTimeout(function(){ $('.estudiante').show('slow'); }, 1000);
-               
-           } else {
-               $('.estudiante').hide('slow');
-               setTimeout(function(){ $('.mentor').show('slow'); }, 1000);
-               
-           }
-           
-        });
+		{% endif %}
   
 		$('.table').on('click', '.href', function(){
-			window.location = $(this).data('href');
+			//window.location = $(this).data('href');
 		});
 
-		$('.table').on('click', '.cambiarEstado', function(){
-			var t = $(this).data('t'); //Tipo de cambio de estado
-			var u = $(this).data('u'); //Usuario con el que existe la relacion
-			var r = $(this).data('r'); //Id de la relacion
-			var row = $(this).closest('tr').attr('id');
-
-            var nRow =  $('.datatable tbody tr[id='+row+']')[0];
-			var posActual = $(this).parent();
-
-			posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');
-			$.post('{{ path('edit_estado_relacion')}}', { u: u, t: t, r: r}, function(data){
-				posActual.html(data);
-				if (data === '') {
-					$('#rel_'+r).hide('slow');
-					setTimeout(function(){ dataTable.table.fnDeleteRow( nRow, null, true ); }, 1000);
-				}
-			});
+		// Evento de click del btn seleccionar mentor, que envia el form.
+		$('.table').on('click', '.seleccionarMentor', function(){
+			var nameMentor = $(this).data('info');
+			translateConfirm = '{{ 'confirmacion.mentor.%name%'|trans({'%name%': "nameMentor" }, 'label') }}';
+			translateConfirm = translateConfirm.replace("nameMentor", nameMentor);
+			if (confirm(translateConfirm)) {
+				$(this).parent().submit();
+			}
 		});
     </script>
 {% endblock script%}
+

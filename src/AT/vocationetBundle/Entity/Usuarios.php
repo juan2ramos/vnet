@@ -120,9 +120,9 @@ class Usuarios
     private $usuarioProfesion;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="usuario_puntos", type="integer", nullable=true)
+     * @ORM\Column(name="usuario_puntos", type="float", nullable=true)
      */
     private $usuarioPuntos;
 
@@ -542,7 +542,7 @@ class Usuarios
     /**
      * Set usuarioPuntos
      *
-     * @param integer $usuarioPuntos
+     * @param float $usuarioPuntos
      * @return Usuarios
      */
     public function setUsuarioPuntos($usuarioPuntos)
@@ -555,7 +555,7 @@ class Usuarios
     /**
      * Get usuarioPuntos
      *
-     * @return integer 
+     * @return float 
      */
     public function getUsuarioPuntos()
     {

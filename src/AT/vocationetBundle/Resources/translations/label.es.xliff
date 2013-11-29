@@ -886,6 +886,28 @@
                 <source>ver.perfil</source>
                 <target>Ver perfil</target>
 			</trans-unit>
+
+			<!-- SELECCIONAR MENTOR ORIENTACION VOCACIONAL selectMentorOV-x -->
+			<trans-unit id="selectMentorOV-1">
+                <source>confirmacion.mentor.%name%</source>
+                <target>El mentor de orientación vocacional lo acompañará en todo el proceso, desea confirmar que seleccionó a %name%</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-2">
+                <source>seleccionar.mentor.vocacional</source>
+                <target>Seleccionar mentor de orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-3">
+                <source>quitar.filtros</source>
+                <target>Quitar filtros</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-4">
+                <source>seleccionar</source>
+                <target>Seleccionar</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-5">
+                <source>seleccionado.mentor.vocacional</source>
+                <target>Mentor de orientación Vocacional seleccionado</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>
