@@ -118,15 +118,15 @@
                                 <table class="table">
                                     <tbody>
                                         {% for pregunta in sub.preguntas %}
-                                            <tr>
+                                            <tr class="tr-pregunta-{{ pregunta.id }}">
                                                 <td><b>{{ pregunta.numero }}.</b> {{ pregunta.pregunta }} ({{ pregunta.preguntaTipo }})</td>
                                                 <td style="width:150px;">
-                                                    <a href="" class="btn btn-info"><i class="icon-edit"></i></a>
-                                                    <a href="{{ path("delete_pregunta", {"pid": pregunta.id }) }}" class="btn btn-info btn-delete-pregunta"><i class="icon-remove"></i></a>
+                                                    <a href="{{ path("edit_pregunta", {"pid": pregunta.id} ) }}" class="btn btn-info"><i class="icon-edit"></i></a>
+                                                    <a href="{{ path("delete_pregunta", {"pid": pregunta.id }) }}" class="btn btn-info btn-delete-pregunta" data-remove=".tr-pregunta-{{ pregunta.id }}"><i class="icon-remove"></i></a>
                                                 </td>
                                             </tr>
                                             {% if pregunta.opciones is defined %}
-                                            <tr>
+                                            <tr class="tr-pregunta-{{ pregunta.id }}">
                                                 <td colspan="2">
                                                     <table class="table table-striped">
                                                         <tbody>
@@ -158,75 +158,6 @@
 
 {% endblock body %}
 
-
 {% block script %}
-<script>
-    $(document).ready(function () {
-        
-        var html_opcion = '<li><input type="text" name="form[opciones][]" required="required" class="form-control" style="width: 70%;"/><input type="text" name="form[pesos][]" value="0" required="required" class="form-control" style="width: 10%;"/><button type="button" class="btn btn-danger btn-delete-opcion"><i class="icon-remove"></i></button></li>';
-        
-        var val_tipo_pregunta = $('#form_preguntaTipo').val();
-        toggleOpciones(val_tipo_pregunta);
-        
-        
-        $("#btn-add-opcion").on('click', function(){
-            console.log("test");
-            $("#ol-opciones").append(html_opcion);
-        });
-        
-        $("#ol-opciones").on('click', '.btn-delete-opcion', function(){
-            $(this).parent().remove();
-        });
-                
-        $('#form_preguntaTipo').on('change', function(){
-            toggleOpciones($(this).val());            
-        });
-        
-        $(".btn-delete-pregunta").on('click', function(e){
-            e.preventDefault();
-            var route = $(this).attr('href');
-            
-            $.ajax({
-                type: "POST",
-                url: route,
-                dataType: "json",
-                success: function (response){
-                    if(response.status == "success"){
-                        $.gritter.add({
-                            title: response.message,
-                            text: response.detail,
-                            time: 5000,
-                            image: asset_path+'img/success.png'
-                        });                       
-                        $(".modal").modal('hide');
-
-                    }
-                    else if(response.status == "error"){
-                       $.gritter.add({
-                            title: response.message,
-                            text: response.detail,
-                            time: 5000,
-                            image: asset_path+'img/delete.png'
-                        });
-                    }
-                },
-                error: function() {
-                    console.error('AJAX Error');                    
-                }
-            });
-        });
-        
-        function toggleOpciones(tipoPregunta){
-            if(tipoPregunta == 1 || tipoPregunta == 2 || tipoPregunta == 3){
-                $("#div-opciones-pregunta").show();
-                $("#ol-opciones li input").attr('required','required');
-            }
-            else{ 
-                $("#div-opciones-pregunta").hide();
-                $("#ol-opciones li input").removeAttr('required');
-            }   
-        }
-        
-    });
-</script>
+<script src="{{ asset('js/vocationet/admin-preguntas.js') }}" ></script>
 {% endblock script %}

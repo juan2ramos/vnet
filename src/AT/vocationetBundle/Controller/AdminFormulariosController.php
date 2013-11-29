@@ -46,7 +46,7 @@ class AdminFormulariosController extends Controller
                 $this->registrarPregunta($data);
                 
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("pregunta.agregada"), "text" => $this->get('translator')->trans("pregunta.agregada.correctamente")));
-                return $this->redirect($this->generateUrl('admin_formularios', array('fid'=>$fid)));
+                return $this->redirect($this->generateUrl('admin_formularios', array('fid' => $fid)));
             }
             else
             {
@@ -70,7 +70,7 @@ class AdminFormulariosController extends Controller
     /**
      * Accion ajax para eliminar una pregunta
      * 
-     * @Route("/delete/{pid}", name="delete_pregunta")
+     * @Route("/pregunta/delete/{pid}", name="delete_pregunta")
      * @Method({"POST"})
      * @param integer $pid id de pregunta
      */
@@ -79,16 +79,60 @@ class AdminFormulariosController extends Controller
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$this->getRequest()->isXmlHttpRequest()) throw $this->createNotFoundException();
         
-        $response = array(
-            'status' => 'error',
-            'message' => 'test',
-            'detail' => 'test'
-        );        
+        $em = $this->getDoctrine()->getManager();
+        
+        // Verificar que no existan respuestas de usuarios
+        $dql = "SELECT COUNT(pu.id) c FROM vocationetBundle:PreguntasUsuarios pu 
+                WHERE pu.pregunta = :preguntaId ";
+        $query = $em->createQuery($dql);
+        $query->setParameter('preguntaId', $pid);
+        $result = $query->getResult();
+        
+        if(isset($result[0]['c']) && $result[0]['c'] == 0)
+        {
+            // Eliminar opciones de pregunta
+            $dql = "DELETE FROM vocationetBundle:Opciones o WHERE o.pregunta = :preguntaId";
+            $query = $em->createQuery($dql);
+            $query->setParameter('preguntaId', $pid);
+            $query->getResult();
+            
+            // Eliminar pregunta
+            $dql = "DELETE FROM vocationetBundle:Preguntas p WHERE p.id = :preguntaId";
+            $query = $em->createQuery($dql);
+            $query->setParameter('preguntaId', $pid);
+            $query->getResult();
+            
+            $response = array(
+                'status' => 'success',
+                'message' => $this->get('translator')->trans("pregunta.eliminada"),
+                'detail' => $this->get('translator')->trans("pregunta.eliminada.correctamente")
+            );                
+        }
+        else
+        {
+            $response = array(
+                'status' => 'error',
+                'message' => $this->get('translator')->trans("pregunta.no.eliminada"),
+                'detail' => $this->get('translator')->trans("pregunta.tiene.respuestas")
+            );
+        }
         
         return new Response(json_encode($response));
     }
     
+    /**
+     * Accion para editar una pregunta
+     * 
+     * @Route("/pregunta/edit/{pid}", name="edit_pregunta")+
+     * 
+     * @param integer $pid id de pregunta
+     */
+    public function editAction($pid)
+    {
+        return new Response();
+    }
     
     private function getFormularios()
     {
