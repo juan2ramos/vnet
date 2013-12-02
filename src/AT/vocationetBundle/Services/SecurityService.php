@@ -320,7 +320,10 @@ class SecurityService
         $parameters = array(
             'enlace_test_vocacional' => 'http://www.uanl.mx/utilerias/test/',
             'enlace_pdf_test_vocacional_info' => 'uploads/vocationet/testvocacional.pdf',
-            'enlace_vocationet_info' => 'http://www.vocationet.com'
+            'enlace_vocationet_info' => 'http://www.vocationet.com',
+            'diagnostico_rango_puntaje_1' => array('min'=>0, 'max'=>50),
+            'diagnostico_rango_puntaje_2' => array('min'=>51, 'max'=>90),
+            'diagnostico_rango_puntaje_3' => array('min'=>91, 'max'=>111),
         );
         
         if($parameter)

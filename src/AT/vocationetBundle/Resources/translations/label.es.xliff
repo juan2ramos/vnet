@@ -63,6 +63,18 @@
                 <source>pregunta.obligatoria</source>
                 <target>Debes contestar esta pregunta</target>
 			</trans-unit>
+			<trans-unit id="generico-16">
+                <source>agregar</source>
+                <target>Agregar</target>
+			</trans-unit>
+			<trans-unit id="generico-17">
+                <source>volver</source>
+                <target>Volver</target>
+			</trans-unit>
+			<trans-unit id="generico-18">
+                <source>editar</source>
+                <target>Editar</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
@@ -931,6 +943,57 @@
 			<trans-unit id="selectMentorOV-5">
                 <source>seleccionado.mentor.vocacional</source>
                 <target>Mentor de orientación Vocacional seleccionado</target>
+			</trans-unit>
+            
+            <!-- ADMIN admin-x -->
+			<trans-unit id="admin-1">
+                <source>formularios</source>
+                <target>Formularios</target>
+			</trans-unit>
+			<trans-unit id="admin-2">
+                <source>secciones</source>
+                <target>Secciones</target>
+			</trans-unit>
+			<trans-unit id="admin-3">
+                <source>crear.pregunta</source>
+                <target>Crear pregunta</target>
+			</trans-unit>
+			<trans-unit id="admin-4">
+                <source>seccion</source>
+                <target>Sección</target>
+			</trans-unit>
+			<trans-unit id="admin-5">
+                <source>tipo.pregunta</source>
+                <target>Tipo de pregunta</target>
+			</trans-unit>
+			<trans-unit id="admin-6">
+                <source>numero</source>
+                <target>Número</target>
+			</trans-unit>
+			<trans-unit id="admin-7">
+                <source>pregunta</source>
+                <target>Pregunta</target>
+			</trans-unit>
+			<trans-unit id="admin-8">
+                <source>opciones.respuesta</source>
+                <target>Opciones de respuesta</target>
+			</trans-unit>
+			<trans-unit id="admin-9">
+                <source>agregar.opcion</source>
+                <target>Agregar opción</target>
+			</trans-unit>
+			
+			<trans-unit id="admin-11">
+                <source>preguntas</source>
+                <target>Preguntas</target>
+			</trans-unit>
+			<trans-unit id="admin-12">
+                <source>seleccione.formulario</source>
+                <target>Seleccione un formulario de la lista superior</target>
+			</trans-unit>
+			<trans-unit id="admin-13">
+                <source>editar.pregunta</source>
+                <target>Editar pregunta</target>
 			</trans-unit>
         </body>
     </file>

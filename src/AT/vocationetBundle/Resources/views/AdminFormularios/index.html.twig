@@ -1,0 +1,167 @@
+{% extends '::base.html.twig' %}
+
+{% block style %}
+<style>
+    #div-opciones-pregunta .form-control{
+        display: inline;
+        margin-left: 5px;
+    }
+    
+    #div-opciones-pregunta li{
+        margin-top: 5px;
+    }
+    
+    #div-opciones-pregunta li .btn{
+        margin-left: 5px;
+    }
+</style>
+
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <div class="panel-heading">
+                {% trans  from "label" %}formularios{% endtrans %}
+            </div>
+            <table class="table table-hover">
+                <tbody>
+                {% for formulario in formularios %}
+                    <tr style="cursor:pointer; {% if formulario.id == fid %}background: #F5F5F5;{% endif %}">
+                        <td><a href="{{ path("admin_formularios", {'fid':formulario.id }) }}">{{ formulario.nombre }}</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>        
+    </div>
+</div>
+
+<div class="row">        
+    <div class="col-lg-12">
+        <section class="panel">
+            <div class="panel-heading">
+                {% trans  from "label" %}crear.pregunta{% endtrans %}
+            </div>
+            {% if subformularios %}    
+            <div class="panel-body" style="padding:0 25px;">
+                <form class="form-horizontal" role="form" action="{{ path('admin_formularios', {'fid': fid}) }}" method="POST" {{ form_enctype(form) }}>
+                    <div class="form-group">
+                        <label  class="control-label">{% trans  from "label" %}seccion{% endtrans %}</label>
+                        <div class="">
+                            <select id="form_formulario" name="form[formulario]" required="required" class="form-control chosen">
+                                {% for sub in subformularios %}
+                                    <option value="{{ sub.id }}">{{ sub.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">{% trans  from "label" %}tipo.pregunta{% endtrans %}</label>
+                        <div class="">
+                            {{ form_widget(form.preguntaTipo, {'attr':{'class':'form-control chosen', 'required':'required', 'data-placeholder':'tipo.pregunta'|trans({}, 'label') } }) }}                                  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">{% trans  from "label" %}numero{% endtrans %}</label>
+                        <div class="">
+                            {{ form_widget(form.numero, {'attr':{'class':'form-control', 'required':'required' } }) }}                                  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">{% trans  from "label" %}pregunta{% endtrans %}</label>
+                        <div class="">
+                            {{ form_widget(form.pregunta, {'attr':{'class':'form-control', 'required':'required' } }) }}                                  
+                        </div>
+                    </div>
+                    <div class="form-group" id="div-opciones-pregunta">
+                        <label  class="control-label">{% trans  from "label" %}opciones.respuesta{% endtrans %}</label>
+                        <button type="button" class="btn btn-info" id="btn-add-opcion"><i class="icon-plus"></i> {% trans  from "label" %}agregar.opcion{% endtrans %}</button>
+                        <div class="">
+                            <ol id="ol-opciones">
+                                <li><input type="text" name="form[opciones][]" required="required" class="form-control" style="width: 70%;"/><input type="text" name="form[pesos][]" value="0" required="required" class="form-control" style="width: 10%;"/></li>
+                                <li><input type="text" name="form[opciones][]" required="required" class="form-control" style="width: 70%;"/><input type="text" name="form[pesos][]" value="0" required="required" class="form-control" style="width: 10%;"/></li>
+                            </ol>                              
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="" style="text-align: right;">
+                            {{ form_errors(form) }}
+                            {{ form_widget(form._token) }}
+                            <button type="submit" class="btn btn-send">{% trans  from "label" %}agregar{% endtrans %}</button>
+                        </div>
+                    </div>    
+                </form>
+            </div>
+            {% else %}
+                <div class="panel-body">
+                {% trans  from "label" %}seleccione.formulario{% endtrans %}
+                </div>
+            {% endif %}
+        </section>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <div class="panel-heading">
+                {% trans  from "label" %}preguntas{% endtrans %}
+            </div>
+            {% if subformularios %}
+                <table class="table">
+                    <tbody>
+                    {% for sub in subformularios %}
+                        <tr>
+                            <td style="font-size: 16px;"><b>{{ sub.nombre }}</b></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {% if sub.preguntas is defined %}
+                                <table class="table">
+                                    <tbody>
+                                        {% for pregunta in sub.preguntas %}
+                                            <tr class="tr-pregunta-{{ pregunta.id }}">
+                                                <td><b>{{ pregunta.numero }}.</b> {{ pregunta.pregunta }} ({{ pregunta.preguntaTipo }})</td>
+                                                <td style="width:150px;">
+                                                    <a href="{{ path("edit_pregunta", {"fid": fid, "pid": pregunta.id} ) }}" class="btn btn-info"><i class="icon-edit"></i></a>
+                                                    <a href="{{ path("delete_pregunta", {"pid": pregunta.id }) }}" class="btn btn-info btn-delete-pregunta" data-remove=".tr-pregunta-{{ pregunta.id }}"><i class="icon-remove"></i></a>
+                                                </td>
+                                            </tr>
+                                            {% if pregunta.opciones is defined %}
+                                            <tr class="tr-pregunta-{{ pregunta.id }}">
+                                                <td colspan="2">
+                                                    <table class="table table-striped">
+                                                        <tbody>
+                                                            {% for opcion in pregunta.opciones %}
+                                                                <tr><td>{{ opcion.nombre }}</td></tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="panel-body">
+                {% trans  from "label" %}seleccione.formulario{% endtrans %}
+                </div>
+            {% endif %}    
+        </section>
+    </div>
+</div>
+
+{% endblock body %}
+
+{% block script %}
+<script src="{{ asset('js/vocationet/admin-preguntas.js') }}" ></script>
+{% endblock script %}

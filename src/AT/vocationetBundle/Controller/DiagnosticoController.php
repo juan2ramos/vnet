@@ -20,7 +20,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DiagnosticoController extends Controller
 {
     /**
-     * Index de el cuestionario de diagnostico
+     * Index del cuestionario de diagnostico
      * 
      * @Route("/", name="diagnostico")
      * @Template("vocationetBundle:Diagnostico:index.html.twig")
@@ -81,10 +81,34 @@ class DiagnosticoController extends Controller
                 
                 if($resultados['validate'])
                 {
+                    $puntaje = $resultados['puntaje'];
+                    
+                    $titulo_mensaje = '';
+                    $mensaje = '';
+                    
+                    $rango1 = $security->getParameter('diagnostico_rango_puntaje_1');
+                    $rango2 = $security->getParameter('diagnostico_rango_puntaje_2');
+                    $rango3 = $security->getParameter('diagnostico_rango_puntaje_3');
+                    
+                    if($puntaje <= $rango1['max'])
+                    {
+                        $titulo_mensaje = $this->get('translator')->trans("diagnostico.titulo.resultado.1");
+                        $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.1");
+                    }
+                    elseif($puntaje >= $rango2['min'] && $puntaje <= $rango2['max'])
+                    {
+                        $titulo_mensaje = $this->get('translator')->trans("diagnostico.titulo.resultado.2");
+                        $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.2");
+                    }
+                    elseif($puntaje >= $rango3['min'])
+                    {
+                        $titulo_mensaje = $this->get('translator')->trans("diagnostico.titulo.resultado.3");
+                        $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.3");
+                    }
                     
                     return array(
-                        'titulo_mensaje' => $this->get('translator')->trans("diagnostico.titulo.resultado.1"),
-                        'mensaje' => $this->get('translator')->trans("diagnostico.mensaje.resultado.1")
+                        'titulo_mensaje' => $titulo_mensaje,
+                        'mensaje' => $mensaje
                     );
                     
                     //$security->debug($resultados);

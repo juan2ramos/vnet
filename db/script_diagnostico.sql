@@ -62,5 +62,50 @@ INSERT INTO `preguntas` (`id`, `pregunta`, `numero`, `preguntastipo_id`, `formul
 ('28', 'Tengo ya definida una alternativa de estudio con la cual me siento tranquilo y satisfecho', '7', '7', '6');
 
 
+INSERT INTO `formularios` (`id`, `nombre`, `numero`, `encabezado`) VALUES 
+('7', 'Mentor experto', '2', 'Desde este momento usted tendrá que elegir su Asesor experto en Orientación Vocacional. Sera el mentor que lo acompañara en todo el proceso, por lo tanto revise muy bien la disponibilidad y su perfil para que estos cumplan con sus intereses.'),
+('8', 'Test vocacional', '3', '', 'Esta prueba esta desarrollada por una empresa dedicada a la generación de pruebas psicológicas y será analizada por el experto que has escogido como guía de tu programa. Después de la próxima asesoría podrás ver los resultados.'),
+('9', 'Evaluación 360', '4', 'Recuerda que entre más personas te den retroalimentación tendrás mayor conocimiento sobre tus fortalezas y debilidades.'),
+('10', 'Diseño de vida', '5', 'Esta prueba te ayudara a entender cuales son tus intereses a largo plazo y como estos se ajustan a tus decisiones actuales. Toma todo el tiempo que sea necesario para llenar esta prueba.'),
+('11', 'Mercado laboral', '6', 'Programa de Información: Si tienes claras cuales son tus habilidades, fortalezas y destrezas y tienes claros tu panorama a corto, mediano y largo plazo, selecciona la alternativa de estudio (solo una) que quieres estudiar para ver como esta el mercado laboral. Si no tienes claro alguna de las variables para evaluar alternativas de la prueba de ponderación te recomendamos hacer el programa de orientación'),
+('12', 'Red de mentores', '7', 'Programa de Información: Según las Alternativas de estudio avaluadas con tu Experto OV, busca por lo menos 3 profesionales para cada alternativa de estudio. En lo posible escoge con diferentes años de experiencia y en las profundizaciones o especializaciones que te llaman la atención.'),
+('13', 'Ponderación', '8', 'Esta ponderación le dará las herramientas para seleccionar su mejor alternativas. Si alguna variable no es importante para usted déjela en 0. Si siente que no tiene la información suficiente para diligenciar esta matriz le recomendamos realizar el programa de orientación y si este ya lo realizo, aclarar las dudas con mentorias de profesionales.'),
+('14', 'Universidad', '9', 'Le solicitaremos una información, para poder enviarle un reporte de las universidades que debería contemplar en su selección de institución educativa.');
+
+
+-- Sub formularios de evaluacion 360
+INSERT INTO `formularios` (`id`, `nombre`, `numero`, `formulario_id`) VALUES 
+('15', 'Personales', '1', '9'),
+('16', 'Sociales', '2', '9'),
+('17', 'Sociales', '3', '9'),
+('18', 'Administrativas', '4', '9'),
+('19', 'Cognitivas', '5', '9'),
+('20', 'Cognitivas', '6', '9'),
+('21', 'Cognitivas', '7', '9');
+
+-- Sub formularios de diseño de vida
+INSERT INTO `formularios` (`id`, `nombre`, `numero`, `formulario_id`) VALUES 
+('22', 'Intereses académicos', '1', '10'),
+('23', 'Intereses de carrera', '2', '10'),
+('24', 'Agronomía y veterinaria', '3', '10'),
+('25', 'Bellas artes', '4', '10'),
+('26', 'Ciencias de la salud', '5', '10'),
+('27', 'Ciencias sociales, derecho y ciencias políticas', '6', '10'),
+('28', 'Ciencias de la ecucación', '7', '10'),
+('29', 'Economía, administración y contaduría', '8', '10'),
+('30', 'Ingeniería, arquitectura y urbanismo', '9', '10'),
+('31', 'Matemáticas y ciencias naturales', '10', '10'),
+('32', 'Intereses de carrera 2', '11', '10'),
+('33', 'Valores ocupacionales', '12', '10'),
+('34', 'Valores ocupacionales', '13', '10'),
+('35', 'Análisis', '14', '10'),
+('36', 'Vida', '15', '10'),
+('37', 'Metas', '16', '10');
+
+-- Sub formularios de ponderacion
+INSERT INTO `formularios` (`id`, `nombre`, `numero`, `formulario_id`) VALUES 
+('38', 'Ponderación consciente (Paso 1)', '1', '13'),
+('39', 'Ponderación consciente (Paso 2)', '2', '13'),
+('40', 'Ponderación consciente (Paso 3)', '3', '13');
 
 

@@ -98,6 +98,7 @@ class FormulariosService
                     p.pregunta,
                     p.numero,
                     pt.id pregunaTipoId,
+                    pt.nombre preguntaTipo,
                     f.id formularioId
                 FROM
                     vocationetBundle:Preguntas p
@@ -168,20 +169,17 @@ class FormulariosService
      */
     public function procesarFormulario($id, $usuarioId, $respuestas)
     {
-        $registro = false;
-        $resultados = array();
-        
         $preguntas = $this->getListPreguntas($id);
         $validate = $this->validateFormulario($preguntas, $respuestas);
+        $puntaje = 0;        
         
         if($validate)
         {
-            $registro = $this->registrarRespuestas($usuarioId, $preguntas, $respuestas);
+            $puntaje = $this->registrarRespuestas($usuarioId, $preguntas, $respuestas);
         }
         return array(
             'validate' => $validate,
-            'registro' => $registro,
-            'resultados' => $resultados
+            'puntaje' => $puntaje
         );
     }
     
@@ -332,14 +330,15 @@ class FormulariosService
     }
     
     /**
-     * Funcion para registrar las respuestas de usuario en base de datos
+     * Funcion para registrar y califica las respuestas de usuario en base de datos
      * 
      * @param array $preguntas arreglo de preguntas con id y tipo de pregunta
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
+     * @return integer puntuacion de las respuestas
      */
     private function registrarRespuestas($usuarioId, $preguntas, $respuestas)
     {
-        $registro = false;
+        $puntaje = 0;
         
         // Registrar respuestas segun tipo de pregunta
         foreach($preguntas as $preg)
@@ -398,15 +397,15 @@ class FormulariosService
                 }
             }
             
-            $this->em->persist($respuesta);
+//            $this->em->persist($respuesta);
             
             
         }
         
-        $this->em->flush();
-        $registro = true;
+//        $this->em->flush();
+        $puntaje = 100;
         
-        return $registro;
+        return $puntaje;
     }
 }
 ?>
