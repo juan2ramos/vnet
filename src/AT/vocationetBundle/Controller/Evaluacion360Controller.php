@@ -48,7 +48,7 @@ class Evaluacion360Controller extends Controller
             {
                 $data = $form->getData();
                 
-                $emails = $this->validateForm($data);
+                $emails = $this->validateEmails($data);
                 
                 if(count($emails) < 3)
                 {
@@ -56,7 +56,10 @@ class Evaluacion360Controller extends Controller
                 }
                 else
                 {
+                    $usuarioId = $security->getSessionValue("id");
                     
+                    $this->enviarInvitaciones($emails, $usuarioId);
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("invitaciones.enviadas"), "text" => $this->get('translator')->trans("invitaciones.enviadas.correctamente")));
                 }
             }
             else
@@ -75,11 +78,40 @@ class Evaluacion360Controller extends Controller
     }
     
     /**
+     * Accion para cuestionario de la evaluacion 360
+     *      
+     * @Route("/{id}/evaluacion", name="evaluacion360_evaluacion")
+     * @Template("vocationetBundle:Evaluacion360:cuestionario.html.twig")
+     * @return Response
+     */
+    public function evaluacionAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $formularios_serv = $this->get('formularios');
+        $form_id = 9;
+        
+        $formulario = $formularios_serv->getInfoFormulario($form_id);
+        $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
+        
+        
+        return array(
+            'usuario' => $usuario,
+            'formulario_info' => $formulario,
+        );
+    }
+    
+    
+    /**
      * Funcion que valida la lista de correos del formulario
      * @param array $data
      * @return array|boolean 
      */
-    private function validateForm($data)
+    private function validateEmails($data)
     {
         $validate = $this->get('validate');
         $val = false;
@@ -95,5 +127,35 @@ class Evaluacion360Controller extends Controller
         }
                 
         return $val;
+    }
+    
+    /**
+     * Funcion para enviar invitaciones a usuarios
+     * 
+     * Envio de invitaciones para evaluacion 360
+     * 
+     * @param array $emails arreglo de correos
+     * @param integer $usuarioId id de usuario que envia la invitacion
+     */
+    private function enviarInvitaciones($emails, $usuarioId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($usuarioId);
+        
+        $usuarioNombre = $usuario->getUsuarioNombre() . ' ' . $usuario->getUsuarioApellido();
+        
+        $subject = $this->get('translator')->trans("%usu%.invito.contestar.evaluacion.360", array('%usu%' => $usuarioNombre), 'mail');
+        $body = $this->get('translator')->trans("%usu%.invito.contestar.evaluacion.360.body", array('%usu%' => $usuarioNombre), 'mail');;
+        
+        $link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('evaluacion360_evaluacion', array("id" => $usuarioId)); 
+        $dataRender = array(
+            'title' => $subject,
+            'body' => $body,
+            'link' => $link,
+            'link_text' => $this->get('translator')->trans("participar.evaluacion", array(), 'mail')
+        );
+        
+        $this->get('mail')->sendMail($emails, $subject, $dataRender, 'bcc');
     }
 }

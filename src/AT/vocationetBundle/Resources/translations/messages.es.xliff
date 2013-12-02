@@ -338,7 +338,30 @@
                 <source>pregunta.editada.correctamente</source>
                 <target>Pregunta editada correctamente</target>
 			</trans-unit>
-         
+            
+            
+            <!-- evaluacion 360 eva360-x -->
+			<trans-unit id="eva360-1">
+                <source>emails.invalidos</source>
+                <target>Correos electrónicos inválidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-2">
+                <source>debe.seleccionar.mas.emails</source>
+                <target>Debe ingresar al menos 3 correos válidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-3">
+                <source>debe.seleccionar.mas.emails</source>
+                <target>Debe ingresar al menos 3 correos válidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-4">
+                <source>invitaciones.enviadas</source>
+                <target>Invitaciones enviadas</target>
+			</trans-unit>
+			<trans-unit id="eva360-5">
+                <source>invitaciones.enviadas.correctamente</source>
+                <target>Invitaciones enviadas correctamente</target>
+			</trans-unit>
+            
         </body>
     </file>
 </xliff>
