@@ -443,6 +443,10 @@
                 <source>mentores</source>
                 <target>Mentores</target>
 			</trans-unit>
+			<trans-unit id="perfile-37">
+                <source>mentor.experto</source>
+                <target>Mentor experto</target>
+			</trans-unit>
 
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">

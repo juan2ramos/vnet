@@ -262,8 +262,11 @@ class ContactosController extends Controller
 			//return $this->redirect($this->generateUrl('agenda_estudiante'));
 			$contactos = $this->getBusquedaDetallada($usuarioId, $formData, $seleccionarMentor['id']);
 		}
+		
+		$formulario = $this->get('formularios')->getInfoFormulario(7);
 
         return array(
+			'formulario_info' => $formulario,
             'contactos' => $contactos, 
             'form' => $form->createView(),
             'acTitulo' => $autoCompletarTitulos,

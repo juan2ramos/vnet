@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * controlador de test vocacional
+ * Controlador de test vocacional
  * @package vocationetBundle
  * @Route("/testVocacional")
  * @author Camilo Quijano <camilo@altactic.com>
@@ -31,22 +31,18 @@ class TestVocacionalController extends Controller
 		//if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
-        $seleccionarMentor = $pr->confirmarMentorOrientacionVocacional($usuarioId);
+        $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
 
         if($seleccionarMentor) {
-			$enlaceTV = $security->getEnlaceTestVocacional();
-			$informTV = $security->getRutaEnlaceTestVocacionalInfo();
+			$formulario = $this->get('formularios')->getInfoFormulario(8);
 		} else {
 			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
 			return $this->redirect($this->generateUrl('lista_mentores_ov'));
 		}
         
         return array(
-            'informacion' => $informTV,
-            'linkTestVocacional' => $enlaceTV
+			'formulario_info' => $formulario,
         );
     }
-
-    
 }
 ?>
