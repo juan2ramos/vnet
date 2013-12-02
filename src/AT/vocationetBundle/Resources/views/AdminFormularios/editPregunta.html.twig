@@ -1,0 +1,99 @@
+{% extends '::base.html.twig' %}
+
+
+{% block style %}
+<style>
+    #div-opciones-pregunta .form-control{
+        display: inline;
+        margin-left: 5px;
+    }
+    
+    #div-opciones-pregunta li{
+        margin-top: 5px;
+    }
+    
+    #div-opciones-pregunta li .btn{
+        margin-left: 5px;
+    }
+</style>
+
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <div class="panel-heading">
+                {% trans  from "label" %}editar.pregunta{% endtrans %}
+            </div>
+            <div class="panel-body" style="padding:0 25px;">
+                <form class="form-horizontal" role="form" action="{{ path('edit_pregunta', {"fid": fid, "pid": pregunta.id}) }}" method="POST" {{ form_enctype(form) }}>
+                    <div class="form-group">
+                        <label  class="control-label">{% trans  from "label" %}seccion{% endtrans %}</label>
+                        <div class="">
+                            <select id="form_formulario" name="form[formulario]" required="required" class="form-control chosen">
+                                {% for sub in subformularios %}
+                                    <option value="{{ sub.id }}" {% if pregunta.formulario.id == sub.id %}selected{% endif %} >{{ sub.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">{% trans  from "label" %}tipo.pregunta{% endtrans %}</label>
+                        <div class="">
+                            {{ form_widget(form.preguntaTipo, {'attr':{'class':'form-control chosen', 'required':'required', 'data-placeholder':'tipo.pregunta'|trans({}, 'label') } }) }}                                  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">{% trans  from "label" %}numero{% endtrans %}</label>
+                        <div class="">
+                            {{ form_widget(form.numero, {'attr':{'class':'form-control', 'required':'required' } }) }}                                  
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="control-label">{% trans  from "label" %}pregunta{% endtrans %}</label>
+                        <div class="">
+                            {{ form_widget(form.pregunta, {'attr':{'class':'form-control', 'required':'required' } }) }}                                  
+                        </div>
+                    </div>
+                    {% if respuestas == 0 or respuestas == false %}
+                    <div class="form-group" id="div-opciones-pregunta">
+                        <label  class="control-label">{% trans  from "label" %}opciones.respuesta{% endtrans %}</label>
+                        <button type="button" class="btn btn-info" id="btn-add-opcion"><i class="icon-plus"></i> {% trans  from "label" %}agregar.opcion{% endtrans %}</button>
+                        <div class="">
+                            <ol id="ol-opciones">
+                                {% for opcion in opciones %}
+                                    <li>
+                                        <input type="text" name="form[opciones][]" value="{{ opcion.nombre }}" required="required" class="form-control" style="width: 70%;"/>
+                                        <input type="text" name="form[pesos][]" value="{{ opcion.peso }}" required="required" class="form-control" style="width: 10%;"/>
+                                        {% if loop.index > 2 %}<button type="button" class="btn btn-danger btn-delete-opcion"><i class="icon-remove"></i></button>{% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ol>                              
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="form-group">
+                        <div class="alert alert-warning fade in">
+                            {% trans %}no.puede.editar.opciones.pregunta{% endtrans %}
+                        </div>                        
+                    </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <div class="" style="text-align: right;">
+                            {{ form_errors(form) }}
+                            {{ form_widget(form._token) }}
+                            <button type="submit" class="btn btn-send">{% trans  from "label" %}editar{% endtrans %}</button>
+                            <a href="{{ path("admin_formularios", { "fid": fid } ) }}" class="btn btn-default">{% trans  from "label" %}volver{% endtrans %}</a>
+                        </div>
+                    </div>  
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script src="{{ asset('js/vocationet/admin-preguntas.js') }}" ></script>
+{% endblock script %}

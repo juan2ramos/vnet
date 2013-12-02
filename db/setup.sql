@@ -12,7 +12,8 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (5, 'acceso_agenda_estudiante', 'Acceso a la agenda de estudiante', 'Acceso a la agenda de mentorias para estudiantes', 'agenda_estudiante,show_mentoria_estudiante,separar_mentoria_estudiante'),
 (6, 'acceso_foros', 'Acceso a foros', 'Acceso a foros, y comentar', 'foros_temas,crear_comentario,crear_foro,edit_foro,delete_foro'),
 (7, 'acceso_edit_delete_foro', 'Acceso a eliminar y editar foro','Acceso de edicion y eliminacion de foros', 'edit_foro,delete_foro'),
-(8, 'acceso_contactos', 'Acceso a contactos','Acceso a contactos y a establecer relaciones entre ellos', 'contactos,busqueda,edit_estado_relacion');
+(8, 'acceso_contactos', 'Acceso a contactos','Acceso a contactos y a establecer relaciones entre ellos', 'contactos,busqueda,edit_estado_relacion'),
+(9, 'admin_preguntas', 'Administración de preguntas', 'Administrar preguntas de los cuestionario', 'admin_formularios,delete_pregunta,edit_pregunta');
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 
 ('1', '1'),
@@ -40,7 +41,8 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('8', '1'),
 ('8', '2'),
 ('8', '3'),
-('8', '4');
+('8', '4'),
+('9', '4');
 
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
 (1, 'selección múltiple con única respuesta'),

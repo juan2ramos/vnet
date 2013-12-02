@@ -268,6 +268,52 @@
                 <target>Hasta ahora has empezado a observar aspectos que son importantes para que identifiques qué es lo que más te interesa en la vida. Sabemos que este es un proceso complejo y que no siempre es fácil saber qué tiene más importancia para la decisión. Sin embargo, ha llegado el momento para que le dediques más tiempo y atención a esta decisión. No hacerlo puede tener grandes consecuencias a nivel emocional, económico y social en tu vida. Nosotros podemos ayudarte a avanzar rápidamente para que puedas decidir mejor.</target>
             </trans-unit>
             
+            <!-- ADMIN admin-x -->
+			<trans-unit id="admin-1">
+                <source>pregunta.agregada</source>
+                <target>Pregunta agregada</target>
+			</trans-unit>
+			<trans-unit id="admin-2">
+                <source>pregunta.agregada.correctamente</source>
+                <target>Pregunta agregada correctamente</target>
+			</trans-unit>
+			<trans-unit id="admin-3">
+                <source>pregunta.no.eliminada</source>
+                <target>No se eliminó la pregunta</target>
+			</trans-unit>
+			<trans-unit id="admin-4">
+                <source>pregunta.tiene.respuestas</source>
+                <target>La pregunta ya contiene respuestas de usuarios</target>
+			</trans-unit>
+			<trans-unit id="admin-5">
+                <source>pregunta.eliminada</source>
+                <target>Pregunta eliminada</target>
+			</trans-unit>
+			<trans-unit id="admin-6">
+                <source>pregunta.eliminada</source>
+                <target>Pregunta eliminada</target>
+			</trans-unit>
+			<trans-unit id="admin-7">
+                <source>pregunta.eliminada.correctamente</source>
+                <target>Pregunta eliminada correctamente</target>
+			</trans-unit>
+			<trans-unit id="admin-8">
+                <source>pregunta.con.respuestas</source>
+                <target>Pregunta contiene respuestas</target>
+			</trans-unit>
+			<trans-unit id="admin-9">
+                <source>no.puede.editar.opciones.pregunta</source>
+                <target>No puede editar opciones de respuesta porque la pregunta ya tiene respuestas de usuarios</target>
+			</trans-unit>
+			<trans-unit id="admin-10">
+                <source>pregunta.editada</source>
+                <target>Pregunta editada</target>
+			</trans-unit>
+			<trans-unit id="admin-11">
+                <source>pregunta.editada.correctamente</source>
+                <target>Pregunta editada correctamente</target>
+			</trans-unit>
+            
         </body>
     </file>
 </xliff>
