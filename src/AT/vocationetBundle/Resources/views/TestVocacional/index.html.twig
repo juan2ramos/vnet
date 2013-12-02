@@ -1,54 +1,54 @@
 {% extends '::base.html.twig' %}
 
 {% block body %}
-<div class="row">
-    <div class="col-lg-12">
-    
-        {# HEADER #}
-        <section class="panel post-wrap pro-box">
-            <aside>
-              <div class="post-info">
-                  <span class="arrow-pro right"></span>
-                  <div class="panel-body">
-                      <div class="text-center twite">
-                          <h1 style="font-size: 40px;">{% trans from "label" %}test.vocacional{% endtrans %}</h1>
-                      </div>
-                  </div>
-              </div>
-            </aside>
-            <aside class="post-highlight terques v-align">
-              <div class="panel-body text-center">
-                  <div class="panel-body">
-                      <h2>{% trans from "label" %}explicacion.test.vocacional{% endtrans %}</h2>
-                  </div>
-              </div>
-            </aside>
-        </section>
-        
-        <section class="panel">
-            <header class="panel-heading">
-                {% trans from "label" %}test.vocacional{% endtrans %}
-            </header>
-            <div class="panel-body">
-				<p STYLE='float:right;'>
-					<a href='{{ asset(informacion) }}' target='_blank'>
-						<img src='{{ asset('img/pdf.png') }}' STYLE='width:60px;padding-top:5px;' />
-					</a>
-				</p>
-				<p>{% trans from "label" %}recomendacion.leer.guia.test.vocacional{% endtrans %}</p>
-				<hr>
-				<p>{% trans from "label" %}explicacion.paso.a.paso.test.vocacional{% endtrans %}</p>
-				<br>
-				<p class='text-center'><a href='{{ linkTestVocacional }}' target='_blank' type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.test.vocacional{% endtrans %}</a></p>
-				<hr>
-				<div class="panel-body text-center">
-					<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
-					{#<a type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>#}
-					<a href='{{ path('agenda_estudiante') }}'type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+	<div class="row">
+		<div class="col-lg-12">
+		
+			{# HEADER #}
+			<section class="panel post-wrap pro-box">
+				<aside>
+				  <div class="post-info">
+					  <span class="arrow-pro right"></span>
+					  <div class="panel-body">
+						  <div class="text-center twite">
+							  <h1 style="font-size: 40px;">{{ formulario_info.nombre }}</h1>
+						  </div>
+					  </div>
+				  </div>
+				</aside>
+				<aside class="post-highlight terques v-align">
+				  <div class="panel-body text-center">
+					  <div class="panel-body">
+						  <h2>{{ formulario_info.encabezado }}</h2>
+					  </div>
+				  </div>
+				</aside>
+			</section>
+			
+			<section class="panel">
+				<header class="panel-heading">
+					{% trans from "label" %}test.vocacional{% endtrans %}
+				</header>
+				<div class="panel-body">
+					<p STYLE='float:right;'>
+						<a href='{{ asset(getParameter('enlace_pdf_test_vocacional_info')) }}' target='_blank'>
+							<img src='{{ asset('img/pdf.png') }}' STYLE='width:60px;padding-top:5px;' />
+						</a>
+					</p>
+					<p>{% trans from "label" %}recomendacion.leer.guia.test.vocacional{% endtrans %}</p>
+					<hr>
+					<p>{% trans from "label" %}explicacion.paso.a.paso.test.vocacional{% endtrans %}</p>
+					<br>
+					<p class='text-center'><a href='{{ getParameter('enlace_test_vocacional') }}' target='_blank' type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.test.vocacional{% endtrans %}</a></p>
+					<hr>
+					<div class="panel-body text-center">
+						<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+						{#<a type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>#}
+						<a href='{{ path('agenda_estudiante') }}'type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+					</div>
 				</div>
-            </div>
-        </section>
-        
-    </div>
-</div>
+			</section>
+			
+		</div>
+	</div>
 {% endblock body %}
