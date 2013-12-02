@@ -14,7 +14,7 @@ UPDATE `formularios` SET `descripcion`='Para cada afirmación a continuación  d
 UPDATE `formularios` SET `descripcion`='Para cada afirmación debes responder en una escala de 1 a 3. Cada una de las opciones de respuesta significa lo siguiente: 1 Nada, 2 Algo y 3 Mucho' WHERE `id`='4';
 UPDATE `formularios` SET `descripcion`='Para cada afirmación debes responder en una escala de 1 a 3. Cada una de las opciones de respuesta significa lo siguiente: 1 Nada, 2 Algo y 3 Mucho' WHERE `id`='5';
 UPDATE `formularios` SET `descripcion`='Para cada afirmación a continuación  debes desplazar la barra de interés en una escala de 1 a 5 (las opciones de respuesta significa 1 muy poco y 5 mucho).' WHERE `id`='6';
-
+UPDATE `formularios` SET `descripcion`='<p>Por favor escribe el correo de las personas que consideras te conocen, la opinión de ellos puede ayudar en tu decisión de carrera. Como mínimo deberás lograr que tres personas las diligencien, si logras un mayor número tendrás mejor puntaje.</p><p>Te recomendamos que por lo menos esta encuesta sea diligenciada por un padre o familiar cercano, por un amigo y por un profesor o tutor, para que en realidad sea una encuesta 360°.</p><p>Tan pronto ingreses el correo de la persona que seleccionaste, nosotros le enviaremos un correo con las indicaciones, sin embargo te solicitamos que te contactes con estas personas para que estén enteradas.</p>' WHERE `id`='9';
 
 
 
