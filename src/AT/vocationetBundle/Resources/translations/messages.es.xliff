@@ -338,7 +338,20 @@
                 <source>pregunta.editada.correctamente</source>
                 <target>Pregunta editada correctamente</target>
 			</trans-unit>
-         
+
+			<!-- MERCADO LABORAL mercadoLaboral-x -->
+			<trans-unit id="mercadoLaboral-1">
+                <source>puede.seleccionar.maximo.tres.alternativas.minimo.una</source>
+                <target>Tiene que seleccionar como mínimo una, y máximo tres alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-2">
+                <source>puede.seleccionar.maximo.tres.alternativas</source>
+                <target>Puede seleccionar máximo tres alternativas</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-3">
+                <source>ocurrio.error.al.registrar.alternativa.de.estudio</source>
+                <target>Ocurrio un error al registrar una alternativa de estudio</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

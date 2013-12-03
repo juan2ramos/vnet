@@ -999,6 +999,24 @@
                 <source>editar.pregunta</source>
                 <target>Editar pregunta</target>
 			</trans-unit>
+
+			<!-- MERCADO LABORAL mercadoLaboral-x -->
+			<trans-unit id="mercadoLaboral-1">
+                <source>alternativas.estudio</source>
+                <target>Alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-2">
+                <source>mentor.no.ha.subido.archivo.espere.porfavor</source>
+                <target>El mentor de orientación vocacional, aún no ha subido el informe, por favor, espere hasta la fecha indicada.</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-3">
+                <source>seleccionar.carreras</source>
+                <target>Seleccionar Alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-4">
+                <source>confirmar.alternativas.de.estudio</source>
+                <target>Por favor confirmar que las alternativas que seleccionó son las siguientes:</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

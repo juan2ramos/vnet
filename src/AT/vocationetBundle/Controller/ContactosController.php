@@ -76,7 +76,7 @@ class ContactosController extends Controller
                 $formData['tipoUsuario'] = 3;
                 $contactos = $this->getBusquedaDetallada($usuarioId, $formData);
             } else {
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ingreso.invalido")));
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
             }
         }
         else {
