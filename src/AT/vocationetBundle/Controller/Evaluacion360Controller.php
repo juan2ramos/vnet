@@ -82,6 +82,7 @@ class Evaluacion360Controller extends Controller
      *      
      * @Route("/{id}/evaluacion", name="evaluacion360_evaluacion")
      * @Template("vocationetBundle:Evaluacion360:cuestionario.html.twig")
+     * @param integer $id id de usuario a evaluar
      * @return Response
      */
     public function evaluacionAction($id)
@@ -97,15 +98,75 @@ class Evaluacion360Controller extends Controller
         
         $formulario = $formularios_serv->getInfoFormulario($form_id);
         $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
-        
+        $formularios = $formularios_serv->getFormulario($form_id);
+        $form = $this->createFormCuestionario();
         
         return array(
             'usuario' => $usuario,
             'formulario_info' => $formulario,
+            'formularios' => $formularios,
+            'form' => $form->createView(),
         );
     }
-    
-    
+       
+    /**
+     * Accion para procesar cuestionario de la evaluacion 360
+     *      
+     * @Route("/{id}/procesar", name="procesar_evaluacion360")
+     * @Method({"POST"})
+     * @param Request $request 
+     * @param integer $id id de usuario a evaluar
+     * @return Response
+     */
+    public function procesarEvaluacion360Action(Request $request, $id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $form = $this->createFormCuestionario();
+        $form_id = 9;
+        
+        if($request->getMethod() == 'POST') 
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                $respuestas = $request->get('pregunta');
+                //$security->debug($respuestas);
+                
+                $formularios_serv = $this->get('formularios');
+                
+                $usuarioId = $security->getSessionValue('id');
+                
+                //Validar formulario
+                $resultados = $formularios_serv->procesarFormulario($form_id, $usuarioId, $respuestas);
+                
+                if($resultados['validate'])
+                {
+                    //$puntaje = $resultados['puntaje'];                    
+                    
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("gracias.por.participar.evaluacion.360")));
+                    return $this->redirect($this->generateUrl('homepage'));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+                    return $this->redirect($this->generateUrl('evaluacion360_evaluacion', array("id" => $id)));
+                }
+                
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+                return $this->redirect($this->generateUrl('evaluacion360_evaluacion', array("id" => $id)));
+            }
+        }
+        
+        return new Response();
+    }
+
+
     /**
      * Funcion que valida la lista de correos del formulario
      * @param array $data
@@ -157,5 +218,20 @@ class Evaluacion360Controller extends Controller
         );
         
         $this->get('mail')->sendMail($emails, $subject, $dataRender, 'bcc');
+    }
+    
+    /**
+     * Funcion para crear un formulario vacio para cuestionarios
+     * 
+     * Se usa unicamente para proteccion csrf
+     * 
+     * @return Object formulario
+     */
+    private function createFormCuestionario()
+    {
+        $form = $this->createFormBuilder()
+            ->getForm();
+        
+        return $form;
     }
 }

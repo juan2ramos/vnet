@@ -37,6 +37,37 @@
                 <p>{% trans with {'%usu%': usuario.usuarioNombre ~ ' ' ~ usuario.usuarioApellido } from "label" %}evaluacion.360.instrucciones.2.%usu%{% endtrans %}</p>
             </header>
             <div class="panel-body">
+                <div class="stepy-tab">
+                    <ul id="default-titles" class="stepy-titles clearfix">
+                        {% for formulario in formularios %}
+                            <li id="default-title-0" class="{% if loop.index == 1 %}current-step{% endif %}">
+                                <div>{{ formulario.nombre }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <form action="{{ path('procesar_evaluacion360', {"id":usuario.id} ) }}" method="post" class="form-horizontal form-test" id="form">
+                    {% for formulario in formularios %}
+                        <fieldset title="{{ formulario.nombre }}" class="step">
+                            <legend></legend>
+                            {% if formulario.descripcion %}<p>{{ formulario.descripcion|trans({"%usu%": usuario.usuarioNombre~' '~usuario.usuarioApellido} ) }}</p>{% endif %}
+                            {% if formulario.preguntas is defined %}
+                            {% for pregunta in formulario.preguntas %}
+                                <div class="form-group">
+                                  <label class="col-lg-12 control-label"><b>{{ pregunta.numero }}. </b>{{ pregunta.pregunta }}</label>
+                                  <div class="col-lg-12 respuesta">
+                                      {% include "vocationetBundle:Preguntas:preguntas.html.twig" %}
+                                  </div>
+                                </div>
+                            {% endfor %}
+                            {% endif %}
+                        </fieldset>
+                    {% endfor %} 
+                    {{ form_widget(form._token) }}
+                    {{ form_errors(form) }}    
+                    <input type="submit" class="finish btn btn-danger" value="{% trans  from "label" %}enviar{% endtrans %}"/>
+                </form>
+                    
             </div>
         </section>
     </div>
@@ -50,5 +81,13 @@
     <script src="{{ asset('js/bootstrap.touchspin.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/vocationet/cuestionarios.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        Cuestionario({
+            slider_min: -1,
+            slide_max: 5,
+            touchSpin_min: -1,
+            touchSpin_max: 5
+        });
+    </script>
 {% endblock script %}
             

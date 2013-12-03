@@ -49,6 +49,7 @@
                         <fieldset title="{{ formulario.nombre }}" class="step">
                             <legend></legend>
                             {% if formulario.descripcion %}<p>{{ formulario.descripcion }}</p>{% endif %}
+                            {% if formulario.preguntas is defined %}
                             {% for pregunta in formulario.preguntas %}
                                 <div class="form-group">
                                   <label class="col-lg-12 control-label"><b>{{ pregunta.numero }}. </b>{{ pregunta.pregunta }}</label>
@@ -57,6 +58,7 @@
                                   </div>
                                 </div>
                             {% endfor %}
+                            {% endif %}
                         </fieldset>
                     {% endfor %} 
                     {{ form_widget(form._token) }}
@@ -77,4 +79,7 @@
     <script src="{{ asset('js/bootstrap.touchspin.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.js') }}" type="text/javascript"></script>
     <script src="{{ asset('js/vocationet/cuestionarios.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        Cuestionario();
+    </script>
 {% endblock script %}

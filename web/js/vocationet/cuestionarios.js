@@ -1,10 +1,21 @@
-(function() {
+var Cuestionario = (function(settings) {
+    
+    settings = $.extend({
+        slider_min: 1,
+        slide_max: 5,
+        touchSpin_min: 1,
+        touchSpin_max: 3,
+        stepy_titleClick: false
+    }, settings);
+    
+    $(".slider-number-container .slider-value").val(settings.slider_min);
+    $(".slider-number-container .slider-info").html(settings.slider_min);
     
     $('#form').stepy({
         backLabel: prev_trans,
         block: true,
         nextLabel: next_trans,
-        titleClick: false,
+        titleClick: settings.stepy_titleClick,
         titleTarget: '.stepy-tab',
         validate: true,
         next: function(){
@@ -15,8 +26,9 @@
     });
 
     $( ".slider" ).slider({
-        min: 1,
-        max: 5,
+        min: settings.slider_min,
+        max: settings.slide_max,
+        value: settings.slider_min,
         slide: function( event, ui ) {
             parent = $(this).parents(".slider-container");            
             parent.find(".slider-info").html(ui.value);
@@ -32,8 +44,8 @@
     }).disableSelection();
     
     $(".input-number").TouchSpin({
-        min: 1,
-        max: 3
+        min: settings.touchSpin_min,
+        max: settings.touchSpin_max
     });
     
     $(".slider-percent").slider({
@@ -78,4 +90,4 @@
     $(".button-back").remove();
     
     
-})();
+});
