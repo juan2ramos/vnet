@@ -17,7 +17,6 @@ UPDATE `formularios` SET `descripcion`='Para cada afirmación a continuación  d
 
 
 
-
 INSERT INTO `preguntas` (`id`, `pregunta`, `numero`, `preguntastipo_id`, `formulario_id`) VALUES 
 ('1', 'Selecciona una de las siguientes afirmaciones que se ajuste a la razón por la cual estas interesado en nuestro programa.', '1', '1', '2'),
 ('2', 'Selecciona de mayor a menor una de las siguientes afirmaciones que se ajuste a la razón por la cual estas interesado en estudiar. 1 es el mayor y 4 el menor.', '2', '3', '2'),
@@ -72,6 +71,8 @@ INSERT INTO `formularios` (`id`, `nombre`, `numero`, `encabezado`) VALUES
 ('13', 'Ponderación', '8', 'Esta ponderación le dará las herramientas para seleccionar su mejor alternativas. Si alguna variable no es importante para usted déjela en 0. Si siente que no tiene la información suficiente para diligenciar esta matriz le recomendamos realizar el programa de orientación y si este ya lo realizo, aclarar las dudas con mentorias de profesionales.'),
 ('14', 'Universidad', '9', 'Le solicitaremos una información, para poder enviarle un reporte de las universidades que debería contemplar en su selección de institución educativa.');
 
+UPDATE `formularios` SET `descripcion`='A continuación veras los informes del mercado laboral según las alternativas que estas analizando.' WHERE `id`='11';
+
 
 -- Sub formularios de evaluacion 360
 INSERT INTO `formularios` (`id`, `nombre`, `numero`, `formulario_id`) VALUES 
@@ -107,5 +108,3 @@ INSERT INTO `formularios` (`id`, `nombre`, `numero`, `formulario_id`) VALUES
 ('38', 'Ponderación consciente (Paso 1)', '1', '13'),
 ('39', 'Ponderación consciente (Paso 2)', '2', '13'),
 ('40', 'Ponderación consciente (Paso 3)', '3', '13');
-
-
