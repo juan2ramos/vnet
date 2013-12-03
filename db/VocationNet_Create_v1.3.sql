@@ -641,7 +641,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `alternativa_estudio`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `alternativa_estudio` (
+CREATE  TABLE IF NOT EXISTS `alternativas_estudios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
   `usuario_id` INT NOT NULL ,
   `carrera_id` INT NOT NULL ,
