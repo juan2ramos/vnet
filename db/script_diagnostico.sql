@@ -63,6 +63,8 @@ INSERT INTO `formularios` (`id`, `nombre`, `numero`, `encabezado`) VALUES
 ('13', 'Ponderación', '8', 'Esta ponderación le dará las herramientas para seleccionar su mejor alternativas. Si alguna variable no es importante para usted déjela en 0. Si siente que no tiene la información suficiente para diligenciar esta matriz le recomendamos realizar el programa de orientación y si este ya lo realizo, aclarar las dudas con mentorias de profesionales.'),
 ('14', 'Universidad', '9', 'Le solicitaremos una información, para poder enviarle un reporte de las universidades que debería contemplar en su selección de institución educativa.');
 
+UPDATE `formularios` SET `descripcion`='A continuación veras los informes del mercado laboral según las alternativas que estas analizando.' WHERE `id`='11';
+
 
 -- Sub formularios de evaluacion 360
 INSERT INTO `formularios` (`id`, `nombre`, `numero`, `formulario_id`) VALUES 
@@ -114,3 +116,4 @@ UPDATE `formularios` SET `descripcion`='Te invitamos a utilizar el mouse y evalu
 UPDATE `formularios` SET `descripcion`='Te invitamos a utilizar el mouse y evaluar a %usu%, frente a cada aspecto en una escala de -1 a 5, siendo 5 la calificación más alta y 0 la más baja. En este caso -1 significa que no sabes si %usu% tenga esta característica y 0 la ausencia de esa característica.' WHERE `id`='18';
 UPDATE `formularios` SET `descripcion`='Te invitamos a utilizar el mouse y evaluar a %usu%, frente a cada aspecto en una escala de -1 a 5, siendo 5 la calificación más alta y 0 la más baja. En este caso -1 significa que no sabes si %usu% tenga esta característica y 0 la ausencia de esa característica.' WHERE `id`='19';
 UPDATE `formularios` SET `descripcion`='Evalúa por favor el nivel (en porcentaje) de habilidad que consideras que %usu% tiene en las siguientes áreas, donde un 0% significa que no tiene nada de habilidad y el 100% significa que es la habilidad mas pronunciada.' WHERE `id`='20';
+

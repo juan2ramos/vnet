@@ -559,6 +559,7 @@ class PerfilService
 	/**
 	 * Funcion que retorna true si el usuario ya ha seleccionado mentor de orientación vocacional, false si no lo ha hecho
 	 * - Acceso desde ContactosController
+	 * - Acceso desde MercadoLaboralController
 	 *
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
@@ -581,6 +582,11 @@ class PerfilService
 			$return = $mentor[0];
 		}
 		return $return;
+	}
+
+	public function getAlternativasEstudio()
+	{
+		
 	}
 }
 ?>
