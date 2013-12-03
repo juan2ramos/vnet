@@ -5,23 +5,24 @@ namespace AT\vocationetBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
  * controlador para control de alertas tipo badge de la aplicacion
- * @Route("/badge")
+ * @Route("/alerts")
  * @author Diego Malagón <diego@altactic.com>
  */
-class AlertBadgeController extends Controller
+class AlertsController extends Controller
 {
     /**
      * Accion ajax para obtener alertas tipo badge
      * 
      * - Obtiene la cantidad de mensajes sin leer
 	 * - Obtiene la cantidad de solicitudes de amistad sin aprobar
-     * @Route("/", name="alert_badge")
+     * @Route("/badge", name="alert_badge")
      * @return string json
      */
-    public function indexAction()
+    public function alertBadgeAction()
     {
         $security = $this->get('security');
         if(!$security->authentication()){ throw $this->createNotFoundException();} 
@@ -36,6 +37,24 @@ class AlertBadgeController extends Controller
             'mensajes_sin_leer' => $count,
 			'amistades_sin_aprobar' => $countCA
         )));
+    }
+    
+    /**
+     * Accion para mostrar una pantalla de mensaje
+     * 
+     * para acceder a esta funcion se hace a traves de forward
+     * 
+     * @Route("/screen", name="alert_screen")
+     * @Template("vocationetBundle:Alerts:alertScreen.html.twig")
+     * @param string $title
+     * @param string $message
+     */
+    public function alertScreenAction($title = "", $message = "")
+    {
+        return array(
+            "title" => $title,
+            "message" => $message
+        );
     }
 }
 ?>

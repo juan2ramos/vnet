@@ -36,7 +36,7 @@ class Evaluacion360Controller extends Controller
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 //        
         $formularios_serv = $this->get('formularios');
-        $form_id = 9;
+        $form_id = $this->get('formularios')->getFormId('evaluacion360');
         
         $form = $this->createFormBuilder()
             ->add('emails', 'text', array('required' => true))
@@ -94,8 +94,26 @@ class Evaluacion360Controller extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $formularios_serv = $this->get('formularios');
-        $form_id = 9;
+        $form_id = $this->get('formularios')->getFormId('evaluacion360');
         
+        //Validar acceso de usuario
+        $usuarioEmail = $security->getSessionValue("usuarioEmail");
+        $acceso = $this->validarAcceso($usuarioEmail, $id);        
+        if(!$acceso)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("no.tiene.invitacion"),
+                "message" => $this->get('translator')->trans("solicita.invitacion.usuario")
+            ));            
+        }
+        elseif($acceso->getEstado() == 1)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.evaluacion.360")
+            ));                        
+        }
+                
         $formulario = $formularios_serv->getInfoFormulario($form_id);
         $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
         $formularios = $formularios_serv->getFormulario($form_id);
@@ -125,7 +143,7 @@ class Evaluacion360Controller extends Controller
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form = $this->createFormCuestionario();
-        $form_id = 9;
+        $form_id = $this->get('formularios')->getFormId('evaluacion360');
         
         if($request->getMethod() == 'POST') 
         {
@@ -144,7 +162,19 @@ class Evaluacion360Controller extends Controller
                 
                 if($resultados['validate'])
                 {
-                    //$puntaje = $resultados['puntaje'];                    
+                    $em = $this->getDoctrine()->getManager();
+                    
+                    // Actualizar registro UsuariosFormularios
+                    $usuarioEmail = $security->getSessionValue("usuarioEmail");
+                    $usuarioFormulario = $em->getRepository("vocationetBundle:UsuariosFormularios")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioEmail, "usuarioEvaluado" => $id));
+                    
+                    if($usuarioFormulario)
+                    {
+                        $usuarioFormulario->setUsuarioResponde($usuarioId);
+                        $usuarioFormulario->setEstado(1);
+                        $em->persist($usuarioFormulario);
+                        $em->flush();
+                    }
                     
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("gracias.por.participar.evaluacion.360")));
                     return $this->redirect($this->generateUrl('homepage'));
@@ -200,14 +230,16 @@ class Evaluacion360Controller extends Controller
      */
     private function enviarInvitaciones($emails, $usuarioId)
     {
+        $form_id = $this->get('formularios')->getFormId('evaluacion360');
+        
         $em = $this->getDoctrine()->getManager();
         
-        $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($usuarioId);
+        $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($usuarioId);        
+        $usuarioNombre = $usuario->getUsuarioNombre() . ' ' . $usuario->getUsuarioApellido();        
         
-        $usuarioNombre = $usuario->getUsuarioNombre() . ' ' . $usuario->getUsuarioApellido();
-        
+        // Envio de email
         $subject = $this->get('translator')->trans("%usu%.invito.contestar.evaluacion.360", array('%usu%' => $usuarioNombre), 'mail');
-        $body = $this->get('translator')->trans("%usu%.invito.contestar.evaluacion.360.body", array('%usu%' => $usuarioNombre), 'mail');;
+        $body = $this->get('translator')->trans("%usu%.invito.contestar.evaluacion.360.body", array('%usu%' => $usuarioNombre), 'mail');
         
         $link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('evaluacion360_evaluacion', array("id" => $usuarioId)); 
         $dataRender = array(
@@ -218,6 +250,19 @@ class Evaluacion360Controller extends Controller
         );
         
         $this->get('mail')->sendMail($emails, $subject, $dataRender, 'bcc');
+        
+        // Registro de invitaciones en la db        
+        foreach($emails as $email)
+        {
+            $usuarioFormulario = new \AT\vocationetBundle\Entity\UsuariosFormularios();
+            $usuarioFormulario->setFormulario($form_id);
+            $usuarioFormulario->setCorreoInvitacion($email);
+            $usuarioFormulario->setEstado(0);
+            $usuarioFormulario->setUsuarioEvaluado($usuarioId);
+            
+            $em->persist($usuarioFormulario);
+        }        
+        $em->flush();
     }
     
     /**
@@ -234,4 +279,22 @@ class Evaluacion360Controller extends Controller
         
         return $form;
     }
+    
+    /**
+     * Funcion que valida si un usuario ha sido invitado a la evaluacion 360 de otro usuario
+     * 
+     * @param integer $usuarioRespondeId id de usuario que ingresa
+     * @param integer $usuarioEvaluadoId id de usuario a evaluar
+     * @return Object entidad UsuariosFormularios
+     */
+    private function validarAcceso($usuarioRespondeEmail, $usuarioEvaluadoId)
+    {
+        $form_id = $this->get('formularios')->getFormId('evaluacion360');
+        $em = $this->getDoctrine()->getManager();
+        
+        $usuarioFormulario = $em->getRepository("vocationetBundle:UsuariosFormularios")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioRespondeEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
+        
+        return $usuarioFormulario;
+    }
+    
 }

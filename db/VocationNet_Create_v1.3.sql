@@ -78,7 +78,7 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `usuario_tarjeta_profesional` VARCHAR(155) NULL ,
   `usuario_hoja_vida` VARCHAR(155) NULL ,
   `usuario_profesion` VARCHAR(70) NULL ,
-  `usuario_puntos` FLOAT NULL DEFAULT 0,
+  `usuario_puntos` FLOAT NULL DEFAULT 0 ,
   `usuario_perfil_profesional` TEXT NULL ,
   `usuario_valor_mentoria` FLOAT NULL ,
   `colegio_id` INT NULL ,
@@ -639,7 +639,7 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `alternativa_estudio`
+-- Table `alternativas_estudios`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `alternativas_estudios` (
   `id` INT NOT NULL AUTO_INCREMENT ,
@@ -650,15 +650,51 @@ CREATE  TABLE IF NOT EXISTS `alternativas_estudios` (
   PRIMARY KEY (`id`) ,
   CONSTRAINT `fk_usuarios_has_carreras_usuarios1`
     FOREIGN KEY (`usuario_id` )
-    REFERENCES `vocationet-dev`.`usuarios` (`id` )
+    REFERENCES `usuarios` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_usuarios_has_carreras_carreras1`
     FOREIGN KEY (`carrera_id` )
-    REFERENCES `vocationet-dev`.`carreras` (`id` )
+    REFERENCES `carreras` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `usuarios_formularios`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `usuarios_formularios` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `formulario_id` INT NOT NULL ,
+  `usuario_responde_id` INT NULL ,
+  `usuario_evaluado_id` INT NULL ,
+  `correo_invitacion` VARCHAR(100) NULL ,
+  `estado` TINYINT NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_usuarios_formularios_formularios1_idx` (`formulario_id` ASC) ,
+  INDEX `fk_usuarios_formularios_usuarios1_idx` (`usuario_responde_id` ASC) ,
+  INDEX `fk_usuarios_formularios_usuarios2_idx` (`usuario_evaluado_id` ASC) ,
+  CONSTRAINT `fk_usuarios_formularios_formularios1`
+    FOREIGN KEY (`formulario_id` )
+    REFERENCES `formularios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuarios_formularios_usuarios1`
+    FOREIGN KEY (`usuario_responde_id` )
+    REFERENCES `usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuarios_formularios_usuarios2`
+    FOREIGN KEY (`usuario_evaluado_id` )
+    REFERENCES `usuarios` (`id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

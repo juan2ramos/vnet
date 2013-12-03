@@ -32,8 +32,21 @@ class DiagnosticoController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
+        $usuarioId = $security->getSessionValue("id");
         $formularios_serv = $this->get('formularios');
-        $form_id = 1;
+        $form_id = $this->get('formularios')->getFormId('diagnostico');
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        //Validar acceso a diagnostico
+        $usuarioFormulario = $em->getRepository("vocationetBundle:UsuariosFormularios")->findOneBy(array("formulario" => $form_id, "usuarioResponde" => $usuarioId));
+        if($usuarioFormulario)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.diagnostico")
+            )); 
+        }
         
         $formularios = $formularios_serv->getFormulario($form_id);
         $formulario = $formularios_serv->getInfoFormulario($form_id);
@@ -62,7 +75,7 @@ class DiagnosticoController extends Controller
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form = $this->createFormCuestionario();
-        $form_id = 1;
+        $form_id = $this->get('formularios')->getFormId('diagnostico');
         
         if($request->getMethod() == 'POST') 
         {
@@ -105,6 +118,16 @@ class DiagnosticoController extends Controller
                         $titulo_mensaje = $this->get('translator')->trans("diagnostico.titulo.resultado.3");
                         $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.3");
                     }
+                    
+                    // Actualizar registro UsuariosFormularios
+                    $em = $this->getDoctrine()->getManager();
+                    $usuarioFormulario = new \AT\vocationetBundle\Entity\UsuariosFormularios();
+                    $usuarioFormulario->setFormulario($form_id);
+                    $usuarioFormulario->setUsuarioResponde($usuarioId);
+                    $usuarioFormulario->setUsuarioEvaluado($usuarioId);
+                    $usuarioFormulario->setEstado(1);
+                    $em->persist($usuarioFormulario);
+                    $em->flush();
                     
                     return array(
                         'titulo_mensaje' => $titulo_mensaje,
