@@ -3,6 +3,7 @@
 namespace AT\vocationetBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -21,10 +22,10 @@ class MercadoLaboralController extends Controller
      * 
      * @Route("/", name="mercado_laboral")
      * @Template("vocationetBundle:MercadoLaboral:index.html.twig")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
@@ -35,6 +36,15 @@ class MercadoLaboralController extends Controller
 
         if($seleccionarMentor) {
 			$formulario = $this->get('formularios')->getInfoFormulario(11);
+
+			
+			if ($request->getMethod() == "POST") {
+				$alternativas = $request->request->get('carrerasSeleccionadas');
+				print_r($alternativas);
+				print('entro aqui');
+				
+			}
+			
 		} else {
 			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
 			return $this->redirect($this->generateUrl('lista_mentores_ov'));

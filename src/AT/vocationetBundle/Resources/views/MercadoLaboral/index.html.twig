@@ -26,48 +26,47 @@
 			</section>
 			
 			<section class="panel">
-				<div class="panel-body">
-					<section class="panel">
-						<p>{{ formulario_info.descripcion|raw }}</p>
-						<div class='row'>
-							<div class='col-lg-3'></div>
-							<div class='col-lg-6 containertable'>
-								{% if carreras %}
-									<table class="table table-striped border-top datatable">
-										<thead>
-											<tr>
-												<th></th>
-												<th>{% trans from "label" %}apellido{% endtrans %}</th>
-											</tr>
-										</thead>
-										<tbody>
-											{% for c in carreras %}
+				<form action="{{ path('mercado_laboral') }}" method='POST' type="post" STYLE='display:inline' id='form'>
+					<div class="panel-body">
+						<section class="panel">
+							<p>{{ formulario_info.descripcion|raw }}</p>
+							<div class='row'>
+								<div class='col-lg-2'></div>
+								<div class='col-lg-8 containertable'>
+									{% if carreras %}
+										<table class="table table-striped border-top datatable">
+											<thead>
 												<tr>
-													<td>
-														<input type="checkbox" name="carrerasSeleccionadas[]" value="{{ c.id }}" data-name="{{ c.nombre}}" class="chk_carrera"/>
-													</td>
-													<td>{{ c.nombre }}</td>
+													<th></th>
+													<th>{% trans from "label" %}apellido{% endtrans %}</th>
 												</tr>
-											{% endfor %}
-										</tbody>
-									</table>
-								{% endif %}
-								
+											</thead>
+											<tbody>
+												{% for c in carreras %}
+													<tr>
+														<td>
+															<input type="checkbox" name="carrerasSeleccionadas[]" value="{{ c.id }}" data-name="{{ c.nombre}}" class="chk_carrera"/>
+														</td>
+														<td>{{ c.nombre }}</td>
+													</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									{% endif %}
+								</div>
+								<div class='col-lg-2'>&nbsp;</div>
 							</div>
-							<div class='col-lg-3'>&nbsp;</div>
-						</div>
-					</section>
+						</section>
 
-					<hr>
-					<div class="panel-body text-center">
-						<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
-						{#<a type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>#}
-						{#<a href='{{ path('agenda_estudiante') }}' type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>#}
-						<form action="{{ path('mercado_laboral') }}" method='POST' type="post" STYLE='display:inline' id='form'>
+						<hr>
+						<div class="panel-body text-center">
+							<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+							{#<a type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>#}
+							{#<a href='{{ path('agenda_estudiante') }}' type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>#}
 							<button type="button" class="btn btn-shadow btn-success btn-selecCarrera">{% trans from "label" %}seleccionar.carreras{% endtrans %}</button>
-						</form>
+						</div>
 					</div>
-				</div>
+				</form>
 			</section>
 
 		</div>
@@ -79,20 +78,52 @@
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
 	<script>
+	
+		// Evento de envio del formulario con los checked seleccionados, validación, de min 1, max 3
 		$('.btn-selecCarrera').click('#form', function(e){
-			//alert('fds');
-			//alert(this);
-			console.log(this);
 			//e.preventDefault();
-            //var car = $('.chk_carrera', tbl.fnGetNodes());
-			//console.log(car);
-			$('#form').submit();
-            //$('#cargauser').html('');
-            //$.each(usuarios, function(i, item){
-                //if (item.checked){
-                    //alert(item.defaultValue);
-                    //$('#cargauser').append('<input name="usuarios[]" type="checkbox" checked="checked" value="'+item.defaultValue+'" />');
-                //}
-            });
+            var car = $('.chk_carrera', dataTable.table.fnGetNodes());
+            var AuxCount = 0;
+            $.each(car, function(i, item){
+                if (item.checked){
+					AuxCount = AuxCount + 1;
+                }
+			});
+
+			if ((AuxCount > 0) && (AuxCount <= 3)) {
+				$('#form').submit();
+			} else {
+				$.gritter.add({
+					title: '{% trans from "label" %}datos.invalidos{% endtrans %}',
+					text: '{% trans from "label" %}puede.seleccionar.maximo.tres.alternativas.minimo.una{% endtrans %}',
+					time: 3000,
+					image: '{{ asset('img/delete.png') }}',
+				});
+			}
+		});
+
+
+		// Evento de click al checkear un elemento de la tabla, para controlar la cantidad de elementor checkeados
+		$('.chk_carrera').click(function(){
+			var AuxCount = 0;
+			if($(this).is(":checked")){
+				var car = $('.chk_carrera', dataTable.table.fnGetNodes());
+				$.each(car, function(i, item){
+					if (item.checked){
+						AuxCount = AuxCount + 1;
+					}
+				});
+
+				if (AuxCount > 3) {
+					$(this).attr('checked', false);
+					$.gritter.add({
+						title: '{% trans from "label" %}datos.invalidos{% endtrans %}',
+						text: '{% trans from "label" %}puede.seleccionar.maximo.tres.alternativas{% endtrans %}',
+						time: 3000,
+						image: '{{ asset('img/delete.png') }}',
+					});
+				}
+			}
+		});
 	</script>
 {% endblock script%}
