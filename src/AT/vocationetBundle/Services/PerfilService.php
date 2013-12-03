@@ -583,5 +583,10 @@ class PerfilService
 		}
 		return $return;
 	}
+
+	public function getAlternativasEstudio()
+	{
+		
+	}
 }
 ?>
