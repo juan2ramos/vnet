@@ -638,6 +638,27 @@ CREATE  TABLE IF NOT EXISTS `opciones` (
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `alternativa_estudio`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `alternativa_estudio` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `usuario_id` INT NOT NULL ,
+  `carrera_id` INT NOT NULL ,
+  INDEX `fk_usuarios_has_carreras_carreras1_idx` (`carrera_id` ASC) ,
+  INDEX `fk_usuarios_has_carreras_usuarios1_idx` (`usuario_id` ASC) ,
+  PRIMARY KEY (`id`) ,
+  CONSTRAINT `fk_usuarios_has_carreras_usuarios1`
+    FOREIGN KEY (`usuario_id` )
+    REFERENCES `vocationet-dev`.`usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuarios_has_carreras_carreras1`
+    FOREIGN KEY (`carrera_id` )
+    REFERENCES `vocationet-dev`.`carreras` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
