@@ -39,8 +39,8 @@ class DiagnosticoController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         //Validar acceso a diagnostico
-        $usuarioFormulario = $em->getRepository("vocationetBundle:UsuariosFormularios")->findOneBy(array("formulario" => $form_id, "usuarioResponde" => $usuarioId));
-        if($usuarioFormulario)
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
+        if($participacion)
         {
             return $this->forward("vocationetBundle:Alerts:alertScreen", array(
                 "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
@@ -118,15 +118,6 @@ class DiagnosticoController extends Controller
                         $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.3");
                     }
                     
-                    // Actualizar registro UsuariosFormularios
-                    $em = $this->getDoctrine()->getManager();
-                    $usuarioFormulario = new \AT\vocationetBundle\Entity\UsuariosFormularios();
-                    $usuarioFormulario->setFormulario($form_id);
-                    $usuarioFormulario->setUsuarioResponde($usuarioId);
-                    $usuarioFormulario->setUsuarioEvaluado($usuarioId);
-                    $usuarioFormulario->setEstado(1);
-                    $em->persist($usuarioFormulario);
-                    $em->flush();
                     
                     return array(
                         'titulo_mensaje' => $titulo_mensaje,

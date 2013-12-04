@@ -166,12 +166,13 @@ class Evaluacion360Controller extends Controller
                     
                     // Actualizar registro UsuariosFormularios
                     $usuarioEmail = $security->getSessionValue("usuarioEmail");
-                    $usuarioFormulario = $em->getRepository("vocationetBundle:UsuariosFormularios")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioEmail, "usuarioEvaluado" => $id));
-                    if($usuarioFormulario)
+                    $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioEmail, "usuarioEvaluado" => $id));
+                    if($participacion)
                     {
-                        $usuarioFormulario->setUsuarioResponde($usuarioId);
-                        $usuarioFormulario->setEstado(1);
-                        $em->persist($usuarioFormulario);
+                        $participacion->setFecha(new \DateTime());
+                        $participacion->setUsuarioParticipa($usuarioId);
+                        $participacion->setEstado(1);
+                        $em->persist($participacion);
                         $em->flush();
                     }
                     
@@ -267,18 +268,19 @@ class Evaluacion360Controller extends Controller
         foreach($emails as $email)
         {
             // Validar que no exista la invitacion
-            $usuarioFormulario = $em->getRepository("vocationetBundle:UsuariosFormularios")->findOneBy(array("formulario" => $form_id, "usuarioEvaluado" => $usuarioId, "correoInvitacion" => $email));
+            $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioEvaluado" => $usuarioId, "correoInvitacion" => $email));
             
-            if(!$usuarioFormulario)
+            if(!$participacion)
             {
                 // Registrar invitacion
-                $usuarioFormulario = new \AT\vocationetBundle\Entity\UsuariosFormularios();
-                $usuarioFormulario->setFormulario($form_id);
-                $usuarioFormulario->setCorreoInvitacion($email);
-                $usuarioFormulario->setEstado(0);
-                $usuarioFormulario->setUsuarioEvaluado($usuarioId);
+                $participacion = new \AT\vocationetBundle\Entity\Participaciones();
+                $participacion->setFecha(new \DateTime());
+                $participacion->setFormulario($form_id);
+                $participacion->setUsuarioEvaluado($usuarioId);
+                $participacion->setCorreoInvitacion($email);
+                $participacion->setEstado(0);
 
-                $em->persist($usuarioFormulario);
+                $em->persist($participacion);
             }
         }        
         $em->flush();
@@ -311,7 +313,7 @@ class Evaluacion360Controller extends Controller
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
         $em = $this->getDoctrine()->getManager();
         
-        $usuarioFormulario = $em->getRepository("vocationetBundle:UsuariosFormularios")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioRespondeEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
+        $usuarioFormulario = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioRespondeEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
         
         return $usuarioFormulario;
     }

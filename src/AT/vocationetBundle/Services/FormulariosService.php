@@ -195,7 +195,8 @@ class FormulariosService
         
         if($validate)
         {
-            $puntaje = $this->registrarRespuestas($usuarioId, $preguntas, $respuestas);
+            $puntaje = $this->registrarRespuestas($id, $usuarioId, $preguntas, $respuestas);
+            
         }
         return array(
             'validate' => $validate,
@@ -350,16 +351,34 @@ class FormulariosService
     }
     
     /**
-     * Funcion para registrar y califica las respuestas de usuario en base de datos
+     * Funcion para registrar y calificar las respuestas de usuario en base de datos
+     * 
+     * 
      * 
      * @param array $preguntas arreglo de preguntas con id y tipo de pregunta
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
      * @return integer puntuacion de las respuestas
      */
-    private function registrarRespuestas($usuarioId, $preguntas, $respuestas)
+    private function registrarRespuestas($formId, $usuarioId, $preguntas, $respuestas)
     {
-        $puntaje = 0;
         
+        // Registrar participacion
+        
+        if($formId != $this->getFormId('evaluacion360'))
+        {
+            $participacion = new \AT\vocationetBundle\Entity\Participaciones();
+            $participacion->setFormulario($formId);
+            $participacion->setFecha(new \DateTime());
+            $participacion->setUsuarioParticipa($usuarioId);
+            $participacion->setEstado(1);
+            
+            $this->em->persist($participacion);
+            $this->em->flush();
+        }
+        
+        
+        $puntaje = 0;
+        /*
         // Registrar respuestas segun tipo de pregunta
         foreach($preguntas as $preg)
         {
@@ -423,6 +442,7 @@ class FormulariosService
         }
         
 //        $this->em->flush();
+        */
         $puntaje = 100;
         
         return $puntaje;
@@ -439,16 +459,16 @@ class FormulariosService
     {
         $return = false;
         $dql = "SELECT 
-                    uf.usuarioEvaluado, 
+                    p.usuarioEvaluado, 
                     u.usuarioNombre,
                     u.usuarioApellido
                 FROM 
-                    vocationetBundle:UsuariosFormularios uf
-                    JOIN vocationetBundle:Usuarios u WITH u.id = uf.usuarioEvaluado
+                    vocationetBundle:Participaciones p
+                    JOIN vocationetBundle:Usuarios u WITH u.id = p.usuarioEvaluado
                 WHERE 
-                    (uf.usuarioResponde = :usuarioId
-                    OR uf.correoInvitacion = :usuarioEmail)
-                    AND uf.estado = 0";
+                    (p.usuarioParticipa = :usuarioId
+                    OR p.correoInvitacion = :usuarioEmail)
+                    AND p.estado = 0";
         $query = $this->em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $query->setParameter('usuarioEmail', $usuarioEmail);
