@@ -276,7 +276,8 @@ class ContactosController extends Controller
         );
 	}
 
-    
+
+
     // FUNCIONES Y METODOS
     
     /**
@@ -289,7 +290,7 @@ class ContactosController extends Controller
      * @param Int $usuarioId Id del usuario a consultarle las amistades
      * @return Array Arreglo bi-dimensional de usuarios
      */
-     private function getAmistades($usuarioId)
+    private function getAmistades($usuarioId)
     {
 		$em = $this->getDoctrine()->getManager();
 		/**

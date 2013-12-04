@@ -51,7 +51,6 @@ class MercadoLaboralController extends Controller
 		$alternativasEstudio = $pr->getAlternativasEstudio($usuarioId);
 		if ($alternativasEstudio)
 		{
-			
 			// Validación de si ya se ha subido informe relacionado con el listado de carreras seleccionadas por el usuario
 			$ruta = $security->getParameter('ruta_files_mercado_laboral').'user'.$usuarioId.'.pdf';
 			$archivoCargado = file_exists($ruta);
