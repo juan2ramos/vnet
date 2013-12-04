@@ -287,30 +287,6 @@ class SecurityService
     }
 
     /**
-     * Funcion que retorna el enlace de la prueba del test Vocacional
-     *
-     * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1
-     * @return String
-     */
-    public function getEnlaceTestVocacional()
-    {
-		return 'http://www.uanl.mx/utilerias/test/';
-	}
-
-	/**
-     * Funcion que retorna la ruta del archivo de informacion al que hace referencia el test vocacional
-     *
-     * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1
-     * @return String
-     */
-	public function getRutaEnlaceTestVocacionalInfo()
-    {
-		return 'uploads/vocationet/testvocacional.pdf';
-	}
-
-    /**
      * Funcion para obtener parametros de vocationet
      * @param type $parameter
      * @return string
@@ -321,6 +297,8 @@ class SecurityService
             'enlace_test_vocacional' => 'http://www.uanl.mx/utilerias/test/',
             'enlace_pdf_test_vocacional_info' => 'uploads/vocationet/testvocacional.pdf',
             'enlace_vocationet_info' => 'http://www.vocationet.com',
+            'ruta_files_mercado_laboral' => 'uploads/vocationet/ml/',
+            'dias_habiles_informe_mercado_laboral' => 5,
             'diagnostico_rango_puntaje_1' => array('min'=>0, 'max'=>50),
             'diagnostico_rango_puntaje_2' => array('min'=>51, 'max'=>90),
             'diagnostico_rango_puntaje_3' => array('min'=>91, 'max'=>111),

@@ -557,7 +557,7 @@ class PerfilService
 	}
 
 	/**
-	 * Funcion que retorna true si el usuario ya ha seleccionado mentor de orientación vocacional, false si no lo ha hecho
+	 * Funcion que retorna true ID del usuario ya ha seleccionado mentor de orientación vocacional, false si no lo ha hecho
 	 * - Acceso desde ContactosController
 	 * - Acceso desde MercadoLaboralController
 	 *
@@ -584,9 +584,24 @@ class PerfilService
 		return $return;
 	}
 
-	public function getAlternativasEstudio()
+	/**
+	 * Funcion que retorna true OBJETOS de alternativas de estudio seleccionadas por el estudiante que ingresa por parametro
+	 * - Acceso desde MercadoLaboralController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $estudianteId Id del usuario Estudiante
+	 * @return Object AlternativasEstudio
+	 */
+	public function getAlternativasEstudio($estudianteId)
 	{
-		
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT ae
+                FROM vocationetBundle:AlternativasEstudios ae
+				WHERE ae.usuario =:estudianteId";
+        $query = $em->createQuery($dql);
+		$query->setParameter('estudianteId', $estudianteId);
+		return $query->getResult();
 	}
 }
 ?>

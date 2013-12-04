@@ -26,6 +26,24 @@
                 <target>Ir a la bandeja de entrada</target>
             </trans-unit>
             
+            <!-- MERCADO LABORAL mercadoLaboral-x -->
+			<trans-unit id="mercadoLaboral-1">
+                <source>%name%.mail.mentor.estudiante.selecciona.alternativas</source>
+                <target>%name% ha seleccionado sus alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-2">
+                <source>%name%.ha.seleccionado%dias%.%alternativas%</source>
+                <target>%name% ha seleccionado las siguientes alternativas de estudio, usted tiene %dias% dias para realizar el informe y subirlo en el mercado laboral, para que el usuario tenga acceso a este. Las alternativas seleccionadas son las siguiente: %alternativas%</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-3">
+                <source>asunto.mail.mentor.informa.tiempo.espera</source>
+                <target>Su mentor ha recibido las alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-4">
+                <source>mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas</source>
+                <target>Su mentor de orientación vocacional tiene %dias% dias para realizar el informe de sus alternativas de estudio.</target>
+            </trans-unit>
+            
             <!-- evaluacion 360 eva360-x -->
 			<trans-unit id="eva360-1">
                 <source>%usu%.invito.contestar.evaluacio.360</source>

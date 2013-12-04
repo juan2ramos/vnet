@@ -3,9 +3,11 @@
 namespace AT\vocationetBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use AT\vocationetBundle\Entity\AlternativasEstudios;
 
 /**
  * Controlador de mercado laboral
@@ -17,35 +19,101 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class MercadoLaboralController extends Controller
 {
     /**
-     * Index de test vocacional
+     * Index de mercado laboral
      * 
      * @Route("/", name="mercado_laboral")
      * @Template("vocationetBundle:MercadoLaboral:index.html.twig")
-     * @Method("GET")
+     * @param Request $request Request enviado con alternativas de estudio seleccionadas
+     * @Method({"GET", "POST"})
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 		//if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
+		$em = $this->getDoctrine()->getManager();
 		$usuarioId = $security->getSessionValue('id');
         $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
 
-        if($seleccionarMentor) {
-			$formulario = $this->get('formularios')->getInfoFormulario(11);
-		} else {
+        if(!$seleccionarMentor) {
 			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
 			return $this->redirect($this->generateUrl('lista_mentores_ov'));
 		}
-		
-		$em = $this->getDoctrine()->getManager();
-        $carreras = $em->getRepository('vocationetBundle:Carreras')->findAll();
-        
+
+		$archivoCargado = false;
+        $carreras = false;
+
+		$formulario = $this->get('formularios')->getInfoFormulario(11);
+
+		$pr = $this->get('perfil');
+		$alternativasEstudio = $pr->getAlternativasEstudio($usuarioId);
+		if ($alternativasEstudio)
+		{
+			
+			// Validación de si ya se ha subido informe relacionado con el listado de carreras seleccionadas por el usuario
+			$ruta = $security->getParameter('ruta_files_mercado_laboral').'user'.$usuarioId.'.pdf';
+			$archivoCargado = file_exists($ruta);
+		}
+		else {
+
+			// En el caso de que NO tenga alternativas de estudio registradas se enlistan carreras para seleccionarlas
+			$carreras = $em->getRepository('vocationetBundle:Carreras')->findAll();
+			
+			if ($request->getMethod() == "POST") {
+				$errorCantidad = false;
+				$errorAlternativa = false;
+				$alternativas = $request->request->get('carrerasSeleccionadas');
+				if ((count($alternativas)>0) && (count($alternativas)<=3)) {
+					$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
+
+					$auxAlternativas = '<br>';
+					foreach ($alternativas as $alt) {
+						$carrera = $em->getRepository('vocationetBundle:Carreras')->findOneById($alt);
+						if ($carrera) {
+							$newAE = new AlternativasEstudios();
+							$newAE->setCarrera($carrera);
+							$newAE->setUsuario($usuario);
+							$em->persist($newAE);
+
+							$auxAlternativas .= '<br> - '.$carrera->getNombre();
+						} else {
+							$errorAlternativa = true;
+						}
+						$em->flush();
+
+						//Notificacion para mentor de que el estudiante  ha seleccionado alternativas de estudio
+						$name = $security->getSessionValue('usuarioNombre').' '.$security->getSessionValue('usuarioApellido');
+						$dias = $security->getParameter('dias_habiles_informe_mercado_laboral');
+						$asunto = $this->get('translator')->trans('%name%.mail.mentor.estudiante.selecciona.alternativas', Array('%name%'=>$name), 'mail');
+						$message = $this->get('translator')->trans('%name%.ha.seleccionado%dias%.%alternativas%', Array('%name%'=>$name, '%alternativas%'=>$auxAlternativas, '%dias%'=>$dias), 'mail');
+						$this->get('mensajes')->enviarMensaje($usuarioId, Array($seleccionarMentor['id']), $asunto, $message);
+						
+						// Notificacion a estudiante de que el mentor tendra X tiempo para responder
+						$asunto = $this->get('translator')->trans('asunto.mail.mentor.informa.tiempo.espera', Array(), 'mail');
+						$message = $this->get('translator')->trans('mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas', Array('%dias%'=>$dias), 'mail');
+						$this->get('mensajes')->enviarMensaje($seleccionarMentor['id'], Array($usuarioId), $asunto, $message);
+					}
+				} else {
+					$errorCantidad = true;
+				}
+
+				if ($errorCantidad) {
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+				}
+				if ($errorAlternativa) {
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "warning", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ocurrio.error.al.registrar.alternativa.de.estudio")));
+				}
+				return $this->redirect($this->generateUrl('mercado_laboral'));
+			}
+		}
+
         return array(
 			'formulario_info' => $formulario,
 			'carreras' => $carreras,
+			'altEstudio' => $alternativasEstudio,
+			'archivoCargado' => $archivoCargado,
         );
     }
 }
