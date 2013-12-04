@@ -25,7 +25,6 @@
                 <source>ir.a.inbox</source>
                 <target>Ir a la bandeja de entrada</target>
             </trans-unit>
-
             
             <!-- MERCADO LABORAL mercadoLaboral-x -->
 			<trans-unit id="mercadoLaboral-1">
@@ -43,6 +42,20 @@
 			<trans-unit id="mercadoLaboral-4">
                 <source>mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas</source>
                 <target>Su mentor de orientación vocacional tiene %dias% dias para realizar el informe de sus alternativas de estudio.</target>
+            </trans-unit>
+            
+            <!-- evaluacion 360 eva360-x -->
+			<trans-unit id="eva360-1">
+                <source>%usu%.invito.contestar.evaluacio.360</source>
+                <target>%usu% te ha invitado a participar en su evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-2">
+                <source>participar.evaluacion</source>
+                <target>Participar en la evaluación</target>
+			</trans-unit>
+			<trans-unit id="eva360-3">
+                <source>%usu%.invito.contestar.evaluacion.360.body</source>
+                <target>%usu% esta usando Vocationet para tomar su decisión de carrera y solicita tu colaboración participando en su evaluación 360</target>
 			</trans-unit>
         </body>
     </file>

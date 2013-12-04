@@ -1,0 +1,69 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * UsuariosFormularios
+ *
+ * @ORM\Table(name="usuarios_formularios")
+ * @ORM\Entity
+ */
+class UsuariosFormularios
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="correo_invitacion", type="string", length=100, nullable=true)
+     */
+    private $correoInvitacion;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_evaluado_id", referencedColumnName="id")
+     * })
+     */
+    private $usuarioEvaluado;
+
+    /**
+     * @var \Formularios
+     *
+     * @ORM\ManyToOne(targetEntity="Formularios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="formulario_id", referencedColumnName="id")
+     * })
+     */
+    private $formulario;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_responde_id", referencedColumnName="id")
+     * })
+     */
+    private $usuarioResponde;
+
+
+}

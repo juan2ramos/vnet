@@ -1,0 +1,20 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <section>
+              <div class="panel panel-primary">
+                  <div class="panel-heading" style="font-size: 21px">{{ title }}</div>
+                  <div class="panel-body">
+                      {{ message|raw }}
+                      <div style="text-align: center;">
+                          <a href="{{ path('homepage' ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ir.al.home{% endtrans %}</a>
+                          <a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>                          
+                      </div>
+                  </div>
+              </div>
+          </section>
+    </div>
+</div>
+{% endblock body %}

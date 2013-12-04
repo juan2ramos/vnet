@@ -21,6 +21,27 @@ class FormulariosService
     }
     
     /**
+     * Funcion para obtener el id de un formulario
+     * 
+     * No hace consulta a la base de datos
+     * 
+     * @param string $nombre nombre del formulario
+     * @return integer|boolean id de formulario o false si no existe
+     */
+    public function getFormId($nombre)
+    {
+        $ids = array(
+            'diagnostico' => 1,
+            'evaluacion360' => 9,
+        );
+        
+        $id = (isset($ids[$nombre])) ? $ids[$nombre] : false;
+        
+        return $id;
+    }
+    
+    
+    /**
      * Funcion para obtener la entidad de un formulario principal
      * 
      * @param integer $id id de formulario
@@ -407,5 +428,6 @@ class FormulariosService
         
         return $puntaje;
     }
+    
 }
 ?>
