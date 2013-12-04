@@ -68,6 +68,7 @@ class MercadoLaboralController extends Controller
 				if ((count($alternativas)>0) && (count($alternativas)<=3)) {
 					$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuarioId);
 
+					$auxAlternativas = '<br>';
 					foreach ($alternativas as $alt) {
 						$carrera = $em->getRepository('vocationetBundle:Carreras')->findOneById($alt);
 						if ($carrera) {
@@ -75,10 +76,24 @@ class MercadoLaboralController extends Controller
 							$newAE->setCarrera($carrera);
 							$newAE->setUsuario($usuario);
 							$em->persist($newAE);
+
+							$auxAlternativas .= '<br> - '.$carrera->getNombre();
 						} else {
 							$errorAlternativa = true;
 						}
 						$em->flush();
+
+						//Notificacion para mentor de que el estudiante  ha seleccionado alternativas de estudio
+						$name = $security->getSessionValue('usuarioNombre').' '.$security->getSessionValue('usuarioApellido');
+						$dias = $security->getParameter('dias_habiles_informe_mercado_laboral');
+						$asunto = $this->get('translator')->trans('%name%.mail.mentor.estudiante.selecciona.alternativas', Array('%name%'=>$name), 'mail');
+						$message = $this->get('translator')->trans('%name%.ha.seleccionado%dias%.%alternativas%', Array('%name%'=>$name, '%alternativas%'=>$auxAlternativas, '%dias%'=>$dias), 'mail');
+						$this->get('mensajes')->enviarMensaje($usuarioId, Array($seleccionarMentor['id']), $asunto, $message);
+						
+						// Notificacion a estudiante de que el mentor tendra X tiempo para responder
+						$asunto = $this->get('translator')->trans('asunto.mail.mentor.informa.tiempo.espera', Array(), 'mail');
+						$message = $this->get('translator')->trans('mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas', Array('%dias%'=>$dias), 'mail');
+						$this->get('mensajes')->enviarMensaje($seleccionarMentor['id'], Array($usuarioId), $asunto, $message);
 					}
 				} else {
 					$errorCantidad = true;
