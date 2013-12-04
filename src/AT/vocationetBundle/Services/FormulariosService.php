@@ -428,5 +428,38 @@ class FormulariosService
         return $puntaje;
     }
     
+    /**
+     * Funcion que busca invitaciones al usuario a evaluacioes 360
+     * 
+     * @param integer $usuarioId id de usuario logueado
+     * @param string $usuarioEmail email de usuario logueado
+     * @return array|boolean arreglo de invitaciones o false si no encuentra ninguna 
+     */
+    public function getInvitacionesEvaluacion360($usuarioId, $usuarioEmail)
+    {
+        $return = false;
+        $dql = "SELECT 
+                    uf.usuarioEvaluado, 
+                    u.usuarioNombre,
+                    u.usuarioApellido
+                FROM 
+                    vocationetBundle:UsuariosFormularios uf
+                    JOIN vocationetBundle:Usuarios u WITH u.id = uf.usuarioEvaluado
+                WHERE 
+                    (uf.usuarioResponde = :usuarioId
+                    OR uf.correoInvitacion = :usuarioEmail)
+                    AND uf.estado = 0";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $query->setParameter('usuarioEmail', $usuarioEmail);
+        $result = $query->getResult();
+        
+        if(count($result)>=1)
+        {
+            $return = $result;
+        }
+        
+        return $return;
+    }
 }
 ?>

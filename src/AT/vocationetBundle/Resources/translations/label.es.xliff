@@ -77,7 +77,11 @@
 			</trans-unit>
 			<trans-unit id="generico-19">
                 <source>ir.al.home</source>
-                <target>ir al inicio </target>
+                <target>ir al inicio</target>
+			</trans-unit>
+			<trans-unit id="generico-20">
+                <source>haz.click.aqui</source>
+                <target>haz click aquí</target>
 			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
@@ -1049,6 +1053,14 @@
 			<trans-unit id="eva360-7">
                 <source>enviar.invitaciones</source>
                 <target>Enviar invitaciones</target>
+			</trans-unit>
+			<trans-unit id="eva360-8">
+                <source>te.ha.invitado.a.su.evaluacion.360</source>
+                <target>te ha invitado a participar en su evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-9">
+                <source>para.participar</source>
+                <target>Para participar</target>
 			</trans-unit>
 
         </body>

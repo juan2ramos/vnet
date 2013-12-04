@@ -399,6 +399,14 @@
                 <source>gracias.por.participar.diagnostico</source>
                 <target>Gracias por participar en la prueba de diagnostico</target>
 			</trans-unit>
+			<trans-unit id="eva360-12">
+                <source>gracias.participar.mi.evaluacion.360</source>
+                <target>Gracias por participar en mi evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-13">
+                <source>mensaje.gracias.participar.mi.evaluacion.360</source>
+                <target>Te agradecemos mucho por completar esta evaluación. Vocacionet cree firmemente que encontrar una pasión en la vida hace exitosa a las personas. Esta evaluación es una de las fases importantes del proceso de decisión de carrera para encontrar aquello que más nos satisface. Gracias por tu tiempo!</target>
+			</trans-unit>
 
         </body>
     </file>
