@@ -33,8 +33,8 @@ class Evaluacion360Controller extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-//        
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
         
@@ -89,7 +89,7 @@ class Evaluacion360Controller extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $em = $this->getDoctrine()->getManager();
         
@@ -140,7 +140,7 @@ class Evaluacion360Controller extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form = $this->createFormCuestionario();
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
@@ -196,7 +196,6 @@ class Evaluacion360Controller extends Controller
         return new Response();
     }
 
-
     /**
      * Funcion que valida la lista de correos del formulario
      * @param array $data
@@ -205,19 +204,24 @@ class Evaluacion360Controller extends Controller
     private function validateEmails($data)
     {
         $validate = $this->get('validate');
-        $val = false;
-            
+        $val = array();
+        $usuarioEmail = $this->get('security')->getSessionValue("usuarioEmail");
+        
+        
         $emails = $data['emails'];        
         
         foreach($emails as $email)
         {
            if($validate->validateEmail($email))
            {
-               $val[] = $email;
+               if($email != $usuarioEmail)
+               {
+                   $val[] = $email;
+               }
            }
         }
                 
-        return $val;
+        return array_unique($val);
     }
     
     /**

@@ -14,7 +14,9 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (7, 'acceso_edit_delete_foro', 'Acceso a eliminar y editar foro','Acceso de edicion y eliminacion de foros', 'edit_foro,delete_foro'),
 (8, 'acceso_contactos', 'Acceso a contactos','Acceso a contactos y a establecer relaciones entre ellos', 'contactos,busqueda,edit_estado_relacion'),
 (9, 'acceso_test_vocacional', 'Acceso a Test Vocacional','Acceso a test Vocacional', 'test_vocacional'),
-(10, 'admin_preguntas', 'Administración de preguntas', 'Administrar preguntas de los cuestionario', 'admin_formularios,delete_pregunta,edit_pregunta');
+(10, 'admin_preguntas', 'Administración de preguntas', 'Administrar preguntas de los cuestionario', 'admin_formularios,delete_pregunta,edit_pregunta'),
+(11, 'acceso_diagnostico', 'Prueba de diagnostico', 'Prueba de diagnostico', 'diagnostico,procesar_diagnostico'),
+(12, 'acceso_evaluacion_360', 'Evaluación 360', 'Evaluación 360', 'evaluacion360,evaluacion360_evaluacion,procesar_evaluacion360');
 
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 
@@ -44,7 +46,13 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('8', '2'),
 ('8', '3'),
 ('8', '4'),
-('10', '4');
+('10', '4'),
+('11', '1'),
+('11', '4'),
+('12', '1'),
+('12', '2'),
+('12', '3'),
+('12', '4');
 
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
 (1, 'selección múltiple con única respuesta'),

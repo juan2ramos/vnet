@@ -40,7 +40,6 @@ class FormulariosService
         return $id;
     }
     
-    
     /**
      * Funcion para obtener la entidad de un formulario principal
      * 

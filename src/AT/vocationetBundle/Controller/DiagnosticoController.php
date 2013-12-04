@@ -30,7 +30,7 @@ class DiagnosticoController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $usuarioId = $security->getSessionValue("id");
         $formularios_serv = $this->get('formularios');
@@ -59,7 +59,6 @@ class DiagnosticoController extends Controller
         );
     }
     
-    
     /**
      * Accion que recibe y procesa el cuestionario de diagnostico
      * 
@@ -68,11 +67,11 @@ class DiagnosticoController extends Controller
      * @Method({"POST"})
      * @param \AT\vocationetBundle\Controller\Request $request
      */
-    public function procesarCuestionario(Request $request)
+    public function procesarCuestionarioAction(Request $request)
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form = $this->createFormCuestionario();
         $form_id = $this->get('formularios')->getFormId('diagnostico');

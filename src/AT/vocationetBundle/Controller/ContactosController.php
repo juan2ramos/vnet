@@ -157,7 +157,7 @@ class ContactosController extends Controller
      *
      * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-     * @Route("/selectMentor", name="seleccionar_mentor")
+     * @Route("/select_mentor", name="seleccionar_mentor")
      * @Method("POST")
      * @param Request $request Request enviado con ID de mentor seleccionado
      * @return Redirect
@@ -217,7 +217,7 @@ class ContactosController extends Controller
      * 
      * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-	 * @Route("/seleccionarMentor", name="lista_mentores_ov")
+	 * @Route("/seleccionar_mentor", name="lista_mentores_ov")
 	 * @Template("vocationetBundle:Contactos:MentoresVocacional.html.twig")
      * @Method({"GET", "POST"})
      * @param Request $request Request enviado con busqueda avanzada

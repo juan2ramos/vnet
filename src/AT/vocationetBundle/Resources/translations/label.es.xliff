@@ -75,6 +75,10 @@
                 <source>editar</source>
                 <target>Editar</target>
 			</trans-unit>
+			<trans-unit id="generico-19">
+                <source>ir.al.home</source>
+                <target>ir al inicio </target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
@@ -1023,6 +1027,10 @@
 			<trans-unit id="eva360-6">
                 <source>evaluacion.360.instrucciones.2.%usu%</source>
                 <target>Te invitamos a resolver esta evaluación de manera detallada. Esta información le ayudará a %usu% a aprender más sobre el/ella mismo/a y de esta manera podremos acompañarlo/a mejor en su proceso de decisión de carrera.</target>
+			</trans-unit>
+			<trans-unit id="eva360-7">
+                <source>enviar.invitaciones</source>
+                <target>Enviar invitaciones</target>
 			</trans-unit>
             
             

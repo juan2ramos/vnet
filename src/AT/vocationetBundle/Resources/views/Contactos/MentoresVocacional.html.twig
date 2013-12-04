@@ -65,10 +65,31 @@
 
 	<div class="row">
 		<div class="col-lg-12">
+            
+            {# HEADER #}
+            <section class="panel post-wrap pro-box" id="header-cuestionario">
+                <aside>
+                  <div class="post-info">
+                      <span class="arrow-pro right"></span>
+                      <div class="panel-body">
+                          <div class="text-center twite">
+                              <h1 style="font-size: 40px;">{{ formulario_info.nombre }}</h1>
+                          </div>
+                      </div>
+                  </div>
+                </aside>
+                <aside class="post-highlight terques v-align">
+                  <div class="panel-body text-center">
+                      <div class="panel-body">
+                          <h2>{{ formulario_info.encabezado }}</h2>
+                      </div>
+                  </div>
+                </aside>
+            </section>
+            
+            
 			<section class="panel">
 				<header class="panel-heading">{{ formulario_info.nombre }}</header>
-				<div class="panel-body">{{ formulario_info.encabezado }}</div>
-
                 {% if selectMentor == false %}
 					<div class="panel-body">
 						{# FORMULARIO DE BUSQUEDA AVANZADA #}
