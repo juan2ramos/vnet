@@ -46,7 +46,7 @@
             
             <!-- evaluacion 360 eva360-x -->
 			<trans-unit id="eva360-1">
-                <source>%usu%.invito.contestar.evaluacio.360</source>
+                <source>%usu%.invito.contestar.evaluacion.360</source>
                 <target>%usu% te ha invitado a participar en su evaluación 360</target>
 			</trans-unit>
 			<trans-unit id="eva360-2">
