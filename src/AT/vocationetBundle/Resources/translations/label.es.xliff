@@ -76,17 +76,16 @@
                 <target>Editar</target>
 			</trans-unit>
 			<trans-unit id="generico-19">
-<<<<<<< HEAD
                 <source>cerrar</source>
                 <target>Cerrar</target>
-=======
-                <source>ir.al.home</source>
-                <target>ir al inicio</target>
-			</trans-unit>
+            </trans-unit>
 			<trans-unit id="generico-20">
                 <source>haz.click.aqui</source>
                 <target>haz click aquí</target>
->>>>>>> ad225e84e486626533c2bb1bd62dc4d724e24617
+			</trans-unit>
+			<trans-unit id="generico-21">
+                <source>ir.al.home</source>
+                <target>ir al inicio</target>
 			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
@@ -1103,6 +1102,10 @@
 			<trans-unit id="adminov-7">
                 <source>no.hay.usuarios.para.seguimiento</source>
                 <target>No hay usuarios para seguimiento</target>
+			</trans-unit>
+			<trans-unit id="adminov-8">
+                <source>usuarios</source>
+                <target>Usuarios</target>
 			</trans-unit>
         </body>
     </file>
