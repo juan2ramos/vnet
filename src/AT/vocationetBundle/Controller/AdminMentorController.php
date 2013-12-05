@@ -33,7 +33,10 @@ class AdminMentorController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
-        $usuarioId = $security->getSessionValue('id');
+		$rolId = $security->getSessionValue('rolId');
+		if ($rolId != 3) {	throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado", array(), 'label'));	}
+
+		$usuarioId = $security->getSessionValue('id');
         $contactos = $this->getUsuariosMentor($usuarioId);
         return array('contactos' => $contactos);
     }
@@ -52,22 +55,44 @@ class AdminMentorController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
-        //VALIDACION SI EL USUARIO ES MENTOR DEL ESTUDIANTE
-        
-		$usuarioId = $request->request->get('usuario');
-		$informe = $request->files->get('informeml');
+        $rolId = $security->getSessionValue('rolId');
+		if ($rolId != 3) { throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado", array(), 'label')); }
 
-		$ext = $informe->guessExtension();
-		if ($ext == 'pdf') {
-			$nameFile = 'user'.$usuarioId.'.pdf';
-			$informe->move('uploads/vocationet/ml/', $nameFile);
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informe.cargado"), "text" => $this->get('translator')->trans("informe.cargado.correctamente")));
-		} else {
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("extension.invalida")));
-			//Este archivo no es valido
+        $error = false;
+        $usuarioId = $request->request->get('usuario');
+        $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
+			if ($seleccionarMentor) {
+				if ($seleccionarMentor['id'] == $security->getSessionValue('id'))
+				{
+					$informe = $request->files->get('informeml');
+
+					$ext = $informe->guessExtension();
+					if ($ext == 'pdf') {
+						$nameFile = 'user'.$usuarioId.'.pdf';
+						$informe->move('uploads/vocationet/ml/', $nameFile);
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informe.cargado"), "text" => $this->get('translator')->trans("informe.cargado.correctamente")));
+					} else {
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("extension.invalida")));
+						//Este archivo no es valido
+					}
+
+					// Notificacion a estudiante de que el mentor ha subido el informe
+					$asunto = $this->get('translator')->trans('informe.mercado.laboral', Array(), 'mail');
+					$message = $this->get('translator')->trans('el.mentor.acaba.de.subir.el.informe.de.mercado.laboral', Array(), 'mail');
+					$this->get('mensajes')->enviarMensaje($seleccionarMentor['id'], Array($usuarioId), $asunto, $message);
+				}
+				else {
+					$error = true;
+				}
+			} else {
+				$error = true;
+			}
+
+		if ($error) {
+			//VALIDACION SI EL USUARIO ES MENTOR DEL ESTUDIANTE
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("Acceso denegado")));
 		}
-
-		//ENVIO DE NOTIFICACION A INBOX
+		
 		return $this->redirect($this->generateUrl('lista_usuarios_mentor'));
 	}
 

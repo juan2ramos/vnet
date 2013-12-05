@@ -43,6 +43,7 @@ class MercadoLaboralController extends Controller
 		}
 
 		$archivoCargado = false;
+		$rutaInformeML = false;
         $carreras = false;
 
 		$formulario = $this->get('formularios')->getInfoFormulario(11);
@@ -52,8 +53,8 @@ class MercadoLaboralController extends Controller
 		if ($alternativasEstudio)
 		{
 			// Validación de si ya se ha subido informe relacionado con el listado de carreras seleccionadas por el usuario
-			$ruta = $security->getParameter('ruta_files_mercado_laboral').'user'.$usuarioId.'.pdf';
-			$archivoCargado = file_exists($ruta);
+			$rutaInformeML = $security->getParameter('ruta_files_mercado_laboral').'user'.$usuarioId.'.pdf';
+			$archivoCargado = file_exists($rutaInformeML);
 		}
 		else {
 
@@ -113,6 +114,7 @@ class MercadoLaboralController extends Controller
 			'carreras' => $carreras,
 			'altEstudio' => $alternativasEstudio,
 			'archivoCargado' => $archivoCargado,
+			'rutaInformeML' => $rutaInformeML,
         );
     }
 }

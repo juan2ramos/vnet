@@ -129,7 +129,8 @@ class SecurityService
             'usuarioApellido' => $usuario->getUsuarioApellido(),
             'usuarioEmail' => $usuario->getUsuarioEmail(),
             'usuarioFacebookid' => $usuario->getUsuarioFacebookid(),
-            'usuarioImagen' => $usuario->getUsuarioImagen(),            
+            'usuarioImagen' => $usuario->getUsuarioImagen(),
+            'rolId' => $usuario->getRol()->getId(),
         );
         
         $sess_permissions = $this->getPermisosUsuario($usuario->getId());

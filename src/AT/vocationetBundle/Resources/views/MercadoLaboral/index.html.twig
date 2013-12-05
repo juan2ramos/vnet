@@ -56,10 +56,10 @@
 									  </button>
 									  <strong></strong> {% trans from "label" %}mentor.no.ha.subido.archivo.espere.porfavor{% endtrans %}
 								  </div>
-								  
+
 							{% else %}
-								<div STYLE='text-align:center;'>
-									<iframe src="{{ asset(getParameter('enlace_pdf_test_vocacional_info')) }}" width="800px" height="300px" >
+								<div id='contentIframe' STYLE='text-align:center;'>
+									<iframe id="fraDisabled" src="{{ asset(rutaInformeML) ~ '?f='~'now'|date('U') }}" width="800px" height="300px" /*seamless*/>
 									</iframe>
 								</div>
 
@@ -112,8 +112,7 @@
 								<button type="button" class="btn btn-shadow btn-success btn-selecCarrera">{% trans from "label" %}seleccionar.carreras{% endtrans %}</button>
 							</div>
 						</form>
-					
-					
+
 				{% endif %}	
 			
 				</div>
@@ -179,5 +178,11 @@
 				}
 			}
 		});
+
+	//Desactivar click derecho de ifram de PDF
+	$('#fraDisabled').ready(function() {
+		window.frames["fraDisabled"].document.oncontextmenu = function(){return false;};
+	});
 	</script>
+	
 {% endblock script%}

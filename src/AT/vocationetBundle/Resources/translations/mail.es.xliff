@@ -57,6 +57,17 @@
                 <source>%usu%.invito.contestar.evaluacion.360.body</source>
                 <target>%usu% esta usando Vocationet para tomar su decisión de carrera y solicita tu colaboración participando en su evaluación 360</target>
 			</trans-unit>
+
+			<!-- ADMIN MENTOR OV adminov-x -->
+			<trans-unit id="adminov-1">
+                <source>informe.mercado.laboral</source>
+                <target>Informe de mercado laboral</target>
+			</trans-unit>
+			<trans-unit id="adminov-2">
+                <source>el.mentor.acaba.de.subir.el.informe.de.mercado.laboral</source>
+                <target>El mentor ha subido el informe de mercado laboral</target>
+			</trans-unit>
+			
         </body>
     </file>
 </xliff>

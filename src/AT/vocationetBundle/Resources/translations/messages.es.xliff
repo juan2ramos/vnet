@@ -375,6 +375,20 @@
                 <source>invitaciones.enviadas.correctamente</source>
                 <target>Invitaciones enviadas correctamente</target>
 			</trans-unit>
+
+			<!-- ADMIN MENTOR OV adminov-x -->
+			<trans-unit id="adminov-1">
+                <source>extension.invalida</source>
+                <target>Extensión invalida</target>
+			</trans-unit>
+			<trans-unit id="adminov-2">
+                <source>informe.cargado</source>
+                <target>Informe cargado</target>
+			</trans-unit>
+			<trans-unit id="adminov-3">
+                <source>informe.cargado.correctamente</source>
+                <target>Informe cargado correctamente</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

@@ -75,6 +75,10 @@
                 <source>editar</source>
                 <target>Editar</target>
 			</trans-unit>
+			<trans-unit id="generico-19">
+                <source>cerrar</source>
+                <target>Cerrar</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
@@ -999,6 +1003,7 @@
                 <target>Editar pregunta</target>
 			</trans-unit>
 
+
 			<!-- MERCADO LABORAL mercadoLaboral-x -->
 			<trans-unit id="mercadoLaboral-1">
                 <source>alternativas.estudio</source>
@@ -1016,6 +1021,11 @@
                 <source>confirmar.alternativas.de.estudio</source>
                 <target>Por favor confirmar que las alternativas que seleccionó son las siguientes:</target>
 			</trans-unit>
+			<trans-unit id="mercadoLaboral-5">
+                <source>mercado.laboral</source>
+                <target>Mercado laboral</target>
+			</trans-unit>
+			
             
             <!-- evaluacion 360 eva360-x -->
 			<trans-unit id="eva360-1">
@@ -1041,6 +1051,37 @@
 			<trans-unit id="eva360-6">
                 <source>evaluacion.360.instrucciones.2.%usu%</source>
                 <target>Te invitamos a resolver esta evaluación de manera detallada. Esta información le ayudará a %usu% a aprender más sobre el/ella mismo/a y de esta manera podremos acompañarlo/a mejor en su proceso de decisión de carrera.</target>
+			</trans-unit>
+
+
+			<!-- ADMIN MENTOR OV adminov-x -->
+			<trans-unit id="adminov-1">
+                <source>seguimientos.usuarios.mentor</source>
+                <target>Seguimiento de usuarios</target>
+			</trans-unit>
+			<trans-unit id="adminov-2">
+                <source>descripcion.usuarios.mentor</source>
+                <target>Control sobre los usuarios que lo han seleccionado como mentor de orientación vocacional, desde aqui podra subir el informe de mercado laboral, cuando el usuario llegue a esa fase.</target>
+			</trans-unit>
+			<trans-unit id="adminov-3">
+                <source>no.hay.alternativas</source>
+                <target>El usuario no ha seleccionado alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="adminov-4">
+                <source>informe.mercado.laboral</source>
+                <target>Informe de mercado laboral</target>
+			</trans-unit>
+			<trans-unit id="adminov-5">
+                <source>subir.informe.mercado.laboral.de.alternativas.de.estudio.de.%name%</source>
+                <target>Subir el informe de mercado laboral de las alternativas de estudio seleccionadas por %name%, tenga en cuenta que si ya ha subido uno con anterioridad, este sera remplazado.</target>
+			</trans-unit>
+			<trans-unit id="adminov-6">
+                <source>subir.informe</source>
+                <target>Subir informe</target>
+			</trans-unit>
+			<trans-unit id="adminov-7">
+                <source>no.hay.usuarios.para.seguimiento</source>
+                <target>No hay usuarios para seguimiento</target>
 			</trans-unit>
         </body>
     </file>

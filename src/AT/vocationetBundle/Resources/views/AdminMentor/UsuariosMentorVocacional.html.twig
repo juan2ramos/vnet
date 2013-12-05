@@ -16,26 +16,7 @@
 			color: #333;
 			vertical-align:middle;
 		}
-
-        .ui-helper-hidden-accessible {
-             display: none;
-        }
-        .ui-menu .ui-menu-item a{
-            background: transparent;
-            background-color: transparent;
-            height:15px;
-            font-size:15px;
-            width: 500px !important;
-            border: 1px solid #F3F0F0;
-            padding-left: 10px;
-            padding-right: 90px;
-        }
-        .ui-widget-content {
-            background-color: transparent !important;
-        }
-
 	</style>
-	<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
 {% endblock style %}
 
 {% block body %}
@@ -43,8 +24,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<section class="panel">
-				<header class="panel-heading">{# formulario_info.nombre #}{% trans from "label" %}usuarios.mentor{% endtrans %}</header>
-				<div class="panel-body">{# formulario_info.encabezado #}{% trans from "label" %}descripcion.usuarios.mentor{% endtrans %}</div>
+				<header class="panel-heading">{% trans from "label" %}seguimientos.usuarios.mentor{% endtrans %}</header>
+				<div class="panel-body">{% trans from "label" %}descripcion.usuarios.mentor{% endtrans %}</div>
                 
                 {% if contactos %}
 					<table class="table table-striped border-top datatable">
@@ -54,10 +35,9 @@
 								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}nombre{% endtrans %}</th>
 								{#<th>{% trans from "label" %}rol{% endtrans %}</th>#}
-								<th>{% trans from "label" %}alternativas{% endtrans %}</th>
+								<th>{% trans from "label" %}alternativas.estudio{% endtrans %}</th>
 								<th>{% trans from "label" %}colegio{% endtrans %}/{% trans from "label" %}universidad{% endtrans %}</th>
-								<th>{% trans from "label" %}opciones{% endtrans %}</th>
-								
+								<th class='text-center'>{% trans from "label" %}opciones{% endtrans %}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -74,12 +54,12 @@
 									<td class='href' data-href='{{ pathUser }}'>
 										<div>
 										{% if c.estudios is defined %}
-												{% for est in c.estudios %}
-													- {{ est.nombreCarrera }}<br>
-												{% endfor %}
-											{% else %}
-												{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
-											{% endif %}
+											{% for est in c.estudios %}
+												- {{ est.nombreCarrera }}<br>
+											{% endfor %}
+										{% else %}
+											{% trans from "label" %}no.hay.alternativas{% endtrans %}
+										{% endif %}
 											</div>
 									</td>
 									<td class='href' data-href='{{ pathUser }}'>
@@ -87,13 +67,13 @@
 											{% set colegio = (c.nombreColegio) ? c.nombreColegio : 'no.ha.sido.suministrado'|trans({}, 'label')  %}
 											{% set grado = (c.usuarioCursoActual) ? " ("  ~ c.usuarioCursoActual ~ ")" : '' %}
 											{{ colegio }}{{ grado }}
-											
-											
 										</div>
 									</td>
 									<td class="text-center">
 										<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
-										<a STYLE='margin:2px;width:90%;' class="btn btn-primary btn-xs" data-toggle="modal" href="#myModal{{ c.id }}">{{ 'agregar.informe.mercado.laboral'|trans({}, 'label') }}</a>
+										{% if c.estudios is defined %}
+											<a STYLE='margin:2px;width:90%;' class="btn btn-primary btn-xs" data-toggle="modal" href="#myModal{{ c.id }}">{{ 'informe.mercado.laboral'|trans({}, 'label') }}</a>
+										{% endif %}	
 										<br>
 										
 										<div class="modal fade" id="myModal{{ c.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
@@ -109,12 +89,12 @@
 															<p>{{ 'subir.informe.mercado.laboral.de.alternativas.de.estudio.de.%name%'|trans({'%name%': name}, 'label') }}</p>
 															<input type='hidden' name='usuario' value='{{ c.id }}' class="form-control" />
 															<div STYLE='display:inline;'>
-																<input required type='file' name='informeml' value='{{ c.id }}' class="form-control" STYLE='width:60%'/>
+																<input required type='file' name='informeml' value='{{ c.id }}' class="form-control" STYLE='width:60%' accept="application/pdf"/>
 															</div>
 														</div>
 														<div class="modal-footer">
-															<button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
-															<button class="btn btn-success" type="submit">Save changes</button>
+															<button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
+															<button class="btn btn-success" type="submit">{% trans from "label" %}subir.informe{% endtrans %}</button>
 														</div>
 													</form>
 												</div>
@@ -128,16 +108,17 @@
 					</table>
 				{% else %}
 					<div class="panel-body" STYLE='text-align:center;'>
-                        {% trans from "label" %}no.hay.coincidencias.en.la.busqueda{% endtrans %}
+                        {% trans from "label" %}no.hay.usuarios.para.seguimiento{% endtrans %}
 					</div>
 				{% endif %}
 			</section>
+			
 			<hr>
-				<div class="panel-body text-center">
-					<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
-					<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>
-					<a href='{{ path('test_vocacional') }}'type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
-				</div>
+			<div class="panel-body text-center">
+				<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+				<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>
+				<a href='{{ path('test_vocacional') }}'type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+			</div>
 		</div>
 	</div>
 {% endblock body %}
@@ -151,21 +132,8 @@
     <script type="text/javascript" src="{{ asset('rateit/src/jquery.rateit.js') }}"></script>
 
     <script>
-
-  
 		$('.table').on('click', '.href', function(){
-			//window.location = $(this).data('href');
-		});
-
-		// Evento de click del btn seleccionar mentor, que envia el form.
-		$('.table').on('click', '.seleccionarMentor', function(){
-			var nameMentor = $(this).data('info');
-			translateConfirm = '{{ 'confirmacion.mentor.%name%'|trans({'%name%': "nameMentor" }, 'label') }}';
-			translateConfirm = translateConfirm.replace("nameMentor", nameMentor);
-			if (confirm(translateConfirm)) {
-				$(this).parent().submit();
-			}
+			window.location = $(this).data('href');
 		});
     </script>
 {% endblock script%}
-
