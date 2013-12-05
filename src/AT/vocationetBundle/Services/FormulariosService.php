@@ -431,7 +431,7 @@ class FormulariosService
             $participacion->setFecha(new \DateTime());
             $participacion->setUsuarioParticipa($usuarioId);
             $participacion->setEstado(1);            
-            $this->em->persist($participacion);
+//            $this->em->persist($participacion);
         }
         
         $puntaje = 0;

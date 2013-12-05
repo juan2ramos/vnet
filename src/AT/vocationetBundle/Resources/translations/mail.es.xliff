@@ -57,6 +57,14 @@
                 <source>%usu%.invito.contestar.evaluacion.360.body</source>
                 <target>Tú has sido seleccionado para participar en el proceso de retroalimentación de %usu%. Esta retroalimentación hace parte del proceso de decisión de carrera que está realizando %usu% a través de VOCATIONET. Como parte de este proceso te invitamos a resolver algunas preguntas sobre las competencias, personalidad y preferencias de %usu%. Esta matriz es un instrumento de evaluación 360 que servirá para darle a %usu% una retroalimentación individual frente a diferentes fortalezas y debilidades. Por esta razón tu percepción es crucial en este proceso de evaluación. Te recordamos que no existen respuestas correctas e incorrectas. Lo más importante es que lo diligencies con la mayor honestidad y especificidad posible pues entre más lo seas mejor podremos asesorar a %usu% en su decisión de carrera.</target>
 			</trans-unit>
+			<trans-unit id="eva360-4">
+                <source>evaluacion.360.de.%usu%.finalizada</source>
+                <target>participación en la evaluación 360 de %usu%</target>
+			</trans-unit>
+			<trans-unit id="eva360-5">
+                <source>mensaje.evaluacion.360.de.%usu%.finalizada</source>
+                <target>Ha sido registrada una participación en la evaluación 360 de %usu%. Para ver los resultados ingresa a su perfil.</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

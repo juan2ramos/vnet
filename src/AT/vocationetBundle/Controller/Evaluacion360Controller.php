@@ -151,7 +151,6 @@ class Evaluacion360Controller extends Controller
             if ($form->isValid())
             {
                 $respuestas = $request->get('pregunta');
-                //$security->debug($respuestas);
                 
                 $formularios_serv = $this->get('formularios');
                 
@@ -162,14 +161,16 @@ class Evaluacion360Controller extends Controller
                 
                 if($resultados['validate'])
                 {
-                    // Enviar email de agradecimiento
+                    // Enviar mensaje de notificacion al mentor
+                    $this->enviarNotificacionMentor($id);
+                    
+                    // Enviar mensaje de agradecimiento
                     $subject = $this->get('translator')->trans("gracias.participar.mi.evaluacion.360");
                     $body = $this->get('translator')->trans("mensaje.gracias.participar.mi.evaluacion.360")
                             ."<br/><br/>
                               Cordialmente,<br/>
                               Vocationet";
                     $this->get("mensajes")->enviarMensaje($id, array($usuarioId), $subject, $body);
-                    
                     
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("gracias.por.participar.evaluacion.360")));
                     return $this->redirect($this->generateUrl('homepage'));
@@ -302,6 +303,65 @@ class Evaluacion360Controller extends Controller
         $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioRespondeEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
         
         return $participacion;
+    }
+    
+    /**
+     * Funcion que envia un mensaje al mentor cuando se participa en una evaluacion 360
+     * 
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     */
+    private function enviarNotificacionMentor($usuarioEvaluadoId)
+    {
+        $em = $this->getDoctrine()->getManager();                
+        
+        //Obtener mentor del usuario
+        $dql = "SELECT 
+                    u1.id usuario1Id, 
+                    u2.id usuario2Id
+                FROM 
+                    vocationetBundle:Relaciones r 
+                    JOIN vocationetBundle:Usuarios u1 WITH r.usuario = u1.id
+                    JOIN vocationetBundle:Usuarios u2 WITH r.usuario2 = u2.id
+                WHERE 
+                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
+                    AND r.tipo = 2
+                    AND r.estado = 1
+                ";
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioEvaluadoId);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        $mentorId = false;
+        if(isset($result[0]))
+        {
+            $result = $result[0];
+            
+            if($result['usuario1Id'] == $usuarioEvaluadoId)
+            {
+                $mentorId = $result['usuario2Id'];
+            }
+            elseif($result['usuario2Id'] == $usuarioEvaluadoId)
+            {
+                $mentorId = $result['usuario1Id'];
+            }            
+        }
+                
+        if($mentorId)
+        {
+            $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($usuarioEvaluadoId);
+            $usuarioNombre = $usuario->getUsuarioNombre()." ".$usuario->getUsuarioApellido();
+            
+            // Enviar mensaje
+            
+            $subject = $this->get('translator')->trans("evaluacion.360.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail');
+            $link = '<a href="'. $this->get('request')->getSchemeAndHttpHost().$this->generateUrl('perfil', array('perfilId' => $usuarioEvaluadoId)) .'" >'.$this->get('translator')->trans("ver.perfil", array(), 'label').'</a><br/><br/>';
+            $body = $this->get('translator')->trans("mensaje.evaluacion.360.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail')
+                    ."<br/><br/>".$link."";
+            
+            $this->get("mensajes")->enviarMensaje($usuarioEvaluadoId, array($mentorId), $subject, $body);        
+        }
+        
     }
     
 }

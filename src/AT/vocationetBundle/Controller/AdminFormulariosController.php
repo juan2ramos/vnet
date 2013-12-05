@@ -349,15 +349,15 @@ class AdminFormulariosController extends Controller
         
         $em->persist($pregunta);
         
+        // Eliminar opciones anteriores
+        $dql = "DELETE FROM vocationetBundle:Opciones o WHERE o.pregunta = :preguntaId";
+        $query = $em->createQuery($dql);
+        $query->setParameter('preguntaId', $pregunta->getId());
+        $query->getResult();
+        
         // Registrar opciones de respuesta
         if($data['preguntaTipo'] == 1 || $data['preguntaTipo'] == 2 || $data['preguntaTipo'] == 3)
         {
-            // Eliminar opciones anteriores
-            $dql = "DELETE FROM vocationetBundle:Opciones o WHERE o.pregunta = :preguntaId";
-            $query = $em->createQuery($dql);
-            $query->setParameter('preguntaId', $pregunta->getId());
-            $query->getResult();
-            
             if(isset($data['opciones']) && count($data['opciones']))
             {
                 foreach($data['opciones'] as $ko => $o)
