@@ -53,12 +53,9 @@ class Respuestas
     private $participacion;
 
     /**
-     * @var \Preguntas
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Preguntas")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="pregunta_id", type="integer", nullable=false)
      */
     private $pregunta;
 
@@ -169,10 +166,10 @@ class Respuestas
     /**
      * Set pregunta
      *
-     * @param \AT\vocationetBundle\Entity\Preguntas $pregunta
+     * @param integer $pregunta
      * @return Respuestas
      */
-    public function setPregunta(\AT\vocationetBundle\Entity\Preguntas $pregunta = null)
+    public function setPregunta($pregunta = null)
     {
         $this->pregunta = $pregunta;
     
@@ -182,7 +179,7 @@ class Respuestas
     /**
      * Get pregunta
      *
-     * @return \AT\vocationetBundle\Entity\Preguntas 
+     * @return integer 
      */
     public function getPregunta()
     {

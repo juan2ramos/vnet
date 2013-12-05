@@ -158,24 +158,10 @@ class Evaluacion360Controller extends Controller
                 $usuarioId = $security->getSessionValue('id');
                 
                 //Validar formulario
-                $resultados = $formularios_serv->procesarFormulario($form_id, $usuarioId, $respuestas);
+                $resultados = $formularios_serv->procesarFormulario($form_id, $usuarioId, $respuestas, $id);
                 
                 if($resultados['validate'])
                 {
-                    $em = $this->getDoctrine()->getManager();
-                    
-                    // Actualizar registro UsuariosFormularios
-                    $usuarioEmail = $security->getSessionValue("usuarioEmail");
-                    $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioEmail, "usuarioEvaluado" => $id));
-                    if($participacion)
-                    {
-                        $participacion->setFecha(new \DateTime());
-                        $participacion->setUsuarioParticipa($usuarioId);
-                        $participacion->setEstado(1);
-                        $em->persist($participacion);
-                        $em->flush();
-                    }
-                    
                     // Enviar email de agradecimiento
                     $subject = $this->get('translator')->trans("gracias.participar.mi.evaluacion.360");
                     $body = $this->get('translator')->trans("mensaje.gracias.participar.mi.evaluacion.360")
@@ -306,16 +292,16 @@ class Evaluacion360Controller extends Controller
      * 
      * @param integer $usuarioRespondeId id de usuario que ingresa
      * @param integer $usuarioEvaluadoId id de usuario a evaluar
-     * @return Object entidad UsuariosFormularios
+     * @return Object entidad Participaciones
      */
     private function validarAcceso($usuarioRespondeEmail, $usuarioEvaluadoId)
     {
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
         $em = $this->getDoctrine()->getManager();
         
-        $usuarioFormulario = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioRespondeEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioRespondeEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
         
-        return $usuarioFormulario;
+        return $participacion;
     }
     
 }

@@ -313,8 +313,8 @@ class AdminFormulariosController extends Controller
     {
         // Verificar que no existan respuestas de usuarios
         $em = $this->getDoctrine()->getManager();
-        $dql = "SELECT COUNT(pu.id) c FROM vocationetBundle:PreguntasUsuarios pu 
-                WHERE pu.pregunta = :preguntaId ";
+        $dql = "SELECT COUNT(r.id) c FROM vocationetBundle:Respuestas r 
+                WHERE r.pregunta = :preguntaId ";
         $query = $em->createQuery($dql);
         $query->setParameter('preguntaId', $pid);
         $result = $query->getResult();
