@@ -105,7 +105,7 @@ class FormulariosService
             // Agregar preguntas al array de formularios
             foreach($preguntas as $p)
             {
-                $formularios[$p['formularioId']]['preguntas'][] = $p;
+                $formularios[$p['formularioId']]['preguntas'][$p['id']] = $p;
             }
         }
         return $formularios;
@@ -155,7 +155,7 @@ class FormulariosService
             // Agregar opciones al array de preguntas
             foreach($opciones as $o)
             {
-                $preguntas[$o['preguntaId']]['opciones'][] = $o;
+                $preguntas[$o['preguntaId']]['opciones'][$o['id']] = $o;
             }
         }
         
@@ -399,7 +399,7 @@ class FormulariosService
     }
     
     /**
-     * Funcion para registrar y calificar las respuestas de usuario en base de datos     * 
+     * Funcion para registrar y calificar las respuestas de usuario en base de datos 
      * 
      * @param integer $formId id de formulario principal
      * @param integer $usuarioId id de usuario que participa
@@ -542,6 +542,16 @@ class FormulariosService
         
         return $puntaje;
     }
+    
+    
+    private function getResultadosEvaluacion360()
+    {
+        
+    }
+    
+    
+    
+    
     
     /**
      * Funcion que busca invitaciones al usuario a evaluacioes 360

@@ -193,6 +193,43 @@ class Evaluacion360Controller extends Controller
     }
 
     /**
+     * Accion para ver las respuestas de las evaluaciones 360 de un usuario
+     * 
+     * A esta accion solo tiene acceso el mentor del usuario
+     * 
+     * @Route("/{id}/resultados", name="evaluacion360_resultados")
+     * @Template("vocationetBundle:Evaluacion360:resultados.html.twig")
+     * @param integer $usuarioId id de usuario evaluado
+     * @return Response
+     */
+    public function resultadosAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $form_id = $this->get('formularios')->getFormId('evaluacion360');
+        $usuarioId = $security->getSessionValue('id');
+        
+        // Valida acceso del mentor
+        if($usuarioId != $this->getMentorId($id))
+        {
+//            throw $this->createNotFoundException();
+        }
+        
+        
+        $formularios_serv = $this->get('formularios');
+        $formularios = $formularios_serv->getFormulario($form_id);
+        
+        $security->debug($formularios);
+        
+        
+        return array(
+            
+        );
+    }
+    
+    /**
      * Funcion que valida la lista de correos del formulario
      * @param array $data
      * @return array|boolean 
@@ -306,11 +343,12 @@ class Evaluacion360Controller extends Controller
     }
     
     /**
-     * Funcion que envia un mensaje al mentor cuando se participa en una evaluacion 360
+     * Funcion que obtiene el id del mentor de un usuario
      * 
      * @param integer $usuarioEvaluadoId id de usuario evaluado
+     * @return integer id de mentor
      */
-    private function enviarNotificacionMentor($usuarioEvaluadoId)
+    private function getMentorId($usuarioEvaluadoId)
     {
         $em = $this->getDoctrine()->getManager();                
         
@@ -346,6 +384,21 @@ class Evaluacion360Controller extends Controller
                 $mentorId = $result['usuario1Id'];
             }            
         }
+        
+        return $mentorId;
+    }
+        
+    /**
+     * Funcion que envia un mensaje al mentor cuando se participa en una evaluacion 360
+     * 
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     */
+    private function enviarNotificacionMentor($usuarioEvaluadoId)
+    {
+        $em = $this->getDoctrine()->getManager();                
+        
+        //Obtener mentor del usuario
+        $mentorId = $this->getMentorId($usuarioEvaluadoId);
                 
         if($mentorId)
         {
