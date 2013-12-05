@@ -40,7 +40,6 @@ class FormulariosService
         return $id;
     }
     
-    
     /**
      * Funcion para obtener la entidad de un formulario principal
      * 
@@ -196,7 +195,8 @@ class FormulariosService
         
         if($validate)
         {
-            $puntaje = $this->registrarRespuestas($usuarioId, $preguntas, $respuestas);
+            $puntaje = $this->registrarRespuestas($id, $usuarioId, $preguntas, $respuestas);
+            
         }
         return array(
             'validate' => $validate,
@@ -351,16 +351,34 @@ class FormulariosService
     }
     
     /**
-     * Funcion para registrar y califica las respuestas de usuario en base de datos
+     * Funcion para registrar y calificar las respuestas de usuario en base de datos
+     * 
+     * 
      * 
      * @param array $preguntas arreglo de preguntas con id y tipo de pregunta
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
      * @return integer puntuacion de las respuestas
      */
-    private function registrarRespuestas($usuarioId, $preguntas, $respuestas)
+    private function registrarRespuestas($formId, $usuarioId, $preguntas, $respuestas)
     {
-        $puntaje = 0;
         
+        // Registrar participacion
+        
+        if($formId != $this->getFormId('evaluacion360'))
+        {
+            $participacion = new \AT\vocationetBundle\Entity\Participaciones();
+            $participacion->setFormulario($formId);
+            $participacion->setFecha(new \DateTime());
+            $participacion->setUsuarioParticipa($usuarioId);
+            $participacion->setEstado(1);
+            
+            $this->em->persist($participacion);
+            $this->em->flush();
+        }
+        
+        
+        $puntaje = 0;
+        /*
         // Registrar respuestas segun tipo de pregunta
         foreach($preguntas as $preg)
         {
@@ -424,10 +442,44 @@ class FormulariosService
         }
         
 //        $this->em->flush();
+        */
         $puntaje = 100;
         
         return $puntaje;
     }
     
+    /**
+     * Funcion que busca invitaciones al usuario a evaluacioes 360
+     * 
+     * @param integer $usuarioId id de usuario logueado
+     * @param string $usuarioEmail email de usuario logueado
+     * @return array|boolean arreglo de invitaciones o false si no encuentra ninguna 
+     */
+    public function getInvitacionesEvaluacion360($usuarioId, $usuarioEmail)
+    {
+        $return = false;
+        $dql = "SELECT 
+                    p.usuarioEvaluado, 
+                    u.usuarioNombre,
+                    u.usuarioApellido
+                FROM 
+                    vocationetBundle:Participaciones p
+                    JOIN vocationetBundle:Usuarios u WITH u.id = p.usuarioEvaluado
+                WHERE 
+                    (p.usuarioParticipa = :usuarioId
+                    OR p.correoInvitacion = :usuarioEmail)
+                    AND p.estado = 0";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $query->setParameter('usuarioEmail', $usuarioEmail);
+        $result = $query->getResult();
+        
+        if(count($result)>=1)
+        {
+            $return = $result;
+        }
+        
+        return $return;
+    }
 }
 ?>

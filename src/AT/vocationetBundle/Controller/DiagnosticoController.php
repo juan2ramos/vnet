@@ -30,7 +30,7 @@ class DiagnosticoController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $usuarioId = $security->getSessionValue("id");
         $formularios_serv = $this->get('formularios');
@@ -39,8 +39,8 @@ class DiagnosticoController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         //Validar acceso a diagnostico
-        $usuarioFormulario = $em->getRepository("vocationetBundle:UsuariosFormularios")->findOneBy(array("formulario" => $form_id, "usuarioResponde" => $usuarioId));
-        if($usuarioFormulario)
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
+        if($participacion)
         {
             return $this->forward("vocationetBundle:Alerts:alertScreen", array(
                 "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
@@ -59,7 +59,6 @@ class DiagnosticoController extends Controller
         );
     }
     
-    
     /**
      * Accion que recibe y procesa el cuestionario de diagnostico
      * 
@@ -68,11 +67,11 @@ class DiagnosticoController extends Controller
      * @Method({"POST"})
      * @param \AT\vocationetBundle\Controller\Request $request
      */
-    public function procesarCuestionario(Request $request)
+    public function procesarCuestionarioAction(Request $request)
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form = $this->createFormCuestionario();
         $form_id = $this->get('formularios')->getFormId('diagnostico');
@@ -119,15 +118,6 @@ class DiagnosticoController extends Controller
                         $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.3");
                     }
                     
-                    // Actualizar registro UsuariosFormularios
-                    $em = $this->getDoctrine()->getManager();
-                    $usuarioFormulario = new \AT\vocationetBundle\Entity\UsuariosFormularios();
-                    $usuarioFormulario->setFormulario($form_id);
-                    $usuarioFormulario->setUsuarioResponde($usuarioId);
-                    $usuarioFormulario->setUsuarioEvaluado($usuarioId);
-                    $usuarioFormulario->setEstado(1);
-                    $em->persist($usuarioFormulario);
-                    $em->flush();
                     
                     return array(
                         'titulo_mensaje' => $titulo_mensaje,

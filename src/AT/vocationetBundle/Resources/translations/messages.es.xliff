@@ -375,6 +375,38 @@
                 <source>invitaciones.enviadas.correctamente</source>
                 <target>Invitaciones enviadas correctamente</target>
 			</trans-unit>
+			<trans-unit id="eva360-6">
+                <source>cuestionario.enviado</source>
+                <target>Cuestionario enviado</target>
+			</trans-unit>
+			<trans-unit id="eva360-7">
+                <source>gracias.por.participar.evaluacion.360</source>
+                <target>Gracias por participar en la evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-8">
+                <source>no.tiene.invitacion</source>
+                <target>No tienes invitación</target>
+			</trans-unit>
+			<trans-unit id="eva360-9">
+                <source>solicita.invitacion.usuario</source>
+                <target>Solicita una invitación para participar en la evaluación 360 de alguno de tus amigos</target>
+			</trans-unit>
+			<trans-unit id="eva360-10">
+                <source>cuestionario.ya.ha.sido.enviado</source>
+                <target>Ya has participado en este cuestionario</target>
+			</trans-unit>
+			<trans-unit id="eva360-11">
+                <source>gracias.por.participar.diagnostico</source>
+                <target>Gracias por participar en la prueba de diagnostico</target>
+			</trans-unit>
+			<trans-unit id="eva360-12">
+                <source>gracias.participar.mi.evaluacion.360</source>
+                <target>Gracias por participar en mi evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-13">
+                <source>mensaje.gracias.participar.mi.evaluacion.360</source>
+                <target>Te agradecemos mucho por completar esta evaluación. Vocacionet cree firmemente que encontrar una pasión en la vida hace exitosa a las personas. Esta evaluación es una de las fases importantes del proceso de decisión de carrera para encontrar aquello que más nos satisface. Gracias por tu tiempo!</target>
+			</trans-unit>
 
 			<!-- ADMIN MENTOR OV adminov-x -->
 			<trans-unit id="adminov-1">

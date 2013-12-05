@@ -1,0 +1,86 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Participaciones
+ *
+ * @ORM\Table(name="participaciones")
+ * @ORM\Entity
+ */
+class Participaciones
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="datetime", nullable=false)
+     */
+    private $fecha;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="correo_invitacion", type="string", length=100, nullable=true)
+     */
+    private $correoInvitacion;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_participa_id", referencedColumnName="id")
+     * })
+     */
+    private $usuarioParticipa;
+
+    /**
+     * @var \Usuarios
+     *
+     * @ORM\ManyToOne(targetEntity="Usuarios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_evaluado_id", referencedColumnName="id")
+     * })
+     */
+    private $usuarioEvaluado;
+
+    /**
+     * @var \Formularios
+     *
+     * @ORM\ManyToOne(targetEntity="Formularios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="formulario_id", referencedColumnName="id")
+     * })
+     */
+    private $formulario;
+
+    /**
+     * @var \Carreras
+     *
+     * @ORM\ManyToOne(targetEntity="Carreras")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="carrera_id", referencedColumnName="id")
+     * })
+     */
+    private $carrera;
+
+
+}

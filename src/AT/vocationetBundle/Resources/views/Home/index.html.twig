@@ -37,7 +37,32 @@
 
 {% block body %}
 <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-8">
+        <section class="panel">
+            <div class="panel-body">
+            </div>
+        </section>
+    </div>
+        
+    {# invitaciones a evaluaciones 360 #}
+    {% if invitaciones360 %}
+    <div class="col-lg-4">
+        <section class="panel">
+            <div class="panel-body">
+                {% for invitacion in invitaciones360 %}
+                    <div class="alert alert-info fade in">
+                        <strong>{{ invitacion.usuarioNombre ~' '~ invitacion.usuarioApellido }}</strong>
+                        {% trans from "label" %}te.ha.invitado.a.su.evaluacion.360{% endtrans %}.
+                        {% trans from "label" %}para.participar{% endtrans %}
+                        <a href="{{ path("evaluacion360_evaluacion", {"id": invitacion.usuarioEvaluado } ) }}" style="text-decoration: underline;">{% trans from "label" %}haz.click.aqui{% endtrans %}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+    {% endif %}    
+        
+        {#
         <section class="panel">
             <div class="panel-body">
                 <div id="owl-demo" class="owl-carousel owl-theme">
@@ -80,11 +105,14 @@
                 </div>
             </div>   
         </section>
-    </div>   
+        #}
+  
 </div>   
 {% endblock body %}
 
 {% block script %}
+
+{#
 <!--<script src="{{ asset('js/owl.carousel.js') }}" ></script>-->
 <script >
  
@@ -116,4 +144,5 @@ $(document).ready(function() {
     
 });
 </script>
+#}
 {% endblock script %}

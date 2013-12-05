@@ -1,0 +1,66 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Respuestas
+ *
+ * @ORM\Table(name="respuestas")
+ * @ORM\Entity
+ */
+class Respuestas
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="respuesta_numerica", type="float", nullable=true)
+     */
+    private $respuestaNumerica;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="respuesta_texto", type="string", length=255, nullable=true)
+     */
+    private $respuestaTexto;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="valor", type="integer", nullable=true)
+     */
+    private $valor;
+
+    /**
+     * @var \Participaciones
+     *
+     * @ORM\ManyToOne(targetEntity="Participaciones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="participacion_id", referencedColumnName="id")
+     * })
+     */
+    private $participacion;
+
+    /**
+     * @var \Preguntas
+     *
+     * @ORM\ManyToOne(targetEntity="Preguntas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
+     * })
+     */
+    private $pregunta;
+
+
+}

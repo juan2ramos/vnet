@@ -46,7 +46,7 @@
             
             <!-- evaluacion 360 eva360-x -->
 			<trans-unit id="eva360-1">
-                <source>%usu%.invito.contestar.evaluacio.360</source>
+                <source>%usu%.invito.contestar.evaluacion.360</source>
                 <target>%usu% te ha invitado a participar en su evaluación 360</target>
 			</trans-unit>
 			<trans-unit id="eva360-2">
@@ -55,7 +55,7 @@
 			</trans-unit>
 			<trans-unit id="eva360-3">
                 <source>%usu%.invito.contestar.evaluacion.360.body</source>
-                <target>%usu% esta usando Vocationet para tomar su decisión de carrera y solicita tu colaboración participando en su evaluación 360</target>
+                <target>Tú has sido seleccionado para participar en el proceso de retroalimentación de %usu%. Esta retroalimentación hace parte del proceso de decisión de carrera que está realizando %usu% a través de VOCATIONET. Como parte de este proceso te invitamos a resolver algunas preguntas sobre las competencias, personalidad y preferencias de %usu%. Esta matriz es un instrumento de evaluación 360 que servirá para darle a %usu% una retroalimentación individual frente a diferentes fortalezas y debilidades. Por esta razón tu percepción es crucial en este proceso de evaluación. Te recordamos que no existen respuestas correctas e incorrectas. Lo más importante es que lo diligencies con la mayor honestidad y especificidad posible pues entre más lo seas mejor podremos asesorar a %usu% en su decisión de carrera.</target>
 			</trans-unit>
 
 			<!-- ADMIN MENTOR OV adminov-x -->

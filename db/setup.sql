@@ -15,8 +15,9 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (8, 'acceso_contactos', 'Acceso a contactos','Acceso a contactos y a establecer relaciones entre ellos', 'contactos,busqueda,edit_estado_relacion'),
 (9, 'acceso_test_vocacional', 'Acceso a Test Vocacional','Acceso a test Vocacional', 'test_vocacional'),
 (10, 'admin_preguntas', 'Administración de preguntas', 'Administrar preguntas de los cuestionario', 'admin_formularios,delete_pregunta,edit_pregunta'),
+(11, 'acceso_diagnostico', 'Prueba de diagnostico', 'Prueba de diagnostico', 'diagnostico,procesar_diagnostico'),
+(12, 'acceso_evaluacion_360', 'Evaluación 360', 'Evaluación 360', 'evaluacion360,evaluacion360_evaluacion,procesar_evaluacion360'),
 (13, 'acceso_mentor_ov', 'Acceso de administracion por parte del mentor OV', 'Acceso de administracion por parte del mentor de Orientación Vocacional', 'lista_usuarios_mentor,subir_informe_mercado_laboral');
-
 
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 
@@ -47,6 +48,12 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('8', '3'),
 ('8', '4'),
 ('10', '4'),
+('11', '1'),
+('11', '4'),
+('12', '1'),
+('12', '2'),
+('12', '3'),
+('12', '4'),
 ('13', '3');
 
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 

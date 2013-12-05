@@ -5,12 +5,12 @@ namespace AT\vocationetBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * UsuariosFormularios
+ * Participaciones
  *
- * @ORM\Table(name="usuarios_formularios")
+ * @ORM\Table(name="participaciones")
  * @ORM\Entity
  */
-class UsuariosFormularios
+class Participaciones
 {
     /**
      * @var integer
@@ -20,6 +20,13 @@ class UsuariosFormularios
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="fecha", type="datetime", nullable=false)
+     */
+    private $fecha;
 
     /**
      * @var string
@@ -38,7 +45,14 @@ class UsuariosFormularios
     /**
      * @var integer
      *
-     * @ORM\Column(name="usuario_evaluado_id", type="integer", nullable=false)
+     * @ORM\Column(name="usuario_participa_id", type="integer", nullable=true)
+     */
+    private $usuarioParticipa;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="usuario_evaluado_id", type="integer", nullable=true)
      */
     private $usuarioEvaluado;
 
@@ -50,11 +64,11 @@ class UsuariosFormularios
     private $formulario;
 
     /**
-     * @var integer
+     * @var \Carreras
      *
-     * @ORM\Column(name="usuario_responde_id", type="integer", nullable=false)
+     * @ORM\Column(name="carrera_id", type="integer", nullable=true)
      */
-    private $usuarioResponde;
+    private $carrera;
 
 
 
@@ -69,10 +83,33 @@ class UsuariosFormularios
     }
 
     /**
+     * Set fecha
+     *
+     * @param \DateTime $fecha
+     * @return Participaciones
+     */
+    public function setFecha($fecha)
+    {
+        $this->fecha = $fecha;
+    
+        return $this;
+    }
+
+    /**
+     * Get fecha
+     *
+     * @return \DateTime 
+     */
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
+
+    /**
      * Set correoInvitacion
      *
      * @param string $correoInvitacion
-     * @return UsuariosFormularios
+     * @return Participaciones
      */
     public function setCorreoInvitacion($correoInvitacion)
     {
@@ -95,7 +132,7 @@ class UsuariosFormularios
      * Set estado
      *
      * @param boolean $estado
-     * @return UsuariosFormularios
+     * @return Participaciones
      */
     public function setEstado($estado)
     {
@@ -115,10 +152,33 @@ class UsuariosFormularios
     }
 
     /**
+     * Set usuarioParticipa
+     *
+     * @param integer $usuarioParticipa
+     * @return Participaciones
+     */
+    public function setUsuarioParticipa($usuarioParticipa = null)
+    {
+        $this->usuarioParticipa = $usuarioParticipa;
+    
+        return $this;
+    }
+
+    /**
+     * Get usuarioParticipa
+     *
+     * @return integer
+     */
+    public function getUsuarioParticipa()
+    {
+        return $this->usuarioParticipa;
+    }
+
+    /**
      * Set usuarioEvaluado
      *
      * @param integer $usuarioEvaluado
-     * @return UsuariosFormularios
+     * @return Participaciones
      */
     public function setUsuarioEvaluado($usuarioEvaluado = null)
     {
@@ -130,7 +190,7 @@ class UsuariosFormularios
     /**
      * Get usuarioEvaluado
      *
-     * @return integer 
+     * @return integer
      */
     public function getUsuarioEvaluado()
     {
@@ -141,7 +201,7 @@ class UsuariosFormularios
      * Set formulario
      *
      * @param integer $formulario
-     * @return UsuariosFormularios
+     * @return Participaciones
      */
     public function setFormulario($formulario = null)
     {
@@ -161,25 +221,25 @@ class UsuariosFormularios
     }
 
     /**
-     * Set usuarioResponde
+     * Set carrera
      *
-     * @param integer $usuarioResponde
-     * @return UsuariosFormularios
+     * @param integer $carrera
+     * @return Participaciones
      */
-    public function setUsuarioResponde($usuarioResponde = null)
+    public function setCarrera($carrera = null)
     {
-        $this->usuarioResponde = $usuarioResponde;
+        $this->carrera = $carrera;
     
         return $this;
     }
 
     /**
-     * Get usuarioResponde
+     * Get carrera
      *
      * @return integer
      */
-    public function getUsuarioResponde()
+    public function getCarrera()
     {
-        return $this->usuarioResponde;
+        return $this->carrera;
     }
 }
