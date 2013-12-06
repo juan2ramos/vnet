@@ -149,7 +149,7 @@ class Evaluacion360Controller extends Controller
      * @param integer $id id de usuario a evaluar
      * @return Response
      */
-    public function procesarEvaluacion360Action(Request $request, $id)
+    public function procesarAction(Request $request, $id)
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 

@@ -26,14 +26,21 @@
 			</section>
 			
 			<section class="panel">
+                <header class="panel-heading" style="font-size: 14px;">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                {% trans from "label" %}recomendacion.leer.guia.test.vocacional{% endtrans %}                           
+                            </td>
+                            <td style="width: 36px;">
+                                <a href='{{ asset(getParameter('enlace_pdf_test_vocacional_info')) }}' target='_blank'>
+                                    <img src='{{ asset('img/pdf.png') }}' style='width:60px;padding-top:5px;' />
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </header>
 				<div class="panel-body">
-					<p STYLE='float:right;'>
-						<a href='{{ asset(getParameter('enlace_pdf_test_vocacional_info')) }}' target='_blank'>
-							<img src='{{ asset('img/pdf.png') }}' STYLE='width:60px;padding-top:5px;' />
-						</a>
-					</p>
-					<p>{% trans from "label" %}recomendacion.leer.guia.test.vocacional{% endtrans %}</p>
-					<hr>
 					<p>{% trans from "label" %}explicacion.paso.a.paso.test.vocacional{% endtrans %}</p>
 					<br>
 					<p class='text-center'><a href='{{ getParameter('enlace_test_vocacional') }}' target='_blank' type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.test.vocacional{% endtrans %}</a></p>

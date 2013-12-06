@@ -1131,6 +1131,19 @@
                 <source>usuarios</source>
                 <target>Usuarios</target>
 			</trans-unit>
+            
+            <!-- diseño de vida dvida-x -->
+			<trans-unit id="dvida-1">
+                <source>diseno.vida</source>
+                <target>Diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="dvida-2">
+                <source>instrucciones.diseno.vida</source>
+                <target>Antes de realizar esta prueba de diseño de vida te pedimos el favor de leer nuestra guia, que te dara las recomendaciones necesarias para que le saques el mejor provecho a este test. Esta guia es sencilla, corta y amigable, no dejes de leerla.</target>
+			</trans-unit>
+            
+            
+            
         </body>
     </file>
 </xliff>

@@ -297,6 +297,7 @@ class SecurityService
         $parameters = array(
             'enlace_test_vocacional' => 'http://www.uanl.mx/utilerias/test/',
             'enlace_pdf_test_vocacional_info' => 'uploads/vocationet/testvocacional.pdf',
+            'enlace_pdf_diseno_vida_info' => 'uploads/vocationet/disenovida.pdf',
             'enlace_vocationet_info' => 'http://www.vocationet.com',
             'ruta_files_mercado_laboral' => 'uploads/vocationet/ml/',
             'dias_habiles_informe_mercado_laboral' => 5,

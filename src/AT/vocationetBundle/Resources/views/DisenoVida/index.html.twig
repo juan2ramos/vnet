@@ -1,0 +1,114 @@
+{% extends '::base.html.twig' %}
+
+{% block style %}
+    <link href="{{ asset('assets/jquery-ui/jquery-ui-1.10.1.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/vocationet/cuestionarios.css') }}" rel="stylesheet"/>
+    <style>
+        #form-titles{
+            margin-bottom: 0px;
+        }
+        #form-titles li, #form-titles li div{
+            width: 100%;
+        }
+        #form-titles li{
+            display: none;
+        }
+        #form-titles li.current-step{
+            display: block;
+        }
+        .stepy-tab ul{
+            display: block;
+        }
+        .form-test {
+            padding: 0px 40px;
+        }
+    </style>
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        
+        {# HEADER #}
+        <section class="panel post-wrap pro-box" id="header-cuestionario">
+            <aside>
+              <div class="post-info">
+                  <span class="arrow-pro right"></span>
+                  <div class="panel-body">
+                      <div class="text-center twite">
+                          <h1 style="font-size: 40px;">{{ formulario_info.nombre }}</h1>
+                      </div>
+                  </div>
+              </div>
+            </aside>
+            <aside class="post-highlight terques v-align">
+              <div class="panel-body text-center">
+                  <div class="panel-body">
+                      <h2>{{ formulario_info.encabezado }}</h2>
+                  </div>
+              </div>
+            </aside>
+        </section>
+        <section class="panel" id="div-cuestionario">
+            <header class="panel-heading" style="font-size: 14px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            {% trans  from "label" %}instrucciones.diseno.vida{% endtrans %}                            
+                        </td>
+                        <td style="width: 36px;">
+                            <a href='{{ asset(getParameter('enlace_pdf_diseno_vida_info')) }}' target='_blank'>
+                                <img src='{{ asset('img/pdf.png') }}' style='width:60px;padding-top:5px;' />
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </header>
+            <div class="panel-body">
+                <div class="stepy-tab">
+                    <ul id="default-titles" class="stepy-titles clearfix">
+                        {% for formulario in formularios %}
+                            <li id="" class="{% if loop.index == 1 %}current-step{% endif %}">
+                                <div>{{ formulario.nombre }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <form action="{{ path('procesar_disenovida') }}" method="post" class="form-horizontal form-test" id="form">
+                    {% for formulario in formularios %}
+                        <fieldset title="{{ formulario.nombre }}" class="step">
+                            <legend></legend>
+                            {% if formulario.descripcion %}<p>{{ formulario.descripcion|raw }}</p>{% endif %}
+                            {% if formulario.preguntas is defined %}
+                            {% for pregunta in formulario.preguntas %}
+                                <div class="form-group">
+                                  <label class="col-lg-12 control-label"><b>{{ pregunta.numero }}. </b>{{ pregunta.pregunta }}</label>
+                                  <div class="col-lg-12 respuesta">
+                                      {% include "vocationetBundle:Preguntas:preguntas.html.twig" %}
+                                  </div>
+                                </div>
+                            {% endfor %}
+                            {% endif %}
+                        </fieldset>
+                    {% endfor %} 
+                    {{ form_widget(form._token) }}
+                    {{ form_errors(form) }}    
+                    <input type="submit" class="finish btn btn-danger" value="{% trans  from "label" %}enviar{% endtrans %}"/>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock body %}
+    
+{% block script %}
+    <script src="{{ asset('assets/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.stepy.js') }}"></script>
+    <script src="{{ asset('js/sliders.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/bootstrap.touchspin.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/vocationet/cuestionarios.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        Cuestionario();
+    </script>
+{% endblock script %}

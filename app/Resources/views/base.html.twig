@@ -219,7 +219,7 @@
                           <li><a class="" href="{{ path('test_vocacional') }}">{% trans from "label" %}test.vocacional{% endtrans %}</a></li>
                           <li><a class="" href="{{ path('evaluacion360') }}">{% trans from "label" %}evaluacion.360{% endtrans %}</a></li>
                           <li><a class="" href="{{ path('mercado_laboral') }}">{% trans from "label" %}mercado.laboral{% endtrans %}</a></li>
-                          <li><a class="" href="#">{% trans from "label" %}diseno.vida{% endtrans %}</a></li>
+                          <li><a class="" href="{{ path('diseno_vida') }}">{% trans from "label" %}diseno.vida{% endtrans %}</a></li>
 						  
                       </ul>
                   </li>                  
@@ -243,8 +243,8 @@
 		<!-- js placed at the end of the document so the pages load faster -->
 		<script src="{{ asset('js/jquery.js') }}"></script>
 		<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-		<!--<script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/jquery.nicescroll.js') }}"></script>-->
+		<!----><script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/jquery.nicescroll.js') }}"></script>
         <script type="text/javascript" src="{{ asset('assets/gritter/js/jquery.gritter.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/owl.carousel.js') }}"></script>
         
@@ -259,7 +259,7 @@
         
         <!-- script para alert-badge -->
         <script src="{{ asset('js/vocationet/alert-badge.js') }}" type="text/javascript"></script>
-        <!-- deshabilitar boton submit trasn envio de formulario -->
+        <!-- deshabilitar boton submit tras envio de formulario -->
         <script src="{{ asset('js/vocationet/disable-submit.js') }}" type="text/javascript"></script>
 
         {% block script %}{% endblock %}
