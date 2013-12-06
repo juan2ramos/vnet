@@ -29,8 +29,14 @@ class HomeController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
+        $usuarioId = $security->getSessionValue("id");
+        $usuarioEmail = $security->getSessionValue("usuarioEmail");
         
-        return array();
+        $invitaciones360 = $this->get('formularios')->getInvitacionesEvaluacion360($usuarioId, $usuarioEmail);
+        
+        return array(
+            'invitaciones360' => $invitaciones360
+        );
     }
 }
 ?>

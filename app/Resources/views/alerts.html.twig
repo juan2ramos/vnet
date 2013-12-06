@@ -11,6 +11,8 @@ var Gritter = function () {
             {% if alert.type is defined %}
                 {% if alert.type == 'success' %}
                     image: '{{ asset('img/success.png') }}',
+                {% elseif alert.type == 'info' %}
+                    image: '{{ asset('img/info.png') }}',
                 {% elseif alert.type == 'warning' %}
                     image: '{{ asset('img/warning.png') }}',
                 {% elseif alert.type == 'error' %}

@@ -5,12 +5,12 @@ namespace AT\vocationetBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PreguntasUsuarios
+ * Respuestas
  *
- * @ORM\Table(name="preguntas_usuarios")
+ * @ORM\Table(name="respuestas")
  * @ORM\Entity
  */
-class PreguntasUsuarios
+class Respuestas
 {
     /**
      * @var integer
@@ -22,9 +22,9 @@ class PreguntasUsuarios
     private $id;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="respuesta_numerica", type="integer", nullable=true)
+     * @ORM\Column(name="respuesta_numerica", type="float", nullable=true)
      */
     private $respuestaNumerica;
 
@@ -43,16 +43,22 @@ class PreguntasUsuarios
     private $valor;
 
     /**
-     * @var integer
+     * @var \Participaciones
      *
-     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Participaciones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="participacion_id", referencedColumnName="id")
+     * })
      */
-    private $usuario;
+    private $participacion;
 
     /**
-     * @var integer
+     * @var \Preguntas
      *
-     * @ORM\Column(name="pregunta_id", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Preguntas")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="pregunta_id", referencedColumnName="id")
+     * })
      */
     private $pregunta;
 
@@ -71,8 +77,8 @@ class PreguntasUsuarios
     /**
      * Set respuestaNumerica
      *
-     * @param integer $respuestaNumerica
-     * @return PreguntasUsuarios
+     * @param float $respuestaNumerica
+     * @return Respuestas
      */
     public function setRespuestaNumerica($respuestaNumerica)
     {
@@ -84,7 +90,7 @@ class PreguntasUsuarios
     /**
      * Get respuestaNumerica
      *
-     * @return integer 
+     * @return float 
      */
     public function getRespuestaNumerica()
     {
@@ -95,7 +101,7 @@ class PreguntasUsuarios
      * Set respuestaTexto
      *
      * @param string $respuestaTexto
-     * @return PreguntasUsuarios
+     * @return Respuestas
      */
     public function setRespuestaTexto($respuestaTexto)
     {
@@ -118,7 +124,7 @@ class PreguntasUsuarios
      * Set valor
      *
      * @param integer $valor
-     * @return PreguntasUsuarios
+     * @return Respuestas
      */
     public function setValor($valor)
     {
@@ -138,35 +144,35 @@ class PreguntasUsuarios
     }
 
     /**
-     * Set usuario
+     * Set participacion
      *
-     * @param integer $usuario
-     * @return PreguntasUsuarios
+     * @param \AT\vocationetBundle\Entity\Participaciones $participacion
+     * @return Respuestas
      */
-    public function setUsuario($usuario = null)
+    public function setParticipacion(\AT\vocationetBundle\Entity\Participaciones $participacion = null)
     {
-        $this->usuario = $usuario;
+        $this->participacion = $participacion;
     
         return $this;
     }
 
     /**
-     * Get usuario
+     * Get participacion
      *
-     * @return integer
+     * @return \AT\vocationetBundle\Entity\Participaciones 
      */
-    public function getUsuario()
+    public function getParticipacion()
     {
-        return $this->usuario;
+        return $this->participacion;
     }
 
     /**
      * Set pregunta
      *
-     * @param integer $pregunta
-     * @return PreguntasUsuarios
+     * @param \AT\vocationetBundle\Entity\Preguntas $pregunta
+     * @return Respuestas
      */
-    public function setPregunta($pregunta = null)
+    public function setPregunta(\AT\vocationetBundle\Entity\Preguntas $pregunta = null)
     {
         $this->pregunta = $pregunta;
     
@@ -176,7 +182,7 @@ class PreguntasUsuarios
     /**
      * Get pregunta
      *
-     * @return integer
+     * @return \AT\vocationetBundle\Entity\Preguntas 
      */
     public function getPregunta()
     {

@@ -338,7 +338,89 @@
                 <source>pregunta.editada.correctamente</source>
                 <target>Pregunta editada correctamente</target>
 			</trans-unit>
-         
+
+
+			<!-- MERCADO LABORAL mercadoLaboral-x -->
+			<trans-unit id="mercadoLaboral-1">
+                <source>puede.seleccionar.maximo.tres.alternativas.minimo.una</source>
+                <target>Tiene que seleccionar como mínimo una, y máximo tres alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-2">
+                <source>puede.seleccionar.maximo.tres.alternativas</source>
+                <target>Puede seleccionar máximo tres alternativas</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-3">
+                <source>ocurrio.error.al.registrar.alternativa.de.estudio</source>
+                <target>Ocurrio un error al registrar una alternativa de estudio</target>
+			</trans-unit>
+            
+            <!-- evaluacion 360 eva360-x -->
+			<trans-unit id="eva360-1">
+                <source>emails.invalidos</source>
+                <target>Correos electrónicos inválidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-2">
+                <source>debe.seleccionar.mas.emails</source>
+                <target>Debe ingresar al menos 3 correos válidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-3">
+                <source>debe.seleccionar.mas.emails</source>
+                <target>Debe ingresar al menos 3 correos válidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-4">
+                <source>invitaciones.enviadas</source>
+                <target>Invitaciones enviadas</target>
+			</trans-unit>
+			<trans-unit id="eva360-5">
+                <source>invitaciones.enviadas.correctamente</source>
+                <target>Invitaciones enviadas correctamente</target>
+			</trans-unit>
+			<trans-unit id="eva360-6">
+                <source>cuestionario.enviado</source>
+                <target>Cuestionario enviado</target>
+			</trans-unit>
+			<trans-unit id="eva360-7">
+                <source>gracias.por.participar.evaluacion.360</source>
+                <target>Gracias por participar en la evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-8">
+                <source>no.tiene.invitacion</source>
+                <target>No tienes invitación</target>
+			</trans-unit>
+			<trans-unit id="eva360-9">
+                <source>solicita.invitacion.usuario</source>
+                <target>Solicita una invitación para participar en la evaluación 360 de alguno de tus amigos</target>
+			</trans-unit>
+			<trans-unit id="eva360-10">
+                <source>cuestionario.ya.ha.sido.enviado</source>
+                <target>Ya has participado en este cuestionario</target>
+			</trans-unit>
+			<trans-unit id="eva360-11">
+                <source>gracias.por.participar.diagnostico</source>
+                <target>Gracias por participar en la prueba de diagnostico</target>
+			</trans-unit>
+			<trans-unit id="eva360-12">
+                <source>gracias.participar.mi.evaluacion.360</source>
+                <target>Gracias por participar en mi evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-13">
+                <source>mensaje.gracias.participar.mi.evaluacion.360</source>
+                <target>Te agradecemos mucho por completar esta evaluación. Vocacionet cree firmemente que encontrar una pasión en la vida hace exitosa a las personas. Esta evaluación es una de las fases importantes del proceso de decisión de carrera para encontrar aquello que más nos satisface. Gracias por tu tiempo!</target>
+			</trans-unit>
+
+			<!-- ADMIN MENTOR OV adminov-x -->
+			<trans-unit id="adminov-1">
+                <source>extension.invalida</source>
+                <target>Extensión invalida</target>
+			</trans-unit>
+			<trans-unit id="adminov-2">
+                <source>informe.cargado</source>
+                <target>Informe cargado</target>
+			</trans-unit>
+			<trans-unit id="adminov-3">
+                <source>informe.cargado.correctamente</source>
+                <target>Informe cargado correctamente</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

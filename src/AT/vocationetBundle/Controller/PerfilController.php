@@ -88,6 +88,18 @@ class PerfilController extends Controller
 		}
 		else
 		{
+			// Acceso a informe de mercado laboral
+			$showInformeML = false;
+			$seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($perfilId);
+			if ($seleccionarMentor) {
+				if ($seleccionarMentor['id'] == $security->getSessionValue('id')) {
+					
+					// Validación de si ya se ha subido informe relacionado con el listado de carreras seleccionadas por el usuario
+					$rutaInformeML = $security->getParameter('ruta_files_mercado_laboral').'user'.$perfilId.'.pdf';
+					$showInformeML = file_exists($rutaInformeML);
+				}
+			}
+			
 			$fechaactual = strtotime(date('Y-m-d H:i:s'));
 			$fechaplaneada = ($perfil['usuarioFechaPlaneacion']) ? $perfil['usuarioFechaPlaneacion']->getTimestamp() : 0;
 			$tiempoRestante = ($fechaplaneada - $fechaactual) / 100000;
@@ -108,7 +120,13 @@ class PerfilController extends Controller
 			
 			// ROL ESTUDIANTE
 			return $this->render('vocationetBundle:Perfil:perfilestudiante.html.twig', array(
-						'perfil' => $perfil, 'adicional' =>  $adicionales, 'pendiente' => $pendientes ));
+						'perfil' => $perfil,
+						'adicional' =>  $adicionales,
+						'pendiente' => $pendientes,
+						// Acceso de visualizacion para mentor
+						'showInformeML' => $showInformeML,
+						'rutaInformeML' => $rutaInformeML,
+					));
 		}
     }
 

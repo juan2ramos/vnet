@@ -25,6 +25,49 @@
                 <source>ir.a.inbox</source>
                 <target>Ir a la bandeja de entrada</target>
             </trans-unit>
+            
+            <!-- MERCADO LABORAL mercadoLaboral-x -->
+			<trans-unit id="mercadoLaboral-1">
+                <source>%name%.mail.mentor.estudiante.selecciona.alternativas</source>
+                <target>%name% ha seleccionado sus alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-2">
+                <source>%name%.ha.seleccionado%dias%.%alternativas%</source>
+                <target>%name% ha seleccionado las siguientes alternativas de estudio, usted tiene %dias% dias para realizar el informe y subirlo en el mercado laboral, para que el usuario tenga acceso a este. Las alternativas seleccionadas son las siguiente: %alternativas%</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-3">
+                <source>asunto.mail.mentor.informa.tiempo.espera</source>
+                <target>Su mentor ha recibido las alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-4">
+                <source>mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas</source>
+                <target>Su mentor de orientación vocacional tiene %dias% dias para realizar el informe de sus alternativas de estudio.</target>
+            </trans-unit>
+            
+            <!-- evaluacion 360 eva360-x -->
+			<trans-unit id="eva360-1">
+                <source>%usu%.invito.contestar.evaluacion.360</source>
+                <target>%usu% te ha invitado a participar en su evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-2">
+                <source>participar.evaluacion</source>
+                <target>Participar en la evaluación</target>
+			</trans-unit>
+			<trans-unit id="eva360-3">
+                <source>%usu%.invito.contestar.evaluacion.360.body</source>
+                <target>Tú has sido seleccionado para participar en el proceso de retroalimentación de %usu%. Esta retroalimentación hace parte del proceso de decisión de carrera que está realizando %usu% a través de VOCATIONET. Como parte de este proceso te invitamos a resolver algunas preguntas sobre las competencias, personalidad y preferencias de %usu%. Esta matriz es un instrumento de evaluación 360 que servirá para darle a %usu% una retroalimentación individual frente a diferentes fortalezas y debilidades. Por esta razón tu percepción es crucial en este proceso de evaluación. Te recordamos que no existen respuestas correctas e incorrectas. Lo más importante es que lo diligencies con la mayor honestidad y especificidad posible pues entre más lo seas mejor podremos asesorar a %usu% en su decisión de carrera.</target>
+			</trans-unit>
+
+			<!-- ADMIN MENTOR OV adminov-x -->
+			<trans-unit id="adminov-1">
+                <source>informe.mercado.laboral</source>
+                <target>Informe de mercado laboral</target>
+			</trans-unit>
+			<trans-unit id="adminov-2">
+                <source>el.mentor.acaba.de.subir.el.informe.de.mercado.laboral</source>
+                <target>El mentor ha subido el informe de mercado laboral</target>
+			</trans-unit>
+			
         </body>
     </file>
 </xliff>

@@ -59,7 +59,7 @@
     
 {# PORCENTAJE #}    
 {% elseif pregunta.pregunaTipoId == 6 %} 
-    <div class="slider-container">
+    <div class="slider-container slider-percent-container">
         <div class="col-lg-2" style="text-align: right;">
             <div class="slider-info">0%</div>
             <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="0" class="slider-value" required="required"/>
@@ -72,10 +72,10 @@
     
 {# SLIDER #}   
 {% elseif pregunta.pregunaTipoId == 7 %} 
-    <div class="slider-container">
+    <div class="slider-container slider-number-container">
         <div class="col-lg-1" style="text-align: right;">
-            <div class="slider-info">1</div>
-            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="1" class="slider-value" required="required"/>
+            <div class="slider-info">0</div>
+            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="0" class="slider-value" required="required"/>
         </div>
         <div class="col-lg-7" style="padding-top: 20px;">
             <div class="slider"></div>

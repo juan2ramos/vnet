@@ -61,9 +61,19 @@ doctrine:
         auto_mapping: true
 
 # Swiftmailer Configuration
+#swiftmailer:
+#    transport: %mailer_transport%
+#    host:      %mailer_host%
+#    username:  %mailer_user%
+#    password:  %mailer_password%
+#    spool:     { type: memory }
 swiftmailer:
     transport: %mailer_transport%
     host:      %mailer_host%
     username:  %mailer_user%
     password:  %mailer_password%
-    spool:     { type: memory }
+    auth_mode: login
+    encryption: tls
+    port: 587
+    logging: %kernel.debug%
+#    spool:     { type: memory }

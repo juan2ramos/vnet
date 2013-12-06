@@ -76,7 +76,7 @@ class ContactosController extends Controller
                 $formData['tipoUsuario'] = 3;
                 $contactos = $this->getBusquedaDetallada($usuarioId, $formData);
             } else {
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ingreso.invalido")));
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
             }
         }
         else {
@@ -157,7 +157,7 @@ class ContactosController extends Controller
      *
      * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-     * @Route("/selectMentor", name="seleccionar_mentor")
+     * @Route("/select_mentor", name="seleccionar_mentor")
      * @Method("POST")
      * @param Request $request Request enviado con ID de mentor seleccionado
      * @return Redirect
@@ -217,7 +217,7 @@ class ContactosController extends Controller
      * 
      * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-	 * @Route("/seleccionarMentor", name="lista_mentores_ov")
+	 * @Route("/seleccionar_mentor", name="lista_mentores_ov")
 	 * @Template("vocationetBundle:Contactos:MentoresVocacional.html.twig")
      * @Method({"GET", "POST"})
      * @param Request $request Request enviado con busqueda avanzada
@@ -276,7 +276,8 @@ class ContactosController extends Controller
         );
 	}
 
-    
+
+
     // FUNCIONES Y METODOS
     
     /**
@@ -289,7 +290,7 @@ class ContactosController extends Controller
      * @param Int $usuarioId Id del usuario a consultarle las amistades
      * @return Array Arreglo bi-dimensional de usuarios
      */
-     private function getAmistades($usuarioId)
+    private function getAmistades($usuarioId)
     {
 		$em = $this->getDoctrine()->getManager();
 		/**

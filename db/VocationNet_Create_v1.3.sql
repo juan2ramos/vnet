@@ -78,7 +78,7 @@ CREATE  TABLE IF NOT EXISTS `usuarios` (
   `usuario_tarjeta_profesional` VARCHAR(155) NULL ,
   `usuario_hoja_vida` VARCHAR(155) NULL ,
   `usuario_profesion` VARCHAR(70) NULL ,
-  `usuario_puntos` FLOAT NULL DEFAULT 0,
+  `usuario_puntos` FLOAT NULL DEFAULT 0 ,
   `usuario_perfil_profesional` TEXT NULL ,
   `usuario_valor_mentoria` FLOAT NULL ,
   `colegio_id` INT NULL ,
@@ -594,32 +594,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `preguntas_usuarios`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `preguntas_usuarios` (
-  `id` INT NOT NULL AUTO_INCREMENT ,
-  `usuario_id` INT NOT NULL ,
-  `pregunta_id` INT NOT NULL ,
-  `respuesta_numerica` INT NULL ,
-  `respuesta_texto` VARCHAR(255) NULL ,
-  `valor` INT NULL ,
-  PRIMARY KEY (`id`) ,
-  INDEX `fk_preguntas_usuarios_1` (`usuario_id` ASC) ,
-  INDEX `fk_preguntas_usuarios_2` (`pregunta_id` ASC) ,
-  CONSTRAINT `fk_preguntas_usuarios_1`
-    FOREIGN KEY (`usuario_id` )
-    REFERENCES `usuarios` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_preguntas_usuarios_2`
-    FOREIGN KEY (`pregunta_id` )
-    REFERENCES `preguntas` (`id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `opciones`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `opciones` (
@@ -631,6 +605,97 @@ CREATE  TABLE IF NOT EXISTS `opciones` (
   PRIMARY KEY (`id`) ,
   INDEX `fk_opciones_1` (`pregunta_id` ASC) ,
   CONSTRAINT `fk_opciones_1`
+    FOREIGN KEY (`pregunta_id` )
+    REFERENCES `preguntas` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `alternativas_estudios`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `alternativas_estudios` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `usuario_id` INT NOT NULL ,
+  `carrera_id` INT NOT NULL ,
+  INDEX `fk_usuarios_has_carreras_carreras1_idx` (`carrera_id` ASC) ,
+  INDEX `fk_usuarios_has_carreras_usuarios1_idx` (`usuario_id` ASC) ,
+  PRIMARY KEY (`id`) ,
+  CONSTRAINT `fk_usuarios_has_carreras_usuarios1`
+    FOREIGN KEY (`usuario_id` )
+    REFERENCES `usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_usuarios_has_carreras_carreras1`
+    FOREIGN KEY (`carrera_id` )
+    REFERENCES `carreras` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_unicode_ci;
+
+
+-- -----------------------------------------------------
+-- Table `participaciones`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `participaciones` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `fecha` DATETIME NOT NULL ,
+  `formulario_id` INT NOT NULL ,
+  `usuario_participa_id` INT NULL ,
+  `usuario_evaluado_id` INT NULL ,
+  `carrera_id` INT NULL ,
+  `correo_invitacion` VARCHAR(100) NULL ,
+  `estado` TINYINT NOT NULL DEFAULT 0 ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_participaciones_usuarios1_idx` (`usuario_participa_id` ASC) ,
+  INDEX `fk_participaciones_usuarios2_idx` (`usuario_evaluado_id` ASC) ,
+  INDEX `fk_participaciones_formularios1_idx` (`formulario_id` ASC) ,
+  INDEX `fk_participaciones_carreras1_idx` (`carrera_id` ASC) ,
+  CONSTRAINT `fk_participaciones_usuarios1`
+    FOREIGN KEY (`usuario_participa_id` )
+    REFERENCES `usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_participaciones_usuarios2`
+    FOREIGN KEY (`usuario_evaluado_id` )
+    REFERENCES `usuarios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_participaciones_formularios1`
+    FOREIGN KEY (`formulario_id` )
+    REFERENCES `formularios` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_participaciones_carreras1`
+    FOREIGN KEY (`carrera_id` )
+    REFERENCES `carreras` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `respuestas`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `respuestas` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `participacion_id` INT NOT NULL ,
+  `pregunta_id` INT NOT NULL ,
+  `respuesta_numerica` FLOAT NULL ,
+  `respuesta_texto` VARCHAR(255) NULL ,
+  `valor` INT NULL ,
+  PRIMARY KEY (`id`) ,
+  INDEX `fk_respuestas_participaciones1_idx` (`participacion_id` ASC) ,
+  INDEX `fk_respuestas_preguntas1_idx` (`pregunta_id` ASC) ,
+  CONSTRAINT `fk_respuestas_participaciones1`
+    FOREIGN KEY (`participacion_id` )
+    REFERENCES `participaciones` (`id` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_respuestas_preguntas1`
     FOREIGN KEY (`pregunta_id` )
     REFERENCES `preguntas` (`id` )
     ON DELETE NO ACTION
