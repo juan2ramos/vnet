@@ -1,0 +1,27 @@
+{# opcion multiple unica respuesta #}
+{% if pregunta.preguntaTipoId == 1 %}
+    {{ respuesta }}         
+{# opcion multiple multiple respuesta #} 
+{# ordenacion #}
+{% elseif pregunta.preguntaTipoId == 2 or pregunta.preguntaTipoId == 3 %}
+    <ol>
+    {% for r in respuesta %}
+        <li>{{ r }}</li>
+    {% endfor %}
+    </ol>
+{# SI O NO #}  
+{% elseif pregunta.preguntaTipoId == 4 %}
+    {% if respuesta == 1 %}
+        {% trans from "label" %}si{% endtrans %}
+    {% else %}
+        {% trans from "label" %}no{% endtrans %}
+    {% endif %}
+{# PORCENTAJE #}  
+{% elseif pregunta.preguntaTipoId == 6 %}
+    {{ respuesta }}%  
+{# NUMERICA #} 
+{# SLIDER #}  
+{# ABIERTA #}
+{% else %}
+    {{ respuesta }}
+{% endif %}  

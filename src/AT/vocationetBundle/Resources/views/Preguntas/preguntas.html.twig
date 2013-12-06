@@ -1,5 +1,5 @@
 {# opcion multiple unica respuesta #}
-{% if pregunta.pregunaTipoId == 1 %} 
+{% if pregunta.preguntaTipoId == 1 %} 
     {% if pregunta.opciones is defined %}
         <div class="row options-container">
         {% for opcion in pregunta.opciones %}
@@ -12,7 +12,7 @@
     {% endif %}
         
 {# opcion multiple multiple respuesta #}        
-{% elseif pregunta.pregunaTipoId == 2 %}             
+{% elseif pregunta.preguntaTipoId == 2 %}             
     {% if pregunta.opciones is defined %}
         <div class="row options-container">
         {% for opcion in pregunta.opciones %}
@@ -24,8 +24,8 @@
         <label for="pregunta[{{ pregunta.id }}][]" class="error" style="display:none;"></label>
     {% endif %}
         
-{# ORDENAMIENTO #}        
-{% elseif pregunta.pregunaTipoId == 3 %} 
+{# ordenacion #}        
+{% elseif pregunta.preguntaTipoId == 3 %} 
      {% if pregunta.opciones is defined %}
         {% set sort_value = '' %}
         <ul class="sortable">
@@ -39,7 +39,7 @@
     {% endif %} 
         
 {# SI O NO #}        
-{% elseif pregunta.pregunaTipoId == 4 %} 
+{% elseif pregunta.preguntaTipoId == 4 %} 
      <div class="row options-container">
         <div class="option col-lg-5">
             <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="1" required="required"/> {% trans  from "label" %}si{% endtrans %}</label>
@@ -51,14 +51,14 @@
     <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label> 
     
 {# NUMERICA #}    
-{% elseif pregunta.pregunaTipoId == 5 %} 
+{% elseif pregunta.preguntaTipoId == 5 %} 
     <div class="col-lg-2">
         <input type="text" name="pregunta[{{ pregunta.id }}]" class="input-number" value="0" required="required"/>             
     </div>
     <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
     
 {# PORCENTAJE #}    
-{% elseif pregunta.pregunaTipoId == 6 %} 
+{% elseif pregunta.preguntaTipoId == 6 %} 
     <div class="slider-container slider-percent-container">
         <div class="col-lg-2" style="text-align: right;">
             <div class="slider-info">0%</div>
@@ -71,7 +71,7 @@
     <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
     
 {# SLIDER #}   
-{% elseif pregunta.pregunaTipoId == 7 %} 
+{% elseif pregunta.preguntaTipoId == 7 %} 
     <div class="slider-container slider-number-container">
         <div class="col-lg-1" style="text-align: right;">
             <div class="slider-info">0</div>
@@ -84,7 +84,7 @@
     <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
     
 {# ABIERTA #}
-{% elseif pregunta.pregunaTipoId == 8 %} 
+{% elseif pregunta.preguntaTipoId == 8 %} 
     <textarea name="pregunta[{{ pregunta.id }}]" class="form-control" cols="60" rows="5" required="required"></textarea>
     <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
 {% endif %}

@@ -219,13 +219,19 @@ class Evaluacion360Controller extends Controller
         
         
         $formularios_serv = $this->get('formularios');
-        $formularios = $formularios_serv->getFormulario($form_id);
+        $formularios = $formularios_serv->getResultadosFormulario($form_id, $id);
+        $participaciones = $formularios_serv->getParticipacionesFormulario($form_id, $id);
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
+//        $security->debug($formularios);
         
-        $security->debug($formularios);
+        
         
         
         return array(
-            
+            'formularios' => $formularios,
+            'participaciones' => $participaciones,
+            'usuario' => $usuario
         );
     }
     

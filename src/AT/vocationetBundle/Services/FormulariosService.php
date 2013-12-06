@@ -126,7 +126,7 @@ class FormulariosService
                     p.id,
                     p.pregunta,
                     p.numero,
-                    pt.id pregunaTipoId,
+                    pt.id preguntaTipoId,
                     pt.nombre preguntaTipo,
                     f.id formularioId
                 FROM
@@ -431,7 +431,7 @@ class FormulariosService
             $participacion->setFecha(new \DateTime());
             $participacion->setUsuarioParticipa($usuarioId);
             $participacion->setEstado(1);            
-//            $this->em->persist($participacion);
+            $this->em->persist($participacion);
         }
         
         $puntaje = 0;
@@ -544,12 +544,113 @@ class FormulariosService
     }
     
     
-    private function getResultadosEvaluacion360()
+    public function getResultadosFormulario($formId, $usuarioEvaluadoId)
     {
+        $formularios = $this->getFormulario($formId);        
         
+        /*
+         * SELECT f.id, p.id, r.respuesta_numerica, r.respuesta_texto, par.usuario_participa_id FROM respuestas r
+         * JOIN preguntas p ON r.pregunta_id = p.id
+         * JOIN formularios f ON p.formulario_id = f.id
+         * JOIN participaciones par ON r.participacion_id = par.id
+         * WHERE f.formulario_id = 9
+         * AND par.usuario_evaluado_id = 6
+         * AND par.estado = 1;
+         */        
+        
+        $dql = "SELECT
+                    f.id formularioId,
+                    p.id preguntaId,
+                    r.respuestaNumerica,
+                    r.respuestaTexto
+                FROM 
+                    vocationetBundle:Respuestas r
+                    JOIN vocationetBundle:Preguntas p WITH r.pregunta = p.id
+                    JOIN vocationetBundle:Formularios f WITH p.formulario = f.id
+                    JOIN vocationetBundle:Participaciones par WITH r.participacion = par.id
+                WHERE
+                    f.formulario = :formId
+                    AND par.usuarioEvaluado = :usuarioEvaluadoId
+                    AND par.estado = 1
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('formId', $formId);
+        $query->setParameter('usuarioEvaluadoId', $usuarioEvaluadoId);
+        $result = $query->getResult();
+        
+        foreach($result as $r)
+        {
+            $tipoPreguntaId = $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['preguntaTipoId'];
+            $respuesta = null;
+            
+            
+            // Obtener respuesta segun el tipo de pregunta
+            switch($tipoPreguntaId)
+            {
+                case 1: // Unica respuesta
+                {
+                    $respuesta = $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['opciones'][$r['respuestaNumerica']]['nombre'];
+                    break;
+                }
+                case 2: // Multiple respuesta
+                case 3: // Ordenacion
+                {
+                    $ids = explode(",", $r['respuestaTexto']);
+                    
+                    foreach($ids as $i)
+                    {
+                        $respuesta[] = $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['opciones'][$i]['nombre'];
+                    }
+                    
+                    break;
+                }
+                case 4: // Si o no
+                case 5: // Numerica
+                case 6: // Porcentual
+                case 7: // Slider
+                {
+                    $respuesta = $r['respuestaNumerica'];
+                    break;
+                }
+                case 8: // Abierta
+                {
+                    $respuesta = $r['respuestaTexto'];
+                    break;
+                }
+            }
+            
+            
+            $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['respuestas'][] = $respuesta;
+        }
+        
+        
+        return $formularios;
     }
     
-    
+    public function getParticipacionesFormulario($formId, $usuarioEvaluadoId)
+    {
+        $dql = "SELECT
+                    p.fecha,
+                    p.estado,
+                    u.usuarioNombre,
+                    u.usuarioApellido,
+                    u.id usuarioId,
+                    c.nombre carreraNombre
+                FROM
+                    vocationetBundle:Participaciones p
+                    JOIN vocationetBundle:Usuarios u WITH p.usuarioParticipa = u.id
+                    LEFT JOIN vocationetBundle:Carreras c WITH p.carrera = c.id
+                WHERE
+                    p.formulario = :formId
+                    AND p.usuarioEvaluado = :usuarioEvaluadoId
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('formId', $formId);
+        $query->setParameter('usuarioEvaluadoId', $usuarioEvaluadoId);
+        $result = $query->getResult();
+        
+        return $result;
+    }
     
     
     
