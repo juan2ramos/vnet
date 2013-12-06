@@ -9,15 +9,17 @@ namespace AT\vocationetBundle\Services;
 class FormulariosService
 {
     var $em;
+    var $security;
     
     /**
      * Constructor
      * 
      * @param Object $doctrine
      */
-    function __construct($doctrine) 
+    function __construct($doctrine, $security) 
     {
         $this->em = $doctrine->getManager();
+        $this->security = $security;
     }
     
     /**
@@ -32,7 +34,14 @@ class FormulariosService
     {
         $ids = array(
             'diagnostico' => 1,
+            'mentor_experto' => 7,
+            'test_vocacional' => 8,
             'evaluacion360' => 9,
+            'diseno_vida' => 10,
+            'mercado_laboral' => 11,
+            'red_mentores' => 12,
+            'ponderacion' => 13,
+            'universidad' => 14
         );
         
         $id = (isset($ids[$nombre])) ? $ids[$nombre] : false;
@@ -96,7 +105,7 @@ class FormulariosService
             // Agregar preguntas al array de formularios
             foreach($preguntas as $p)
             {
-                $formularios[$p['formularioId']]['preguntas'][] = $p;
+                $formularios[$p['formularioId']]['preguntas'][$p['id']] = $p;
             }
         }
         return $formularios;
@@ -117,7 +126,7 @@ class FormulariosService
                     p.id,
                     p.pregunta,
                     p.numero,
-                    pt.id pregunaTipoId,
+                    pt.id preguntaTipoId,
                     pt.nombre preguntaTipo,
                     f.id formularioId
                 FROM
@@ -146,7 +155,7 @@ class FormulariosService
             // Agregar opciones al array de preguntas
             foreach($opciones as $o)
             {
-                $preguntas[$o['preguntaId']]['opciones'][] = $o;
+                $preguntas[$o['preguntaId']]['opciones'][$o['id']] = $o;
             }
         }
         
@@ -185,9 +194,10 @@ class FormulariosService
      * @param integer $id id de formulario principal
      * @param integer $usuarioId id de usuario que responde
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
+     * @param integer $usuarioEvaluadoId id de usuario evaluado en el caso de evaluacion 360
      * @return array arreglo con resultados del procesamiento
      */
-    public function procesarFormulario($id, $usuarioId, $respuestas)
+    public function procesarFormulario($id, $usuarioId, $respuestas, $usuarioEvaluadoId = false)
     {
         $preguntas = $this->getListPreguntas($id);
         $validate = $this->validateFormulario($preguntas, $respuestas);
@@ -195,7 +205,7 @@ class FormulariosService
         
         if($validate)
         {
-            $puntaje = $this->registrarRespuestas($id, $usuarioId, $preguntas, $respuestas);
+            $puntaje = $this->registrarRespuestas($id, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId);
             
         }
         return array(
@@ -209,7 +219,7 @@ class FormulariosService
      * 
      * Obtiene un arreglo de preguntas con id y tipo de pregunta
      * 
-     * @param integer $id id de formulario principal     * 
+     * @param integer $id id de formulario principal 
      * @return array arreglo de preguntas
      */
     private function getListPreguntas($id)
@@ -226,7 +236,45 @@ class FormulariosService
                     f.formulario = :formularioId";
         $query = $this->em->createQuery($dql);
         $query->setParameter('formularioId', $id);
-        $preguntas = $query->getResult();
+        $result = $query->getResult();
+        
+        // Query para obtener opciones de respuesta de las preguntas segun el tipo
+        
+        //Crear array con ids de pregunta
+        $preg_ids = array();
+        $preguntas = array();
+        foreach($result as $p)
+        {
+            $preguntas[$p['id']] = $p;
+            if($p['preguntaTipoId'] == 1 || $p['preguntaTipoId'] == 2 || $p['preguntaTipoId'] == 3)
+            {
+                $preg_ids[] = $p['id'];
+            }
+        }
+        
+        if(count($preg_ids)>0)
+        {
+            $dql = "SELECT
+                        o.id,
+                        o.peso,
+                        p.id preguntaId
+                    FROM
+                        vocationetBundle:Opciones o
+                        JOIN vocationetBundle:Preguntas p WITH o.pregunta = p.id
+                    WHERE 
+                        (o.pregunta = ". implode("OR o.pregunta = ", $preg_ids) .")";
+            $query = $this->em->createQuery($dql);
+            $opciones = $query->getResult();
+            
+            // Agregar opciones al array de preguntas
+            if(count($opciones)>0)
+            {
+                foreach($opciones as $o)
+                {
+                    $preguntas[$o['preguntaId']]['opciones'][$o['id']] = $o;  
+                }
+            }            
+        }
         
         return $preguntas;
     }
@@ -351,102 +399,260 @@ class FormulariosService
     }
     
     /**
-     * Funcion para registrar y calificar las respuestas de usuario en base de datos
+     * Funcion para registrar y calificar las respuestas de usuario en base de datos 
      * 
-     * 
-     * 
+     * @param integer $formId id de formulario principal
+     * @param integer $usuarioId id de usuario que participa
      * @param array $preguntas arreglo de preguntas con id y tipo de pregunta
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
+     * @param integer $usuarioEvaluadoId id de usuario evaluado en el caso de evaluacion 360
      * @return integer puntuacion de las respuestas
      */
-    private function registrarRespuestas($formId, $usuarioId, $preguntas, $respuestas)
-    {
-        
-        // Registrar participacion
-        
-        if($formId != $this->getFormId('evaluacion360'))
+    private function registrarRespuestas($formId, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId = false)
+    {        
+        // Registrar participacion        
+        if($formId == $this->getFormId('evaluacion360'))
+        {
+            // Actualizar registro de invitacion
+            $usuarioEmail = $this->security->getSessionValue("usuarioEmail");
+            $participacion = $this->em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $formId, "correoInvitacion" => $usuarioEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
+            if($participacion)
+            {
+                $participacion->setFecha(new \DateTime());
+                $participacion->setUsuarioParticipa($usuarioId);
+                $participacion->setEstado(1);
+                $this->em->persist($participacion);
+            }
+        }
+        else
         {
             $participacion = new \AT\vocationetBundle\Entity\Participaciones();
             $participacion->setFormulario($formId);
             $participacion->setFecha(new \DateTime());
             $participacion->setUsuarioParticipa($usuarioId);
-            $participacion->setEstado(1);
-            
+            $participacion->setEstado(1);            
             $this->em->persist($participacion);
-            $this->em->flush();
         }
         
-        
         $puntaje = 0;
-        /*
+        
         // Registrar respuestas segun tipo de pregunta
         foreach($preguntas as $preg)
         {
-            $respuesta = new \AT\vocationetBundle\Entity\PreguntasUsuarios();
+            $respuesta = new \AT\vocationetBundle\Entity\Respuestas();
             
-            $respuesta->setUsuario($usuarioId);
+            $respuesta->setParticipacion($participacion);
             $respuesta->setPregunta($preg['id']);
+            $res = $respuestas[$preg['id']];            
             
-            $res = $respuestas[$preg['id']];
             
-            // Asignar respuesta numerica o texto y calcular puntaje segun el tipo de pregunta+
-            
+            // Asignar respuesta numerica o texto y calcular puntaje segun el tipo de pregunta
             switch($preg['preguntaTipoId'])
             {
                 case 1: // Unica respuesta
                 {
                     $respuesta->setRespuestaNumerica($res);
+                    
+                    $valor = 0;                    
+                    if(isset($preg['opciones'][$res]['peso']))
+                        $valor = $preg['opciones'][$res]['peso'];                    
+                    
+                    $respuesta->setValor($valor);
+                    
                     break;
                 }
                 case 2: // Multiple respuesta
                 {
+                    $valor = 0;                    
+                    foreach($res as $r)
+                    {
+                        if(isset($preg['opciones'][$r]['peso']))
+                            $valor += $preg['opciones'][$r]['peso'];
+                    }
+                    
                     $res = implode(",", $res);
                     $respuesta->setRespuestaTexto($res);
+                    $respuesta->setValor($valor);
                     break;
                 }
                 case 3: // Ordenamiento
                 {
                     $respuesta->setRespuestaTexto($res);
+                    
+                    $valor = 0;                    
+                    $res = explode(",", $res); 
+                    $pos = count($res);
+                    
+                    foreach($res as $r)
+                    {
+                        if(isset($preg['opciones'][$r]['peso']))
+                        {
+                            $peso = $preg['opciones'][$r]['peso'];
+                            $valor += $peso * $pos;                            
+                        }
+                        $pos--;
+                    }
+                    
+                    $respuesta->setValor($valor);
                     break;
                 }
                 case 4: // Si o no
                 {
                     $respuesta->setRespuestaNumerica($res);
+                    $valor = $res;
+                    $respuesta->setValor($valor);
                     break;
                 }
                 case 5: // Numerica
                 {
                     $respuesta->setRespuestaNumerica($res);
+                    $valor = $res;
+                    $respuesta->setValor($valor);
                     break;
                 }
                 case 6: // Porcentual
                 {
                     $respuesta->setRespuestaNumerica($res);
+                    $valor = $res/100;
+                    $respuesta->setValor($valor);
                     break;
                 }
                 case 7: // slider
                 {
                     $respuesta->setRespuestaNumerica($res);
+                    $valor = $res;
+                    $respuesta->setValor($valor);
                     break;
                 }
                 case 8: // Abierta
                 {
                     $respuesta->setRespuestaTexto($res);
+                    $valor = 0;
+                    $respuesta->setValor($valor);
                     break;
                 }
             }
             
-//            $this->em->persist($respuesta);
+            $puntaje += $valor;
             
-            
+            $this->em->persist($respuesta);
         }
         
-//        $this->em->flush();
-        */
-        $puntaje = 100;
+        $this->em->flush();
         
         return $puntaje;
     }
+    
+    
+    public function getResultadosFormulario($formId, $usuarioEvaluadoId)
+    {
+        $formularios = $this->getFormulario($formId);        
+        
+        /*
+         * SELECT f.id, p.id, r.respuesta_numerica, r.respuesta_texto, par.usuario_participa_id FROM respuestas r
+         * JOIN preguntas p ON r.pregunta_id = p.id
+         * JOIN formularios f ON p.formulario_id = f.id
+         * JOIN participaciones par ON r.participacion_id = par.id
+         * WHERE f.formulario_id = 9
+         * AND par.usuario_evaluado_id = 6
+         * AND par.estado = 1;
+         */        
+        
+        $dql = "SELECT
+                    f.id formularioId,
+                    p.id preguntaId,
+                    r.respuestaNumerica,
+                    r.respuestaTexto
+                FROM 
+                    vocationetBundle:Respuestas r
+                    JOIN vocationetBundle:Preguntas p WITH r.pregunta = p.id
+                    JOIN vocationetBundle:Formularios f WITH p.formulario = f.id
+                    JOIN vocationetBundle:Participaciones par WITH r.participacion = par.id
+                WHERE
+                    f.formulario = :formId
+                    AND par.usuarioEvaluado = :usuarioEvaluadoId
+                    AND par.estado = 1
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('formId', $formId);
+        $query->setParameter('usuarioEvaluadoId', $usuarioEvaluadoId);
+        $result = $query->getResult();
+        
+        foreach($result as $r)
+        {
+            $tipoPreguntaId = $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['preguntaTipoId'];
+            $respuesta = null;
+            
+            
+            // Obtener respuesta segun el tipo de pregunta
+            switch($tipoPreguntaId)
+            {
+                case 1: // Unica respuesta
+                {
+                    $respuesta = $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['opciones'][$r['respuestaNumerica']]['nombre'];
+                    break;
+                }
+                case 2: // Multiple respuesta
+                case 3: // Ordenacion
+                {
+                    $ids = explode(",", $r['respuestaTexto']);
+                    
+                    foreach($ids as $i)
+                    {
+                        $respuesta[] = $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['opciones'][$i]['nombre'];
+                    }
+                    
+                    break;
+                }
+                case 4: // Si o no
+                case 5: // Numerica
+                case 6: // Porcentual
+                case 7: // Slider
+                {
+                    $respuesta = $r['respuestaNumerica'];
+                    break;
+                }
+                case 8: // Abierta
+                {
+                    $respuesta = $r['respuestaTexto'];
+                    break;
+                }
+            }
+            
+            
+            $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['respuestas'][] = $respuesta;
+        }
+        
+        
+        return $formularios;
+    }
+    
+    public function getParticipacionesFormulario($formId, $usuarioEvaluadoId)
+    {
+        $dql = "SELECT
+                    p.fecha,
+                    p.estado,
+                    u.usuarioNombre,
+                    u.usuarioApellido,
+                    u.id usuarioId,
+                    c.nombre carreraNombre
+                FROM
+                    vocationetBundle:Participaciones p
+                    JOIN vocationetBundle:Usuarios u WITH p.usuarioParticipa = u.id
+                    LEFT JOIN vocationetBundle:Carreras c WITH p.carrera = c.id
+                WHERE
+                    p.formulario = :formId
+                    AND p.usuarioEvaluado = :usuarioEvaluadoId
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('formId', $formId);
+        $query->setParameter('usuarioEvaluadoId', $usuarioEvaluadoId);
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
+    
     
     /**
      * Funcion que busca invitaciones al usuario a evaluacioes 360
