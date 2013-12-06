@@ -37,6 +37,7 @@ class Evaluacion360Controller extends Controller
         
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
+        $usuarioId = $security->getSessionValue("id");
         
         $form = $this->createFormBuilder()
             ->add('emails', 'text', array('required' => true))
@@ -56,8 +57,6 @@ class Evaluacion360Controller extends Controller
                 }
                 else
                 {
-                    $usuarioId = $security->getSessionValue("id");
-                    
                     $this->enviarInvitaciones($emails, $usuarioId);
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("invitaciones.enviadas"), "text" => $this->get('translator')->trans("invitaciones.enviadas.correctamente")));
                 }
@@ -69,11 +68,25 @@ class Evaluacion360Controller extends Controller
         }
         
         
+        $participaciones = $formularios_serv->getParticipacionesFormulario($form_id, $usuarioId);
         $formulario = $formularios_serv->getInfoFormulario($form_id);
+        
+        //Contar participaciones finalizadas
+        $count_participaciones = 0;
+        foreach($participaciones as $p)
+        {
+            if($p['estado'] == 1)
+            {
+                $count_participaciones ++;
+            }
+        }
+        
         
         return array(
             'formulario_info' => $formulario,
             'form' => $form->createView(),
+            'participaciones' => $participaciones,
+            'count_participaciones' => $count_participaciones
         );
     }
     

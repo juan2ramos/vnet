@@ -1092,6 +1092,10 @@
                 <source>evaluacion360</source>
                 <target>Evaluación 360</target>
 			</trans-unit>
+			<trans-unit id="eva360-15">
+                <source>no.hay.participaciones</source>
+                <target>No hay participaciones</target>
+			</trans-unit>
 
 
 			<!-- ADMIN MENTOR OV adminov-x -->

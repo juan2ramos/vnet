@@ -543,7 +543,13 @@ class FormulariosService
         return $puntaje;
     }
     
-    
+    /**
+     * Funcion que trae todo el contenido de un formulario con las respuestas
+     * 
+     * @param integer $formId id de formulario principal
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     * @return array arreglo de formularios, preguntas, opciones y respuestas
+     */
     public function getResultadosFormulario($formId, $usuarioEvaluadoId)
     {
         $formularios = $this->getFormulario($formId);        
@@ -627,18 +633,26 @@ class FormulariosService
         return $formularios;
     }
     
+    /**
+     * Funcion que trae las participaciones en un formulario para un usuario
+     * 
+     * @param integer $formId id de formulario principal
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     * @return array arreglo de participaciones
+     */
     public function getParticipacionesFormulario($formId, $usuarioEvaluadoId)
     {
         $dql = "SELECT
                     p.fecha,
                     p.estado,
+                    p.correoInvitacion,
                     u.usuarioNombre,
                     u.usuarioApellido,
                     u.id usuarioId,
                     c.nombre carreraNombre
                 FROM
                     vocationetBundle:Participaciones p
-                    JOIN vocationetBundle:Usuarios u WITH p.usuarioParticipa = u.id
+                    LEFT JOIN vocationetBundle:Usuarios u WITH p.usuarioParticipa = u.id
                     LEFT JOIN vocationetBundle:Carreras c WITH p.carrera = c.id
                 WHERE
                     p.formulario = :formId

@@ -62,35 +62,41 @@
     </div>
     <div class="col-lg-4">
         <aside class="profile-nav alt green-border">
-                          <section class="panel">
-                              <div class="user-heading alt green-bg">
-                                  <a href="{{ path("perfil", {"perfilId":usuario.id}) }}">
-                                      <img alt="" src="{{ asset(usuario.usuarioImagen) }}?type=large">
-                                  </a>
-                                  <h1>{{ usuario.usuarioNombre ~ ' '~ usuario.usuarioApellido }}</h1>
-                              </div>
-                            <header class="panel-heading" style="font-size: 14px;">
-                                {% trans from "label" %}participaciones{% endtrans %}
-                            </header>
-                            <table class="table table-striped">
-                                <tbody>
-                                {% for participacion in participaciones %}
-                                    <tr>
-                                        <td><a href="{{ path("perfil", {"perfilId":participacion.usuarioId}) }}">{{ participacion.usuarioNombre ~ ' ' ~ participacion.usuarioApellido }}</a></td>
-                                        <td>{{ participacion.fecha|date('d/m/Y') }}</td>
-                                        <td>
-                                            {% if participacion.estado == 1 %}
-                                                {% trans from "label" %}participo{% endtrans %}
-                                            {% else %}
-                                                {% trans from "label" %}no.ha.participado{% endtrans %}
-                                            {% endif %}
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                                </tbody>
-                            </table>
-                          </section>
-                      </aside>
+            <section class="panel">
+              <div class="user-heading alt green-bg">
+                  <a href="{{ path("perfil", {"perfilId":usuario.id}) }}">
+                      <img alt="" src="{{ asset(usuario.usuarioImagen) }}?type=large">
+                  </a>
+                  <h1>{{ usuario.usuarioNombre ~ ' '~ usuario.usuarioApellido }}</h1>
+              </div>
+            <header class="panel-heading" style="font-size: 14px;">
+                {% trans from "label" %}participaciones{% endtrans %}
+            </header>
+            <table class="table table-striped">
+                <tbody>
+                {% for participacion in participaciones %}
+                    <tr>
+                        <td style="overflow: hidden; text-overflow: ellipsis;">
+                            {% if participacion.usuarioId %}
+                                <a href="{{ path("perfil", {"perfilId":participacion.usuarioId}) }}">{{ participacion.usuarioNombre ~ ' ' ~ participacion.usuarioApellido }}</a>
+                                <br/>
+                            {% endif %}
+                            {{ participacion.correoInvitacion }}
+                            <br/>
+                            {{ participacion.fecha|date('d/m/Y H:i') }}
+                            <br/>
+                            {% if participacion.estado == 1 %}
+                                {% trans from "label" %}participo{% endtrans %}
+                            {% else %}
+                                {% trans from "label" %}no.ha.participado{% endtrans %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </section>
+        </aside>
     </div>
 </div>
 {% endblock body %}
