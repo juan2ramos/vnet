@@ -206,7 +206,7 @@ class Evaluacion360Controller extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
         $usuarioId = $security->getSessionValue('id');
@@ -214,7 +214,7 @@ class Evaluacion360Controller extends Controller
         // Valida acceso del mentor
         if($usuarioId != $this->getMentorId($id))
         {
-//            throw $this->createNotFoundException();
+            throw $this->createNotFoundException();
         }
         
         
@@ -223,10 +223,6 @@ class Evaluacion360Controller extends Controller
         $participaciones = $formularios_serv->getParticipacionesFormulario($form_id, $id);
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
-//        $security->debug($formularios);
-        
-        
-        
         
         return array(
             'formularios' => $formularios,
