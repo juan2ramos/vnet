@@ -31,7 +31,7 @@ services:
         arguments: ["@doctrine", "@session"]
     formularios:
         class: AT\vocationetBundle\Services\FormulariosService
-        arguments: ["@doctrine"]
+        arguments: ["@doctrine", "@security"]
     twig.extension.stringParserExtension:
         class: AT\vocationetBundle\Services\TwigExtensions\StringParser\stringParserExtension
         tags:

@@ -1084,6 +1084,30 @@
                 <source>para.participar</source>
                 <target>Para participar</target>
 			</trans-unit>
+			<trans-unit id="eva360-10">
+                <source>participaciones</source>
+                <target>Participaciones</target>
+			</trans-unit>
+			<trans-unit id="eva360-11">
+                <source>respuestas</source>
+                <target>Respuestas</target>
+			</trans-unit>
+			<trans-unit id="eva360-12">
+                <source>participo</source>
+                <target>Participó</target>
+			</trans-unit>
+			<trans-unit id="eva360-13">
+                <source>no.ha.participado</source>
+                <target>No ha participado</target>
+			</trans-unit>
+			<trans-unit id="eva360-14">
+                <source>evaluacion360</source>
+                <target>Evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-15">
+                <source>no.hay.participaciones</source>
+                <target>No hay participaciones</target>
+			</trans-unit>
 
 
 			<!-- ADMIN MENTOR OV adminov-x -->

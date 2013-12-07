@@ -1,0 +1,102 @@
+{% extends '::base.html.twig' %}
+
+{% block style %}
+<style>
+    .div-formulario{
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+    }
+    
+    .div-opciones, .div-respuestas{
+        margin-left: 30px;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+        <section class="panel" id="div-cuestionario">
+            <header class="panel-heading" style="font-size: 14px;">
+                {% trans from "label" %}evaluacion360{% endtrans %}
+            </header>
+            <div class="panel-body">
+                {% for formulario in formularios %}
+                    <div class="div-formulario">
+                        <h4>{{ formulario.nombre }}</h4>
+                        {% if formulario.descripcion %}
+                            <p>{{ formulario.descripcion|trans({'%usu%': usuario.usuarioNombre~' '~usuario.usuarioApellido}) }}</p>
+                        {% endif %}
+                        {% for pregunta in formulario.preguntas %}
+                        <div class="div-pregunta">                            
+                            <b>{{ pregunta.numero }}. </b>
+                            {{ pregunta.pregunta }}
+                            {% if pregunta.opciones is defined %}
+                            <div class="div-opciones">
+                                <b>{% trans from "label" %}opciones{% endtrans %}</b>
+                                <ol>                                    
+                                {% for opcion in pregunta.opciones %}
+                                    <li>{{ opcion.nombre }}</li>
+                                {% endfor %}
+                                </ol>
+                            </div>
+                            {% endif %}
+                            {% if pregunta.respuestas is defined %}
+                            <div class="div-respuestas">
+                                <b>{% trans from "label" %}respuestas{% endtrans %}</b>
+                                <ol>                                
+                                    {% for respuesta in pregunta.respuestas %}
+                                        <li>
+                                            {% include 'vocationetBundle:Preguntas:respuestas.html.twig' %}                                          
+                                        </li>
+                                    {% endfor %}
+                                </ol>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-4">
+        <aside class="profile-nav alt green-border">
+            <section class="panel">
+              <div class="user-heading alt green-bg">
+                  <a href="{{ path("perfil", {"perfilId":usuario.id}) }}">
+                      <img alt="" src="{{ asset(usuario.usuarioImagen) }}?type=large">
+                  </a>
+                  <h1>{{ usuario.usuarioNombre ~ ' '~ usuario.usuarioApellido }}</h1>
+              </div>
+            <header class="panel-heading" style="font-size: 14px;">
+                {% trans from "label" %}participaciones{% endtrans %}
+            </header>
+            <table class="table table-striped">
+                <tbody>
+                {% for participacion in participaciones %}
+                    <tr>
+                        <td style="overflow: hidden; text-overflow: ellipsis;">
+                            {% if participacion.usuarioId %}
+                                <a href="{{ path("perfil", {"perfilId":participacion.usuarioId}) }}">{{ participacion.usuarioNombre ~ ' ' ~ participacion.usuarioApellido }}</a>
+                                <br/>
+                            {% endif %}
+                            {{ participacion.correoInvitacion }}
+                            <br/>
+                            {{ participacion.fecha|date('d/m/Y H:i') }}
+                            <br/>
+                            {% if participacion.estado == 1 %}
+                                {% trans from "label" %}participo{% endtrans %}
+                            {% else %}
+                                {% trans from "label" %}no.ha.participado{% endtrans %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </section>
+        </aside>
+    </div>
+</div>
+{% endblock body %}

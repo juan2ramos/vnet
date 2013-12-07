@@ -37,6 +37,7 @@ class Evaluacion360Controller extends Controller
         
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
+        $usuarioId = $security->getSessionValue("id");
         
         $form = $this->createFormBuilder()
             ->add('emails', 'text', array('required' => true))
@@ -56,8 +57,6 @@ class Evaluacion360Controller extends Controller
                 }
                 else
                 {
-                    $usuarioId = $security->getSessionValue("id");
-                    
                     $this->enviarInvitaciones($emails, $usuarioId);
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("invitaciones.enviadas"), "text" => $this->get('translator')->trans("invitaciones.enviadas.correctamente")));
                 }
@@ -69,11 +68,25 @@ class Evaluacion360Controller extends Controller
         }
         
         
+        $participaciones = $formularios_serv->getParticipacionesFormulario($form_id, $usuarioId);
         $formulario = $formularios_serv->getInfoFormulario($form_id);
+        
+        //Contar participaciones finalizadas
+        $count_participaciones = 0;
+        foreach($participaciones as $p)
+        {
+            if($p['estado'] == 1)
+            {
+                $count_participaciones ++;
+            }
+        }
+        
         
         return array(
             'formulario_info' => $formulario,
             'form' => $form->createView(),
+            'participaciones' => $participaciones,
+            'count_participaciones' => $count_participaciones
         );
     }
     
@@ -151,39 +164,26 @@ class Evaluacion360Controller extends Controller
             if ($form->isValid())
             {
                 $respuestas = $request->get('pregunta');
-                //$security->debug($respuestas);
                 
                 $formularios_serv = $this->get('formularios');
                 
                 $usuarioId = $security->getSessionValue('id');
                 
                 //Validar formulario
-                $resultados = $formularios_serv->procesarFormulario($form_id, $usuarioId, $respuestas);
+                $resultados = $formularios_serv->procesarFormulario($form_id, $usuarioId, $respuestas, $id);
                 
                 if($resultados['validate'])
                 {
-                    $em = $this->getDoctrine()->getManager();
+                    // Enviar mensaje de notificacion al mentor
+                    $this->enviarNotificacionMentor($id);
                     
-                    // Actualizar registro UsuariosFormularios
-                    $usuarioEmail = $security->getSessionValue("usuarioEmail");
-                    $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioEmail, "usuarioEvaluado" => $id));
-                    if($participacion)
-                    {
-                        $participacion->setFecha(new \DateTime());
-                        $participacion->setUsuarioParticipa($usuarioId);
-                        $participacion->setEstado(1);
-                        $em->persist($participacion);
-                        $em->flush();
-                    }
-                    
-                    // Enviar email de agradecimiento
+                    // Enviar mensaje de agradecimiento
                     $subject = $this->get('translator')->trans("gracias.participar.mi.evaluacion.360");
                     $body = $this->get('translator')->trans("mensaje.gracias.participar.mi.evaluacion.360")
                             ."<br/><br/>
                               Cordialmente,<br/>
                               Vocationet";
                     $this->get("mensajes")->enviarMensaje($id, array($usuarioId), $subject, $body);
-                    
                     
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("gracias.por.participar.evaluacion.360")));
                     return $this->redirect($this->generateUrl('homepage'));
@@ -205,6 +205,45 @@ class Evaluacion360Controller extends Controller
         return new Response();
     }
 
+    /**
+     * Accion para ver las respuestas de las evaluaciones 360 de un usuario
+     * 
+     * A esta accion solo tiene acceso el mentor del usuario
+     * 
+     * @Route("/{id}/resultados", name="evaluacion360_resultados")
+     * @Template("vocationetBundle:Evaluacion360:resultados.html.twig")
+     * @param integer $usuarioId id de usuario evaluado
+     * @return Response
+     */
+    public function resultadosAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $form_id = $this->get('formularios')->getFormId('evaluacion360');
+        $usuarioId = $security->getSessionValue('id');
+        
+        // Valida acceso del mentor
+        if($usuarioId != $this->getMentorId($id))
+        {
+            throw $this->createNotFoundException();
+        }
+        
+        
+        $formularios_serv = $this->get('formularios');
+        $formularios = $formularios_serv->getResultadosFormulario($form_id, $id);
+        $participaciones = $formularios_serv->getParticipacionesFormulario($form_id, $id);
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
+        
+        return array(
+            'formularios' => $formularios,
+            'participaciones' => $participaciones,
+            'usuario' => $usuario
+        );
+    }
+    
     /**
      * Funcion que valida la lista de correos del formulario
      * @param array $data
@@ -306,16 +345,91 @@ class Evaluacion360Controller extends Controller
      * 
      * @param integer $usuarioRespondeId id de usuario que ingresa
      * @param integer $usuarioEvaluadoId id de usuario a evaluar
-     * @return Object entidad UsuariosFormularios
+     * @return Object entidad Participaciones
      */
     private function validarAcceso($usuarioRespondeEmail, $usuarioEvaluadoId)
     {
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
         $em = $this->getDoctrine()->getManager();
         
-        $usuarioFormulario = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioRespondeEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "correoInvitacion" => $usuarioRespondeEmail, "usuarioEvaluado" => $usuarioEvaluadoId));
         
-        return $usuarioFormulario;
+        return $participacion;
+    }
+    
+    /**
+     * Funcion que obtiene el id del mentor de un usuario
+     * 
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     * @return integer id de mentor
+     */
+    private function getMentorId($usuarioEvaluadoId)
+    {
+        $em = $this->getDoctrine()->getManager();                
+        
+        //Obtener mentor del usuario
+        $dql = "SELECT 
+                    u1.id usuario1Id, 
+                    u2.id usuario2Id
+                FROM 
+                    vocationetBundle:Relaciones r 
+                    JOIN vocationetBundle:Usuarios u1 WITH r.usuario = u1.id
+                    JOIN vocationetBundle:Usuarios u2 WITH r.usuario2 = u2.id
+                WHERE 
+                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
+                    AND r.tipo = 2
+                    AND r.estado = 1
+                ";
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioEvaluadoId);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        $mentorId = false;
+        if(isset($result[0]))
+        {
+            $result = $result[0];
+            
+            if($result['usuario1Id'] == $usuarioEvaluadoId)
+            {
+                $mentorId = $result['usuario2Id'];
+            }
+            elseif($result['usuario2Id'] == $usuarioEvaluadoId)
+            {
+                $mentorId = $result['usuario1Id'];
+            }            
+        }
+        
+        return $mentorId;
+    }
+        
+    /**
+     * Funcion que envia un mensaje al mentor cuando se participa en una evaluacion 360
+     * 
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     */
+    private function enviarNotificacionMentor($usuarioEvaluadoId)
+    {
+        $em = $this->getDoctrine()->getManager();                
+        
+        //Obtener mentor del usuario
+        $mentorId = $this->getMentorId($usuarioEvaluadoId);
+                
+        if($mentorId)
+        {
+            $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($usuarioEvaluadoId);
+            $usuarioNombre = $usuario->getUsuarioNombre()." ".$usuario->getUsuarioApellido();
+            
+            // Enviar mensaje
+            
+            $subject = $this->get('translator')->trans("evaluacion.360.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail');
+            $link = '<a href="'. $this->get('request')->getSchemeAndHttpHost().$this->generateUrl('perfil', array('perfilId' => $usuarioEvaluadoId)) .'" >'.$this->get('translator')->trans("ver.perfil", array(), 'label').'</a><br/><br/>';
+            $body = $this->get('translator')->trans("mensaje.evaluacion.360.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail')
+                    ."<br/><br/>".$link."";
+            
+            $this->get("mensajes")->enviarMensaje($usuarioEvaluadoId, array($mentorId), $subject, $body);        
+        }
+        
     }
     
 }

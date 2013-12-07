@@ -33,6 +33,11 @@
             </aside>
         </section>
         
+    </div>
+</div>
+<div class="row">    
+    <div class="col-lg-8">
+        
         <section class="panel" id="div-cuestionario">
             <header class="panel-heading" style="font-size: 14px;">
                 {{ formulario_info.descripcion|raw }}
@@ -54,13 +59,50 @@
                         <div class="col-lg-offset-2 col-lg-10">
                             {{ form_widget(form._token) }}
                             {{ form_errors(form) }} 
-                            <input type="submit" class="btn btn-danger" value="{% trans  from "label" %}enviar.invitaciones{% endtrans %}"/>
+                            <input type="submit" class="btn btn-shadow btn-primary" value="{% trans  from "label" %}enviar.invitaciones{% endtrans %}"/>
+                            {% if count_participaciones >= 3 %}
+                            <a href="{{ path('agenda_estudiante') }}" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+                            {% endif %}
                         </div>
                     </div>
                 </form>
             </div>
         </section>
         
+    </div>
+    
+    <div class="col-lg-4">
+        <section class="panel" id="div-cuestionario">
+            <header class="panel-heading" style="font-size: 14px;">
+                {% trans from "label" %}participaciones{% endtrans %}
+            </header>
+            <table class="table table-striped">
+                <tbody>
+                {% for participacion in participaciones %}
+                    <tr>
+                        <td style="overflow: hidden; text-overflow: ellipsis;">
+                            {% if participacion.usuarioId %}
+                                <a href="{{ path("perfil", {"perfilId":participacion.usuarioId}) }}">{{ participacion.usuarioNombre ~ ' ' ~ participacion.usuarioApellido }}</a>
+                                <br/>
+                            {% endif %}
+                            {{ participacion.correoInvitacion }}
+                            <br/>
+                            {{ participacion.fecha|date('d/m/Y H:i') }}
+                            <br/>
+                            {% if participacion.estado == 1 %}
+                                {% trans from "label" %}participo{% endtrans %}
+                            {% else %}
+                                {% trans from "label" %}no.ha.participado{% endtrans %}
+                            {% endif %}
+                        </td>
+                        
+                    </tr>
+                {% else %}
+                    <tr><td>{% trans from "label" %}no.hay.participaciones{% endtrans %}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
     </div>
 </div>
 {% endblock body %}
