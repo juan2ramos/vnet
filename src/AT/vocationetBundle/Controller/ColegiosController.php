@@ -7,23 +7,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AT\vocationetBundle\Entity\Carreras;
-use AT\vocationetBundle\Form\CarrerasType;
+use AT\vocationetBundle\Entity\Colegios;
+use AT\vocationetBundle\Form\ColegiosType;
 
 /**
- * Controlador de Carreras
+ * Controlador de Colegios
  * @package vocationetBundle
- * @Route("/admin/carreras")
+ * @Route("/admin/colegios")
  * @author Camilo Quijano <camilo@altactic.com>
  * @version 1
  */
-class CarrerasController extends Controller
+class ColegiosController extends Controller
 {
 	/**
-     * Listado de carreras
+     * Listado de colegios
      * 
-     * @Template("vocationetBundle:Carreras:index.html.twig")
-	 * @Route("/", name="admin_carreras")
+     * @Template("vocationetBundle:Colegios:index.html.twig")
+	 * @Route("/", name="admin_colegios")
      * @Method("GET")
      * @return Response
      */
@@ -34,17 +34,17 @@ class CarrerasController extends Controller
 		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 		
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('vocationetBundle:Carreras')->findBy(array(), array('nombre' => 'ASC'));
+        $entities = $em->getRepository('vocationetBundle:Colegios')->findBy(array(), array('nombre' => 'ASC'));
         return array('entities' => $entities);
     }
-
+	
 	/**
-     * Ver detalles de la carrera
+     * Ver detalles del colegio
 	 *
-     * @param Int $id Id de la carrera
-     * @return Render Vista renderizada con detalles de la carrera
-     * @Template("vocationetBundle:Carreras:show.html.twig")
-     * @Route("/{id}/show", name="admin_carreras_show")
+     * @param Int $id Id del colegio
+     * @return Render Vista renderizada con detalles del colegio
+     * @Template("vocationetBundle:Colegios:show.html.twig")
+     * @Route("/{id}/show", name="admin_colegios_show")
 	 * @Method("GET")
     */
     public function showAction($id)
@@ -54,29 +54,29 @@ class CarrerasController extends Controller
 		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('vocationetBundle:Carreras')->find($id);
+        $entity = $em->getRepository('vocationetBundle:Colegios')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Carreras entity.');
         }
 		
-		$temas = $this->get('foros')->getTemasCountForos($id);
+		$usuariosColegio = $em->getRepository('vocationetBundle:Usuarios')->findBy(array('colegio' => $entity), array('usuarioNombre' => 'ASC'));
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
-			'temas'		  => $temas,
+			'usuarios'		  => $usuariosColegio,
             'delete_form' => $deleteForm->createView(),
         );
     }
 
 	/**
-     * Agregar carrera
+     * Agregar colegio
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request Form de nuevo carrera
-     * @return Render Formulario de nueva carrera
-     * @Template("vocationetBundle:Carreras:new.html.twig")
-     * @Route("/new", name="admin_carreras_new")
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de nuevo colegio
+     * @return Render Formulario de nueva colegio
+     * @Template("vocationetBundle:Colegios:new.html.twig")
+     * @Route("/new", name="admin_colegios_new")
      * @Method({"GET", "POST"})
      */
     public function newAction(Request $request)
@@ -85,8 +85,8 @@ class CarrerasController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 		
-		$entity = new Carreras();
-        $form  = $this->createForm(new CarrerasType(), $entity);
+		$entity = new Colegios();
+        $form  = $this->createForm(new ColegiosType(), $entity);
         
         if ($request->getMethod() == "POST")
         {
@@ -97,8 +97,8 @@ class CarrerasController extends Controller
                 $em->persist($entity);
                 $em->flush();
 				
-				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("carrera.creada"), "text" => $this->get('translator')->trans("carrera.creada.correctamente")));
-                return $this->redirect($this->generateUrl('admin_carreras'));
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("colegio.creado"), "text" => $this->get('translator')->trans("colegio.creado.correctamente")));
+                return $this->redirect($this->generateUrl('admin_colegios'));
             }
 			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
         }
@@ -108,14 +108,14 @@ class CarrerasController extends Controller
             'form'   => $form->createView(),
         );
     }
-	
-	/**
-     * Editar Carrera
+
+    /**
+     * Editar Colegio
      *
      * @param \Symfony\Component\HttpFoundation\Request $request Form de edición
      * @return Render Formulario de edición
-     * @Template("vocationetBundle:Carreras:edit.html.twig")
-     * @Route("/{id}/edit", name="admin_carreras_edit")
+     * @Template("vocationetBundle:Colegios:edit.html.twig")
+     * @Route("/{id}/edit", name="admin_colegios_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, $id)
@@ -125,13 +125,11 @@ class CarrerasController extends Controller
 		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('vocationetBundle:Carreras')->find($id);
+        $entity = $em->getRepository('vocationetBundle:Colegios')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find TblCargo entity.');
-        }
+        if (!$entity) { throw $this->createNotFoundException('Unable to find Colegios entity.');  }
 
-        $editForm = $this->createForm(new CarrerasType(), $entity);
+        $editForm = $this->createForm(new ColegiosType(), $entity);
         //$deleteForm = $this->createDeleteForm($id);
         
         if ($request->getMethod() == 'POST')
@@ -141,8 +139,8 @@ class CarrerasController extends Controller
             {
                 $em->flush();
 
-				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("carrera.editada"), "text" => $this->get('translator')->trans("carrera.editada.correctamente")));
-                return $this->redirect($this->generateUrl('admin_carreras_show', Array('id' => $id)));
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("colegio.editado"), "text" => $this->get('translator')->trans("colegio.editado.correctamente")));
+                return $this->redirect($this->generateUrl('admin_colegios_show', Array('id' => $id)));
             }
 			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
         }
@@ -155,12 +153,12 @@ class CarrerasController extends Controller
     }
 
 	/**
-     * Borrar una carrera
+     * Borrar un colegio
 	 *
-     * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar carrera
-     * @param Int $id Id de la carrera
-     * @return Redirect Redirigir a listado de carreras
-     * @Route("/{id}/delete", name="admin_carreras_delete")
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar colegio
+     * @param Int $id Id de la colegio
+     * @return Redirect Redirigir a listado de colegios
+     * @Route("/{id}/delete", name="admin_colegios_delete")
      * @Method("DELETE")                                                                    {
      */
     public function deleteAction(Request $request, $id)
@@ -173,37 +171,36 @@ class CarrerasController extends Controller
         //$form->handleRequest($request);
         //if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('vocationetBundle:Carreras')->find($id);
+            $entity = $em->getRepository('vocationetBundle:Colegios')->find($id);
 
-            if (!$entity) {	throw $this->createNotFoundException('Unable to find Carreras entity.'); }
+            if (!$entity) { throw $this->createNotFoundException('Unable to find Colegios entity.'); }
 			
-			$temas = $em->getRepository('vocationetBundle:Temas')->findByCarrera($entity);
-			$alternativas = $em->getRepository('vocationetBundle:AlternativasEstudios')->findByCarrera($entity);
+			$usuariosColegio = $em->getRepository('vocationetBundle:Usuarios')->findBy(array('colegio' => $entity));
 			
-			if ($temas or $alternativas) {
-				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.al.eliminar"), "text" => $this->get('translator')->trans("no.puede.eliminar.esta.carrera.asociados.temas.o.alternativas")));
+			if ($usuariosColegio) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.al.eliminar"), "text" => $this->get('translator')->trans("no.puede.eliminar.este.colegio.asociados.usuarios")));
 			} else {
 				$em->remove($entity);
 				$em->flush();
 				
-				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("carrera.eliminada"), "text" => $this->get('translator')->trans("carrera.eliminada.correctamente")));
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("colegio.eliminado"), "text" => $this->get('translator')->trans("colegio.eliminado.correctamente")));
 			}
         //}
-        return $this->redirect($this->generateUrl('admin_carreras'));
+		return $this->redirect($this->generateUrl('admin_colegios'));
     }
 
 	/**
-     * Creación de formulario para eliminar carrera
+     * Creación de formulario para eliminar colegio
 	 *
-     * @param Int $id Id de la carrera
+     * @param Int $id Id del colegio
      * @return \Symfony\Component\Form\Form Formulario de eliminacion
      */
     private function createDeleteForm($id)
     {
-		return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_carreras_delete', array('id' => $id)))
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('admin_colegios_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'button', array('label' => $this->get('translator')->trans("eliminar", Array(), "label"), 'attr' => array('class' => 'btn btn-danger confirmdelete', 'data-id' => $id, 'data-ent' => 'Carrera')))
+			->add('submit', 'button', array('label' => $this->get('translator')->trans("eliminar", Array(), "label"), 'attr' => array('class' => 'btn btn-danger confirmdelete', 'data-id' => $id, 'data-ent' => 'Colegio')))
             ->getForm();
     }
 }

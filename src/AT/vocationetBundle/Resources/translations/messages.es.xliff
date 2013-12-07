@@ -459,6 +459,36 @@
                 <source>carrera.eliminada.correctamente</source>
                 <target>Carrera eliminada correctamente</target>
 			</trans-unit>
+			
+			<!-- CARRERAS colegios-x -->
+			<trans-unit id="colegios-1">
+                <source>colegio.eliminado</source>
+                <target>Colegio eliminado</target>
+			</trans-unit>
+			<trans-unit id="colegios-2">
+                <source>colegio.eliminado.correctamente</source>
+                <target>Colegio eliminado correctamente</target>
+			</trans-unit>
+			<trans-unit id="colegios-3">
+                <source>no.puede.eliminar.este.colegio.asociados.usuarios</source>
+                <target>No puede eliminar este colegio porque tiene asociados usuarios</target>
+			</trans-unit>
+			<trans-unit id="colegios-4">
+                <source>colegio.creado</source>
+                <target>Colegio creado</target>
+			</trans-unit>
+			<trans-unit id="colegios-5">
+                <source>colegio.creado.correctamente</source>
+                <target>Colegio creado correctamente</target>
+			</trans-unit>
+			<trans-unit id="colegios-6">
+                <source>colegio.editado</source>
+                <target>Colegio editado</target>
+			</trans-unit>
+			<trans-unit id="colegios-7">
+                <source>colegio.editado.correctamente</source>
+                <target>Colegio editado correctamente</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

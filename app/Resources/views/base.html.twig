@@ -223,17 +223,33 @@
                       </ul>
                   </li>
 				  
-					<li class="sub-menu">
-						<a href="javascript:;" class="">
-							<i class="icon-gears"></i>
-							<span>{% trans from "label" %}carreras{% endtrans %}</span>
-							<span class="arrow"></span>
-						</a>
-						<ul class="sub">
-							<li><a class="" href="{{ path('admin_carreras') }}">{% trans from "label" %}listado{% endtrans %}</a></li>
-							<li><a class="" href="{{ path('admin_carreras_new') }}">{% trans from "label" %}nueva.carrera{% endtrans %}</a></li>
-						</ul>
-					</li>
+					{% if 'acceso_carreras' in sess_permissions.permissions %}
+						<li class="sub-menu">
+							<a href="javascript:;" class="">
+								<i class="icon-gears"></i>
+								<span>{% trans from "label" %}carreras{% endtrans %}</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub">
+								<li><a class="" href="{{ path('admin_carreras') }}">{% trans from "label" %}listado{% endtrans %}</a></li>
+								<li><a class="" href="{{ path('admin_carreras_new') }}">{% trans from "label" %}nueva.carrera{% endtrans %}</a></li>
+							</ul>
+						</li>
+					{% endif %}
+					
+					{% if 'acceso_colegios' in sess_permissions.permissions %}
+						<li class="sub-menu">
+							<a href="javascript:;" class="">
+								<i class="icon-gears"></i>
+								<span>{% trans from "label" %}colegios{% endtrans %}</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub">
+								<li><a class="" href="{{ path('admin_colegios') }}">{% trans from "label" %}listado{% endtrans %}</a></li>
+								<li><a class="" href="{{ path('admin_colegios_new') }}">{% trans from "label" %}nuevo.colegio{% endtrans %}</a></li>
+							</ul>
+						</li>
+					{% endif %}
 				</ul>
 			</div>
 		</aside>

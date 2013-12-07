@@ -1161,6 +1161,40 @@
                 <source>la.carrera.no.tiene.temas</source>
                 <target>La carrera no tiene temas registrados</target>
 			</trans-unit>
+			<trans-unit id="carreras-5">
+                <source>detalles.carrera</source>
+                <target>Detalles de la carrera</target>
+			</trans-unit>
+			
+			<!-- COLEGIOS colegios-x -->
+			<trans-unit id="colegios-1">
+                <source>colegios</source>
+                <target>Colegios</target>
+			</trans-unit>
+			<trans-unit id="colegios-2">
+                <source>nuevo.colegio</source>
+                <target>Nuevo colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-3">
+                <source>detalles.colegio</source>
+                <target>Detalles colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-4">
+                <source>editar.colegio</source>
+                <target>Editar colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-5">
+                <source>no.se.encuentra.registrados.colegios</source>
+                <target>No se encuentran registrados colegios</target>
+			</trans-unit>
+			<trans-unit id="colegios-6">
+                <source>estudiantes</source>
+                <target>Estudiantes</target>
+			</trans-unit>
+			<trans-unit id="colegios-7">
+                <source>ningun.estudiante.ha.indicado.pertenecer.a.este.colegio</source>
+                <target>Ningún estudiante ha indicado pertenecer a este colegio</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>
