@@ -36,5 +36,8 @@ services:
         class: AT\vocationetBundle\Services\TwigExtensions\StringParser\stringParserExtension
         tags:
             - { name: twig.extension }
+    foros:
+        class: AT\vocationetBundle\Services\ForosService
+        arguments: ["@doctrine"]
        
 

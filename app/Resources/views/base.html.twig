@@ -220,12 +220,23 @@
                           <li><a class="" href="{{ path('evaluacion360') }}">{% trans from "label" %}evaluacion.360{% endtrans %}</a></li>
                           <li><a class="" href="{{ path('mercado_laboral') }}">{% trans from "label" %}mercado.laboral{% endtrans %}</a></li>
                           <li><a class="" href="#">{% trans from "label" %}diseno.vida{% endtrans %}</a></li>
-						  
                       </ul>
-                  </li>                  
-              </ul>
-          </div>
-      </aside>
+                  </li>
+				  
+					<li class="sub-menu">
+						<a href="javascript:;" class="">
+							<i class="icon-book"></i>
+							<span>{% trans from "label" %}carreras{% endtrans %}</span>
+							<span class="arrow"></span>
+						</a>
+						<ul class="sub">
+							<li><a class="" href="{{ path('admin_carreras') }}">{% trans from "label" %}listado{% endtrans %}</a></li>
+							<li><a class="" href="{{ path('admin_carreras_new') }}">{% trans from "label" %}nueva.carrera{% endtrans %}</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</aside>
 			
 			<!--main content start-->
 			{# id="main-content" para espacio del menu vertical #}
@@ -261,6 +272,17 @@
         <script src="{{ asset('js/vocationet/alert-badge.js') }}" type="text/javascript"></script>
         <!-- deshabilitar boton submit trasn envio de formulario -->
         <script src="{{ asset('js/vocationet/disable-submit.js') }}" type="text/javascript"></script>
+		
+		<script>
+			// Confirmacion de eliminacion de elementos
+			$('.confirmdelete').click(function(){
+				IdElementDelete = $(this).data('id');
+				Ent = $(this).data('ent');
+				if (confirm('{% trans from "messages" %}esta.seguro.de.eliminar.este.elemento{% endtrans %}')) {
+					$('#formdelete'+Ent+'_'+IdElementDelete).submit();
+				}
+			});
+		</script>
 
         {% block script %}{% endblock %}
 	</body>

@@ -87,6 +87,18 @@
                 <source>ir.al.home</source>
                 <target>ir al inicio</target>
 			</trans-unit>
+			<trans-unit id="generico-22">
+                <source>listado</source>
+                <target>Listado</target>
+			</trans-unit>
+			<trans-unit id="generico-23">
+                <source>ver</source>
+                <target>Ver</target>
+			</trans-unit>
+			<trans-unit id="generico-24">
+                <source>eiminar</source>
+                <target>Eiminar</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
@@ -1106,6 +1118,24 @@
 			<trans-unit id="adminov-8">
                 <source>usuarios</source>
                 <target>Usuarios</target>
+			</trans-unit>
+			
+			<!-- CARRERAS carreras-x -->
+			<trans-unit id="carreras-1">
+                <source>nueva.carrera</source>
+                <target>Nueva carrera</target>
+			</trans-unit>
+			<trans-unit id="carreras-2">
+                <source>editar.carrera</source>
+                <target>Editar carrera</target>
+			</trans-unit>
+			<trans-unit id="carreras-3">
+                <source>no.se.encuentra.registradas.carreras</source>
+                <target>No se encuentran registradas carreras</target>
+			</trans-unit>
+			<trans-unit id="carreras-4">
+                <source>la.carrera.no.tiene.temas</source>
+                <target>La carrera no tiene temas registrados</target>
 			</trans-unit>
         </body>
     </file>
