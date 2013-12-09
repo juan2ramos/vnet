@@ -87,6 +87,18 @@
                 <source>ir.al.home</source>
                 <target>ir al inicio</target>
 			</trans-unit>
+			<trans-unit id="generico-22">
+                <source>listado</source>
+                <target>Listado</target>
+			</trans-unit>
+			<trans-unit id="generico-23">
+                <source>ver</source>
+                <target>Ver</target>
+			</trans-unit>
+			<trans-unit id="generico-24">
+                <source>eiminar</source>
+                <target>Eiminar</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
@@ -1131,7 +1143,7 @@
                 <source>usuarios</source>
                 <target>Usuarios</target>
 			</trans-unit>
-            
+           
             <!-- diseño de vida dvida-x -->
 			<trans-unit id="dvida-1">
                 <source>diseno.vida</source>
@@ -1141,9 +1153,59 @@
                 <source>instrucciones.diseno.vida</source>
                 <target>Antes de realizar esta prueba de diseño de vida te pedimos el favor de leer nuestra guia, que te dara las recomendaciones necesarias para que le saques el mejor provecho a este test. Esta guia es sencilla, corta y amigable, no dejes de leerla.</target>
 			</trans-unit>
-            
-            
-            
+			
+			<!-- CARRERAS carreras-x -->
+			<trans-unit id="carreras-1">
+                <source>nueva.carrera</source>
+                <target>Nueva carrera</target>
+			</trans-unit>
+			<trans-unit id="carreras-2">
+                <source>editar.carrera</source>
+                <target>Editar carrera</target>
+			</trans-unit>
+			<trans-unit id="carreras-3">
+                <source>no.se.encuentra.registradas.carreras</source>
+                <target>No se encuentran registradas carreras</target>
+			</trans-unit>
+			<trans-unit id="carreras-4">
+                <source>la.carrera.no.tiene.temas</source>
+                <target>La carrera no tiene temas registrados</target>
+			</trans-unit>
+			<trans-unit id="carreras-5">
+                <source>detalles.carrera</source>
+                <target>Detalles de la carrera</target>
+			</trans-unit>
+			
+			<!-- COLEGIOS colegios-x -->
+			<trans-unit id="colegios-1">
+                <source>colegios</source>
+                <target>Colegios</target>
+			</trans-unit>
+			<trans-unit id="colegios-2">
+                <source>nuevo.colegio</source>
+                <target>Nuevo colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-3">
+                <source>detalles.colegio</source>
+                <target>Detalles colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-4">
+                <source>editar.colegio</source>
+                <target>Editar colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-5">
+                <source>no.se.encuentra.registrados.colegios</source>
+                <target>No se encuentran registrados colegios</target>
+			</trans-unit>
+			<trans-unit id="colegios-6">
+                <source>estudiantes</source>
+                <target>Estudiantes</target>
+			</trans-unit>
+			<trans-unit id="colegios-7">
+                <source>ningun.estudiante.ha.indicado.pertenecer.a.este.colegio</source>
+                <target>Ningún estudiante ha indicado pertenecer a este colegio</target>
+			</trans-unit>
+
         </body>
     </file>
 </xliff>

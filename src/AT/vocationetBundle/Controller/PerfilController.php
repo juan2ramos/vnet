@@ -89,7 +89,7 @@ class PerfilController extends Controller
 		else
 		{
 			// Acceso a informe de mercado laboral
-			$showInformeML = false;
+			$showInformeML = $rutaInformeML = false;
 			$seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($perfilId);
 			if ($seleccionarMentor) {
 				if ($seleccionarMentor['id'] == $security->getSessionValue('id')) {

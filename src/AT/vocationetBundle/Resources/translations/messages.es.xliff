@@ -19,6 +19,10 @@
                 <source>acceso.invalido</source>
                 <target>Acceso invalido</target>
             </trans-unit>
+			<trans-unit id="generic-5">
+                <source>esta.seguro.de.eliminar.este.elemento</source>
+                <target>¿Esta seguro de eliminar este elemento?</target>
+			</trans-unit>
                         
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
@@ -420,6 +424,70 @@
 			<trans-unit id="adminov-3">
                 <source>informe.cargado.correctamente</source>
                 <target>Informe cargado correctamente</target>
+			</trans-unit>
+			
+			<!-- CARRERAS carreras-x -->
+			<trans-unit id="carreras-1">
+                <source>carrera.creada</source>
+                <target>Carrera creada</target>
+			</trans-unit>
+			<trans-unit id="carreras-2">
+                <source>carrera.creada.correctamente</source>
+                <target>Carrera creada correctamente</target>
+			</trans-unit>
+			<trans-unit id="carreras-3">
+                <source>carrera.editada</source>
+                <target>Carrera editada</target>
+			</trans-unit>
+			<trans-unit id="carreras-4">
+                <source>carrera.editada.correctamente</source>
+                <target>Carrera editada correctamente</target>
+			</trans-unit>
+			<trans-unit id="carreras-5">
+                <source>error.al.eliminar</source>
+                <target>Error al eliminar</target>
+			</trans-unit>
+			<trans-unit id="carreras-6">
+                <source>no.puede.eliminar.esta.carrera.asociados.temas.o.alternativas</source>
+                <target>No puede eliminar esta carrera, tiene asociados temas o alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="carreras-7">
+                <source>carrera.eliminada</source>
+                <target>Carrera eliminada</target>
+			</trans-unit>
+			<trans-unit id="carreras-8">
+                <source>carrera.eliminada.correctamente</source>
+                <target>Carrera eliminada correctamente</target>
+			</trans-unit>
+			
+			<!-- CARRERAS colegios-x -->
+			<trans-unit id="colegios-1">
+                <source>colegio.eliminado</source>
+                <target>Colegio eliminado</target>
+			</trans-unit>
+			<trans-unit id="colegios-2">
+                <source>colegio.eliminado.correctamente</source>
+                <target>Colegio eliminado correctamente</target>
+			</trans-unit>
+			<trans-unit id="colegios-3">
+                <source>no.puede.eliminar.este.colegio.asociados.usuarios</source>
+                <target>No puede eliminar este colegio porque tiene asociados usuarios</target>
+			</trans-unit>
+			<trans-unit id="colegios-4">
+                <source>colegio.creado</source>
+                <target>Colegio creado</target>
+			</trans-unit>
+			<trans-unit id="colegios-5">
+                <source>colegio.creado.correctamente</source>
+                <target>Colegio creado correctamente</target>
+			</trans-unit>
+			<trans-unit id="colegios-6">
+                <source>colegio.editado</source>
+                <target>Colegio editado</target>
+			</trans-unit>
+			<trans-unit id="colegios-7">
+                <source>colegio.editado.correctamente</source>
+                <target>Colegio editado correctamente</target>
 			</trans-unit>
         </body>
     </file>
