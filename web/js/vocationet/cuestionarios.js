@@ -5,25 +5,29 @@ var Cuestionario = (function(settings) {
         slide_max: 5,
         touchSpin_min: 1,
         touchSpin_max: 3,
+        stepy: true,
         stepy_titleClick: false
     }, settings);
     
     $(".slider-number-container .slider-value").val(settings.slider_min);
     $(".slider-number-container .slider-info").html(settings.slider_min);
     
-    $('#form').stepy({
-        backLabel: prev_trans,
-        block: true,
-        nextLabel: next_trans,
-        titleClick: settings.stepy_titleClick,
-        titleTarget: '.stepy-tab',
-        validate: true,
-        next: function(){
-            $('html,body').animate({
-                scrollTop: $("#div-cuestionario").offset().top
-            });
-        }
-    });
+    if(settings.stepy === true){
+        $('#form').stepy({
+            backLabel: prev_trans,
+            block: true,
+            nextLabel: next_trans,
+            titleClick: settings.stepy_titleClick,
+            titleTarget: '.stepy-tab',
+            validate: true,
+            next: function(){
+                $('html,body').animate({
+                    scrollTop: $("#div-cuestionario").offset().top
+                });
+                $(".sub-step").hide();
+            }
+        });
+    }
 
     $( ".slider" ).slider({
         min: settings.slider_min,

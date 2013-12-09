@@ -42,10 +42,10 @@
 {% elseif pregunta.preguntaTipoId == 4 %} 
      <div class="row options-container">
         <div class="option col-lg-5">
-            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="1" required="required"/> {% trans  from "label" %}si{% endtrans %}</label>
+            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="1" required="required" data-pregunta="{{ pregunta.pregunta }}"/> {% trans  from "label" %}si{% endtrans %}</label>
         </div>
         <div class="option col-lg-5">
-            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="0"/> {% trans  from "label" %}no{% endtrans %}</label>
+            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="pregunta[{{ pregunta.id }}]" value="0" data-pregunta="{{ pregunta.pregunta }}"/> {% trans  from "label" %}no{% endtrans %}</label>
         </div>
     </div>  
     <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label> 
@@ -75,7 +75,7 @@
     <div class="slider-container slider-number-container">
         <div class="col-lg-1" style="text-align: right;">
             <div class="slider-info">0</div>
-            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="0" class="slider-value" required="required"/>
+            <input type="hidden" name="pregunta[{{ pregunta.id }}]" value="0" class="slider-value" required="required" data-pregunta="{{ pregunta.pregunta }}"/>
         </div>
         <div class="col-lg-7" style="padding-top: 20px;">
             <div class="slider"></div>
