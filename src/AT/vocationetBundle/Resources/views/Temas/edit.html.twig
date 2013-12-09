@@ -1,0 +1,30 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+	<div class="col-lg-12">
+		<section class="panel">
+			<header class="panel-heading">{% trans from "label" %}editar.tema{% endtrans %}</header>
+			<div class="panel-body">
+				<form class="form-horizontal" action="{{ path('admin_temas_edit', {'id':entity.id}) }}" method="POST" {{ form_enctype(form) }}>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}tema{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.nombre, {'attr': {'class':'form-control', 'style':'width:80%;'}} ) }}</p></div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}carrera{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.carrera, {'attr': {'class':'form-control', 'style':'width:80%;'}} ) }}</p></div>
+					</div>
+					{{ form_errors(form) }}
+                    {{ form_widget(form._token) }}
+					<div class="form-group">
+						<div class="col-lg-12 text-center">
+							<a class="btn btn-default" href="{{ path('admin_temas') }}">
+								{{ 'listado'|trans({}, 'label') }}</a>
+							<button type="submit" class="btn btn-success">{{ 'guardar.cambios'|trans({}, 'label') }}</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+	</div>
+{% endblock %}

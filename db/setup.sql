@@ -20,7 +20,8 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (13, 'acceso_mentor_ov', 'Acceso de administracion por parte del mentor OV', 'Acceso de administracion por parte del mentor de Orientación Vocacional', 'lista_usuarios_mentor,subir_informe_mercado_laboral'),
 (14, 'acceso_respuestas_evaluacion_360', 'Acceso a ver resultados de evaluacion 360', 'Acceso a ver resultados de evaluacion 360', 'evaluacion360_resultados'),
 (15, 'acceso_carreras', 'Acceso a admin carreras', 'Acceso a admin carreras', 'admin_carreras,admin_carreras_show,admin_carreras_new,admin_carreras_edit,admin_carreras_delete'),
-(16, 'acceso_colegios', 'Acceso a admin colegios', 'Acceso a admin colegios', 'admin_colegios,admin_colegios_show,admin_colegios_new,admin_colegios_edit,admin_colegios_delete');
+(16, 'acceso_colegios', 'Acceso a admin colegios', 'Acceso a admin colegios', 'admin_colegios,admin_colegios_show,admin_colegios_new,admin_colegios_edit,admin_colegios_delete'),
+(17, 'acceso_temas', 'Acceso a admin temas', 'Acceso a admin temas', 'admin_temas,admin_temas_show,admin_temas_new,admin_temas_edit,admin_temas_delete');
 
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 
@@ -62,7 +63,8 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('14', '3'),
 ('14', '4'),
 ('15', '4'),
-('16', '4');
+('16', '4'),
+('17', '4');
 
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
 (1, 'selección múltiple con única respuesta'),
