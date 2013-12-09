@@ -7,16 +7,6 @@
     <field name="fecha" type="datetime" column="fecha" nullable="false"/>
     <field name="correoInvitacion" type="string" column="correo_invitacion" length="100" nullable="true"/>
     <field name="estado" type="boolean" column="estado" nullable="false"/>
-    <many-to-one field="carrera" target-entity="Carreras">
-      <join-columns>
-        <join-column name="carrera_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
-    <many-to-one field="formulario" target-entity="Formularios">
-      <join-columns>
-        <join-column name="formulario_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
     <many-to-one field="usuarioEvaluado" target-entity="Usuarios">
       <join-columns>
         <join-column name="usuario_evaluado_id" referenced-column-name="id"/>
@@ -25,6 +15,16 @@
     <many-to-one field="usuarioParticipa" target-entity="Usuarios">
       <join-columns>
         <join-column name="usuario_participa_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="formulario" target-entity="Formularios">
+      <join-columns>
+        <join-column name="formulario_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="carrera" target-entity="Carreras">
+      <join-columns>
+        <join-column name="carrera_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>
