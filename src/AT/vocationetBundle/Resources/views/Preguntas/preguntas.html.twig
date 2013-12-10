@@ -30,7 +30,7 @@
         {% set sort_value = '' %}
         <ul class="sortable">
         {% for opcion in pregunta.opciones %}
-            <li class="label label-primary" id="{{ opcion.id }}" >{{ loop.index~'. '~opcion.nombre }}</li>
+            <li class="label label-primary" id="{{ opcion.id }}" data-opcion="{{ opcion.nombre }}">{{ loop.index~'. '~opcion.nombre }}</li>
             {% set sort_value %}{{ sort_value~opcion.id }}{% if not loop.last %},{% endif %}{% endset %}
         {% endfor %}
         </ul>

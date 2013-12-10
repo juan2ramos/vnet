@@ -1153,6 +1153,74 @@
                 <source>instrucciones.diseno.vida</source>
                 <target>Antes de realizar esta prueba de diseño de vida te pedimos el favor de leer nuestra guia, que te dara las recomendaciones necesarias para que le saques el mejor provecho a este test. Esta guia es sencilla, corta y amigable, no dejes de leerla.</target>
 			</trans-unit>
+			<trans-unit id="dvida-3">
+                <source>diseno.vida</source>
+                <target>Diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="dvida-4">
+                <source>valores.ocupacionales</source>
+                <target>Valores ocupacionales</target>
+			</trans-unit>
+			<trans-unit id="dvida-5">
+                <source>intereses.academicos</source>
+                <target>Intereses académicos</target>
+			</trans-unit>
+			<trans-unit id="dvida-6">
+                <source>nivel.0</source>
+                <target>Nivel 0</target>
+			</trans-unit>
+			<trans-unit id="dvida-7">
+                <source>nivel.1</source>
+                <target>Nivel 1</target>
+			</trans-unit>
+			<trans-unit id="dvida-8">
+                <source>nivel.2</source>
+                <target>Nivel 2</target>
+			</trans-unit>
+			<trans-unit id="dvida-9">
+                <source>nivel.3</source>
+                <target>Nivel 3</target>
+			</trans-unit>
+			<trans-unit id="dvida-10">
+                <source>instrucciones.analisis.diseno.vida</source>
+                <target>A continuación califica en una matriz los intereses de carrera nivel 3 que seleccionaste en la prueba anterior. Los criterios serán de 1 a 5, donde (5) es mucho, (1) es poco y (0) es nada. O por porcentaje que 0% significa nada de interés y 100% el máximo de interés.</target>
+			</trans-unit>
+			<trans-unit id="dvida-11">
+                <source>intereses.carrera</source>
+                <target>Intereses de carrera</target>
+			</trans-unit>
+			<trans-unit id="dvida-12">
+                <source>afinidad.valores.ocupacionales</source>
+                <target>Para cada interés de carrera califica que tanta afinidad tienen con tus Valores ocupacionales (ver imagen parte superior)</target>
+			</trans-unit>
+			<trans-unit id="dvida-13">
+                <source>afinidad.intereses.academicos</source>
+                <target>Para cada interés de carrera califica que tanta afinidad tienen con tus Intereses Académicos (ver imagen parte superior)</target>
+			</trans-unit>
+			<trans-unit id="dvida-14">
+                <source>apasiona.carrera</source>
+                <target>Califica según un porcentaje que tanto te apasiona esta carrera</target>
+			</trans-unit>
+			<trans-unit id="dvida-15">
+                <source>corto.plazo</source>
+                <target>Corto plazo</target>
+			</trans-unit>
+			<trans-unit id="dvida-16">
+                <source>mediano.plazo</source>
+                <target>Mediano plazo</target>
+			</trans-unit>
+			<trans-unit id="dvida-17">
+                <source>largo.plazo</source>
+                <target>Largo plazo</target>
+			</trans-unit>
+			<trans-unit id="dvida-18">
+                <source>disenovida.metas.pregunta.1</source>
+                <target>¿Con estas metas crees que puedes cumplir con alguna de las vidas que soñaste en la pregunta anterior?</target>
+			</trans-unit>
+			<trans-unit id="dvida-19">
+                <source>disenovida.metas.pregunta.2</source>
+                <target>¿Qué puedes concluir al respecto?</target>
+			</trans-unit>
 			
 			<!-- CARRERAS carreras-x -->
 			<trans-unit id="carreras-1">

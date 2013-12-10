@@ -62,6 +62,15 @@
             padding: 5px 10px;
         }
         
+        .globo{
+            border: 2px solid #41A4CA;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            background: #DCF3FC;
+            padding: 5px 10px;
+            width: 100%;
+        }
+        
     </style>
 {% endblock style %}
 
@@ -122,7 +131,8 @@
                     {% for formulario in formularios %}                    
                     
                         {% set formulario_loop = loop.index0 %}
-                    
+                        
+                        {# Sub-secciones del pantallazo 2 - Intereses de carrera (Flor) #}
                         {% if loop.index0 >= 2 and loop.index0 <= 9 %} 
                             <div class="sub-step sub-step-{{ loop.index0 }} ">
                                 <legend>{{ formulario.nombre }}</legend>
@@ -138,14 +148,13 @@
                                 {% endfor %}
                                 {% endif %}
                             </div>
+                        {# Secciones principales #}
                         {% else %}
                             <fieldset class="step">
                                 <legend></legend>
                                 {% if formulario.descripcion %}<p>{{ formulario.descripcion|raw }}</p>{% endif %}
-                                
-                                
-                                
-                                {# piramide de actividades #}
+                                                                
+                                {# Pantallazo 3 - Intereses de carrera (2) (piramide de actividades) #}
                                 {% if loop.index0 == 10 %}
                                     <div class="clearfix">
                                         <h4>{% trans  from "label" %}nivel.3{% endtrans %}</h4>
@@ -159,7 +168,7 @@
                                     </div>
                                 {% endif %}
                                 
-                                {# piramides de valores ocupacionales e intereses academicos #}
+                                {# Pantallazo 6 - Analisis (piramides de valores ocupacionales e intereses academicos) #}
                                 {% if loop.index0 == 13 %}
                                     <div class="col-lg-6 clearfix">
                                         <h4>{% trans  from "label" %}valores.ocupacionales{% endtrans %}</h4>
@@ -169,16 +178,113 @@
                                         <h4>{% trans  from "label" %}intereses.academicos{% endtrans %}</h4>
                                         <ul id="list-int-acad" class="nivel-act"></ul>
                                     </div>
+                                    <p>{% trans  from "label" %}instrucciones.analisis.diseno.vida{% endtrans %}</p>
+                                    <div>
+                                        <table class="table table-striped" id="table-int-carr">
+                                            <thead>
+                                                <tr>
+                                                    <th>{% trans  from "label" %}intereses.carrera{% endtrans %}</th>
+                                                    <th>{% trans  from "label" %}afinidad.valores.ocupacionales{% endtrans %}</th>
+                                                    <th>{% trans  from "label" %}afinidad.intereses.academicos{% endtrans %}</th>
+                                                    <th>{% trans  from "label" %}apasiona.carrera{% endtrans %}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
                                 {% endif %}
                                 
+                                {# Pantallazo 8 - Metas #}
+                                {% if loop.index0 == 15 %}
+                                    <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                    <table class="" id="table-metas" style="">
+                                        <tbody>
+                                            {% for i in 1..3 %}
+                                            <tr style="border-top: 1px solid #eee;">
+                                                <td style="width:200px;">
+                                                    <div class="globo">
+                                                        <span id="int-carr-{{ i }}"></span> 
+                                                        <input type="hidden" name="adicionales[metas][{{ i }}][nombre]" value="" id="txt-int-carr-{{ i }}"/>
+                                                    </div>
+                                                </td>
+                                                <td style="width:300px;">
+                                                    <table class="">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="globo">
+                                                                        <h4>{% trans  from "label" %}corto.plazo{% endtrans %}</h4>
+                                                                        <textarea name="adicionales[metas][{{ i }}][corto_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="globo">
+                                                                        <h4>{% trans  from "label" %}mediano.plazo{% endtrans %}</h4>
+                                                                        <textarea name="adicionales[metas][{{ i }}][mediano_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="globo">
+                                                                        <h4>{% trans  from "label" %}largo.plazo{% endtrans %}</h4>
+                                                                        <textarea name="adicionales[metas][{{ i }}][largo_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <table class="">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <p>{% trans  from "label" %}disenovida.metas.pregunta.1{% endtrans %}</p>
+                                                                    <div class="row options-container">
+                                                                        <div class="option col-lg-5" style="text-align: left;">
+                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicionales[metas][{{ i }}][pregunta1]" value="1" required="required" /> {% trans  from "label" %}si{% endtrans %}</label>
+                                                                        </div>
+                                                                        <div class="option col-lg-5" style="text-align: left;">
+                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicionales[metas][{{ i }}][pregunta1]" value="0" /> {% trans  from "label" %}no{% endtrans %}</label>
+                                                                        </div>
+                                                                        <label for="adicionales[metas][{{ i }}][pregunta1]" class="error" style="display:none;"></label> 
+                                                                    </div> 
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <p>{% trans  from "label" %}disenovida.metas.pregunta.2{% endtrans %}</p>
+                                                                    <textarea name="adicionales[metas][{{ i }}][pregunta2]" class="form-control col-lg-12" required="required" style="width: 100%;"></textarea>
+                                                                </td>
+                                                            </tr>                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr> 
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                    </div>
+                                {% endif %}
+                                    
                                 {% if formulario.preguntas is defined %}
                                     {% for pregunta in formulario.preguntas %}
                                         <div class="form-group">
                                             <label class="col-lg-12 control-label"><b>{{ pregunta.numero }}. </b>{{ pregunta.pregunta }}</label>
-                                            {% if formulario_loop == 12 %} {# ordenacion de opciones elegidas por el usuario #}
+                                            
+                                            {# Pantallazo 5 - Valores ocupacionales (ordenacion de opciones elegidas por el usuario) #}
+                                            {% if formulario_loop == 12 %} 
                                                 <ul id="sort-val-ocup" class="sortable ui-sortable"></ul> 
-                                                <input type="text" id="orden-val-ocup" name="pregunta[{{ pregunta.id }}]" class="sort-value" required="required"/> 
+                                                <input type="hidden" id="orden-val-ocup" name="pregunta[{{ pregunta.id }}]" class="sort-value" required="required"/> 
                                                 <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
+                                            {# Vista para respuestas por defecto  #}
                                             {% else %}                                          
                                                 <div class="col-lg-12 respuesta">
                                                     {% include "vocationetBundle:Preguntas:preguntas.html.twig" %}
@@ -188,7 +294,7 @@
                                     {% endfor %}
                                 {% endif %}
                                 
-                                {# submenu #}
+                                {# Pantallazo 2 - Intereses de carrera (submenu) #}
                                 {% if loop.index0 == 1 %}
                                     <ul class="sub-menu clearfix">{{ sub_menu }}</ul>
                                 {% endif %}
@@ -216,16 +322,17 @@
     <script type="text/javascript">
         Cuestionario({
             slider_min: 0,
-            slide_max: 3
+            slide_max: 3,
+            touchSpin_min: 0,
+            touchSpin_max: 5
         });
     </script>
     <script type="text/javascript">
         (function(){
             
-            $("#form-next-1").hide();
-            
-            var clicks = 0;
-            
+            // Pantallazo 2 - Intereses de carrera (Flor)
+            $("#form-next-1").hide();            
+            var clicks = 0;            
             $(".step").on("click", ".btn-sub-step", function(){
                 var step = $(this).data("step");
                 
@@ -240,42 +347,143 @@
                 }
                 
             });
-                        
+            
+            // Pantallazo 3 - Intereses de carrera (2)
+            var arr_nivel3 = new Array();
             $(".step").on("click", "#form-next-1", function(){                
                 $(".sub-step .slider-value").each(function(){
                     
                     var value = $( this ).attr("value");
                     var pregunta = $(this).data("pregunta");
                                         
-                    $("#nivel-"+value).append("<li>"+pregunta+"</li>");                    
+                    $("#nivel-"+value).append("<li>"+pregunta+"</li>");   
+                    
+                    if(value == 3){
+                        arr_nivel3.push(pregunta);
+                    }
+                    
                 });                
             });
             
+            // Pantallazo 5 - Valores ocupacionales
             $(".step").on("click", "#form-next-3", function(){
+                var count = 1;
+                var arr_sort = new Array();
                 $("#form-step-3 input[type='radio']:checked").each(function(){
                     var value = $(this).attr("value");
                     var pregunta = $(this).data("pregunta");
-                    var count = 0;
                     
                     if(value == 1){
                         if(count <= 10){
                             $("#sort-val-ocup").append('<li class="label label-primary" id="'+pregunta+'">'+pregunta+'</li>');
-                            count ++;                            
+                            arr_sort.push(pregunta);
+                            count++;                            
                         }
                     }
                     
                 });
+                var str_sort = arr_sort.join(",");                
+                $("#orden-val-ocup").attr("value", str_sort);            
             });
             
+            
+            // Pantallazo 6 - Analisis
             $(".step").on("click", "#form-next-4", function(){
                 var orden = $("#orden-val-ocup").val();
                 var list = orden.split(",");
-                
                 var length = list.length;
+                if(length > 5){
+                    length = 5;
+                }                
                 
                 for (var i = 0; i < length; i++) {
                     $("#list-val-ocup").append('<li>'+list[i]+'</li>');
                 }
+                
+                var count = 1;
+                $("#form-step-0 .sortable li").each(function(){
+                    var opcion = $(this).data("opcion");
+                    if(count <= 5){
+                        $("#list-int-acad").append('<li>'+opcion+'</li>');
+                        count++;
+                    }
+                });
+                
+                length = arr_nivel3.length;
+                
+                for (var i = 0; i < length; i++) {
+                    
+                    $("#table-int-carr tbody").append('\
+                        <tr class="act-int-arr">\n\
+                            <td>\n\
+                                '+arr_nivel3[i]+'\
+                                <input type="hidden" name="adicionales[val_int_carr]['+i+'][nombre]" value="'+arr_nivel3[i]+'" class="nombre"/>\n\
+                            </td>\n\
+                            <td><div style="width:120px;"><input type="text" name="adicionales[val_int_carr]['+i+'][afi_val_ocup]" class="input-number afi_val_ocup" value="0" required="required"/></div></td>\n\
+                            <td><div style="width:120px;"><input type="text" name="adicionales[val_int_carr]['+i+'][afi_int_acad]" class="input-number afi_int_acad" value="0" required="required"/></div></td>\n\
+                            <td>\n\
+                                <div class="slider-container slider-percent-container" style="margin-top:0px;"> \n\
+                                    <div class="" style="text-align: right;"> \n\
+                                        <div class="slider-info" style="line-height: 20px; font-size: 16px;">0%</div> \n\
+                                        <input type="hidden" name="adicionales[val_int_carr]['+i+'][porc]" value="0" class="slider-value porc" required="required"/> \n\
+                                    </div> \n\
+                                    <div class="" style="padding-top: 10px;"> \n\
+                                        <div class="slider-percent"></div> \n\
+                                    </div> \n\
+                                </div> \n\
+                            </td>\n\
+                        </tr>'
+                    );
+                }
+                
+                $(".input-number").TouchSpin({
+                    min: 0,
+                    max: 5
+                });
+
+                $(".slider-percent").slider({
+                    min:0,
+                    max:100,
+                    slide: function( event, ui ) {
+                        parent = $(this).parents(".slider-container");            
+                        parent.find(".slider-info").html(ui.value+"%");
+                        parent.find(".slider-value").val(ui.value);
+                    }
+                });
+            });
+            
+            //Pantallazo 8 - Metas 
+            $(".step").on("click", "#form-next-6", function(){
+                var int_carr = new Array();
+                
+                $("#table-int-carr .act-int-arr").each(function(i){
+                    int_carr[i] = new Array();
+                    int_carr[i]['nombre'] = $(this).find(".nombre").val();
+                    int_carr[i]['afi_val_ocup'] = parseInt($(this).find(".afi_val_ocup").val());
+                    int_carr[i]['afi_int_acad'] = parseInt($(this).find(".afi_int_acad").val());
+                    int_carr[i]['porc'] = parseInt($(this).find(".porc").val());
+                    
+                    int_carr[i]['prom'] = (int_carr[i]['afi_val_ocup'] + int_carr[i]['afi_int_acad'] + int_carr[i]['porc']) / 3;                            
+                });
+                
+                int_carr.sort(function(a,b){
+                    return a['prom'] < b['prom'];
+                });
+                
+                var length = int_carr.length;
+                
+                if(length > 3){
+                    length = 3;
+                }
+                    
+                for(var i = 0; i < length; i++){
+                    $("#int-carr-"+(i+1)).html(int_carr[i]);
+                    $("#txt-int-carr-"+(i+1)).attr("value", int_carr[i]);
+                    console.log("#int-carr-"+(i+1));
+                    console.log("#txt-int-carr-"+(i+1));
+                    console.log(int_carr[i]);
+                }
+                
             });
             
         })();
