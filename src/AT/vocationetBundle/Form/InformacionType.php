@@ -16,11 +16,11 @@ class InformacionType extends AbstractType
     {
         $builder
             ->add('informacionTitulo')
-			->add('informacionImagen')
+			->add('informacionImagen','file', array('required' => false, 'data_class' => null))
             ->add('informacionLink')
-            ->add('informacionEstado')
-            ->add('created')
-            ->add('modified')
+			->add('informacionEstado', 'checkbox', array('required' => false))
+            //->add('created')
+            //->add('modified')
         ;
     }
     

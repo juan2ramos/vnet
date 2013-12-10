@@ -15,7 +15,7 @@
 						<div class="col-lg-10"><p class="help-block">{{ entity.informacionLink }}</p></div>
 					</div>
 					<div class="form-group">
-						<label class="col-lg-2 control-label">{% trans from "label" %}creacion{% endtrans %}</label>
+						<label class="col-lg-2 control-label">{% trans from "label" %}fecha.creacion{% endtrans %}</label>
 						<div class="col-lg-10"><p class="help-block">{{ entity.created|date('Y-m-d H:i:s') }}</p></div>
 					</div>
 					<div class="form-group">
@@ -30,17 +30,17 @@
 					</div>
 					<div class="form-group">
 						<label class="col-lg-2 control-label">{% trans from "label" %}imagen{% endtrans %}</label>
-						<div class="col-lg-10"><p class="help-block">{{ entity.informacionImagen }}</p></div>
+						<div class="col-lg-10"><p class="help-block"><img src="{{ asset( getParameter('ruta_images_informacion') ~ entity.informacionImagen) }}" STYLE="width:50%;" /></p></div>
 					</div>
 					
 					<div class="form-group">
 						<div class="col-lg-12 text-center">
-							<a class="btn btn-default" href="{{ path('admin_carreras') }}">
+							<a class="btn btn-default" href="{{ path('admin_informacion') }}">
 								{{ 'listado'|trans({}, 'label') }}</a>
-							<a class="btn btn-primary" href="{{ path('admin_carreras_edit', { 'id': entity.id }) }}">
+							<a class="btn btn-primary" href="{{ path('admin_informacion_edit', { 'id': entity.id }) }}">
 								{{ 'editar'|trans({}, 'label') }}</a>
 							<div style='display:inline-block;'>
-								{{ form(delete_form, {'attr':{'id':'formdeleteCarrera_'~ entity.id}}) }}
+								{{ form(delete_form, {'attr':{'id':'formdeleteInformacion_'~ entity.id}}) }}
 							</div>
 						</div>
 					</div>
@@ -50,48 +50,10 @@
 	</div>
 	
 	<div class="col-lg-3">
-	
-	<section class="panel">
-                                  <div class="twt-feed blue-bg">
-                                      <h1>Jonathan Smith</h1>
-                                      <p>jsmith@flatlab.com</p>
-                                      <a href="#">
-                                          <img src="{{ asset('uploads/vocationet/informacion/info1.jpg') }}" alt="">
-                                      </a>
-                                  </div>
-                                  <div class="weather-category twt-category">
-                                      <ul>
-                                          <li class="active">
-                                              <h5>320</h5>
-                                              Tweet
-                                          </li>
-                                          <li>
-                                              <h5>1245</h5>
-                                              Following
-                                          </li>
-                                          <li>
-                                              <h5>24657</h5>
-                                              Followers
-                                          </li>
-                                      </ul>
-                                  </div>
-                                  <div class="twt-write col-sm-12">
-                                      <textarea class="form-control  t-text-area" rows="2" placeholder="Tweet Here"></textarea>
-                                  </div>
-                                  <footer class="twt-footer">
-                                      <button class="btn btn-space btn-white" data-toggle="button">
-                                          <i class="icon-map-marker"></i>
-                                      </button>
-                                      <button class="btn btn-space btn-white" data-toggle="button">
-                                          <i class="icon-camera"></i>
-                                      </button>
-                                      <button class="btn btn-space btn-info pull-right" type="button">
-                                          <i class="icon-twitter"></i>
-                                          Tweet
-                                      </button>
-                                  </footer>
-                              </section>
-							  
-	</div>
+		<section class="panel" STYLE='margin-bottom:2px;'>
+			<header class="panel-heading">{% trans from "label" %}vista.predeterminada{% endtrans %}</header>
+		</section>
 		
+		{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+	</div>
 {% endblock %}

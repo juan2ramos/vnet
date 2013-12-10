@@ -47,8 +47,11 @@ class PerfilController extends Controller
 		if (!$perfil) {
 			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
 		}
+		
+		//PUBLICIDAD Y/O INFORMACION
+		$publicidad = $pr->getpublicidad();
  
-		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov')
+		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov' or $perfil['nombreRol'] == 'administrador')
 		{
 			// ROL MENTOR
 			$estudios = $pr->getEstudiosPerfil($perfilId);
@@ -84,7 +87,8 @@ class PerfilController extends Controller
 			return $this->render('vocationetBundle:Perfil:perfilmentor.html.twig', array(
 					'perfil' => $perfil, 'estudios' => $estudios, 'trabajos' => $trabajos, 'rutas' => $rutas,
 					'mentorias' => $calificarMentor, 'calificaciones' => $calificaciones,
-					'camposvacios' => $camposVacios, ));
+					'camposvacios' => $camposVacios, 'publicidad' => $publicidad
+			));
 		}
 		else
 		{
@@ -126,6 +130,7 @@ class PerfilController extends Controller
 						// Acceso de visualizacion para mentor
 						'showInformeML' => $showInformeML,
 						'rutaInformeML' => $rutaInformeML,
+						'publicidad' => $publicidad,
 					));
 		}
     }
@@ -164,6 +169,9 @@ class PerfilController extends Controller
 		if (!$perfil) {
 			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
 		}
+		
+		//PUBLICIDAD Y/O INFORMACION
+		$publicidad = $pr->getpublicidad();
 
 		if ($perfil['nombreRol'] == 'estudiante')
 		{
@@ -269,7 +277,9 @@ class PerfilController extends Controller
 			
 			$pendientes = Array('msjsinleer' => 10 );
 			return $this->render('vocationetBundle:Perfil:editperfilEstudiante.html.twig', array(
-						'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView()));
+						'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView(),
+						'publicidad' => $publicidad,
+					));
 		}
 		else {
 			
@@ -364,7 +374,9 @@ class PerfilController extends Controller
 
 			$pendientes = Array('msjsinleer' => 10 );
 			return $this->render('vocationetBundle:Perfil:editperfilMentor.html.twig', array(
-					'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView()));
+					'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView(),
+					'publicidad' => $publicidad,
+				));
 		}
 		
 	}

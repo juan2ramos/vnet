@@ -603,5 +603,25 @@ class PerfilService
 		$query->setParameter('estudianteId', $estudianteId);
 		return $query->getResult();
 	}
+	
+	/**
+	 * Funcion que retorna publicidad o informacion registrad activa (max 5)
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Object Informacion
+	 */
+	public function getpublicidad()
+	{
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT i
+                FROM vocationetBundle:Informacion i
+				WHERE i.informacionEstado = 1
+				ORDER BY i.id DESC";
+		$query = $em->createQuery($dql);
+		$query->setMaxResults(5);
+		return $query->getResult();
+	}
 }
 ?>

@@ -11,11 +11,6 @@ use AT\vocationetBundle\Entity\Informacion;
 use AT\vocationetBundle\Form\InformacionType;
 
 /**
- * Informacion controller.
- *
- * 
- */
-/**
  * Controlador de información y/o publicidad del sidebar
  * @package vocationetBundle
  * @Route("/admin/informacion")
@@ -36,94 +31,35 @@ class InformacionController extends Controller
     {
 		$security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-		//if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 		
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('vocationetBundle:Informacion')->findBy(array(), array('id' => 'DESC'));
         return array('entities' => $entities);
     }
-	
-    /**
-     * Creates a new Informacion entity.
-     *
-     * @Route("/", name="admin_informacion_create")
-     * @Method("POST")
-     * @Template("vocationetBundle:Informacion:new.html.twig")
-     */
-    public function createAction(Request $request)
-    {
-        $entity = new Informacion();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_informacion_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-    * Creates a form to create a Informacion entity.
-    *
-    * @param Informacion $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
+	/**
+     * Ver detalles de la información
+	 *
+     * @param Int $id Id de la información
+     * @return Render Vista renderizada con detalles de la información
+     * @Template("vocationetBundle:Informacion:show.html.twig")
+     * @Route("/{id}/show", name="admin_informacion_show")
+	 * @Method("GET")
     */
-    private function createCreateForm(Informacion $entity)
-    {
-        $form = $this->createForm(new InformacionType(), $entity, array(
-            'action' => $this->generateUrl('admin_informacion_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new Informacion entity.
-     *
-     * @Route("/new", name="admin_informacion_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Informacion();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a Informacion entity.
-     *
-     * @Route("/{id}", name="admin_informacion_show")
-     * @Method("GET")
-     * @Template()
-     */
     public function showAction($id)
     {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('vocationetBundle:Informacion')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Informacion entity.');
         }
-
+		
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -131,125 +67,160 @@ class InformacionController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
-
-    /**
-     * Displays a form to edit an existing Informacion entity.
+	
+	/**
+     * Agregar información
      *
-     * @Route("/{id}/edit", name="admin_informacion_edit")
-     * @Method("GET")
-     * @Template()
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de nueva información
+     * @return Render Formulario de nueva información
+     * @Template("vocationetBundle:Informacion:new.html.twig")
+     * @Route("/new", name="admin_informacion_new")
+     * @Method({"GET", "POST"})
      */
-    public function editAction($id)
+    public function newAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('vocationetBundle:Informacion')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Informacion entity.');
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
+		$entity = new Informacion();
+        $form  = $this->createForm(new InformacionType(), $entity);
+        
+        if ($request->getMethod() == "POST")
+        {
+            $form->bind($request);
+            if ($form->isValid()) 
+            {
+				if ($entity->getInformacionImagen()) {
+					$em = $this->getDoctrine()->getManager();
+					$entity->setCreated(new \DateTime());
+					$em->persist($entity);
+					$em->flush();
+					
+					// Subir imagen
+					$rutaImagenes = $security->getParameter('ruta_images_informacion');
+					$name = 'Informacion'.$entity->getId().'.png';
+					$form['informacionImagen']->getData()->move($rutaImagenes, $name);
+					
+					$entity->setInformacionImagen($name);
+					$em->persist($entity);
+					$em->flush();
+					
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informacion.creada"), "text" => $this->get('translator')->trans("informacion.creada.correctamente")));
+					return $this->redirect($this->generateUrl('admin_informacion_show', Array('id'=>$entity->getId())));
+				}
+            }
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
         }
 
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $entity,
+            'form'   => $form->createView(),
         );
     }
 
-    /**
-    * Creates a form to edit a Informacion entity.
-    *
-    * @param Informacion $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Informacion $entity)
-    {
-        $form = $this->createForm(new InformacionType(), $entity, array(
-            'action' => $this->generateUrl('admin_informacion_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing Informacion entity.
+	
+	/**
+     * Editar Información
      *
-     * @Route("/{id}", name="admin_informacion_update")
-     * @Method("PUT")
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de edición
+     * @return Render Formulario de edición
      * @Template("vocationetBundle:Informacion:edit.html.twig")
+     * @Route("/{id}/edit", name="admin_informacion_edit")
+     * @Method({"GET", "POST"})
      */
-    public function updateAction(Request $request, $id)
+    public function editAction(Request $request, $id)
     {
-        $em = $this->getDoctrine()->getManager();
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
+        $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('vocationetBundle:Informacion')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Informacion entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
+        $editForm = $this->createForm(new InformacionType(), $entity);
+        //$deleteForm = $this->createDeleteForm($id);
+        
+        if ($request->getMethod() == 'POST')
+        {
+            $editForm->bind($request);
+            if ($editForm->isValid()) 
+            {
+				$name = 'Informacion'.$entity->getId().'.png';
+				if ($entity->getInformacionImagen()) {
+					$rutaImagenes = $security->getParameter('ruta_images_informacion');
+					$editForm['informacionImagen']->getData()->move($rutaImagenes, $name);
+				}
+				
+				$entity->setInformacionImagen($name);
+				$entity->setModified(new \DateTime());
+                $em->flush();
 
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_informacion_edit', array('id' => $id)));
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informacion.editada"), "text" => $this->get('translator')->trans("informacion.editada.correctamente")));
+                return $this->redirect($this->generateUrl('admin_informacion_show', Array('id' => $id)));
+            }
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'entity' => $entity,
+            'form'   => $editForm->createView(),
+            //'delete_form' => $deleteForm->createView(),
         );
     }
-    /**
-     * Deletes a Informacion entity.
-     *
-     * @Route("/{id}", name="admin_informacion_delete")
-     * @Method("DELETE")
+	
+	/**
+     * Borrar una información
+	 *
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar información
+     * @param Int $id Id de la información
+     * @return Redirect Redirigir a listado de información
+     * @Route("/{id}/delete", name="admin_informacion_delete")
+     * @Method("DELETE")                                                                    {
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
+        //$form = $this->createDeleteForm($id);
+        //$form->handleRequest($request);
+        //if ($form->isValid()) {
+		
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('vocationetBundle:Informacion')->find($id);
 
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Informacion entity.');
-            }
+            if (!$entity) { throw $this->createNotFoundException('Unable to find Informacion entity.'); }
 
-            $em->remove($entity);
+            $rutaImagenes = $security->getParameter('ruta_images_informacion');
+			@unlink($rutaImagenes.$entity->getInformacionImagen());
+			
+			$em->remove($entity);
             $em->flush();
-        }
+			
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informacion.eliminada"), "text" => $this->get('translator')->trans("informacion.eliminada.correctamente")));
+        //}
 
         return $this->redirect($this->generateUrl('admin_informacion'));
     }
 
-    /**
-     * Creates a form to delete a Informacion entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
+	/**
+     * Creación de formulario para eliminar informacion
+	 *
+     * @param Int $id Id de la información
+     * @return \Symfony\Component\Form\Form Formulario de eliminacion
      */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('admin_informacion_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+			->add('submit', 'button', array('label' => $this->get('translator')->trans("eliminar", Array(), "label"), 'attr' => array('class' => 'btn btn-danger confirmdelete', 'data-id' => $id, 'data-ent' => 'Informacion')))
+            ->getForm();
     }
 }

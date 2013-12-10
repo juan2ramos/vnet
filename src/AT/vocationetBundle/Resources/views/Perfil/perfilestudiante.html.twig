@@ -9,8 +9,8 @@
 {% endblock style %}
 
 {% block body %}
-
-	<div class='col-lg-9'>
+	{% set span = (publicidad) ? 9 : 12 %}
+	<div class='col-lg-{{ span }}'>
 		<div class="row">
 		
 			{# PERFIL ESTUDIANTE #}
@@ -314,9 +314,16 @@
 
 		</div>
 	</div>
-	<div class='col-lg-3' color='red'>
-		<div><h2>PUBLICIDAD</h2></div>
-	</div>
+	
+	{% if publicidad %}
+		<div class='col-lg-3' color='red'>
+			<div>
+				{% for entity in publicidad %}
+					{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
 {% endblock body %}
 
 {% block script %}

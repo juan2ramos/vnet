@@ -3,6 +3,7 @@
 namespace AT\vocationetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Informacion
@@ -25,6 +26,8 @@ class Informacion
      * @var string
      *
      * @ORM\Column(name="informacion_titulo", type="string", length=250, nullable=true)
+	 * @Assert\NotNull()
+	 * @Assert\Length(max = 250)
      */
     private $informacionTitulo;
 	
@@ -32,6 +35,7 @@ class Informacion
      * @var string
      *
      * @ORM\Column(name="informacion_imagen", type="string", length=100, nullable=true)
+	 * @Assert\Image(mimeTypes={"image/jpg", "image/jpeg", "image/png"})	 
      */
     private $informacionImagen;
 
@@ -39,6 +43,7 @@ class Informacion
      * @var string
      *
      * @ORM\Column(name="informacion_link", type="string", length=100, nullable=true)
+	 * @Assert\Url()
      */
     private $informacionLink;
 
