@@ -21,6 +21,13 @@ class Informacion
      */
     private $id;
 
+	/**
+     * @var string
+     *
+     * @ORM\Column(name="informacion_titulo", type="string", length=250, nullable=true)
+     */
+    private $informacionTitulo;
+	
     /**
      * @var string
      *
@@ -68,6 +75,29 @@ class Informacion
         return $this->id;
     }
 
+	/**
+     * Set informacionTitulo
+     *
+     * @param string $informacionTitulo
+     * @return Informacion
+     */
+    public function setInformacionTitulo($informacionTitulo)
+    {
+        $this->informacionTitulo = $informacionTitulo;
+    
+        return $this;
+    }
+
+    /**
+     * Get informacionTitulo
+     *
+     * @return string 
+     */
+    public function getInformacionTitulo()
+    {
+        return $this->informacionTitulo;
+    }
+	
     /**
      * Set informacionImagen
      *
