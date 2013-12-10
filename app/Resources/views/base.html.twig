@@ -237,6 +237,20 @@
 						</li>
 					{% endif %}
 					
+					{% if 'acceso_temas' in sess_permissions.permissions %}
+						<li class="sub-menu">
+							<a href="javascript:;" class="">
+								<i class="icon-gears"></i>
+								<span>{% trans from "label" %}temas{% endtrans %}</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub">
+								<li><a class="" href="{{ path('admin_temas') }}">{% trans from "label" %}listado{% endtrans %}</a></li>
+								<li><a class="" href="{{ path('admin_temas_new') }}">{% trans from "label" %}nuevo.tema{% endtrans %}</a></li>
+							</ul>
+						</li>
+					{% endif %}
+					
 					{% if 'acceso_colegios' in sess_permissions.permissions %}
 						<li class="sub-menu">
 							<a href="javascript:;" class="">

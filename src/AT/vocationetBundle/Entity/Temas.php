@@ -3,6 +3,7 @@
 namespace AT\vocationetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Temas
@@ -25,6 +26,8 @@ class Temas
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=255, nullable=false)
+	 * @Assert\NotNull()
+     * @Assert\Length(min = 3,  max = 250)
      */
     private $nombre;
 
@@ -35,6 +38,7 @@ class Temas
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="carrera_id", referencedColumnName="id")
      * })
+	 *@Assert\NotNull()
      */
     private $carrera;
 

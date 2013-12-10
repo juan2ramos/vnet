@@ -489,6 +489,36 @@
                 <source>colegio.editado.correctamente</source>
                 <target>Colegio editado correctamente</target>
 			</trans-unit>
+			
+			<!-- TEMAS temas-x -->
+			<trans-unit id="temas-1">
+                <source>no.puede.eliminar.este.tema.asociados.foros</source>
+                <target>No puede eliminar este tema, tiene foros asociados.</target>
+			</trans-unit>
+			<trans-unit id="temas-2">
+                <source>tema.eliminado</source>
+                <target>Tema eliminado</target>
+			</trans-unit>
+			<trans-unit id="temas-3">
+                <source>tema.eliminado.correctamente</source>
+                <target>Tema eliminado correctamente</target>
+			</trans-unit>
+			<trans-unit id="temas-4">
+                <source>tema.creado</source>
+                <target>Tema creado</target>
+			</trans-unit>
+			<trans-unit id="temas-5">
+                <source>tema.creado.correctamente</source>
+                <target>Tema creado correctamente</target>
+			</trans-unit>
+			<trans-unit id="temas-6">
+                <source>tema.editado</source>
+                <target>Tema editado</target>
+			</trans-unit>
+			<trans-unit id="temas-7">
+                <source>tema.editado.correctamente</source>
+                <target>Tema editado correctamente</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

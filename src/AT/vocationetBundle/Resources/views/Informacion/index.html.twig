@@ -1,0 +1,74 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+			<section class="panel">
+				<header class="panel-heading">
+                    <div STYLE='text-align:right;'>
+                        <a type="button" class="btn btn-primary btn-xs" href='{{ path('admin_informacion_new') }}'>
+                            <i class='icon-plus'></i>&nbsp;{% trans from "label" %}nueva.informacion{% endtrans %}
+                        </a>
+                    </div>
+                    {% trans from "label" %}informacion{% endtrans %}
+                </header>
+				
+				{% if entities %}
+					<table class="table table-striped border-top datatable">
+						<thead>
+							<tr>
+								<th></th>
+								<th>{% trans from "label" %}titulo{% endtrans %}</th>
+								<th>{% trans from "label" %}enlace{% endtrans %}</th>
+								<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>
+								<th class='text-center'>{% trans from "label" %}fecha.creacion{% endtrans %}</th>
+								<th class='text-center'>{% trans from "label" %}opciones{% endtrans %}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for entity in entities %}
+								<tr>
+									<td></td>
+									<td STYLE='padding:6px;'>{{ entity.informacionTitulo }}</td>
+									<td STYLE='padding:6px;'>{{ entity.informacionLink }}</td>
+									<td STYLE='padding:6px;' class='text-center'>
+										{% if entity.informacionEstado %}
+											<span class="label label-success">{{ 'activo'|trans({}, 'label') }}</span>
+										{% else %}
+											<span class="label label-default">{{ 'inactivo'|trans({}, 'label') }}</span>
+										{% endif %}
+									</td>
+									<td STYLE='padding:6px;' class='text-center'>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+									<td STYLE='padding:6px;' class='text-center'>
+										<a class="btn btn-success btn-xs" href="{{ path('admin_informacion_show', { 'id': entity.id }) }}">
+											<i class="icon-ok"></i> {{ 'ver'|trans({}, 'label') }}</a>
+										<a class="btn btn-primary btn-xs" href="{{ path('admin_informacion_edit', { 'id': entity.id }) }}">
+											<i class="icon-pencil"></i> {{ 'editar'|trans({}, 'label') }}</a>
+											
+										<form id="formdeleteInformacion_{{ entity.id }}" action="{{ path('admin_informacion_delete', { 'id': entity.id }) }}" method="post" style="display:inline">
+											<button type='button' class="btn btn-danger btn-xs confirmdelete" data-id='{{ entity.id }}' data-ent='Informacion'>
+												<input type="hidden" name="_method" value="DELETE">
+												<i class="icon-trash"></i> {{ 'eliminar'|trans({}, 'label') }}</a>
+											</button>
+										</form>
+
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<div class="panel-body" STYLE='text-align:center;'>
+						{% trans from "label" %}no.se.encuentra.registrada.informacion{% endtrans %}
+					</div>
+				{% endif %}
+			</section>
+		</div>
+	</div>
+{% endblock body %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
+{% endblock script%}

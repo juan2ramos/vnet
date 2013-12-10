@@ -702,6 +702,19 @@ CREATE  TABLE IF NOT EXISTS `respuestas` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+-- -----------------------------------------------------
+-- Table `informacion`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `informacion` (
+  `id` INT NOT NULL AUTO_INCREMENT ,
+  `informacion_titulo` VARCHAR(250) NULL ,
+  `informacion_imagen` VARCHAR(100) NULL ,
+  `informacion_link` VARCHAR(100) NULL ,
+  `informacion_estado` TINYINT(1)  NULL DEFAULT 0 ,
+  `created` DATETIME NULL ,
+  `modified` DATETIME NULL ,
+  PRIMARY KEY (`id`) )
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

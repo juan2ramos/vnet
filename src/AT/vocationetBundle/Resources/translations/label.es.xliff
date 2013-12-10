@@ -1205,7 +1205,32 @@
                 <source>ningun.estudiante.ha.indicado.pertenecer.a.este.colegio</source>
                 <target>Ningún estudiante ha indicado pertenecer a este colegio</target>
 			</trans-unit>
-
+			
+			<!-- TEMAS temas-x -->
+			<trans-unit id="temas-1">
+                <source>nuevo.tema</source>
+                <target>Nuevo tema</target>
+			</trans-unit>
+			<trans-unit id="temas-2">
+                <source>no.se.encuentra.registrados.temas</source>
+                <target>No se encontraron temas registrados</target>
+			</trans-unit>
+			<trans-unit id="temas-3">
+                <source>detalles.tema</source>
+                <target>Detalles del tema</target>
+			</trans-unit>
+			<trans-unit id="temas-4">
+                <source>el.tema.no.tiene.foros</source>
+                <target>El tema no tiene foros</target>
+			</trans-unit>
+			<trans-unit id="temas-5">
+                <source>comentarios</source>
+                <target>Comentarios</target>
+			</trans-unit>
+			<trans-unit id="temas-6">
+                <source>editar.tema</source>
+                <target>Editar tema</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>
