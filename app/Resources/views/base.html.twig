@@ -138,7 +138,7 @@
 						<ul class="nav pull-right top-menu">
                             <li class="dropdown">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                    <img alt="" src="{{ sess_user.usuarioImagen|default(asset(gui_default_img)) ~ '?type=small' }}" style="width:29px; height: 29px;">
+                                    <img alt="" src="{{ asset(sess_user.usuarioImagen|default(gui_default_img)) ~ '?type=small' }}" style="width:29px; height: 29px;">
                                     <span class="username">{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</span>
                                     <b class="caret"></b>
                                 </a>

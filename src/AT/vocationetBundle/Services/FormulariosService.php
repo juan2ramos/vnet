@@ -432,6 +432,7 @@ class FormulariosService
             $participacion->setFormulario($formId);
             $participacion->setFecha(new \DateTime());
             $participacion->setUsuarioParticipa($usuarioId);
+            $participacion->setUsuarioEvaluado($usuarioId);
             $participacion->setEstado(1);            
             $this->em->persist($participacion);
         }
@@ -686,7 +687,38 @@ class FormulariosService
         return $result;
     }
     
+    /**
+     * Funcion para obtener las respuestas adicionales de un formulario par un usuario
+     * 
+     * @param integer $formId id de formulario principal
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     * @return array arreglo de respuestas adicionales
+     */
+    public function getRespuestasAdicionalesParticipacion($formId, $usuarioEvaluadoId)
+    {
+        $dql = "SELECT 
+                    ra.respuestaKey,
+                    ra.respuestaJson
+                FROM 
+                    vocationetBundle:RespuestasAdicionales ra
+                    JOIN vocationetBundle:Participaciones p WITH ra.participacion = p.id
+                WHERE 
+                    p.usuarioEvaluado = :usuarioEvaluadoId
+                    AND p.formulario = :formId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuarioEvaluadoId', $usuarioEvaluadoId);
+        $query->setParameter('formId', $formId);
+        $result = $query->getResult();
     
+        $respuestas = array();
+        
+        foreach($result as $r)
+        {
+            $respuestas[$r['respuestaKey']] = json_decode($r['respuestaJson'], true);
+        }
+        
+        return $respuestas;
+    }
     
     /**
      * Funcion que busca invitaciones al usuario a evaluacioes 360
