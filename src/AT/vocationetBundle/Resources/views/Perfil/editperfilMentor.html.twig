@@ -27,12 +27,14 @@
 					<ul class="nav nav-pills nav-stacked">
 						<li class=""><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
 						<li class="active"><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+						{#
 						<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 							<a href="#">
 								<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
 								<span class="label label-success pull-right r-activity">5</span>
 							</a>
 						</li>
+						#}
 					</ul>
 				</section>
 			</aside>
@@ -60,10 +62,12 @@
 								<label class="col-lg-3 control-label">{% trans from "label" %}profesion{% endtrans %}: </label>
 								<div class="col-lg-8">{{ form_widget(form.profesion, { 'attr' : {'class': 'form-control'}}) }}</div>
 							</div>
-							<div class="form-group">
+							
+							<div class="form-group" {% if perfil.rolId != 2 %}style='display:none;'{% endif %}>
 								<label class="col-lg-3 control-label">{% trans from "label" %}valor.hora{% endtrans %}: </label>
 								<div class="col-lg-8">{{ form_widget(form.valorHora, { 'attr' : {'class': 'form-control input-valorHora'}}) }}</div>
 							</div>
+							
 							<div class="form-group">
 								<label class="col-lg-3 control-label">{% trans from "label" %}hoja.vida{% endtrans %}: </label>
 								<div class="col-lg-8">{{ form_widget(form.hojaVida, { 'attr' : {'class': 'form-control'}}) }}</div>
