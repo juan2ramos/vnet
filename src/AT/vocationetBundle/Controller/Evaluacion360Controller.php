@@ -169,7 +169,7 @@ class Evaluacion360Controller extends Controller
                 
                 $usuarioId = $security->getSessionValue('id');
                 
-                //Validar formulario
+                //Procesar formulario
                 $resultados = $formularios_serv->procesarFormulario($form_id, $usuarioId, $respuestas, $id);
                 
                 if($resultados['validate'])

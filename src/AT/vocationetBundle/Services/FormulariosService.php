@@ -195,9 +195,10 @@ class FormulariosService
      * @param integer $usuarioId id de usuario que responde
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
      * @param integer $usuarioEvaluadoId id de usuario evaluado en el caso de evaluacion 360
+     * @param array $adicionales arreglo con respuestas a preguntas no registradas
      * @return array arreglo con resultados del procesamiento
      */
-    public function procesarFormulario($id, $usuarioId, $respuestas, $usuarioEvaluadoId = false)
+    public function procesarFormulario($id, $usuarioId, $respuestas, $usuarioEvaluadoId = false, $adicionales = false)
     {
         $preguntas = $this->getListPreguntas($id);
         $validate = $this->validateFormulario($preguntas, $respuestas);
@@ -205,7 +206,7 @@ class FormulariosService
         
         if($validate)
         {
-            $puntaje = $this->registrarRespuestas($id, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId);
+            $puntaje = $this->registrarRespuestas($id, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId, $adicionales);
             
         }
         return array(
@@ -406,9 +407,10 @@ class FormulariosService
      * @param array $preguntas arreglo de preguntas con id y tipo de pregunta
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
      * @param integer $usuarioEvaluadoId id de usuario evaluado en el caso de evaluacion 360
+     * @param array $adicionales arreglo con respuestas a preguntas no registradas
      * @return integer puntuacion de las respuestas
      */
-    private function registrarRespuestas($formId, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId = false)
+    private function registrarRespuestas($formId, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId = false, $adicionales = false)
     {        
         // Registrar participacion        
         if($formId == $this->getFormId('evaluacion360'))
@@ -537,6 +539,24 @@ class FormulariosService
             
             $this->em->persist($respuesta);
         }
+        
+        
+        if($adicionales)
+        {
+            foreach($adicionales as $key => $a)
+            {
+                $json = json_encode($a);
+                
+                $adicional = new \AT\vocationetBundle\Entity\RespuestasAdicionales();
+                $adicional->setParticipacion($participacion);
+                $adicional->setRespuestaKey($key);
+                $adicional->setRespuestaJson($json);
+                
+                $this->em->persist($adicional);
+            }
+        }
+        
+        
         
         $this->em->flush();
         

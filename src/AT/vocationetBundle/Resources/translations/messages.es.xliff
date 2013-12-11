@@ -545,6 +545,17 @@
                 <source>informacion.eliminada.correctamente</source>
                 <target>Información eliminada correctamente</target>
 			</trans-unit>
+            
+            <!-- diseno de vida dvida-x -->
+			<trans-unit id="dvida-1">
+                <source>diseno.vida.enviado.ahora.separar.metoria</source>
+                <target>Has finalizado tu diseño de vida, ahora debes agendar una nueva mentoria</target>
+			</trans-unit>
+			<trans-unit id="dvida-2">
+                <source>gracias.por.participar.diseno.vida</source>
+                <target>Gracias por enviar tu diseño de vida</target>
+			</trans-unit>
+            
         </body>
     </file>
 </xliff>

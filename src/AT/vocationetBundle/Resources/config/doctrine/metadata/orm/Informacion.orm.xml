@@ -9,5 +9,6 @@
     <field name="informacionEstado" type="boolean" column="informacion_estado" nullable="true"/>
     <field name="created" type="datetime" column="created" nullable="true"/>
     <field name="modified" type="datetime" column="modified" nullable="true"/>
+    <field name="informacionTitulo" type="string" column="informacion_titulo" length="250" nullable="false"/>
   </entity>
 </doctrine-mapping>

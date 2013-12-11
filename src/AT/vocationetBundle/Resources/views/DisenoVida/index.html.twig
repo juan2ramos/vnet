@@ -205,8 +205,8 @@
                                             <tr style="border-top: 1px solid #eee;">
                                                 <td style="width:200px;">
                                                     <div class="globo">
-                                                        <span id="int-carr-{{ i }}"></span> 
-                                                        <input type="hidden" name="adicionales[metas][{{ i }}][nombre]" value="" id="txt-int-carr-{{ i }}"/>
+                                                        <span id="span-int-carr-{{ i }}"></span> 
+                                                        <input type="hidden" name="adicional[metas][{{ i }}][nombre]" value="" id="input-int-carr-{{ i }}"/>
                                                     </div>
                                                 </td>
                                                 <td style="width:300px;">
@@ -216,7 +216,7 @@
                                                                 <td>
                                                                     <div class="globo">
                                                                         <h4>{% trans  from "label" %}corto.plazo{% endtrans %}</h4>
-                                                                        <textarea name="adicionales[metas][{{ i }}][corto_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                        <textarea name="adicional[metas][{{ i }}][corto_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -224,7 +224,7 @@
                                                                 <td>
                                                                     <div class="globo">
                                                                         <h4>{% trans  from "label" %}mediano.plazo{% endtrans %}</h4>
-                                                                        <textarea name="adicionales[metas][{{ i }}][mediano_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                        <textarea name="adicional[metas][{{ i }}][mediano_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -232,7 +232,7 @@
                                                                 <td>
                                                                     <div class="globo">
                                                                         <h4>{% trans  from "label" %}largo.plazo{% endtrans %}</h4>
-                                                                        <textarea name="adicionales[metas][{{ i }}][largo_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                        <textarea name="adicional[metas][{{ i }}][largo_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -247,19 +247,19 @@
                                                                     <p>{% trans  from "label" %}disenovida.metas.pregunta.1{% endtrans %}</p>
                                                                     <div class="row options-container">
                                                                         <div class="option col-lg-5" style="text-align: left;">
-                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicionales[metas][{{ i }}][pregunta1]" value="1" required="required" /> {% trans  from "label" %}si{% endtrans %}</label>
+                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicional[metas][{{ i }}][pregunta1]" value="1" required="required" /> {% trans  from "label" %}si{% endtrans %}</label>
                                                                         </div>
                                                                         <div class="option col-lg-5" style="text-align: left;">
-                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicionales[metas][{{ i }}][pregunta1]" value="0" /> {% trans  from "label" %}no{% endtrans %}</label>
+                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicional[metas][{{ i }}][pregunta1]" value="0" /> {% trans  from "label" %}no{% endtrans %}</label>
                                                                         </div>
-                                                                        <label for="adicionales[metas][{{ i }}][pregunta1]" class="error" style="display:none;"></label> 
+                                                                        <label for="adicional[metas][{{ i }}][pregunta1]" class="error" style="display:none;"></label> 
                                                                     </div> 
                                                                 </td>
                                                             </tr>
                                                             <tr>
                                                                 <td>
                                                                     <p>{% trans  from "label" %}disenovida.metas.pregunta.2{% endtrans %}</p>
-                                                                    <textarea name="adicionales[metas][{{ i }}][pregunta2]" class="form-control col-lg-12" required="required" style="width: 100%;"></textarea>
+                                                                    <textarea name="adicional[metas][{{ i }}][pregunta2]" class="form-control col-lg-12" required="required" style="width: 100%;"></textarea>
                                                                 </td>
                                                             </tr>                                                            
                                                         </tbody>
@@ -417,15 +417,15 @@
                         <tr class="act-int-arr">\n\
                             <td>\n\
                                 '+arr_nivel3[i]+'\
-                                <input type="hidden" name="adicionales[val_int_carr]['+i+'][nombre]" value="'+arr_nivel3[i]+'" class="nombre"/>\n\
+                                <input type="hidden" name="adicional[val_int_carr]['+i+'][nombre]" value="'+arr_nivel3[i]+'" class="nombre"/>\n\
                             </td>\n\
-                            <td><div style="width:120px;"><input type="text" name="adicionales[val_int_carr]['+i+'][afi_val_ocup]" class="input-number afi_val_ocup" value="0" required="required"/></div></td>\n\
-                            <td><div style="width:120px;"><input type="text" name="adicionales[val_int_carr]['+i+'][afi_int_acad]" class="input-number afi_int_acad" value="0" required="required"/></div></td>\n\
+                            <td><div style="width:120px;"><input type="text" name="adicional[val_int_carr]['+i+'][afi_val_ocup]" class="input-number afi_val_ocup" value="0" required="required"/></div></td>\n\
+                            <td><div style="width:120px;"><input type="text" name="adicional[val_int_carr]['+i+'][afi_int_acad]" class="input-number afi_int_acad" value="0" required="required"/></div></td>\n\
                             <td>\n\
                                 <div class="slider-container slider-percent-container" style="margin-top:0px;"> \n\
                                     <div class="" style="text-align: right;"> \n\
                                         <div class="slider-info" style="line-height: 20px; font-size: 16px;">0%</div> \n\
-                                        <input type="hidden" name="adicionales[val_int_carr]['+i+'][porc]" value="0" class="slider-value porc" required="required"/> \n\
+                                        <input type="hidden" name="adicional[val_int_carr]['+i+'][porc]" value="0" class="slider-value porc" required="required"/> \n\
                                     </div> \n\
                                     <div class="" style="padding-top: 10px;"> \n\
                                         <div class="slider-percent"></div> \n\
@@ -477,11 +477,8 @@
                 }
                     
                 for(var i = 0; i < length; i++){
-                    $("#int-carr-"+(i+1)).html(int_carr[i]);
-                    $("#txt-int-carr-"+(i+1)).attr("value", int_carr[i]);
-                    console.log("#int-carr-"+(i+1));
-                    console.log("#txt-int-carr-"+(i+1));
-                    console.log(int_carr[i]);
+                    $("#span-int-carr-"+ (i + 1)).html(int_carr[i]['nombre']);
+                    $("#input-int-carr-"+ (i + 1)).attr("value", int_carr[i]['nombre']);
                 }
                 
             });
