@@ -44,7 +44,7 @@ class PerfilService
 		 */
 		$dql="SELECT u.id as usuarioId, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioFechaNacimiento, u.usuarioEmail,
 				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional,
-				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero, u.usuarioRolEstado,
+				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero, u.usuarioRolEstado, u.usuarioProfesion,
 				r.id AS rolId, r.nombre as nombreRol,
 				col.nombre as nombreCol, col.id as colegioId
 			FROM vocationetBundle:Usuarios u
@@ -601,6 +601,26 @@ class PerfilService
 				WHERE ae.usuario =:estudianteId";
         $query = $em->createQuery($dql);
 		$query->setParameter('estudianteId', $estudianteId);
+		return $query->getResult();
+	}
+	
+	/**
+	 * Funcion que retorna publicidad o informacion registrad activa (max 5)
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Object Informacion
+	 */
+	public function getpublicidad()
+	{
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT i
+                FROM vocationetBundle:Informacion i
+				WHERE i.informacionEstado = 1
+				ORDER BY i.id DESC";
+		$query = $em->createQuery($dql);
+		$query->setMaxResults(5);
 		return $query->getResult();
 	}
 }

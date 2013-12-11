@@ -1299,6 +1299,52 @@
                 <source>editar.tema</source>
                 <target>Editar tema</target>
 			</trans-unit>
+			
+			<!-- INFORMACION informacion-x -->
+			<trans-unit id="informacion-1">
+                <source>informacion</source>
+                <target>Información</target>
+			</trans-unit>
+			<trans-unit id="informacion-2">
+                <source>nueva.informacion</source>
+                <target>Nueva información</target>
+			</trans-unit>
+			<trans-unit id="informacion-3">
+                <source>titulo</source>
+                <target>Titulo</target>
+			</trans-unit>
+			<trans-unit id="informacion-4">
+                <source>enlace</source>
+                <target>Enlace</target>
+			</trans-unit>
+			<trans-unit id="informacion-5">
+                <source>imagen</source>
+                <target>Imagen</target>
+			</trans-unit>
+			<trans-unit id="informacion-6">
+                <source>visible</source>
+                <target>Visible</target>
+			</trans-unit>
+			<trans-unit id="informacion-7">
+                <source>activo</source>
+                <target>Activo</target>
+			</trans-unit>
+			<trans-unit id="informacion-8">
+                <source>inactivo</source>
+                <target>Inactivo</target>
+			</trans-unit>
+			<trans-unit id="informacion-9">
+                <source>no.se.encuentra.registrada.informacion</source>
+                <target>No se encuentra registrada información</target>
+			</trans-unit>
+			<trans-unit id="informacion-10">
+                <source>detalles.informacion</source>
+                <target>Detalles de información</target>
+			</trans-unit>
+			<trans-unit id="informacion-11">
+                <source>vista.predeterminada</source>
+                <target>Vista predeterminada</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

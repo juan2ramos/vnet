@@ -264,6 +264,15 @@
 							</ul>
 						</li>
 					{% endif %}
+					
+					{% if 'acceso_sidebar' in sess_permissions.permissions %}
+						<li>
+							<a class="" href="{{ path('admin_informacion') }}">
+								<i class="icon-info-sign"></i>
+								<span>{% trans from "label" %}informacion{% endtrans %}</span>
+							</a>
+						</li>
+					{% endif %}
 				</ul>
 			</div>
 		</aside>

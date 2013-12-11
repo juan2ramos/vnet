@@ -7,77 +7,94 @@
 {% endblock style %}
 
 {% block body %}
-	<div class='col-lg-9'>
+	{% set span = (publicidad) ? 9 : 12 %}
+	<div class='col-lg-{{ span }}'>
 		<div class="row">
 		
 			{# PERFIL MENTOR #}
-				<aside class="profile-nav col-lg-4">
+			<aside class="profile-nav col-lg-4">
 
-					{# IMAGEN DE PERFIL Y NOMBRE #}
-					<section class="panel">
-						<div class="user-heading round">
-							{% set imagen = (perfil.usuarioImagen) ? perfil.usuarioImagen : gui_default_img %}
-							<a href="#"><img src="{{ asset(imagen ~ '?type=large') }}" alt=""></a>
-							<h1>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</h1>
-							<p>{{ perfil.usuarioEmail }}</p>
-							<p>{{ perfil.nombreRol|trans({}, "db") }}</p>
-						</div>
-						
-						<ul class="nav nav-pills nav-stacked">
-							<li class=""><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
-							<li class="active"><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
-							<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-								<a href="#">
-									<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
-									<span class="label label-success pull-right r-activity">5</span>
-								</a>
-							</li>
-						</ul>
-					</section>
-				</aside>
+				{# IMAGEN DE PERFIL Y NOMBRE #}
+				<section class="panel">
+					<div class="user-heading round">
+						{% set imagen = (perfil.usuarioImagen) ? perfil.usuarioImagen : gui_default_img %}
+						<a href="#"><img src="{{ asset(imagen ~ '?type=large') }}" alt=""></a>
+						<h1>{{ perfil.usuarioApellido }}&nbsp;{{ perfil.usuarioNombre }}</h1>
+						<p>{{ perfil.usuarioEmail }}</p>
+						<p>{{ perfil.nombreRol|trans({}, "db") }}</p>
+					</div>
+					
+					<ul class="nav nav-pills nav-stacked">
+						<li class=""><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
+						<li class="active"><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+						<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
+							<a href="#">
+								<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
+								<span class="label label-success pull-right r-activity">5</span>
+							</a>
+						</li>
+					</ul>
+				</section>
+			</aside>
 
-				<aside class="profile-info col-lg-8">
-					<section class="panel">
-						<div class="panel-body bio-graph-info">
-							<h1>{% trans from "label" %}editar.perfil{% endtrans %}</h1>
-							<form action="{{ path('perfil_edit') }}" method='POST' {{ form_enctype(form) }} id="PerfilForm" type="post" class="form-horizontal" role="form">
-								{{ form_widget(form._token) }}
-								{{ form_errors(form) }}
+			<aside class="profile-info col-lg-8">
+				<section class="panel">
+					<div class="panel-body bio-graph-info">
+						<h1>{% trans from "label" %}editar.perfil{% endtrans %}</h1>
+						<form action="{{ path('perfil_edit') }}" method='POST' {{ form_enctype(form) }} id="PerfilForm" type="post" class="form-horizontal" role="form">
+							{{ form_widget(form._token) }}
+							{{ form_errors(form) }}
 
-								<div class="row-desk col-lg-12 row paddBtn">
-									<div class="col-lg-12">{% trans from "label" %}explicacion.actualizacion.de.hoja.de.vida.tarjeta.profesional{% endtrans %}</div>
-								</div>
-								<hr>
+							<div class="row-desk col-lg-12 row paddBtn">
+								<div class="col-lg-12">{% trans from "label" %}explicacion.actualizacion.de.hoja.de.vida.tarjeta.profesional{% endtrans %}</div>
+							</div>
+							<hr>
 
-								{% if perfil.usuarioRolEstado == 0 %}
-									<div class="form-group">
-										<label class="col-lg-3 control-label">{% trans from "label" %}rol{% endtrans %}: </label>
-										<div class="col-lg-8">{{ form_widget(form.rol, { 'attr' : {'class': 'form-control'}}) }}</div>
-									</div>
-								{% endif %}
+							{% if perfil.usuarioRolEstado == 0 %}
 								<div class="form-group">
-									<label class="col-lg-3 control-label">{% trans from "label" %}valor.hora{% endtrans %}: </label>
-									<div class="col-lg-8">{{ form_widget(form.valorHora, { 'attr' : {'class': 'form-control input-valorHora'}}) }}</div>
+									<label class="col-lg-3 control-label">{% trans from "label" %}rol{% endtrans %}: </label>
+									<div class="col-lg-8">{{ form_widget(form.rol, { 'attr' : {'class': 'form-control'}}) }}</div>
 								</div>
-								<div class="form-group">
-									<label class="col-lg-3 control-label">{% trans from "label" %}hoja.vida{% endtrans %}: </label>
-									<div class="col-lg-8">{{ form_widget(form.hojaVida, { 'attr' : {'class': 'form-control'}}) }}</div>
+							{% endif %}
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}profesion{% endtrans %}: </label>
+								<div class="col-lg-8">{{ form_widget(form.profesion, { 'attr' : {'class': 'form-control'}}) }}</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}valor.hora{% endtrans %}: </label>
+								<div class="col-lg-8">{{ form_widget(form.valorHora, { 'attr' : {'class': 'form-control input-valorHora'}}) }}</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}hoja.vida{% endtrans %}: </label>
+								<div class="col-lg-8">{{ form_widget(form.hojaVida, { 'attr' : {'class': 'form-control'}}) }}</div>
+							</div>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">{% trans from "label" %}tarjeta.profesional{% endtrans %}: </label>
+								<div class="col-lg-8">{{ form_widget(form.tarjetaProfesional, { 'attr' : {'class': 'form-control'}}) }}</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-lg-offset-4 col-lg-10">
+									<a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}" type="button" class="btn btn-default">{% trans from "label" %}cancelar{% endtrans %}</a>
+									<button type="submit" class="btn btn-info">{% trans from "label" %}guardar.cambios{% endtrans %}</button>
 								</div>
-								<div class="form-group">
-									<label class="col-lg-3 control-label">{% trans from "label" %}tarjeta.profesional{% endtrans %}: </label>
-									<div class="col-lg-8">{{ form_widget(form.tarjetaProfesional, { 'attr' : {'class': 'form-control'}}) }}</div>
-								</div>
-								
-								<div class="form-group">
-									<div class="col-lg-offset-4 col-lg-10">
-										<a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}" type="button" class="btn btn-default">{% trans from "label" %}cancelar{% endtrans %}</a>
-										<button type="submit" class="btn btn-info">{% trans from "label" %}guardar.cambios{% endtrans %}</button>
-									</div>
-								</div>
-							</form>
-						</div>
-					</selection>
-				</aside>
+							</div>
+						</form>
+					</div>
+				</selection>
+			</aside>
+		</div>
+	</div>
+	
+	{% if publicidad %}
+		<div class='col-lg-3' color='red'>
+			<div>
+				{% for entity in publicidad %}
+					{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
 {% endblock body %}
 
 
