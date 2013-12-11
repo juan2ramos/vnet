@@ -328,47 +328,51 @@
         });
     </script>
     <script type="text/javascript">
-        (function(){
+        (function(settings){
             
             // Pantallazo 2 - Intereses de carrera (Flor)
-            $("#form-next-1").hide();            
-            var clicks = 0;            
             $(".step").on("click", ".btn-sub-step", function(){
                 var step = $(this).data("step");
                 
                 $(".sub-step").hide();
                 $(".sub-step-"+step).show();
-                
-                clicks ++;
-                
-                if(clicks >= 8)
-                {
-                    $("#form-next-1").show();
-                }
-                
             });
             
             // Pantallazo 3 - Intereses de carrera (2)
             var arr_nivel3 = new Array();
-            $(".step").on("click", "#form-next-1", function(){                
+            $(".step").on("click", "#form-next-1", function(){  
+                var count_nivel3 = 0;
+                $(".nivel-act").html('');   
+                
                 $(".sub-step .slider-value").each(function(){
                     
                     var value = $( this ).attr("value");
-                    var pregunta = $(this).data("pregunta");
-                                        
+                    var pregunta = $(this).data("pregunta");                    
+        
                     $("#nivel-"+value).append("<li>"+pregunta+"</li>");   
                     
                     if(value == 3){
                         arr_nivel3.push(pregunta);
-                    }
-                    
-                });                
+                        count_nivel3++;
+                    }                    
+                });  
+                
+                if(count_nivel3 < 3){
+                    $("#form-back-2").show();
+                    $("#form-next-2").hide();
+                    alert(settings.msg_min_opc_carr);
+                }
+                else{
+                    $("#form-back-2").hide();
+                    $("#form-next-2").show();                    
+                }
             });
             
             // Pantallazo 5 - Valores ocupacionales
             $(".step").on("click", "#form-next-3", function(){
                 var count = 1;
                 var arr_sort = new Array();
+                $("#sort-val-ocup").html('');
                 $("#form-step-3 input[type='radio']:checked").each(function(){
                     var value = $(this).attr("value");
                     var pregunta = $(this).data("pregunta");
@@ -382,6 +386,18 @@
                     }
                     
                 });
+                
+                if(count < 10){
+                    $("#form-next-4").hide();
+                    $("#form-back-4").show();
+                    alert(settings.msg_min_opc_val);
+                }
+                else{
+                    $("#form-next-4").show();
+                    $("#form-back-4").hide();
+                }
+                
+                    
                 var str_sort = arr_sort.join(",");                
                 $("#orden-val-ocup").attr("value", str_sort);            
             });
@@ -483,6 +499,9 @@
                 
             });
             
-        })();
+        })({
+            msg_min_opc_carr: '{% trans %}debe.escojer.minimo.3.opciones{% endtrans %}',
+            msg_min_opc_val: '{% trans %}debe.escojer.10.valores.ocupacionales{% endtrans %}'
+        });
     </script>
 {% endblock script %}

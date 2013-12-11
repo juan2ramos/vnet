@@ -30,7 +30,7 @@ class DisenoVidaController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('diseno_vida');
@@ -39,14 +39,14 @@ class DisenoVidaController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         //Validar acceso a diseño de vida
-        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
-        if($participacion)
-        {
-            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
-                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
-                "message" => $this->get('translator')->trans("gracias.por.participar.diseno.vida")
-            )); 
-        }
+//        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
+//        if($participacion)
+//        {
+//            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+//                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+//                "message" => $this->get('translator')->trans("gracias.por.participar.diseno.vida")
+//            )); 
+//        }
         
         
         $formulario = $formularios_serv->getInfoFormulario($form_id);
@@ -72,7 +72,7 @@ class DisenoVidaController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form = $this->createFormCuestionario();
         $form_id = $this->get('formularios')->getFormId('diseno_vida');
@@ -136,7 +136,7 @@ class DisenoVidaController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form_id = $this->get('formularios')->getFormId('diseno_vida');
         $usuarioId = $security->getSessionValue('id');
@@ -144,7 +144,11 @@ class DisenoVidaController extends Controller
         // Valida acceso del mentor
         if($usuarioId != $this->getMentorId($id))
         {
-//            throw $this->createNotFoundException();
+            $rolId = $security->getSessionValue('rolId');            
+            if($rolId != 4)
+            {
+                throw $this->createNotFoundException();            
+            }
         }        
         
         $formularios_serv = $this->get('formularios');

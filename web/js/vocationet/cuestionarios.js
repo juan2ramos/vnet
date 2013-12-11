@@ -91,7 +91,7 @@ var Cuestionario = (function(settings) {
     
     $("fieldset").removeAttr('title');
     
-    $(".button-back").remove();
+    $(".button-back").hide();
     
     
 });
