@@ -73,7 +73,7 @@ class ContactosController extends Controller
 			if ($form->isvalid())
             {
                 $formData = $form->getData();
-                $formData['tipoUsuario'] = 3;
+                //$formData['tipoUsuario'] = 3;
                 $contactos = $this->getBusquedaDetallada($usuarioId, $formData);
             } else {
                 $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
@@ -414,6 +414,9 @@ class ContactosController extends Controller
             if ($busqueda['colegio']) {
                 $having .= " AND c.nombre LIKE '%".$busqueda['colegio']."%'";
             }
+			if ($busqueda['alternativaEstudio']) {
+                $having .= " AND car.nombre LIKE '%".$busqueda['alternativaEstudio']."%'";
+            }
         } else {
             if ($busqueda['universidad']) {
                 $having .= " AND est.nombreInstitucion LIKE '%".$busqueda['universidad']."%'";
@@ -431,15 +434,16 @@ class ContactosController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
 		/**
-         * SELECT u.id, est.id, r.*, SUM(CASE WHEN (r.usuario_id = 7 OR r.usuario2_id = 7) THEN 1 ELSE 0 END) AS relacionExistente,
+         * SELECT u.id, ae.id, est.id, r.*, SUM(CASE WHEN (r.usuario_id = 7 OR r.usuario2_id = 7) THEN 1 ELSE 0 END) AS relacionExistente,
 		 * 	COUNT(m.id) as cantidadMentorias
 		 * FROM usuarios u
 		 * LEFT JOIN relaciones r ON (r.usuario_id = u.id OR r.usuario2_id = u.id) AND r.tipo = 1
 		 * LEFT JOIN relaciones ment ON (ment.usuario_id = u.id OR ment.usuario2_id = u.id) AND r.tipo = 2
 		 * LEFT JOIN mentorias m ON (m.usuario_mentor_id = u.id) AND m.mentoria_estado = 1 AND  m.calificacion is not null
-		 * LEFT JOIN estudios est ON u.id = est.usuario_id
+		 * LEFT JOIN estudios ae ON u.id = ae.usuario_id
+		 * LEFT JOIN alternativas_estudios est ON u.id = est.usuario_id
 		 * WHERE u.id != 7
-		 * GROUP BY u.id, est.id;
+		 * GROUP BY u.id, est.id, ae.id;
         */
         $dql = "SELECT u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen,
 						rol.id as rolId, rol.nombre AS rolNombre, u.usuarioRolEstado,
@@ -448,15 +452,18 @@ class ContactosController extends Controller
 						est.nombreInstitucion, est.titulo,
 						r.estado, r.id AS relacionId,
                         SUM(CASE WHEN ((r.usuario =:usuarioId OR r.usuario2 =:usuarioId) AND r.tipo = 1) THEN 1 ELSE 0 END) AS relacionExistente,
-                        COUNT(m.id) as cantidadMentorias
+                        COUNT(m.id) as cantidadMentorias,
+						car.id AS carreraId, car.nombre AS nombreCarrera
                 FROM vocationetBundle:Usuarios u
                 JOIN u.rol rol
                 LEFT JOIN u.colegio c
                 LEFT JOIN vocationetBundle:Estudios est WITH u.id = est.usuario
                 LEFT JOIN vocationetBundle:Relaciones r WITH (r.usuario = u.id OR r.usuario2 = u.id) AND r.tipo = 1
                 LEFT JOIN vocationetBundle:Mentorias m WITH (m.usuarioMentor = u.id AND m.mentoriaEstado = 1 AND m.calificacion IS NOT NULL)
+				LEFT JOIN vocationetBundle:AlternativasEstudios ae WITH u.id = ae.usuario
+                LEFT JOIN ae.carrera car
                 WHERE u.id !=:usuarioId
-                GROUP BY u.id, est.id
+                GROUP BY u.id, est.id, ae.id
                 ".$having."
                 ORDER BY u.id, r.estado";
         $query = $em->createQuery($dql);
@@ -488,11 +495,21 @@ class ContactosController extends Controller
                             'nombreInstitucion' => $cont['nombreInstitucion'],
                             'titulo' => $cont['titulo']);
                     }
+					if ($cont['carreraId']) {
+                        $arrContactos[$cont['id']]['alternativa'][] = Array(
+							'nombreCarrera' => $cont['nombreCarrera']);
+                    }
                     $auxId = $cont['id'];
 				} else {
-					$arrContactos[$cont['id']]['estudios'][] = Array(
-						'nombreInstitucion' => $cont['nombreInstitucion'],
-						'titulo' => $cont['titulo']);
+					if ($cont['nombreInstitucion']) {
+						$arrContactos[$cont['id']]['estudios'][] = Array(
+							'nombreInstitucion' => $cont['nombreInstitucion'],
+							'titulo' => $cont['titulo']);
+					}
+					if ($cont['carreraId']) {
+                        $arrContactos[$cont['id']]['alternativa'][] = Array(
+                            'nombreCarrera' => $cont['nombreCarrera']);
+                    }
 				}
 			}
 		}

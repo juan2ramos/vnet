@@ -161,6 +161,7 @@ class PerfilController extends Controller
         
 		$pr = $this->get('perfil');
 		$tr = $this->get('translator');
+		$em = $this->getDoctrine()->getManager();
 		
 		//error_reporting(true);
 		$id = $security->getSessionValue('id');
@@ -227,7 +228,6 @@ class PerfilController extends Controller
 
 					if ($errores == 0)
 					{
-						$em = $this->getDoctrine()->getManager();
 						$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($id);
 						$usuario->setUsuarioNombre($dataForm['nombre']);
 						$usuario->setUsuarioApellido($dataForm['apellido']);
@@ -291,6 +291,7 @@ class PerfilController extends Controller
 				$formData = Array('hojaVida' => null, 'tarjetaProfesional' => null, 'valorHora' => 0);
 				$form = $this->createFormBuilder($formData)
 					->add('rol', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolActual), 'required' => true))
+					->add('profesion', 'text', array('required' => true, 'data'=> $perfil['usuarioProfesion']))
 					->add('valorHora', 'text', array('required' => true, 'data'=> $perfil['usuarioValorMentoria'], 'attr' => Array('pattern' => '^[0-9]*$')))
 					->add('hojaVida', 'file', array('required' => false))
 					->add('tarjetaProfesional', 'file', array('required' => false))
@@ -298,14 +299,13 @@ class PerfilController extends Controller
 			} else {
 				$formData = Array('hojaVida' => null, 'tarjetaProfesional' => null, 'valorHora' => 0);
 				$form = $this->createFormBuilder($formData)
+					->add('profesion', 'text', array('required' => true, 'data'=> $perfil['usuarioProfesion']))
 					->add('valorHora', 'text', array('required' => true, 'data'=> $perfil['usuarioValorMentoria'], 'attr' => Array('pattern' => '^[0-9]*$')))
 					->add('hojaVida', 'file', array('required' => false))
 					->add('tarjetaProfesional', 'file', array('required' => false))
 					->getForm();
 			}
 
-
-			$em = $this->getDoctrine()->getManager();
 			if ($request->getMethod() == 'POST')
 			{
 				$form->bind($request);
@@ -358,7 +358,8 @@ class PerfilController extends Controller
 								$usuario->setRol($rolMentor);
 								$usuario->setUsuarioRolEstado(1);
 						}
-
+						
+						$usuario->setUsuarioProfesion($dataForm['profesion']);
 						$usuario->setUsuarioValorMentoria($dataForm['valorHora']);
 						$usuario->setModified(new \DateTime());
 						$em->persist($usuario);
@@ -566,18 +567,22 @@ class PerfilController extends Controller
 		 * valorHora => NotBlank, Regex(Solo numeros)
 		 * hojaVida => File(Formatos permitidos)
 		 * tarjetaProfesional => File(Formatos permitidos)
+		 * profesion => NotBlank, Regex(Texto y numeros)
 		 */
 
 		$NotBlank = new Assert\NotBlank();
 		$File = new Assert\File(Array('mimeTypes' => Array("application/pdf")));
 		$Regex = new Assert\Regex(Array('pattern'=>'/^[0-9]*$/'));
+		$RegexAN = new Assert\Regex(Array('pattern'=>'/^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$/'));
 
 		$hojaVida = $dataForm['hojaVida'];
 		$tarjetaProfesional = $dataForm['tarjetaProfesional'];
 		$valorHora = $dataForm['valorHora'];
+		$profesion = $dataForm['profesion'];
 
 		$countErrores = 0;
 		$countErrores += (count($this->get('validator')->validateValue($valorHora, Array($Regex, $NotBlank))) == 0) ? 0 : 1;
+		$countErrores += (count($this->get('validator')->validateValue($profesion, Array($RegexAN, $NotBlank))) == 0) ? 0 : 1;
 		
 		if ($formIncludeRol) {
 			if (($dataForm['rol'] != 2) and ($dataForm['rol'] != 3)) {
