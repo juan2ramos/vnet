@@ -39,14 +39,14 @@ class DisenoVidaController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         //Validar acceso a diseño de vida
-//        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
-//        if($participacion)
-//        {
-//            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
-//                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
-//                "message" => $this->get('translator')->trans("gracias.por.participar.diseno.vida")
-//            )); 
-//        }
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
+        if($participacion)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.diseno.vida")
+            )); 
+        }
         
         
         $formulario = $formularios_serv->getInfoFormulario($form_id);
