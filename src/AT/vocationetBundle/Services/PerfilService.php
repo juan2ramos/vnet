@@ -43,7 +43,7 @@ class PerfilService
 		 * //AND (r.nombre = 'mentor_e' or r.nombre = 'mentor_ov');
 		 */
 		$dql="SELECT u.id as usuarioId, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioFechaNacimiento, u.usuarioEmail,
-				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional,
+				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional, u.usuarioPuntos,
 				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero, u.usuarioRolEstado, u.usuarioProfesion,
 				r.id AS rolId, r.nombre as nombreRol,
 				col.nombre as nombreCol, col.id as colegioId

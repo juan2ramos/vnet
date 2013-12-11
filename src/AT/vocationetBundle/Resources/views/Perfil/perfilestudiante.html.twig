@@ -33,15 +33,17 @@
 								<li data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 									<a href="{{ path('foros_temas')}}"> <i class="icon-list-alt"></i> {% trans from "label" %}foros{% endtrans %}</a>
 								</li>
+								{#
 								<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 									<a href="#">
 										<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
 										<span class="label label-success pull-right r-activity">{{ pendiente.msjsinleer }}</span>
 									</a>
 								</li>
+								#}
 							{% endif %}
 
-							
+
 							{# MODAL EN DONDE SE MUESTRA EL INFORME SUBIDO POR EL MENTOR Y VISIBLE SOLO PARA EL MENTOR#}
 							{% if showInformeML %}
 								<li class=""><a data-toggle="modal" href="#myModal" > <i class="icon-file-text-alt"></i> {% trans from "label" %}informe.mercado.laboral{% endtrans %}</a></li>
@@ -104,13 +106,15 @@
 
 										{# BOTONER DE REDIRECCIONAMIENTO #}
 										<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
-											<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.diagnostico{% endtrans %}</button>
+											{% if adicional.participacionDiagnostico %}
+												<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.diagnostico{% endtrans %}</button>
+											{%endif %}
 											<br><br>
 											<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}continuar.programa{% endtrans %}</button>
 										</div>
 									</div>
 								</div>
-							</div>
+							</div>	
 						</div>
 					</section>
 				</aside>
@@ -160,8 +164,9 @@
 								<div data-original-title="{% trans from "label" %}descripcion.puntuacion{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}puntuacion{% endtrans %}:
 								</div>
-								<div class='col-lg-8'>PENDIENTE</div>
+								<div class='col-lg-8'>{{ perfil.usuarioPuntos }}</div>
 							</div>
+							{#
 							<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.amigos.y.mentores{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}amigos.y.mentores{% endtrans %}:
@@ -174,6 +179,7 @@
 								</div>
 								<div class='col-lg-8'>PENDIENTE</div>
 							</div>
+							#}
 							<hr>
 
 							{# INFORMACION DEL COLEGIO #}

@@ -61,12 +61,14 @@
 								<li data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 									<a href="{{ path('foros_temas')}}"> <i class="icon-list-alt"></i> {% trans from "label" %}foros{% endtrans %}</a>
 								</li>
+								{#
 								<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 									<a href="#">
 										<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
 										<span class="label label-success pull-right r-activity">5</span>
 									</a>
 								</li>
+								#}
 							{% endif %}
 						</ul>
 					</section>
@@ -80,11 +82,7 @@
 										<h1>{% trans from "label" %}extracto{% endtrans %}</h1>
 										<div class='col-lg-12 row'><b>{% trans from "label" %}perfil.profesional{% endtrans %}</b></div><br>
 										<div class='col-lg-12'>
-											{% if perfil.usuarioPerfilProfesional %}
-												{{ perfil.usuarioPerfilProfesional }}
-											{% else %}
-												{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
-											{% endif %}
+											{{ perfil.usuarioPerfilProfesional|default('no.ha.sido.suministrada'|trans({}, "label" )) }}
 										</div>
 									</div>
 								</div>
@@ -93,7 +91,7 @@
 					</section>
 					
 					{# HISTORIAL #}
-					<section class="panel">
+					{#<section class="panel">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="panel">
@@ -108,77 +106,83 @@
 								</div>
 							</div>
 						</div>
-					</section>
+					</section>#}
 
-					{# VALORACIONES DE CLIENTES #}
-					<section class="panel">
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="panel">
-									<div class="panel-body bio-graph-info">
-										<h1>{% trans from "label" %}valoraciones.de.clientes{% endtrans %}</h1>
-										<div class='col-lg-12 row'><b>{% trans from "label" %}promedio.de.valoracion{% endtrans %}</b></div><br>
-										<div class='col-lg-12' >
-											{% set estrellasPromedio = (calificaciones.totalCalificacion > 0) ? (( calificaciones.totalCalificacion / calificaciones.totalUsuarios)) : 0 %}
+					{# VALORACIONES DE CLIENTES - PERFIL MENTORES #}
+					{% if perfil.rolId == 2 and perfil.rolId == 3 %}
+						<section class="panel">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="panel">
+										<div class="panel-body bio-graph-info">
+											<h1>{% trans from "label" %}valoraciones.de.clientes{% endtrans %}</h1>
+											<div class='col-lg-12 row'><b>{% trans from "label" %}promedio.de.valoracion{% endtrans %}</b></div><br>
+											<div class='col-lg-12' >
+												{% set estrellasPromedio = (calificaciones.totalCalificacion > 0) ? (( calificaciones.totalCalificacion / calificaciones.totalUsuarios)) : 0 %}
 
-											<div class='col-lg-6' STYLE='text-align:right;padding:0 3px 0 3px;'>
-												<div class="rateit" data-rateit-value="{{ estrellasPromedio }}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
-											</div>
-											<div class='col-lg-6'>
-												{{ calificaciones.totalUsuarios }}&nbsp;{% trans from "label" %}valoraciones{% endtrans %}
-											</div>
-											<br><hr>
-
-											{# VALORACIONES DE CLIENTES - CALIFICACION ESTRELLAS #}
-											{% for i in 5..0 %}
-												{% set porcent = (calificaciones.totalUsuarios > 0) ? ((calificaciones[i] / calificaciones.totalUsuarios) * 100) : 0 %}
-												<div class='col-lg-7' STYLE='text-align:right;padding:0 3px 0 3px;'>
-													<div class="rateit" data-rateit-value="{{ i }}" data-rateit-max="{{ i }}" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
+												<div class='col-lg-6' STYLE='text-align:right;padding:0 3px 0 3px;'>
+													<div class="rateit" data-rateit-value="{{ estrellasPromedio }}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
 												</div>
-												<div class='col-lg-5'>
-													<div class="progress progress-xs tooltips" STYLE='margin:4px 0 0 0;' data-toggle="tooltip" data-placement="right" data-original-title="{{ calificaciones[i] }}">
-														<div class="progress-bar" role="progressbar" STYLE='width:{{ porcent }}%;background-color:#5E5E5E;'></div>
+												<div class='col-lg-6'>
+													{{ calificaciones.totalUsuarios }}&nbsp;{% trans from "label" %}valoraciones{% endtrans %}
+												</div>
+												<br><hr>
+
+												{# VALORACIONES DE CLIENTES - CALIFICACION ESTRELLAS #}
+												{% for i in 5..0 %}
+													{% set porcent = (calificaciones.totalUsuarios > 0) ? ((calificaciones[i] / calificaciones.totalUsuarios) * 100) : 0 %}
+													<div class='col-lg-7' STYLE='text-align:right;padding:0 3px 0 3px;'>
+														<div class="rateit" data-rateit-value="{{ i }}" data-rateit-max="{{ i }}" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
 													</div>
-												</div>
-												<br>
-											{% endfor %}
-											<hr>
-											<a type="button" href="{{ path('mentor_resenas', {'perfilId' : perfil.usuarioId }) }}" class="btn btn-success btn-xs btn-block">{% trans from "label" %}resenas{% endtrans %}</a>
+													<div class='col-lg-5'>
+														<div class="progress progress-xs tooltips" STYLE='margin:4px 0 0 0;' data-toggle="tooltip" data-placement="right" data-original-title="{{ calificaciones[i] }}">
+															<div class="progress-bar" role="progressbar" STYLE='width:{{ porcent }}%;background-color:#5E5E5E;'></div>
+														</div>
+													</div>
+													<br>
+												{% endfor %}
+												<hr>
+												<a type="button" href="{{ path('mentor_resenas', {'perfilId' : perfil.usuarioId }) }}" class="btn btn-success btn-xs btn-block">{% trans from "label" %}resenas{% endtrans %}</a>
+											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</section>
+						</section>
+					{% endif %}
 
-					{# DEFINICION DEL VALOR DE MENTORIA #}
-					<section class="panel">
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="panel">
-									<div class="panel-body bio-graph-info">
-										<h1>{% trans from "label" %}definicion.de.valor.mentoria{% endtrans %}</h1>
-										<p>{% trans from "label" %}explicacion.definicion.de.valor.mentoria{% endtrans %}</p>
-										<div class='col-lg-12 row'><b>{% trans from "label" %}valor{% endtrans %}: </b></div>
-										<div class='col-lg-2'>&nbsp;</div>
-										{% if perfil.usuarioValorMentoria %}
-											<div class='col-lg-10'>
-												<h1><b>$ {{ perfil.usuarioValorMentoria|number_format(0, '', '.') }}</b></h1>
-											</div>
-											<br>
-											<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
-												<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button>
-											</div>
-										{% else %}
-											<div class='col-lg-10'>
-												{% trans from "label" %}no.ha.sido.calculado{% endtrans %}
-											</div>
-										{% endif %}
+					{# DEFINICION DEL VALOR DE MENTORIA - EXCLUSIVO DE MENTOR EXPERTO #}
+					{% if perfil.rolId == 2 %}
+						<section class="panel">
+							<div class="row">
+								<div class="col-lg-12">
+									<div class="panel">
+										<div class="panel-body bio-graph-info">
+											<h1>{% trans from "label" %}definicion.de.valor.mentoria{% endtrans %}</h1>
+											{#<p>{% trans from "label" %}explicacion.definicion.de.valor.mentoria{% endtrans %}</p>#}
+											<div class='col-lg-12 row'><b>{% trans from "label" %}valor{% endtrans %}: </b></div>
+											<div class='col-lg-2'>&nbsp;</div>
+											{% if perfil.usuarioValorMentoria %}
+												<div class='col-lg-10'>
+													<h1><b>$ {{ perfil.usuarioValorMentoria|number_format(0, '', '.') }}</b></h1>
+												</div>
+												{#
+													<br>
+													<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
+														<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button>
+													</div>
+												#}
+											{% else %}
+												<div class='col-lg-10'>
+													{% trans from "label" %}no.ha.sido.calculado{% endtrans %}
+												</div>
+											{% endif %}
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</section>
+						</section>
+					{% endif %}
 					
 				</aside>
 
@@ -262,9 +266,9 @@
 								<div data-original-title="{% trans from "label" %}descripcion.no.personas.ayudadas{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}no.personas.ayudadas{% endtrans %}:
 								</div>
-								<div class='col-lg-8'>PENDIENTE</div>
+								<div class='col-lg-8'>{{ calificaciones.totalUsuarios }}</div>
 							</div>
-							<div class="row-desk col-lg-12 row paddBtn">
+							{#<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.grado{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}grado{% endtrans %}:
 								</div>
@@ -287,7 +291,7 @@
 									{% trans from "label" %}ajustes{% endtrans %}:
 								</div>
 								<div class='col-lg-8'>PENDIENTE</div>
-							</div>
+							</div>#}
 						</div>
 					</section>
 
@@ -385,7 +389,7 @@
 
 										<br>
 										<div class='col-lg-12 row'>
-										<p STYLE='text-align:right;'>{% trans from "label" %}esta.informacion.sera.validada{% endtrans %}</p>
+										{#<p STYLE='text-align:right;'>{% trans from "label" %}esta.informacion.sera.validada{% endtrans %}</p>#}
 										</div>
 
 									</div>
@@ -457,4 +461,3 @@
 		});
 	</script>
 {% endblock %}
-

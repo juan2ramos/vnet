@@ -40,6 +40,7 @@ class PerfilController extends Controller
         
 		$tr = $this->get('translator');
 		$pr = $this->get('perfil');
+		$em = $this->getDoctrine()->getManager();
 		//error_reporting(true);
 
 		$perfil = $pr->getPerfil($perfilId);
@@ -70,10 +71,10 @@ class PerfilController extends Controller
 			// Calificaciones actuales del mentos, clasificados por No. de estrellas
 			$calificaciones = $pr->mentoriasCalificadas($perfilId);
 
-			if ($perfilId == $usuarioId) {
+			if (($perfilId == $usuarioId) && ($perfil['nombreRol'] != 'administrador')) {
 				// Campos vacios para pedir que sean diligenciados
 				$auxRol = ($perfil['usuarioRolEstado'] == 0) ? 1 : 0;
-				$auxVM = ($perfil['usuarioValorMentoria']) ? 0 : 1;
+				$auxVM = ($perfil['nombreRol'] != 'mentor_ov') ? 0 : (($perfil['usuarioValorMentoria']) ? 0 : 1);
 				$auxTP = ($perfil['usuarioTarjetaProfesional']) ? 0 : 1;
 				$auxHV = ($perfil['usuarioHojaVida']) ? 0 : 1;
 				$auxTotal = $auxRol + $auxVM + $auxTP + $auxHV;
@@ -112,8 +113,12 @@ class PerfilController extends Controller
 			$semaforo = Array('porcentaje' =>20, 'color'=>'progress-bar-danger');  //porcentaje avance
 			$avancePrograma = Array('porcentaje' =>60, 'color'=>'progress-bar-warning');  //porcentaje avance
 			$vancesDiagnostico = Array('mitdc'=> 50, 'hyp' => 60, 'info' => 40, 'invest' => 80, 'dc' => 10 );
+			
+			//Validar acceso a diagnostico
+			$form_id = $this->get('formularios')->getFormId('diagnostico');
+			$participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $perfilId));
 
-			$adicionales = Array('tiempoRestante' => $tiempoRestante,);
+			$adicionales = Array('tiempoRestante' => $tiempoRestante, 'participacionDiagnostico' => $participacion);
 			$pendientes = Array(
 				'semaforo' => $semaforo,
 				'msjsinleer' => 10,
@@ -478,8 +483,11 @@ class PerfilController extends Controller
 		{
 			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
 		}
+		
+		//PUBLICIDAD Y/O INFORMACION
+		$publicidad = $pr->getpublicidad();
 
-		return array('perfil' => $perfil, 'calificaciones' => $calificaciones, 'resenas' => $resenas);
+		return array('perfil' => $perfil, 'calificaciones' => $calificaciones, 'resenas' => $resenas, 'publicidad' => $publicidad);
 	}
 
 	/**
