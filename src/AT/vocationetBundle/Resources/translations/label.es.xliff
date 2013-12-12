@@ -1143,6 +1143,18 @@
                 <source>usuarios</source>
                 <target>Usuarios</target>
 			</trans-unit>
+			<trans-unit id="adminov-9">
+                <source>resultados.evaluacion.360</source>
+                <target>Resultados de evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="adminov-10">
+                <source>resultados.diseno.vida</source>
+                <target>Resultados de diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="adminov-11">
+                <source>resultados.ponderacion</source>
+                <target>Resultados de ponderación</target>
+			</trans-unit>
            
             <!-- diseño de vida dvida-x -->
 			<trans-unit id="dvida-1">

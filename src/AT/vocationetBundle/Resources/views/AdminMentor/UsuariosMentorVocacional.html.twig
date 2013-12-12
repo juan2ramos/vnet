@@ -70,10 +70,14 @@
 										</div>
 									</td>
 									<td class="text-center">
-										<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
-										{% if c.estudios is defined %}
+										<a style='margin:2px; width:90%;' href='{{ pathUser }}' class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
+										
+                                        <a href="{{ path("evaluacion360_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.evaluacion.360{% endtrans %}</a>
+                                        <a href="{{ path("disenovida_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.diseno.vida{% endtrans %}</a>
+                                        {% if c.estudios is defined %}
 											<a STYLE='margin:2px;width:90%;' class="btn btn-primary btn-xs" data-toggle="modal" href="#myModal{{ c.id }}">{{ 'informe.mercado.laboral'|trans({}, 'label') }}</a>
 										{% endif %}	
+                                        <a href="{{ path("ponderacion_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.ponderacion{% endtrans %}</a>
 										<br>
 										
 										<div class="modal fade" id="myModal{{ c.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
