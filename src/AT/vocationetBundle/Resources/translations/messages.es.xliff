@@ -555,6 +555,21 @@
                 <source>gracias.por.participar.diseno.vida</source>
                 <target>Gracias por enviar tu diseño de vida</target>
 			</trans-unit>
+			<trans-unit id="dvida-3">
+                <source>debe.escojer.minimo.3.opciones</source>
+                <target>Debes seleccionar mínimo 3 opciones de nivel 3 para continuar con la prueba</target>
+			</trans-unit>
+			<trans-unit id="dvida-4">
+                <source>debe.escojer.10.valores.ocupacionales</source>
+                <target>Debes escojer 10 valores ocupacionales para continuar con la prueba</target>
+			</trans-unit>
+            
+            <!-- ponderacion pond-x -->
+			<trans-unit id="pond-1">
+                <source>gracias.por.participar.ponderacion</source>
+                <target>Gracias por participar en la ponderación</target>
+			</trans-unit>
+            
             
         </body>
     </file>

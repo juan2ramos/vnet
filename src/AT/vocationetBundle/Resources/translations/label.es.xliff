@@ -1345,6 +1345,12 @@
                 <source>vista.predeterminada</source>
                 <target>Vista predeterminada</target>
 			</trans-unit>
+            
+            <!-- ponderacion pond-x -->
+			<trans-unit id="pond-1">
+                <source>ponderacion</source>
+                <target>Ponderación</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

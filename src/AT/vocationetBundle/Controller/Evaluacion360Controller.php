@@ -227,7 +227,11 @@ class Evaluacion360Controller extends Controller
         // Valida acceso del mentor
         if($usuarioId != $this->getMentorId($id))
         {
-            throw $this->createNotFoundException();
+            $rolId = $security->getSessionValue('rolId');            
+            if($rolId != 4)
+            {
+                throw $this->createNotFoundException();            
+            }
         }
         
         

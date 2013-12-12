@@ -65,7 +65,7 @@
             <section class="panel">
               <div class="user-heading alt green-bg">
                   <a href="{{ path("perfil", {"perfilId":usuario.id}) }}">
-                      <img alt="" src="{{ asset(usuario.usuarioImagen) }}?type=large">
+                      <img alt="" src="{{ asset(usuario.usuarioImagen|default(gui_default_img)) }}?type=large">
                   </a>
                   <h1>{{ usuario.usuarioNombre ~ ' '~ usuario.usuarioApellido }}</h1>
               </div>

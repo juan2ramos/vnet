@@ -724,7 +724,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `respuestas_adicionales` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `respuesta_key` VARCHAR(45) NOT NULL,
-  `respuesta_json` VARCHAR(45) NOT NULL,
+  `respuesta_json` TEXT NOT NULL,
   `participacion_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_respuestas_adicionales_participaciones1_idx` (`participacion_id` ASC),
