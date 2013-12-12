@@ -65,10 +65,14 @@
     opacity: 0;
 }
 
+.input-number-container{
+    width: 150px;
+}
+
 .error{
     color: #E56155;
 }
 
 .button-back{
-    display: none;
+    /*display: none;*/
 }

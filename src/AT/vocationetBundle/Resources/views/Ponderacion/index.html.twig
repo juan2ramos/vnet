@@ -1,5 +1,24 @@
 {% extends '::base.html.twig' %}
 
+{% block style %}
+    <link href="{{ asset('assets/jquery-ui/jquery-ui-1.10.1.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/vocationet/cuestionarios.css') }}" rel="stylesheet"/>
+    <style>
+        .stepy-titles li div, .stepy-titles li.current-step div{
+            width: 200px;
+        }
+        
+        .respuesta{
+            margin-bottom: 0px;
+        }
+        
+        table.alternativas td{
+            width: 200px;
+        }
+        
+    </style>
+{% endblock style %}
+
 {% block body %}
 <div class="row">
     <div class="col-lg-12">
@@ -25,7 +44,68 @@
             </aside>
         </section>
         <section class="panel" id="div-cuestionario">
+            <header class="panel-heading" style="font-size: 14px;">
+                {{ formulario_info.descripcion|raw }}
+            </header>
+            <div class="panel-body">
+                <div class="stepy-tab">
+                    <ul id="default-titles" class="stepy-titles clearfix">
+                        {% for formulario in formularios %}
+                            <li id="default-title-0" class="{% if loop.index == 1 %}current-step{% endif %}">
+                                <div>{{ formulario.nombre }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <form action="{{ path('procesar_ponderacion') }}" method="post" class="form-horizontal form-test" id="form">
+                    {% for formulario in formularios %}
+                        <fieldset title="{{ formulario.nombre }}" class="step">
+                            <legend></legend>
+                            {% if formulario.descripcion %}<p>{{ formulario.descripcion }}</p>{% endif %}
+                            {% if formulario.preguntas is defined %}
+                                {% for pregunta in formulario.preguntas %}
+                                    <div class="form-group">
+                                        <label class="col-lg-12 control-label"><b>{{ pregunta.numero }}. </b>{{ pregunta.pregunta }}</label>
+                                        <div class=" respuesta">
+                                            <table class="alternativas"><tr>
+                                                {% for alternativa in alternativas %}
+                                                    {% set fieldname = 'pregunta['~alternativa.carrera.id~']['~pregunta.id~']' %}
+                                                    <td>
+                                                        <div style="">{{ alternativa.carrera.nombre }}</div>
+                                                            {% include "vocationetBundle:Preguntas:preguntas.html.twig" %}
+                                                        <br/>
+                                                    </td>
+                                                {% endfor %}
+                                            </tr></table>
+                                        </div>                                                    
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        </fieldset>
+                    {% endfor %} 
+                    {{ form_widget(form._token) }}
+                    {{ form_errors(form) }}    
+                    <input type="submit" class="finish btn btn-danger" value="{% trans  from "label" %}enviar{% endtrans %}"/>
+                </form>
+            </div>
         </section>
     </div>
 </div>
 {% endblock body %}
+
+{% block script %}
+    <script src="{{ asset('assets/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.stepy.js') }}"></script>
+    <script src="{{ asset('js/sliders.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/bootstrap.touchspin.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/vocationet/cuestionarios.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        Cuestionario({
+            touchSpin_min: 0,
+            touchSpin_max: 10,
+            stepy_titleClick: true,
+            stepy_back_button: true
+        });
+    </script>
+{% endblock script %}

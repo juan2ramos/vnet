@@ -59,10 +59,9 @@ class DisenoVidaController extends Controller
             'form' => $form->createView(),
         );
     }
-    
-    
+        
     /**
-     * Index de diseño de vida
+     * Accion para porcesar el formulario de diseño de vida
      * 
      * @Route("/procesar", name="procesar_disenovida")
      * @Method({"POST"})
@@ -172,8 +171,7 @@ class DisenoVidaController extends Controller
             'adicionales' => $adicionales
         );
     }
-    
-    
+        
     /**
      * Funcion para crear un formulario vacio para cuestionarios
      * 

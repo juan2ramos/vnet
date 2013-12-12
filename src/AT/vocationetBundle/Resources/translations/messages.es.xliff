@@ -569,6 +569,14 @@
                 <source>gracias.por.participar.ponderacion</source>
                 <target>Gracias por participar en la ponderación</target>
 			</trans-unit>
+			<trans-unit id="pond-2">
+                <source>resultados.ponderacion</source>
+                <target>Resultados de la ponderación</target>
+			</trans-unit>
+			<trans-unit id="pond-3">
+                <source>%carrera%.alternativa.mas.opcionada</source>
+                <target>Según los valores que diste a cada una de las preguntas la alternativa de estudio más opcionada para ti es %carrera%</target>
+			</trans-unit>
             
             
         </body>

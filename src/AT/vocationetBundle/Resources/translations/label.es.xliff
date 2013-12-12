@@ -1351,6 +1351,14 @@
                 <source>ponderacion</source>
                 <target>Ponderación</target>
 			</trans-unit>
+			<trans-unit id="pond-2">
+                <source>puntaje</source>
+                <target>Puntaje</target>
+			</trans-unit>
+			<trans-unit id="pond-3">
+                <source>puntajes</source>
+                <target>Puntajes</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>
