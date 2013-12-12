@@ -30,7 +30,7 @@ class PonderacionController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $formularios_serv = $this->get('formularios');
         $perfil_serv = $this->get('perfil');
@@ -75,7 +75,7 @@ class PonderacionController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form = $this->createFormCuestionario();
         $formularios_serv = $this->get('formularios');
@@ -152,7 +152,7 @@ class PonderacionController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form_id = $this->get('formularios')->getFormId('ponderacion');
         $usuarioId = $security->getSessionValue('id');
@@ -184,8 +184,7 @@ class PonderacionController extends Controller
             'usuario' => $usuario,
             'puntuacion' => $puntuacion
         );        
-    }
-    
+    }    
 
     /**
      * Funcion para crear un formulario vacio para cuestionarios

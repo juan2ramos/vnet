@@ -24,7 +24,9 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (17, 'acceso_temas', 'Acceso a admin temas', 'Acceso a admin temas', 'admin_temas,admin_temas_show,admin_temas_new,admin_temas_edit,admin_temas_delete'),
 (18, 'acceso_sidebar','Acceso a admin publicidad/informacion', 'Acceso a admin publicidad/informacion', 'admin_informacion,admin_informacion_show,admin_informacion_new,admin_informacion_edit,admin_informacion_delete'),
 (19, 'acceso_diseno_vida', 'Diseño de vida', 'Diseño de vida', 'diseno_vida,procesar_disenovida'),
-(20, 'acceso_respuestas_diseno_vida', 'Acceso a ver resultados de diseño de vida', 'Acceso a ver resultados de diseño de vida', 'disenovida_resultados');
+(20, 'acceso_respuestas_diseno_vida', 'Acceso a ver resultados de diseño de vida', 'Acceso a ver resultados de diseño de vida', 'disenovida_resultados'),
+(22, 'acceso_ponderacion', 'Ponderación', 'Ponderación', 'ponderacion,procesar_ponderacion'),
+(23, 'acceso_respuestas_ponderacion', 'Acceso a ver resultados de ponderación', 'Acceso a ver resultados de ponderación', 'ponderacion_resultados');
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 
 ('1', '1'),
@@ -74,7 +76,14 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('19', '4'),
 ('20', '2'),
 ('20', '3'),
-('20', '4');
+('20', '4'),
+('22', '1'),
+('22', '2'),
+('22', '3'),
+('22', '4'),
+('23', '2'),
+('23', '3'),
+('23', '4');
 
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
 (1, 'selección múltiple con única respuesta'),
