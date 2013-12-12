@@ -1,0 +1,99 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+			<section class="panel">
+				<header class="panel-heading">
+				{% if filtro == 1 %}{% trans from "db" %}estudiante{% endtrans %}
+				{% elseif filtro == 2 %}{% trans from "db" %}mentor_e{% endtrans %}
+				{% elseif filtro == 3 %}{% trans from "db" %}mentor_ov{% endtrans %}
+				{% endif %}
+                </header>
+				
+				{% if entities %}
+					<table class="table table-striped border-top datatable">
+						<thead>
+							<tr>
+								<th></th>
+								<th>{% trans from "label" %}apellido{% endtrans %}</th>
+								<th>{% trans from "label" %}nombre{% endtrans %}</th>
+								<th>{% trans from "label" %}email{% endtrans %}</th>
+								<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>
+								{% if filtro == 1 %}
+									<th class='text-center'>{% trans from "label" %}nivel.curso{% endtrans %}</th>
+									<th class='text-center'>{% trans from "label" %}fecha.planeada{% endtrans %}</th>
+								{% else %}
+									<th>{% trans from "label" %}profesion{% endtrans %}</th>
+									<th>{% trans from "label" %}valoraciones{% endtrans %}</th>
+									<th>{% trans from "label" %}valor.mentoria{% endtrans %}</th>
+								{% endif %}
+								<th class='text-center'>{% trans from "label" %}opciones{% endtrans %}</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for entity in entities %}
+								<tr>
+									<td>
+										{% set imagen = (entity.usuarioImagen) ? entity.usuarioImagen ~ '?type=large' : gui_default_img %}
+										<div><img src="{{ asset(imagen) }}" alt="" STYLE='width:50px'></div>
+									</td>
+									<td>{{ entity.usuarioApellido }}</td>
+									<td>{{ entity.usuarioNombre }}</td>
+									<td>{{ entity.usuarioEmail }}</td>
+									<td class='text-center'>
+										{% if entity.usuarioEstado %}
+											<span class="label label-success">{% trans from "label" %}activo{% endtrans %}</span>
+										{% else %}
+											<span class="label label-danger">{% trans from "label" %}inactivo{% endtrans %}</span>
+										{% endif %}
+									</td>
+									{% if filtro == 1 %}
+										<td class='text-center'>{{ entity.usuarioCursoActual }}</td>
+										<td class='text-center'>{% if entity.usuarioFechaPlaneacion %}{{ entity.usuarioFechaPlaneacion|date('Y-m-d H:i:s') }}{% endif %}</td>
+									{% else %}
+										<td>{{ entity.usuarioProfesion }}</td>
+										<td>{{ entity.usuarioPuntos }}</td>
+										<td>{{ entity.usuarioValorMentoria }}</td>
+									{% endif %}
+									<td >
+										<div class='text-center' >
+											<a STYLE='margin:1px;' href='{{ path('perfil', {'perfilId': entity.id }) }}' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'ver.perfil'|trans({}, 'label') }}">
+												<i class='icon-user'></i></a>
+											<a STYLE='margin:1px;' href='{{ path('perfil_edit', {'perfilId': entity.id }) }}' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'ver.detalles'|trans({}, 'label') }}">
+												<i class='icon-zoom-in'></i></a>
+											<a STYLE='margin:1px;' href='{{ path('perfil_edit', {'perfilId': entity.id }) }}' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'editar'|trans({}, 'label') }}">
+												<i class='icon-pencil'></i></a>
+											{% if filtro == 3 and entity.usuarioRolEstado == 1 %}
+												|<a STYLE='margin:1px;' class="btn btn-success btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'validar.mentor'|trans({}, 'label') }}">
+													<i class='icon-ok'></i></a>
+											{% elseif filtro == 3 and entity.usuarioRolEstado == 2 %}
+												|<a STYLE='margin:1px;' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'no.validar.mentor'|trans({}, 'label') }}">
+													<i class='icon-remove'></i></a>
+											{% endif %}											
+										</div>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<div class="panel-body" STYLE='text-align:center;'>
+						{% trans from "label" %}no.tiene.ningun.estudiante{% endtrans %}
+					</div>
+				{% endif %}
+
+        <ul>
+        <li>
+            <a href="{{ path('admin_usuarios_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
+{% endblock script%}

@@ -1,0 +1,116 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Usuarios</h1>
+
+    <table class="record_properties">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ entity.id }}</td>
+            </tr>
+            <tr>
+                <th>Usuarionombre</th>
+                <td>{{ entity.usuarioNombre }}</td>
+            </tr>
+            <tr>
+                <th>Usuarioapellido</th>
+                <td>{{ entity.usuarioApellido }}</td>
+            </tr>
+            <tr>
+                <th>Usuarioemail</th>
+                <td>{{ entity.usuarioEmail }}</td>
+            </tr>
+            <tr>
+                <th>Usuariopassword</th>
+                <td>{{ entity.usuarioPassword }}</td>
+            </tr>
+            <tr>
+                <th>Usuariohash</th>
+                <td>{{ entity.usuarioHash }}</td>
+            </tr>
+            <tr>
+                <th>Usuarioestado</th>
+                <td>{{ entity.usuarioEstado }}</td>
+            </tr>
+            <tr>
+                <th>Usuariorolestado</th>
+                <td>{{ entity.usuarioRolEstado }}</td>
+            </tr>
+            <tr>
+                <th>Usuariofacebookid</th>
+                <td>{{ entity.usuarioFacebookid }}</td>
+            </tr>
+            <tr>
+                <th>Usuariofechanacimiento</th>
+                <td>{{ entity.usuarioFechaNacimiento|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Usuariogenero</th>
+                <td>{{ entity.usuarioGenero }}</td>
+            </tr>
+            <tr>
+                <th>Usuarioimagen</th>
+                <td>{{ entity.usuarioImagen }}</td>
+            </tr>
+            <tr>
+                <th>Usuariotarjetaprofesional</th>
+                <td>{{ entity.usuarioTarjetaProfesional }}</td>
+            </tr>
+            <tr>
+                <th>Usuariohojavida</th>
+                <td>{{ entity.usuarioHojaVida }}</td>
+            </tr>
+            <tr>
+                <th>Usuarioprofesion</th>
+                <td>{{ entity.usuarioProfesion }}</td>
+            </tr>
+            <tr>
+                <th>Usuariopuntos</th>
+                <td>{{ entity.usuarioPuntos }}</td>
+            </tr>
+            <tr>
+                <th>Usuarioperfilprofesional</th>
+                <td>{{ entity.usuarioPerfilProfesional }}</td>
+            </tr>
+            <tr>
+                <th>Usuariovalormentoria</th>
+                <td>{{ entity.usuarioValorMentoria }}</td>
+            </tr>
+            <tr>
+                <th>Usuariocursoactual</th>
+                <td>{{ entity.usuarioCursoActual }}</td>
+            </tr>
+            <tr>
+                <th>Usuariofechaplaneacion</th>
+                <td>{{ entity.usuarioFechaPlaneacion|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Modified</th>
+                <td>{{ entity.modified|date('Y-m-d H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Synclinkedin</th>
+                <td>{{ entity.syncLinkedin|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('admin_usuarios') }}">
+            Back to the list
+        </a>
+    </li>
+    <li>
+        <a href="{{ path('admin_usuarios_edit', { 'id': entity.id }) }}">
+            Edit
+        </a>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
+{% endblock %}

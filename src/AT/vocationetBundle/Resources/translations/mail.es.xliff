@@ -76,7 +76,24 @@
                 <source>el.mentor.acaba.de.subir.el.informe.de.mercado.laboral</source>
                 <target>El mentor ha subido el informe de mercado laboral</target>
 			</trans-unit>
-
+			
+			<!-- SOLICITUD DE AMISTAD solamistad-x -->
+			<trans-unit id="solamistad-1">
+                <source>nueva.solicitud.de.amistad</source>
+                <target>Solicitud de amistad</target>
+			</trans-unit>
+			<trans-unit id="solamistad-2">
+                <source>%nombre%.te.ha.envia.una.solicitud.de.amistad</source>
+                <target>%nombre% te ha enviado una solicitud de amistad</target>
+			</trans-unit>
+			<trans-unit id="solamistad-3">
+                <source>solicitud.de.amistad.aprobada</source>
+                <target>Solicitu de amistad aprobada</target>
+			</trans-unit>
+			<trans-unit id="solamistad-4">
+                <source>%nombre%.acepto.la.solicitud.de.amistad</source>
+                <target>%nombre% aceptó la solicitud de amistad</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>
