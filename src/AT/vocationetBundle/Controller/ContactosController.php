@@ -287,6 +287,70 @@ class ContactosController extends Controller
             'selectMentor' => $seleccionarMentor,
         );
 	}
+	
+	/**
+     * Seleccion de mentor expertos con formulario de busqueda detallada
+     * 
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @Route("/red_mentores", name="red_mentores")
+	 * @Template("vocationetBundle:Contactos:RedMentores.html.twig")
+     * @Method({"GET", "POST"})
+     * @param Request $request Request enviado con busqueda avanzada
+     * @return Render vista renderizada con filtro aplicado
+	 */
+    public function RedMentoresAction(Request $request)
+    {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+
+		$usuarioId = $security->getSessionValue('id');
+        
+        $pr = $this->get('perfil');
+        //$autoCompletarTitulos = $pr->getTitulos();
+        //$autoCompletarUniversidades = $pr->getUniversidades();
+        $autoCompletarTitulos = false;
+        $autoCompletarUniversidades = false;
+        
+        $formData = Array('tipoUsuario' => 2, 'universidad'=>null, 'profesion'=>null);
+        $form = $this->formBusqueda($formData, true);
+
+        $seleccionarMentor = $pr->confirmarMentorOrientacionVocacional($usuarioId);
+
+        //if (!$seleccionarMentor) {
+			if ($request->getMethod() == "POST") {
+				$form->bind($request);
+				if ($form->isvalid())
+				{
+					$formData = $form->getData();
+					$contactos = $this->getBusquedaDetallada($usuarioId, $formData);
+				} else {
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ingreso.invalido")));
+					$contactos = false;
+				}
+			}
+			else {
+				$contactos = $this->getBusquedaDetallada($usuarioId, $formData);
+			}
+		//} else {
+			//$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("mensaje.agendar.mentoria")));
+			//return $this->redirect($this->generateUrl('agenda_estudiante'));
+			//$contactos = $this->getBusquedaDetallada($usuarioId, $formData, $seleccionarMentor['id']);
+		//}
+		
+		$formulario = $this->get('formularios')->getInfoFormulario(12);
+
+        return array(
+			'formulario_info' => $formulario,
+            'contactos' => $contactos, 
+            'form' => $form->createView(),
+            'acTitulo' => $autoCompletarTitulos,
+            'acUnivers' => $autoCompletarUniversidades,
+            'formDT' => $formData,
+            'selectMentor' => $seleccionarMentor,
+        );
+	}
 
 
 
@@ -457,9 +521,9 @@ class ContactosController extends Controller
 		 * WHERE u.id != 7
 		 * GROUP BY u.id, est.id, ae.id;
         */
-        $dql = "SELECT u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen,
+        $dql = "SELECT u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, 
 						rol.id as rolId, rol.nombre AS rolNombre, u.usuarioRolEstado,
-						u.usuarioProfesion, u.usuarioPuntos,
+						u.usuarioProfesion, u.usuarioPuntos, u.usuarioValorMentoria,
 						c.nombre AS nombreColegio, u.usuarioCursoActual,
 						est.nombreInstitucion, est.titulo,
 						r.estado, r.id AS relacionId,
@@ -501,6 +565,7 @@ class ContactosController extends Controller
 						'relacionId' => $cont['relacionId'],
 						'usuarioPuntos' => $cont['usuarioPuntos'],
                         'relacionExistente' => $cont['relacionExistente'],
+                        'usuarioValorMentoria' => $cont['usuarioValorMentoria'],
                         'cantidadMentorias' => $cont['cantidadMentorias']);
                     if ($cont['nombreInstitucion']) {
                         $arrContactos[$cont['id']]['estudios'][] = Array(
