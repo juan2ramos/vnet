@@ -22,42 +22,25 @@ class Ordenes
     private $id;
 
     /**
-     * @var integer
+     * @var float
      *
-     * @ORM\Column(name="cantidad", type="integer", nullable=true)
-     */
-    private $cantidad;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="valor_total", type="integer", nullable=true)
+     * @ORM\Column(name="valor_total", type="float", nullable=false)
      */
     private $valorTotal;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=true)
+     * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=false)
      */
     private $fechaHoraCompra;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="estado", type="integer", nullable=true)
+     * @ORM\Column(name="estado", type="integer", nullable=false)
      */
     private $estado;
-
-    /**
-     * @var \Productos
-     *
-     * @ORM\ManyToOne(targetEntity="Productos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
-     * })
-     */
-    private $producto;
 
     /**
      * @var \Usuarios
@@ -68,16 +51,6 @@ class Ordenes
      * })
      */
     private $usuario;
-
-    /**
-     * @var \Mentorias
-     *
-     * @ORM\ManyToOne(targetEntity="Mentorias")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mentoria_id", referencedColumnName="id")
-     * })
-     */
-    private $mentoria;
 
 
 
@@ -92,32 +65,9 @@ class Ordenes
     }
 
     /**
-     * Set cantidad
-     *
-     * @param integer $cantidad
-     * @return Ordenes
-     */
-    public function setCantidad($cantidad)
-    {
-        $this->cantidad = $cantidad;
-    
-        return $this;
-    }
-
-    /**
-     * Get cantidad
-     *
-     * @return integer 
-     */
-    public function getCantidad()
-    {
-        return $this->cantidad;
-    }
-
-    /**
      * Set valorTotal
      *
-     * @param integer $valorTotal
+     * @param float $valorTotal
      * @return Ordenes
      */
     public function setValorTotal($valorTotal)
@@ -130,7 +80,7 @@ class Ordenes
     /**
      * Get valorTotal
      *
-     * @return integer 
+     * @return float 
      */
     public function getValorTotal()
     {
@@ -184,29 +134,6 @@ class Ordenes
     }
 
     /**
-     * Set producto
-     *
-     * @param \AT\vocationetBundle\Entity\Productos $producto
-     * @return Ordenes
-     */
-    public function setProducto(\AT\vocationetBundle\Entity\Productos $producto = null)
-    {
-        $this->producto = $producto;
-    
-        return $this;
-    }
-
-    /**
-     * Get producto
-     *
-     * @return \AT\vocationetBundle\Entity\Productos 
-     */
-    public function getProducto()
-    {
-        return $this->producto;
-    }
-
-    /**
      * Set usuario
      *
      * @param \AT\vocationetBundle\Entity\Usuarios $usuario
@@ -227,28 +154,5 @@ class Ordenes
     public function getUsuario()
     {
         return $this->usuario;
-    }
-
-    /**
-     * Set mentoria
-     *
-     * @param \AT\vocationetBundle\Entity\Mentorias $mentoria
-     * @return Ordenes
-     */
-    public function setMentoria(\AT\vocationetBundle\Entity\Mentorias $mentoria = null)
-    {
-        $this->mentoria = $mentoria;
-    
-        return $this;
-    }
-
-    /**
-     * Get mentoria
-     *
-     * @return \AT\vocationetBundle\Entity\Mentorias 
-     */
-    public function getMentoria()
-    {
-        return $this->mentoria;
     }
 }

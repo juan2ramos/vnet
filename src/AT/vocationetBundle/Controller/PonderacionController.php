@@ -49,10 +49,18 @@ class PonderacionController extends Controller
             )); 
         }
         
+		$alternativasEstudio = $perfil_serv->getAlternativasEstudio($usuarioId);
+        
+        // Validar que ya tenga alternativas de estudio
+        if(count($alternativasEstudio) == 0)
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.alternativas.estudio")));
+			return $this->redirect($this->generateUrl('mercado_laboral'));
+        }
+        
         $formulario = $formularios_serv->getInfoFormulario($form_id);
         $formularios = $formularios_serv->getFormulario($form_id);
         
-		$alternativasEstudio = $perfil_serv->getAlternativasEstudio($usuarioId);
         $form = $this->createFormCuestionario();
         
         return array(

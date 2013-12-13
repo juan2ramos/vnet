@@ -39,6 +39,14 @@ class Evaluacion360Controller extends Controller
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
         $usuarioId = $security->getSessionValue("id");
         
+        // Validar si ya selecciono mentor ov
+        $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
+        if(!$seleccionarMentor) {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
+			return $this->redirect($this->generateUrl('lista_mentores_ov'));
+		}
+        
+        
         $form = $this->createFormBuilder()
             ->add('emails', 'text', array('required' => true))
             ->getForm();

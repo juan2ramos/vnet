@@ -476,7 +476,7 @@ CREATE TABLE IF NOT EXISTS `productos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(155) NULL,
   `descripcion` TEXT NULL,
-  `valor` INT NULL,
+  `valor` FLOAT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -486,30 +486,15 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ordenes` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `producto_id` INT NULL,
-  `mentoria_id` INT NULL,
-  `cantidad` INT(2) NULL DEFAULT 0,
-  `valor_total` INT NULL,
-  `fecha_hora_compra` DATETIME NULL,
-  `usuario_id` INT NULL,
-  `estado` INT(2) NULL,
+  `valor_total` FLOAT NOT NULL,
+  `fecha_hora_compra` DATETIME NOT NULL,
+  `usuario_id` INT NOT NULL,
+  `estado` INT(2) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
-  INDEX `fk_ordenes_1_idx` (`producto_id` ASC),
   INDEX `fk_ordenes_2_idx` (`usuario_id` ASC),
-  INDEX `fk_ordenes_3_idx` (`mentoria_id` ASC),
-  CONSTRAINT `fk_ordenes_1`
-    FOREIGN KEY (`producto_id`)
-    REFERENCES `productos` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
   CONSTRAINT `fk_ordenes_2`
     FOREIGN KEY (`usuario_id`)
     REFERENCES `usuarios` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ordenes_3`
-    FOREIGN KEY (`mentoria_id`)
-    REFERENCES `mentorias` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -555,8 +540,8 @@ CREATE TABLE IF NOT EXISTS `preguntas` (
   `preguntastipo_id` INT NULL,
   `formulario_id` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_pregunta_2` (`preguntastipo_id` ASC),
-  INDEX `fk_preguntas_1` (`formulario_id` ASC),
+  INDEX `fk_pregunta_2_idx` (`preguntastipo_id` ASC),
+  INDEX `fk_preguntas_1_idx` (`formulario_id` ASC),
   CONSTRAINT `fk_pregunta_2`
     FOREIGN KEY (`preguntastipo_id`)
     REFERENCES `preguntas_tipos` (`id`)
@@ -578,8 +563,8 @@ CREATE TABLE IF NOT EXISTS `permisos_productos` (
   `permiso_id` INT NULL,
   `producto_id` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_permisos_productos_1` (`permiso_id` ASC),
-  INDEX `fk_permisos_productos_2` (`producto_id` ASC),
+  INDEX `fk_permisos_productos_1_idx` (`permiso_id` ASC),
+  INDEX `fk_permisos_productos_2_idx` (`producto_id` ASC),
   CONSTRAINT `fk_permisos_productos_1`
     FOREIGN KEY (`permiso_id`)
     REFERENCES `permisos` (`id`)
@@ -603,7 +588,7 @@ CREATE TABLE IF NOT EXISTS `opciones` (
   `peso` INT NULL,
   `factor` INT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_opciones_1` (`pregunta_id` ASC),
+  INDEX `fk_opciones_1_idx` (`pregunta_id` ASC),
   CONSTRAINT `fk_opciones_1`
     FOREIGN KEY (`pregunta_id`)
     REFERENCES `preguntas` (`id`)
@@ -731,6 +716,38 @@ CREATE TABLE IF NOT EXISTS `respuestas_adicionales` (
   CONSTRAINT `fk_respuestas_adicionales_participaciones1`
     FOREIGN KEY (`participacion_id`)
     REFERENCES `participaciones` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `ordenes_productos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ordenes_productos` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `producto_id` INT NULL,
+  `mentoria_id` INT NULL,
+  `orden_id` INT NOT NULL,
+  `cantidad` INT NOT NULL,
+  `valor` FLOAT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_ordenes_productos_productos1_idx` (`producto_id` ASC),
+  INDEX `fk_ordenes_productos_ordenes1_idx` (`orden_id` ASC),
+  INDEX `fk_ordenes_productos_mentorias1_idx` (`mentoria_id` ASC),
+  CONSTRAINT `fk_ordenes_productos_productos1`
+    FOREIGN KEY (`producto_id`)
+    REFERENCES `productos` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ordenes_productos_ordenes1`
+    FOREIGN KEY (`orden_id`)
+    REFERENCES `ordenes` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ordenes_productos_mentorias1`
+    FOREIGN KEY (`mentoria_id`)
+    REFERENCES `mentorias` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

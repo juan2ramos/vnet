@@ -577,6 +577,10 @@
                 <source>%carrera%.alternativa.mas.opcionada</source>
                 <target>Según los valores que diste a cada una de las preguntas la alternativa de estudio más opcionada para ti es %carrera%</target>
 			</trans-unit>
+			<trans-unit id="pond-4">
+                <source>no.ha.seleccionado.alternativas.estudio</source>
+                <target>No ha seleccionado alternativas de estudio</target>
+			</trans-unit>
             
             
         </body>

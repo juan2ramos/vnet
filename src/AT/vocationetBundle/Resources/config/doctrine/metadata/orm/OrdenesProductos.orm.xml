@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="OrdenesProductos" table="ordenes_productos">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="cantidad" type="integer" column="cantidad" nullable="false"/>
+    <field name="valor" type="float" column="valor" nullable="false"/>
+    <many-to-one field="mentoria" target-entity="Mentorias">
+      <join-columns>
+        <join-column name="mentoria_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="orden" target-entity="Ordenes">
+      <join-columns>
+        <join-column name="orden_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="producto" target-entity="Productos">
+      <join-columns>
+        <join-column name="producto_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>
