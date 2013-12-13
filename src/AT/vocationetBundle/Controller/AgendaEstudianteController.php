@@ -75,7 +75,7 @@ class AgendaEstudianteController extends Controller
                 WHERE
                     (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
                     AND u.id != :usuarioId
-                    AND r.tipo = 2
+                    AND (r.tipo = 2 OR r.tipo = 3)
                     AND r.estado = 1
                     AND (m.usuarioEstudiante = :usuarioId OR m.usuarioEstudiante IS NULL)
         ";
@@ -111,10 +111,12 @@ class AgendaEstudianteController extends Controller
                     m.usuarioEstudiante estudianteId,
                     u.usuarioNombre,
                     u.usuarioApellido,
-                    u.usuarioImagen
+                    u.usuarioImagen,
+                    r.descripcion rolNombre
                 FROM 
                     vocationetBundle:Mentorias m
                     LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
+                    LEFT JOIN vocationetBundle:Roles r WITH u.rol = r.id
                 WHERE
                     m.id = :mentoriaId";
         
@@ -151,11 +153,44 @@ class AgendaEstudianteController extends Controller
         if(!$this->getRequest()->isXmlHttpRequest() || $this->getRequest()->getMethod() != 'POST') throw $this->createNotFoundException();
         
         $usuarioId = $security->getSessionValue('id');
+        $em = $this->getDoctrine()->getManager();
+        
+        // Verificar tipo de mentor para verificar pago
+        $dql = "SELECT u.rol FROM vocationetBundle:Mentorias m
+                JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
+                WHERE m.id = :mentoriaId";  
+        $query = $em->createQuery($dql);
+        $query->setParameter('mentoriaId', $id);
+        $query->setMaxResults(1);
+        $mentorRol = $query->getResult();
+        if($mentorRol)
+        {
+            $mentorRol = $mentorRol[0];
+        }
+        
+        if($mentorRol == 2) // Mentor experto
+        {
+            $productoId = 3;
+        }
+        elseif($mentorRol == 3) // Mentor de orientacion vocacional
+        {
+            $productoId = 4;
+        }
+        
+        // Validar pago de producto individual
+        $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId);
+        
+        
+        /* Pendiente: 
+         * controlar si no tiene el pago individual
+         * Validar el pago para el paquete completo
+         * controlar si no tiene ningun pago
+         */
+        
         
         $dql = "UPDATE vocationetBundle:Mentorias m 
                 SET m.usuarioEstudiante = :usuarioId
                 WHERE m.id = :mentoriaId";
-        $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $query->setParameter('mentoriaId', $id);
