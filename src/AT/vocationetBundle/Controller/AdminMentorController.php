@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Controlador de Administración por parte del mentor
  * @package vocationetBundle
- * @Route("/adminMentor")
+ * @Route("/adminmentor")
  * @author Camilo Quijano <camilo@altactic.com>
  * @version 1
  */
@@ -22,7 +22,7 @@ class AdminMentorController extends Controller
     /**
      * Listado de usuarios que han seleccionado al usuario logeado como mentor de Orientacion Vocacional
      * 
-     * @Route("/usuariosMentor", name="lista_usuarios_mentor")
+     * @Route("/usuariosmentor", name="lista_usuarios_mentor")
      * @Template("vocationetBundle:AdminMentor:UsuariosMentorVocacional.html.twig")
      * @Method("GET")
      * @return Response

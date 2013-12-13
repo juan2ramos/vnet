@@ -196,9 +196,10 @@ class FormulariosService
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
      * @param integer $usuarioEvaluadoId id de usuario evaluado en el caso de evaluacion 360
      * @param array $adicionales arreglo con respuestas a preguntas no registradas
+     * @param integer $carreraId id de carrera se usa unicamente para formulario de ponderacion
      * @return array arreglo con resultados del procesamiento
      */
-    public function procesarFormulario($id, $usuarioId, $respuestas, $usuarioEvaluadoId = false, $adicionales = false)
+    public function procesarFormulario($id, $usuarioId, $respuestas, $usuarioEvaluadoId = false, $adicionales = false, $carreraId = false)
     {
         $preguntas = $this->getListPreguntas($id);
         $validate = $this->validateFormulario($preguntas, $respuestas);
@@ -206,7 +207,7 @@ class FormulariosService
         
         if($validate)
         {
-            $puntaje = $this->registrarRespuestas($id, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId, $adicionales);
+            $puntaje = $this->registrarRespuestas($id, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId, $adicionales, $carreraId);
             
         }
         return array(
@@ -408,9 +409,10 @@ class FormulariosService
      * @param array $respuestas arreglo de respuestas recibido del formulario enviado
      * @param integer $usuarioEvaluadoId id de usuario evaluado en el caso de evaluacion 360
      * @param array $adicionales arreglo con respuestas a preguntas no registradas
+     * @param integer $carreraId id de carrera se usa unicamente para formulario de ponderacion
      * @return integer puntuacion de las respuestas
      */
-    private function registrarRespuestas($formId, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId = false, $adicionales = false)
+    private function registrarRespuestas($formId, $usuarioId, $preguntas, $respuestas, $usuarioEvaluadoId = false, $adicionales = false, $carreraId = false)
     {        
         // Registrar participacion        
         if($formId == $this->getFormId('evaluacion360'))
@@ -433,7 +435,12 @@ class FormulariosService
             $participacion->setFecha(new \DateTime());
             $participacion->setUsuarioParticipa($usuarioId);
             $participacion->setUsuarioEvaluado($usuarioId);
-            $participacion->setEstado(1);            
+            $participacion->setEstado(1);
+            if($carreraId)
+            {
+                $participacion->setCarrera($carreraId);
+            }            
+            
             $this->em->persist($participacion);
         }
         
@@ -589,12 +596,14 @@ class FormulariosService
                     f.id formularioId,
                     p.id preguntaId,
                     r.respuestaNumerica,
-                    r.respuestaTexto
+                    r.respuestaTexto,
+                    c.nombre carreraNombre
                 FROM 
                     vocationetBundle:Respuestas r
                     JOIN vocationetBundle:Preguntas p WITH r.pregunta = p.id
                     JOIN vocationetBundle:Formularios f WITH p.formulario = f.id
                     JOIN vocationetBundle:Participaciones par WITH r.participacion = par.id
+                    LEFT JOIN vocationetBundle:Carreras c WITH par.carrera = c.id
                 WHERE
                     f.formulario = :formId
                     AND par.usuarioEvaluado = :usuarioEvaluadoId
@@ -646,8 +655,14 @@ class FormulariosService
                 }
             }
             
-            
-            $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['respuestas'][] = $respuesta;
+            if($formId == $this->getFormId('ponderacion'))
+            {
+                $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['respuestas'][] = array('valor' => $respuesta, 'carrera' => $r['carreraNombre']);
+            }
+            else
+            {
+                $formularios[$r['formularioId']]['preguntas'][$r['preguntaId']]['respuestas'][] = $respuesta;                
+            }
         }
         
         

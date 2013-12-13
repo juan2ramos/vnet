@@ -1147,6 +1147,18 @@
                 <source>usuarios</source>
                 <target>Usuarios</target>
 			</trans-unit>
+			<trans-unit id="adminov-9">
+                <source>resultados.evaluacion.360</source>
+                <target>Resultados de evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="adminov-10">
+                <source>resultados.diseno.vida</source>
+                <target>Resultados de diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="adminov-11">
+                <source>resultados.ponderacion</source>
+                <target>Resultados de ponderación</target>
+			</trans-unit>
            
             <!-- diseño de vida dvida-x -->
 			<trans-unit id="dvida-1">
@@ -1355,6 +1367,15 @@
                 <source>ponderacion</source>
                 <target>Ponderación</target>
 			</trans-unit>
+			<trans-unit id="pond-2">
+                <source>puntaje</source>
+                <target>Puntaje</target>
+			</trans-unit>
+			<trans-unit id="pond-3">
+                <source>puntajes</source>
+                <target>Puntajes</target>
+			</trans-unit>
+
 			
 			<!-- ADMIN USUARIOS adminUsers-x -->
 			<trans-unit id="adminUsers-1">
@@ -1404,6 +1425,97 @@
 			<trans-unit id="adminUsers-12">
                 <source>fecha.modificacion</source>
                 <target>Fecha última modificación</target>
+			</trans-unit>
+		
+            
+            <!-- pagos pago-x-->
+			<trans-unit id="pago-1">
+                <source>red.social</source>
+                <target>Red social</target>
+			</trans-unit>
+			<trans-unit id="pago-2">
+                <source>tiene.acceso.gratuito.a</source>
+                <target>Tienes acceso gratuito a</target>
+			</trans-unit>
+			<trans-unit id="pago-3">
+                <source>red.social.detalle</source>
+                <target>mensajes, foros, nuevos amigos, información, entre otros</target>
+			</trans-unit>
+			<trans-unit id="pago-4">
+                <source>ponderacion.consciente</source>
+                <target>Ponderación consciente</target>
+			</trans-unit>
+			<trans-unit id="pago-5">
+                <source>programa.orientacion</source>
+                <target>Programa de orientación</target>
+			</trans-unit>
+			<trans-unit id="pago-6">
+                <source>programa.completo.para.decision.consciente</source>
+                <target>Programa completo para la toma de una decisión consciente</target>
+			</trans-unit>
+			<trans-unit id="pago-7">
+                <source>acompanamiento.experto.todo.programa</source>
+                <target>Acompañamiento de un experto todo el programa</target>
+			</trans-unit>
+			<trans-unit id="pago-8">
+                <source>test.orientacion.vocacional</source>
+                <target>Test de Orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="pago-9">
+                <source>evaluacion.360.encuestas.ilimitadas</source>
+                <target>Evaluación 360 grados (encuestas ilimitadas)</target>
+			</trans-unit>
+			<trans-unit id="pago-10">
+                <source>taller.diseno.vida</source>
+                <target>Taller de diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="pago-11">
+                <source>informe.mercado.laboral.altertativas.estudio</source>
+                <target>Informe de mercado laboral (para 3 alternativas de estudio)</target>
+			</trans-unit>
+			<trans-unit id="pago-12">
+                <source>descuento.mentorias</source>
+                <target>Descuento del 5% en todas las Mentorías que selecciones. Las mentorías tienen un valor individual fijado por cada mentor</target>
+			</trans-unit>
+			<trans-unit id="pago-13">
+                <source>gratis</source>
+                <target>Gratis</target>
+			</trans-unit>
+			<trans-unit id="pago-14">
+                <source>informe.mercado.laboral</source>
+                <target>Informe de mercado laboral</target>
+			</trans-unit>
+			<trans-unit id="pago-15">
+                <source>mentorias.red.profesionales</source>
+                <target>Mentorías con red de profesionales</target>
+			</trans-unit>
+			<trans-unit id="pago-16">
+                <source>mentorias.orientacion.vocacional</source>
+                <target>Mentoría con experto en orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="pago-17">
+                <source>programa.informativo</source>
+                <target>Programa informativo</target>
+			</trans-unit>
+			<trans-unit id="pago-18">
+                <source>pago.por.prueba</source>
+                <target>Pago por prueba</target>
+			</trans-unit>
+			<trans-unit id="pago-19">
+                <source>selecciona.pruebas.precio</source>
+                <target>Tu seleccionas que pruebas hacer y cada prueba tendrá su precio</target>
+			</trans-unit>
+			<trans-unit id="pago-20">
+                <source>detalle.programa.informativo</source>
+                <target>Este programa es informativo, por lo tanto no tienes acceso a todas las pruebas. Esto se debe a que en el programa de orientación estas acompañado por un experto todo el tiempo quien te ayuda a interpretar dichas pruebas</target>
+			</trans-unit>
+			<trans-unit id="pago-21">
+                <source>comprar</source>
+                <target>Comprar</target>
+			</trans-unit>
+			<trans-unit id="pago-22">
+                <source>segun.mentor</source>
+                <target>Según mentor</target>
 			</trans-unit>
         </body>
     </file>

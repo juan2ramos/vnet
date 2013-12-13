@@ -6,7 +6,8 @@ var Cuestionario = (function(settings) {
         touchSpin_min: 1,
         touchSpin_max: 3,
         stepy: true,
-        stepy_titleClick: false
+        stepy_titleClick: false,
+        stepy_back_button: false
     }, settings);
     
     $(".slider-number-container .slider-value").val(settings.slider_min);
@@ -91,7 +92,11 @@ var Cuestionario = (function(settings) {
     
     $("fieldset").removeAttr('title');
     
-    $(".button-back").hide();
+    
+    if(settings.stepy_back_button === false){
+        $(".button-back").hide();        
+    }
+    
     
     
 });

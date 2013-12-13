@@ -39,6 +39,14 @@ class Evaluacion360Controller extends Controller
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
         $usuarioId = $security->getSessionValue("id");
         
+        // Validar si ya selecciono mentor ov
+        $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
+        if(!$seleccionarMentor) {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
+			return $this->redirect($this->generateUrl('lista_mentores_ov'));
+		}
+        
+        
         $form = $this->createFormBuilder()
             ->add('emails', 'text', array('required' => true))
             ->getForm();
@@ -427,7 +435,7 @@ class Evaluacion360Controller extends Controller
             // Enviar mensaje
             
             $subject = $this->get('translator')->trans("evaluacion.360.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail');
-            $link = '<a href="'. $this->get('request')->getSchemeAndHttpHost().$this->generateUrl('perfil', array('perfilId' => $usuarioEvaluadoId)) .'" >'.$this->get('translator')->trans("ver.perfil", array(), 'label').'</a><br/><br/>';
+            $link = '<a href="'. $this->get('request')->getSchemeAndHttpHost().$this->generateUrl('evaluacion360_resultados', array('id' => $usuarioEvaluadoId)) .'" >'.$this->get('translator')->trans("resultados.evaluacion.360", array(), 'label').'</a><br/><br/>';
             $body = $this->get('translator')->trans("mensaje.evaluacion.360.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail')
                     ."<br/><br/>".$link."";
             

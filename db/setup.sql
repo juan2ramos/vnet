@@ -26,6 +26,8 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (19, 'acceso_diseno_vida', 'Diseño de vida', 'Diseño de vida', 'diseno_vida,procesar_disenovida'),
 (20, 'acceso_respuestas_diseno_vida', 'Acceso a ver resultados de diseño de vida', 'Acceso a ver resultados de diseño de vida', 'disenovida_resultados'),
 (21, 'acceso_admin_usuarios', 'Acceso a admin usuarios', 'Acceso a admin usuarios', 'admin_usuarios_e,admin_usuarios_me,admin_usuarios_e,admin_usuarios_mov,admin_usuarios_admin,admin_usuarios_show,edit_estado_rol_mentor');
+(22, 'acceso_ponderacion', 'Ponderación', 'Ponderación', 'ponderacion,procesar_ponderacion'),
+(23, 'acceso_respuestas_ponderacion', 'Acceso a ver resultados de ponderación', 'Acceso a ver resultados de ponderación', 'ponderacion_resultados');
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 
 ('1', '1'),
@@ -77,6 +79,13 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('20', '3'),
 ('20', '4'),
 ('21', '4');
+('22', '1'),
+('22', '2'),
+('22', '3'),
+('22', '4'),
+('23', '2'),
+('23', '3'),
+('23', '4');
 
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
 (1, 'selección múltiple con única respuesta'),
@@ -87,3 +96,8 @@ INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES
 (6, 'porcentual'),
 (7, 'slider'),
 (8, 'abierta');
+
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('1', 'Programa de orientación', 'Programa completo para la toma de una decisión consciente', '100000');
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('2', 'Informe de mercado laboral', 'Acceso individual al informe de mercado laboral', '20000');
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('3', 'Mentoría con profesional', 'Una mentoría con mentor profesional', '0');
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('4', 'Mentoría con experto en orientación vocacional', 'una mentoría con experto en orientación vocacional', '30000');
