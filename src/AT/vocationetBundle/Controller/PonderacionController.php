@@ -127,6 +127,9 @@ class PonderacionController extends Controller
                 
                 $carreras = $this->orderMultiDimensionalArray($carreras, 'puntaje', true);
                 
+                // Enviar notificacion al mentor
+                $this->enviarNotificacionMentor($usuarioId);
+                
                 return array(
                     'carrera' => $carreras[0]['nombre'],
                     'mensaje' => $this->get('translator')->trans("%carrera%.alternativa.mas.opcionada", array('%carrera%' => 'test')),
@@ -324,6 +327,32 @@ class PonderacionController extends Controller
         $result = $query->getResult();
         
         return $result;
+    }
+    
+    /**
+     * Funcion que envia un mensaje al mentor cuando se participa en el diseño de vida
+     * 
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     */
+    private function enviarNotificacionMentor($usuarioEvaluadoId)
+    {
+        //Obtener mentor del usuario
+        $mentorId = $this->getMentorId($usuarioEvaluadoId);
+                
+        if($mentorId)
+        {
+            $usuarioNombre = $this->get('security')->getSessionValue('usuarioNombre')." ".$this->get('security')->getSessionValue('usuarioApellido');
+            
+            // Enviar mensaje
+            
+            $subject = $this->get('translator')->trans("ponderacion.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail');
+            $link = '<a href="'. $this->get('request')->getSchemeAndHttpHost().$this->generateUrl('ponderacion_resultados', array('id' => $usuarioEvaluadoId)) .'" >'.$this->get('translator')->trans("resultados.ponderacion", array(), 'label').'</a><br/><br/>';
+            $body = $this->get('translator')->trans("mensaje.ponderacion.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail')
+                    ."<br/><br/>".$link."";
+            
+            $this->get("mensajes")->enviarMensaje($usuarioEvaluadoId, array($mentorId), $subject, $body);        
+        }
+        
     }
 }
 ?>

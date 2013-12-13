@@ -107,6 +107,9 @@ class DisenoVidaController extends Controller
                 
                 if($resultados['validate'])
                 {
+                    // Enviar notificacion al mentor
+                    $this->enviarNotificacionMentor($usuarioId);
+                                        
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("diseno.vida.enviado.ahora.separar.metoria")));
                     return $this->redirect($this->generateUrl('agenda_estudiante'));
                 }
@@ -232,6 +235,34 @@ class DisenoVidaController extends Controller
         
         return $mentorId;
     }
+    
+    /**
+     * Funcion que envia un mensaje al mentor cuando se participa en el diseño de vida
+     * 
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     */
+    private function enviarNotificacionMentor($usuarioEvaluadoId)
+    {
+        //Obtener mentor del usuario
+        $mentorId = $this->getMentorId($usuarioEvaluadoId);
+                
+        if($mentorId)
+        {
+            $usuarioNombre = $this->get('security')->getSessionValue('usuarioNombre')." ".$this->get('security')->getSessionValue('usuarioApellido');
+            
+            // Enviar mensaje
+            
+            $subject = $this->get('translator')->trans("diseno.vida.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail');
+            $link = '<a href="'. $this->get('request')->getSchemeAndHttpHost().$this->generateUrl('disenovida_resultados', array('id' => $usuarioEvaluadoId)) .'" >'.$this->get('translator')->trans("resultados.diseno.vida", array(), 'label').'</a><br/><br/>';
+            $body = $this->get('translator')->trans("mensaje.diseno.vida.de.%usu%.finalizada", array('%usu%' => $usuarioNombre), 'mail')
+                    ."<br/><br/>".$link."";
+            
+            $this->get("mensajes")->enviarMensaje($usuarioEvaluadoId, array($mentorId), $subject, $body);        
+        }
+        
+    }
+    
+    
 }
 
 ?>
