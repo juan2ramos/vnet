@@ -23,6 +23,11 @@
                 <source>esta.seguro.de.eliminar.este.elemento</source>
                 <target>¿Esta seguro de eliminar este elemento?</target>
 			</trans-unit>
+			<trans-unit id="generic-6">
+                <source>error.en.solicitud</source>
+                <target>Error en la solicitud</target>
+			</trans-unit>
+			
                         
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">

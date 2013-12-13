@@ -3,6 +3,7 @@
 namespace AT\vocationetBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -10,263 +11,183 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AT\vocationetBundle\Entity\Usuarios;
 use AT\vocationetBundle\Form\UsuariosType;
 
-/**
- * Usuarios controller.
- *
+ /**
+ * Controlador de Administrador de Usuarios
+ * @package vocationetBundle
  * @Route("/admin/usuarios")
+ * @author Camilo Quijano <camilo@altactic.com>
+ * @version 1
  */
 class UsuariosController extends Controller
 {
-
-    /**
-     * Lists all Usuarios entities.
-     *
-	 * @Template("vocationetBundle:Usuarios:index.html.twig")
-     * @Route("/estudiantes", name="admin_usuarios_e")
+	/**
+     * Listado de usuarios rol estudiante
+     * 
+     * @Template("vocationetBundle:Usuarios:index.html.twig")
+	 * @Route("/estudiantes", name="admin_usuarios_e")
      * @Method("GET")
+     * @return Response
      */
     public function estudiantesAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('vocationetBundle:Usuarios')->findBy(Array('rol' => 1));
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
+        $entities = $this->getUsuarios(1);
         return array('entities' => $entities, 'filtro' => 1 );
     }
-	
+
 	/**
-     * Lists all Usuarios entities.
-     *
-	 * @Template("vocationetBundle:Usuarios:index.html.twig")
-     * @Route("/mentorExpertos", name="admin_usuarios_me")
+     * Listado de usuarios rol mentor experto
+     * 
+     * @Template("vocationetBundle:Usuarios:index.html.twig")
+	 * @Route("/mentorExpertos", name="admin_usuarios_me")
      * @Method("GET")
+     * @return Response
      */
     public function mentoresExpertosAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('vocationetBundle:Usuarios')->findBy(Array('rol' => 2));
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
+		$entities = $this->getUsuarios(2);
         return array('entities' => $entities, 'filtro' => 2 );
     }
 	
 	/**
-     * Lists all Usuarios entities.
-     *
-	 * @Template("vocationetBundle:Usuarios:index.html.twig")
-     * @Route("/mentorVocacional", name="admin_usuarios_mov")
+     * Listado de usuarios rol mentor de orientacion vocacional
+     * 
+     * @Template("vocationetBundle:Usuarios:index.html.twig")
+	 * @Route("/mentorVocacional", name="admin_usuarios_mov")
      * @Method("GET")
+     * @return Response
      */
     public function mentoresOVAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('vocationetBundle:Usuarios')->findBy(Array('rol' => 3));
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+
+		$entities = $this->getUsuarios(3);
         return array('entities' => $entities, 'filtro' => 3);
     }
 	
-    /**
-     * Creates a new Usuarios entity.
-     *
-     * @Route("/", name="admin_usuarios_create")
-     * @Method("POST")
-     * @Template("vocationetBundle:Usuarios:new.html.twig")
+	/**
+     * Listado de usuarios rol mentor de orientacion vocacional
+     * 
+     * @Template("vocationetBundle:Usuarios:index.html.twig")
+	 * @Route("/administrador", name="admin_usuarios_admin")
+     * @Method("GET")
+     * @return Response
      */
-    public function createAction(Request $request)
+    public function administradoresAction()
     {
-        $entity = new Usuarios();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_usuarios_show', array('id' => $entity->getId())));
-        }
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
+        $entities = $this->getUsuarios(4);
+        return array('entities' => $entities, 'filtro' => 4);
     }
 
-    /**
-    * Creates a form to create a Usuarios entity.
-    *
-    * @param Usuarios $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
+	/**
+     * Ver detalles del usuario
+	 *
+     * @param Int $id Id del usuario
+     * @return Render Vista renderizada con detalles del usuario
+     * @Template("vocationetBundle:Usuarios:show.html.twig")
+     * @Route("/{id}/show", name="admin_usuarios_show")
+	 * @Method("GET")
     */
-    private function createCreateForm(Usuarios $entity)
-    {
-        $form = $this->createForm(new UsuariosType(), $entity, array(
-            'action' => $this->generateUrl('admin_usuarios_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new Usuarios entity.
-     *
-     * @Route("/new", name="admin_usuarios_new")
-     * @Method("GET")
-     * @Template()
-     */
-    public function newAction()
-    {
-        $entity = new Usuarios();
-        $form   = $this->createCreateForm($entity);
-
-        return array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        );
-    }
-
-    /**
-     * Finds and displays a Usuarios entity.
-     *
-     * @Route("/{id}", name="admin_usuarios_show")
-     * @Method("GET")
-     * @Template()
-     */
     public function showAction($id)
     {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('vocationetBundle:Usuarios')->find($id);
 
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Usuarios entity.');
-        }
+        if (!$entity) { throw $this->createNotFoundException('Unable to find Usuarios entity.'); }
 
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
-        );
+        return array('entity' => $entity);
     }
-
-    /**
-     * Displays a form to edit an existing Usuarios entity.
+	
+	/**
+     * Habilitar o des-habilitar un usuario mentor de orientacion vocacional por AJAX
      *
-     * @Route("/{id}/edit", name="admin_usuarios_edit")
-     * @Method("GET")
-     * @Template()
+     * @Route("/chstate", name="edit_estado_rol_mentor")
+     * @Method("POST")
+	 * @param Request Id mentor y tipo de accion (1=>Aprobar 0=>Denegar)
+     * @return Response json_encode
      */
-    public function editAction($id)
+    public function EditEstadoRelacionAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
+		$usuario = $request->request->get('m'); // Id del mentor a cambiar estado
+		$tipo = $request->request->get('t'); //Cambio de estado 1=>Aprobar 0=>Denegar
 
-        $entity = $em->getRepository('vocationetBundle:Usuarios')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Usuarios entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-
-    /**
-    * Creates a form to edit a Usuarios entity.
-    *
-    * @param Usuarios $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(Usuarios $entity)
-    {
-        $form = $this->createForm(new UsuariosType(), $entity, array(
-            'action' => $this->generateUrl('admin_usuarios_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing Usuarios entity.
+		$msg = $this->get('translator')->trans("error.en.solicitud", array(), 'messages');
+		$status = 'error';
+		
+		$em = $this->getDoctrine()->getManager();
+		$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($usuario);
+		if ($usuario && ($tipo == 0 || $tipo == 1)) {
+			if ($tipo == 1){
+				// Usuario activo como mentor de orientacion vocacional
+				$usuario->setUsuarioRolEstado(2);
+				$msg = $this->get('translator')->trans('no.validar.mentor', Array(), 'label');
+			} 
+			elseif ($tipo == 0)
+			{
+				// Usuario no activo como mentor de orientacion vocacional
+				$usuario->setUsuarioRolEstado(1);
+				$msg = $this->get('translator')->trans('validar.mentor', Array(), 'label');
+			}
+			$status = 'success';
+			$em->persist($usuario);
+			$em->flush();
+		}
+		
+		return new Response(json_encode(array(
+            'status' => $status,
+			'message' => $msg,
+        )));
+	}
+	
+	/**
+     * Trae usuario que correspondan al rol que ingresa por parametro
+	 * - Caso mentor, retorna ademas de datos del mentor, cantidad de mentorias que ha realizado
      *
-     * @Route("/{id}", name="admin_usuarios_update")
-     * @Method("PUT")
-     * @Template("vocationetBundle:Usuarios:edit.html.twig")
+	 * @param Int $rolId Id del rol
+     * @return Object Usuarios
      */
-    public function updateAction(Request $request, $id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('vocationetBundle:Usuarios')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Usuarios entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('admin_usuarios_edit', array('id' => $id)));
-        }
-
-        return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        );
-    }
-    /**
-     * Deletes a Usuarios entity.
-     *
-     * @Route("/{id}", name="admin_usuarios_delete")
-     * @Method("DELETE")
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('vocationetBundle:Usuarios')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Usuarios entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
-        }
-
-        return $this->redirect($this->generateUrl('admin_usuarios'));
-    }
-
-    /**
-     * Creates a form to delete a Usuarios entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('admin_usuarios_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
-    }
+	private function getUsuarios($rolId)
+	{
+		$em = $this->getDoctrine()->getManager();
+		if($rolId == 2 or $rolId == 3) 
+		{
+			// Si es usuario tipo mentor, retornando cantidad de mentorias por usuario - necesario en calificacion de estrellas
+			$dql = "SELECT COUNT(m.id) as cantidadMentorias, 
+					u.id, u.usuarioImagen, u.usuarioApellido, u.usuarioNombre, u.usuarioEmail, u.usuarioEstado, u.usuarioProfesion, u.usuarioPuntos, u.usuarioValorMentoria,
+					u.usuarioRolEstado
+                FROM vocationetBundle:Usuarios u
+                LEFT JOIN vocationetBundle:Mentorias m WITH (m.usuarioMentor = u.id AND m.mentoriaEstado = 1 AND m.calificacion IS NOT NULL)
+				WHERE u.rol =:rolId
+				GROUP BY u.id";
+			$query = $em->createQuery($dql);
+			$query->setParameter('rolId', $rolId);
+			$entities = $query->getResult();
+		} else 
+		{
+			// Caso estudiante, o administrador
+			$entities = $em->getRepository('vocationetBundle:Usuarios')->findBy(Array('rol' => $rolId));
+		}
+        return $entities;
+	}
 }

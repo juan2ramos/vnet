@@ -99,6 +99,10 @@
                 <source>eiminar</source>
                 <target>Eiminar</target>
 			</trans-unit>
+			<trans-unit id="generico-25">
+                <source>ver.detalles</source>
+                <target>Ver detalles</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
@@ -1350,6 +1354,56 @@
 			<trans-unit id="pond-1">
                 <source>ponderacion</source>
                 <target>Ponderación</target>
+			</trans-unit>
+			
+			<!-- ADMIN USUARIOS adminUsers-x -->
+			<trans-unit id="adminUsers-1">
+                <source>validar.mentor</source>
+                <target>Aprobar como mentor</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-2">
+                <source>no.validar.mentor</source>
+                <target>Desaprobar como mentor</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-3">
+                <source>no.tiene.ningun.estudiante</source>
+                <target>No se han registrado estudiantes</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-4">
+                <source>no.tiene.ningun.mentor_e</source>
+                <target>No hay registrados mentores expertos</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-5">
+                <source>no.tiene.ningun.mentor_ov</source>
+                <target>No hay registrados mentores de orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-6">
+                <source>no.tiene.ningun.administrador</source>
+                <target>No hay registrados administradores</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-7">
+                <source>detalles.usuario</source>
+                <target>Detalles del usuario</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-8">
+                <source>estado.rol</source>
+                <target>Estado del rol</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-9">
+                <source>aprobado</source>
+                <target>Aprobado</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-10">
+                <source>no.aprobado</source>
+                <target>No aprobado</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-11">
+                <source>fecha.ultima.sincronizacion</source>
+                <target>Fecha última sincronización linkedin</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-12">
+                <source>fecha.modificacion</source>
+                <target>Fecha última modificación</target>
 			</trans-unit>
         </body>
     </file>
