@@ -67,7 +67,6 @@
             
 			<section class="panel">
 				<header class="panel-heading">{{ formulario_info.nombre }}</header>
-                {% if selectMentor == false %}
 					<div class="panel-body">
 						{# FORMULARIO DE BUSQUEDA AVANZADA #}
 						<form class="form-inline text-center" role="form" action="{{ path('red_mentores') }}" method='POST' {{ form_enctype(form) }} type="post">
@@ -85,7 +84,6 @@
 						</form>
 					</div>
 					<hr STYLE="margin: 0 0 5px 0;">
-				{% endif %}
                 
                 {% if contactos %}
 					<table class="table table-striped border-top datatable">
@@ -99,9 +97,7 @@
 								<th>{% trans from "label" %}profesion{% endtrans %}</th>
 								<th>{% trans from "label" %}universidad{% endtrans %}</th>
 								<th class='text-center'>{% trans from "label" %}valor.mentoria{% endtrans %}</th>
-								{% if selectMentor == false %}
-									<th>{% trans from "label" %}opciones{% endtrans %}</th>
-								{% endif %}
+								<th>{% trans from "label" %}opciones{% endtrans %}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -137,16 +133,18 @@
 										</div>
 									</td>
 									<td class='text-center'>$ {{ c.usuarioValorMentoria|default(0)|number_format(0, '', '.') }}</td>
-									{% if selectMentor == false %}
-										<td class="text-center">
-											<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
-											<br>
-											<form action="{{ path('seleccionar_mentor') }}" method='POST' {{ form_enctype(form) }} type="post">
-												<input type='hidden' name='mentorOV' value='{{ c.id }}'/>
-												<button type='button' STYLE='margin:2px;width:90%;' data-info='{{ c.usuarioNombre ~ ' ' ~ c.usuarioApellido }}' type="button" class="btn btn-success btn-xs seleccionarMentor">{{ 'seleccionar'|trans({}, 'label') }}</button>
+									<td class="text-center">
+										<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
+										<br>
+										{% if c.seleccionadoMentorExperto == 0 %}
+											<form action="{{ path('seleccionar_mentor_experto') }}" method='POST' {{ form_enctype(form) }} type="post">
+												<input type='hidden' name='mentorE' value='{{ c.id }}'/>
+												<button type='button' STYLE='margin:2px;width:90%;' data-info='{{ c.usuarioNombre ~ ' ' ~ c.usuarioApellido }}' class="btn btn-success btn-xs seleccionarMentor">{{ 'seleccionar'|trans({}, 'label') }}</button>
 											</form>
-										</td>
-									{% endif %}
+										{% else %}
+											<button type='button' STYLE='margin:2px;width:90%;' class="btn btn-default btn-xs">{{ 'mentor.seleccionado'|trans({}, 'label') }}</button>
+										{% endif %}
+									</td>
 								</tr>
 							{% endfor %}
 						</tbody>
@@ -209,7 +207,7 @@
 		// Evento de click del btn seleccionar mentor, que envia el form.
 		$('.table').on('click', '.seleccionarMentor', function(){
 			var nameMentor = $(this).data('info');
-			translateConfirm = '{{ 'confirmacion.mentor.%name%'|trans({'%name%': "nameMentor" }, 'label') }}';
+			translateConfirm = '{{ 'confirmacion.mentor.experto.%name%'|trans({'%name%': "nameMentor" }, 'label') }}';
 			translateConfirm = translateConfirm.replace("nameMentor", nameMentor);
 			if (confirm(translateConfirm)) {
 				$(this).parent().submit();

@@ -164,65 +164,6 @@ class ContactosController extends Controller
 		return new response($renderBtn);
 	}
 
-	/**
-     * Seleccion del mentor de orientación vocacional - POST
-     *
-     * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1
-     * @Route("/select_mentor", name="seleccionar_mentor")
-     * @Method("POST")
-     * @param Request $request Request enviado con ID de mentor seleccionado
-     * @return Redirect
-     */
-    public function seleccionarMentorAction(Request $request)
-    {
-		$security = $this->get('security');
-        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-
-		if($request->getMethod() == 'POST') {
-			$usuarioId = $security->getSessionValue('id');
-			$pr = $this->get('perfil');
-			$seleccionarMentor = $pr->confirmarMentorOrientacionVocacional($usuarioId);
-			if (!$seleccionarMentor) {
-				$mentorOVId = $request->request->get('mentorOV');
-				$em = $this->getDoctrine()->getManager();
-				$usuarioMentor = $em->getRepository('vocationetBundle:Usuarios')->findOneById($mentorOVId);
-				if ($usuarioMentor) {
-					if($usuarioMentor->getRol()->getId() == 3 && $usuarioMentor->getUsuarioRolEstado() == 2) {
-
-						// Relacion creada entre usuario y mentor
-						$user = $em->getRepository('vocationetBundle:Usuarios')->findOneBy(Array('id' => $usuarioId));
-						$newR = new Relaciones();
-						$newR->setUsuario($usuarioMentor);
-						$newR->setUsuario2($user);
-						$newR->setTipo(2);
-						$newR->setCreated(new \DateTime());
-						$newR->setEstado(1);
-						$em->persist($newR);
-						$em->flush();
-				
-						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("ha.seleccionado.mentor.contactese.con.el")));
-						return $this->redirect($this->generateUrl('agenda_estudiante'));
-						
-					} else {
-						// El usuario seleccionado no es Orientador Vocacional o no ha sido aprobado
-						$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("error.en.seleccion.de.mentor")));
-					}
-				} else {
-					//El mentor seleccionado no existe
-					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("error.en.seleccion.de.mentor")));
-				}
-			} else {
-				//El usuario ya habia seleccionado un mentor con anterioridad
-				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("usuario.ya.eligio.mentor")));
-				return $this->redirect($this->generateUrl('agenda_estudiante'));
-			}
-		}
-
-		return $this->redirect($this->generateUrl('lista_mentores_ov'));
-	}
-
     /**
      * Seleccion de mentor de orientación vocacional con formulario de busqueda detallada
      * - Acceso desde TestVocacionalController
@@ -239,7 +180,7 @@ class ContactosController extends Controller
     {
 		$security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
         
@@ -289,6 +230,68 @@ class ContactosController extends Controller
 	}
 	
 	/**
+     * Seleccion del mentor de orientación vocacional - POST
+     *
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @Route("/select_mentor", name="seleccionar_mentor")
+     * @Method("POST")
+     * @param Request $request Request enviado con ID de mentor seleccionado
+     * @return Redirect
+     */
+    public function seleccionarMentorOVAction(Request $request)
+    {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
+		$pr = $this->get('perfil');
+
+		if($request->getMethod() == 'POST') 
+		{
+			$usuarioId = $security->getSessionValue('id');
+			
+			$seleccionarMentor = $pr->confirmarMentorOrientacionVocacional($usuarioId);
+			if (!$seleccionarMentor) {
+				$mentorOVId = $request->request->get('mentorOV');
+				$em = $this->getDoctrine()->getManager();
+				$usuarioMentor = $em->getRepository('vocationetBundle:Usuarios')->findOneById($mentorOVId);
+				if ($usuarioMentor) {
+					if($usuarioMentor->getRol()->getId() == 3 && $usuarioMentor->getUsuarioRolEstado() == 2) {
+
+						// Relacion creada entre usuario y mentor
+						$user = $em->getRepository('vocationetBundle:Usuarios')->findOneBy(Array('id' => $usuarioId));
+						$newR = new Relaciones();
+						$newR->setUsuario($usuarioMentor);
+						$newR->setUsuario2($user);
+						$newR->setTipo(2);
+						$newR->setCreated(new \DateTime());
+						$newR->setEstado(1);
+						$em->persist($newR);
+						$em->flush();
+				
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("ha.seleccionado.mentor.contactese.con.el")));
+						return $this->redirect($this->generateUrl('agenda_estudiante'));
+						
+					} else {
+						// El usuario seleccionado no es Orientador Vocacional o no ha sido aprobado
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("error.en.seleccion.de.mentor")));
+					}
+				} else {
+					//El mentor seleccionado no existe
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("error.en.seleccion.de.mentor")));
+				}
+			} else {
+				//El usuario ya habia seleccionado un mentor con anterioridad
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("usuario.ya.eligio.mentor")));
+				return $this->redirect($this->generateUrl('agenda_estudiante'));
+			}
+		}
+
+		return $this->redirect($this->generateUrl('lista_mentores_ov'));
+	}
+	
+	/**
      * Seleccion de mentor expertos con formulario de busqueda detallada
      * 
      * @author Camilo Quijano <camilo@altactic.com>
@@ -315,43 +318,88 @@ class ContactosController extends Controller
         
         $formData = Array('tipoUsuario' => 2, 'universidad'=>null, 'profesion'=>null);
         $form = $this->formBusqueda($formData, true);
-
-        $seleccionarMentor = $pr->confirmarMentorOrientacionVocacional($usuarioId);
-
-        //if (!$seleccionarMentor) {
-			if ($request->getMethod() == "POST") {
-				$form->bind($request);
-				if ($form->isvalid())
-				{
-					$formData = $form->getData();
-					$contactos = $this->getBusquedaDetallada($usuarioId, $formData);
-				} else {
-					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ingreso.invalido")));
-					$contactos = false;
-				}
-			}
-			else {
-				$contactos = $this->getBusquedaDetallada($usuarioId, $formData);
-			}
-		//} else {
-			//$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("mensaje.agendar.mentoria")));
-			//return $this->redirect($this->generateUrl('agenda_estudiante'));
-			//$contactos = $this->getBusquedaDetallada($usuarioId, $formData, $seleccionarMentor['id']);
-		//}
 		
+		if ($request->getMethod() == "POST") {
+			$form->bind($request);
+			if ($form->isvalid())
+			{
+				$formData = $form->getData();
+				$contactos = $this->getBusquedaDetallada($usuarioId, $formData);
+			} else {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("ingreso.invalido")));
+				$contactos = false;
+			}
+		}
+		else {
+			$contactos = $this->getBusquedaDetallada($usuarioId, $formData);
+		}
+
 		$formulario = $this->get('formularios')->getInfoFormulario(12);
 
         return array(
 			'formulario_info' => $formulario,
-            'contactos' => $contactos, 
+            'contactos' => $contactos,
             'form' => $form->createView(),
             'acTitulo' => $autoCompletarTitulos,
             'acUnivers' => $autoCompletarUniversidades,
             'formDT' => $formData,
-            'selectMentor' => $seleccionarMentor,
         );
 	}
+	
+	/**
+     * Seleccion del mentores expertos - POST
+     *
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @Route("/select_mentor_experto", name="seleccionar_mentor_experto")
+     * @Method("POST")
+     * @param Request $request Request enviado con ID de mentor seleccionado
+     * @return Redirect
+     */
+    public function seleccionarMentorExpertoAction(Request $request)
+    {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		
+		$pr = $this->get('perfil');
 
+		if($request->getMethod() == 'POST') 
+		{
+			$usuarioId = $security->getSessionValue('id');
+
+			$mentorEId = $request->request->get('mentorE');
+			$em = $this->getDoctrine()->getManager();
+			$usuarioMentor = $em->getRepository('vocationetBundle:Usuarios')->findOneById($mentorEId);
+			if ($usuarioMentor) {
+				if($usuarioMentor->getRol()->getId() == 2) {
+
+					// Relacion creada entre usuario y mentor
+					$user = $em->getRepository('vocationetBundle:Usuarios')->findOneBy(Array('id' => $usuarioId));
+					$newR = new Relaciones();
+					$newR->setUsuario($usuarioMentor);
+					$newR->setUsuario2($user);
+					$newR->setTipo(3);
+					$newR->setCreated(new \DateTime());
+					$newR->setEstado(1);
+					$em->persist($newR);
+					$em->flush();
+			
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("ha.seleccionado.mentor.contactese.con.el")));
+					//return $this->redirect($this->generateUrl('agenda_estudiante'));
+					
+				} else {
+					// El usuario seleccionado no es Orientador Vocacional o no ha sido aprobado
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("error.en.seleccion.de.mentor")));
+				}
+			} else {
+				//El mentor seleccionado no existe
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("error.en.seleccion.de.mentor")));
+			}
+		}
+
+		return $this->redirect($this->generateUrl('red_mentores'));
+	}
 
 
     // FUNCIONES Y METODOS
@@ -510,10 +558,12 @@ class ContactosController extends Controller
         }
         $em = $this->getDoctrine()->getManager();
 		/**
-         * SELECT u.id, ae.id, est.id, r.*, SUM(CASE WHEN (r.usuario_id = 7 OR r.usuario2_id = 7) THEN 1 ELSE 0 END) AS relacionExistente,
-		 * 	COUNT(m.id) as cantidadMentorias
+         * SELECT u.id, ae.id, est.id, r.*, COUNT(m.id) as cantidadMentorias,
+		 *  SUM(CASE WHEN (r.usuario_id = 7 OR r.usuario2_id = 7) THEN 1 ELSE 0 END) AS relacionExistente,
+		 *  SUM(DISTINCT CASE WHEN (rm.usuario2_id = 7) THEN 1 ELSE 0 END) AS mentorExpeto
 		 * FROM usuarios u
 		 * LEFT JOIN relaciones r ON (r.usuario_id = u.id OR r.usuario2_id = u.id) AND r.tipo = 1
+		 * LEFT JOIN relaciones rm ON (rm.usuario_id = u.id) AND rm.tipo = 3
 		 * LEFT JOIN relaciones ment ON (ment.usuario_id = u.id OR ment.usuario2_id = u.id) AND r.tipo = 2
 		 * LEFT JOIN mentorias m ON (m.usuario_mentor_id = u.id) AND m.mentoria_estado = 1 AND  m.calificacion is not null
 		 * LEFT JOIN estudios ae ON u.id = ae.usuario_id
@@ -527,7 +577,8 @@ class ContactosController extends Controller
 						c.nombre AS nombreColegio, u.usuarioCursoActual,
 						est.nombreInstitucion, est.titulo,
 						r.estado, r.id AS relacionId,
-                        SUM(CASE WHEN ((r.usuario =:usuarioId OR r.usuario2 =:usuarioId) AND r.tipo = 1) THEN 1 ELSE 0 END) AS relacionExistente,
+                        SUM(DISTINCT CASE WHEN ((r.usuario =:usuarioId OR r.usuario2 =:usuarioId) AND r.tipo = 1) THEN 1 ELSE 0 END) AS relacionExistente,
+						SUM(DISTINCT CASE WHEN (rm.usuario2 =:usuarioId AND rm.tipo = 3) THEN 1 ELSE 0 END) AS seleccionadoMentorExperto,
                         COUNT(m.id) as cantidadMentorias,
 						car.id AS carreraId, car.nombre AS nombreCarrera
                 FROM vocationetBundle:Usuarios u
@@ -535,6 +586,7 @@ class ContactosController extends Controller
                 LEFT JOIN u.colegio c
                 LEFT JOIN vocationetBundle:Estudios est WITH u.id = est.usuario
                 LEFT JOIN vocationetBundle:Relaciones r WITH (r.usuario = u.id OR r.usuario2 = u.id) AND r.tipo = 1
+				LEFT JOIN vocationetBundle:Relaciones rm WITH (rm.usuario = u.id) AND rm.tipo = 3
                 LEFT JOIN vocationetBundle:Mentorias m WITH (m.usuarioMentor = u.id AND m.mentoriaEstado = 1 AND m.calificacion IS NOT NULL)
 				LEFT JOIN vocationetBundle:AlternativasEstudios ae WITH u.id = ae.usuario
                 LEFT JOIN ae.carrera car
@@ -565,7 +617,8 @@ class ContactosController extends Controller
 						'relacionId' => $cont['relacionId'],
 						'usuarioPuntos' => $cont['usuarioPuntos'],
                         'relacionExistente' => $cont['relacionExistente'],
-                        'usuarioValorMentoria' => $cont['usuarioValorMentoria'],
+                        'seleccionadoMentorExperto' => $cont['seleccionadoMentorExperto'],
+						'usuarioValorMentoria' => $cont['usuarioValorMentoria'],
                         'cantidadMentorias' => $cont['cantidadMentorias']);
                     if ($cont['nombreInstitucion']) {
                         $arrContactos[$cont['id']]['estudios'][] = Array(

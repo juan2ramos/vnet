@@ -476,6 +476,7 @@
                 <target>Mentor experto</target>
 			</trans-unit>
 
+
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
                 <source>iniciar.sesion</source>
@@ -1516,6 +1517,16 @@
 			<trans-unit id="pago-22">
                 <source>segun.mentor</source>
                 <target>Según mentor</target>
+			</trans-unit>
+			
+			<!-- SELECCIONAR MENTOR EXPERTO selectMentorE-x -->
+			<trans-unit id="selectMentorE-1">
+                <source>confirmacion.mentor.experto.%name%</source>
+                <target>¿Desea confirmar que seleccionó a %name%, como mentor experto?</target>
+			</trans-unit>
+			<trans-unit id="selectMentorE-2">
+                <source>mentor.seleccionado</source>
+                <target>Mentor seleccionado</target>
 			</trans-unit>
         </body>
     </file>
