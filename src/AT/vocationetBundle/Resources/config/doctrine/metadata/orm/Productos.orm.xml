@@ -4,8 +4,8 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="nombre" type="string" column="nombre" length="155" nullable="true"/>
+    <field name="nombre" type="string" column="nombre" length="155" nullable="false"/>
     <field name="descripcion" type="text" column="descripcion" nullable="true"/>
-    <field name="valor" type="integer" column="valor" nullable="true"/>
+    <field name="valor" type="integer" column="valor" nullable="false"/>
   </entity>
 </doctrine-mapping>

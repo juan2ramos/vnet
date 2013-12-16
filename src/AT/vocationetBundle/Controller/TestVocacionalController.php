@@ -31,6 +31,16 @@ class TestVocacionalController extends Controller
 		//if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
+        
+        // Verificar pago
+        $pago = $this->verificarPago($usuarioId);        
+        if(!$pago)
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
+            return $this->redirect($this->generateUrl('planes'));
+        }        
+        
+        
         $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
 
         if($seleccionarMentor) {
@@ -44,5 +54,22 @@ class TestVocacionalController extends Controller
 			'formulario_info' => $formulario,
         );
     }
+    
+    /**
+     * Funcion que verifica el pago para test vocacional
+     * 
+     * @param integer $usuarioId id de usuario
+     * @return boolean
+     */
+    private function verificarPago($usuarioId)
+    {
+        $pagoCompleto = $this->get('pagos')->verificarPagoProducto(1, $usuarioId);
+        
+        if($pagoCompleto)
+            return true;
+        else
+            return false;
+    }
+            
 }
 ?>

@@ -24,9 +24,9 @@ class OrdenesProductos
     /**
      * @var integer
      *
-     * @ORM\Column(name="cantidad", type="integer", nullable=false)
+     * @ORM\Column(name="mentor_id", type="integer", nullable=true)
      */
-    private $cantidad;
+    private $mentorId;
 
     /**
      * @var float
@@ -34,6 +34,13 @@ class OrdenesProductos
      * @ORM\Column(name="valor", type="float", nullable=false)
      */
     private $valor;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
 
     /**
      * @var \Productos
@@ -55,16 +62,6 @@ class OrdenesProductos
      */
     private $orden;
 
-    /**
-     * @var \Mentorias
-     *
-     * @ORM\ManyToOne(targetEntity="Mentorias")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mentoria_id", referencedColumnName="id")
-     * })
-     */
-    private $mentoria;
-
 
 
     /**
@@ -78,26 +75,26 @@ class OrdenesProductos
     }
 
     /**
-     * Set cantidad
+     * Set mentorId
      *
-     * @param integer $cantidad
+     * @param integer $mentorId
      * @return OrdenesProductos
      */
-    public function setCantidad($cantidad)
+    public function setMentorId($mentorId)
     {
-        $this->cantidad = $cantidad;
+        $this->mentorId = $mentorId;
     
         return $this;
     }
 
     /**
-     * Get cantidad
+     * Get mentorId
      *
      * @return integer 
      */
-    public function getCantidad()
+    public function getMentorId()
     {
-        return $this->cantidad;
+        return $this->mentorId;
     }
 
     /**
@@ -121,6 +118,29 @@ class OrdenesProductos
     public function getValor()
     {
         return $this->valor;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param integer $estado
+     * @return OrdenesProductos
+     */
+    public function setEstado($estado)
+    {
+        $this->estado = $estado;
+    
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return integer 
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 
     /**
@@ -167,28 +187,5 @@ class OrdenesProductos
     public function getOrden()
     {
         return $this->orden;
-    }
-
-    /**
-     * Set mentoria
-     *
-     * @param \AT\vocationetBundle\Entity\Mentorias $mentoria
-     * @return OrdenesProductos
-     */
-    public function setMentoria(\AT\vocationetBundle\Entity\Mentorias $mentoria = null)
-    {
-        $this->mentoria = $mentoria;
-    
-        return $this;
-    }
-
-    /**
-     * Get mentoria
-     *
-     * @return \AT\vocationetBundle\Entity\Mentorias 
-     */
-    public function getMentoria()
-    {
-        return $this->mentoria;
     }
 }

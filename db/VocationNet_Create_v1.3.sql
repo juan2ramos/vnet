@@ -446,11 +446,11 @@ COMMENT = 'Tabla para controlar archivos adjuntos de un mensaje';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mentorias` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `usuario_mentor_id` INT NOT NULL,
-  `usuario_estudiante_id` INT NULL,
-  `mentoria_inicio` DATETIME NOT NULL,
-  `mentoria_fin` DATETIME NOT NULL,
-  `mentoria_estado` TINYINT(2) NULL,
+  `usuario_mentor_id` INT NOT NULL COMMENT 'id de usuario mentor que registra la mentoria',
+  `usuario_estudiante_id` INT NULL COMMENT 'id de estudiante que toma la mentoria',
+  `mentoria_inicio` DATETIME NOT NULL COMMENT 'fecha de inicio',
+  `mentoria_fin` DATETIME NOT NULL COMMENT 'fecha fin',
+  `mentoria_estado` TINYINT(2) NULL COMMENT 'estado de la mentoria (0|null: sin finalizar, 1: finalizada)',
   `calificacion` INT(2) NULL COMMENT 'Calificacion del estudiante ',
   `resena` VARCHAR(100) NULL COMMENT 'Descripcion de la calificacion	',
   PRIMARY KEY (`id`),
@@ -466,7 +466,8 @@ CREATE TABLE IF NOT EXISTS `mentorias` (
     REFERENCES `usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+COMMENT = 'tabla para control de mentorias';
 
 
 -- -----------------------------------------------------
@@ -474,11 +475,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `productos` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `nombre` VARCHAR(155) NULL,
-  `descripcion` TEXT NULL,
-  `valor` FLOAT NULL,
+  `nombre` VARCHAR(155) NOT NULL COMMENT 'nombre del producto',
+  `descripcion` TEXT NULL COMMENT 'descripcion del producto',
+  `valor` FLOAT NOT NULL COMMENT 'valor del producto',
   PRIMARY KEY (`id`))
-ENGINE = InnoDB;
+ENGINE = InnoDB
+COMMENT = 'Tabla de productos';
 
 
 -- -----------------------------------------------------
@@ -486,10 +488,10 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ordenes` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `valor_total` FLOAT NOT NULL,
-  `fecha_hora_compra` DATETIME NOT NULL,
-  `usuario_id` INT NOT NULL,
-  `estado` INT(2) NOT NULL DEFAULT 0,
+  `valor_total` FLOAT NOT NULL COMMENT 'Valor total de la compra',
+  `fecha_hora_compra` DATETIME NOT NULL COMMENT 'fecha de la compra',
+  `usuario_id` INT NOT NULL COMMENT 'id de usuario que realiza la compra',
+  `estado` INT(2) NOT NULL DEFAULT 0 COMMENT 'estado de la compra (0: sin pagar, 1: pago)',
   PRIMARY KEY (`id`),
   INDEX `fk_ordenes_2_idx` (`usuario_id` ASC),
   CONSTRAINT `fk_ordenes_2`
@@ -497,7 +499,8 @@ CREATE TABLE IF NOT EXISTS `ordenes` (
     REFERENCES `usuarios` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+COMMENT = 'Tabla para las compras de los estudiantes';
 
 
 -- -----------------------------------------------------
@@ -726,15 +729,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ordenes_productos` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `producto_id` INT NULL,
-  `mentoria_id` INT NULL,
-  `orden_id` INT NOT NULL,
-  `cantidad` INT NOT NULL,
-  `valor` FLOAT NOT NULL,
+  `producto_id` INT NOT NULL COMMENT 'id de producto',
+  `orden_id` INT NOT NULL COMMENT 'id de la orden de compra',
+  `mentor_id` INT NULL COMMENT 'id del mentor para el caso de comprar mentorias',
+  `valor` FLOAT NOT NULL COMMENT 'valor del producto',
+  `estado` INT(2) NOT NULL DEFAULT 0 COMMENT 'estado del producto (0:sin usar, 1:usado)',
   PRIMARY KEY (`id`),
   INDEX `fk_ordenes_productos_productos1_idx` (`producto_id` ASC),
   INDEX `fk_ordenes_productos_ordenes1_idx` (`orden_id` ASC),
-  INDEX `fk_ordenes_productos_mentorias1_idx` (`mentoria_id` ASC),
   CONSTRAINT `fk_ordenes_productos_productos1`
     FOREIGN KEY (`producto_id`)
     REFERENCES `productos` (`id`)
@@ -744,13 +746,9 @@ CREATE TABLE IF NOT EXISTS `ordenes_productos` (
     FOREIGN KEY (`orden_id`)
     REFERENCES `ordenes` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_ordenes_productos_mentorias1`
-    FOREIGN KEY (`mentoria_id`)
-    REFERENCES `mentorias` (`id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
+COMMENT = 'Tabla que relaciona los productos de una compra';
 
 
 SET SQL_MODE=@OLD_SQL_MODE;

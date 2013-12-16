@@ -91,25 +91,34 @@
             var btnText = btn.html();
             
             btn.attr('disabled', true);
-            btn.html("{% trans  from "label" %}enviando{% endtrans %}...");
+            btn.html(submit_text);
             
             $.ajax({
                 type: "POST",
                 url: href,
                 dataType: "json",
-                success: function (response){                    
+                success: function (response){   
                     if(response.status === "success"){
-                        location.reload();
+                        $.gritter.add({
+                            title: response.message,
+                            text: response.detail,
+                            time: 5000,
+                            image: asset_path + 'img/success.png',
+                        });
                     }
                     else if(response.status === "error"){
                         $.gritter.add({
                             title: response.message,
                             text: response.detail,
                             time: 5000,
-                            image: '{{ asset('img/delete.png') }}',
+                            image: asset_path + 'img/delete.png',
                         });
                         btn.attr('disabled', false);
                         btn.html(btnText);
+                    }
+                                        
+                    if(typeof(response.redirect) != "undefined"){
+                        location.href = response.redirect;
                     }
                 },
                 error: function() {
