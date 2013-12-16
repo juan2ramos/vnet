@@ -1,116 +1,158 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
-    <h1>Usuarios</h1>
+{% block style %}
+	<link rel="stylesheet" href="{{ asset('css/vocationet/rateit.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('rateit/src/rateit.css') }}" type="text/css">
+{% endblock style %}
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Usuarionombre</th>
-                <td>{{ entity.usuarioNombre }}</td>
-            </tr>
-            <tr>
-                <th>Usuarioapellido</th>
-                <td>{{ entity.usuarioApellido }}</td>
-            </tr>
-            <tr>
-                <th>Usuarioemail</th>
-                <td>{{ entity.usuarioEmail }}</td>
-            </tr>
-            <tr>
-                <th>Usuariopassword</th>
-                <td>{{ entity.usuarioPassword }}</td>
-            </tr>
-            <tr>
-                <th>Usuariohash</th>
-                <td>{{ entity.usuarioHash }}</td>
-            </tr>
-            <tr>
-                <th>Usuarioestado</th>
-                <td>{{ entity.usuarioEstado }}</td>
-            </tr>
-            <tr>
-                <th>Usuariorolestado</th>
-                <td>{{ entity.usuarioRolEstado }}</td>
-            </tr>
-            <tr>
-                <th>Usuariofacebookid</th>
-                <td>{{ entity.usuarioFacebookid }}</td>
-            </tr>
-            <tr>
-                <th>Usuariofechanacimiento</th>
-                <td>{{ entity.usuarioFechaNacimiento|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Usuariogenero</th>
-                <td>{{ entity.usuarioGenero }}</td>
-            </tr>
-            <tr>
-                <th>Usuarioimagen</th>
-                <td>{{ entity.usuarioImagen }}</td>
-            </tr>
-            <tr>
-                <th>Usuariotarjetaprofesional</th>
-                <td>{{ entity.usuarioTarjetaProfesional }}</td>
-            </tr>
-            <tr>
-                <th>Usuariohojavida</th>
-                <td>{{ entity.usuarioHojaVida }}</td>
-            </tr>
-            <tr>
-                <th>Usuarioprofesion</th>
-                <td>{{ entity.usuarioProfesion }}</td>
-            </tr>
-            <tr>
-                <th>Usuariopuntos</th>
-                <td>{{ entity.usuarioPuntos }}</td>
-            </tr>
-            <tr>
-                <th>Usuarioperfilprofesional</th>
-                <td>{{ entity.usuarioPerfilProfesional }}</td>
-            </tr>
-            <tr>
-                <th>Usuariovalormentoria</th>
-                <td>{{ entity.usuarioValorMentoria }}</td>
-            </tr>
-            <tr>
-                <th>Usuariocursoactual</th>
-                <td>{{ entity.usuarioCursoActual }}</td>
-            </tr>
-            <tr>
-                <th>Usuariofechaplaneacion</th>
-                <td>{{ entity.usuarioFechaPlaneacion|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
-                <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Modified</th>
-                <td>{{ entity.modified|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Synclinkedin</th>
-                <td>{{ entity.syncLinkedin|date('Y-m-d H:i:s') }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block body %}
+	{% set rolId = entity.rol.id %}
+	<div class="col-lg-12">
+		<section class="panel">
+			<header class="panel-heading">{% trans from "label" %}detalles.usuario{% endtrans %}</header>
+			<div class="panel-body">
+				<div class="form-horizontal" role="form">
+				
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}imagen{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">
+							{% set imagen = (entity.usuarioImagen) ? entity.usuarioImagen ~ '?type=large' : gui_default_img %}
+							<div><img src="{{ asset(imagen) }}" alt="" STYLE='width:50px'></div>
+						</p></div>
+					</div>
+				
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}rol{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ entity.rol.nombre|trans({}, 'db') }}</p></div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}apellido{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ entity.usuarioApellido }}</p></div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}nombre{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ entity.usuarioNombre }}</p></div>
+					</div>
+					
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}email{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ entity.usuarioEmail }}</p></div>
+					</div>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_usuarios') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_usuarios_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
-{% endblock %}
+					{#<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}estado{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">
+							{% if entity.usuarioEstado %}
+								<span class="label label-success">{% trans from "label" %}activo{% endtrans %}</span>
+							{% else %}
+								<span class="label label-danger">{% trans from "label" %}inactivo{% endtrans %}</span>
+							{% endif %}
+						</p></div>
+					</div>#}
+					
+					{% if rolId == 3 %}
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}estado.rol{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">
+								{% if entity.usuarioRolEstado == 2 %}
+									<span class="label label-success">{% trans from "label" %}aprobado{% endtrans %}</span>
+								{% elseif entity.usuarioRolEstado == 1 %}
+									<span class="label label-danger">{% trans from "label" %}no.aprobado{% endtrans %}</span>
+								{% endif %}
+							</p></div>
+						</div>
+					{% endif %}
+					
+					{% if rolId == 2 or rolId == 3 %}
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}profesion{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">{{ entity.usuarioProfesion|default('no.ha.sido.suministrada'|trans({}, "label" )) }}</p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}valoraciones{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">
+								{% set estrellasPromedio = (entity.usuarioPuntos >= 0 and entity.usuarioPuntos <= 5) ? entity.usuarioPuntos : 0 %}
+								<div class="rateit" data-rateit-value="{{ estrellasPromedio }}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
+								{#<div>{{ entity.usuarioPuntos }}</div>#}
+							</p></div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}perfil.profesional{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">{{ entity.usuarioPerfilProfesional|default('no.ha.sido.suministrada'|trans({}, "label" )) }}</p></div>
+						</div>
+						
+						{% if entity.syncLinkedin %}
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{% trans from "label" %}fecha.ultima.sincronizacion{% endtrans %}</label>
+								<div class="col-lg-10"><p class="help-block">{{ entity.syncLinkedin|date('Y-m-d H:i:s') }}</p></div>
+							</div>
+						{% endif %}
+					{% endif %}
+					
+					{% if rolId == 2 %}
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}valor.mentoria{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">$ {{ entity.usuarioValorMentoria|default(0) }}</p></div>
+						</div>
+					{% endif %}
+					
+					{% if rolId == 1 %}
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}nivel.curso{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">{{ entity.usuarioCursoActual|default('no.ha.sido.suministrado'|trans({}, "label" )) }}</p></div>
+						</div>
+					
+						{% if entity.usuarioFechaNacimiento %}
+							<div class="form-group">
+								<label class="col-lg-2 control-label">{% trans from "label" %}fecha.nacimiento{% endtrans %}</label>
+								<div class="col-lg-10"><p class="help-block">{{ entity.usuarioFechaNacimiento|date('Y-m-d') }}</p></div>
+							</div>
+						{% endif %}
+
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}fecha.planeada{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">
+								{% if entity.usuarioFechaPlaneacion %}
+									{{ entity.usuarioFechaPlaneacion|date('Y-m-d') }}
+								{% else %}
+									{{ 'no.ha.sido.suministrada'|trans({}, "label" ) }}
+								{% endif %}
+							</p></div>
+						</div>
+					{% endif %}
+					
+					{% if entity.created %}
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}fecha.creacion{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">{{ entity.created|date('Y-m-d H:i:s') }}</p></div>
+						</div>
+					{% endif %}
+					
+					{% if entity.modified %}
+						<div class="form-group">
+							<label class="col-lg-2 control-label">{% trans from "label" %}fecha.modificacion{% endtrans %}</label>
+							<div class="col-lg-10"><p class="help-block">{{ entity.modified|date('Y-m-d H:i:s') }}</p></div>
+						</div>
+					{% endif %}
+					
+					<div class="form-group">
+						<div class="col-lg-12 text-center">
+							{% set back = (rolId == 1) ? 'admin_usuarios_e' : (rolId == 2) ? 'admin_usuarios_me' : (rolId == 3) ? 'admin_usuarios_mov' : 'admin_usuarios_admin' %}
+							<a class="btn btn-default" href="{{ path(back) }}">
+								{{ 'listado'|trans({}, 'label') }}</a>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock body %}
+
+{% block script %}
+	<script type="text/javascript" src="{{ asset('rateit/src/jquery.rateit.js') }}"></script>
+{% endblock script%}

@@ -1,14 +1,34 @@
 {% extends '::base.html.twig' %}
 
+{% block style %}
+	<link rel="stylesheet" href="{{ asset('css/vocationet/rateit.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('rateit/src/rateit.css') }}" type="text/css">
+{% endblock style %}
+
 {% block body %}
 	<div class="row">
 		<div class="col-lg-12">
 			<section class="panel">
 				<header class="panel-heading">
-				{% if filtro == 1 %}{% trans from "db" %}estudiante{% endtrans %}
-				{% elseif filtro == 2 %}{% trans from "db" %}mentor_e{% endtrans %}
-				{% elseif filtro == 3 %}{% trans from "db" %}mentor_ov{% endtrans %}
-				{% endif %}
+					<div STYLE='text-align:right;'>
+						<a type="button" class="btn btn-primary btn-xs" href='{{ path('admin_usuarios_e') }}'>
+							{% trans from "db" %}estudiante{% endtrans %}
+						</a>
+						<a type="button" class="btn btn-primary btn-xs" href='{{ path('admin_usuarios_me') }}'>
+							{% trans from "db" %}mentor_e{% endtrans %}
+						</a>
+						<a type="button" class="btn btn-primary btn-xs" href='{{ path('admin_usuarios_mov') }}'>
+							{% trans from "db" %}mentor_ov{% endtrans %}
+						</a>
+						<a type="button" class="btn btn-primary btn-xs" href='{{ path('admin_usuarios_admin') }}'>
+							{% trans from "db" %}administrador{% endtrans %}
+						</a>
+					</div>
+					{% if filtro == 1 %}{% trans from "db" %}estudiante{% endtrans %}
+					{% elseif filtro == 2 %}{% trans from "db" %}mentor_e{% endtrans %}
+					{% elseif filtro == 3 %}{% trans from "db" %}mentor_ov{% endtrans %}
+					{% elseif filtro == 4 %}{% trans from "db" %}administrador{% endtrans %}
+					{% endif %}
                 </header>
 				
 				{% if entities %}
@@ -19,14 +39,16 @@
 								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}nombre{% endtrans %}</th>
 								<th>{% trans from "label" %}email{% endtrans %}</th>
-								<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>
+								{#<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>#}
 								{% if filtro == 1 %}
 									<th class='text-center'>{% trans from "label" %}nivel.curso{% endtrans %}</th>
 									<th class='text-center'>{% trans from "label" %}fecha.planeada{% endtrans %}</th>
-								{% else %}
+								{% elseif (filtro == 2 or filtro == 3) %}
 									<th>{% trans from "label" %}profesion{% endtrans %}</th>
 									<th>{% trans from "label" %}valoraciones{% endtrans %}</th>
-									<th>{% trans from "label" %}valor.mentoria{% endtrans %}</th>
+								{% endif %}
+								{% if filtro == 2 %}
+									<th class='text-center'>{% trans from "label" %}valor.mentoria{% endtrans %}</th>
 								{% endif %}
 								<th class='text-center'>{% trans from "label" %}opciones{% endtrans %}</th>
 							</tr>
@@ -41,35 +63,47 @@
 									<td>{{ entity.usuarioApellido }}</td>
 									<td>{{ entity.usuarioNombre }}</td>
 									<td>{{ entity.usuarioEmail }}</td>
-									<td class='text-center'>
+									{#<td class='text-center'>
 										{% if entity.usuarioEstado %}
 											<span class="label label-success">{% trans from "label" %}activo{% endtrans %}</span>
 										{% else %}
 											<span class="label label-danger">{% trans from "label" %}inactivo{% endtrans %}</span>
 										{% endif %}
-									</td>
+									</td>#}
 									{% if filtro == 1 %}
 										<td class='text-center'>{{ entity.usuarioCursoActual }}</td>
-										<td class='text-center'>{% if entity.usuarioFechaPlaneacion %}{{ entity.usuarioFechaPlaneacion|date('Y-m-d H:i:s') }}{% endif %}</td>
-									{% else %}
-										<td>{{ entity.usuarioProfesion }}</td>
-										<td>{{ entity.usuarioPuntos }}</td>
-										<td>{{ entity.usuarioValorMentoria }}</td>
+										<td class='text-center'>{% if entity.usuarioFechaPlaneacion %}{{ entity.usuarioFechaPlaneacion|date('Y-m-d') }}{% endif %}</td>
+									{% elseif (filtro == 2 or filtro == 3) %}
+										<td>{{ entity.usuarioProfesion|default('no.ha.sido.suministrada'|trans({}, "label")) }}</td>
+										<td>
+											<div class='text-center';>
+												{% set estrellasPromedio = (entity.usuarioPuntos >= 0 and entity.usuarioPuntos <= 5) ? entity.usuarioPuntos : 0 %}
+												<div class="rateit" data-rateit-value="{{ estrellasPromedio }}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
+												<BR><div>{{ entity.cantidadMentorias}}&nbsp;{% trans from "label" %}valoraciones{% endtrans %}</div>
+											</div>
+										</td>
 									{% endif %}
-									<td >
-										<div class='text-center' >
-											<a STYLE='margin:1px;' href='{{ path('perfil', {'perfilId': entity.id }) }}' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'ver.perfil'|trans({}, 'label') }}">
-												<i class='icon-user'></i></a>
-											<a STYLE='margin:1px;' href='{{ path('perfil_edit', {'perfilId': entity.id }) }}' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'ver.detalles'|trans({}, 'label') }}">
+									{% if filtro == 2 %}
+										<td class='text-center'>$ {{ entity.usuarioValorMentoria|default(0) }}</td>
+									{% endif %}
+									<td class='text-center'>
+										<div STYLE='display:block;'>
+											{% if filtro != 4 %}
+												<a STYLE='margin:1px;' href='{{ path('perfil', {'perfilId': entity.id }) }}' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'ver.perfil'|trans({}, 'label') }}">
+													<i class='icon-user'></i></a>
+											{% endif %}		
+											<a STYLE='margin:1px;' href='{{ path('admin_usuarios_show', {'id': entity.id }) }}' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'ver.detalles'|trans({}, 'label') }}">
 												<i class='icon-zoom-in'></i></a>
-											<a STYLE='margin:1px;' href='{{ path('perfil_edit', {'perfilId': entity.id }) }}' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'editar'|trans({}, 'label') }}">
-												<i class='icon-pencil'></i></a>
 											{% if filtro == 3 and entity.usuarioRolEstado == 1 %}
-												|<a STYLE='margin:1px;' class="btn btn-success btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'validar.mentor'|trans({}, 'label') }}">
+												|<div style='display:inline;'>
+													<a STYLE='margin:1px;' class="btn btn-success btn-xs tooltips cambiarEstadoMentor" data-t='1' data-m='{{ entity.id }}' data-toggle="tooltip" data-original-title="{{ 'validar.mentor'|trans({}, 'label') }}">
 													<i class='icon-ok'></i></a>
+												</div>
 											{% elseif filtro == 3 and entity.usuarioRolEstado == 2 %}
-												|<a STYLE='margin:1px;' class="btn btn-primary btn-xs tooltips" data-toggle="tooltip" data-original-title="{{ 'no.validar.mentor'|trans({}, 'label') }}">
+												|<div style='display:inline;'>
+													<a STYLE='margin:1px;' class="btn btn-danger btn-xs tooltips cambiarEstadoMentor" data-t='0' data-m='{{ entity.id }}' data-toggle="tooltip" data-original-title="{{ 'no.validar.mentor'|trans({}, 'label') }}">
 													<i class='icon-remove'></i></a>
+												</div>
 											{% endif %}											
 										</div>
 									</td>
@@ -79,21 +113,62 @@
 					</table>
 				{% else %}
 					<div class="panel-body" STYLE='text-align:center;'>
-						{% trans from "label" %}no.tiene.ningun.estudiante{% endtrans %}
+						{% if filtro == 1 %}{% trans from "label" %}no.tiene.ningun.estudiante{% endtrans %}
+						{% elseif filtro == 2 %}{% trans from "label" %}no.tiene.ningun.mentor_e{% endtrans %}
+						{% elseif filtro == 3 %}{% trans from "label" %}no.tiene.ningun.mentor_ov{% endtrans %}
+						{% elseif filtro == 4 %}{% trans from "label" %}no.tiene.ningun.administrador{% endtrans %}
+						{% endif %}
 					</div>
 				{% endif %}
-
-        <ul>
-        <li>
-            <a href="{{ path('admin_usuarios_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+			</section>
+		</div>
+	</div>
+{% endblock %}
 
 {% block script %}
     <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('rateit/src/jquery.rateit.js') }}"></script>
+	
+	<script>
+		$('.table').on('click', '.cambiarEstadoMentor', function(){
+			var t = $(this).data('t'); //Tipo de cambio de estado
+			var m = $(this).data('m'); //Mentor
+			var posActual = $(this);
+
+			$.ajax({
+				type: "POST",
+				url: '{{ path('edit_estado_rol_mentor') }}',
+				data: { m: m, t: t},
+				dataType: "json",
+				beforeSend: function(objeto){
+					posActual.html('<div STYLE="text-align:center;" class="loading-center"><img style="width:15px;" src="'+asset_path+'img/ajax-loader.gif"></div>');
+				},
+				success: function(response){
+					if (response.status == 'success') {
+						if (t == 1) {
+							msgtext = '<a STYLE="margin:1px;" class="btn btn-danger btn-xs tooltips cambiarEstadoMentor" data-t="0" data-m="'+m+'" data-toggle="tooltip" data-original-title="'+response.message+'"><i class="icon-remove"></i></a>';
+						} else {
+							msgtext = '<a STYLE="margin:1px;" class="btn btn-success btn-xs tooltips cambiarEstadoMentor" data-t="1" data-m="'+m+'" data-toggle="tooltip" data-original-title="'+response.message+'"><i class="icon-ok"></i></a>';
+						}
+					} else {
+						msgtext = '<a STYLE="margin:1px;" class="btn btn-default btn-xs tooltips" data-toggle="tooltip" data-original-title="'+response.message+'"><i class="icon-remove"></i></a>';
+					}
+					
+					posActual.parent().html(msgtext);
+					$(".tooltips").tooltip();
+				},
+				error: function(objeto, quepaso, otroobj){
+					//msgtext = '<a STYLE="text-align:center;width:100%" type="button" class="btn btn-danger btn-xs"></a>'
+					msgtext = '<a STYLE="margin:1px;" class="btn btn-default btn-xs tooltips" data-toggle="tooltip" data-original-title="{% trans from "messages" %}error.en.solicitud{% endtrans %}"><i class="icon-remove"></i></a>'
+					posActual.parent().html(msgtext);
+					$(".tooltips").tooltip();
+				}
+			});
+			
+			
+            
+		});
+	</script>
 {% endblock script%}

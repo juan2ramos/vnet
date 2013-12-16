@@ -225,6 +225,22 @@
                       </ul>
                   </li>
 				  
+					{% if 'acceso_admin_usuarios' in sess_permissions.permissions %}
+						<li class="sub-menu">
+							<a href="javascript:;" class="">
+								<i class="icon-group"></i>
+								<span>{% trans from "label" %}usuarios{% endtrans %}</span>
+								<span class="arrow"></span>
+							</a>
+							<ul class="sub">
+								<li><a class="" href="{{ path('admin_usuarios_e') }}">{% trans from "db" %}estudiante{% endtrans %}</a></li>
+								<li><a class="" href="{{ path('admin_usuarios_me') }}">{% trans from "db" %}mentor_e{% endtrans %}</a></li>
+								<li><a class="" STYLE='white-space:nowrap;overflow:hidden;text-overflow:ellipsis;-o-text-overflow:ellipsis;' href="{{ path('admin_usuarios_mov') }}">{% trans from "db" %}mentor_ov{% endtrans %}</a></li>
+								<li><a class="" href="{{ path('admin_usuarios_admin') }}">{% trans from "db" %}administrador{% endtrans %}</a></li>
+							</ul>
+						</li>
+					{% endif %}
+				  
 					{% if 'acceso_carreras' in sess_permissions.permissions %}
 						<li class="sub-menu">
 							<a href="javascript:;" class="">
