@@ -2,6 +2,8 @@
 
 namespace AT\vocationetBundle\Services;
 
+use AT\vocationetBundle\Services\SecurityService as SecurityService;
+
 /**
  * Servicio para el control de pagos en la aplicacion
  * 
@@ -34,6 +36,34 @@ class PagosService
         $this->em = $service_container->get('doctrine')->getManager();
     }
     
+    /**
+     * Funcion para obtener el id de un producto
+     * 
+     * No hace consulta a la base de datos
+     * 
+     * @param string|boolean $nombre nombre del producto
+     * @return integer|boolean|array id de formulario o false si no existe o array completo si no se pasa nombre
+     */
+    public function getProductoId($nombre = false)
+    {
+        $ids = array(
+            'programa_orientacion' => 1,
+            'informe_mercado_laboral' => 2,
+            'mentoria_profesional' => 3,
+            'mentoria_ov' => 4
+        );
+        
+        if($nombre)
+        {
+            $id = (isset($ids[$nombre])) ? $ids[$nombre] : false;
+
+            return $id;
+        }
+        else
+        {
+            return $ids;
+        }
+    }
     
     /**
      * Funcion que verifica si el usuario tiene un pago activo para un producto
@@ -100,4 +130,78 @@ class PagosService
             $query->getResult();
         }
     }
+    
+    /**
+     * Funcion para obtener un producto
+     * 
+     * @param integer $productoId id de producto
+     * @return array arreglo de producto
+     */
+    public function getProducto($productoId)
+    {
+        $dql = "SELECT p.id, p.nombre, p.valor
+                FROM vocationetBundle:Productos p
+                WHERE p.id = :productoId";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter("productoId", $productoId);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+
+        if($result)
+        {
+            return $result[0];
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    /**
+     * Funcion que calcula el iva de un valor
+     * 
+     * se basa en la configuracion de iva
+     * 
+     * @param float $valor 
+     * @return float valor del iva
+     */
+    public function getIva($valor)
+    {
+        $porc_iva = SecurityService::getParameter('iva');
+        
+        $iva = ($porc_iva * $valor) / 100;        
+        
+        return $iva;
+    }
+    
+    /**
+     * Funcion para calcular totales de un total de compra
+     * 
+     * @param float $valor
+     * @return array arreglo con subtotal, iva y total
+     */
+    public function calcularTotales($valor)
+    {
+        $iva = $this->getIva($valor);
+        
+        $tipo_iva = SecurityService::getParameter('tipo_iva');
+        
+        if($tipo_iva == 'incluido')
+        {
+            $total = $valor;
+            $subtotal = $total - $iva;
+        }
+        elseif($tipo_iva == 'agregado')
+        {
+            $subtotal = $valor;
+            $total = $subtotal + $iva;
+        }
+        
+        return array(
+            'subtotal' => $subtotal,
+            'iva' => $iva,
+            'total' => $total
+        );
+    }
+            
 }

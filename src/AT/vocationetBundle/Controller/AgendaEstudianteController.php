@@ -234,7 +234,7 @@ class AgendaEstudianteController extends Controller
     {
         $pagado = false;
         
-        $pagoCompleto = $this->get('pagos')->verificarPagoProducto(1, $usuarioId);
+        $pagoCompleto = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
         
         if($pagoCompleto)
         {
@@ -261,14 +261,14 @@ class AgendaEstudianteController extends Controller
             
             if($mentorRol == 2) // Mentor experto
             {
-                $productoId = 3; // Producto: Mentoría con profesional
+                $productoId = $this->get('pagos')->getProductoId('mentoria_profesional'); // Producto: Mentoría con profesional
                 
                 // Validar pago de producto individual para el mentor seleccionado
                 $pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId, $mentorId);                        
             }
             elseif($mentorRol == 3) // Mentor de orientacion vocacional
             {
-                $productoId = 4; // Producto: Mentoría con experto en orientación vocacional
+                $productoId = $this->get('pagos')->getProductoId('mentoria_ov'); // Producto: Mentoría con experto en orientación vocacional
                 
                 // Validar pago de producto individual
                 $pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId);                        

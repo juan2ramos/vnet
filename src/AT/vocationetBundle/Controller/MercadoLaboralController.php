@@ -135,7 +135,7 @@ class MercadoLaboralController extends Controller
      */
     private function verificarPago($usuarioId)
     {
-        $pagoCompleto = $this->get('pagos')->verificarPagoProducto(1, $usuarioId);
+        $pagoCompleto = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
         
         if($pagoCompleto)
         {
@@ -143,7 +143,7 @@ class MercadoLaboralController extends Controller
         }
         else
         {
-            $productoId = 2; // Producto: informe de mercado laboral
+            $productoId = $this->get('pagos')->getProductoId('informe_mercado_laboral'); // Producto: informe de mercado laboral
             $pagoIndividual = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId);
             
             if($pagoIndividual)

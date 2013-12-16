@@ -286,7 +286,7 @@ class DisenoVidaController extends Controller
      */
     private function verificarPago($usuarioId)
     {
-        $pagoCompleto = $this->get('pagos')->verificarPagoProducto(1, $usuarioId);
+        $pagoCompleto = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
         
         if($pagoCompleto)
             return true;
