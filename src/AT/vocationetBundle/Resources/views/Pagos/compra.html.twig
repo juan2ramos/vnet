@@ -1,0 +1,51 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+<section>
+    <div class="panel panel-primary">
+        <header class="panel-heading">
+            {% trans from "label" %}compra{% endtrans %}
+        </header>
+        <div class="panel-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>{% trans  from "label" %}producto{% endtrans %}</th>
+                        <th>{% trans  from "label" %}valor{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                        <tr>
+                            <td>{{ loop.index }}</td>
+                            <td>
+                                {{ producto.nombre }}
+                                {% if producto.mentor is defined %}
+                                    {% trans  from "label" %}con{% endtrans %} {{ producto.mentor }}
+                                {% endif %}
+                            </td>
+                            <td>$ {{ producto.valor|number_format() }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">{% trans  from "label" %}no.hay.productos{% endtrans %}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-lg-4 invoice-block pull-right">
+                    <ul class="unstyled amounts">
+                        <li><strong>{% trans  from "label" %}subtotal{% endtrans %}:</strong> ${{ subtotal|number_format }}</li>
+                        <li><strong>{% trans  from "label" %}iva{% endtrans %}:</strong> ${{ iva|number_format }}</li>
+                        <li><strong>{% trans  from "label" %}total{% endtrans %}:</strong> ${{ total|number_format }}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="text-center invoice-btn">
+                <a class="btn btn-danger btn-lg"><i class="icon-check"></i> {% trans  from "label" %}pagar{% endtrans %} </a>                
+            </div>
+        </div>
+</section>    
+{% endblock body %}

@@ -1518,6 +1518,42 @@
                 <source>segun.mentor</source>
                 <target>Según mentor</target>
 			</trans-unit>
+			<trans-unit id="pago-23">
+                <source>pagos</source>
+                <target>Pagos</target>
+			</trans-unit>
+			<trans-unit id="pago-24">
+                <source>producto</source>
+                <target>Producto</target>
+			</trans-unit>
+			<trans-unit id="pago-25">
+                <source>no.hay.productos</source>
+                <target>No hay productos en la lista</target>
+			</trans-unit>
+			<trans-unit id="pago-26">
+                <source>subtotal</source>
+                <target>Subtotal</target>
+			</trans-unit>
+			<trans-unit id="pago-27">
+                <source>iva</source>
+                <target>IVA</target>
+			</trans-unit>
+			<trans-unit id="pago-28">
+                <source>total</source>
+                <target>Total</target>
+			</trans-unit>
+			<trans-unit id="pago-29">
+                <source>pagar</source>
+                <target>Pagar</target>
+			</trans-unit>
+			<trans-unit id="pago-30">
+                <source>imprimir</source>
+                <target>Imprimir</target>
+			</trans-unit>
+			<trans-unit id="pago-31">
+                <source>compra</source>
+                <target>Compra</target>
+			</trans-unit>
 			
 			<!-- SELECCIONAR MENTOR EXPERTO selectMentorE-x -->
 			<trans-unit id="selectMentorE-1">
@@ -1527,6 +1563,7 @@
 			<trans-unit id="selectMentorE-2">
                 <source>mentor.seleccionado</source>
                 <target>Mentor seleccionado</target>
+
 			</trans-unit>
         </body>
     </file>

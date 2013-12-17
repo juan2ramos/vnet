@@ -35,9 +35,19 @@ class Evaluacion360Controller extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
+        $usuarioId = $security->getSessionValue("id");
+        
+        // Verificar pago
+        $pago = $this->verificarPago($usuarioId);        
+        if(!$pago)
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
+            return $this->redirect($this->generateUrl('planes'));
+        }
+                
+        
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
-        $usuarioId = $security->getSessionValue("id");
         
         // Validar si ya selecciono mentor ov
         $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
@@ -444,4 +454,19 @@ class Evaluacion360Controller extends Controller
         
     }
     
+    /**
+     * Funcion que verifica el pago para test vocacional
+     * 
+     * @param integer $usuarioId id de usuario
+     * @return boolean
+     */
+    private function verificarPago($usuarioId)
+    {
+        $pagoCompleto = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
+        
+        if($pagoCompleto)
+            return true;
+        else
+            return false;
+    }
 }

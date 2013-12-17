@@ -25,7 +25,7 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (18, 'acceso_sidebar','Acceso a admin publicidad/informacion', 'Acceso a admin publicidad/informacion', 'admin_informacion,admin_informacion_show,admin_informacion_new,admin_informacion_edit,admin_informacion_delete'),
 (19, 'acceso_diseno_vida', 'Diseño de vida', 'Diseño de vida', 'diseno_vida,procesar_disenovida'),
 (20, 'acceso_respuestas_diseno_vida', 'Acceso a ver resultados de diseño de vida', 'Acceso a ver resultados de diseño de vida', 'disenovida_resultados'),
-(21, 'acceso_admin_usuarios', 'Acceso a admin usuarios', 'Acceso a admin usuarios', 'admin_usuarios_e,admin_usuarios_me,admin_usuarios_e,admin_usuarios_mov,admin_usuarios_admin,admin_usuarios_show,edit_estado_rol_mentor');
+(21, 'acceso_admin_usuarios', 'Acceso a admin usuarios', 'Acceso a admin usuarios', 'admin_usuarios_e,admin_usuarios_me,admin_usuarios_e,admin_usuarios_mov,admin_usuarios_admin,admin_usuarios_show,edit_estado_rol_mentor'),
 (22, 'acceso_ponderacion', 'Ponderación', 'Ponderación', 'ponderacion,procesar_ponderacion'),
 (23, 'acceso_respuestas_ponderacion', 'Acceso a ver resultados de ponderación', 'Acceso a ver resultados de ponderación', 'ponderacion_resultados'),
 (24, 'acceso_mentor_vocacional', 'Acceso a selección de mentores de orientacion vocacional', 'Acceso a selección de mentores de orientacion vocacional', 'lista_mentores_ov,seleccionar_mentor'),
@@ -80,7 +80,7 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('20', '2'),
 ('20', '3'),
 ('20', '4'),
-('21', '4');
+('21', '4'),
 ('22', '1'),
 ('22', '2'),
 ('22', '3'),

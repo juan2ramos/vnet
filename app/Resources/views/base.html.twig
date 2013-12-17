@@ -144,9 +144,9 @@
                                 </a>
                                 <ul class="dropdown-menu extended logout">
                                     <div class="log-arrow-up"></div>
-                                    <li><a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}"><i class=" icon-suitcase"></i>{% trans from "label" %}perfil{% endtrans %}</a></li>
-                                    <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-                                    <li><a href="#"><i class="icon-bell-alt"></i> Notification</a></li>
+                                    <li><a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}"><i class=" icon-user"></i>{% trans from "label" %}perfil{% endtrans %}</a></li>
+                                    <li><a href="{{ path('mensajes') }}"><i class="icon-envelope"></i> {% trans from "label" %}mensajes{% endtrans %}</a></li>
+                                    <li><a href="{{ path('planes') }}"><i class="icon-dollar"></i> {% trans from "label" %}pagos{% endtrans %}</a></li>
                                     <li><a href="{{ path('logout') }}"><i class="icon-key"></i> {% trans from "label" %}cerrar.session{% endtrans %}</a></li>
                                 </ul>
                             </li>

@@ -17,6 +17,11 @@ class MensajesService
     var $mail;
     var $file;
         
+    /**
+     * Constructor
+     * 
+     * @param Object $service_container contenedor de servicios
+     */
     function __construct($service_container) 
     {
         $this->serv_cont = $service_container;

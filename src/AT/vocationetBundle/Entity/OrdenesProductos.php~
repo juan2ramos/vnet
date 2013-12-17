@@ -24,9 +24,9 @@ class OrdenesProductos
     /**
      * @var integer
      *
-     * @ORM\Column(name="cantidad", type="integer", nullable=false)
+     * @ORM\Column(name="mentor_id", type="integer", nullable=true)
      */
-    private $cantidad;
+    private $mentorId;
 
     /**
      * @var float
@@ -34,6 +34,13 @@ class OrdenesProductos
      * @ORM\Column(name="valor", type="float", nullable=false)
      */
     private $valor;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
 
     /**
      * @var \Productos
@@ -54,16 +61,6 @@ class OrdenesProductos
      * })
      */
     private $orden;
-
-    /**
-     * @var \Mentorias
-     *
-     * @ORM\ManyToOne(targetEntity="Mentorias")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mentoria_id", referencedColumnName="id")
-     * })
-     */
-    private $mentoria;
 
 
 }

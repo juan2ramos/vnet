@@ -76,7 +76,7 @@
                 </tbody>
             </table>
             <div class="panel-body" style="text-align: center;">
-                <button type="button" class="btn btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</button>
+                <a href="{{ path("agregar_producto", {'id': productos_ids.programa_orientacion }) }}" class="btn btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a>
             </div>
         </section>
     </aside> 
@@ -95,19 +95,19 @@
                         <td><i class="icon-check"></i></td>
                         <td>{% trans  from "label" %}informe.mercado.laboral{% endtrans %}.</td>
                         <td>${{ precio_mercado_laboral|number_format }}</td>
-                        <td><button type="button" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</button></td>
+                        <td><a href="{{ path("agregar_producto", {'id': productos_ids.informe_mercado_laboral }) }}" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
                     </tr>                
                     <tr>
                         <td><i class="icon-check"></i></td>
                         <td>{% trans  from "label" %}mentorias.red.profesionales{% endtrans %}.</td>
                         <td>{% trans  from "label" %}segun.mentor{% endtrans %}</td>
-                        <td><button type="button" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</button></td>
+                        <td><a href="#" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
                     </tr>                
                     <tr>
                         <td><i class="icon-check"></i></td>
                         <td>{% trans  from "label" %}mentorias.orientacion.vocacional{% endtrans %}.</td>
                         <td>${{ precio_mentoria_ov|number_format }}</td>
-                        <td><button type="button" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</button></td>
+                        <td><a href="{{ path("agregar_producto", {'id': productos_ids.mentoria_ov }) }}" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
                     </tr>                
                 </tbody>
             </table>

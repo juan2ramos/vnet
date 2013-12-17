@@ -25,7 +25,7 @@ class AgendaEstudianteController extends Controller
      * @Template("vocationetBundle:AgendaEstudiante:index.html.twig")
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
@@ -75,7 +75,7 @@ class AgendaEstudianteController extends Controller
                 WHERE
                     (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
                     AND u.id != :usuarioId
-                    AND r.tipo = 2
+                    AND (r.tipo = 2 OR r.tipo = 3)
                     AND r.estado = 1
                     AND (m.usuarioEstudiante = :usuarioId OR m.usuarioEstudiante IS NULL)
         ";
@@ -111,10 +111,12 @@ class AgendaEstudianteController extends Controller
                     m.usuarioEstudiante estudianteId,
                     u.usuarioNombre,
                     u.usuarioApellido,
-                    u.usuarioImagen
+                    u.usuarioImagen,
+                    r.descripcion rolNombre
                 FROM 
                     vocationetBundle:Mentorias m
                     LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
+                    LEFT JOIN vocationetBundle:Roles r WITH u.rol = r.id
                 WHERE
                     m.id = :mentoriaId";
         
@@ -150,50 +152,131 @@ class AgendaEstudianteController extends Controller
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         if(!$this->getRequest()->isXmlHttpRequest() || $this->getRequest()->getMethod() != 'POST') throw $this->createNotFoundException();
         
+        $response = '';
+        
         $usuarioId = $security->getSessionValue('id');
-        
-        $dql = "UPDATE vocationetBundle:Mentorias m 
-                SET m.usuarioEstudiante = :usuarioId
-                WHERE m.id = :mentoriaId";
         $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery($dql);
-        $query->setParameter('usuarioId', $usuarioId);
-        $query->setParameter('mentoriaId', $id);
-        $separada = $query->getResult();
         
-        if($separada)
+        // Verificar pago
+        $pago = $this->verificarPago($usuarioId, $id);
+        
+        if($pago)
         {
-            // Obtener informacion del mentor y estudiante para enviar notificacion
-            $mentoria = $em->getRepository("vocationetBundle:Mentorias")->findOneById($id);
-            $mentorId = $mentoria->getUsuarioMentor();
-            $estudianteNombre = $security->getSessionValue("usuarioNombre")." ".$security->getSessionValue("usuarioApellido");
-            $hora = $mentoria->getMentoriaInicio()->format('H:i d-m-Y');
+            $dql = "UPDATE vocationetBundle:Mentorias m 
+                    SET m.usuarioEstudiante = :usuarioId
+                    WHERE m.id = :mentoriaId";
+            $query = $em->createQuery($dql);
+            $query->setParameter('usuarioId', $usuarioId);
+            $query->setParameter('mentoriaId', $id);
+            $separada = $query->getResult();
             
-            //Enviar notificacion al tutor
-            $mensajes = $this->get('mensajes');
-            
-            $subject = $this->get('translator')->trans("%user%.ha.separado.mentoria", array('%user%'=> $estudianteNombre));
-            $message = $this->get('translator')->trans("%user%.ha.separado.mentoria.%detalle%", array('%user%'=> $estudianteNombre, '%detalle%' => $hora));
-            
-            $mensajes->enviarMensaje($usuarioId, array($mentorId), $subject, $message);
-            
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.separada"), "text" => $this->get('translator')->trans("mentoria.separada.correctamente")));
-            print(json_encode(array(
-                'status' => 'success',
-                'message' => $this->get('translator')->trans("mentoria.separada"),
-                'detail' => $this->get('translator')->trans("mentoria.separada.correctamente"),
-            )));
+            if($separada)
+            {
+                // Obtener informacion del mentor y estudiante para enviar notificacion
+                $mentoria = $em->getRepository("vocationetBundle:Mentorias")->findOneById($id);
+                $mentorId = $mentoria->getUsuarioMentor();
+                $estudianteNombre = $security->getSessionValue("usuarioNombre")." ".$security->getSessionValue("usuarioApellido");
+                $hora = $mentoria->getMentoriaInicio()->format('H:i d-m-Y');
+                
+                // Enviar notificacion al tutor
+                $mensajes = $this->get('mensajes');
+
+                $subject = $this->get('translator')->trans("%user%.ha.separado.mentoria", array('%user%'=> $estudianteNombre));
+                $message = $this->get('translator')->trans("%user%.ha.separado.mentoria.%detalle%", array('%user%'=> $estudianteNombre, '%detalle%' => $hora));
+
+                $mensajes->enviarMensaje($usuarioId, array($mentorId), $subject, $message);
+                
+                // Marcar producto como usado
+                $this->get('pagos')->marcarPagoUsado($pago);                
+                
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.separada"), "text" => $this->get('translator')->trans("mentoria.separada.correctamente")));
+                $response = (json_encode(array(
+                    'status' => 'success',
+                    'message' => $this->get('translator')->trans("mentoria.separada"),
+                    'detail' => $this->get('translator')->trans("mentoria.separada.correctamente"),
+                    'redirect' => $this->generateUrl('agenda_estudiante')
+                )));
+            }
+            else
+            {
+                $response = (json_encode(array(
+                    'status' => 'error',
+                    'message' => $this->get('translator')->trans("mentoria.no.separada"),
+                    'detail' => $this->get('translator')->trans("mentoria.no.se.puede.separar"),
+                )));
+            }
         }
         else
         {
-            print(json_encode(array(
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
+            $response = (json_encode(array(
                 'status' => 'error',
-                'message' => $this->get('translator')->trans("mentoria.no.separada"),
-                'detail' => $this->get('translator')->trans("mentoria.no.se.puede.separar"),
+                'message' => $this->get('translator')->trans("no.existe.pago"),
+                'detail' => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago"),
+                'redirect' => $this->generateUrl('planes')
             )));
-        }        
+        }
         
-        return new Response();
+        return new Response($response);
+    }
+    
+    /**
+     * Funcion que verifica si existe un pago para mentoria
+     * 
+     * Verifica si tiene un pago para el paquete completo o mentoria individual.
+     * tiene en cuenta si es para mentoria de orientacion vocacional o profesional
+     * 
+     * @param integer $usuarioId id de usuario
+     * @param integer $mentoriaId id de mentoria para obtener el tipo de mentor
+     * @return boolean|integer false si no existe ningun pago, true si es pago por plan completo, id de ordenProducto si es un pago individual
+     */
+    private function verificarPago($usuarioId, $mentoriaId)
+    {
+        $pagado = false;
+        
+        $pagoCompleto = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
+        
+        if($pagoCompleto)
+        {
+            $pagado = true;
+        }
+        else
+        {
+            $em = $this->getDoctrine()->getManager();
+            
+            // Verificar tipo de mentor para verificar pago
+            $dql = "SELECT r.id rolId, u.id mentorId FROM vocationetBundle:Mentorias m
+                    JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
+                    JOIN vocationetBundle:Roles r WITH u.rol = r.id
+                    WHERE m.id = :mentoriaId";  
+            $query = $em->createQuery($dql);
+            $query->setParameter('mentoriaId', $mentoriaId);
+            $query->setMaxResults(1);
+            $mentorRol = $query->getResult();
+            if($mentorRol)
+            {
+                $mentorId = $mentorRol[0]['mentorId'];
+                $mentorRol = $mentorRol[0]['rolId'];
+            }
+            
+            if($mentorRol == 2) // Mentor experto
+            {
+                $productoId = $this->get('pagos')->getProductoId('mentoria_profesional'); // Producto: Mentoría con profesional
+                
+                // Validar pago de producto individual para el mentor seleccionado
+                $pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId, $mentorId);                        
+            }
+            elseif($mentorRol == 3) // Mentor de orientacion vocacional
+            {
+                $productoId = $this->get('pagos')->getProductoId('mentoria_ov'); // Producto: Mentoría con experto en orientación vocacional
+                
+                // Validar pago de producto individual
+                $pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId);                        
+            }
+
+        }
+        
+        return $pagado;
     }
 }
 ?>

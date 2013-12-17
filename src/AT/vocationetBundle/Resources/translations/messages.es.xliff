@@ -587,6 +587,15 @@
                 <target>No ha seleccionado alternativas de estudio</target>
 			</trans-unit>
             
+            <!-- pagos pag-x -->
+			<trans-unit id="pag-1">
+                <source>no.existe.pago</source>
+                <target>No existe un pago para este producto</target>
+			</trans-unit>
+			<trans-unit id="pag-2">
+                <source>antes.de.continuar.debes.realizar.el.pago</source>
+                <target>Antes de continuar debes realizar el respectivo pago</target>
+			</trans-unit>
             
         </body>
     </file>
