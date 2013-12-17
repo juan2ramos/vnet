@@ -13,10 +13,11 @@
                         <th>#</th>
                         <th>{% trans  from "label" %}producto{% endtrans %}</th>
                         <th>{% trans  from "label" %}valor{% endtrans %}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for producto in productos %}
+                    {% for key, producto in productos %}
                         <tr>
                             <td>{{ loop.index }}</td>
                             <td>
@@ -26,10 +27,11 @@
                                 {% endif %}
                             </td>
                             <td>$ {{ producto.valor|number_format() }}</td>
+                            <td><a href="{{ path("eliminar_producto", {'key': key }) }}" class="btn btn-xs btn-danger"><i class="icon-trash"></i> {% trans  from "label" %}eliminar{% endtrans %}</a></td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="3">{% trans  from "label" %}no.hay.productos{% endtrans %}</td>
+                            <td colspan="4">{% trans  from "label" %}no.hay.productos{% endtrans %}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -45,6 +47,7 @@
             </div>
             <div class="text-center invoice-btn">
                 <a class="btn btn-danger btn-lg"><i class="icon-check"></i> {% trans  from "label" %}pagar{% endtrans %} </a>                
+                <a href="{{ path('planes') }}" class="btn btn-info btn-lg"><i class="icon-suitcase"></i> {% trans  from "label" %}paquetes{% endtrans %} </a>                
             </div>
         </div>
 </section>    

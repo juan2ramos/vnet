@@ -1,0 +1,31 @@
+{% extends '::base.html.twig' %}
+
+{% block style %}
+<style>
+    .table td{
+        vertical-align: middle !important;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">{% trans from "label" %}comprar.mentoria{% endtrans %}</header>
+            <table class="table table-striped border-top datatable">
+                <tbody>
+                    {% for mentor in mentores %}
+                        <tr>
+                            <td style="width: 50px;"><img src="{{ asset(mentor.usuarioImagen|default(gui_default_img)) ~ '?type=small' }}" alt="" style='width:50px'></td>
+                            <td>{{ mentor.usuarioNombre ~ ' ' ~ mentor.usuarioApellido }}</td>
+                            <td>$ {{ mentor.usuarioValorMentoria|number_format }}</td>
+                            <td><a href="{{ path("agregar_producto_mentoria", {'id': mentor.id }) }}" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+{% endblock body %}

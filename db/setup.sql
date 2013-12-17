@@ -103,5 +103,5 @@ INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES
 
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('1', 'Programa de orientación', 'Programa completo para la toma de una decisión consciente', '100000');
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('2', 'Informe de mercado laboral', 'Acceso individual al informe de mercado laboral', '20000');
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('3', 'Mentoría con profesional', 'Una mentoría con mentor profesional', '0');
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('4', 'Mentoría con experto en orientación vocacional', 'una mentoría con experto en orientación vocacional', '30000');
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('3', 'Mentoría profesional', 'Una mentoría con mentor profesional', '0');
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('4', 'Mentoría de orientación vocacional', 'una mentoría con experto en orientación vocacional', '30000');
