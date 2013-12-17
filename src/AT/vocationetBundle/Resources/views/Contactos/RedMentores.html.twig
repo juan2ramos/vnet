@@ -38,6 +38,11 @@
 	<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
 {% endblock style %}
 
+{% block menu %}
+	{% set active = 'redmentores' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 
 	<div class="row">

@@ -35,6 +35,11 @@
 </style>
 {% endblock style %}
 
+{% block menu %}
+	{% set active = 'home' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 <div class="row">
     <div class="col-lg-8">

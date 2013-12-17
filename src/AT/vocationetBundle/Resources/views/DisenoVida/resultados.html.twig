@@ -13,6 +13,11 @@
 </style>
 {% endblock style %}
 
+{% block menu %}
+	{% set active = 'adminmentor' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 <div class="row">
     <div class="col-lg-8">

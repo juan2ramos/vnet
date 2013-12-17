@@ -4,6 +4,11 @@
     <link rel="stylesheet" href="{{ asset('assets/chosen/chosen.css') }}" />
 {% endblock style %}
 
+{% block menu %}
+	{% set active = 'inbox' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 <div class="mail-box">
 <aside class="sm-side">

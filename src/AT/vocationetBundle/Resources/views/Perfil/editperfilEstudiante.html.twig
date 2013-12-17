@@ -6,6 +6,10 @@
     {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-daterangepicker/daterangepicker.css') }}" />#}
 {% endblock style %}
 
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 	{% set span = (publicidad) ? 9 : 12 %}
 	<div class='col-lg-{{ span }}'>
