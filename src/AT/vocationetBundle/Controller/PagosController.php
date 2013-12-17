@@ -86,8 +86,7 @@ class PagosController extends Controller
                 elseif($id != $pagos->getProductoId('programa_orientacion'))
                 {
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "warning", "title" => $this->get('translator')->trans("no.puede.agregar.producto"), "text" => $this->get('translator')->trans("si.compra.plan.completo.no.puede.agregar.productos")));
-                }
-                
+                }                
             }
         }
         

@@ -16,14 +16,14 @@ class PagosService
      * 
      * @var Object 
      */
-    var $serv_cont;
+    protected $serv_cont;
     
     /**
      * Entity manager  
      * 
      * @var Object 
      */
-    var $em;
+    protected $em;
     
     /**
      * Constructor
@@ -204,7 +204,15 @@ class PagosService
         );
     }
     
-    
+    /**
+     * Funcion para registrar la orden y sus productos en la db
+     * 
+     * La orden se registra con estado 0
+     * 
+     * @param integer $usuarioId id de usuario
+     * @param array $productos arreglo de productos del carrito
+     * @param array $totales arreglo con los totales de la compra
+     */
     public function registrarCompra($usuarioId, $productos, $totales)
     {        
         $orden = new \AT\vocationetBundle\Entity\Ordenes();
