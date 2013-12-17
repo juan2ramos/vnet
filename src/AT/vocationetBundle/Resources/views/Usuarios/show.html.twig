@@ -5,6 +5,11 @@
 	<link rel="stylesheet" href="{{ asset('rateit/src/rateit.css') }}" type="text/css">
 {% endblock style %}
 
+{% block menu %}
+	{% set active = (filtro == 1) ? 'u_estudiante' : (filtro == 2) ? 'u_mentor_e' : (filtro == 3) ? 'u_mentor_ov' : (filtro == 4) ? 'u_admin' : '' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 	{% set rolId = entity.rol.id %}
 	<div class="col-lg-12">

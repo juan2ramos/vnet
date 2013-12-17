@@ -38,8 +38,12 @@
 	<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
 {% endblock style %}
 
-{% block body %}
+{% block menu %}
+	{% set active = 'mvocacional' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
 
+{% block body %}
 	<div class="row">
 		<div class="col-lg-12">
             

@@ -1,5 +1,9 @@
 {% extends "::base.html.twig" %}
 
+{% block menu %}
+	{% set active = 'foros' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
 
 {% block body %}
 	<div class='col-lg-9'>

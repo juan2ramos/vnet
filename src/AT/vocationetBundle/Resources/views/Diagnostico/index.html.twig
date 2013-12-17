@@ -5,6 +5,11 @@
     <link href="{{ asset('css/vocationet/cuestionarios.css') }}" rel="stylesheet"/>
 {% endblock style %}
 
+{% block menu %}
+	{% set active = 'diagnostico' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 <div class="row">
     <div class="col-lg-12">
