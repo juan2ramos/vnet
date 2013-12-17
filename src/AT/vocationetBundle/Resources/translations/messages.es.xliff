@@ -616,6 +616,22 @@
                 <source>debe.seleccionar.mentor.para.comprar.mentorias</source>
                 <target>Para comprar mentorias debe seleccionar primero uno o varios mentores expertos</target>
 			</trans-unit>
+			<trans-unit id="pag-8">
+                <source>seleccione.productos</source>
+                <target>Seleccione productos</target>
+			</trans-unit>
+			<trans-unit id="pag-9">
+                <source>no.ha.seleccionado.productos</source>
+                <target>Aun no has seleccionado productos para pagar</target>
+			</trans-unit>
+			<trans-unit id="pag-10">
+                <source>compra.finalizada</source>
+                <target>Compra finalizada correctamente</target>
+			</trans-unit>
+			<trans-unit id="pag-11">
+                <source>gracias.por.adquirir.nuestros.productos</source>
+                <target>Gracias por adquirir nuestros productos</target>
+			</trans-unit>
             
         </body>
     </file>

@@ -203,5 +203,37 @@ class PagosService
             'total' => $total
         );
     }
+    
+    
+    public function registrarCompra($usuarioId, $productos, $totales)
+    {        
+        $orden = new \AT\vocationetBundle\Entity\Ordenes();
+        $orden->setFechaHoraCompra(new \DateTime());
+        $orden->setUsuario($usuarioId);
+        $orden->setSubtotal($totales['subtotal']);
+        $orden->setIva($totales['iva']);
+        $orden->setTotal($totales['total']);
+        $orden->setEstado(0);
+        
+        $this->em->persist($orden);
+        
+        foreach($productos as $p)
+        {
+            $ordenProducto = new \AT\vocationetBundle\Entity\OrdenesProductos();
+            $ordenProducto->setProducto($p['id']);
+            $ordenProducto->setOrden($orden);
+            if(isset($p['mentorId']))
+            {
+                $ordenProducto->setMentorId($p['mentorId']);
+            }
+            $ordenProducto->setValor($p['valor']);
+            $ordenProducto->setEstado(0);
+            
+            $this->em->persist($ordenProducto);
+        }
+        
+        $this->em->flush();
+        
+    }
             
 }

@@ -22,18 +22,32 @@ class Ordenes
     private $id;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="valor_total", type="float", nullable=false)
-     */
-    private $valorTotal;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=false)
      */
     private $fechaHoraCompra;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="subtotal", type="float", nullable=false)
+     */
+    private $subtotal;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="iva", type="float", nullable=false)
+     */
+    private $iva;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="total", type="float", nullable=false)
+     */
+    private $total;
 
     /**
      * @var integer

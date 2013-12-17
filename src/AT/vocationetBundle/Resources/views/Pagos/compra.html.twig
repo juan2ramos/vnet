@@ -46,8 +46,11 @@
                 </div>
             </div>
             <div class="text-center invoice-btn">
-                <a class="btn btn-danger btn-lg"><i class="icon-check"></i> {% trans  from "label" %}pagar{% endtrans %} </a>                
-                <a href="{{ path('planes') }}" class="btn btn-info btn-lg"><i class="icon-suitcase"></i> {% trans  from "label" %}paquetes{% endtrans %} </a>                
+                <form action="{{ path("comprar") }}" method="post">
+                    {{ form_widget(form._token) }}
+                    <button type="submit" class="btn btn-danger btn-lg"><i class="icon-check"></i> {% trans  from "label" %}pagar{% endtrans %} </button>                
+                    <a href="{{ path('planes') }}" class="btn btn-info btn-lg"><i class="icon-suitcase"></i> {% trans  from "label" %}paquetes{% endtrans %} </a>                
+                </form>
             </div>
         </div>
 </section>    

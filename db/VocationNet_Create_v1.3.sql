@@ -488,9 +488,11 @@ COMMENT = 'Tabla de productos';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ordenes` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `valor_total` FLOAT NOT NULL COMMENT 'Valor total de la compra',
   `fecha_hora_compra` DATETIME NOT NULL COMMENT 'fecha de la compra',
   `usuario_id` INT NOT NULL COMMENT 'id de usuario que realiza la compra',
+  `subtotal` FLOAT NOT NULL,
+  `iva` FLOAT NOT NULL,
+  `total` FLOAT NOT NULL COMMENT 'Valor total de la compra',
   `estado` INT(2) NOT NULL DEFAULT 0 COMMENT 'estado de la compra (0: sin pagar, 1: pago)',
   PRIMARY KEY (`id`),
   INDEX `fk_ordenes_2_idx` (`usuario_id` ASC),
@@ -553,29 +555,6 @@ CREATE TABLE IF NOT EXISTS `preguntas` (
   CONSTRAINT `fk_preguntas_1`
     FOREIGN KEY (`formulario_id`)
     REFERENCES `formularios` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `permisos_productos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `permisos_productos` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `permiso_id` INT NULL,
-  `producto_id` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_permisos_productos_1_idx` (`permiso_id` ASC),
-  INDEX `fk_permisos_productos_2_idx` (`producto_id` ASC),
-  CONSTRAINT `fk_permisos_productos_1`
-    FOREIGN KEY (`permiso_id`)
-    REFERENCES `permisos` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_permisos_productos_2`
-    FOREIGN KEY (`producto_id`)
-    REFERENCES `productos` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

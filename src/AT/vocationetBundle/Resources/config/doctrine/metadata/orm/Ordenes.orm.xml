@@ -4,8 +4,10 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="valorTotal" type="float" column="valor_total" nullable="false"/>
     <field name="fechaHoraCompra" type="datetime" column="fecha_hora_compra" nullable="false"/>
+    <field name="subtotal" type="float" column="subtotal" nullable="false"/>
+    <field name="iva" type="float" column="iva" nullable="false"/>
+    <field name="total" type="float" column="total" nullable="false"/>
     <field name="estado" type="integer" column="estado" nullable="false"/>
     <many-to-one field="usuario" target-entity="Usuarios">
       <join-columns>

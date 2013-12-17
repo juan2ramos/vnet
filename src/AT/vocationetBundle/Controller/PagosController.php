@@ -29,6 +29,7 @@ class PagosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $precios = $this->getPrecios();        
         
@@ -53,6 +54,7 @@ class PagosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $pagos = $this->get('pagos');
         
@@ -107,6 +109,7 @@ class PagosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $productos = $this->get('session')->get('productos');
         
@@ -128,6 +131,7 @@ class PagosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $usuarioId = $security->getSessionValue('id');
         
@@ -155,6 +159,7 @@ class PagosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $pagos = $this->get('pagos');
         
@@ -189,7 +194,6 @@ class PagosController extends Controller
         return $this->redirect($this->generateUrl('comprar'));
     }
 
-
     /**
      * Accion para finalizar una compra
      * 
@@ -197,12 +201,14 @@ class PagosController extends Controller
      * @Template("vocationetBundle:Pagos:compra.html.twig")
      * @return Response
      */
-    public function compraAction()
+    public function compraAction(Request $request)
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $productos = $this->get('session')->get('productos');
+        $usuarioId = $security->getSessionValue("id");
         
         $total = 0;
         if(count($productos))
@@ -215,14 +221,46 @@ class PagosController extends Controller
         
         $totales = $this->get('pagos')->calcularTotales($total);
         
+        $form = $this->createFormCompra();
+        
+        if($request->getMethod() == 'POST') 
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                if(count($productos))
+                {
+                    $this->get('pagos')->registrarCompra($usuarioId, $productos, $totales);
+                    
+                    // Vaciar carrito
+                    $this->get('session')->set('productos', null);
+                    
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("compra.finalizada"), "text" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos")));
+                    return $this->redirect($this->generateUrl('homepage'));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("seleccione.productos"), "text" => $this->get('translator')->trans("no.ha.seleccionado.productos")));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            }
+        }
+        
         return array(
             'productos' => $productos,
             'subtotal' => $totales['subtotal'],
             'iva' => $totales['iva'],
-            'total' => $totales['total']
+            'total' => $totales['total'],
+            'form' => $form->createView(),
         );
     }
         
+    
+    
+    
     /**
      * Funcion para obtener los precios de los productos
      * 
@@ -299,5 +337,20 @@ class PagosController extends Controller
         }
         
         return $mentor;
+    }
+    
+    /**
+     * Funcion para crear un formulario vacio
+     * 
+     * Se usa unicamente para proteccion csrf
+     * 
+     * @return Object formulario
+     */
+    private function createFormCompra()
+    {
+        $form = $this->createFormBuilder()
+            ->getForm();
+        
+        return $form;
     }
 }
