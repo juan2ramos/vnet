@@ -88,8 +88,9 @@ INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES
 ('23', '2'),
 ('23', '3'),
 ('23', '4'),
-('24', '1'),
-('25', '1');
+('24', '1'), ('24', '2'), ('24', '3'), ('24', '4'),
+('25', '1'), ('25', '2'), ('25', '3'), ('25', '4');
+
 
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
 (1, 'selección múltiple con única respuesta'),
