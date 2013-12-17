@@ -41,7 +41,7 @@ class MensajesService
      */
     public function getToList($usuarioId)
     {
-        $toList = false;
+        $toList = array();
         $em = $this->doctrine->getManager();
         $dql = "SELECT
                     u.id, 

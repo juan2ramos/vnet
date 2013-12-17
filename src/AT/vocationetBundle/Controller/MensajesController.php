@@ -33,8 +33,6 @@ class MensajesController extends Controller
         
         $form = $this->createMensajeForm();
         
-        
-        
         return array(
             'form' => $form->createView(),
         );
