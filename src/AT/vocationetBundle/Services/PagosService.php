@@ -248,5 +248,26 @@ class PagosService
         
         return $codigo;
     }
-            
+           
+    /**
+     * Funcion para activar una orden de pago
+     * 
+     * @param string $codigo codigo de la orden
+     * @param integer $usuarioId id de usuario que envia la orden
+     */
+    public function activarOrden($codigo, $usuarioId)
+    {
+        $dql = "UPDATE vocationetBundle:Ordenes o
+                    SET o.estado = 1 
+                WHERE 
+                    o.codigo = :codigo
+                    AND o.usuario = :usuarioId
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('codigo', $codigo);
+        $query->setParameter('usuarioId', $usuarioId);
+        $query->setMaxResults(1);
+        $query->getResult();
+    }
+    
 }

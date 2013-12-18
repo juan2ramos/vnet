@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Controlador para pagos
  *
- * @Route("/planes")
+ * @Route("/pagos")
  * @author Diego Malagón <diego@altactic.com>
  */
 class PagosController extends Controller
@@ -294,15 +294,46 @@ class PagosController extends Controller
             'payu_data_form' => $payUDataForm
         );
     }
-    
-    
+        
     /**
      * @Route("/payuresponse", name="payu_response")
      * @Template("vocationetBundle:Pagos:compra.html.twig")
+     * @Method({"GET"})
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
     public function responsePayUAction(Request $request)
     {
+        $security = $this->get('security');
+//        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));}
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $usuarioId = $security->getSessionValue("id");
+        
+        $pagos = $this->get('pagos');
+        $PayU = $this->get('payu');
+        
+        $transaccion = $PayU->processResponse($request);
+        
+        if($transaccion['status'] == 'success')
+        {
+            // Vaciar carrito
+            $this->get('session')->set('productos', null);
+            
+//            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+//                "title" => $this->get('translator')->trans("compra.finalizada"),
+//                "message" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos")
+//            )); 
+            
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("compra.finalizada"), "text" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos"), "time" => 10000));
+            return $this->redirect($this->generateUrl('homepage'));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.transaccion"), "text" => $transaccion['status'], "time" => 10000));
+            return $this->redirect($this->generateUrl('comprar'));
+        }
+        
+        
         return new Response();
     }
     

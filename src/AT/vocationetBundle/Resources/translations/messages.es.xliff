@@ -630,7 +630,7 @@
 			</trans-unit>
 			<trans-unit id="pag-11">
                 <source>gracias.por.adquirir.nuestros.productos</source>
-                <target>Gracias por adquirir nuestros productos</target>
+                <target>Gracias por adquirir nuestros productos. La transacción ha sido exitosa, una vez el pago sea confirmado te enviaremos una notificación y activaremos tus productos inmediatamente</target>
 			</trans-unit>
 			<trans-unit id="pag-12">
                 <source>compra.en.vocationet</source>

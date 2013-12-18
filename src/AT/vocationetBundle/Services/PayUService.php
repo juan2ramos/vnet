@@ -179,7 +179,7 @@ class PayUService
      */
     public function generateDataFormWebCheckout($buyerEmail, $referenceCode, $amount, $tax, $taxReturnBase)
     {
-        $signature = $this->generateSignature($referenceCode, $amount);        
+        $signature = $this->generateSignature($referenceCode, $amount, $this->merchantId);        
         
         $data = array(
             'merchantId' => $this->merchantId,
@@ -223,13 +223,71 @@ class PayUService
      * 
      * @param string $referenceCode referenceCode de la orden
      * @param string $amount valor total de la orden
+     * @param string $merchantId identificador de comercio, no se hace referencia al atributo de la clase por las validaciones de seguridad
      * @return string signature en MD5
      */
-    private function generateSignature($referenceCode, $amount)
+    private function generateSignature($referenceCode, $amount, $merchantId)
     {
-        $signature = $this->apiKey."~".$this->merchantId."~".$referenceCode."~".$amount."~".$this->currency;
+        $signature = $this->apiKey."~".$merchantId."~".$referenceCode."~".$amount."~".$this->currency;
         
         return md5($signature);
+    }
+    
+    /**
+     * Funcion para procesar la respuesta de PayU
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return boolean|string retorna el codigo de la transaccion si fue exitosa, false en otro caso
+     */
+    public function processResponse($request)
+    {
+        $merchantId = $request->get('merchantId');
+        $referenceCode = $request->get('referenceCode');
+        $TX_VALUE = $request->get('TX_VALUE');
+        $amount = number_format($TX_VALUE, 1, '.', '');
+        $currency = $request->get('currency');
+        
+        $transactionState = $request->get('transactionState');
+        $responseCode = $request->get('polResponseCode');
+        
+        $signature = $this->generateSignature($referenceCode, $amount, $merchantId); 
+        $requestSignature = $request->get('signature');
+        
+        $reference_pol = $request->get('reference_pol');
+        $cus = $request->get('cus');
+        $extra1 = $request->get('description');
+        $pseBank = $request->get('pseBank');
+        $lapPaymentMethod = $request->get('lapPaymentMethod');
+        $transactionId = $request->get('transactionId');
+        
+        $estadoTx = $request->get('mensaje');
+        
+        /*
+        if($transactionState == 6 && $responseCode == 5)
+        { $estadoTx = "Transacci&oacute;n fallida"; }
+        else if($transactionState == 6 && $responseCode == 4)
+        {$estadoTx = "Transacci&oacute;n rechazada";}
+        else if($transactionState == 12 && $responseCode == 9994)
+        {$estadoTx = "Pendiente, Por favor revisar si el d&eacute;bito fue realizado en el Banco";}
+        else if($transactionState == 4 && $responseCode == 1)
+        {$estadoTx = "Transacci&oacute;n aprobada";}
+        */
+        
+        if($signature == $requestSignature)
+        {
+            
+        }
+        else
+        {
+            
+        }
+        
+        
+        return array(
+            'status' => 'success',
+            'message' => $estadoTx,
+            'referenceCode' => $referenceCode  
+        );
     }
 }
 
