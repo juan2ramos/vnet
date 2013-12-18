@@ -198,6 +198,7 @@ class SecurityService
         $this->session->set('sess_user',null);
         $this->session->set('sess_permissions',null);
         $this->session->set('sess_parameters',null);
+        $this->session->set('productos',null);
     }
     
     /**

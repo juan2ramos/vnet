@@ -29,6 +29,7 @@ class PagosController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $precios = $this->getPrecios();        
         
@@ -47,32 +48,152 @@ class PagosController extends Controller
      * 
      * @Route("/agregar/{id}", name="agregar_producto")
      * @param integer $id id de producto
-     * @return Response
+     * @return Response redirecciona a compraAction
      */
     public function agregarProductoAction($id)
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $pagos = $this->get('pagos');
         
         $productos = $this->get('session')->get('productos');
-        $security->debug($productos);
+        //$security->debug($productos);
         
         // Validar id de producto existente
-        if(in_array($id, $this->get('pagos')->getProductoId()))
-        {
-            $producto = $this->get('pagos')->getProducto($id);
-            
-            if(!is_array($productos) || !in_array($producto, $productos))// Validar que no se repita
+        if(in_array($id, $pagos->getProductoId()))
+        {            
+            if(!is_array($productos) || !isset($productos[$id]) || $id == $pagos->getProductoId('mentoria_ov'))// Validar que no se repita o sea una mentoria ov
             {
-                $productos[] = $producto;
+                // Validar que si agrega el plan completo no pueda agregar mas productos                
+                if($id == $pagos->getProductoId('programa_orientacion')) // si agrega el plan completo borrar los demas productos
+                {
+                   if(count($productos) >= 1)
+                   {
+                        $this->get('session')->getFlashBag()->add('alerts', array("type" => "warning", "title" => $this->get('translator')->trans("productos.eliminados"), "text" => $this->get('translator')->trans("si.compra.plan.completo.no.puede.agregar.productos")));
+                   }
+                   $productos = array(); // vaciar carrito 
+                }
+                // Si no se ha agregado el plan completo permitir agregar producto
+                if(!isset($productos[$pagos->getProductoId('programa_orientacion')]))
+                {
+                    $producto = $pagos->getProducto($id);
+                    $key = $producto['id'];
+                    if($id == $pagos->getProductoId('mentoria_ov')) $key = uniqid();
+                    $productos[$key] = $producto;  
+                }
+                elseif($id != $pagos->getProductoId('programa_orientacion'))
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "warning", "title" => $this->get('translator')->trans("no.puede.agregar.producto"), "text" => $this->get('translator')->trans("si.compra.plan.completo.no.puede.agregar.productos")));
+                }
+                
             }
         }
         
         $this->get('session')->set('productos', $productos);
         
+        //return new Response();
+        
         return $this->redirect($this->generateUrl('comprar'));
     }
     
+    /**
+     * Accion para eliminar producto del carrito de compras
+     * 
+     * @Route("/eliminar/{key}", name="eliminar_producto")
+     * @param integer $key key de producto en array
+     * @return Response redirecciona a compraAction
+     */
+    public function eliminarProductoAction($key)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $productos = $this->get('session')->get('productos');
+        
+        unset($productos[$key]);
+        
+        $this->get('session')->set('productos', $productos);        
+        
+        return $this->redirect($this->generateUrl('comprar'));
+    }
+    
+    /**
+     * Accion para seleccionar mentoria con mentor profesional
+     * 
+     * @Route("/mentores", name="pagos_mentorias")
+     * @Template("vocationetBundle:Pagos:mentores.html.twig")
+     * @return Response
+     */
+    public function mentoresAction()
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $usuarioId = $security->getSessionValue('id');
+        
+        $mentores = $this->getMentoresUsuario($usuarioId);
+        
+        if(!$mentores)
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "warning", "title" => $this->get('translator')->trans("debe.seleccionar.mentor.experto"), "text" => $this->get('translator')->trans("debe.seleccionar.mentor.para.comprar.mentorias")));
+            return $this->redirect($this->generateUrl('red_mentores'));
+        }
+        
+        return array(
+            'mentores' => $mentores
+        );
+    }
+
+    /**
+     * Accion para agregar producto mentoria al carrito de compras
+     * 
+     * @Route("/agregar_mentoria/{id}", name="agregar_producto_mentoria")
+     * @param integer $id id de mentor
+     * @return Response redirecciona a compraAction
+     */
+    public function agregarMentoriaAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $pagos = $this->get('pagos');
+        
+        $productoId = $pagos->getProductoId('mentoria_profesional');
+        
+        $productos = $this->get('session')->get('productos');
+        
+        //$security->debug($productos);
+        
+        // Si no se ha agregado el plan completo permitir agregar producto
+        if(!isset($productos[$pagos->getProductoId('programa_orientacion')]))
+        {
+            $mentor = $this->getMentor($id);            
+            
+            $producto = $pagos->getProducto($productoId);
+            $producto['mentorId'] = $id;
+            $producto['mentor'] = $mentor['usuarioNombre']." ".$mentor['usuarioApellido'];
+            $producto['valor'] = $mentor['usuarioValorMentoria'];
+            $key = uniqid();
+            
+            $productos[$key] = $producto;  
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "warning", "title" => $this->get('translator')->trans("no.puede.agregar.producto"), "text" => $this->get('translator')->trans("si.compra.plan.completo.no.puede.agregar.productos")));
+        }
+        
+        $this->get('session')->set('productos', $productos);
+        
+        //return new Response();
+        
+        return $this->redirect($this->generateUrl('comprar'));
+    }
+
     /**
      * Accion para finalizar una compra
      * 
@@ -80,12 +201,14 @@ class PagosController extends Controller
      * @Template("vocationetBundle:Pagos:compra.html.twig")
      * @return Response
      */
-    public function compraAction()
+    public function compraAction(Request $request)
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $productos = $this->get('session')->get('productos');
+        $usuarioId = $security->getSessionValue("id");
         
         $total = 0;
         if(count($productos))
@@ -98,13 +221,44 @@ class PagosController extends Controller
         
         $totales = $this->get('pagos')->calcularTotales($total);
         
+        $form = $this->createFormCompra();
+        
+        if($request->getMethod() == 'POST') 
+        {
+            $form->bind($request);
+            if ($form->isValid())
+            {
+                if(count($productos))
+                {
+                    $this->get('pagos')->registrarCompra($usuarioId, $productos, $totales);
+                    
+                    // Vaciar carrito
+                    $this->get('session')->set('productos', null);
+                    
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("compra.finalizada"), "text" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos")));
+                    return $this->redirect($this->generateUrl('homepage'));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("seleccione.productos"), "text" => $this->get('translator')->trans("no.ha.seleccionado.productos")));
+                }
+            }
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            }
+        }
+        
         return array(
             'productos' => $productos,
             'subtotal' => $totales['subtotal'],
             'iva' => $totales['iva'],
-            'total' => $totales['total']
+            'total' => $totales['total'],
+            'form' => $form->createView(),
         );
     }
+        
+    
     
     
     /**
@@ -126,5 +280,77 @@ class PagosController extends Controller
         }
         
         return $precios;        
+    }
+    
+    /**
+     * Funcion que obtiene los mentores profesionales del usuario
+     * 
+     * @param integer $usuarioId id de usuario estudiante
+     * @return array
+     */
+    private function getMentoresUsuario($usuarioId)
+    {
+        $dql = "SELECT 
+                    u.id,
+                    u.usuarioNombre,
+                    u.usuarioApellido,
+                    u.usuarioImagen,
+                    u.usuarioValorMentoria
+                FROM
+                    vocationetBundle:Usuarios u
+                    JOIN vocationetBundle:Relaciones r WITH r.usuario = u.id OR r.usuario2 = u.id
+                WHERE
+                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
+                    AND u.id != :usuarioId
+                    AND r.tipo = 3
+                    AND r.estado = 1
+        ";         
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
+    /**
+     * Funcion para obtener informacion de un mentor
+     * 
+     * @param integer $mentorId id de mentor
+     * @return array
+     */
+    private function getMentor($mentorId)
+    {
+        $dql = "SELECT u.usuarioNombre, u.usuarioApellido, u.usuarioValorMentoria
+                FROM vocationetBundle:Usuarios u 
+                WHERE u.id = :mentorId";
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('mentorId', $mentorId);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        $mentor = false;
+        if($result)
+        {
+            $mentor = $result[0];
+        }
+        
+        return $mentor;
+    }
+    
+    /**
+     * Funcion para crear un formulario vacio
+     * 
+     * Se usa unicamente para proteccion csrf
+     * 
+     * @return Object formulario
+     */
+    private function createFormCompra()
+    {
+        $form = $this->createFormBuilder()
+            ->getForm();
+        
+        return $form;
     }
 }

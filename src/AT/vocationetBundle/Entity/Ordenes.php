@@ -22,18 +22,32 @@ class Ordenes
     private $id;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="valor_total", type="float", nullable=false)
-     */
-    private $valorTotal;
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=false)
      */
     private $fechaHoraCompra;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="subtotal", type="float", nullable=false)
+     */
+    private $subtotal;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="iva", type="float", nullable=false)
+     */
+    private $iva;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="total", type="float", nullable=false)
+     */
+    private $total;
 
     /**
      * @var integer
@@ -43,12 +57,9 @@ class Ordenes
     private $estado;
 
     /**
-     * @var \Usuarios
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Usuarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
      */
     private $usuario;
 
@@ -62,29 +73,6 @@ class Ordenes
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set valorTotal
-     *
-     * @param float $valorTotal
-     * @return Ordenes
-     */
-    public function setValorTotal($valorTotal)
-    {
-        $this->valorTotal = $valorTotal;
-    
-        return $this;
-    }
-
-    /**
-     * Get valorTotal
-     *
-     * @return float 
-     */
-    public function getValorTotal()
-    {
-        return $this->valorTotal;
     }
 
     /**
@@ -108,6 +96,75 @@ class Ordenes
     public function getFechaHoraCompra()
     {
         return $this->fechaHoraCompra;
+    }
+
+    /**
+     * Set subtotal
+     *
+     * @param float $subtotal
+     * @return Ordenes
+     */
+    public function setSubtotal($subtotal)
+    {
+        $this->subtotal = $subtotal;
+    
+        return $this;
+    }
+
+    /**
+     * Get subtotal
+     *
+     * @return float 
+     */
+    public function getSubtotal()
+    {
+        return $this->subtotal;
+    }
+
+    /**
+     * Set iva
+     *
+     * @param float $iva
+     * @return Ordenes
+     */
+    public function setIva($iva)
+    {
+        $this->iva = $iva;
+    
+        return $this;
+    }
+
+    /**
+     * Get iva
+     *
+     * @return float 
+     */
+    public function getIva()
+    {
+        return $this->iva;
+    }
+
+    /**
+     * Set total
+     *
+     * @param float $total
+     * @return Ordenes
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    
+        return $this;
+    }
+
+    /**
+     * Get total
+     *
+     * @return float 
+     */
+    public function getTotal()
+    {
+        return $this->total;
     }
 
     /**
@@ -136,10 +193,10 @@ class Ordenes
     /**
      * Set usuario
      *
-     * @param \AT\vocationetBundle\Entity\Usuarios $usuario
+     * @param integer $usuario
      * @return Ordenes
      */
-    public function setUsuario(\AT\vocationetBundle\Entity\Usuarios $usuario = null)
+    public function setUsuario($usuario = null)
     {
         $this->usuario = $usuario;
     
@@ -149,7 +206,7 @@ class Ordenes
     /**
      * Get usuario
      *
-     * @return \AT\vocationetBundle\Entity\Usuarios 
+     * @return integer
      */
     public function getUsuario()
     {

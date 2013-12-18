@@ -1554,6 +1554,22 @@
                 <source>compra</source>
                 <target>Compra</target>
 			</trans-unit>
+			<trans-unit id="pago-32">
+                <source>paquetes</source>
+                <target>Paquetes</target>
+			</trans-unit>
+			<trans-unit id="pago-33">
+                <source>carrito.compras</source>
+                <target>Carrito</target>
+			</trans-unit>
+			<trans-unit id="pago-34">
+                <source>comprar.mentoria</source>
+                <target>Comprar mentoria</target>
+			</trans-unit>
+			<trans-unit id="pago-35">
+                <source>con</source>
+                <target>con</target>
+			</trans-unit>
 			
 			<!-- SELECCIONAR MENTOR EXPERTO selectMentorE-x -->
 			<trans-unit id="selectMentorE-1">

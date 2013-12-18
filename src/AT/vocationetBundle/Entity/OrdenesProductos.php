@@ -43,12 +43,9 @@ class OrdenesProductos
     private $estado;
 
     /**
-     * @var \Productos
-     *
-     * @ORM\ManyToOne(targetEntity="Productos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
-     * })
+     * @var integer
+     *  
+     * @ORM\Column(name="producto_id", type="integer", nullable=false)
      */
     private $producto;
 
@@ -146,10 +143,10 @@ class OrdenesProductos
     /**
      * Set producto
      *
-     * @param \AT\vocationetBundle\Entity\Productos $producto
+     * @param integer $producto
      * @return OrdenesProductos
      */
-    public function setProducto(\AT\vocationetBundle\Entity\Productos $producto = null)
+    public function setProducto($producto = null)
     {
         $this->producto = $producto;
     
@@ -159,7 +156,7 @@ class OrdenesProductos
     /**
      * Get producto
      *
-     * @return \AT\vocationetBundle\Entity\Productos 
+     * @return integer
      */
     public function getProducto()
     {

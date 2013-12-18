@@ -596,6 +596,42 @@
                 <source>antes.de.continuar.debes.realizar.el.pago</source>
                 <target>Antes de continuar debes realizar el respectivo pago</target>
 			</trans-unit>
+			<trans-unit id="pag-3">
+                <source>productos.eliminados</source>
+                <target>Productos eliminados</target>
+			</trans-unit>
+			<trans-unit id="pag-4">
+                <source>si.compra.plan.completo.no.puede.agregar.productos</source>
+                <target>Si compra el programa de orientación no puede agregar otros productos</target>
+			</trans-unit>
+			<trans-unit id="pag-5">
+                <source>no.puede.agregar.producto</source>
+                <target>No puede agregar más productos</target>
+			</trans-unit>
+			<trans-unit id="pag-6">
+                <source>debe.seleccionar.mentor.experto</source>
+                <target>Debe seleccionar mentor experto</target>
+			</trans-unit>
+			<trans-unit id="pag-7">
+                <source>debe.seleccionar.mentor.para.comprar.mentorias</source>
+                <target>Para comprar mentorias debe seleccionar primero uno o varios mentores expertos</target>
+			</trans-unit>
+			<trans-unit id="pag-8">
+                <source>seleccione.productos</source>
+                <target>Seleccione productos</target>
+			</trans-unit>
+			<trans-unit id="pag-9">
+                <source>no.ha.seleccionado.productos</source>
+                <target>Aun no has seleccionado productos para pagar</target>
+			</trans-unit>
+			<trans-unit id="pag-10">
+                <source>compra.finalizada</source>
+                <target>Compra finalizada correctamente</target>
+			</trans-unit>
+			<trans-unit id="pag-11">
+                <source>gracias.por.adquirir.nuestros.productos</source>
+                <target>Gracias por adquirir nuestros productos</target>
+			</trans-unit>
             
         </body>
     </file>
