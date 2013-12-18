@@ -7,6 +7,7 @@
             {% trans from "label" %}compra{% endtrans %}
         </header>
         <div class="panel-body">
+            <a href="{{ path('planes') }}" class="btn btn-info btn-lg" style="float: right;"><i class="icon-suitcase"></i> {% trans  from "label" %}paquetes{% endtrans %} </a>                
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -46,7 +47,7 @@
                 </div>
             </div>
             <div class="text-center invoice-btn">
-                <form action="{{ path("comprar") }}" method="post">
+                <form action="{{ path("confirmar_comprar") }}" method="post">
                     {{ form_widget(form._token) }}
                     <button type="submit" class="btn btn-danger btn-lg"><i class="icon-check"></i> {% trans  from "label" %}pagar{% endtrans %} </button>                
                     <a href="{{ path('planes') }}" class="btn btn-info btn-lg"><i class="icon-suitcase"></i> {% trans  from "label" %}paquetes{% endtrans %} </a>                

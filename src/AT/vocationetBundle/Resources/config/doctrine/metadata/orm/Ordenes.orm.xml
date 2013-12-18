@@ -4,6 +4,7 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="codigo" type="string" column="codigo" length="100" nullable="false"/>
     <field name="fechaHoraCompra" type="datetime" column="fecha_hora_compra" nullable="false"/>
     <field name="subtotal" type="float" column="subtotal" nullable="false"/>
     <field name="iva" type="float" column="iva" nullable="false"/>

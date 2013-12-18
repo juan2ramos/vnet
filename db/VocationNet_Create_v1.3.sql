@@ -488,6 +488,7 @@ COMMENT = 'Tabla de productos';
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `ordenes` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `codigo` VARCHAR(100) NOT NULL,
   `fecha_hora_compra` DATETIME NOT NULL COMMENT 'fecha de la compra',
   `usuario_id` INT NOT NULL COMMENT 'id de usuario que realiza la compra',
   `subtotal` FLOAT NOT NULL,
@@ -496,6 +497,7 @@ CREATE TABLE IF NOT EXISTS `ordenes` (
   `estado` INT(2) NOT NULL DEFAULT 0 COMMENT 'estado de la compra (0: sin pagar, 1: pago)',
   PRIMARY KEY (`id`),
   INDEX `fk_ordenes_2_idx` (`usuario_id` ASC),
+  UNIQUE INDEX `codigo_UNIQUE` (`codigo` ASC),
   CONSTRAINT `fk_ordenes_2`
     FOREIGN KEY (`usuario_id`)
     REFERENCES `usuarios` (`id`)

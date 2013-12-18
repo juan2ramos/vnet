@@ -3,7 +3,7 @@
 namespace AT\vocationetBundle\Services;
 
 /**
- * Servicio para el control de pagos con PayU
+ * Servicio para el control de pagos a través de web checkout de PayU
  * 
  * @author Diego Malagón <diego@altactic.com>
  */
@@ -38,13 +38,40 @@ class PayUService
     protected $apiKey;
     
     /**
-     * Identificador de la cuenta
+     * Moneda por defecto
      * 
      * @var string 
      */
-    protected $accountId;
-
+    protected $currency;
     
+    /**
+     * token para proteccion de csrf
+     * 
+     * @var string 
+     */
+    protected $token;
+    
+    /**
+     * Activa el entorno de pruebas
+     * 
+     * @var integer 
+     */
+    protected $test;
+    
+    /**
+     * Url al controlador de respuesta de PayU
+     * 
+     * @var string 
+     */
+    protected $responseUrl;
+    
+    /**
+     * Url al controlador de confirmacion de PayU
+     * 
+     * @var string 
+     */
+    protected $confirmationUrl;
+        
     /**
      * Constructor
      * 
@@ -54,13 +81,155 @@ class PayUService
      * @param string $apiKey ApiKey de PayU
      * @param string $accountId Identificador de la cuenta
      */
-    function __construct($service_container, $webCheckoutUrl, $merchantId, $apiKey, $accountId) 
+    function __construct($service_container, $webCheckoutUrl, $merchantId, $apiKey) 
     {
         $this->serv_cont = $service_container;
         $this->webCheckoutUrl = $webCheckoutUrl;
         $this->merchantId = $merchantId;
         $this->apiKey = $apiKey;
-        $this->accountId = $accountId;
+        $this->currency = 'COP';
+        $this->token = '60d20bcbfad939a9126a34c124259889ec9ed22e';
+        $this->test = 1;
+        $this->responseUrl = $service_container->get('request')->getSchemeAndHttpHost().$service_container->get('router')->generate('payu_response');
+        $this->confirmationUrl = $service_container->get('request')->getSchemeAndHttpHost().$service_container->get('router')->generate('payu_confirmation');
+    }
+    
+    /**
+     * Funcion que retorna los posibles estados de una transaccion
+     * 
+     * @return array
+     */
+    public function getTransactionStaues()
+    {
+        return array(
+            4 => 'CAPTURING_DATA', // Capturando datos.
+            2 => 'NEW', // Estado inicial de la transacción.
+            101 => 'FX_CONVERTED', // Retornado por el conversor de monedas, indicando la modificación realizada.
+            102 => 'VERIFIED', // Indica que la transacción fue evaluada por nuestro módulo antifraude.
+            103 => 'SUBMITTED', // Movimiento fue enviado para su procesamiento al proveedor de pago.
+            4 => 'APPROVED', // La transacción fue aprobada por la entidad financiera.
+            6 => 'DECLINED', // Transacción Declinada o Abandonada.
+            104 => 'ERROR', // Se presentó un error con el medio de pago externo.
+            7 => 'PENDING', // Operación pendiente de finalización.
+            5 => 'EXPIRED', // Transacción expiró, por superar el tiempo límite de respuesta.            
+        );
+    }
+    
+    /**
+     * Funcion que retorna los posibles codigos de respuesta
+     * 
+     * @return array
+     */
+    public function getResponseCodes()
+    {
+        return array(
+            1 => 'Transacción Aprobada.',
+            4 => 'Transacción rechazada por la entidad.',
+            5 => 'Transacción declinada por la entidad financiera.',
+            6 => 'Fondos insuficientes.',
+            7 => 'Tarjeta inválida.',
+            8 => 'Es necesario contactar a la entidad.',
+            9 => 'Tarjeta vencida.',
+            10 => 'Tarjeta restringida.',
+            12 => 'Fecha de expiración o campo seg. Inválidos.',
+            13 => 'Repita transacción.',
+            14 => 'Transacción inválida.',
+            15 => 'Transacción enviada a Validación Manual.',
+            17 => 'Monto excede máximo permitido por entidad.',
+            22 => 'Tarjeta no autorizada para realizar compras por internet.',
+            23 => 'Transacción Rechazada por el Modulo Antifraude.',
+            50 => 'Transacción Expirada, antes de ser enviada a la red del medio de pago.',
+            51 => 'Ocurrió un error en el procesamiento por parte de la Red del Medio de Pago.',
+            52 => 'El medio de Pago no se encuentra Activo. No se envía la solicitud a la red del mismo.',
+            53 => 'Banco no disponible.',
+            54 => 'El proveedor del Medio de Pago notifica que no fue aceptada la transacción.',
+            55 => 'Error convirtiendo el monto de la transacción.',
+            56 => 'Error convirtiendo montos del deposito.',
+            9994 => 'Transacción pendiente por confirmar.',
+            9995 => 'Certificado digital no encontrado.',
+            9997 => 'Error de mensajería con la entidad financiera.',
+            10000 => 'Ajustado Automáticamente.',
+            10001 => 'Ajuste Automático y Reversión Exitosa.',
+            10002 => 'Ajuste Automático y Reversión Fallida.',
+            10003 => 'Ajuste automático no soportado.',
+            10004 => 'Error en el Ajuste.',
+            10005 => 'Error en el ajuste y reversión.',
+        );
+    }
+    
+    /**
+     * Funcion que retorna la url para realizar el web checkout
+     * 
+     * @return string
+     */
+    public function getWebCheckoutUrl()
+    {
+        return $this->webCheckoutUrl;
+    }
+    
+    /**
+     * Funcion que genera los parametros necesarios para enviar una peticion de pago a PayU
+     * 
+     * @param string $buyerEmail email del usuario
+     * @param string $referenceCode codigo de la orden
+     * @param float $amount valor total de la orden
+     * @param float $tax valor del iva
+     * @param float $taxReturnBase subtotal de la orden
+     * @return array arreglo de parametros
+     */
+    public function generateDataFormWebCheckout($buyerEmail, $referenceCode, $amount, $tax, $taxReturnBase)
+    {
+        $signature = $this->generateSignature($referenceCode, $amount);        
+        
+        $data = array(
+            'merchantId' => $this->merchantId,
+            'referenceCode' => $referenceCode,
+            'description' => $this->serv_cont->get('translator')->trans("compra.en.vocationet"),
+            'amount' => $amount,
+            'tax' => $tax,
+            'taxReturnBase' => $taxReturnBase,
+            'signature' => $signature,
+            'currency' => $this->currency,
+            'buyerEmail' => $buyerEmail,
+            'test' => $this->test,
+            'responseUrl' => $this->responseUrl,
+            'confirmationUrl' => $this->confirmationUrl
+        );
+        
+        return $data;
+    }
+    
+    /**
+     * Funcion para generar un token unico por peticion
+     * 
+     * Se utiliza para generar el referenceCode solicitado por PayU
+     * 
+     * @return string
+    
+    private function generateToken()
+    {
+        $security = $this->serv_cont->get('security');
+        $unique = uniqid('pu');        
+        $token = $unique.'.'.$security->encriptar($unique.$this->token); 
+        
+        return $token;
+    }
+     */
+    
+    /**
+     * Funcion para generar signature para una orden de compra
+     * 
+     * Genera el signature de acuerdo a lo solicitado por PayU
+     * 
+     * @param string $referenceCode referenceCode de la orden
+     * @param string $amount valor total de la orden
+     * @return string signature en MD5
+     */
+    private function generateSignature($referenceCode, $amount)
+    {
+        $signature = $this->apiKey."~".$this->merchantId."~".$referenceCode."~".$amount."~".$this->currency;
+        
+        return md5($signature);
     }
 }
 

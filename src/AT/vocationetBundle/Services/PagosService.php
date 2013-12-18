@@ -212,10 +212,14 @@ class PagosService
      * @param integer $usuarioId id de usuario
      * @param array $productos arreglo de productos del carrito
      * @param array $totales arreglo con los totales de la compra
+     * @return string Codigo de la orden
      */
     public function registrarCompra($usuarioId, $productos, $totales)
     {        
+        $codigo = uniqid($usuarioId);
+        
         $orden = new \AT\vocationetBundle\Entity\Ordenes();
+        $orden->setCodigo($codigo);
         $orden->setFechaHoraCompra(new \DateTime());
         $orden->setUsuario($usuarioId);
         $orden->setSubtotal($totales['subtotal']);
@@ -242,6 +246,7 @@ class PagosService
         
         $this->em->flush();
         
+        return $codigo;
     }
             
 }

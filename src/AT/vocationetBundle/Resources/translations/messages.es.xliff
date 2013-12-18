@@ -632,6 +632,10 @@
                 <source>gracias.por.adquirir.nuestros.productos</source>
                 <target>Gracias por adquirir nuestros productos</target>
 			</trans-unit>
+			<trans-unit id="pag-12">
+                <source>compra.en.vocationet</source>
+                <target>Compra en Vocationet</target>
+			</trans-unit>
             
         </body>
     </file>

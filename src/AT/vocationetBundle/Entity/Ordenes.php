@@ -22,6 +22,13 @@ class Ordenes
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", length=100, nullable=false)
+     */
+    private $codigo;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=false)
@@ -73,6 +80,29 @@ class Ordenes
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return Ordenes
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 
     /**

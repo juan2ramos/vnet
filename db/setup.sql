@@ -30,7 +30,7 @@ INSERT INTO `permisos` (`id`, `identificador`, `nombre`, `descripcion`, `permiso
 (23, 'acceso_respuestas_ponderacion', 'Acceso a ver resultados de ponderación', 'Acceso a ver resultados de ponderación', 'ponderacion_resultados'),
 (24, 'acceso_mentor_vocacional', 'Acceso a selección de mentores de orientacion vocacional', 'Acceso a selección de mentores de orientacion vocacional', 'lista_mentores_ov,seleccionar_mentor'),
 (25, 'acceso_mentor_experto', 'Acceso a selección de mentores experto', 'Acceso a selección de mentores experto', 'red_mentores,seleccionar_mentor_experto'),
-(26, 'acceso_pagos', 'Planes y pagos', 'Acceso a planes y pagos', 'planes,agregar_producto,eliminar_producto,pagos_mentorias,agregar_producto_mentoria,comprar');
+(26, 'acceso_pagos', 'Planes y pagos', 'Acceso a planes y pagos', 'planes,agregar_producto,eliminar_producto,pagos_mentorias,agregar_producto_mentoria,comprar,confirmar_comprar,payu_response,payu_confirmation');
 
 
 INSERT INTO `permisos_roles` (`permiso_id`, `rol_id`) VALUES 
