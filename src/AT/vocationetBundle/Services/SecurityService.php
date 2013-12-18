@@ -307,6 +307,7 @@ class SecurityService
             'diagnostico_rango_puntaje_3' => array('min'=>91, 'max'=>111),
             'iva' => 16,
             'tipo_iva' => 'incluido', // incluido|agregado
+			'ruta_mapa_vocationet' => 'uploads/vocationet/mapaVocationet.png',
         );
         
         if($parameter)

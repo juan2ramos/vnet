@@ -1,38 +1,36 @@
 {% extends "::base.html.twig" %}
 
-
 {% block style %}
-<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}" type="text/css">
-<style>
-#owl-demo .item{
-    background: #58C9F3;
-    padding: 3px 3px;
-    margin: 5px;
-    color: #FFF;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
-    text-align: center;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    cursor: pointer;
-}
-#owl-demo .item.active{
-    background: #F8D347;    
-}
-#owl-demo .item img{
-    width: 100%;
-    height: auto;
-}
-#owl-demo .item .title-item{
-    padding-top: 5px;
-    height: 50px;
-    line-height: 15px;
-    vertical-align: middle;
-}
+	<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}" type="text/css">
 
-
-</style>
+	<style>
+		#owl-demo .item{
+			background: #58C9F3;
+			padding: 3px 3px;
+			margin: 5px;
+			color: #FFF;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			text-align: center;
+			overflow: hidden;
+			text-overflow:ellipsis;
+			cursor: pointer;
+		}
+		#owl-demo .item.active{
+			background: #F8D347;    
+		}
+		#owl-demo .item img{
+			width: 100%;
+			height: auto;
+		}
+		#owl-demo .item .title-item{
+			padding-top: 5px;
+			height: 50px;
+			line-height: 15px;
+			vertical-align: middle;
+		}
+	</style>
 {% endblock style %}
 
 {% block menu %}
@@ -41,14 +39,43 @@
 {% endblock menu %}
 
 {% block body %}
+
 <div class="row">
-    <div class="col-lg-8">
-        <section class="panel">
-            <div class="panel-body">
-            </div>
-        </section>
+    <div class="col-lg-12">	
+        {#<section class="panel">
+            <div class="panel-body">#}
+
+				<div width="1000" height="500">
+				<img src="{{ asset(getParameter('ruta_mapa_vocationet')) }}" width="1000" height="500" alt="mapaVocationet" usemap="#vocationetmap">
+
+				<map name="vocationetmap">
+					<area alt="{% trans from 'label' %}inicio{% endtrans %}" shape="circle" coords="148,317,14">
+					<area alt="{% trans from 'label' %}diagnostico{% endtrans %}" shape="circle" coords="315,357,14" href="{{ path('diagnostico') }}" />
+					<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="441,372,462,399" href="{{ path('lista_mentores_ov') }}" />
+					<area alt="{% trans from 'label' %}test.vocacional{% endtrans %}" shape="circle" coords="566,356,14" href="{{ path('test_vocacional') }}" />
+					<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="592,288,615,315" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{% trans from 'label' %}evaluacion.360{% endtrans %}" shape="circle" coords="569,248,14" href="{{ path('evaluacion360') }}" />
+					<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="451,286,473,309" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{% trans from 'label' %}diseno.vida{% endtrans %}" shape="circle" coords="382,245,14" href="{{ path('diseno_vida') }}" />
+					<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="370,173,390,197" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{% trans from 'label' %}mercado.laboral{% endtrans %}" shape="circle" coords="253,120,14" href="{{ path('mercado_laboral') }}" />
+					<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="324,110,343,136" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{% trans from 'label' %}red.mentores{% endtrans %}" shape="rect" coords="399,48,437,97" href="{{ path('red_mentores') }}" />
+					<area alt="{% trans from 'label' %}ponderacion{% endtrans %}" shape="circle" coords="548,134,14" href="{{ path('ponderacion') }}" />
+					<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="618,124,639,149" href="{{ path('agenda_estudiante') }}" />
+				</map>
+				
+				<!-- recorrido inicio - diagnostico -->
+				<div STYLE='background:blue;width:72px;height:4px;position:absolute;top:314px;left:175px;'></div>
+				<div STYLE='background:blue;width:4px;height:45px;position:absolute;top:314px;left:246px;'></div>
+				<div STYLE='background:blue;width:72px;height:4px;position:absolute;top:356px;left:246px;'></div>
+				
+				<div>
+			{#</div>
+        </section>#}
     </div>
-        
+	
+
     {# invitaciones a evaluaciones 360 #}
     {% if invitaciones360 %}
     <div class="col-lg-4">
@@ -117,6 +144,32 @@
 
 {% block script %}
 
+	<script src="{{ asset('js/jquery-1.8.3.min.js') }}" type="text/javascript"></script>	
+	{# <script src="{{ asset('qtip/jquery-1.3.2.min.js') }}" type="text/javascript"></script> #}
+	<script src="{{ asset('qtip/jquery.qtip-1.0.0-rc3.js') }}" type="text/javascript"></script>
+	<script type="text/javascript">
+		// Create the tooltips only when document ready
+		$(document).ready(function()
+		{
+		   // Use the each() method to gain access to each elements attributes
+		   $('area').each(function() 
+			{
+				$(this).qtip(
+				{
+					content: $(this).attr('alt'), // Use the ALT attribute of the area map
+					style: {
+						name: 'dark', // Give it the preset dark style
+						border: {
+							width: 0, 
+							radius: 4 
+						}, 
+						tip: true // Apply a tip at the default tooltip corner
+					}
+				});
+			});
+		});
+	</script>
+	
 {#
 <!--<script src="{{ asset('js/owl.carousel.js') }}" ></script>-->
 <script >
@@ -145,8 +198,6 @@ $(document).ready(function() {
         $(this).addClass('active');
         $("#avatar-input").val($(this).data('id'));
     });
-    
-    
 });
 </script>
 #}
