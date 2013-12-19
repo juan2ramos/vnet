@@ -10,6 +10,7 @@
     <field name="iva" type="float" column="iva" nullable="false"/>
     <field name="total" type="float" column="total" nullable="false"/>
     <field name="estado" type="integer" column="estado" nullable="false"/>
+    <field name="confirmacion" type="boolean" column="confirmacion" nullable="false"/>
     <many-to-one field="usuario" target-entity="Usuarios">
       <join-columns>
         <join-column name="usuario_id" referenced-column-name="id"/>

@@ -636,6 +636,30 @@
                 <source>compra.en.vocationet</source>
                 <target>Compra en Vocationet</target>
 			</trans-unit>
+			<trans-unit id="pag-13">
+                <source>error.transaccion</source>
+                <target>Error en la transacción</target>
+			</trans-unit>
+			<trans-unit id="pag-14">
+                <source>validacion.transaccion.invalida</source>
+                <target>La validación de la transacción indica que es falsa</target>
+			</trans-unit>
+			<trans-unit id="pag-15">
+                <source>descripcion.transaccion</source>
+                <target>Descrición</target>
+			</trans-unit>
+			<trans-unit id="pag-16">
+                <source>estado.transaccion</source>
+                <target>Estado de la transacción</target>
+			</trans-unit>
+			<trans-unit id="pag-17">
+                <source>metodo.transaccion</source>
+                <target>Forma de pago</target>
+			</trans-unit>
+			<trans-unit id="pag-18">
+                <source>valor.transaccion</source>
+                <target>Valor</target>
+			</trans-unit>
             
         </body>
     </file>

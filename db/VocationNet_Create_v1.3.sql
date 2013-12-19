@@ -495,6 +495,7 @@ CREATE TABLE IF NOT EXISTS `ordenes` (
   `iva` FLOAT NOT NULL,
   `total` FLOAT NOT NULL COMMENT 'Valor total de la compra',
   `estado` INT(2) NOT NULL DEFAULT 0 COMMENT 'estado de la compra (0: sin pagar, 1: pago)',
+  `confirmacion` TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'indica si la transaccion fue confirmada',
   PRIMARY KEY (`id`),
   INDEX `fk_ordenes_2_idx` (`usuario_id` ASC),
   UNIQUE INDEX `codigo_UNIQUE` (`codigo` ASC),

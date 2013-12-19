@@ -226,6 +226,7 @@ class PagosService
         $orden->setIva($totales['iva']);
         $orden->setTotal($totales['total']);
         $orden->setEstado(0);
+        $orden->setConfirmacion(0);
         
         $this->em->persist($orden);
         
@@ -253,19 +254,19 @@ class PagosService
      * Funcion para activar una orden de pago
      * 
      * @param string $codigo codigo de la orden
-     * @param integer $usuarioId id de usuario que envia la orden
+     * @param boolean $confirmada indica si la transaccion fue confirmada
      */
-    public function activarOrden($codigo, $usuarioId)
+    public function activarOrden($codigo, $confirmada = false)
     {
         $dql = "UPDATE vocationetBundle:Ordenes o
-                    SET o.estado = 1 
+                    SET o.estado = 1,
+                    o.confirmacion = :confirmacion
                 WHERE 
                     o.codigo = :codigo
-                    AND o.usuario = :usuarioId
                 ";
         $query = $this->em->createQuery($dql);
+        $query->setParameter('confirmacion', $confirmada);
         $query->setParameter('codigo', $codigo);
-        $query->setParameter('usuarioId', $usuarioId);
         $query->setMaxResults(1);
         $query->getResult();
     }

@@ -89,7 +89,7 @@ class PayUService
         $this->apiKey = $apiKey;
         $this->currency = 'COP';
         $this->token = '60d20bcbfad939a9126a34c124259889ec9ed22e';
-        $this->test = 1;
+        $this->test = 0;
         $this->responseUrl = $service_container->get('request')->getSchemeAndHttpHost().$service_container->get('router')->generate('payu_response');
         $this->confirmationUrl = $service_container->get('request')->getSchemeAndHttpHost().$service_container->get('router')->generate('payu_confirmation');
     }
@@ -179,15 +179,15 @@ class PayUService
      */
     public function generateDataFormWebCheckout($buyerEmail, $referenceCode, $amount, $tax, $taxReturnBase)
     {
-        $signature = $this->generateSignature($referenceCode, $amount, $this->merchantId);        
+        $signature = $this->generateSignature($referenceCode, $this->amountFormat($amount), $this->merchantId);        
         
         $data = array(
             'merchantId' => $this->merchantId,
             'referenceCode' => $referenceCode,
             'description' => $this->serv_cont->get('translator')->trans("compra.en.vocationet"),
-            'amount' => $amount,
-            'tax' => $tax,
-            'taxReturnBase' => $taxReturnBase,
+            'amount' => $this->amountFormat($amount),
+            'tax' => $this->amountFormat($tax),
+            'taxReturnBase' => $this->amountFormat($taxReturnBase),
             'signature' => $signature,
             'currency' => $this->currency,
             'buyerEmail' => $buyerEmail,
@@ -198,23 +198,6 @@ class PayUService
         
         return $data;
     }
-    
-    /**
-     * Funcion para generar un token unico por peticion
-     * 
-     * Se utiliza para generar el referenceCode solicitado por PayU
-     * 
-     * @return string
-    
-    private function generateToken()
-    {
-        $security = $this->serv_cont->get('security');
-        $unique = uniqid('pu');        
-        $token = $unique.'.'.$security->encriptar($unique.$this->token); 
-        
-        return $token;
-    }
-     */
     
     /**
      * Funcion para generar signature para una orden de compra
@@ -229,65 +212,118 @@ class PayUService
     private function generateSignature($referenceCode, $amount, $merchantId)
     {
         $signature = $this->apiKey."~".$merchantId."~".$referenceCode."~".$amount."~".$this->currency;
-        
-        return md5($signature);
+        $md5 = md5($signature);
+//        echo $signature."<br>";
+//        echo $md5."<br>";        
+        return $md5;
     }
     
     /**
      * Funcion para procesar la respuesta de PayU
+     * 
+     * la peticion es recibida a traves de GET
      * 
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return boolean|string retorna el codigo de la transaccion si fue exitosa, false en otro caso
      */
     public function processResponse($request)
     {
-        $merchantId = $request->get('merchantId');
-        $referenceCode = $request->get('referenceCode');
-        $TX_VALUE = $request->get('TX_VALUE');
-        $amount = number_format($TX_VALUE, 1, '.', '');
-        $currency = $request->get('currency');
+        $response = $request->query->all();        
         
-        $transactionState = $request->get('transactionState');
-        $responseCode = $request->get('polResponseCode');
+        $amount = $this->amountFormat($response['TX_VALUE']);
         
-        $signature = $this->generateSignature($referenceCode, $amount, $merchantId); 
-        $requestSignature = $request->get('signature');
+        $signature = $this->generateSignature($response['referenceCode'], $amount, $response['merchantId']); 
+        $responseSignature = $response['signature'];
+//        $responseSignature = $signature;
         
-        $reference_pol = $request->get('reference_pol');
-        $cus = $request->get('cus');
-        $extra1 = $request->get('description');
-        $pseBank = $request->get('pseBank');
-        $lapPaymentMethod = $request->get('lapPaymentMethod');
-        $transactionId = $request->get('transactionId');
         
-        $estadoTx = $request->get('mensaje');
+//        SecurityService::debug($signature);
+//        SecurityService::debug($responseSignature);
         
-        /*
-        if($transactionState == 6 && $responseCode == 5)
-        { $estadoTx = "Transacci&oacute;n fallida"; }
-        else if($transactionState == 6 && $responseCode == 4)
-        {$estadoTx = "Transacci&oacute;n rechazada";}
-        else if($transactionState == 12 && $responseCode == 9994)
-        {$estadoTx = "Pendiente, Por favor revisar si el d&eacute;bito fue realizado en el Banco";}
-        else if($transactionState == 4 && $responseCode == 1)
-        {$estadoTx = "Transacci&oacute;n aprobada";}
-        */
         
-        if($signature == $requestSignature)
+        $trans = $this->serv_cont->get('translator');
+        $message = '
+            <table class="table">
+                <tbody>
+                    <tr><td>'.$trans->trans("descripcion.transaccion").'</td><td>'.$response['description'].'</td></tr>
+                    <tr><td>'.$trans->trans("estado.transaccion").'</td><td>'.$response['message'].'</td></tr>
+                    <tr><td>'.$trans->trans("metodo.transaccion").'</td><td>'.$response['lapPaymentMethod'].'</td></tr>
+                    <tr><td>'.$trans->trans("valor.transaccion").'</td><td>$ '.$amount.'</td></tr>
+                </tbody>
+            </table>
+        ';        
+        
+        if($signature == $responseSignature)
         {
-            
+            if($response['transactionState'] == 4 && $response['polResponseCode'] == 1)
+            {
+                return array(
+                    'status' => 'success',
+                    'message' => $message,
+                    'referenceCode' => $response['referenceCode']  
+                );
+            } 
+            else
+            {
+                return array(
+                    'status' => 'error',
+                    'message' => $message,
+                    'referenceCode' => $response['referenceCode']  
+                );
+            }
         }
         else
         {
-            
+            return array(
+                'status' => 'error',
+                'message' => $trans->trans("validacion.transaccion.invalida"),
+                'referenceCode' => $response['referenceCode']
+            );
+        }
+    }
+    
+    /**
+     * Funcion para procesar la confirmacion de pago de PayU
+     * 
+     * la peticion es recibida a traves de POST
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return boolean|string retorna el codigo de la transaccion si fue exitosa, false en otro caso
+     */
+    public function processConfirmation($request)
+    {
+        $response = $request->request->all();
+        
+        $amount = $this->amountFormat($response['value']);
+        
+        $signature = $this->generateSignature($response['reference_sale'], $amount, $response['merchant_id']); 
+        $responseSignature = $response['sign'];
+//        $responseSignature = $signature;
+        
+        if($signature == $responseSignature)
+        {
+            if($response['state_pol'] == 4 && $response['response_code_pol'] == 1)
+            {
+                return array(
+                    'referenceCode' => $response['reference_sale'],
+                    'buyerEmail' => $response['email_buyer'],
+                );
+            }
         }
         
-        
-        return array(
-            'status' => 'success',
-            'message' => $estadoTx,
-            'referenceCode' => $referenceCode  
-        );
+        return false;
+    }
+    
+    
+    /**
+     * Funcion para formatear un valor numerico
+     * 
+     * @param float $amount valor
+     * @return float valor formateado
+     */
+    private function amountFormat($amount)
+    {
+        return number_format($amount, 1, '.', '');
     }
 }
 

@@ -304,11 +304,9 @@ class PagosController extends Controller
     public function responsePayUAction(Request $request)
     {
         $security = $this->get('security');
-//        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));}
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-        
-        $usuarioId = $security->getSessionValue("id");
-        
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+                
         $pagos = $this->get('pagos');
         $PayU = $this->get('payu');
         
@@ -316,21 +314,38 @@ class PagosController extends Controller
         
         if($transaccion['status'] == 'success')
         {
+            // Activar orden
+            $codigo = $transaccion['referenceCode'];
+            $pagos->activarOrden($codigo);
+            
+            // Enviar notificacion
+            $usuarioEmail = $security->getSessionValue("usuarioEmail");
+            $this->enviarNotificacionProductos($usuarioEmail);
+            
             // Vaciar carrito
             $this->get('session')->set('productos', null);
             
-//            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
-//                "title" => $this->get('translator')->trans("compra.finalizada"),
-//                "message" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos")
-//            )); 
+            $message = $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos").".<br/><br/>".$transaccion['message'];
             
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("compra.finalizada"), "text" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos"), "time" => 10000));
-            return $this->redirect($this->generateUrl('homepage'));
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "type" => "success",
+                "title" => $this->get('translator')->trans("compra.finalizada"),
+                "message" => $message
+            )); 
+            
+//            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("compra.finalizada"), "text" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos"), "time" => 10000));
+//            return $this->redirect($this->generateUrl('homepage'));
         }
         else
         {
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.transaccion"), "text" => $transaccion['status'], "time" => 10000));
-            return $this->redirect($this->generateUrl('comprar'));
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "type" => "error",
+                "title" => $this->get('translator')->trans("error.transaccion"),
+                "message" => $transaccion['message']
+            ));
+            
+//            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.transaccion"), "text" => $transaccion['status'], "time" => 10000));
+//            return $this->redirect($this->generateUrl('comprar'));
         }
         
         
@@ -340,10 +355,29 @@ class PagosController extends Controller
     /**
      * @Route("/payuconfirmation", name="payu_confirmation")
      * @Template("vocationetBundle:Pagos:compra.html.twig")
+     * @Method({"POST"})
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
     public function confirmationPayUAction(Request $request)
     {
+        // Esta accion no hace validacion de autenticacion ni autorizacion porque la peticion es hecha por PayU
+        
+        $pagos = $this->get('pagos');
+        $PayU = $this->get('payu');
+        
+        $transaccion = $PayU->processConfirmation($request);
+        
+        if($transaccion !== false)
+        {
+            // Activar orden
+            $codigo = $transaccion['referenceCode'];
+            $pagos->activarOrden($codigo, true);
+            
+            // Enviar notificacion
+            $usuarioEmail = $transaccion['buyerEmail'];
+            $this->enviarNotificacionProductos($usuarioEmail);
+        }
+        
         return new Response();
     }
     
@@ -439,5 +473,31 @@ class PagosController extends Controller
             ->getForm();
         
         return $form;
+    }
+    
+    /**
+     * Funcion para enviar la notificacion de activacion de productos al usuario
+     * 
+     * se envia un correo al usuario indicandole que los productos ya fueron activados
+     * 
+     * @param string $email email del usuario
+     */
+    private function enviarNotificacionProductos($email)
+    {
+        $mailer = $this->get('mail');
+        
+        $subject = $this->get('translator')->trans("activacion.productos", array(), 'mail');
+        
+        $message = $this->get('translator')->trans("mensaje.activacion.productos", array(), 'mail');
+        
+        $link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('login'); 
+        $dataRender = array(
+            'title' => $subject,
+            'body' => $message,
+            'link' => $link,
+            'link_text' => $this->get('translator')->trans("ingresar", array(), 'mail')
+        );
+        
+        $mailer->sendMail($email, $subject, $dataRender);
     }
 }

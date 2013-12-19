@@ -44,7 +44,7 @@ class OrdenesProductos
 
     /**
      * @var integer
-     *
+     *  
      * @ORM\Column(name="producto_id", type="integer", nullable=false)
      */
     private $producto;

@@ -64,6 +64,13 @@ class Ordenes
     private $estado;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="confirmacion", type="boolean", nullable=false)
+     */
+    private $confirmacion;
+
+    /**
      * @var \Usuarios
      *
      * @ORM\ManyToOne(targetEntity="Usuarios")

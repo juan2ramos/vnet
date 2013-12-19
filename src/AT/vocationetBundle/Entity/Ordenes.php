@@ -64,6 +64,13 @@ class Ordenes
     private $estado;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="confirmacion", type="boolean", nullable=false)
+     */
+    private $confirmacion;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="usuario_id", type="integer", nullable=false)
@@ -218,6 +225,29 @@ class Ordenes
     public function getEstado()
     {
         return $this->estado;
+    }
+
+    /**
+     * Set confirmacion
+     *
+     * @param boolean $confirmacion
+     * @return Ordenes
+     */
+    public function setConfirmacion($confirmacion)
+    {
+        $this->confirmacion = $confirmacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get confirmacion
+     *
+     * @return boolean 
+     */
+    public function getConfirmacion()
+    {
+        return $this->confirmacion;
     }
 
     /**
