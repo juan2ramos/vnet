@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AT\vocationetBundle\Entity\Relaciones;
+use AT\vocationetBundle\Entity\Participaciones;
 
 /**
  * Controlador de contactos y busqueda de usuarios y/o mentores
@@ -383,6 +384,20 @@ class ContactosController extends Controller
 					$newR->setCreated(new \DateTime());
 					$newR->setEstado(1);
 					$em->persist($newR);
+					
+					//Registro de que el usuario participo en red de mentores
+					$form_id = $this->get('formularios')->getFormId('red_mentores');
+					$auxPart = $em->getRepository('vocationetBundle:Participaciones')->findOneBy(Array('formulario' => $form_id));
+					if (!$auxPart) {
+						$participacion = new Participaciones();
+						$participacion->setFormulario($form_id);
+						$participacion->setFecha(new \DateTime());
+						$participacion->setUsuarioParticipa($usuarioId);
+						$participacion->setUsuarioEvaluado($usuarioId);
+						$participacion->setEstado(1);
+						$em->persist($participacion);
+					}
+					
 					$em->flush();
 			
 					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("ha.seleccionado.mentor.contactese.con.el")));

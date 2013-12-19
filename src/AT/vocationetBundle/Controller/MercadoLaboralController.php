@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AT\vocationetBundle\Entity\AlternativasEstudios;
+use AT\vocationetBundle\Entity\Participaciones;
 
 /**
  * Controlador de mercado laboral
@@ -55,7 +56,8 @@ class MercadoLaboralController extends Controller
 		$rutaInformeML = false;
         $carreras = false;
 
-		$formulario = $this->get('formularios')->getInfoFormulario(11);
+		$form_id = $this->get('formularios')->getFormId('mercado_laboral');
+		$formulario = $this->get('formularios')->getInfoFormulario($form_id);
 
 		$pr = $this->get('perfil');
 		$alternativasEstudio = $pr->getAlternativasEstudio($usuarioId);
@@ -90,6 +92,16 @@ class MercadoLaboralController extends Controller
 						} else {
 							$errorAlternativa = true;
 						}
+						
+						//Registro de que el usuario participo en el mercado laboral
+						$participacion = new Participaciones();
+						$participacion->setFormulario($form_id);
+						$participacion->setFecha(new \DateTime());
+						$participacion->setUsuarioParticipa($usuarioId);
+						$participacion->setUsuarioEvaluado($usuarioId);
+						$participacion->setEstado(1);
+						$em->persist($participacion);
+						
 						$em->flush();
 
 						//Notificacion para mentor de que el estudiante  ha seleccionado alternativas de estudio
