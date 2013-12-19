@@ -188,6 +188,14 @@
                 <source>%user%.ha.separado.mentoria.%detalle%</source>
                 <target>%user% ha se parado una mentoria a las %detalle%</target>
             </trans-unit>
+			<trans-unit id="ment-16">
+                <source>mentoria.finalizada</source>
+                <target>Mentoría finalizada</target>
+            </trans-unit>
+			<trans-unit id="ment-17">
+                <source>mentoria.finalizada.correctamente</source>
+                <target>La mentoría se ha marcado como finalizada correctamente</target>
+            </trans-unit>
 
 
 			<!-- FOROS foros-x -->

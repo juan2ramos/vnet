@@ -102,7 +102,11 @@
                 end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
                 allDay: false,
                 {% if mentoria.estudianteId %}
-                    color: '#72B572',
+                    {% if mentoria.mentoriaEstado == 0 %}
+                        color: '#EB9823',
+                    {% else %}
+                        color: '#72B572',                        
+                    {% endif %}
                 {% else %}
                     color: '#8695A6',                    
                 {% endif %}

@@ -114,6 +114,7 @@ class AgendaMentorController extends Controller
                     m.id,
                     m.mentoriaInicio,
                     m.mentoriaFin,
+                    m.mentoriaEstado,
                     u.id estudianteId,
                     u.usuarioNombre,
                     u.usuarioApellido
@@ -153,6 +154,7 @@ class AgendaMentorController extends Controller
                     m.id,
                     m.mentoriaInicio,
                     m.mentoriaFin,
+                    m.mentoriaEstado,
                     u.id estudianteId,
                     u.usuarioNombre,
                     u.usuarioApellido,
@@ -214,6 +216,35 @@ class AgendaMentorController extends Controller
         {
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("mentoria.no.eliminada"), "text" => $this->get('translator')->trans("mentoria.no.se.puede.eliminar")));
         }
+        return $this->redirect($this->generateUrl('agenda_mentor'));
+    }
+    
+     /**
+     * Accion para marcar como finalizada una mentoria
+     * 
+     * @Route("/finalizar/{id}", name="finalizar_mentoria_mentor")
+     * @return Response
+     */
+    public function finalizarMentoriaAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        $usuarioId = $security->getSessionValue('id');
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $mentoria = $em->getRepository('vocationetBundle:Mentorias')->findOneBy(array('id' => $id, 'usuarioMentor' => $usuarioId));
+        
+        if($mentoria)
+        {
+            $mentoria->setMentoriaEstado(1);
+            $em->persist($mentoria);
+            $em->flush();            
+            
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.finalizada"), "text" => $this->get('translator')->trans("mentoria.finalizada.correctamente")));
+        }
+        
         return $this->redirect($this->generateUrl('agenda_mentor'));
     }
 }
