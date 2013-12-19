@@ -381,7 +381,6 @@ class PagosController extends Controller
         return new Response();
     }
     
-    
     /**
      * Funcion para obtener los precios de los productos
      * 

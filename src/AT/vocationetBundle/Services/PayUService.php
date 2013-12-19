@@ -43,14 +43,7 @@ class PayUService
      * @var string 
      */
     protected $currency;
-    
-    /**
-     * token para proteccion de csrf
-     * 
-     * @var string 
-     */
-    protected $token;
-    
+        
     /**
      * Activa el entorno de pruebas
      * 
@@ -88,7 +81,6 @@ class PayUService
         $this->merchantId = $merchantId;
         $this->apiKey = $apiKey;
         $this->currency = 'COP';
-        $this->token = '60d20bcbfad939a9126a34c124259889ec9ed22e';
         $this->test = 0;
         $this->responseUrl = $service_container->get('request')->getSchemeAndHttpHost().$service_container->get('router')->generate('payu_response');
         $this->confirmationUrl = $service_container->get('request')->getSchemeAndHttpHost().$service_container->get('router')->generate('payu_confirmation');
@@ -207,14 +199,19 @@ class PayUService
      * @param string $referenceCode referenceCode de la orden
      * @param string $amount valor total de la orden
      * @param string $merchantId identificador de comercio, no se hace referencia al atributo de la clase por las validaciones de seguridad
+     * @param integer $transactionState codigo de estado de transaccion, se usa unicamente para la validacion en la pagina de respuesta y confirmacion, en el envio por post a PayU no se utiliza
      * @return string signature en MD5
      */
-    private function generateSignature($referenceCode, $amount, $merchantId)
+    private function generateSignature($referenceCode, $amount, $merchantId, $transactionState = false)
     {
         $signature = $this->apiKey."~".$merchantId."~".$referenceCode."~".$amount."~".$this->currency;
-        $md5 = md5($signature);
-//        echo $signature."<br>";
-//        echo $md5."<br>";        
+        
+        if($transactionState)
+        {
+            $signature .= "~".$transactionState;
+        }
+        
+        $md5 = md5($signature);       
         return $md5;
     }
     
@@ -232,13 +229,8 @@ class PayUService
         
         $amount = $this->amountFormat($response['TX_VALUE']);
         
-        $signature = $this->generateSignature($response['referenceCode'], $amount, $response['merchantId']); 
+        $signature = $this->generateSignature($response['referenceCode'], $amount, $response['merchantId'], $response['transactionState']); 
         $responseSignature = $response['signature'];
-//        $responseSignature = $signature;
-        
-        
-//        SecurityService::debug($signature);
-//        SecurityService::debug($responseSignature);
         
         
         $trans = $this->serv_cont->get('translator');
@@ -296,7 +288,7 @@ class PayUService
         
         $amount = $this->amountFormat($response['value']);
         
-        $signature = $this->generateSignature($response['reference_sale'], $amount, $response['merchant_id']); 
+        $signature = $this->generateSignature($response['reference_sale'], $amount, $response['merchant_id'], $response['state_pol']); 
         $responseSignature = $response['sign'];
 //        $responseSignature = $signature;
         
@@ -313,8 +305,7 @@ class PayUService
         
         return false;
     }
-    
-    
+        
     /**
      * Funcion para formatear un valor numerico
      * 
