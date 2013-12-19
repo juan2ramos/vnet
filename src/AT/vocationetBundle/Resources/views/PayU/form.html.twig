@@ -1,0 +1,6 @@
+<form action="{{ payu_form_action }}" method="post">
+    {% for key, data in payu_data_form %}
+        <input type="hidden" name="{{ key }}" value ="{{ data }}"/>
+    {% endfor %}
+    <button type="submit" class="btn" style="background: none;"><img id="zk_comp_294" src="http://www.payulatam.com/img_botones_herramientas/boton_pagar_mediano.png"></button>
+</form>

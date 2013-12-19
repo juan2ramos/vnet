@@ -16,14 +16,14 @@ class PagosService
      * 
      * @var Object 
      */
-    var $serv_cont;
+    protected $serv_cont;
     
     /**
      * Entity manager  
      * 
      * @var Object 
      */
-    var $em;
+    protected $em;
     
     /**
      * Constructor
@@ -204,16 +204,29 @@ class PagosService
         );
     }
     
-    
+    /**
+     * Funcion para registrar la orden y sus productos en la db
+     * 
+     * La orden se registra con estado 0
+     * 
+     * @param integer $usuarioId id de usuario
+     * @param array $productos arreglo de productos del carrito
+     * @param array $totales arreglo con los totales de la compra
+     * @return string Codigo de la orden
+     */
     public function registrarCompra($usuarioId, $productos, $totales)
     {        
+        $codigo = uniqid($usuarioId);
+        
         $orden = new \AT\vocationetBundle\Entity\Ordenes();
+        $orden->setCodigo($codigo);
         $orden->setFechaHoraCompra(new \DateTime());
         $orden->setUsuario($usuarioId);
         $orden->setSubtotal($totales['subtotal']);
         $orden->setIva($totales['iva']);
         $orden->setTotal($totales['total']);
         $orden->setEstado(0);
+        $orden->setConfirmacion(0);
         
         $this->em->persist($orden);
         
@@ -234,6 +247,28 @@ class PagosService
         
         $this->em->flush();
         
+        return $codigo;
     }
-            
+           
+    /**
+     * Funcion para activar una orden de pago
+     * 
+     * @param string $codigo codigo de la orden
+     * @param boolean $confirmada indica si la transaccion fue confirmada
+     */
+    public function activarOrden($codigo, $confirmada = false)
+    {
+        $dql = "UPDATE vocationetBundle:Ordenes o
+                    SET o.estado = 1,
+                    o.confirmacion = :confirmacion
+                WHERE 
+                    o.codigo = :codigo
+                ";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('confirmacion', $confirmada);
+        $query->setParameter('codigo', $codigo);
+        $query->setMaxResults(1);
+        $query->getResult();
+    }
+    
 }

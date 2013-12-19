@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 /**
  * Controlador para pagos
  *
- * @Route("/planes")
+ * @Route("/pagos")
  * @author Diego Malagón <diego@altactic.com>
  */
 class PagosController extends Controller
@@ -86,8 +86,7 @@ class PagosController extends Controller
                 elseif($id != $pagos->getProductoId('programa_orientacion'))
                 {
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "warning", "title" => $this->get('translator')->trans("no.puede.agregar.producto"), "text" => $this->get('translator')->trans("si.compra.plan.completo.no.puede.agregar.productos")));
-                }
-                
+                }                
             }
         }
         
@@ -195,20 +194,20 @@ class PagosController extends Controller
     }
 
     /**
-     * Accion para finalizar una compra
+     * Accion para ver los productos de una compra
      * 
      * @Route("/compra", name="comprar")
      * @Template("vocationetBundle:Pagos:compra.html.twig")
      * @return Response
      */
-    public function compraAction(Request $request)
+    public function compraAction()
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));}
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $productos = $this->get('session')->get('productos');
-        $usuarioId = $security->getSessionValue("id");
+        $usuarioEmail = $security->getSessionValue("usuarioEmail");
         
         $total = 0;
         if(count($productos))
@@ -223,30 +222,66 @@ class PagosController extends Controller
         
         $form = $this->createFormCompra();
         
-        if($request->getMethod() == 'POST') 
+        return array(
+            'productos' => $productos,
+            'subtotal' => $totales['subtotal'],
+            'iva' => $totales['iva'],
+            'total' => $totales['total'],
+            'form' => $form->createView()
+        );
+    }
+      
+    /**
+     * Accion para confirmar una compra
+     * 
+     * @Route("/confirmar_compra", name="confirmar_comprar")
+     * @Method({"POST"})
+     * @Template("vocationetBundle:Pagos:confirmar_compra.html.twig")
+     * @return Response
+     */
+    public function confirmarCompraAction(Request $request)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $productos = $this->get('session')->get('productos');
+        $usuarioId = $security->getSessionValue("id");
+        $usuarioEmail = $security->getSessionValue("usuarioEmail");
+        
+        $total = 0;
+        if(count($productos))
         {
-            $form->bind($request);
-            if ($form->isValid())
+            foreach($productos as $p)
             {
-                if(count($productos))
-                {
-                    $this->get('pagos')->registrarCompra($usuarioId, $productos, $totales);
-                    
-                    // Vaciar carrito
-                    $this->get('session')->set('productos', null);
-                    
-                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("compra.finalizada"), "text" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos")));
-                    return $this->redirect($this->generateUrl('homepage'));
-                }
-                else
-                {
-                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("seleccione.productos"), "text" => $this->get('translator')->trans("no.ha.seleccionado.productos")));
-                }
+                $total += $p['valor'];
+            }
+        }
+        
+        $totales = $this->get('pagos')->calcularTotales($total);
+        
+        $form = $this->createFormCompra();        
+        
+        $form->bind($request);
+        if ($form->isValid())
+        {
+            if(count($productos) > 0)
+            {
+                $codigo = $this->get('pagos')->registrarCompra($usuarioId, $productos, $totales);
+                
+                $PayU = $this->get('payu');
+                $payUDataForm = $PayU->generateDataFormWebCheckout($usuarioEmail, $codigo, $totales['total'], $totales['iva'], $totales['subtotal']);
             }
             else
             {
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("seleccione.productos"), "text" => $this->get('translator')->trans("no.ha.seleccionado.productos")));
+                return $this->redirect($this->generateUrl('comprar'));
             }
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            return $this->redirect($this->generateUrl('comprar'));
         }
         
         return array(
@@ -255,11 +290,96 @@ class PagosController extends Controller
             'iva' => $totales['iva'],
             'total' => $totales['total'],
             'form' => $form->createView(),
+            'payu_form_action' => $PayU->getWebCheckoutUrl(),
+            'payu_data_form' => $payUDataForm
         );
     }
         
+    /**
+     * @Route("/payuresponse", name="payu_response")
+     * @Template("vocationetBundle:Pagos:compra.html.twig")
+     * @Method({"GET"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function responsePayUAction(Request $request)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+                
+        $pagos = $this->get('pagos');
+        $PayU = $this->get('payu');
+        
+        $transaccion = $PayU->processResponse($request);
+        
+        if($transaccion['status'] == 'success')
+        {
+            // Activar orden
+            $codigo = $transaccion['referenceCode'];
+            $pagos->activarOrden($codigo);
+            
+            // Enviar notificacion
+            $usuarioEmail = $security->getSessionValue("usuarioEmail");
+            $this->enviarNotificacionProductos($usuarioEmail);
+            
+            // Vaciar carrito
+            $this->get('session')->set('productos', null);
+            
+            $message = $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos").".<br/><br/>".$transaccion['message'];
+            
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "type" => "success",
+                "title" => $this->get('translator')->trans("compra.finalizada"),
+                "message" => $message
+            )); 
+            
+//            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("compra.finalizada"), "text" => $this->get('translator')->trans("gracias.por.adquirir.nuestros.productos"), "time" => 10000));
+//            return $this->redirect($this->generateUrl('homepage'));
+        }
+        else
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "type" => "error",
+                "title" => $this->get('translator')->trans("error.transaccion"),
+                "message" => $transaccion['message']
+            ));
+            
+//            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.transaccion"), "text" => $transaccion['status'], "time" => 10000));
+//            return $this->redirect($this->generateUrl('comprar'));
+        }
+        
+        
+        return new Response();
+    }
     
-    
+    /**
+     * @Route("/payuconfirmation", name="payu_confirmation")
+     * @Template("vocationetBundle:Pagos:compra.html.twig")
+     * @Method({"POST"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function confirmationPayUAction(Request $request)
+    {
+        // Esta accion no hace validacion de autenticacion ni autorizacion porque la peticion es hecha por PayU
+        
+        $pagos = $this->get('pagos');
+        $PayU = $this->get('payu');
+        
+        $transaccion = $PayU->processConfirmation($request);
+        
+        if($transaccion !== false)
+        {
+            // Activar orden
+            $codigo = $transaccion['referenceCode'];
+            $pagos->activarOrden($codigo, true);
+            
+            // Enviar notificacion
+            $usuarioEmail = $transaccion['buyerEmail'];
+            $this->enviarNotificacionProductos($usuarioEmail);
+        }
+        
+        return new Response();
+    }
     
     /**
      * Funcion para obtener los precios de los productos
@@ -352,5 +472,31 @@ class PagosController extends Controller
             ->getForm();
         
         return $form;
+    }
+    
+    /**
+     * Funcion para enviar la notificacion de activacion de productos al usuario
+     * 
+     * se envia un correo al usuario indicandole que los productos ya fueron activados
+     * 
+     * @param string $email email del usuario
+     */
+    private function enviarNotificacionProductos($email)
+    {
+        $mailer = $this->get('mail');
+        
+        $subject = $this->get('translator')->trans("activacion.productos", array(), 'mail');
+        
+        $message = $this->get('translator')->trans("mensaje.activacion.productos", array(), 'mail');
+        
+        $link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('login'); 
+        $dataRender = array(
+            'title' => $subject,
+            'body' => $message,
+            'link' => $link,
+            'link_text' => $this->get('translator')->trans("ingresar", array(), 'mail')
+        );
+        
+        $mailer->sendMail($email, $subject, $dataRender);
     }
 }

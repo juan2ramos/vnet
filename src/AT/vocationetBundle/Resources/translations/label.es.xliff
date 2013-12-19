@@ -703,6 +703,14 @@
                 <source>agenda.estudiante</source>
                 <target>Mentorías</target>
             </trans-unit>
+			<trans-unit id="ment-10">
+                <source>marcar.mentoria.finalizada</source>
+                <target>Marcar como finalizada</target>
+            </trans-unit>
+			<trans-unit id="ment-11">
+                <source>mentoria.finalizada</source>
+                <target>Mentoría finalizada</target>
+            </trans-unit>
 
 			 <!-- FOROS foros-x -->
             <trans-unit id="foros-1">
@@ -1569,6 +1577,14 @@
 			<trans-unit id="pago-35">
                 <source>con</source>
                 <target>con</target>
+			</trans-unit>
+			<trans-unit id="pago-36">
+                <source>confirmar.compra</source>
+                <target>Confirmar compra</target>
+			</trans-unit>
+			<trans-unit id="pago-37">
+                <source>mensaje.confirmar.compra</source>
+                <target>Para continuar con el proceso de compra haz click en el botón comprar con PayU</target>
 			</trans-unit>
 			
 			<!-- SELECCIONAR MENTOR EXPERTO selectMentorE-x -->

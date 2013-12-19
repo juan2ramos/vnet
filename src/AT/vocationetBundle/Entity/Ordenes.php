@@ -22,6 +22,13 @@ class Ordenes
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="codigo", type="string", length=100, nullable=false)
+     */
+    private $codigo;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=false)
@@ -57,6 +64,13 @@ class Ordenes
     private $estado;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="confirmacion", type="boolean", nullable=false)
+     */
+    private $confirmacion;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="usuario_id", type="integer", nullable=false)
@@ -73,6 +87,29 @@ class Ordenes
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set codigo
+     *
+     * @param string $codigo
+     * @return Ordenes
+     */
+    public function setCodigo($codigo)
+    {
+        $this->codigo = $codigo;
+    
+        return $this;
+    }
+
+    /**
+     * Get codigo
+     *
+     * @return string 
+     */
+    public function getCodigo()
+    {
+        return $this->codigo;
     }
 
     /**
@@ -188,6 +225,29 @@ class Ordenes
     public function getEstado()
     {
         return $this->estado;
+    }
+
+    /**
+     * Set confirmacion
+     *
+     * @param boolean $confirmacion
+     * @return Ordenes
+     */
+    public function setConfirmacion($confirmacion)
+    {
+        $this->confirmacion = $confirmacion;
+    
+        return $this;
+    }
+
+    /**
+     * Get confirmacion
+     *
+     * @return boolean 
+     */
+    public function getConfirmacion()
+    {
+        return $this->confirmacion;
     }
 
     /**

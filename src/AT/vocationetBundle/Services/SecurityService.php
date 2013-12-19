@@ -38,7 +38,7 @@ class SecurityService
      * @author Diego Malagón <diego@altactic.com>
      * @param type $var variable a depurar
      */
-    public function debug($var)
+    public static function debug($var)
     {
         if(is_object($var) || is_array($var))
         {

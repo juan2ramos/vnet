@@ -67,7 +67,8 @@ class AgendaEstudianteController extends Controller
                     u.usuarioApellido,
                     m.mentoriaInicio,
                     m.mentoriaFin,
-                    m.usuarioEstudiante estudianteId
+                    m.usuarioEstudiante estudianteId,
+                    m.mentoriaEstado
                 FROM
                     vocationetBundle:Usuarios u
                     JOIN vocationetBundle:Relaciones r WITH r.usuario = u.id OR r.usuario2 = u.id
@@ -78,6 +79,7 @@ class AgendaEstudianteController extends Controller
                     AND (r.tipo = 2 OR r.tipo = 3)
                     AND r.estado = 1
                     AND (m.usuarioEstudiante = :usuarioId OR m.usuarioEstudiante IS NULL)
+                GROUP BY m.id
         ";
         
         $em = $this->getDoctrine()->getManager();
@@ -109,6 +111,7 @@ class AgendaEstudianteController extends Controller
                     m.mentoriaInicio,
                     m.mentoriaFin,
                     m.usuarioEstudiante estudianteId,
+                    m.mentoriaEstado,
                     u.usuarioNombre,
                     u.usuarioApellido,
                     u.usuarioImagen,

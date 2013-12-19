@@ -38,6 +38,9 @@ services:
     pagos:
         class: AT\vocationetBundle\Services\PagosService
         arguments: ["@service_container"]
+    payu:
+        class: AT\vocationetBundle\Services\PayUService
+        arguments: ["@service_container", %payu_web_checkout_url%, %payu_merchantId%, %payu_ApiKey%]
     twig.extension.stringParserExtension:
         class: AT\vocationetBundle\Services\TwigExtensions\StringParser\stringParserExtension
         tags:

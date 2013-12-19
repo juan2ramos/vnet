@@ -115,6 +115,20 @@
                 <target>Ha sido registrada la ponderacion de %usu%. Para ver los resultados ingresa a través del link de abajo</target>
 			</trans-unit>
             
+            <!-- pagos pag-x-->
+			<trans-unit id="pag-1">
+                <source>activacion.productos</source>
+                <target>Activación de productos</target>
+			</trans-unit>            
+			<trans-unit id="pag-2">
+                <source>mensaje.activacion.productos</source>
+                <target>La confirmación de tu pago se ha realizado y ya hemos activado los productos que compraste. ingresa ahora mismo para hacer uso de ello haciendo click en el enlace de abajo.</target>
+			</trans-unit>
+			<trans-unit id="pag-3">
+                <source>ingresar</source>
+                <target>Ingresar</target>
+			</trans-unit>
+            
         </body>
     </file>
 </xliff>

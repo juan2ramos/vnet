@@ -19,3 +19,7 @@ parameters:
 
     linkedin_api_key:   52mywqqn6p2g
     linkedin_secret_key:    1x0mrvvEezS9ErST
+
+    payu_web_checkout_url: https://gateway.payulatam.com/ppp-web-gateway/
+    payu_merchantId: 505721
+    payu_ApiKey: i48b2jvueej1absft5u4f8mga
