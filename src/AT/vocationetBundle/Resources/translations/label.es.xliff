@@ -1587,7 +1587,12 @@
 			<trans-unit id="selectMentorE-2">
                 <source>mentor.seleccionado</source>
                 <target>Mentor seleccionado</target>
-
+			</trans-unit>
+			
+			<!-- MAPA mapa-x -->
+			<trans-unit id="mapa-1">
+                <source>asesoria.ov</source>
+                <target>Asesoria experto orientación vocacional</target>
 			</trans-unit>
         </body>
     </file>
