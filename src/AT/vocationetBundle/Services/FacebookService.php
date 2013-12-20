@@ -87,7 +87,8 @@ class FacebookService
         $options = array(
             'client_id'     => $this->appId,
             'redirect_uri'	=> $this->redirect_uri,
-            'scope'			=> 'email,user_education_history,read_stream,publish_stream,user_birthday,user_location',
+            'scope'			=> 'email,user_education_history,user_birthday,user_location',
+//            'scope'			=> 'email,user_education_history,read_stream,publish_stream,user_birthday,user_location',
             'state'         => $this->generateState()
 		);
         

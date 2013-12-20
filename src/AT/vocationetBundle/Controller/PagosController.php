@@ -366,16 +366,24 @@ class PagosController extends Controller
         $PayU = $this->get('payu');
         
         $transaccion = $PayU->processConfirmation($request);
+        $usuarioEmail = $transaccion['buyerEmail'];
+        $codigo = $transaccion['referenceCode'];
         
         if($transaccion !== false)
         {
             // Activar orden
-            $codigo = $transaccion['referenceCode'];
-            $pagos->activarOrden($codigo, true);
+            $pagos->activarOrden($codigo, 1, true);
             
             // Enviar notificacion
-            $usuarioEmail = $transaccion['buyerEmail'];
             $this->enviarNotificacionProductos($usuarioEmail);
+        }
+        else
+        {
+            // Desactivar orden
+            $pagos->activarOrden($codigo, 0, true);
+            
+            // Enviar notificacion de error
+            $this->enviarNotificacionError($usuarioEmail);
         }
         
         return new Response();
@@ -488,6 +496,32 @@ class PagosController extends Controller
         $subject = $this->get('translator')->trans("activacion.productos", array(), 'mail');
         
         $message = $this->get('translator')->trans("mensaje.activacion.productos", array(), 'mail');
+        
+        $link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('login'); 
+        $dataRender = array(
+            'title' => $subject,
+            'body' => $message,
+            'link' => $link,
+            'link_text' => $this->get('translator')->trans("ingresar", array(), 'mail')
+        );
+        
+        $mailer->sendMail($email, $subject, $dataRender);
+    }
+    
+    /**
+     * Funcion para enviar una notificacion cuando ocurre un error en la transaccion
+     * 
+     * se envia un correo al usuario indicandole que los productos no fueron activados porque la transaccion fue rechazada
+     * 
+     * @param string $email email del usuario
+     */
+    private function enviarNotificacionError($email)
+    {
+        $mailer = $this->get('mail');
+        
+        $subject = $this->get('translator')->trans("error.activacion.productos", array(), 'mail');
+        
+        $message = $this->get('translator')->trans("mensaje.error.activacion.productos", array(), 'mail');
         
         $link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('login'); 
         $dataRender = array(

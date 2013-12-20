@@ -1384,6 +1384,10 @@
                 <source>puntajes</source>
                 <target>Puntajes</target>
 			</trans-unit>
+			<trans-unit id="pond-4">
+                <source>informacion</source>
+                <target>Información</target>
+			</trans-unit>
 
 			
 			<!-- ADMIN USUARIOS adminUsers-x -->
