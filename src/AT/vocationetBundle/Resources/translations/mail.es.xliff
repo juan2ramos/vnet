@@ -128,6 +128,14 @@
                 <source>ingresar</source>
                 <target>Ingresar</target>
 			</trans-unit>
+			<trans-unit id="pag-4">
+                <source>error.activacion.productos</source>
+                <target>Error en la activación de productos</target>
+			</trans-unit>
+			<trans-unit id="pag-5">
+                <source>mensaje.error.activacion.productos</source>
+                <target>La confirmación de pago en PayU nos ha informado que ocurrió un error con tu transacción, por favor, verifica la transacción en tu cuenta bancaria o comunicate con nosotros para obtener más información</target>
+			</trans-unit>
             
         </body>
     </file>

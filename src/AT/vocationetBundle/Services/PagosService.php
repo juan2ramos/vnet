@@ -251,24 +251,25 @@ class PagosService
     }
            
     /**
-     * Funcion para activar una orden de pago
+     * Funcion para activar o desactivar una orden de pago
      * 
      * @param string $codigo codigo de la orden
+     * @param integer $estado indica si esta activada o no {1|0}
      * @param boolean $confirmada indica si la transaccion fue confirmada
      */
-    public function activarOrden($codigo, $confirmada = false)
+    public function activarOrden($codigo, $estado = 1, $confirmada = false)
     {
         $dql = "UPDATE vocationetBundle:Ordenes o
-                    SET o.estado = 1,
+                    SET o.estado = :estado,
                     o.confirmacion = :confirmacion
                 WHERE 
                     o.codigo = :codigo
                 ";
         $query = $this->em->createQuery($dql);
+        $query->setParameter('estado', $estado);
         $query->setParameter('confirmacion', $confirmada);
         $query->setParameter('codigo', $codigo);
         $query->setMaxResults(1);
         $query->getResult();
-    }
-    
+    }    
 }

@@ -33,6 +33,8 @@ class PayUService
     /**
      * ApiKey de PayU
      * 
+     * El valor de esta variable debe ser privado
+     * 
      * @var string 
      */
     protected $apiKey;
@@ -74,12 +76,12 @@ class PayUService
      * @param string $apiKey ApiKey de PayU
      * @param string $accountId Identificador de la cuenta
      */
-    function __construct($service_container, $webCheckoutUrl, $merchantId, $apiKey) 
+    function __construct($service_container, $merchantId, $apiKey) 
     {
         $this->serv_cont = $service_container;
-        $this->webCheckoutUrl = $webCheckoutUrl;
+        $this->webCheckoutUrl = 'https://gateway.payulatam.com/ppp-web-gateway/';
         $this->merchantId = $merchantId;
-        $this->apiKey = $apiKey;
+        $this->apiKey = $apiKey; // El valor de esta variable no puede en ningun caso llegar al usuario
         $this->currency = 'COP';
         $this->test = 0;
         $this->responseUrl = $service_container->get('request')->getSchemeAndHttpHost().$service_container->get('router')->generate('payu_response');
