@@ -61,9 +61,12 @@ class ContactosController extends Controller
 		$usuarioId = $security->getSessionValue('id');
         
         $pr = $this->get('perfil');
-        $autoCompletarColegios = $pr->getColegios();
-        $autoCompletarTitulos = $pr->getTitulos();
-        $autoCompletarUniversidades = $pr->getUniversidades();
+        //$autoCompletarColegios = $pr->getColegios();
+        //$autoCompletarTitulos = $pr->getTitulos();
+        //$autoCompletarUniversidades = $pr->getUniversidades();
+		$autoCompletarColegios = Array();
+		$autoCompletarTitulos = Array();
+		$autoCompletarUniversidades = Array();
         
         $formData = Array('tipoUsuario' => 1, 'colegio'=>null, 'universidad'=>null, 'profesion'=>null, 'alternativaEstudio'=>null);
         $form = $this->formBusqueda($formData);

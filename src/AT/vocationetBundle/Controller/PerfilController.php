@@ -114,11 +114,9 @@ class PerfilController extends Controller
 			$avancePrograma = Array('porcentaje' =>60, 'color'=>'progress-bar-warning');  //porcentaje avance
 			$vancesDiagnostico = Array('mitdc'=> 50, 'hyp' => 60, 'info' => 40, 'invest' => 80, 'dc' => 10 );
 			
-			//Validar acceso a diagnostico
-			$form_id = $this->get('formularios')->getFormId('diagnostico');
-			$participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $perfilId));
+			$estadoActual = $this->get('perfil')->getEstadoActualPlataforma($perfilId);
 
-			$adicionales = Array('tiempoRestante' => $tiempoRestante, 'participacionDiagnostico' => $participacion);
+			$adicionales = Array('tiempoRestante' => $tiempoRestante);
 			$pendientes = Array(
 				'semaforo' => $semaforo,
 				'msjsinleer' => 10,
@@ -136,6 +134,7 @@ class PerfilController extends Controller
 						'showInformeML' => $showInformeML,
 						'rutaInformeML' => $rutaInformeML,
 						'publicidad' => $publicidad,
+						'recorrido' => $estadoActual,
 					));
 		}
     }

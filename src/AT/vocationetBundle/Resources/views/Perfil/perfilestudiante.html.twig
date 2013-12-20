@@ -87,34 +87,55 @@
 											</span>
 										</h4>
 										<div class="row-desk col-lg-12 row paddBtn">
-											<div class='col-lg-12'>PENDIENTE % DE AVANCE</div>
+											{% set icon = (recorrido.P1) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P1) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}diagnostico{% endtrans %}</div>
 										</div>
-
-										<h4>
-											<span data-original-title="{% trans from "label" %}explicacion.red.mentores{% endtrans %}" class='tooltips' data-placement="top" data-toggle="tooltip">
-												{% trans from "label" %}red.mentores{% endtrans %}
-											</span>
-										</h4>
 										<div class="row-desk col-lg-12 row paddBtn">
-											<div class='col-lg-12'>PENDIENTE % DE AVANCE</div>
+											{% set icon = (recorrido.P2) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P2) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}test.vocacional{% endtrans %}</div>
 										</div>
-
-										<h4>
-											<span data-original-title="{% trans from "label" %}explicacion.ponderacion{% endtrans %}" class='tooltips' data-placement="top" data-toggle="tooltip">
-												{% trans from "label" %}ponderacion{% endtrans %}
-											</span>
-										</h4>
 										<div class="row-desk col-lg-12 row paddBtn">
-											<div class='col-lg-12'>PENDIENTE % DE AVANCE</div>
+											{% set icon = (recorrido.P9) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P9) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}evaluacion.360{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P10) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P10) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}diseno.vida{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P11) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P11) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}mercado.laboral{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P12) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P12) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}red.mentores{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P13) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P13) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}ponderacion{% endtrans %}</div>
 										</div>
 
 										{# BOTONER DE REDIRECCIONAMIENTO #}
 										<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
-											{% if adicional.participacionDiagnostico %}
-												<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.diagnostico{% endtrans %}</button>
+											{% if (sess_user.id == perfil.usuarioId) and (recorrido.P1 == false) %}
+												<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.diagnostico{% endtrans %}</a>
+												{#<br><br>
+												<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}continuar.programa{% endtrans %}</button>#}
 											{%endif %}
-											<br><br>
-											<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}continuar.programa{% endtrans %}</button>
 										</div>
 									</div>
 								</div>
@@ -151,7 +172,7 @@
 									<div class='col-lg-8'>{{ adicional.tiempoRestante|number_format(1, ',', '') }}&nbsp;{% trans from "label" %}dias{% endtrans %}</div>
 								</div>
 							{% endif %}
-							<div class="row-desk col-lg-12 row paddBtn">
+							{#<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.semaforo{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}semaforo{% endtrans %}:
 								</div>
@@ -170,7 +191,6 @@
 								</div>
 								<div class='col-lg-8'>{{ perfil.usuarioPuntos }}</div>
 							</div>
-							{#
 							<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.amigos.y.mentores{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}amigos.y.mentores{% endtrans %}:
@@ -214,7 +234,7 @@
 					</section>
 
 					{# PORCENTAJE DEL PROGRAMA #}
-					<section class="panel">
+					{#<section class="panel">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="panel">
@@ -222,7 +242,6 @@
 										<h1>{% trans from "label" %}porcentaje.programa{% endtrans %}</h1>
 										<div class='col-lg-12 paddBtn'>{% trans from "label" %}porcentaje.de.avance{% endtrans %}</div>
 										<div class='col-lg-12'>
-
 
 											<div class="progress progress-striped active progress-sm">
 												<div class="progress-bar progress-bar-success" style="width: 25%"></div>
@@ -242,7 +261,7 @@
 								</div>
 							</div>
 						</div>
-					</section>
+					</section>#}
 
 					{# DIAGNOSTICO #}
 					<section class="panel">
@@ -309,9 +328,11 @@
 												<p>{% trans from "label" %}que.es.tdc{% endtrans %}</p>
 												<div STYLE='text-align:justify;'>{% trans from "label" %}explicacion.tdc{% endtrans %}</div>
 												<br>
-												<div class='col-lg-12' style='text-align:right;'>
-													<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}diagnostico{% endtrans %}</button>
-												</div>
+												{% if (sess_user.id == perfil.usuarioId) and recorrido.P1 == false %}
+													<div class='col-lg-12' style='text-align:right;'>
+														<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-success">{% trans from "label" %}diagnostico{% endtrans %}</a>
+													</div>
+												{% endif %}
 											</div>
 										</div>
 									</div>
