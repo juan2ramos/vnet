@@ -136,6 +136,14 @@
 				</ul>
 			</li>
 		{% endif %}
+		{% if 'admin_preguntas' in sess_permissions.permissions %}
+			<li class="{% if active == 'admin_preguntas' %}active{% endif %}">
+				<a class="" href="{{ path('admin_formularios') }}">
+					<i class="icon-tasks"></i>
+					<span>{% trans from "label" %}formularios{% endtrans %}</span>
+				</a>
+			</li>
+		{% endif %}
 					
 		{% if 'acceso_sidebar' in sess_permissions.permissions %}
 			<li class="{% if active == 'informacion' %}active{% endif %}">
@@ -145,4 +153,5 @@
 				</a>
 			</li>
 		{% endif %}
+            
 	</ul>

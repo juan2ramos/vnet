@@ -55,7 +55,7 @@ INSERT INTO `preguntas` (`id`, `pregunta`, `numero`, `preguntastipo_id`, `formul
 
 INSERT INTO `formularios` (`id`, `nombre`, `numero`, `encabezado`) VALUES 
 ('7', 'Mentor experto', '2', 'Desde este momento usted tendrá que elegir su Asesor experto en Orientación Vocacional. Sera el mentor que lo acompañara en todo el proceso, por lo tanto revise muy bien la disponibilidad y su perfil para que estos cumplan con sus intereses.'),
-('8', 'Test vocacional', '3', '', 'Esta prueba esta desarrollada por una empresa dedicada a la generación de pruebas psicológicas y será analizada por el experto que has escogido como guía de tu programa. Después de la próxima asesoría podrás ver los resultados.'),
+('8', 'Test vocacional', '3', 'Esta prueba esta desarrollada por una empresa dedicada a la generación de pruebas psicológicas y será analizada por el experto que has escogido como guía de tu programa. Después de la próxima asesoría podrás ver los resultados.'),
 ('9', 'Evaluación 360', '4', 'Recuerda que entre más personas te den retroalimentación tendrás mayor conocimiento sobre tus fortalezas y debilidades.'),
 ('10', 'Diseño de vida', '5', 'Esta prueba te ayudara a entender cuales son tus intereses a largo plazo y como estos se ajustan a tus decisiones actuales. Toma todo el tiempo que sea necesario para llenar esta prueba.'),
 ('11', 'Mercado laboral', '6', 'Programa de Información: Si tienes claras cuales son tus habilidades, fortalezas y destrezas y tienes claros tu panorama a corto, mediano y largo plazo, selecciona la alternativa de estudio (solo una) que quieres estudiar para ver como esta el mercado laboral. Si no tienes claro alguna de las variables para evaluar alternativas de la prueba de ponderación te recomendamos hacer el programa de orientación'),
@@ -84,7 +84,7 @@ INSERT INTO `formularios` (`id`, `nombre`, `numero`, `formulario_id`) VALUES
 ('25', 'Bellas artes', '4', '10'),
 ('26', 'Ciencias de la salud', '5', '10'),
 ('27', 'Ciencias sociales, derecho y ciencias políticas', '6', '10'),
-('28', 'Ciencias de la ecucación', '7', '10'),
+('28', 'Ciencias de la educación', '7', '10'),
 ('29', 'Economía, administración y contaduría', '8', '10'),
 ('30', 'Ingeniería, arquitectura y urbanismo', '9', '10'),
 ('31', 'Matemáticas y ciencias naturales', '10', '10'),
