@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+	{% set active = 'ponderacion' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-lg-12">
+			<section>
+				  <div class="panel panel-primary">
+					  <div class="panel-heading" style="font-size: 21px">{% trans %}resultados.ponderacion{% endtrans %}</div>
+					  <div class="panel-body">
+						  <h4>{% trans with {'%carrera%': '<b>'~carrera~'</b>' } %}%carrera%.alternativa.mas.opcionada{% endtrans %}.</h4>
+						  <br/>
+						  <b>{% trans from "label" %}puntajes{% endtrans %}:</b>
+						  <ul>
+							  {% for carrera in carreras %}
+								  <li>{{ carrera.nombre }}: {{ carrera.puntaje }}</li>
+							  {% endfor %}
+						  </ul>
+						  <br/><br/>
+						  <div style="text-align: center;">
+							  <a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+							  <a href="{{ path("agenda_estudiante") }}" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+						  </div>
+					  </div>
+				  </div>
+			  </section>
+		</div>
+	</div>
+{% endblock body %}

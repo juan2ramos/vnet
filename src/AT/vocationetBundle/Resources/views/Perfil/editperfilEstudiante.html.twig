@@ -6,8 +6,13 @@
     {#<link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-daterangepicker/daterangepicker.css') }}" />#}
 {% endblock style %}
 
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
-	<div class='col-lg-9'>
+	{% set span = (publicidad) ? 9 : 12 %}
+	<div class='col-lg-{{ span }}'>
 		<div class="row">
 			<aside class="profile-nav col-lg-4">
 
@@ -23,12 +28,14 @@
 					<ul class="nav nav-pills nav-stacked">
 						<li><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
 						<li class="active"><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+						{#
 						<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
 							<a href="#">
 								<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
 								<span class="label label-success pull-right r-activity">{{ pendiente.msjsinleer }}</span>
 							</a>
 						</li>
+						#}
 					</ul>
 				</section>
 			</aside>
@@ -114,9 +121,16 @@
 			</aside>
 		</div>
 	</div>
-	<div class='col-lg-3' color='red'>
-		<div><h2>PUBLICIDAD</h2></div>
-	</div>
+	
+	{% if publicidad %}
+		<div class='col-lg-3' color='red'>
+			<div>
+				{% for entity in publicidad %}
+					{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
 {% endblock body %}
 
 

@@ -1,0 +1,147 @@
+{% extends '::base.html.twig' %}
+
+{% block style %}
+<style>
+    .div-formulario{
+        border-bottom: 1px solid #eee;
+        margin-bottom: 20px;
+    }
+    
+    .div-opciones, .div-respuestas{
+        margin-left: 30px;
+    }
+</style>
+{% endblock style %}
+
+{% block menu %}
+	{% set active = 'adminmentor' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-8">
+        <section class="panel" id="div-cuestionario">
+            <header class="panel-heading" style="font-size: 14px;">
+                {% trans from "label" %}diseno.vida{% endtrans %}
+            </header>
+            <div class="panel-body">
+                {% for formulario in formularios %}
+                    <div class="div-formulario">
+                        <h4>{{ formulario.nombre }}</h4>
+                        {% if formulario.descripcion %}
+                            <p>{{ formulario.descripcion|trans({'%usu%': usuario.usuarioNombre~' '~usuario.usuarioApellido})|raw }}</p>
+                        {% endif %}
+                            
+                        {# Pantallazo 6 - Analisis #}   
+                        {% if loop.index0 == 13 %}
+                            {% if adicionales.val_int_carr is defined %}
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>{% trans  from "label" %}intereses.carrera{% endtrans %}</th>
+                                            <th>{% trans  from "label" %}afinidad.valores.ocupacionales{% endtrans %}</th>
+                                            <th>{% trans  from "label" %}afinidad.intereses.academicos{% endtrans %}</th>
+                                            <th>{% trans  from "label" %}apasiona.carrera{% endtrans %}</th>
+                                        </tr> 
+                                    </thead>
+                                    <tbody>
+                                        {% for int_carr in adicionales.val_int_carr %}
+                                            <tr>
+                                                <td>{{ int_carr.nombre }}</td>
+                                                <td>{{ int_carr.afi_val_ocup }}</td>
+                                                <td>{{ int_carr.afi_int_acad }}</td>
+                                                <td>{{ int_carr.porc }}%</td>
+                                            </tr>                              
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        {% endif %}                            
+                        
+                            
+                        {# Pantallazo 8 - Metas #}   
+                        {% if loop.index0 == 15 %}
+                            {% if adicionales.metas is defined %}
+                                {% for meta in adicionales.metas %}
+                                    <div style="margin:25px 20px;">
+                                        <b style="font-size: 16px; line-height: 35px;">{{ meta.nombre }}</b><br/>
+                                        <b>{% trans from "label" %}corto.plazo{% endtrans %}: </b>{{ meta.corto_plazo }}<br/>
+                                        <b>{% trans from "label" %}mediano.plazo{% endtrans %}: </b>{{ meta.mediano_plazo }}<br/>
+                                        <b>{% trans from "label" %}largo.plazo{% endtrans %}: </b>{{ meta.largo_plazo }}<br/>
+                                        <b>{% trans from "label" %}disenovida.metas.pregunta.1{% endtrans %} </b>{% if meta.pregunta1 == 1 %}{% trans  from "label" %}si{% endtrans %}{% else %}{% trans  from "label" %}no{% endtrans %}{% endif %}<br/>
+                                        <b>{% trans from "label" %}disenovida.metas.pregunta.2{% endtrans %} </b>{{ meta.pregunta2 }}<br/>                                        
+                                    </div>
+                                {% endfor %}                                
+                            {% endif %}
+                        {% endif %}
+                            
+                        {% if formulario.preguntas is defined %}
+                            {% for pregunta in formulario.preguntas %}
+                            <div class="div-pregunta">                            
+                                <b>{{ pregunta.numero }}. </b>
+                                {{ pregunta.pregunta }}
+                                {% if pregunta.opciones is defined %}
+                                <div class="div-opciones">
+                                    <b>{% trans from "label" %}opciones{% endtrans %}</b>
+                                    <ol>                                    
+                                    {% for opcion in pregunta.opciones %}
+                                        <li>{{ opcion.nombre }}</li>
+                                    {% endfor %}
+                                    </ol>
+                                </div>
+                                {% endif %}
+                                {% if pregunta.respuestas is defined %}
+                                <div class="div-respuestas">
+                                    <b>{% trans from "label" %}respuestas{% endtrans %}</b>
+                                    <ol>                                
+                                        {% for respuesta in pregunta.respuestas %}
+                                            <li>
+                                                {% include 'vocationetBundle:Preguntas:respuestas.html.twig' %}                                          
+                                            </li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+    <div class="col-lg-4">
+        <aside class="profile-nav alt green-border">
+            <section class="panel">
+              <div class="user-heading alt green-bg">
+                  <a href="{{ path("perfil", {"perfilId":usuario.id}) }}">
+                      <img alt="" src="{{ asset(usuario.usuarioImagen|default(gui_default_img)) }}?type=large">
+                  </a>
+                  <h1>{{ usuario.usuarioNombre ~ ' '~ usuario.usuarioApellido }}</h1>
+              </div>
+            <header class="panel-heading" style="font-size: 14px;">
+                {% trans from "label" %}participaciones{% endtrans %}
+            </header>
+            <table class="table table-striped">
+                <tbody>
+                {% for participacion in participaciones %}
+                    <tr>
+                        <td style="overflow: hidden; text-overflow: ellipsis;">
+                            {% if participacion.usuarioId %}
+                                <a href="{{ path("perfil", {"perfilId":participacion.usuarioId}) }}">{{ participacion.usuarioNombre ~ ' ' ~ participacion.usuarioApellido }}</a>
+                            {% endif %}
+                            <br/>
+                            {{ participacion.fecha|date('d/m/Y H:i') }}
+                            
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </section>
+        </aside>
+    </div>
+</div>
+{% endblock body %}
+        

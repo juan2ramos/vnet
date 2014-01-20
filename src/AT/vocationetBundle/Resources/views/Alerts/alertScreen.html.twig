@@ -1,5 +1,9 @@
 {% extends '::base.html.twig' %}
 
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 <div class="row">
     <div class="col-lg-12">
@@ -7,8 +11,25 @@
               <div class="panel panel-primary">
                   <div class="panel-heading" style="font-size: 21px">{{ title }}</div>
                   <div class="panel-body">
-                      {{ message|raw }}
-                      <div style="text-align: center;">
+                      <div class="row">
+                        <div class="col-lg-1">
+                            <img src="  
+                            {% if type == 'success' %}
+                                {{ asset('img/success.png') }}
+                            {% elseif type == 'info' %}
+                                {{ asset('img/info.png') }}
+                            {% elseif type == 'warning' %}
+                                {{ asset('img/warning.png') }}
+                            {% elseif type == 'error' %}
+                                {{ asset('img/delete.png') }}
+                            {% endif %}
+                             " />   
+                          </div>
+                          <div class="col-lg-11">
+                              {{ message|raw }}.
+                          </div>
+                      </div>
+                      <div style="text-align: center; margin-top:20px;">
                           <a href="{{ path('homepage' ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ir.al.home{% endtrans %}</a>
                           <a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>                          
                       </div>

@@ -1,0 +1,49 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * RespuestasAdicionales
+ *
+ * @ORM\Table(name="respuestas_adicionales")
+ * @ORM\Entity
+ */
+class RespuestasAdicionales
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="respuesta_key", type="string", length=45, nullable=false)
+     */
+    private $respuestaKey;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="respuesta_json", type="string", length=45, nullable=false)
+     */
+    private $respuestaJson;
+
+    /**
+     * @var \Participaciones
+     *
+     * @ORM\ManyToOne(targetEntity="Participaciones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="participacion_id", referencedColumnName="id")
+     * })
+     */
+    private $participacion;
+
+
+}

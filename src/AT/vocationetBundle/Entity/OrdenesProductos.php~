@@ -1,0 +1,66 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * OrdenesProductos
+ *
+ * @ORM\Table(name="ordenes_productos")
+ * @ORM\Entity
+ */
+class OrdenesProductos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="mentor_id", type="integer", nullable=true)
+     */
+    private $mentorId;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="valor", type="float", nullable=false)
+     */
+    private $valor;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
+     */
+    private $estado;
+
+    /**
+     * @var \Productos
+     *
+     * @ORM\ManyToOne(targetEntity="Productos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     * })
+     */
+    private $producto;
+
+    /**
+     * @var \Ordenes
+     *
+     * @ORM\ManyToOne(targetEntity="Ordenes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="orden_id", referencedColumnName="id")
+     * })
+     */
+    private $orden;
+
+
+}

@@ -1,7 +1,7 @@
 <b>{{ title }}</b>
 <br/>
 <p>
-    {{ body }}
+    {{ body|raw }}
     <br/>
     {% if link is defined %}
         <a href="{{ link }}">{{ link_text }}</a>

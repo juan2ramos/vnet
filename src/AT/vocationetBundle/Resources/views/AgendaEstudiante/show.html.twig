@@ -5,6 +5,7 @@
         </a>
         <div class="task-thumb-details">
             <h1>{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}</h1>
+            {{ mentoria.rolNombre }}
         </div>                  
     </div>
     <table class="table table-hover personal-task">
@@ -25,7 +26,11 @@
     </table>
     {% if mentoria.estudianteId %}
         <div style="text-align: right;">
-            <span class="label label-success">{% trans  from "label" %}mentoria.separada.por.mi{% endtrans %}</span>
+            {% if mentoria.mentoriaEstado == 0 %}
+                <span class="label label-success">{% trans  from "label" %}mentoria.separada.por.mi{% endtrans %}</span>
+            {% else %}
+                <span class="label label-success">{% trans  from "label" %}mentoria.finalizada{% endtrans %}</span>
+            {% endif %}
         </div>
     {% else %}
         <div style="text-align: right;">

@@ -8,35 +8,18 @@
 		.paddBtnEstTrb{
 			padding-bottom: 30px;
 		}
-
-		div.bigstars div.rateit-range {
-			background: url({{ asset('rateit/star-white32.png') }});
-			height: 32px !important;
-		}
-	 
-		div.bigstars div.rateit-hover {
-			background: url({{ asset('rateit/star-gold32.png') }});
-		}
-	 
-		div.bigstars div.rateit-selected {
-			background: url({{ asset('rateit/star-gold32.png') }});
-		}
-	 
-		div.bigstars div.rateit-reset {
-			background: url({{ asset('rateit/star-black32.png') }});
-			width: 32px !important;
-			height: 32px !important;;
-		}
-	 
-		div.bigstars div.rateit-reset:hover {
-			background: url({{ asset('rateit/star-white32.png') }});
-		}
 	</style>
+	<link href="{{ asset('css/vocationet/rateit.css') }}" rel="stylesheet"/>
 	<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
 {% endblock style %}
 
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
-	<div class='col-lg-9'>
+	{% set span = (publicidad) ? 9 : 12 %}
+	<div class='col-lg-{{ span }}'>
 		<div class="row">
 			<aside class="profile-nav col-lg-4">
 
@@ -173,12 +156,17 @@
 			</aside>
 		</div>
 	</div>
-	<div class='col-lg-3' color='red'>
-		<div><h2>PUBLICIDAD</h2></div>
-	</div>
-
-
 	
+	{% if publicidad %}
+		<div class='col-lg-3' color='red'>
+			<div>
+				{% for entity in publicidad %}
+					{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
+
 {% endblock body %}
 
 {% block script %}

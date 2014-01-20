@@ -138,15 +138,17 @@
 						<ul class="nav pull-right top-menu">
                             <li class="dropdown">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                    <img alt="" src="{{ sess_user.usuarioImagen|default(asset(gui_default_img)) ~ '?type=small' }}" style="width:29px; height: 29px;">
+                                    <img alt="" src="{{ asset(sess_user.usuarioImagen|default(gui_default_img)) ~ '?type=small' }}" style="width:29px; height: 29px;">
                                     <span class="username">{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</span>
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu extended logout">
                                     <div class="log-arrow-up"></div>
-                                    <li><a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}"><i class=" icon-suitcase"></i>{% trans from "label" %}perfil{% endtrans %}</a></li>
-                                    <li><a href="#"><i class="icon-cog"></i> Settings</a></li>
-                                    <li><a href="#"><i class="icon-bell-alt"></i> Notification</a></li>
+                                    <li><a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}"><i class=" icon-user"></i>{% trans from "label" %}perfil{% endtrans %}</a></li>
+                                    {% if 'acceso_pagos' in sess_permissions.permissions %}
+                                        <li><a href="{{ path('planes') }}"><i class="icon-suitcase"></i> {% trans from "label" %}paquetes{% endtrans %}</a></li>
+                                        <li><a href="{{ path('comprar') }}"><i class="icon-shopping-cart"></i> {% trans from "label" %}carrito.compras{% endtrans %}</a></li>
+                                    {% endif %}
                                     <li><a href="{{ path('logout') }}"><i class="icon-key"></i> {% trans from "label" %}cerrar.session{% endtrans %}</a></li>
                                 </ul>
                             </li>
@@ -155,77 +157,12 @@
 				</header>
 
 			
-			<!--sidebar start MENU VETICAL IZQUIERDO -->
+				<!--sidebar start MENU VETICAL IZQUIERDO -->
 				<aside>
-          <div id="sidebar"  class="nav-collapse ">
-              <!-- sidebar menu start-->
-              <ul class="sidebar-menu">
-                  <li class="active">
-                      <a class="" href="{{ path('homepage') }}">
-                          <i class="icon-home"></i>
-                          <span>{% trans from "label" %}inicio{% endtrans %}</span>
-                      </a>
-                  </li>
-                  {% if 'acceso_agenda_mentor' in sess_permissions.permissions %}
-                  <li class="">
-                      <a class="" href="{{ path('agenda_mentor') }}">
-                          <i class="icon-calendar-empty"></i>
-                          <span>{% trans from "label" %}agenda.mentor{% endtrans %}</span>
-                      </a>
-                  </li>
-                  {% endif %}
-                  {% if 'acceso_agenda_estudiante' in sess_permissions.permissions %}
-                  <li class="">
-                      <a class="" href="{{ path('agenda_estudiante') }}">
-                          <i class="icon-calendar"></i>
-                          <span>{% trans from "label" %}agenda.estudiante{% endtrans %}</span>
-                      </a>
-                  </li>
-                  {% endif %}
-                  {% if 'acceso_mensajes' in sess_permissions.permissions %}
-                  <li>
-                      <a class="" href="{{ path('mensajes') }}">
-                          <i class="icon-envelope"></i>
-                          <span>{% trans from "label" %}mensajes{% endtrans %}</span>
-                          <span class="label label-danger pull-right mail-info inbox-badge"></span>
-                      </a>
-                  </li>
-                  {% endif %}
-                  {% if 'acceso_foros' in sess_permissions.permissions %}
-                  <li>
-                      <a class="" href="{{ path('foros_temas') }}">
-                          <i class="icon-comments"></i>
-                          <span>{% trans from "label" %}foros{% endtrans %}</span>
-                      </a>
-                  </li>
-                  {% endif %}
-                  {% if 'acceso_mentor_ov' in sess_permissions.permissions %}
-                  <li>
-                      <a class="" href="{{ path('lista_usuarios_mentor') }}">
-                          <i class="icon-group"></i>
-                          <span>{% trans from "label" %}usuarios{% endtrans %}</span>
-                      </a>
-                  </li>
-                  {% endif %}
-                  <li class="sub-menu">
-                      <a href="javascript:;" class="">
-                          <i class="icon-book"></i>
-                          <span>{% trans from "label" %}plataforma{% endtrans %}</span>
-                          <span class="arrow"></span>
-                      </a>
-                      <ul class="sub">
-                          <li><a class="" href="{{ path('diagnostico') }}">{% trans from "label" %}diagnostico{% endtrans %}</a></li>
-						  <li><a class="" href="{{ path('lista_mentores_ov') }}">{% trans from "label" %}mentor.experto{% endtrans %}</a></li>
-                          <li><a class="" href="{{ path('test_vocacional') }}">{% trans from "label" %}test.vocacional{% endtrans %}</a></li>
-                          <li><a class="" href="{{ path('evaluacion360') }}">{% trans from "label" %}evaluacion.360{% endtrans %}</a></li>
-                          <li><a class="" href="{{ path('mercado_laboral') }}">{% trans from "label" %}mercado.laboral{% endtrans %}</a></li>
-                          <li><a class="" href="#">{% trans from "label" %}diseno.vida{% endtrans %}</a></li>
-						  
-                      </ul>
-                  </li>                  
-              </ul>
-          </div>
-      </aside>
+					<div id="sidebar"  class="nav-collapse ">
+						{% block menu %}{% endblock %}
+					</div>
+				</aside>
 			
 			<!--main content start-->
 			{# id="main-content" para espacio del menu vertical #}
@@ -244,7 +181,7 @@
 		<script src="{{ asset('js/jquery.js') }}"></script>
 		<script src="{{ asset('js/bootstrap.min.js') }}"></script>
 		<!----><script src="{{ asset('js/jquery.scrollTo.min.js') }}"></script>
-		<script type="text/javascript" src="{{ asset('js/jquery.nicescroll.js') }}"></script>
+		<script type="text/javascript" src="{{ asset('js/jquery.nicescroll.js') }}"></script>-->
         <script type="text/javascript" src="{{ asset('assets/gritter/js/jquery.gritter.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/owl.carousel.js') }}"></script>
         
@@ -259,8 +196,19 @@
         
         <!-- script para alert-badge -->
         <script src="{{ asset('js/vocationet/alert-badge.js') }}" type="text/javascript"></script>
-        <!-- deshabilitar boton submit trasn envio de formulario -->
+        <!-- deshabilitar boton submit tras envio de formulario -->
         <script src="{{ asset('js/vocationet/disable-submit.js') }}" type="text/javascript"></script>
+		
+		<script>
+			// Confirmacion de eliminacion de elementos
+			$('.confirmdelete').click(function(){
+				IdElementDelete = $(this).data('id');
+				Ent = $(this).data('ent');
+				if (confirm('{% trans from "messages" %}esta.seguro.de.eliminar.este.elemento{% endtrans %}')) {
+					$('#formdelete'+Ent+'_'+IdElementDelete).submit();
+				}
+			});
+		</script>
 
         {% block script %}{% endblock %}
 	</body>

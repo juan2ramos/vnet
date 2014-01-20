@@ -40,6 +40,7 @@ class PerfilController extends Controller
         
 		$tr = $this->get('translator');
 		$pr = $this->get('perfil');
+		$em = $this->getDoctrine()->getManager();
 		//error_reporting(true);
 
 		$perfil = $pr->getPerfil($perfilId);
@@ -47,8 +48,11 @@ class PerfilController extends Controller
 		if (!$perfil) {
 			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
 		}
+		
+		//PUBLICIDAD Y/O INFORMACION
+		$publicidad = $pr->getpublicidad();
  
-		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov')
+		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov' or $perfil['nombreRol'] == 'administrador')
 		{
 			// ROL MENTOR
 			$estudios = $pr->getEstudiosPerfil($perfilId);
@@ -67,10 +71,10 @@ class PerfilController extends Controller
 			// Calificaciones actuales del mentos, clasificados por No. de estrellas
 			$calificaciones = $pr->mentoriasCalificadas($perfilId);
 
-			if ($perfilId == $usuarioId) {
+			if (($perfilId == $usuarioId) && ($perfil['nombreRol'] != 'administrador')) {
 				// Campos vacios para pedir que sean diligenciados
 				$auxRol = ($perfil['usuarioRolEstado'] == 0) ? 1 : 0;
-				$auxVM = ($perfil['usuarioValorMentoria']) ? 0 : 1;
+				$auxVM = ($perfil['nombreRol'] != 'mentor_ov') ? 0 : (($perfil['usuarioValorMentoria']) ? 0 : 1);
 				$auxTP = ($perfil['usuarioTarjetaProfesional']) ? 0 : 1;
 				$auxHV = ($perfil['usuarioHojaVida']) ? 0 : 1;
 				$auxTotal = $auxRol + $auxVM + $auxTP + $auxHV;
@@ -84,12 +88,13 @@ class PerfilController extends Controller
 			return $this->render('vocationetBundle:Perfil:perfilmentor.html.twig', array(
 					'perfil' => $perfil, 'estudios' => $estudios, 'trabajos' => $trabajos, 'rutas' => $rutas,
 					'mentorias' => $calificarMentor, 'calificaciones' => $calificaciones,
-					'camposvacios' => $camposVacios, ));
+					'camposvacios' => $camposVacios, 'publicidad' => $publicidad
+			));
 		}
 		else
 		{
 			// Acceso a informe de mercado laboral
-			$showInformeML = false;
+			$showInformeML = $rutaInformeML = false;
 			$seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($perfilId);
 			if ($seleccionarMentor) {
 				if ($seleccionarMentor['id'] == $security->getSessionValue('id')) {
@@ -108,8 +113,10 @@ class PerfilController extends Controller
 			$semaforo = Array('porcentaje' =>20, 'color'=>'progress-bar-danger');  //porcentaje avance
 			$avancePrograma = Array('porcentaje' =>60, 'color'=>'progress-bar-warning');  //porcentaje avance
 			$vancesDiagnostico = Array('mitdc'=> 50, 'hyp' => 60, 'info' => 40, 'invest' => 80, 'dc' => 10 );
+			
+			$estadoActual = $this->get('perfil')->getEstadoActualPlataforma($perfilId);
 
-			$adicionales = Array('tiempoRestante' => $tiempoRestante,);
+			$adicionales = Array('tiempoRestante' => $tiempoRestante);
 			$pendientes = Array(
 				'semaforo' => $semaforo,
 				'msjsinleer' => 10,
@@ -126,6 +133,8 @@ class PerfilController extends Controller
 						// Acceso de visualizacion para mentor
 						'showInformeML' => $showInformeML,
 						'rutaInformeML' => $rutaInformeML,
+						'publicidad' => $publicidad,
+						'recorrido' => $estadoActual,
 					));
 		}
     }
@@ -156,6 +165,7 @@ class PerfilController extends Controller
         
 		$pr = $this->get('perfil');
 		$tr = $this->get('translator');
+		$em = $this->getDoctrine()->getManager();
 		
 		//error_reporting(true);
 		$id = $security->getSessionValue('id');
@@ -164,6 +174,9 @@ class PerfilController extends Controller
 		if (!$perfil) {
 			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
 		}
+		
+		//PUBLICIDAD Y/O INFORMACION
+		$publicidad = $pr->getpublicidad();
 
 		if ($perfil['nombreRol'] == 'estudiante')
 		{
@@ -219,7 +232,6 @@ class PerfilController extends Controller
 
 					if ($errores == 0)
 					{
-						$em = $this->getDoctrine()->getManager();
 						$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneById($id);
 						$usuario->setUsuarioNombre($dataForm['nombre']);
 						$usuario->setUsuarioApellido($dataForm['apellido']);
@@ -269,7 +281,9 @@ class PerfilController extends Controller
 			
 			$pendientes = Array('msjsinleer' => 10 );
 			return $this->render('vocationetBundle:Perfil:editperfilEstudiante.html.twig', array(
-						'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView()));
+						'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView(),
+						'publicidad' => $publicidad,
+					));
 		}
 		else {
 			
@@ -281,6 +295,7 @@ class PerfilController extends Controller
 				$formData = Array('hojaVida' => null, 'tarjetaProfesional' => null, 'valorHora' => 0);
 				$form = $this->createFormBuilder($formData)
 					->add('rol', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolActual), 'required' => true))
+					->add('profesion', 'text', array('required' => true, 'data'=> $perfil['usuarioProfesion']))
 					->add('valorHora', 'text', array('required' => true, 'data'=> $perfil['usuarioValorMentoria'], 'attr' => Array('pattern' => '^[0-9]*$')))
 					->add('hojaVida', 'file', array('required' => false))
 					->add('tarjetaProfesional', 'file', array('required' => false))
@@ -288,14 +303,13 @@ class PerfilController extends Controller
 			} else {
 				$formData = Array('hojaVida' => null, 'tarjetaProfesional' => null, 'valorHora' => 0);
 				$form = $this->createFormBuilder($formData)
+					->add('profesion', 'text', array('required' => true, 'data'=> $perfil['usuarioProfesion']))
 					->add('valorHora', 'text', array('required' => true, 'data'=> $perfil['usuarioValorMentoria'], 'attr' => Array('pattern' => '^[0-9]*$')))
 					->add('hojaVida', 'file', array('required' => false))
 					->add('tarjetaProfesional', 'file', array('required' => false))
 					->getForm();
 			}
 
-
-			$em = $this->getDoctrine()->getManager();
 			if ($request->getMethod() == 'POST')
 			{
 				$form->bind($request);
@@ -348,7 +362,8 @@ class PerfilController extends Controller
 								$usuario->setRol($rolMentor);
 								$usuario->setUsuarioRolEstado(1);
 						}
-
+						
+						$usuario->setUsuarioProfesion($dataForm['profesion']);
 						$usuario->setUsuarioValorMentoria($dataForm['valorHora']);
 						$usuario->setModified(new \DateTime());
 						$em->persist($usuario);
@@ -364,7 +379,9 @@ class PerfilController extends Controller
 
 			$pendientes = Array('msjsinleer' => 10 );
 			return $this->render('vocationetBundle:Perfil:editperfilMentor.html.twig', array(
-					'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView()));
+					'perfil' => $perfil, 'pendiente' => $pendientes, 'form' => $form->createView(),
+					'publicidad' => $publicidad,
+				));
 		}
 		
 	}
@@ -465,8 +482,11 @@ class PerfilController extends Controller
 		{
 			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
 		}
+		
+		//PUBLICIDAD Y/O INFORMACION
+		$publicidad = $pr->getpublicidad();
 
-		return array('perfil' => $perfil, 'calificaciones' => $calificaciones, 'resenas' => $resenas);
+		return array('perfil' => $perfil, 'calificaciones' => $calificaciones, 'resenas' => $resenas, 'publicidad' => $publicidad);
 	}
 
 	/**
@@ -554,18 +574,22 @@ class PerfilController extends Controller
 		 * valorHora => NotBlank, Regex(Solo numeros)
 		 * hojaVida => File(Formatos permitidos)
 		 * tarjetaProfesional => File(Formatos permitidos)
+		 * profesion => NotBlank, Regex(Texto y numeros)
 		 */
 
 		$NotBlank = new Assert\NotBlank();
 		$File = new Assert\File(Array('mimeTypes' => Array("application/pdf")));
 		$Regex = new Assert\Regex(Array('pattern'=>'/^[0-9]*$/'));
+		$RegexAN = new Assert\Regex(Array('pattern'=>'/^[a-zA-Z áéíóúÁÉÍÓÚñÑ]*$/'));
 
 		$hojaVida = $dataForm['hojaVida'];
 		$tarjetaProfesional = $dataForm['tarjetaProfesional'];
 		$valorHora = $dataForm['valorHora'];
+		$profesion = $dataForm['profesion'];
 
 		$countErrores = 0;
 		$countErrores += (count($this->get('validator')->validateValue($valorHora, Array($Regex, $NotBlank))) == 0) ? 0 : 1;
+		$countErrores += (count($this->get('validator')->validateValue($profesion, Array($RegexAN, $NotBlank))) == 0) ? 0 : 1;
 		
 		if ($formIncludeRol) {
 			if (($dataForm['rol'] != 2) and ($dataForm['rol'] != 3)) {

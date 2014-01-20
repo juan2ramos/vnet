@@ -4,23 +4,16 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <field name="cantidad" type="integer" column="cantidad" nullable="true"/>
-    <field name="valorTotal" type="integer" column="valor_total" nullable="true"/>
-    <field name="fechaHoraCompra" type="datetime" column="fecha_hora_compra" nullable="true"/>
-    <field name="estado" type="integer" column="estado" nullable="true"/>
-    <many-to-one field="mentoria" target-entity="Mentorias">
-      <join-columns>
-        <join-column name="mentoria_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
+    <field name="codigo" type="string" column="codigo" length="100" nullable="false"/>
+    <field name="fechaHoraCompra" type="datetime" column="fecha_hora_compra" nullable="false"/>
+    <field name="subtotal" type="float" column="subtotal" nullable="false"/>
+    <field name="iva" type="float" column="iva" nullable="false"/>
+    <field name="total" type="float" column="total" nullable="false"/>
+    <field name="estado" type="integer" column="estado" nullable="false"/>
+    <field name="confirmacion" type="boolean" column="confirmacion" nullable="false"/>
     <many-to-one field="usuario" target-entity="Usuarios">
       <join-columns>
         <join-column name="usuario_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
-    <many-to-one field="producto" target-entity="Productos">
-      <join-columns>
-        <join-column name="producto_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

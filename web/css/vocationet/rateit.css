@@ -1,0 +1,22 @@
+div.bigstars div.rateit-range {
+	background: url({{ asset('rateit/star-white32.png') }});
+	height: 32px !important;
+},
+
+div.bigstars div.rateit-hover {
+	background: url({{ asset('rateit/star-gold32.png') }});
+}
+
+div.bigstars div.rateit-selected {
+	background: url({{ asset('rateit/star-gold32.png') }});
+}
+
+div.bigstars div.rateit-reset {
+	background: url({{ asset('rateit/star-black32.png') }});
+	width: 32px !important;
+	height: 32px !important;
+},
+
+div.bigstars div.rateit-reset:hover {
+	background: url({{ asset('rateit/star-white32.png') }});
+}

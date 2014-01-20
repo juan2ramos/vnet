@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+	{% set active = 'informacion' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+	<div class="col-lg-12">
+		<section class="panel">
+			<header class="panel-heading">{% trans from "label" %}nueva.informacion{% endtrans %}</header>
+			<div class="panel-body">
+				<form class="form-horizontal" action="{{ path('admin_informacion_new') }}" method="POST" {{ form_enctype(form) }}>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}titulo{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionTitulo, {'attr': {'class':'form-control', 'style':'width:80%;'}} ) }}</p></div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}imagen{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionImagen, {'attr': {'class':'form-control', 'style':'width:80%;', 'required': 'required'}} ) }}</p></div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}enlace{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionLink, {'attr': {'class':'form-control', 'style':'width:80%;'}} ) }}</p></div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}visible{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionEstado, {'attr': {'class':'form-control', 'style':'width:2%;'}} ) }}</p></div>
+					</div>
+					{{ form_errors(form) }}
+                    {{ form_widget(form._token) }}
+					<div class="form-group">
+						<div class="col-lg-12 text-center">
+							<a class="btn btn-default" href="{{ path('admin_informacion') }}">
+								{{ 'listado'|trans({}, 'label') }}</a>
+							<button type="submit" class="btn btn-success">{{ 'guardar.cambios'|trans({}, 'label') }}</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+	</div>
+{% endblock %}

@@ -38,7 +38,7 @@ class SecurityService
      * @author Diego Malagón <diego@altactic.com>
      * @param type $var variable a depurar
      */
-    public function debug($var)
+    public static function debug($var)
     {
         if(is_object($var) || is_array($var))
         {
@@ -198,6 +198,7 @@ class SecurityService
         $this->session->set('sess_user',null);
         $this->session->set('sess_permissions',null);
         $this->session->set('sess_parameters',null);
+        $this->session->set('productos',null);
     }
     
     /**
@@ -297,12 +298,17 @@ class SecurityService
         $parameters = array(
             'enlace_test_vocacional' => 'http://www.uanl.mx/utilerias/test/',
             'enlace_pdf_test_vocacional_info' => 'uploads/vocationet/testvocacional.pdf',
+            'enlace_pdf_diseno_vida_info' => 'uploads/vocationet/disenovida.pdf',
             'enlace_vocationet_info' => 'http://www.vocationet.com',
             'ruta_files_mercado_laboral' => 'uploads/vocationet/ml/',
+			'ruta_images_informacion' => 'uploads/vocationet/informacion/',
             'dias_habiles_informe_mercado_laboral' => 5,
             'diagnostico_rango_puntaje_1' => array('min'=>0, 'max'=>50),
             'diagnostico_rango_puntaje_2' => array('min'=>51, 'max'=>90),
             'diagnostico_rango_puntaje_3' => array('min'=>91, 'max'=>111),
+            'iva' => 16,
+            'tipo_iva' => 'incluido', // incluido|agregado
+			'ruta_mapa_vocationet' => 'uploads/vocationet/mapaVocationet.png',
         );
         
         if($parameter)

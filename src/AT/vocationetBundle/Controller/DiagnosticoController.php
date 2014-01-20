@@ -75,6 +75,18 @@ class DiagnosticoController extends Controller
         
         $form = $this->createFormCuestionario();
         $form_id = $this->get('formularios')->getFormId('diagnostico');
+        $usuarioId = $security->getSessionValue('id');
+        $em = $this->getDoctrine()->getManager();
+        
+        //Validar acceso a diagnostico
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
+        if($participacion)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.diagnostico")
+            )); 
+        }
         
         if($request->getMethod() == 'POST') 
         {
@@ -82,11 +94,8 @@ class DiagnosticoController extends Controller
             if ($form->isValid())
             {
                 $respuestas = $request->get('pregunta');
-                //$security->debug($respuestas);
                 
                 $formularios_serv = $this->get('formularios');
-                
-                $usuarioId = $security->getSessionValue('id');
                 
                 //Validar formulario
                 $resultados = $formularios_serv->procesarFormulario($form_id, $usuarioId, $respuestas);
@@ -123,8 +132,6 @@ class DiagnosticoController extends Controller
                         'titulo_mensaje' => $titulo_mensaje,
                         'mensaje' => $mensaje
                     );
-                    
-                    //$security->debug($resultados);
                 }
                 else
                 {

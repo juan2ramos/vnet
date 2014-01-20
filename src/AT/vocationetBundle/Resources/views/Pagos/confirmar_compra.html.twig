@@ -1,0 +1,25 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <section>
+              <div class="panel panel-primary">
+                  <div class="panel-heading" style="font-size: 21px">{% trans from "label" %}confirmar.compra{% endtrans %}</div>
+                  <div class="panel-body">
+                      {% trans from "label" %}mensaje.confirmar.compra{% endtrans %}
+                      
+                      <div style="text-align: center; margin-top:20px;">
+                          {# Form para enviar peticion a PayU #}
+                          {% include 'vocationetBundle:PayU:form.html.twig' %}
+                      </div>
+                  </div>
+              </div>
+          </section>
+    </div>
+</div>
+{% endblock body %}

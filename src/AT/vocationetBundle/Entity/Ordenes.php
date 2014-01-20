@@ -22,62 +22,60 @@ class Ordenes
     private $id;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="cantidad", type="integer", nullable=true)
+     * @ORM\Column(name="codigo", type="string", length=100, nullable=false)
      */
-    private $cantidad;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="valor_total", type="integer", nullable=true)
-     */
-    private $valorTotal;
+    private $codigo;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=true)
+     * @ORM\Column(name="fecha_hora_compra", type="datetime", nullable=false)
      */
     private $fechaHoraCompra;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="subtotal", type="float", nullable=false)
+     */
+    private $subtotal;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="iva", type="float", nullable=false)
+     */
+    private $iva;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="total", type="float", nullable=false)
+     */
+    private $total;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="estado", type="integer", nullable=true)
+     * @ORM\Column(name="estado", type="integer", nullable=false)
      */
     private $estado;
 
     /**
-     * @var \Productos
+     * @var boolean
      *
-     * @ORM\ManyToOne(targetEntity="Productos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="confirmacion", type="boolean", nullable=false)
      */
-    private $producto;
+    private $confirmacion;
 
     /**
-     * @var \Usuarios
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="Usuarios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="usuario_id", type="integer", nullable=false)
      */
     private $usuario;
-
-    /**
-     * @var \Mentorias
-     *
-     * @ORM\ManyToOne(targetEntity="Mentorias")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mentoria_id", referencedColumnName="id")
-     * })
-     */
-    private $mentoria;
 
 
 
@@ -92,49 +90,26 @@ class Ordenes
     }
 
     /**
-     * Set cantidad
+     * Set codigo
      *
-     * @param integer $cantidad
+     * @param string $codigo
      * @return Ordenes
      */
-    public function setCantidad($cantidad)
+    public function setCodigo($codigo)
     {
-        $this->cantidad = $cantidad;
+        $this->codigo = $codigo;
     
         return $this;
     }
 
     /**
-     * Get cantidad
+     * Get codigo
      *
-     * @return integer 
+     * @return string 
      */
-    public function getCantidad()
+    public function getCodigo()
     {
-        return $this->cantidad;
-    }
-
-    /**
-     * Set valorTotal
-     *
-     * @param integer $valorTotal
-     * @return Ordenes
-     */
-    public function setValorTotal($valorTotal)
-    {
-        $this->valorTotal = $valorTotal;
-    
-        return $this;
-    }
-
-    /**
-     * Get valorTotal
-     *
-     * @return integer 
-     */
-    public function getValorTotal()
-    {
-        return $this->valorTotal;
+        return $this->codigo;
     }
 
     /**
@@ -161,6 +136,75 @@ class Ordenes
     }
 
     /**
+     * Set subtotal
+     *
+     * @param float $subtotal
+     * @return Ordenes
+     */
+    public function setSubtotal($subtotal)
+    {
+        $this->subtotal = $subtotal;
+    
+        return $this;
+    }
+
+    /**
+     * Get subtotal
+     *
+     * @return float 
+     */
+    public function getSubtotal()
+    {
+        return $this->subtotal;
+    }
+
+    /**
+     * Set iva
+     *
+     * @param float $iva
+     * @return Ordenes
+     */
+    public function setIva($iva)
+    {
+        $this->iva = $iva;
+    
+        return $this;
+    }
+
+    /**
+     * Get iva
+     *
+     * @return float 
+     */
+    public function getIva()
+    {
+        return $this->iva;
+    }
+
+    /**
+     * Set total
+     *
+     * @param float $total
+     * @return Ordenes
+     */
+    public function setTotal($total)
+    {
+        $this->total = $total;
+    
+        return $this;
+    }
+
+    /**
+     * Get total
+     *
+     * @return float 
+     */
+    public function getTotal()
+    {
+        return $this->total;
+    }
+
+    /**
      * Set estado
      *
      * @param integer $estado
@@ -184,35 +228,35 @@ class Ordenes
     }
 
     /**
-     * Set producto
+     * Set confirmacion
      *
-     * @param \AT\vocationetBundle\Entity\Productos $producto
+     * @param boolean $confirmacion
      * @return Ordenes
      */
-    public function setProducto(\AT\vocationetBundle\Entity\Productos $producto = null)
+    public function setConfirmacion($confirmacion)
     {
-        $this->producto = $producto;
+        $this->confirmacion = $confirmacion;
     
         return $this;
     }
 
     /**
-     * Get producto
+     * Get confirmacion
      *
-     * @return \AT\vocationetBundle\Entity\Productos 
+     * @return boolean 
      */
-    public function getProducto()
+    public function getConfirmacion()
     {
-        return $this->producto;
+        return $this->confirmacion;
     }
 
     /**
      * Set usuario
      *
-     * @param \AT\vocationetBundle\Entity\Usuarios $usuario
+     * @param integer $usuario
      * @return Ordenes
      */
-    public function setUsuario(\AT\vocationetBundle\Entity\Usuarios $usuario = null)
+    public function setUsuario($usuario = null)
     {
         $this->usuario = $usuario;
     
@@ -222,33 +266,10 @@ class Ordenes
     /**
      * Get usuario
      *
-     * @return \AT\vocationetBundle\Entity\Usuarios 
+     * @return integer
      */
     public function getUsuario()
     {
         return $this->usuario;
-    }
-
-    /**
-     * Set mentoria
-     *
-     * @param \AT\vocationetBundle\Entity\Mentorias $mentoria
-     * @return Ordenes
-     */
-    public function setMentoria(\AT\vocationetBundle\Entity\Mentorias $mentoria = null)
-    {
-        $this->mentoria = $mentoria;
-    
-        return $this;
-    }
-
-    /**
-     * Get mentoria
-     *
-     * @return \AT\vocationetBundle\Entity\Mentorias 
-     */
-    public function getMentoria()
-    {
-        return $this->mentoria;
     }
 }

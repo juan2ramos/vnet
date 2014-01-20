@@ -33,36 +33,17 @@
         .ui-widget-content {
             background-color: transparent !important;
         }
-
-        div.bigstars div.rateit-range {
-			background: url({{ asset('rateit/star-white32.png') }});
-			height: 32px !important;
-		}
-	 
-		div.bigstars div.rateit-hover {
-			background: url({{ asset('rateit/star-gold32.png') }});
-		}
-	 
-		div.bigstars div.rateit-selected {
-			background: url({{ asset('rateit/star-gold32.png') }});
-		}
-	 
-		div.bigstars div.rateit-reset {
-			background: url({{ asset('rateit/star-black32.png') }});
-			width: 32px !important;
-			height: 32px !important;;
-		}
-	 
-		div.bigstars div.rateit-reset:hover {
-			background: url({{ asset('rateit/star-white32.png') }});
-		}
-		
 	</style>
+	<link href="{{ asset('css/vocationet/rateit.css') }}" rel="stylesheet"/>
 	<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
 {% endblock style %}
 
-{% block body %}
+{% block menu %}
+	{% set active = 'mvocacional' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
 
+{% block body %}
 	<div class="row">
 		<div class="col-lg-12">
             
@@ -118,7 +99,7 @@
 								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}nombre{% endtrans %}</th>
 								{#<th>{% trans from "label" %}rol{% endtrans %}</th>#}
-								<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>
+								<th class='text-center'>{% trans from "label" %}valoraciones{% endtrans %}</th>
 								<th>{% trans from "label" %}profesion{% endtrans %}</th>
 								<th>{% trans from "label" %}universidad{% endtrans %}</th>
 								{% if selectMentor == false %}

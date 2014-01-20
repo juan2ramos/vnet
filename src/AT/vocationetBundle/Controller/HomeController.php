@@ -19,6 +19,10 @@ class HomeController extends Controller
     /**
      * Index de la aplicacion
      * 
+	 * @author Diego Malagón <diego@altactic.com>
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1 - Notificaciones de evaluacion 360
+	 * @version 2 - Mapa y recorrido del usuario
      * @Route("/", name="homepage")
      * @Template("vocationetBundle:Home:index.html.twig")
      * @return Response
@@ -33,9 +37,12 @@ class HomeController extends Controller
         $usuarioEmail = $security->getSessionValue("usuarioEmail");
         
         $invitaciones360 = $this->get('formularios')->getInvitacionesEvaluacion360($usuarioId, $usuarioEmail);
-        
+		
+		$estadoActual = $this->get('perfil')->getEstadoActualPlataforma($usuarioId);
+
         return array(
-            'invitaciones360' => $invitaciones360
+            'invitaciones360' => $invitaciones360,
+			'recorrido' => $estadoActual,
         );
     }
 }

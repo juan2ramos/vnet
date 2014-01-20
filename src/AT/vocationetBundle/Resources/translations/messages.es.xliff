@@ -19,6 +19,15 @@
                 <source>acceso.invalido</source>
                 <target>Acceso invalido</target>
             </trans-unit>
+			<trans-unit id="generic-5">
+                <source>esta.seguro.de.eliminar.este.elemento</source>
+                <target>¿Esta seguro de eliminar este elemento?</target>
+			</trans-unit>
+			<trans-unit id="generic-6">
+                <source>error.en.solicitud</source>
+                <target>Error en la solicitud</target>
+			</trans-unit>
+			
                         
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
@@ -178,6 +187,14 @@
 			<trans-unit id="ment-15">
                 <source>%user%.ha.separado.mentoria.%detalle%</source>
                 <target>%user% ha se parado una mentoria a las %detalle%</target>
+            </trans-unit>
+			<trans-unit id="ment-16">
+                <source>mentoria.finalizada</source>
+                <target>Mentoría finalizada</target>
+            </trans-unit>
+			<trans-unit id="ment-17">
+                <source>mentoria.finalizada.correctamente</source>
+                <target>La mentoría se ha marcado como finalizada correctamente</target>
             </trans-unit>
 
 
@@ -421,6 +438,237 @@
                 <source>informe.cargado.correctamente</source>
                 <target>Informe cargado correctamente</target>
 			</trans-unit>
+			
+			<!-- CARRERAS carreras-x -->
+			<trans-unit id="carreras-1">
+                <source>carrera.creada</source>
+                <target>Carrera creada</target>
+			</trans-unit>
+			<trans-unit id="carreras-2">
+                <source>carrera.creada.correctamente</source>
+                <target>Carrera creada correctamente</target>
+			</trans-unit>
+			<trans-unit id="carreras-3">
+                <source>carrera.editada</source>
+                <target>Carrera editada</target>
+			</trans-unit>
+			<trans-unit id="carreras-4">
+                <source>carrera.editada.correctamente</source>
+                <target>Carrera editada correctamente</target>
+			</trans-unit>
+			<trans-unit id="carreras-5">
+                <source>error.al.eliminar</source>
+                <target>Error al eliminar</target>
+			</trans-unit>
+			<trans-unit id="carreras-6">
+                <source>no.puede.eliminar.esta.carrera.asociados.temas.o.alternativas</source>
+                <target>No puede eliminar esta carrera, tiene asociados temas o alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="carreras-7">
+                <source>carrera.eliminada</source>
+                <target>Carrera eliminada</target>
+			</trans-unit>
+			<trans-unit id="carreras-8">
+                <source>carrera.eliminada.correctamente</source>
+                <target>Carrera eliminada correctamente</target>
+			</trans-unit>
+			
+			<!-- CARRERAS colegios-x -->
+			<trans-unit id="colegios-1">
+                <source>colegio.eliminado</source>
+                <target>Colegio eliminado</target>
+			</trans-unit>
+			<trans-unit id="colegios-2">
+                <source>colegio.eliminado.correctamente</source>
+                <target>Colegio eliminado correctamente</target>
+			</trans-unit>
+			<trans-unit id="colegios-3">
+                <source>no.puede.eliminar.este.colegio.asociados.usuarios</source>
+                <target>No puede eliminar este colegio porque tiene asociados usuarios</target>
+			</trans-unit>
+			<trans-unit id="colegios-4">
+                <source>colegio.creado</source>
+                <target>Colegio creado</target>
+			</trans-unit>
+			<trans-unit id="colegios-5">
+                <source>colegio.creado.correctamente</source>
+                <target>Colegio creado correctamente</target>
+			</trans-unit>
+			<trans-unit id="colegios-6">
+                <source>colegio.editado</source>
+                <target>Colegio editado</target>
+			</trans-unit>
+			<trans-unit id="colegios-7">
+                <source>colegio.editado.correctamente</source>
+                <target>Colegio editado correctamente</target>
+			</trans-unit>
+			
+			<!-- TEMAS temas-x -->
+			<trans-unit id="temas-1">
+                <source>no.puede.eliminar.este.tema.asociados.foros</source>
+                <target>No puede eliminar este tema, tiene foros asociados.</target>
+			</trans-unit>
+			<trans-unit id="temas-2">
+                <source>tema.eliminado</source>
+                <target>Tema eliminado</target>
+			</trans-unit>
+			<trans-unit id="temas-3">
+                <source>tema.eliminado.correctamente</source>
+                <target>Tema eliminado correctamente</target>
+			</trans-unit>
+			<trans-unit id="temas-4">
+                <source>tema.creado</source>
+                <target>Tema creado</target>
+			</trans-unit>
+			<trans-unit id="temas-5">
+                <source>tema.creado.correctamente</source>
+                <target>Tema creado correctamente</target>
+			</trans-unit>
+			<trans-unit id="temas-6">
+                <source>tema.editado</source>
+                <target>Tema editado</target>
+			</trans-unit>
+			<trans-unit id="temas-7">
+                <source>tema.editado.correctamente</source>
+                <target>Tema editado correctamente</target>
+			</trans-unit>
+			
+			<!-- INFORMACION informacion-x -->
+			<trans-unit id="informacion-1">
+                <source>informacion.creada</source>
+                <target>Informacion creada</target>
+			</trans-unit>
+			<trans-unit id="informacion-2">
+                <source>informacion.creada.correctamente</source>
+                <target>Informacion creada correctamente</target>
+			</trans-unit>
+			<trans-unit id="informacion-3">
+                <source>informacion.editada</source>
+                <target>Informacion editada</target>
+			</trans-unit>
+			<trans-unit id="informacion-4">
+                <source>informacion.editada.correctamente</source>
+                <target>Informacion editada correctamente</target>
+			</trans-unit>
+			<trans-unit id="informacion-5">
+                <source>informacion.eliminada</source>
+                <target>Informacion eliminada</target>
+			</trans-unit>
+			<trans-unit id="informacion-6">
+                <source>informacion.eliminada.correctamente</source>
+                <target>Información eliminada correctamente</target>
+			</trans-unit>
+            
+            <!-- diseno de vida dvida-x -->
+			<trans-unit id="dvida-1">
+                <source>diseno.vida.enviado.ahora.separar.metoria</source>
+                <target>Has finalizado tu diseño de vida, ahora debes agendar una nueva mentoria</target>
+			</trans-unit>
+			<trans-unit id="dvida-2">
+                <source>gracias.por.participar.diseno.vida</source>
+                <target>Gracias por enviar tu diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="dvida-3">
+                <source>debe.escojer.minimo.3.opciones</source>
+                <target>Debes seleccionar mínimo 3 opciones de nivel 3 para continuar con la prueba</target>
+			</trans-unit>
+			<trans-unit id="dvida-4">
+                <source>debe.escojer.10.valores.ocupacionales</source>
+                <target>Debes escojer 10 valores ocupacionales para continuar con la prueba</target>
+			</trans-unit>
+            
+            <!-- ponderacion pond-x -->
+			<trans-unit id="pond-1">
+                <source>gracias.por.participar.ponderacion</source>
+                <target>Gracias por participar en la ponderación</target>
+			</trans-unit>
+			<trans-unit id="pond-2">
+                <source>resultados.ponderacion</source>
+                <target>Resultados de la ponderación</target>
+			</trans-unit>
+			<trans-unit id="pond-3">
+                <source>%carrera%.alternativa.mas.opcionada</source>
+                <target>Según los valores que diste a cada una de las preguntas la alternativa de estudio más opcionada para ti es %carrera%</target>
+			</trans-unit>
+			<trans-unit id="pond-4">
+                <source>no.ha.seleccionado.alternativas.estudio</source>
+                <target>No ha seleccionado alternativas de estudio</target>
+			</trans-unit>
+            
+            <!-- pagos pag-x -->
+			<trans-unit id="pag-1">
+                <source>no.existe.pago</source>
+                <target>No existe un pago para este producto</target>
+			</trans-unit>
+			<trans-unit id="pag-2">
+                <source>antes.de.continuar.debes.realizar.el.pago</source>
+                <target>Antes de continuar debes realizar el respectivo pago</target>
+			</trans-unit>
+			<trans-unit id="pag-3">
+                <source>productos.eliminados</source>
+                <target>Productos eliminados</target>
+			</trans-unit>
+			<trans-unit id="pag-4">
+                <source>si.compra.plan.completo.no.puede.agregar.productos</source>
+                <target>Si compra el programa de orientación no puede agregar otros productos</target>
+			</trans-unit>
+			<trans-unit id="pag-5">
+                <source>no.puede.agregar.producto</source>
+                <target>No puede agregar más productos</target>
+			</trans-unit>
+			<trans-unit id="pag-6">
+                <source>debe.seleccionar.mentor.experto</source>
+                <target>Debe seleccionar mentor experto</target>
+			</trans-unit>
+			<trans-unit id="pag-7">
+                <source>debe.seleccionar.mentor.para.comprar.mentorias</source>
+                <target>Para comprar mentorias debe seleccionar primero uno o varios mentores expertos</target>
+			</trans-unit>
+			<trans-unit id="pag-8">
+                <source>seleccione.productos</source>
+                <target>Seleccione productos</target>
+			</trans-unit>
+			<trans-unit id="pag-9">
+                <source>no.ha.seleccionado.productos</source>
+                <target>Aun no has seleccionado productos para pagar</target>
+			</trans-unit>
+			<trans-unit id="pag-10">
+                <source>compra.finalizada</source>
+                <target>Compra finalizada correctamente</target>
+			</trans-unit>
+			<trans-unit id="pag-11">
+                <source>gracias.por.adquirir.nuestros.productos</source>
+                <target>Gracias por adquirir nuestros productos. La transacción ha sido exitosa, una vez el pago sea confirmado te enviaremos una notificación y activaremos tus productos inmediatamente</target>
+			</trans-unit>
+			<trans-unit id="pag-12">
+                <source>compra.en.vocationet</source>
+                <target>Compra en Vocationet</target>
+			</trans-unit>
+			<trans-unit id="pag-13">
+                <source>error.transaccion</source>
+                <target>Error en la transacción</target>
+			</trans-unit>
+			<trans-unit id="pag-14">
+                <source>validacion.transaccion.invalida</source>
+                <target>La validación de la transacción indica que es falsa</target>
+			</trans-unit>
+			<trans-unit id="pag-15">
+                <source>descripcion.transaccion</source>
+                <target>Descrición</target>
+			</trans-unit>
+			<trans-unit id="pag-16">
+                <source>estado.transaccion</source>
+                <target>Estado de la transacción</target>
+			</trans-unit>
+			<trans-unit id="pag-17">
+                <source>metodo.transaccion</source>
+                <target>Forma de pago</target>
+			</trans-unit>
+			<trans-unit id="pag-18">
+                <source>valor.transaccion</source>
+                <target>Valor</target>
+			</trans-unit>
+            
         </body>
     </file>
 </xliff>

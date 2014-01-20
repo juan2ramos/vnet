@@ -14,8 +14,11 @@ parameters:
     locale:            en
     secret:            c35163b10d6eafe418a06c107ddfb77dd6
 
-    facebook_app_id:   215506538627745
-    facebook_app_secret: 548c0564a348201dc8195c546d908736
+    facebook_app_id:   1440367069511188
+    facebook_app_secret: 44c541754cf143537e99978f46c92a54
 
-    linkedin_api_key:   52mywqqn6p2g
-    linkedin_secret_key:    1x0mrvvEezS9ErST
+    linkedin_api_key:   75rlzg7jzsasg6
+    linkedin_secret_key: xo6kT9mKQHGceZKQ
+
+    payu_merchantId: 505798
+    payu_ApiKey: 2tpsd6jmfh11kob9uon8i9vnad

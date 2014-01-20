@@ -1,0 +1,60 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Informacion
+ *
+ * @ORM\Table(name="informacion")
+ * @ORM\Entity
+ */
+class Informacion
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="informacion_imagen", type="string", length=100, nullable=true)
+     */
+    private $informacionImagen;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="informacion_link", type="string", length=100, nullable=true)
+     */
+    private $informacionLink;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="informacion_estado", type="boolean", nullable=true)
+     */
+    private $informacionEstado;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=true)
+     */
+    private $created;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
+     */
+    private $modified;
+
+
+}

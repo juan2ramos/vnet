@@ -1,25 +1,30 @@
 {% extends '::base.html.twig' %}
 
+{% block menu %}
+	{% set active = 'diagnostico' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
-<div class="row">
-    <div class="col-lg-12">
-        <section>
-              <div class="panel panel-primary">
-                  <div class="panel-heading" style="font-size: 21px">{{ titulo_mensaje }}</div>
-                  <div class="panel-body">
-                      {{ mensaje }}
-                      <br/>
-                      <br/>
-                      {% trans %}vocationet.info{% endtrans %} <a href="{{ getParameter('enlace_vocationet_info') }}">{% trans %}vocationet.link{% endtrans %}</a>.
-                      <br/>
-                      <br/>
-                      <div style="text-align: center;">
-                          <a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
-                          <a href="{{ path("lista_mentores_ov") }}" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
-                      </div>
-                  </div>
-              </div>
-          </section>
-    </div>
-</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<section>
+				  <div class="panel panel-primary">
+					  <div class="panel-heading" style="font-size: 21px">{{ titulo_mensaje }}</div>
+					  <div class="panel-body">
+						  {{ mensaje }}
+						  <br/>
+						  <br/>
+						  {% trans %}vocationet.info{% endtrans %} <a href="{{ getParameter('enlace_vocationet_info') }}">{% trans %}vocationet.link{% endtrans %}</a>.
+						  <br/>
+						  <br/>
+						  <div style="text-align: center;">
+							  <a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+							  <a href="{{ path("planes") }}" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+						  </div>
+					  </div>
+				  </div>
+			  </section>
+		</div>
+	</div>
 {% endblock body %}

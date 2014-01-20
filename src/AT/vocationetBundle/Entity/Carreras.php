@@ -3,6 +3,7 @@
 namespace AT\vocationetBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Carreras
@@ -25,6 +26,8 @@ class Carreras
      * @var string
      *
      * @ORM\Column(name="nombre", type="string", length=250, nullable=false)
+	 * @Assert\NotNull()
+     * @Assert\Length(min = 3,  max = 250)
      */
     private $nombre;
 
@@ -62,4 +65,9 @@ class Carreras
     {
         return $this->nombre;
     }
+	
+	public function __toString()
+	{
+		return $this->getNombre();
+	}
 }
