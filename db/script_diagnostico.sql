@@ -54,7 +54,7 @@ INSERT INTO `preguntas` (`id`, `pregunta`, `numero`, `preguntastipo_id`, `formul
 
 
 INSERT INTO `formularios` (`id`, `nombre`, `numero`, `encabezado`) VALUES 
-('7', 'Mentor experto', '2', 'Desde este momento usted tendrá que elegir su Asesor experto en Orientación Vocacional. Sera el mentor que lo acompañara en todo el proceso, por lo tanto revise muy bien la disponibilidad y su perfil para que estos cumplan con sus intereses.'),
+('7', 'Orientador Vocacional', '2', 'Desde este momento usted tendrá que elegir su Asesor experto en Orientación Vocacional. Sera el mentor que lo acompañara en todo el proceso, por lo tanto revise muy bien la disponibilidad y su perfil para que estos cumplan con sus intereses.'),
 ('8', 'Test vocacional', '3', 'Esta prueba esta desarrollada por una empresa dedicada a la generación de pruebas psicológicas y será analizada por el experto que has escogido como guía de tu programa. Después de la próxima asesoría podrás ver los resultados.'),
 ('9', 'Evaluación 360', '4', 'Recuerda que entre más personas te den retroalimentación tendrás mayor conocimiento sobre tus fortalezas y debilidades.'),
 ('10', 'Diseño de vida', '5', 'Esta prueba te ayudara a entender cuales son tus intereses a largo plazo y como estos se ajustan a tus decisiones actuales. Toma todo el tiempo que sea necesario para llenar esta prueba.'),

@@ -9,7 +9,7 @@
             </trans-unit>
             <trans-unit id="generic-2">
                 <source>verifique.los datos.suministrados</source>
-                <target>Verifique los datos ingresados</target>
+                <target>Datos vacios o inválidos, verifique los datos ingresados</target>
             </trans-unit>
             <trans-unit id="generic-3">
                 <source>Acceso denegado</source>
@@ -27,8 +27,12 @@
                 <source>error.en.solicitud</source>
                 <target>Error en la solicitud</target>
 			</trans-unit>
+			<trans-unit id="generic-7">
+                <source>opcion.invalida</source>
+                <target>Opción Invalida</target>
+			</trans-unit>
 			
-                        
+
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
                 <source>autenticacion.fallida</source>
@@ -536,27 +540,27 @@
 			<!-- INFORMACION informacion-x -->
 			<trans-unit id="informacion-1">
                 <source>informacion.creada</source>
-                <target>Informacion creada</target>
+                <target>Publicidad creada</target>
 			</trans-unit>
 			<trans-unit id="informacion-2">
                 <source>informacion.creada.correctamente</source>
-                <target>Informacion creada correctamente</target>
+                <target>Publicidad creada correctamente</target>
 			</trans-unit>
 			<trans-unit id="informacion-3">
                 <source>informacion.editada</source>
-                <target>Informacion editada</target>
+                <target>Publicidad editada</target>
 			</trans-unit>
 			<trans-unit id="informacion-4">
                 <source>informacion.editada.correctamente</source>
-                <target>Informacion editada correctamente</target>
+                <target>Publicidad editada correctamente</target>
 			</trans-unit>
 			<trans-unit id="informacion-5">
                 <source>informacion.eliminada</source>
-                <target>Informacion eliminada</target>
+                <target>Publicidad eliminada</target>
 			</trans-unit>
 			<trans-unit id="informacion-6">
                 <source>informacion.eliminada.correctamente</source>
-                <target>Información eliminada correctamente</target>
+                <target>Publicidad eliminada correctamente</target>
 			</trans-unit>
             
             <!-- diseno de vida dvida-x -->

@@ -2943,6 +2943,13 @@ ul.amounts li {
     border-bottom: none;
 }
 
+.tab-bg-green {
+    background: #00A8B3;
+    border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    border-bottom: none;
+}
+
 .panel-heading .nav > li > a,
 .panel-heading .nav > li.active > a, .panel-heading .nav > li.active > a:hover, .panel-heading .nav > li.active > a:focus {
     border-width: 0;
@@ -3531,12 +3538,15 @@ table.sliders tr td {
     border: 1px solid #E2E2E4;
     border-radius: 4px;
     -webkit-border-radius: 4px;
-    float: right;
+    float: left;
     margin-right: -37px;
     margin-top: -34px;
     padding: 8px;
     text-align: center;
     background: #EEEEEE;
+}
+.date input {
+	padding-left:40px;
 }
 
 .daterangepicker .ranges .range_inputs > div:nth-child(2) {

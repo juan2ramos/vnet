@@ -172,20 +172,19 @@
 									<div class='col-lg-8'>{{ adicional.tiempoRestante|number_format(1, ',', '') }}&nbsp;{% trans from "label" %}dias{% endtrans %}</div>
 								</div>
 							{% endif %}
-							{#<div class="row-desk col-lg-12 row paddBtn">
+							<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.semaforo{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}semaforo{% endtrans %}:
 								</div>
 								<div class='col-lg-8'>
-									
-									<span>{{ pendiente.semaforo.porcentaje }}%</span>
-									<div class="progress progress-striped progress-sm" STYLE='margin-bottom:0px;'>
+									{#<span>{{ pendiente.semaforo.porcentaje }}%</span>#}
+									<div class="progress progress-striped progress-sm" STYLE='margin-bottom:0px;width:20%'>
 										<div class="progress-bar {{ pendiente.semaforo.color }}" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ pendiente.semaforo.porcentaje }}%">
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="row-desk col-lg-12 row paddBtn">
+							{#<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.puntuacion{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}puntuacion{% endtrans %}:
 								</div>
@@ -264,7 +263,7 @@
 					</section>#}
 
 					{# DIAGNOSTICO #}
-					<section class="panel">
+					{#<section class="panel">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="panel">
@@ -339,7 +338,7 @@
 								</div>
 							</div>
 						</div>
-					</section>
+					</section>#}
 				</aside>
 			{% endif %}
 

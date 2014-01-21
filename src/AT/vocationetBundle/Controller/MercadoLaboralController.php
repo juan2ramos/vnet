@@ -92,31 +92,31 @@ class MercadoLaboralController extends Controller
 						} else {
 							$errorAlternativa = true;
 						}
-						
-						//Registro de que el usuario participo en el mercado laboral
-						$participacion = new Participaciones();
-						$participacion->setFormulario($form_id);
-						$participacion->setFecha(new \DateTime());
-						$participacion->setUsuarioParticipa($usuarioId);
-						$participacion->setUsuarioEvaluado($usuarioId);
-						$participacion->setEstado(1);
-						$em->persist($participacion);
-						
-						$em->flush();
-
-						//Notificacion para mentor de que el estudiante  ha seleccionado alternativas de estudio
-						$name = $security->getSessionValue('usuarioNombre').' '.$security->getSessionValue('usuarioApellido');
-						$dias = $security->getParameter('dias_habiles_informe_mercado_laboral');
-						$asunto = $this->get('translator')->trans('%name%.mail.mentor.estudiante.selecciona.alternativas', Array('%name%'=>$name), 'mail');
-						$message = $this->get('translator')->trans('%name%.ha.seleccionado%dias%.%alternativas%', Array('%name%'=>$name, '%alternativas%'=>$auxAlternativas, '%dias%'=>$dias), 'mail');
-						$this->get('mensajes')->enviarMensaje($usuarioId, Array($seleccionarMentor['id']), $asunto, $message);
-						
-						// Notificacion a estudiante de que el mentor tendra X tiempo para responder
-						$asunto = $this->get('translator')->trans('asunto.mail.mentor.informa.tiempo.espera', Array(), 'mail');
-						$message = $this->get('translator')->trans('mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas', Array('%dias%'=>$dias), 'mail');
-						$this->get('mensajes')->enviarMensaje($seleccionarMentor['id'], Array($usuarioId), $asunto, $message);
 					}
-				} else {
+
+					//Registro de que el usuario participo en el mercado laboral
+					$participacion = new Participaciones();
+					$participacion->setFormulario($form_id);
+					$participacion->setFecha(new \DateTime());
+					$participacion->setUsuarioParticipa($usuarioId);
+					$participacion->setUsuarioEvaluado($usuarioId);
+					$participacion->setEstado(1);
+					$em->persist($participacion);
+					$em->flush();
+
+					//Notificacion para mentor de que el estudiante  ha seleccionado alternativas de estudio
+					$name = $security->getSessionValue('usuarioNombre').' '.$security->getSessionValue('usuarioApellido');
+					$dias = $security->getParameter('dias_habiles_informe_mercado_laboral');
+					$asunto = $this->get('translator')->trans('%name%.mail.mentor.estudiante.selecciona.alternativas', Array('%name%'=>$name), 'mail');
+					$message = $this->get('translator')->trans('%name%.ha.seleccionado%dias%.%alternativas%', Array('%name%'=>$name, '%alternativas%'=>$auxAlternativas, '%dias%'=>$dias), 'mail');
+					$this->get('mensajes')->enviarMensaje($usuarioId, Array($seleccionarMentor['id']), $asunto, $message);
+					
+					// Notificacion a estudiante de que el mentor tendra X tiempo para responder
+					$asunto = $this->get('translator')->trans('asunto.mail.mentor.informa.tiempo.espera', Array(), 'mail');
+					$message = $this->get('translator')->trans('mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas', Array('%dias%'=>$dias), 'mail');
+					$this->get('mensajes')->enviarMensaje($seleccionarMentor['id'], Array($usuarioId), $asunto, $message);
+				}
+				else {
 					$errorCantidad = true;
 				}
 

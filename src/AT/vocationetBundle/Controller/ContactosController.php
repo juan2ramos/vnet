@@ -137,10 +137,11 @@ class ContactosController extends Controller
 				$em->persist($relacion);
 				
 				// Notificacion de solicitud de amistad
-				$asunto = $this->get('translator')->trans('solicitud.de.amistad.aprobada', Array(), 'mail');
+				/*$asunto = $this->get('translator')->trans('solicitud.de.amistad.aprobada', Array(), 'mail');
 				$usuarioName = $relacion->getUsuario()->getUsuarioApellido()." ".$relacion->getUsuario()->getUsuarioNombre();
 				$message = $this->get('translator')->trans('%nombre%.acepto.la.solicitud.de.amistad', Array('%nombre%'=> $usuarioName), 'mail');
 				$this->get('mensajes')->enviarMensaje($usuarioId, Array($usuario), $asunto, $message);
+				*/
 			}
 		} elseif ($tipo == 'sa') {
             $usuario1 = $em->getRepository('vocationetBundle:Usuarios')->findOneBy(Array('id' => $usuario));
@@ -155,10 +156,11 @@ class ContactosController extends Controller
                 $em->persist($newR);
 				
 				// Notificacion de solicitud de amistad
-				$asunto = $this->get('translator')->trans('nueva.solicitud.de.amistad', Array(), 'mail');
+				/*$asunto = $this->get('translator')->trans('nueva.solicitud.de.amistad', Array(), 'mail');
 				$usuarioName = $usuario1->getUsuarioApellido()." ".$usuario1->getUsuarioNombre();
 				$message = $this->get('translator')->trans('%nombre%.te.ha.envia.una.solicitud.de.amistad', Array('%nombre%'=> $usuarioName), 'mail');
 				$this->get('mensajes')->enviarMensaje($usuarioId, Array($usuario), $asunto, $message);
+				*/
             }
             $estadoReturn = ($usuario1 && $usuario2) ? 'nuevaAmistad' : 'error'; 
         }

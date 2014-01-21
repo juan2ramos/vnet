@@ -175,7 +175,7 @@
 				if (AuxCount > 3) {
 					$(this).attr('checked', false);
 					$.gritter.add({
-						title: '{% trans from "messages" %}datos.invalidos{% endtrans %}',
+						title: '{% trans from "messages" %}opcion.invalida{% endtrans %}',
 						text: '{% trans from "messages" %}puede.seleccionar.maximo.tres.alternativas{% endtrans %}',
 						time: 3000,
 						image: '{{ asset('img/delete.png') }}',

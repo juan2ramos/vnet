@@ -74,7 +74,7 @@ class PerfilController extends Controller
 			if (($perfilId == $usuarioId) && ($perfil['nombreRol'] != 'administrador')) {
 				// Campos vacios para pedir que sean diligenciados
 				$auxRol = ($perfil['usuarioRolEstado'] == 0) ? 1 : 0;
-				$auxVM = ($perfil['nombreRol'] != 'mentor_ov') ? 0 : (($perfil['usuarioValorMentoria']) ? 0 : 1);
+				$auxVM = ($perfil['nombreRol'] == 'mentor_ov') ? 0 : (($perfil['usuarioValorMentoria']) ? 0 : 1);
 				$auxTP = ($perfil['usuarioTarjetaProfesional']) ? 0 : 1;
 				$auxHV = ($perfil['usuarioHojaVida']) ? 0 : 1;
 				$auxTotal = $auxRol + $auxVM + $auxTP + $auxHV;
@@ -110,7 +110,8 @@ class PerfilController extends Controller
 			$tiempoRestante = ($fechaplaneada - $fechaactual) / 100000;
 			
 			//progress-bar-success - verde , progress-bar-warning - amarillo, progress-bar-danger - rojo
-			$semaforo = Array('porcentaje' =>20, 'color'=>'progress-bar-danger');  //porcentaje avance
+			$semaforo = $this->calculoEstadoSemaforo($tiempoRestante);
+			//$semaforo = Array('porcentaje' =>20, 'color'=>'progress-bar-danger');  //porcentaje avance
 			$avancePrograma = Array('porcentaje' =>60, 'color'=>'progress-bar-warning');  //porcentaje avance
 			$vancesDiagnostico = Array('mitdc'=> 50, 'hyp' => 60, 'info' => 40, 'invest' => 80, 'dc' => 10 );
 			
@@ -678,6 +679,29 @@ class PerfilController extends Controller
 			->add('resena', 'textarea', array('required' => true))
 			->getForm();
 		return $form;
+	}
+
+	/**
+	 * Estado de semaforo (Barra de progreso)
+	 * 
+	 * Función que dependiendo del numero de dias restantes retorna uno u otro color a la barra de progreso
+	 * el procentaje no se esta tendiendo en cuenta en este momento.
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Int $diasRestantes Cantidad de dias restantes para presentación
+	 * @return Array Arreglo con porcentaje y color de barra dependiendo estado
+	 */
+    private function calculoEstadoSemaforo($diasRestantes)
+    {
+		$color = 'progress-bar-success';
+		if($diasRestantes<=120){
+			$color = 'progress-bar-warning';
+		}
+		if($diasRestantes<=30){
+			$color = 'progress-bar-danger';
+		}
+		return Array('porcentaje' =>100, 'color'=>$color);
 	}
 }
 
