@@ -298,16 +298,16 @@ class PerfilController extends Controller
 					->add('rol', 'choice', array('choices'  => $roles,  'preferred_choices' => array($rolActual), 'required' => true))
 					->add('profesion', 'text', array('required' => true, 'data'=> $perfil['usuarioProfesion']))
 					->add('valorHora', 'text', array('required' => true, 'data'=> $perfil['usuarioValorMentoria'], 'attr' => Array('pattern' => '^[0-9]*$')))
-					->add('hojaVida', 'file', array('required' => false))
-					->add('tarjetaProfesional', 'file', array('required' => false))
+					->add('hojaVida', 'file', array('required' => false, 'attr' => array ('accept'=> 'application/pdf')))
+					->add('tarjetaProfesional', 'file', array('required' => false, 'attr' => array ('accept'=> 'application/pdf')))
 					->getForm();
 			} else {
 				$formData = Array('hojaVida' => null, 'tarjetaProfesional' => null, 'valorHora' => 0);
 				$form = $this->createFormBuilder($formData)
 					->add('profesion', 'text', array('required' => true, 'data'=> $perfil['usuarioProfesion']))
 					->add('valorHora', 'text', array('required' => true, 'data'=> $perfil['usuarioValorMentoria'], 'attr' => Array('pattern' => '^[0-9]*$')))
-					->add('hojaVida', 'file', array('required' => false))
-					->add('tarjetaProfesional', 'file', array('required' => false))
+					->add('hojaVida', 'file', array('required' => false, 'attr' => array ('accept'=> 'application/pdf')))
+					->add('tarjetaProfesional', 'file', array('required' => false, 'attr' => array ('accept'=> 'application/pdf')))
 					->getForm();
 			}
 

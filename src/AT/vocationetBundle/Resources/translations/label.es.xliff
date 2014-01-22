@@ -281,6 +281,11 @@
                 <source>aun.falta.la.siguiente.informacion</source>
                 <target>Al perfil le hace falta la siguiente información</target>
             </trans-unit>
+            <trans-unit id="perfil-38">
+                <source>formato.permitido.pdf</source>
+                <target>Formato permitido PDF</target>
+            </trans-unit>
+            
 
 			<!-- PERFILES ESTUDIANTE perfile-x -->
             <trans-unit id="perfile-1">
