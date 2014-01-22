@@ -32,15 +32,16 @@ class AgendaEstudianteController extends Controller
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         $usuarioId = $security->getSessionValue('id');
         
-        $mentorias = $this->getMentorias($usuarioId);
+        $mentorias = $this->getMentorias($usuarioId, false);
         
         return array(
             'mentorias' => $mentorias
         );
     }
+
     
     /**
-     * Funcion para obtener las mentorias disponibles y aceptadas
+     * Funcion para obtener las mentorias <!-- disponibles -> y aceptadas
      * 
      * Obtiene las mentorias disponibles registradas por los mentores con los que tiene relacion
      * Obtiene tambien las mentorias a las que aplico
@@ -59,14 +60,14 @@ class AgendaEstudianteController extends Controller
          * AND u.id != 6
          * AND r.tipo = 2
          * AND (m.usuario_estudiante_id = 6 OR m.usuario_estudiante_id IS NULL);
-         */
-        
+        */
+
         $dql = "SELECT 
                     m.id,
-                    u.usuarioNombre,
-                    u.usuarioApellido,
                     m.mentoriaInicio,
                     m.mentoriaFin,
+                    u.usuarioNombre,
+                    u.usuarioApellido,
                     m.usuarioEstudiante estudianteId,
                     m.mentoriaEstado
                 FROM
@@ -78,15 +79,14 @@ class AgendaEstudianteController extends Controller
                     AND u.id != :usuarioId
                     AND (r.tipo = 2 OR r.tipo = 3)
                     AND r.estado = 1
-                    AND (m.usuarioEstudiante = :usuarioId OR m.usuarioEstudiante IS NULL)
+                    AND (m.usuarioEstudiante = :usuarioId)
                 GROUP BY m.id
         ";
-        
+        // OR m.usuarioEstudiante IS NULL
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $result = $query->getResult();
-        
         return $result;
     }
     

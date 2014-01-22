@@ -491,6 +491,86 @@ class PerfilController extends Controller
 	}
 
 	/**
+	 * Ultimas 25 Reseñas del mentor
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Int $pefilId Id del mentor
+     * @return Render Vista renderizada del perfil, con reseñas
+	 * @Template("vocationetBundle:Perfil:horarioDisponible.html.twig")
+	 * @Route("/{perfilId}/horarioDisponible", name="mentor_resenas")
+	 * @Method("GET")
+	 */
+    public function horarioDisponibleAction($perfilId)
+    {
+		$security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+		$tr = $this->get('translator');
+		$pr = $this->get('perfil');
+
+		$perfil = $pr->getPerfil($perfilId);
+		
+		if (!$perfil) {
+			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
+		}
+ 
+		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov')
+		{
+			$mentorias = false;
+			$mentorEst = false; //Es mentor actual del estudiante
+			$rolIdSession = $security->getSessionValue('rolId');
+			if ($rolIdSession == 1){
+				$dql = "SELECT
+							m.id,
+							m.mentoriaInicio,
+							m.mentoriaFin,
+							m.mentoriaEstado,
+							u.id estudianteId,
+							u.usuarioNombre,
+							u.usuarioApellido
+						FROM 
+							vocationetBundle:Mentorias m
+							LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
+						WHERE
+							m.usuarioMentor = :usuarioId AND u.id IS NULL";
+				$em = $this->getDoctrine()->getManager();
+				$query = $em->createQuery($dql);
+				$query->setParameter('usuarioId', $perfilId);
+				$mentorias = $query->getResult();
+
+				$dql = "SELECT r 
+				FROM
+                    vocationetBundle:Relaciones r
+                 WHERE
+                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
+                    AND u.id != :usuarioId
+                    AND (r.tipo = 2 OR r.tipo = 3)
+                    AND r.estado = 1
+                    AND (m.usuarioEstudiante = :usuarioId)
+                GROUP BY m.id";
+                
+
+			}
+		}
+		else
+		{
+			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
+		}
+		
+		//PUBLICIDAD Y/O INFORMACION
+		$publicidad = false;
+		
+
+        
+        
+        //return $result;
+
+		return array('perfil' => $perfil, 'publicidad' => $publicidad, 'mentorias' => $mentorias);
+	}
+
+	/**
 	 * Calificar un mentor por AJAX
 	 *
 	 * Esta función registra la calificación del usuario y actualiza el promedio de la calificación del mentor

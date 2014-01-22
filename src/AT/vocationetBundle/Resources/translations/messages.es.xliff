@@ -574,7 +574,7 @@
 			</trans-unit>
 			<trans-unit id="dvida-3">
                 <source>debe.escojer.minimo.3.opciones</source>
-                <target>Debes seleccionar mínimo 3 opciones de nivel 3 para continuar con la prueba</target>
+                <target>Debes seleccionar mínimo 3 opciones de nivel 3 para continuar con la prueba, por favor vuelva al paso anterior.</target>
 			</trans-unit>
 			<trans-unit id="dvida-4">
                 <source>debe.escojer.10.valores.ocupacionales</source>

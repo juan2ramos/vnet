@@ -23,7 +23,7 @@
   </div>
   <div class="inbox-body">
       <a class="btn btn-compose" data-toggle="modal" href="#redactar">
-          {% trans  from "label" %}redactar{% endtrans %}
+          {% trans from "label" %}redactar{% endtrans %}
       </a>
           
       {# MODAL NUEVO MENSAJE #}      
@@ -32,30 +32,36 @@
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title">{% trans  from "label" %}redactar{% endtrans %}</h4>
+                      <h4 class="modal-title">{% trans from "label" %}redactar{% endtrans %}</h4>
                   </div>
                   <div class="modal-body">
                       <form class="form-horizontal" role="form" action="{{ path('enviar_mensajes') }}" method="POST" {{ form_enctype(form) }}>
                           <div class="form-group">
-                              <label  class="col-lg-2 control-label">{% trans  from "label" %}para{% endtrans %}</label>
+                              <label  class="col-lg-2 control-label">{% trans from "label" %}para{% endtrans %}
+								<i class='icon-info-sign tooltips' data-placement="bottom" data-toggle="tooltip" data-original-title="{% trans from "label" %}aclaracion.envio.para.inbox{% endtrans %}"></i>
+                              </label>
                               <div class="col-lg-10">
-                                  {{ form_widget(form.to, {'attr':{'class':'form-control chosen', 'required':'required', 'data-placeholder':'para'|trans({}, 'label') } }) }}                                  
+                                  {{ form_widget(form.to, {'attr':{'class':'form-control chosen', 'required':'required', 'data-placeholder':'para'|trans({}, 'label') } }) }}
+                                  <div class='pull-right chat-features' style='padding-top:2px;'>
+									<a href="{{ path('busqueda') }}" class="btn btn-primary btn-xs"> {% trans from "label" %}agregar.contactos{% endtrans %} </a>
+                                  </div>
                               </div>
                           </div>
+
                           <div class="form-group">
-                              <label class="col-lg-2 control-label">{% trans  from "label" %}asunto{% endtrans %}</label>
+                              <label class="col-lg-2 control-label">{% trans from "label" %}asunto{% endtrans %}</label>
                               <div class="col-lg-10">
                                   {{ form_widget(form.subject, {'attr':{'class':'form-control'} }) }}
                               </div>
                           </div>
                           <div class="form-group">
-                              <label class="col-lg-2 control-label">{% trans  from "label" %}mensaje{% endtrans %}</label>
+                              <label class="col-lg-2 control-label">{% trans from "label" %}mensaje{% endtrans %}</label>
                               <div class="col-lg-10">
                                   {{ form_widget(form.message, {'attr':{'class':'form-control', 'cols':'30', 'rows':'10' } }) }}
                               </div>
                           </div>
                           <div class="form-group">
-                              <label class="col-lg-2 control-label">{% trans  from "label" %}adjuntos{% endtrans %}</label>
+                              <label class="col-lg-2 control-label">{% trans from "label" %}adjuntos{% endtrans %}</label>
                               <div class="col-lg-10">
                                   <input type="file" id="form_attachment" name="form[attachment][]" class="form-control" multiple="">
                               </div>
@@ -64,7 +70,7 @@
                               <div class="col-lg-offset-2 col-lg-10">
                                   {{ form_errors(form) }}
                                   {{ form_widget(form._token) }}
-                                  <button type="submit" class="btn btn-send">{% trans  from "label" %}enviar.mensaje{% endtrans %}</button>
+                                  <button type="submit" class="btn btn-send">{% trans from "label" %}enviar.mensaje{% endtrans %}</button>
                               </div>
                           </div>
                       </form>
@@ -78,16 +84,16 @@
   {# MENU IZQUIERDO #}      
   <ul class="inbox-nav inbox-divider">
       <li class="active">
-          <a style="cursor:pointer;" id="btn-inbox"><i class="icon-inbox"></i> {% trans  from "label" %}inbox{% endtrans %}<span class="label label-danger pull-right"></span></a>
+          <a style="cursor:pointer;" id="btn-inbox"><i class="icon-inbox"></i> {% trans from "label" %}inbox{% endtrans %}<span class="label label-danger pull-right"></span></a>
       </li>
       <li>
-          <a style="cursor:pointer;" id="btn-unread"><i class="icon-check-empty"></i> {% trans  from "label" %}sin.leer{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-unread"><i class="icon-check-empty"></i> {% trans from "label" %}sin.leer{% endtrans %}</a>
       </li>
       <li>
-          <a style="cursor:pointer;" id="btn-sent"><i class="icon-envelope-alt"></i> {% trans  from "label" %}enviados{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-sent"><i class="icon-envelope-alt"></i> {% trans from "label" %}enviados{% endtrans %}</a>
       </li>
       <li>
-          <a style="cursor:pointer;" id="btn-trash"><i class=" icon-trash"></i> {% trans  from "label" %}eliminados{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-trash"><i class=" icon-trash"></i> {% trans from "label" %}eliminados{% endtrans %}</a>
       </li>
   </ul>
 
@@ -95,10 +101,10 @@
         
 <aside class="lg-side">
   <div class="inbox-head">
-      <h3>{% trans  from "label" %}mensajes{% endtrans %}</h3>
+      <h3>{% trans from "label" %}mensajes{% endtrans %}</h3>
       {#<form class="pull-right position" action="#">
           <div class="input-append">
-              <input type="text"  placeholder="{% trans  from "label" %}buscar.mensaje{% endtrans %}" class="sr-input">
+              <input type="text" placeholder="{% trans from "label" %}buscar.mensaje{% endtrans %}" class="sr-input">
               <button type="button" class="btn sr-btn"><i class="icon-search"></i></button>
           </div>
       </form>#}
@@ -115,7 +121,7 @@
     <script type="text/javascript">
         $(".chosen").chosen({
             width: "100%",
-            no_results_text: "{% trans  from "label" %}no.result.to.mensajes{% endtrans %}",
+            no_results_text: "{% trans from "label" %}no.result.to.mensajes{% endtrans %}",
         });
     </script>
 <script src="{{ asset('js/vocationet/mensajes.js') }}" type="text/javascript"></script>

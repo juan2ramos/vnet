@@ -627,6 +627,11 @@
                 <source>para</source>
                 <target>Para</target>
 			</trans-unit>
+			<trans-unit id="inbox-7-info">
+                <source>aclaracion.envio.para.inbox</source>
+                <target> Solo podras enviar mensajes a tus amigos en Vocationet</target>
+			</trans-unit>
+			
 			<trans-unit id="inbox-8">
                 <source>asunto</source>
                 <target>Asunto</target>
@@ -679,7 +684,7 @@
             <!-- mentorias ment-x -->
 			<trans-unit id="ment-1">
                 <source>agregar.mentoria</source>
-                <target>Agregar mentoría</target>
+                <target>Generar disponibilidad</target>
             </trans-unit>
 			<trans-unit id="ment-2">
                 <source>mentoria.disponible</source>
@@ -707,11 +712,11 @@
             </trans-unit>
 			<trans-unit id="ment-8">
                 <source>agenda.mentor</source>
-                <target>Mentorías</target>
+                <target>Agenda</target>
             </trans-unit>
 			<trans-unit id="ment-9">
                 <source>agenda.estudiante</source>
-                <target>Mentorías</target>
+                <target>Agenda</target>
             </trans-unit>
 			<trans-unit id="ment-10">
                 <source>marcar.mentoria.finalizada</source>
@@ -904,6 +909,10 @@
 			<trans-unit id="contact-19">
                 <source>busqueda.contactos</source>
                 <target>Búsqueda avanzada de contactos</target>
+			</trans-unit>
+			<trans-unit id="contact-20">
+                <source>agregar.contactos</source>
+                <target>Agregar contactos</target>
 			</trans-unit>
 
 			<!-- CALIFICAR MENTORIA cal-x -->

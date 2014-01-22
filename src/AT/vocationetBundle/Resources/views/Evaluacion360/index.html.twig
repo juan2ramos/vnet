@@ -51,20 +51,20 @@
                 <form action="{{ path('evaluacion360') }}" method="post" class="form-horizontal form-test" id="form">
                     <div class="form-group">
                         <label for="inputEmail1" class="col-lg-2 control-label">
-                            {% trans  from "label" %}emails.360{% endtrans %}
-                            <a class="btn btn-info btn-xs" style="margin-top: 10px;" id="btn-add-email" ><i class="icon-plus"></i> {% trans  from "label" %}agregar.email{% endtrans %}</a>
+                            {% trans from "label" %}emails.360{% endtrans %}
+                            <a class="btn btn-info btn-xs" style="margin-top: 10px;" id="btn-add-email" ><i class="icon-plus"></i> {% trans from "label" %}agregar.email{% endtrans %}</a>
                         </label>
                         <div class="col-lg-10 div-emails">
-                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans  from "label" %}email{% endtrans %} 1"/>
-                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans  from "label" %}email{% endtrans %} 2" />
-                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans  from "label" %}email{% endtrans %} 3" />
+                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans from "label" %}email{% endtrans %} 1"/>
+                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans from "label" %}email{% endtrans %} 2" />
+                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans from "label" %}email{% endtrans %} 3" />
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
                             {{ form_widget(form._token) }}
                             {{ form_errors(form) }} 
-                            <input type="submit" class="btn btn-shadow btn-primary" value="{% trans  from "label" %}enviar.invitaciones{% endtrans %}"/>
+                            <input type="submit" class="btn btn-shadow btn-primary" value="{% trans from "label" %}enviar.invitaciones{% endtrans %}"/>
                             {% if count_participaciones >= 3 %}
                             <a href="{{ path('agenda_estudiante') }}" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
                             {% endif %}
@@ -114,14 +114,12 @@
 
 {% block script %}
 <script>
-(function(){
-    
-    var email_fields = 3;
-    
-    $("form").on('click', "#btn-add-email", function(){
-        email_fields ++;
-        $(".div-emails").append('<input type="email" class="form-control" name="form[emails][]" placeholder="{% trans  from "label" %}email{% endtrans %} '+email_fields+'"/>');
-    })
-})();
+	(function(){
+		var email_fields = 3;
+		$("form").on('click', "#btn-add-email", function(){
+			email_fields ++;
+			$(".div-emails").append('<input type="email" class="form-control" name="form[emails][]" placeholder="{% trans from "label" %}email{% endtrans %} '+email_fields+'"/>');
+		})
+	})();
 </script>
 {% endblock script %}

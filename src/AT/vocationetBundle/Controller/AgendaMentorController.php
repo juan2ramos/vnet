@@ -81,6 +81,24 @@ class AgendaMentorController extends Controller
             'mentorias' => $mentorias
         );
     }
+
+	/**
+     * Index de la agenda de mentor
+     * 
+     * @Route("/{mentorId}/agenda", name="agenda_mentor_ii")
+     * @Template("vocationetBundle:AgendaEstudiante:index.html.twig")
+     * @return Response
+     */
+    public function agendamentor($mentorId)
+    {
+		$mentorActual = false;
+		$mentorias = $this->getMentorias($mentorId, false);
+        return array(
+            'mentorias' => $mentorias,
+        );
+	}
+
+   
     
     /**
      * Funcion para crear el formulario de mentoria
@@ -108,8 +126,9 @@ class AgendaMentorController extends Controller
      * 
      * @param type $usuarioId
      */
-    private function getMentorias($usuarioId)
+    private function getMentorias($usuarioId, $all = true)
     {
+		$auxwhere = ($all) ? '' : ' AND u.id IS NULL';
         $dql = "SELECT
                     m.id,
                     m.mentoriaInicio,
@@ -122,8 +141,7 @@ class AgendaMentorController extends Controller
                     vocationetBundle:Mentorias m
                     LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
                 WHERE
-                    m.usuarioMentor = :usuarioId";
-        
+                    m.usuarioMentor = :usuarioId ".$auxwhere;
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
@@ -233,7 +251,6 @@ class AgendaMentorController extends Controller
         $usuarioId = $security->getSessionValue('id');
         
         $em = $this->getDoctrine()->getManager();
-        
         $mentoria = $em->getRepository('vocationetBundle:Mentorias')->findOneBy(array('id' => $id, 'usuarioMentor' => $usuarioId));
         
         if($mentoria)
