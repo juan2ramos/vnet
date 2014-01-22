@@ -531,6 +531,11 @@
                 <source>cerrar.session</source>
                 <target>Cerrar sesión</target>
             </trans-unit>
+            <trans-unit id="login-13">
+                <source>aclaracion.login.usuarios.facebook.linkedin</source>
+                <target>Si te registraste con Facebook o Linked In debes ingresar a través de estos botones</target>
+            </trans-unit>
+            
             
             <!-- REGISTRO registro-x -->
             <trans-unit id="registro-1">
