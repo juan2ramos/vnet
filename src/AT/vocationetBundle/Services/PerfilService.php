@@ -695,5 +695,27 @@ class PerfilService
 		}
 		return $recorrido;
 	}
+
+	function actualizarpuntos($tipo, $usuarioId, $aux = array())
+	{
+		$auxp = 0;//auxpuntos
+		if ($tipo == 'diagnostico') {
+			//$aux (rango(1,2,3), puntaje)
+			$auxp = ($aux['rango'] == 1) ? 10 : ($aux['rango'] == 2) ? 20 : ($aux['rango'] == 3) ? 30 : 0;
+		}
+
+		if ($auxp > 0) {
+			$em = $this->doctrine->getManager();
+			$usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($usuarioId);
+			if ($usuario) {
+				$ptsAct = $usuario->getUsuarioPuntos();
+				$ptsAux = $ptsAct + $auxp;
+				
+				$usuario->setUsuarioPuntos($ptsAux);
+				$em->persist($usuario);
+				$em->flush();
+			}
+		}
+    }
 }
 ?>

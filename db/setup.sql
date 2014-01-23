@@ -6,7 +6,7 @@ INSERT INTO `roles` (`id`,`nombre`,`descripcion`) VALUES
 
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (1,'acceso_basico','Acceso básico','Acceso básico a la aplicacion','homepage');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (2,'acceso_mensajes','Eviar y recibir mensajes','Acceso al envio y recepcion de mensajes','mensajes,enviar_mensajes,get_mensajes,show_mensaje,count_mensajes,update_mensaje,responder_mensaje,reenviar_mensaje');
-INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (3,'acceso_perfiles','Acceso básico','Acceso a perfiles','perfil,perfil_edit,perfil_sincronizar,mentor_resenas,calificar_mentor');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (3,'acceso_perfiles','Acceso básico','Acceso a perfiles','perfil,perfil_edit,perfil_sincronizar,mentor_resenas,calificar_mentor,horarios_disponibles_mentor');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (4,'acceso_foros','Acceso a foros, y comentar','Acceso a perfiles','foros_temas,crear_comentario,crear_foro,edit_foro,delete_foro');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (5,'acceso_edit_delete_foro','Acceso a eliminar y editar foro','Acceso de edicion y eliminacion de foros','edit_foro,delete_foro');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (6,'acceso_agenda_mentor','Acceso a la agenda de mentor','Acceso a la agenda de mentorias para mentores','agenda_mentor,show_mentoria_mentor,delete_mentoria_mentor,finalizar_mentoria_mentor');

@@ -67,7 +67,7 @@
                         <fieldset title="{{ formulario.nombre }}" class="step">
                             <legend></legend>
                             {% if formulario.descripcion %}<p>{{ formulario.descripcion }}</p>{% endif %}
-                            <a href="#info-modal-{{ loop.index }}" data-toggle="modal" class="btn btn-info btn-xs"><i class="icon-info"></i> {% trans  from "label" %}informacion{% endtrans %}</a>
+                            <a href="#info-modal-{{ loop.index }}" data-toggle="modal" class="btn btn-info btn-xs"><i class="icon-info"></i> {% trans from "label" %}informacion{% endtrans %}</a>
                             <br/><br/>
                             {% if formulario.preguntas is defined %}
                                 {% for pregunta in formulario.preguntas %}
@@ -92,7 +92,7 @@
                     {% endfor %} 
                     {{ form_widget(form._token) }}
                     {{ form_errors(form) }}    
-                    <input type="submit" class="finish btn btn-danger" value="{% trans  from "label" %}enviar{% endtrans %}"/>
+                    <input type="submit" class="finish btn btn-danger" value="{% trans from "label" %}enviar{% endtrans %}"/>
                 </form>
             </div>
         </section>
@@ -105,13 +105,13 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title"><i class="icon-info"></i> {% trans  from "label" %}informacion{% endtrans %}</h4>
+              <h4 class="modal-title"><i class="icon-info"></i> {% trans from "label" %}informacion{% endtrans %}</h4>
           </div>
           <div class="modal-body" style="max-height: 250px; overflow: auto;">
               {% include "vocationetBundle:Ponderacion:info"~i~".html.twig" %}
           </div>
           <div class="modal-footer">
-              <button data-dismiss="modal" class="btn btn-default" type="button">{% trans  from "label" %}cerrar{% endtrans %}</button>
+              <button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
           </div>
       </div>
     </div>
@@ -134,5 +134,9 @@
             stepy_titleClick: true,
             stepy_back_button: true
         });
+
+        window.onbeforeunload = function(e){ 
+				return "{% trans from 'messages' %}si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba{% endtrans %}";
+			}
     </script>
 {% endblock script %}

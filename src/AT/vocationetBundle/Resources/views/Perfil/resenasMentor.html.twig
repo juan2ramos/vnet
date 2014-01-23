@@ -38,15 +38,8 @@
 						{% if sess_user.id == perfil.usuarioId %}
 							<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
 							<li class=""><a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
-							<li data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-								<a href="{{ path('foros_temas')}}"> <i class="icon-list-alt"></i> {% trans from "label" %}foros{% endtrans %}</a>
-							</li>
-							<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-								<a href="#">
-									<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
-									<span class="label label-success pull-right r-activity">5</span>
-								</a>
-							</li>
+						{% else %}
+							<li class=""><a href="{{ path('horarios_disponibles_mentor', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-calendar"></i> {% trans from "label" %}disponibilidad{% endtrans %}</a></li>
 						{% endif %}
 					</ul>
 				</section>
@@ -89,36 +82,6 @@
 						</div>
 					</div>
 				</section>
-
-				{# DEFINICION DEL VALOR DE MENTORIA #}
-				<section class="panel">
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="panel">
-								<div class="panel-body bio-graph-info">
-									<h1>{% trans from "label" %}definicion.de.valor.mentoria{% endtrans %}</h1>
-									<p>{% trans from "label" %}explicacion.definicion.de.valor.mentoria{% endtrans %}</p>
-									<div class='col-lg-12 row'><b>{% trans from "label" %}valor{% endtrans %}: </b></div>
-									<div class='col-lg-2'>&nbsp;</div>
-									{% if perfil.usuarioValorMentoria %}
-										<div class='col-lg-10'>
-											<h1><b>$ {{ perfil.usuarioValorMentoria|number_format(0, '', '.') }}</b></h1>
-										</div>
-										<br>
-										<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
-											<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}no.estoy.deacuerdo{% endtrans %}</button>
-										</div>
-									{% else %}
-										<div class='col-lg-10'>
-											{% trans from "label" %}no.ha.sido.calculado{% endtrans %}
-										</div>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-				
 			</aside>
 
 			<aside class="profile-info col-lg-8">
@@ -144,12 +107,10 @@
 										</div>
 									{% endfor %}
 								</div>
-								
 							{% else %}
 								<div class="row-desk col-lg-12 row paddBtn">
 									<div class="col-lg-12">{% trans from "label" %}el.usuario.no.tiene.resenas{% endtrans %}</div>
 								</div>
-								
 							{% endif %}
 					  </div>
 				  </section>

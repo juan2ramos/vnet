@@ -141,6 +141,8 @@
 									<td class="text-center">
 										<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
 										<br>
+										<a STYLE='margin:2px;width:90%;' href='{{ path('horarios_disponibles_mentor', {'perfilId': c.id }) }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.disponibilidad'|trans({}, 'label') }}</a>
+										<br>
 										{% if c.seleccionadoMentorExperto == 0 %}
 											<form action="{{ path('seleccionar_mentor_experto') }}" method='POST' {{ form_enctype(form) }} type="post">
 												<input type='hidden' name='mentorE' value='{{ c.id }}'/>
@@ -206,7 +208,7 @@
 		{% endif %}
   
 		$('.table').on('click', '.href', function(){
-			//window.location = $(this).data('href');
+			window.location = $(this).data('href');
 		});
 
 		// Evento de click del btn seleccionar mentor, que envia el form.

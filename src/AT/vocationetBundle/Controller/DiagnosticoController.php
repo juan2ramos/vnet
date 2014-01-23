@@ -110,23 +110,28 @@ class DiagnosticoController extends Controller
                     $rango1 = $security->getParameter('diagnostico_rango_puntaje_1');
                     $rango2 = $security->getParameter('diagnostico_rango_puntaje_2');
                     $rango3 = $security->getParameter('diagnostico_rango_puntaje_3');
-                    
+
+                    $auxRango = false;
                     if($puntaje <= $rango1['max'])
                     {
                         $titulo_mensaje = $this->get('translator')->trans("diagnostico.titulo.resultado.1");
                         $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.1");
+                        $auxRango = 1;
                     }
                     elseif($puntaje >= $rango2['min'] && $puntaje <= $rango2['max'])
                     {
                         $titulo_mensaje = $this->get('translator')->trans("diagnostico.titulo.resultado.2");
                         $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.2");
+                        $auxRango = 2;
                     }
                     elseif($puntaje >= $rango3['min'])
                     {
                         $titulo_mensaje = $this->get('translator')->trans("diagnostico.titulo.resultado.3");
                         $mensaje = $this->get('translator')->trans("diagnostico.mensaje.resultado.3");
+                        $auxRango = 3;
                     }
-                    
+
+                    $this->get('perfil')->actualizarpuntos('diagnostico', $usuarioId, array('rango'=>$auxRango, 'puntaje' => $puntaje));
                     
                     return array(
                         'titulo_mensaje' => $titulo_mensaje,

@@ -92,6 +92,14 @@
             touchSpin_min: -1,
             touchSpin_max: 5
         });
+
+        window.onbeforeunload = function(e){
+				if ($("form").submit()){
+					return false;
+				} else {
+				return "{% trans from 'messages' %}si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba{% endtrans %}";
+				}
+			}
     </script>
 {% endblock script %}
             

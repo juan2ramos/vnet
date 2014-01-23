@@ -27,7 +27,7 @@
 		  <div class="modal-content">
 			  <div class="modal-header">
 				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				  <h4 class="modal-title">{% trans  from "label" %}mentoria{% endtrans %}</h4>
+				  <h4 class="modal-title">{% trans from "label" %}mentoria{% endtrans %}</h4>
 			  </div>
 			  <div class="modal-body">
 				  <div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>
@@ -57,7 +57,7 @@
         events: [
         {% for mentoria in mentorias %}
             {
-                title: '{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}{% if not mentoria.estudianteId %} ({% trans  from "label" %}mentoria.disponible{% endtrans %}){% endif %}',
+                title: '{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}{% if not mentoria.estudianteId %} ({% trans from "label" %}mentoria.disponible{% endtrans %}){% endif %}',
                 start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
                 end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
                 allDay: false,
@@ -94,7 +94,7 @@
         
         var btn = $(this);
         
-        if(confirm("{% trans  from "label" %}desea.separar.mentoria{% endtrans %}"))
+        if(confirm("{% trans from "label" %}desea.separar.mentoria{% endtrans %}"))
         {
             var href = $(this).attr('href');            
             var btnText = btn.html();
@@ -125,7 +125,7 @@
                         btn.attr('disabled', false);
                         btn.html(btnText);
                     }
-                                        
+
                     if(typeof(response.redirect) != "undefined"){
                         location.href = response.redirect;
                     }

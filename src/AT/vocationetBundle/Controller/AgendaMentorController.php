@@ -50,24 +50,32 @@ class AgendaMentorController extends Controller
                 $currentDate = new \DateTime();
                 
                 $interval = $currentDate->diff($mentoriaInicio);
-                
-                if($interval->invert != 1)
-                { 
-                    $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
-                    $mentoria->setUsuarioMentor($usuarioId);
-                    $mentoria->setMentoriaInicio($mentoriaInicio);
-                    $mentoria->setMentoriaFin($mentoriaFin);
 
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($mentoria);
-                    $em->flush();
+                $tralapa = $this->getValidarMentoriaTralapadas($usuarioId, $mentoriaInicio, $mentoriaFin);
 
-                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
-                }
-                else
-                {
-                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("fecha.invalida"), "text" => $this->get('translator')->trans("fecha.hora.incorrecta")));
-                }
+                if (!$tralapa) {
+					if($interval->invert != 1)
+					{ 
+						$mentoria = new \AT\vocationetBundle\Entity\Mentorias();
+						$mentoria->setUsuarioMentor($usuarioId);
+						$mentoria->setMentoriaInicio($mentoriaInicio);
+						$mentoria->setMentoriaFin($mentoriaFin);
+
+						$em = $this->getDoctrine()->getManager();
+						$em->persist($mentoria);
+						$em->flush();
+
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
+					}
+					else
+					{
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("fecha.invalida"), "text" => $this->get('translator')->trans("fecha.hora.incorrecta")));
+					}
+				}
+				else
+				{
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("mentoria.traslapada")));
+				}
             }
             else
             {
@@ -83,22 +91,27 @@ class AgendaMentorController extends Controller
     }
 
 	/**
-     * Index de la agenda de mentor
-     * 
-     * @Route("/{mentorId}/agenda", name="agenda_mentor_ii")
-     * @Template("vocationetBundle:AgendaEstudiante:index.html.twig")
-     * @return Response
-     */
-    public function agendamentor($mentorId)
+	 * Funcion que retorna Bool, TRUE cuando la mentoria se traslada, o se cruza con otra, y FALSE, caso contrario
+	 */
+    private function getValidarMentoriaTralapadas($mentorId, $fechaInicio, $fechaFin)
     {
-		$mentorActual = false;
-		$mentorias = $this->getMentorias($mentorId, false);
-        return array(
-            'mentorias' => $mentorias,
-        );
-	}
+		/**
+		 * SELECT * FROM mentorias
+		 * WHERE usuario_mentor_id = 12 AND (mentoria_inicio between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00')
+		 * OR (mentoria_fin between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00');
+		*/
 
-   
+		$dql = "SELECT m.id FROM vocationetBundle:Mentorias m
+				WHERE m.usuarioMentor =:mentorId AND ((m.mentoriaInicio BETWEEN :fInicio AND :fFin) OR (m.mentoriaFin BETWEEN :fInicio AND :fFin))";
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery($dql);
+		$query->setParameter('fInicio', $fechaInicio);
+		$query->setParameter('fFin', $fechaFin);
+		$query->setParameter('mentorId', $mentorId);
+		$aux = $query->getResult();
+		$return = ($aux) ? true : false;
+		return $return;
+	}
     
     /**
      * Funcion para crear el formulario de mentoria
@@ -117,7 +130,6 @@ class AgendaMentorController extends Controller
            ->add('hora', 'text', array('required' => true))
            ->add('min', 'text', array('required' => true))
            ->getForm();
-        
         return $form; 
     }
     
@@ -126,9 +138,8 @@ class AgendaMentorController extends Controller
      * 
      * @param type $usuarioId
      */
-    private function getMentorias($usuarioId, $all = true)
+    private function getMentorias($usuarioId)
     {
-		$auxwhere = ($all) ? '' : ' AND u.id IS NULL';
         $dql = "SELECT
                     m.id,
                     m.mentoriaInicio,
@@ -141,12 +152,11 @@ class AgendaMentorController extends Controller
                     vocationetBundle:Mentorias m
                     LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
                 WHERE
-                    m.usuarioMentor = :usuarioId ".$auxwhere;
+                    m.usuarioMentor = :usuarioId ";
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $result = $query->getResult();
-        
         return $result;
     }
     

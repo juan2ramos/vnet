@@ -31,7 +31,11 @@
                 <source>opcion.invalida</source>
                 <target>Opción Invalida</target>
 			</trans-unit>
-			
+			<trans-unit id="generic-8">
+                <source>si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba</source>
+                <target>Tenga en cuenta, que si sale de esta prueba, se perderá el avance realizado</target>
+			</trans-unit>
+
 
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
@@ -200,6 +204,11 @@
                 <source>mentoria.finalizada.correctamente</source>
                 <target>La mentoría se ha marcado como finalizada correctamente</target>
             </trans-unit>
+            <trans-unit id="ment-18">
+                <source>mentoria.traslapada</source>
+                <target>La mentoría no se puede crear, porque se esta cruzando con otra</target>
+            </trans-unit>
+            
 
 
 			<!-- FOROS foros-x -->

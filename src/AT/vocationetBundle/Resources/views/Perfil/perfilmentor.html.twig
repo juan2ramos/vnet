@@ -63,18 +63,10 @@
 							{% if sess_user.id == perfil.usuarioId %}
 								<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
 								<li class=""><a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
-								<li data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-									<a href="{{ path('foros_temas')}}"> <i class="icon-list-alt"></i> {% trans from "label" %}foros{% endtrans %}</a>
-								</li>
-								{#
-								<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-									<a href="#">
-										<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
-										<span class="label label-success pull-right r-activity">5</span>
-									</a>
-								</li>
-								#}
+							{% else %}
+								<li class=""><a href="{{ path('horarios_disponibles_mentor', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-calendar"></i> {% trans from "label" %}disponibilidad{% endtrans %}</a></li>
 							{% endif %}
+							
 						</ul>
 					</section>
 

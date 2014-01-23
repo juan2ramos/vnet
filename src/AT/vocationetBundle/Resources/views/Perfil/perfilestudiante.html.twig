@@ -34,21 +34,9 @@
 							<li class="active"><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
 							{% if sess_user.id == perfil.usuarioId %}
 								<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
-								<li data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-									<a href="{{ path('foros_temas')}}"> <i class="icon-list-alt"></i> {% trans from "label" %}foros{% endtrans %}</a>
-								</li>
-								{#
-								<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-									<a href="#">
-										<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
-										<span class="label label-success pull-right r-activity">{{ pendiente.msjsinleer }}</span>
-									</a>
-								</li>
-								#}
 							{% endif %}
 
-
-							{# MODAL EN DONDE SE MUESTRA EL INFORME SUBIDO POR EL MENTOR Y VISIBLE SOLO PARA EL MENTOR#}
+							{# MODAL EN DONDE SE MUESTRA EL INFORME SUBIDO POR EL MENTOR Y VISIBLE SOLO PARA EL MENTOR #}
 							{% if showInformeML %}
 								<li class=""><a data-toggle="modal" href="#myModal" > <i class="icon-file-text-alt"></i> {% trans from "label" %}informe.mercado.laboral{% endtrans %}</a></li>
 								<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
@@ -70,9 +58,44 @@
 									</div>
 								</div>
 							{% endif %}
-
 						</ul>
 					</section>
+
+					{# PUNTUACIÓN DEL USUARIO #}
+					{% if perfil.usuarioPuntos < 100 %}
+						<div class="row state-overview">
+							<div class="col-lg-12">
+								<section class="panel">
+									<div class="symbol blue" style='padding:5px;width:30%'>
+										{% set auxName = '' %}
+										{% if perfil.usuarioPuntos > 1500 %}
+											<img src="{{ asset('img/vocationet/medallas/campeon.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}campeon{% endtrans %}{%endset %}
+										{% elseif perfil.usuarioPuntos > 1000 %}
+											<img src="{{ asset('img/vocationet/medallas/master.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}master{% endtrans %}{%endset %}
+										{% elseif perfil.usuarioPuntos > 600 %}
+											<img src="{{ asset('img/vocationet/medallas/oro.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}oro{% endtrans %}{%endset %}
+										{% elseif perfil.usuarioPuntos > 300 %}
+											<img src="{{ asset('img/vocationet/medallas/plata.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}plata{% endtrans %}{%endset %}
+										{% elseif perfil.usuarioPuntos > 100 %}
+											<img src="{{ asset('img/vocationet/medallas/bronce.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}bronce{% endtrans %}{%endset %}
+										{% else %}
+											<img src="{{ asset('img/vocationet/medallas/menos100.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+										{% endif %}
+									</div>
+									<div class="value">
+										<h1>{{ perfil.usuarioPuntos|default(0) }}</h1>
+										<p>{% trans from "label" %}puntos{% endtrans %}</p>
+										<p>{{ auxName}}</p>
+									</div>
+								</section>
+							</div>
+						</div>
+					{% endif %}
 
 					{# PLATAFORMA - RED DE MENTORES - PONDERACION #}
 					<section class="panel">
@@ -185,12 +208,6 @@
 								</div>
 							</div>
 							{#<div class="row-desk col-lg-12 row paddBtn">
-								<div data-original-title="{% trans from "label" %}descripcion.puntuacion{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
-									{% trans from "label" %}puntuacion{% endtrans %}:
-								</div>
-								<div class='col-lg-8'>{{ perfil.usuarioPuntos }}</div>
-							</div>
-							<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.amigos.y.mentores{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}amigos.y.mentores{% endtrans %}:
 								</div>
@@ -231,6 +248,10 @@
 							</div>
 						</div>
 					</section>
+
+					
+					
+                      
 
 					{# PORCENTAJE DEL PROGRAMA #}
 					{#<section class="panel">

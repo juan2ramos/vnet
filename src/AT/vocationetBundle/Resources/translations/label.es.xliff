@@ -726,6 +726,14 @@
                 <source>mentoria.finalizada</source>
                 <target>Mentoría finalizada</target>
             </trans-unit>
+            <trans-unit id="ment-12">
+                <source>disponibilidad</source>
+                <target>Disponibilidad</target>
+            </trans-unit>
+            <trans-unit id="ment-13">
+                <source>ver.disponibilidad</source>
+                <target>Ver disponibilidad</target>
+            </trans-unit>
 
 			 <!-- FOROS foros-x -->
             <trans-unit id="foros-1">
@@ -1619,8 +1627,6 @@
                 <target>Comprar otro</target>
 			</trans-unit>
 
-			
-			
 			<!-- SELECCIONAR MENTOR EXPERTO selectMentorE-x -->
 			<trans-unit id="selectMentorE-1">
                 <source>confirmacion.mentor.experto.%name%</source>
@@ -1637,7 +1643,31 @@
                 <target>Asesoria experto orientación vocacional</target>
 			</trans-unit>
 
-			
+			<!-- MEDALLAS medallas-x -->
+			<trans-unit id="medallas-1">
+                <source>campeon</source>
+                <target>Campeón</target>
+			</trans-unit>
+			<trans-unit id="medallas-2">
+                <source>master</source>
+                <target>Master</target>
+			</trans-unit>
+			<trans-unit id="medallas-3">
+                <source>oro</source>
+                <target>Oro</target>
+			</trans-unit>
+			<trans-unit id="medallas-4">
+                <source>plata</source>
+                <target>Plata</target>
+			</trans-unit>
+			<trans-unit id="medallas-5">
+                <source>bronce</source>
+                <target>Bronce</target>
+			</trans-unit>
+			<trans-unit id="medallas-6">
+                <source>puntos</source>
+                <target>Puntos</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

@@ -491,14 +491,14 @@ class PerfilController extends Controller
 	}
 
 	/**
-	 * Ultimas 25 Reseñas del mentor
+	 * Horarios disponibles del mentor
 	 *
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
      * @param Int $pefilId Id del mentor
-     * @return Render Vista renderizada del perfil, con reseñas
-	 * @Template("vocationetBundle:Perfil:horarioDisponible.html.twig")
-	 * @Route("/{perfilId}/horarioDisponible", name="mentor_resenas")
+     * @return Render Vista renderizada del perfil, con agenda con mentorias disponibles del mentor
+	 * @Template("vocationetBundle:Perfil:horariosDisponiblesMentor.html.twig")
+	 * @Route("/{perfilId}/horarioDisponible", name="horarios_disponibles_mentor")
 	 * @Method("GET")
 	 */
     public function horarioDisponibleAction($perfilId)
@@ -518,10 +518,8 @@ class PerfilController extends Controller
  
 		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov')
 		{
-			$mentorias = false;
-			$mentorEst = false; //Es mentor actual del estudiante
 			$rolIdSession = $security->getSessionValue('rolId');
-			if ($rolIdSession == 1){
+			if ($rolIdSession == 1 or $rolIdSession == 4){
 				$dql = "SELECT
 							m.id,
 							m.mentoriaInicio,
@@ -539,20 +537,14 @@ class PerfilController extends Controller
 				$query = $em->createQuery($dql);
 				$query->setParameter('usuarioId', $perfilId);
 				$mentorias = $query->getResult();
-
-				$dql = "SELECT r 
-				FROM
-                    vocationetBundle:Relaciones r
-                 WHERE
-                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
-                    AND u.id != :usuarioId
-                    AND (r.tipo = 2 OR r.tipo = 3)
-                    AND r.estado = 1
-                    AND (m.usuarioEstudiante = :usuarioId)
-                GROUP BY m.id";
-                
-
 			}
+
+			/**
+			 * @var Bool $tipoIngreso Variable para controlar si el ingreso es solo de consulta (FALSE),
+			 * o si se habilita funcionamiento agendamiento al calendario (TRUE), teniendo en cuenta la relacion
+			 * que existe entre ambos usuarios ($perfil, $estudianteId) existe y esta aprobada
+			 */
+			$tipoIngreso = $this->getRelacionMentoria($perfilId, $security->getSessionValue('id'));
 		}
 		else
 		{
@@ -561,13 +553,7 @@ class PerfilController extends Controller
 		
 		//PUBLICIDAD Y/O INFORMACION
 		$publicidad = false;
-		
-
-        
-        
-        //return $result;
-
-		return array('perfil' => $perfil, 'publicidad' => $publicidad, 'mentorias' => $mentorias);
+		return array('perfil' => $perfil, 'mentorias' => $mentorias, 'tipoIngreso' => $tipoIngreso);
 	}
 
 	/**
@@ -782,6 +768,37 @@ class PerfilController extends Controller
 			$color = 'progress-bar-danger';
 		}
 		return Array('porcentaje' =>100, 'color'=>$color);
+	}
+
+	/**
+	 * Funcion que retorna si hay relacion de mentoria entre los dos usuarios que ingresan como parametro
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param Int $mentorId Id del primer usuario (mentor y/o estudiante)
+     * @param Int $estudianteId Id del segundo usuario (mentor y/o estudiante)
+     * @return Bool Retorna TRUE si exite relacion, caso contrario FALSE
+	 */
+	private function getRelacionMentoria($mentorId, $estudianteId)
+	{
+		/**
+		 * @var String Consulta SQL que trae la relacion entre los dos usuarios con tipo mentoria, y aprobada.
+		 * SELECT * FROM relaciones r
+		 * WHERE ((r.usuario_id = 25 OR r.usuario2_id = 25) AND (r.usuario_id = 12 OR r.usuario2_id = 12))
+		 * AND (r.tipo = 2 OR r.tipo = 3) AND r.estado = 1;
+		 */
+		$dql = "SELECT r.id FROM vocationetBundle:Relaciones r
+				WHERE
+					((r.usuario = :mentorId OR r.usuario2 = :mentorId) AND (r.usuario = :estudianteId OR r.usuario2 = :estudianteId))
+					AND (r.tipo = 2 OR r.tipo = 3)
+					AND r.estado = 1";
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery($dql);
+		$query->setParameter('mentorId', $mentorId);
+		$query->setParameter('estudianteId', $estudianteId);
+		$return = $query->getResult();
+		$aux = ($return) ? true : false;
+		return $aux;
 	}
 }
 

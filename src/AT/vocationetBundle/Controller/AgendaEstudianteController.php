@@ -80,8 +80,7 @@ class AgendaEstudianteController extends Controller
                     AND (r.tipo = 2 OR r.tipo = 3)
                     AND r.estado = 1
                     AND (m.usuarioEstudiante = :usuarioId)
-                GROUP BY m.id
-        ";
+                GROUP BY m.id";
         // OR m.usuarioEstudiante IS NULL
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
@@ -122,7 +121,7 @@ class AgendaEstudianteController extends Controller
                     LEFT JOIN vocationetBundle:Roles r WITH u.rol = r.id
                 WHERE
                     m.id = :mentoriaId";
-        
+
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
         $query->setParameter('mentoriaId', $id);
@@ -165,49 +164,66 @@ class AgendaEstudianteController extends Controller
         
         if($pago)
         {
-            $dql = "UPDATE vocationetBundle:Mentorias m 
-                    SET m.usuarioEstudiante = :usuarioId
-                    WHERE m.id = :mentoriaId";
-            $query = $em->createQuery($dql);
-            $query->setParameter('usuarioId', $usuarioId);
-            $query->setParameter('mentoriaId', $id);
-            $separada = $query->getResult();
-            
-            if($separada)
-            {
-                // Obtener informacion del mentor y estudiante para enviar notificacion
-                $mentoria = $em->getRepository("vocationetBundle:Mentorias")->findOneById($id);
-                $mentorId = $mentoria->getUsuarioMentor();
-                $estudianteNombre = $security->getSessionValue("usuarioNombre")." ".$security->getSessionValue("usuarioApellido");
-                $hora = $mentoria->getMentoriaInicio()->format('H:i d-m-Y');
-                
-                // Enviar notificacion al tutor
-                $mensajes = $this->get('mensajes');
+			$mentoria = $em->getRepository("vocationetBundle:Mentorias")->findOneById($id);
+			$tralapa = false;
+			if ($mentoria) {
+				$tralapa = $this->getValidarMentoriaTralapadas($usuarioId, $mentoria->getMentoriaInicio(), $mentoria->getMentoriaFin());
+			}
 
-                $subject = $this->get('translator')->trans("%user%.ha.separado.mentoria", array('%user%'=> $estudianteNombre));
-                $message = $this->get('translator')->trans("%user%.ha.separado.mentoria.%detalle%", array('%user%'=> $estudianteNombre, '%detalle%' => $hora));
+			if (!$tralapa) {
+			
+				$dql = "UPDATE vocationetBundle:Mentorias m 
+						SET m.usuarioEstudiante = :usuarioId
+						WHERE m.id = :mentoriaId";
+				$query = $em->createQuery($dql);
+				$query->setParameter('usuarioId', $usuarioId);
+				$query->setParameter('mentoriaId', $id);
+				$separada = $query->getResult();
+				
+				if($separada)
+				{
+					// Obtener informacion del mentor y estudiante para enviar notificacion
+					
+					$mentorId = $mentoria->getUsuarioMentor();
+					$estudianteNombre = $security->getSessionValue("usuarioNombre")." ".$security->getSessionValue("usuarioApellido");
+					$hora = $mentoria->getMentoriaInicio()->format('H:i d-m-Y');
+					
+					// Enviar notificacion al tutor
+					$mensajes = $this->get('mensajes');
 
-                $mensajes->enviarMensaje($usuarioId, array($mentorId), $subject, $message);
-                
-                // Marcar producto como usado
-                $this->get('pagos')->marcarPagoUsado($pago);                
-                
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.separada"), "text" => $this->get('translator')->trans("mentoria.separada.correctamente")));
-                $response = (json_encode(array(
-                    'status' => 'success',
-                    'message' => $this->get('translator')->trans("mentoria.separada"),
-                    'detail' => $this->get('translator')->trans("mentoria.separada.correctamente"),
-                    'redirect' => $this->generateUrl('agenda_estudiante')
-                )));
-            }
-            else
-            {
-                $response = (json_encode(array(
-                    'status' => 'error',
-                    'message' => $this->get('translator')->trans("mentoria.no.separada"),
-                    'detail' => $this->get('translator')->trans("mentoria.no.se.puede.separar"),
-                )));
-            }
+					$subject = $this->get('translator')->trans("%user%.ha.separado.mentoria", array('%user%'=> $estudianteNombre));
+					$message = $this->get('translator')->trans("%user%.ha.separado.mentoria.%detalle%", array('%user%'=> $estudianteNombre, '%detalle%' => $hora));
+
+					$mensajes->enviarMensaje($usuarioId, array($mentorId), $subject, $message);
+					
+					// Marcar producto como usado
+					$this->get('pagos')->marcarPagoUsado($pago);                
+					
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.separada"), "text" => $this->get('translator')->trans("mentoria.separada.correctamente")));
+					$response = (json_encode(array(
+						'status' => 'success',
+						'message' => $this->get('translator')->trans("mentoria.separada"),
+						'detail' => $this->get('translator')->trans("mentoria.separada.correctamente"),
+						'redirect' => $this->generateUrl('agenda_estudiante')
+					)));
+				}
+				else
+				{
+					$response = (json_encode(array(
+						'status' => 'error',
+						'message' => $this->get('translator')->trans("mentoria.no.separada"),
+						'detail' => $this->get('translator')->trans("mentoria.no.se.puede.separar"),
+					)));
+				}
+			}
+			else {
+				//translapada
+				$response = (json_encode(array(
+						'status' => 'error',
+						'message' => $this->get('translator')->trans("mentoria.no.separada"),
+						'detail' => $this->get('translator')->trans("mentoria.traslapada"),
+					)));
+			}
         }
         else
         {
@@ -222,6 +238,29 @@ class AgendaEstudianteController extends Controller
         
         return new Response($response);
     }
+
+    /**
+	 * Funcion que retorna Bool, TRUE cuando la mentoria se traslada, o se cruza con otra, y FALSE, caso contrario
+	 */
+    private function getValidarMentoriaTralapadas($estudianteId, $fechaInicio, $fechaFin)
+    {
+		/**
+		 * SELECT * FROM mentorias
+		 * WHERE usuario_mentor_id = 12 AND (mentoria_inicio between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00')
+		 * OR (mentoria_fin between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00');
+		*/
+
+		$dql = "SELECT m.id FROM vocationetBundle:Mentorias m
+				WHERE m.usuarioEstudiante =:estudianteId AND ((m.mentoriaInicio BETWEEN :fInicio AND :fFin) OR (m.mentoriaFin BETWEEN :fInicio AND :fFin))";
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery($dql);
+		$query->setParameter('fInicio', $fechaInicio);
+		$query->setParameter('fFin', $fechaFin);
+		$query->setParameter('estudianteId', $estudianteId);
+		$aux = $query->getResult();
+		$return = ($aux) ? true : false;
+		return $return;
+	}
     
     /**
      * Funcion que verifica si existe un pago para mentoria
