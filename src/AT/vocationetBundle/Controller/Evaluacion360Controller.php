@@ -44,8 +44,13 @@ class Evaluacion360Controller extends Controller
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
             return $this->redirect($this->generateUrl('planes'));
         }
-                
-        
+
+        $return = $this->get('perfil')->validarPosicionActual($usuarioId, 'evaluacion360');
+		if (!$return['status']) {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+			return $this->redirect($this->generateUrl($return['redirect']));
+		}
+
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('evaluacion360');
         
@@ -202,7 +207,8 @@ class Evaluacion360Controller extends Controller
                               Cordialmente,<br/>
                               Vocationet";
                     $this->get("mensajes")->enviarMensaje($id, array($usuarioId), $subject, $body);
-                    
+
+                    $this->get('perfil')->actualizarpuntos('evaluacion360', $id);
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("gracias.por.participar.evaluacion.360")));
                     return $this->redirect($this->generateUrl('homepage'));
                 }

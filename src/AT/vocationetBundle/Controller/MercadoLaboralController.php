@@ -42,7 +42,17 @@ class MercadoLaboralController extends Controller
         {
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
             return $this->redirect($this->generateUrl('planes'));
-        } 
+        }
+
+        $productoPago = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
+        if ($productoPago)
+        {
+			$return = $this->get('perfil')->validarPosicionActual($usuarioId, 'mercadolaboral');
+			if (!$return['status']) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+				return $this->redirect($this->generateUrl($return['redirect']));
+			}
+		}
         
 		$em = $this->getDoctrine()->getManager();
         $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
@@ -103,6 +113,8 @@ class MercadoLaboralController extends Controller
 					$participacion->setEstado(1);
 					$em->persist($participacion);
 					$em->flush();
+
+					$this->get('perfil')->actualizarpuntos('mercadolaboral', $usuarioId, array('cantidad' => count($alternativas)));
 
 					//Notificacion para mentor de que el estudiante  ha seleccionado alternativas de estudio
 					$name = $security->getSessionValue('usuarioNombre').' '.$security->getSessionValue('usuarioApellido');

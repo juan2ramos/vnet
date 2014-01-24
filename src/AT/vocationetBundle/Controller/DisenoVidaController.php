@@ -41,6 +41,12 @@ class DisenoVidaController extends Controller
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
             return $this->redirect($this->generateUrl('planes'));
         }
+
+        $return = $this->get('perfil')->validarPosicionActual($usuarioId, 'disenovida');
+		if (!$return['status']) {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+			return $this->redirect($this->generateUrl($return['redirect']));
+		}
         
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('diseno_vida');
@@ -125,7 +131,8 @@ class DisenoVidaController extends Controller
                 {
                     // Enviar notificacion al mentor
                     $this->enviarNotificacionMentor($usuarioId);
-                                        
+
+					$this->get('perfil')->actualizarpuntos('disenovida', $usuarioId);
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("diseno.vida.enviado.ahora.separar.metoria")));
                     return $this->redirect($this->generateUrl('agenda_estudiante'));
                 }

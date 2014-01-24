@@ -734,6 +734,10 @@
                 <source>ver.disponibilidad</source>
                 <target>Ver disponibilidad</target>
             </trans-unit>
+            <trans-unit id="ment-14">
+                <source>aclaracion.separacion.de.mentorias.primero.seleccionar.mentor</source>
+                <target>Tenga en cuenta que para separar una mentoria, tiene que seleccionar al mentor primero</target>
+            </trans-unit>
 
 			 <!-- FOROS foros-x -->
             <trans-unit id="foros-1">

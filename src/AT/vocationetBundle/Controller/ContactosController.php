@@ -189,6 +189,12 @@ class ContactosController extends Controller
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
+
+        $return = $this->get('perfil')->validarPosicionActual($usuarioId, 'orientador_vocacional');
+		if (!$return['status']) {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+			return $this->redirect($this->generateUrl($return['redirect']));
+		}
         
         $pr = $this->get('perfil');
         //$autoCompletarTitulos = $pr->getTitulos();
@@ -200,6 +206,7 @@ class ContactosController extends Controller
         $form = $this->formBusqueda($formData, true);
 
         $seleccionarMentor = $pr->confirmarMentorOrientacionVocacional($usuarioId);
+        
 
         if (!$seleccionarMentor) {
 			if ($request->getMethod() == "POST") {
@@ -392,7 +399,7 @@ class ContactosController extends Controller
 					
 					//Registro de que el usuario participo en red de mentores
 					$form_id = $this->get('formularios')->getFormId('red_mentores');
-					$auxPart = $em->getRepository('vocationetBundle:Participaciones')->findOneBy(Array('formulario' => $form_id));
+					$auxPart = $em->getRepository('vocationetBundle:Participaciones')->findOneBy(array('formulario' => $form_id, 'usuarioParticipa' => $usuarioId));
 					if (!$auxPart) {
 						$participacion = new Participaciones();
 						$participacion->setFormulario($form_id);
@@ -405,7 +412,7 @@ class ContactosController extends Controller
 					
 					$em->flush();
 			
-					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("ha.seleccionado.mentor.contactese.con.el")));
+					$this->get('session')->getFlashBag()->add	('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("ha.seleccionado.mentor.contactese.con.el")));
 					//return $this->redirect($this->generateUrl('agenda_estudiante'));
 					
 				} else {

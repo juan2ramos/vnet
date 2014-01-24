@@ -587,7 +587,7 @@
 			</trans-unit>
 			<trans-unit id="dvida-4">
                 <source>debe.escojer.10.valores.ocupacionales</source>
-                <target>Debes escojer 10 valores ocupacionales para continuar con la prueba</target>
+                <target>Debe volver al paso anterior y escojer mínimo 10 valores ocupacionales para continuar con la prueba</target>
 			</trans-unit>
             
             <!-- ponderacion pond-x -->

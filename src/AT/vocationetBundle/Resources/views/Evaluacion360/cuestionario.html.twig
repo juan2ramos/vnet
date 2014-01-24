@@ -69,7 +69,7 @@
                     {% endfor %} 
                     {{ form_widget(form._token) }}
                     {{ form_errors(form) }}    
-                    <input type="submit" class="finish btn btn-danger" value="{% trans  from "label" %}enviar{% endtrans %}"/>
+                    <input type="submit" class="finish btn btn-danger" value="{% trans from "label" %}enviar{% endtrans %}" onClick="submitFormOkay=true;" />
                 </form>
                     
             </div>
@@ -93,13 +93,12 @@
             touchSpin_max: 5
         });
 
-        window.onbeforeunload = function(e){
-				if ($("form").submit()){
-					return false;
-				} else {
+        var submitFormOkay = false;
+		window.onbeforeunload = function () {
+			if (!submitFormOkay) {
 				return "{% trans from 'messages' %}si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba{% endtrans %}";
-				}
 			}
+		}
     </script>
 {% endblock script %}
             

@@ -113,10 +113,13 @@ class PonderacionController extends Controller
                 // Procesar formulario por cada alternativa de carrera como una participacion independiente
                 $puntajes = array();
                 $ids = array();
+
+                $auxCantidadCarreras = 0;
                 foreach($respuestas as $carreraId => $res)
                 {
                     $formularios_serv->procesarFormulario($form_id, $usuarioId, $res, false, false, $carreraId);
-                    
+
+                    $auxCantidadCarreras += 1; 
                     $ids[] = $carreraId;
                     
                     // Calcular puntaje por alternativa
@@ -137,6 +140,7 @@ class PonderacionController extends Controller
                 
                 // Enviar notificacion al mentor
                 $this->enviarNotificacionMentor($usuarioId);
+                $this->get('perfil')->actualizarpuntos('ponderacion', $usuarioId, array('cantidad'=> $auxCantidadCarreras));
                 
                 return array(
                     'carrera' => $carreras[0]['nombre'],

@@ -108,7 +108,7 @@
                 <table style="width: 100%;">
                     <tr>
                         <td>
-                            {% trans  from "label" %}instrucciones.diseno.vida{% endtrans %}                            
+                            {% trans from "label" %}instrucciones.diseno.vida{% endtrans %}                            
                         </td>
                         <td style="width: 36px;">
                             <a href='{{ asset(getParameter('enlace_pdf_diseno_vida_info')) }}' target='_blank'>
@@ -162,13 +162,13 @@
                                 {# Pantallazo 3 - Intereses de carrera (2) (piramide de actividades) #}
                                 {% if loop.index0 == 10 %}
                                     <div class="clearfix">
-                                        <h4>{% trans  from "label" %}nivel.3{% endtrans %}</h4>
+                                        <h4>{% trans from "label" %}nivel.3{% endtrans %}</h4>
                                         <ul id="nivel-3" class="nivel-act"></ul>
-                                        <h4>{% trans  from "label" %}nivel.2{% endtrans %}</h4>
+                                        <h4>{% trans from "label" %}nivel.2{% endtrans %}</h4>
                                         <ul id="nivel-2" class="nivel-act"></ul>
-                                        <h4>{% trans  from "label" %}nivel.1{% endtrans %}</h4>
+                                        <h4>{% trans from "label" %}nivel.1{% endtrans %}</h4>
                                         <ul id="nivel-1" class="nivel-act"></ul>
-                                        <h4>{% trans  from "label" %}nivel.0{% endtrans %}</h4>
+                                        <h4>{% trans from "label" %}nivel.0{% endtrans %}</h4>
                                         <ul id="nivel-0" class="nivel-act"></ul>
                                     </div>
                                 {% endif %}
@@ -176,22 +176,22 @@
                                 {# Pantallazo 6 - Analisis (piramides de valores ocupacionales e intereses academicos) #}
                                 {% if loop.index0 == 13 %}
                                     <div class="col-lg-6 clearfix">
-                                        <h4>{% trans  from "label" %}valores.ocupacionales{% endtrans %}</h4>
+                                        <h4>{% trans from "label" %}valores.ocupacionales{% endtrans %}</h4>
                                         <ul id="list-val-ocup" class="nivel-act"></ul>
                                     </div>
                                     <div class="col-lg-6 clearfix">
-                                        <h4>{% trans  from "label" %}intereses.academicos{% endtrans %}</h4>
+                                        <h4>{% trans from "label" %}intereses.academicos{% endtrans %}</h4>
                                         <ul id="list-int-acad" class="nivel-act"></ul>
                                     </div>
-                                    <p>{% trans  from "label" %}instrucciones.analisis.diseno.vida{% endtrans %}</p>
+                                    <p>{% trans from "label" %}instrucciones.analisis.diseno.vida{% endtrans %}</p>
                                     <div>
                                         <table class="table table-striped" id="table-int-carr">
                                             <thead>
                                                 <tr>
-                                                    <th>{% trans  from "label" %}intereses.carrera{% endtrans %}</th>
-                                                    <th>{% trans  from "label" %}afinidad.valores.ocupacionales{% endtrans %}</th>
-                                                    <th>{% trans  from "label" %}afinidad.intereses.academicos{% endtrans %}</th>
-                                                    <th>{% trans  from "label" %}apasiona.carrera{% endtrans %}</th>
+                                                    <th>{% trans from "label" %}intereses.carrera{% endtrans %}</th>
+                                                    <th>{% trans from "label" %}afinidad.valores.ocupacionales{% endtrans %}</th>
+                                                    <th>{% trans from "label" %}afinidad.intereses.academicos{% endtrans %}</th>
+                                                    <th>{% trans from "label" %}apasiona.carrera{% endtrans %}</th>
                                                 </tr>
                                             </thead>
                                             <tbody></tbody>
@@ -220,7 +220,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="globo">
-                                                                        <h4>{% trans  from "label" %}corto.plazo{% endtrans %}</h4>
+                                                                        <h4>{% trans from "label" %}corto.plazo{% endtrans %}</h4>
                                                                         <textarea name="adicional[metas][{{ i }}][corto_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
                                                                     </div>
                                                                 </td>
@@ -228,7 +228,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="globo">
-                                                                        <h4>{% trans  from "label" %}mediano.plazo{% endtrans %}</h4>
+                                                                        <h4>{% trans from "label" %}mediano.plazo{% endtrans %}</h4>
                                                                         <textarea name="adicional[metas][{{ i }}][mediano_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
                                                                     </div>
                                                                 </td>
@@ -236,7 +236,7 @@
                                                             <tr>
                                                                 <td>
                                                                     <div class="globo">
-                                                                        <h4>{% trans  from "label" %}largo.plazo{% endtrans %}</h4>
+                                                                        <h4>{% trans from "label" %}largo.plazo{% endtrans %}</h4>
                                                                         <textarea name="adicional[metas][{{ i }}][largo_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
                                                                     </div>
                                                                 </td>
@@ -249,13 +249,13 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td>
-                                                                    <p>{% trans  from "label" %}disenovida.metas.pregunta.1{% endtrans %}</p>
+                                                                    <p>{% trans from "label" %}disenovida.metas.pregunta.1{% endtrans %}</p>
                                                                     <div class="row options-container">
                                                                         <div class="option col-lg-5" style="text-align: left;">
-                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicional[metas][{{ i }}][pregunta1]" value="1" required="required" /> {% trans  from "label" %}si{% endtrans %}</label>
+                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicional[metas][{{ i }}][pregunta1]" value="1" required="required" /> {% trans from "label" %}si{% endtrans %}</label>
                                                                         </div>
                                                                         <div class="option col-lg-5" style="text-align: left;">
-                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicional[metas][{{ i }}][pregunta1]" value="0" /> {% trans  from "label" %}no{% endtrans %}</label>
+                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicional[metas][{{ i }}][pregunta1]" value="0" /> {% trans from "label" %}no{% endtrans %}</label>
                                                                         </div>
                                                                         <label for="adicional[metas][{{ i }}][pregunta1]" class="error" style="display:none;"></label> 
                                                                     </div> 
@@ -263,7 +263,7 @@
                                                             </tr>
                                                             <tr>
                                                                 <td>
-                                                                    <p>{% trans  from "label" %}disenovida.metas.pregunta.2{% endtrans %}</p>
+                                                                    <p>{% trans from "label" %}disenovida.metas.pregunta.2{% endtrans %}</p>
                                                                     <textarea name="adicional[metas][{{ i }}][pregunta2]" class="form-control col-lg-12" required="required" style="width: 100%;"></textarea>
                                                                 </td>
                                                             </tr>                                                            
@@ -309,7 +309,7 @@
                     {% endfor %} 
                     {{ form_widget(form._token) }}
                     {{ form_errors(form) }}    
-                    <input type="submit" class="finish btn btn-danger" value="{% trans  from "label" %}enviar{% endtrans %}"/>
+                    <input type="submit" class="finish btn btn-danger" value="{% trans from "label" %}enviar{% endtrans %}" onClick="submitFormOkay=true;"/>
                 </form>
             </div>
         </section>
@@ -338,5 +338,12 @@
             msg_min_opc_carr: '{% trans %}debe.escojer.minimo.3.opciones{% endtrans %}',
             msg_min_opc_val: '{% trans %}debe.escojer.10.valores.ocupacionales{% endtrans %}'
         });
+
+        var submitFormOkay = false;
+		window.onbeforeunload = function () {
+			if (!submitFormOkay) {
+				return "{% trans from 'messages' %}si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba{% endtrans %}";
+			}
+		}
     </script>
 {% endblock script %}

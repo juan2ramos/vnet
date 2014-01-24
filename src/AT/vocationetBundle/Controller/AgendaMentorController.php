@@ -259,6 +259,7 @@ class AgendaMentorController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');
         
         $em = $this->getDoctrine()->getManager();
         $mentoria = $em->getRepository('vocationetBundle:Mentorias')->findOneBy(array('id' => $id, 'usuarioMentor' => $usuarioId));
@@ -267,8 +268,11 @@ class AgendaMentorController extends Controller
         {
             $mentoria->setMentoriaEstado(1);
             $em->persist($mentoria);
-            $em->flush();            
-            
+            $em->flush();
+
+			if ($rolId == 2) {
+				$this->get('perfil')->actualizarpuntos('redmentores', $mentoria->getUsuarioEstudiante());
+			}
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.finalizada"), "text" => $this->get('translator')->trans("mentoria.finalizada.correctamente")));
         }
         

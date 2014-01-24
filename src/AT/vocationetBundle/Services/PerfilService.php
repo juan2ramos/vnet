@@ -696,12 +696,158 @@ class PerfilService
 		return $recorrido;
 	}
 
+	public function validarPosicionActual($usuarioId, $posActual)
+	{
+		$return = array('status' => true, 'message' => false, 'redirect' => false);
+		$recorrido = $this->getEstadoActualPlataforma($usuarioId);
+
+		if ($posActual == 'orientador_vocacional') {
+			$return = $this->validateDiagnostico($return, $recorrido);
+		}
+
+		if ($posActual == 'test_vocacional') {
+			$return = $this->validateTestVocacional($return, $recorrido);
+		}
+
+		if ($posActual == 'evaluacion360') {
+			$return = $this->validateEvaluacion360($return, $recorrido);
+		}
+
+		if ($posActual == 'disenovida') {
+			$return = $this->validateDisenoVida($return, $recorrido);
+		}
+
+		if ($posActual == 'mercadolaboral') {
+			$return = $this->validateMercadoLaboral($return, $recorrido);
+		}
+
+		
+
+		
+
+		print_r($return);
+		
+		/**
+		//orientador_vocacional
+		if ($posActual == 'orientador_vocacional') {
+			if (!$recorrido['P1']) {
+				$status = false;
+				$message = 'diagnostico';
+				$redirect = 'diagnostico';
+			}
+		}
+
+		
+		//test_vocacional
+		if ($posActual == 'test_vocacional')
+		{
+			if (!$recorrido['P1']) {
+				$status = false;
+				$message = 'diagnostico';
+				$redirect = 'diagnostico';
+			}
+			if(!$recorrido['M1']) {
+				$status = false;
+				$message = 'no.mentoria';
+				$redirect = 'mentoria';
+			}
+		}
+
+		*/
+		return $return;
+	}
+
+	private function validateDiagnostico($return, $recorrido)
+	{
+		if (!$recorrido['P1']) {
+			$return = array('status' => false, 'message' => 'no.ha.realizado.prueba.diagnostico', 'redirect' => 'diagnostico');
+		}
+		return $return;
+	}
+
+	private function validateTestVocacional($return, $recorrido)
+	{
+		$return = $this->validateDiagnostico($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['M1']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	private function validateEvaluacion360($return, $recorrido)
+	{
+		$return = $this->validateTestVocacional($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P2']) {
+				$return = array('status' => false, 'message' => 'realizar.test.vocacional', 'redirect' => 'test_vocacional');
+			} elseif (!$recorrido['M2']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	private function validateDisenoVida($return, $recorrido)
+	{
+		$return = $this->validateEvaluacion360($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P9']) {
+				$return = array('status' => false, 'message' => 'realizar.evaluacion360', 'redirect' => 'evaluacion360');
+			} elseif (!$recorrido['M3']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	private function validateMercadoLaboral($return, $recorrido)
+	{
+		$return = $this->validateDisenoVida($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P10']) {
+				$return = array('status' => false, 'message' => 'realizar.diseno.vida', 'redirect' => 'diseno_vida');
+			} elseif (!$recorrido['M4']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	
+
+
+	
+
+	
+
+	
+
+	/**
+	 * PENDIENTE REVISAR DOCUMENTACION
+	 */
 	function actualizarpuntos($tipo, $usuarioId, $aux = array())
 	{
 		$auxp = 0;//auxpuntos
 		if ($tipo == 'diagnostico') {
 			//$aux (rango(1,2,3), puntaje)
 			$auxp = ($aux['rango'] == 1) ? 10 : ($aux['rango'] == 2) ? 20 : ($aux['rango'] == 3) ? 30 : 0;
+		}
+		if ($tipo == 'evaluacion360') {
+			$auxp = 50;
+		}
+		if ($tipo == 'disenovida') {
+			$auxp = 100;
+		}
+		if ($tipo == 'mercadolaboral') {
+			$auxp = 50 * $aux['cantidad'];// Numero de alternativas seleccionadas
+		}
+		if ($tipo == 'redmentores') {
+			$auxp = 50; //c/u
+		}
+		if ($tipo == 'ponderacion') {
+			$auxp = 10 * $aux['cantidad'];// Numero de alternativas seleccionadas
 		}
 
 		if ($auxp > 0) {

@@ -38,11 +38,16 @@ class TestVocacionalController extends Controller
         {
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
             return $this->redirect($this->generateUrl('planes'));
-        }        
-        
-        
-        $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
+        }
 
+        $return = $this->get('perfil')->validarPosicionActual($usuarioId, 'test_vocacional');
+		if (!$return['status']) {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+			return $this->redirect($this->generateUrl($return['redirect']));
+		}
+
+		//$seleccionarMentor = 1;
+		$seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
         if($seleccionarMentor) {
 			$formulario = $this->get('formularios')->getInfoFormulario(8);
 		} else {

@@ -38,9 +38,6 @@
 						{% if sess_user.id == perfil.usuarioId %}
 							<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
 							<li class=""><a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
-							<li data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-								<a href="{{ path('foros_temas')}}"> <i class="icon-list-alt"></i> {% trans from "label" %}foros{% endtrans %}</a>
-							</li>
 						{% else %}
 							<li class="active"><a href="{{ path('horarios_disponibles_mentor', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-calendar"></i> {% trans from "label" %}disponibilidad{% endtrans %}</a></li>
 						{% endif %}
@@ -49,7 +46,17 @@
 			</aside>
 
 			<aside class="profile-info col-lg-8">
-				  <div class="row">
+
+				{% if tipoIngreso == false %}
+					<div class="alert alert-success fade in">
+						<button data-dismiss="alert" class="close close-sm" type="button">
+							<i class="icon-remove"></i>
+						</button>
+						{% trans from "label" %}aclaracion.separacion.de.mentorias.primero.seleccionar.mentor{% endtrans %}
+					</div>
+				{% endif %}
+				
+				<div class="row">
 					<aside class="col-lg-12">
 						<section class="panel">
 							<div class="panel-body">
