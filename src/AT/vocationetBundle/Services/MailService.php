@@ -25,7 +25,7 @@ class MailService
     {
         $mail = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom('no_reply@altactic.com', 'Vocationet')
+            ->setFrom('no_reply@vocationet.com', 'Vocationet')
             ->setBody($this->templating->render('::mail.html.twig', $data), 'text/html');
         
         if($delivery_type == 'to')

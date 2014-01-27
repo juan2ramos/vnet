@@ -1,15 +1,15 @@
 parameters:
     database_driver:   pdo_mysql
-    database_host:     altacticadmin.ctkjecosmdml.us-east-1.rds.amazonaws.com
+    database_host:     vocationet-db.cxzjwkrtctii.us-east-1.rds.amazonaws.com
     database_port:     3306
-    database_name:     vocationet-dev
-    database_user:     adminuser
-    database_password: StudiO8181admin
+    database_name:     vocationet_prod
+    database_user:     vocationetadmin
+    database_password: v0c4t10n3t
 
-    mailer_transport:  mail
-    mailer_host:       127.0.0.1
-    mailer_user:       ~
-    mailer_password:   ~
+    mailer_transport:  smtp
+    mailer_host:       email-smtp.us-east-1.amazonaws.com
+    mailer_user:       AKIAIEYXK7XHIUOAOYAQ
+    mailer_password:   Albuq+yWOsjZqkM8lJOp5ucptuTeLtK02tf2zTR7xb4l
 
     locale:            en
     secret:            c35163b10d6eafe418a06c107ddfb77dd6
