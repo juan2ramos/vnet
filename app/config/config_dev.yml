@@ -28,4 +28,4 @@ assetic:
     use_controller: true
 
 swiftmailer:
-    delivery_address: diego@altactic.com
+    delivery_address: camilo@altactic.com

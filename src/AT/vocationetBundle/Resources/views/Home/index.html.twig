@@ -68,87 +68,90 @@
 					
 					{# dump(recorrido) #}
 					
+					
 					{% if recorrido.P1 %}
 						<!-- recorrido inicio - diagnostico -->
 						<div STYLE='background:blue;width:52px;height:4px;position:absolute;top:220px;left:128px;'></div>
 						<div STYLE='background:blue;width:4px;height:31px;position:absolute;top:220px;left:177px;'></div>
 						<div STYLE='background:blue;width:52px;height:4px;position:absolute;top:248px;left:177px;'></div>
 					{% endif %}
+
+					{% if programa_orientacion %}
                     
-					{% if recorrido.M1 %}
-						<!-- recorrido diagnostico- EOV  -->
-						<div STYLE='background:blue;width:42px;height:4px;position:absolute;top:248px;left:244px;'></div>
-						<div STYLE='background:blue;width:4px;height:23px;position:absolute;top:248px;left:282px;'></div>                    
-						<div STYLE='background:blue;width:42px;height:4px;position:absolute;top:267px;left:282px;'></div>
-					{% endif %}
-                    
-					{% if recorrido.P2 %}
-						<!-- recorrido EOV - Testvocacional  -->
-						<div STYLE='background:blue;width:34px;height:4px;position:absolute;top:267px;left:337px;'></div>
-						<div STYLE='background:blue;width:4px;height:23px;position:absolute;top:248px;left:368px;'></div> 
-						<div STYLE='background:blue; width:32px; height:4px; position:absolute; top:248px; left:372px;'></div>
-					{% endif %}
+						{% if recorrido.M1 %}
+							<!-- recorrido diagnostico- EOV  -->
+							<div STYLE='background:blue;width:42px;height:4px;position:absolute;top:248px;left:244px;'></div>
+							<div STYLE='background:blue;width:4px;height:23px;position:absolute;top:248px;left:282px;'></div>                    
+							<div STYLE='background:blue;width:42px;height:4px;position:absolute;top:267px;left:282px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P2 %}
+							<!-- recorrido EOV - Testvocacional  -->
+							<div STYLE='background:blue;width:34px;height:4px;position:absolute;top:267px;left:337px;'></div>
+							<div STYLE='background:blue;width:4px;height:23px;position:absolute;top:248px;left:368px;'></div> 
+							<div STYLE='background:blue; width:32px; height:4px; position:absolute; top:248px; left:372px;'></div>
+						{% endif %}
 					
-					{% if recorrido.M2 %}
-						<!-- recorrido Testvocacional - EOV -->
-						<div STYLE='background:blue; width:20px; height:4px; position:absolute; top:248px; left:418px;'></div>
-						<div STYLE='background:blue;width:4px;height:34px;position:absolute;top:218px;left:435px;'></div> 
-					{% endif %}
-					
-					{% if recorrido.P9 %}
-						<!-- recorrido EOV - Evaluacion360 -->
-						<div STYLE='background:blue; width:18px; height:4px; position:absolute; top:211px; left:414px;'></div>
-						<div STYLE='background:blue; width:4px; height:32px; position:absolute; top:183px; left:412px;'></div>
-					{% endif %}
-					
-					{% if recorrido.M3 %}
-						<!-- recorrido Evaluacion360 - EOV -->
-						<div STYLE='background:blue; width:33px; height:4px; position:absolute; top:173px; left:373px;'></div>
-						<div STYLE='background:blue; width:4px; height:34px; position:absolute; top:175px; left:373px;'></div>
-						<div STYLE='background:blue; width:31px; height:4px; position:absolute; top:207px; left:346px;'></div>
-					{% endif %}
-					
-					{% if recorrido.P10 %}
-						<!-- recorrido EOV - Diseñodevida -->
-						<div STYLE='background:blue; width:51px; height:4px; position:absolute; top:207px; left:281px;'></div>
-						<div STYLE='background:blue; width:4px; height:31px; position:absolute; top:180px; left:280px;'></div>
-					{% endif %}
-					
-					{% if recorrido.M4 %}
-						<!-- recorrido Diseñodevida - EOV -->
-						<div STYLE='background:blue; width:4px; height:25px; position:absolute; top:137px; left:280px;'></div>
-					{% endif %}
-					
-					{% if recorrido.P11 %}
-						<!-- recorrido EOV - mercadolaboral -->
-						<div STYLE='background:blue; width:83px; height:4px; position:absolute; top:127px; left:191px;'></div>
-						<div STYLE='background:blue; width:4px; height:36px; position:absolute; top:95px; left:190px;'></div>
-					{% endif %}
-					
-					{% if recorrido.M5 %}
-						<!-- recorrido mercadolaboral - EOV -->
-						<div STYLE='background:blue; width:43px; height:4px; position:absolute; top:83px; left:200px;'></div>
-					{% endif %}
-					
-					{% if recorrido.P12 %}
-						<!-- recorrido EOV - redmentores -->
-						<div STYLE='background:blue; width:4px; height:29px; position:absolute; top:50px; left:247px;'></div>
-						<div STYLE='background:blue; width:49px; height:4px; position:absolute; top:50px; left:248px;'></div>
-					{% endif %}
-					
-					{% if recorrido.P13 %}
-						<!-- recorrido redmentores - ponderacion -->
-						<div STYLE='background:blue; width:81px; height:4px; position:absolute; top:50px; left:319px;'></div>
-						<div STYLE='background:blue; width:4px; height:34px; position:absolute; top:51px; left:397px;'></div>
-					{% endif %}
-					
-					{% if recorrido.M6 %}
-						<!-- recorrido ponderacion - EOV -->
-						<div STYLE='background:blue; width:42px; height:4px; position:absolute; top:92px; left:407px;'></div>
+						{% if recorrido.M2 %}
+							<!-- recorrido Testvocacional - EOV -->
+							<div STYLE='background:blue; width:20px; height:4px; position:absolute; top:248px; left:418px;'></div>
+							<div STYLE='background:blue;width:4px;height:34px;position:absolute;top:218px;left:435px;'></div> 
+						{% endif %}
+						
+						{% if recorrido.P9 %}
+							<!-- recorrido EOV - Evaluacion360 -->
+							<div STYLE='background:blue; width:18px; height:4px; position:absolute; top:211px; left:414px;'></div>
+							<div STYLE='background:blue; width:4px; height:32px; position:absolute; top:183px; left:412px;'></div>
+						{% endif %}
+						
+						{% if recorrido.M3 %}
+							<!-- recorrido Evaluacion360 - EOV -->
+							<div STYLE='background:blue; width:33px; height:4px; position:absolute; top:173px; left:373px;'></div>
+							<div STYLE='background:blue; width:4px; height:34px; position:absolute; top:175px; left:373px;'></div>
+							<div STYLE='background:blue; width:31px; height:4px; position:absolute; top:207px; left:346px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P10 %}
+							<!-- recorrido EOV - Diseñodevida -->
+							<div STYLE='background:blue; width:51px; height:4px; position:absolute; top:207px; left:281px;'></div>
+							<div STYLE='background:blue; width:4px; height:31px; position:absolute; top:180px; left:280px;'></div>
+						{% endif %}
+						
+						{% if recorrido.M4 %}
+							<!-- recorrido Diseñodevida - EOV -->
+							<div STYLE='background:blue; width:4px; height:25px; position:absolute; top:137px; left:280px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P11 %}
+							<!-- recorrido EOV - mercadolaboral -->
+							<div STYLE='background:blue; width:83px; height:4px; position:absolute; top:127px; left:191px;'></div>
+							<div STYLE='background:blue; width:4px; height:36px; position:absolute; top:95px; left:190px;'></div>
+						{% endif %}
+						
+						{% if recorrido.M5 %}
+							<!-- recorrido mercadolaboral - EOV -->
+							<div STYLE='background:blue; width:43px; height:4px; position:absolute; top:83px; left:200px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P12 %}
+							<!-- recorrido EOV - redmentores -->
+							<div STYLE='background:blue; width:4px; height:29px; position:absolute; top:50px; left:247px;'></div>
+							<div STYLE='background:blue; width:49px; height:4px; position:absolute; top:50px; left:248px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P13 %}
+							<!-- recorrido redmentores - ponderacion -->
+							<div STYLE='background:blue; width:81px; height:4px; position:absolute; top:50px; left:319px;'></div>
+							<div STYLE='background:blue; width:4px; height:34px; position:absolute; top:51px; left:397px;'></div>
+						{% endif %}
+						
+						{% if recorrido.M6 %}
+							<!-- recorrido ponderacion - EOV -->
+							<div STYLE='background:blue; width:42px; height:4px; position:absolute; top:92px; left:407px;'></div>
+						{% endif %}
 					{% endif %}
 				</div>
 			</div>
-
         </section>
     </div>
 	

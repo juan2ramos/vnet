@@ -648,14 +648,30 @@ class PerfilService
 		
 		// mentorias realizadas por el usuario con mentor experto vocacional.
 		//$mentorias = $em->getRepository('vocationetBundle:Mentorias')->findBy(array('usuarioEstudiante'=> $usuarioId, 'mentoriaEstado'=> 1), array('id' => 'ASC'));
-		$dql = "SELECT m FROM vocationetBundle:Mentorias m
+
+		/**
+		 * @var String Consulta SQL que trae mentorias del usuario tanto de experto como de orientado vocacional finalizadas
+		 * SELECT * FROM mentorias m
+		 * JOIN usuarios u ON u.id = m.usuario_mentor_id
+		 * WHERE m.usuario_estudiante_id = 27 AND m.mentoria_estado = 1;
+		*/
+		$dql = "SELECT m.id, r.id as rolId FROM vocationetBundle:Mentorias m
 				JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
-				WHERE m.usuarioEstudiante =:usuarioId AND m.mentoriaEstado = 1 AND u.rol = 3";
+				JOIN u.rol r
+				WHERE m.usuarioEstudiante =:usuarioId AND m.mentoriaEstado = 1"; // AND u.rol = 3
 		$query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $mentorias = $query->getResult();
-		
-		$cm = count($mentorias); //Cantidad de mentorias
+
+		$cm = 0; // AuxContador de mentorias de ORIENTADOR VOCACIONAL
+		$cme = 0; // AuxContador de mentorias de EXPERTO
+		foreach ($mentorias as $ment)
+		{
+			if ($ment['rolId'] == 3)
+				$cm += 1;
+			elseif ($ment['rolId'] == 2)
+				$cme += 1;
+		}
 		
 		/**
 		* P1. DIAGNOSTICO
@@ -679,7 +695,8 @@ class PerfilService
 		);
 		
 		$auxCt360 = 0; // Contador de participantes 360
-		foreach($participaciones as $part){
+		foreach($participaciones as $part)
+		{
 			$formId = $part->getFormulario();
 			if ($formId == 9) // Evaluacion 360
 			{
@@ -687,7 +704,13 @@ class PerfilService
 				if ($auxCt360 >= 3) {
 					$recorrido['P'.$formId] = true;
 				}
-			} 
+			}
+			elseif($formId == 12) {
+				// Validación de que almenos tenga una mentoria terminada con mentor Experto
+				if ($cme > 0) {
+					$recorrido['P'.$formId] = true;
+				}
+			}
 			else 
 			{
 				$recorrido['P'.$formId] = true;
@@ -696,6 +719,19 @@ class PerfilService
 		return $recorrido;
 	}
 
+
+	/**
+	 * Validación de linealidad de Vocationet
+	 * 
+	 * Función que valida si el punto de la plataforma al que quiere ingresar, tiene acceso
+	 * teniendo en cuenta orden lineal
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param Int $usuarioId Id del usuario
+	 * @param String $posActual posición de la plataforma a la que quiere acceder
+	 * @return Array Arreglo con estado, mensaje y redireccionamiento si es necesario
+	 */
 	public function validarPosicionActual($usuarioId, $posActual)
 	{
 		$return = array('status' => true, 'message' => false, 'redirect' => false);
@@ -721,42 +757,19 @@ class PerfilService
 			$return = $this->validateMercadoLaboral($return, $recorrido);
 		}
 
-		
-
-		
-
-		print_r($return);
-		
-		/**
-		//orientador_vocacional
-		if ($posActual == 'orientador_vocacional') {
-			if (!$recorrido['P1']) {
-				$status = false;
-				$message = 'diagnostico';
-				$redirect = 'diagnostico';
-			}
+		if ($posActual == 'redmentores') {
+			$return = $this->validateRedMentores($return, $recorrido);
 		}
 
-		
-		//test_vocacional
-		if ($posActual == 'test_vocacional')
-		{
-			if (!$recorrido['P1']) {
-				$status = false;
-				$message = 'diagnostico';
-				$redirect = 'diagnostico';
-			}
-			if(!$recorrido['M1']) {
-				$status = false;
-				$message = 'no.mentoria';
-				$redirect = 'mentoria';
-			}
+		if ($posActual == 'ponderacion') {
+			$return = $this->validatePonderacion($return, $recorrido);
 		}
-
-		*/
 		return $return;
 	}
 
+	/**
+	 * Funcion que valida si el usuario ya realizo diagnóstico
+	 */
 	private function validateDiagnostico($return, $recorrido)
 	{
 		if (!$recorrido['P1']) {
@@ -765,6 +778,10 @@ class PerfilService
 		return $return;
 	}
 
+	 /**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar test vocacional
+	 * - ya realizo diagnóstico, y la primera mentoria
+	 */
 	private function validateTestVocacional($return, $recorrido)
 	{
 		$return = $this->validateDiagnostico($return, $recorrido);
@@ -776,12 +793,15 @@ class PerfilService
 		return $return;
 	}
 
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar evaluación 360
+	 */
 	private function validateEvaluacion360($return, $recorrido)
 	{
 		$return = $this->validateTestVocacional($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['P2']) {
-				$return = array('status' => false, 'message' => 'realizar.test.vocacional', 'redirect' => 'test_vocacional');
+				$return = array('status' => false, 'message' => 'no.ha.realizado.test.vocacional', 'redirect' => 'test_vocacional');
 			} elseif (!$recorrido['M2']) {
 				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
 			}
@@ -789,12 +809,15 @@ class PerfilService
 		return $return;
 	}
 
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar diseño de vida
+	 */
 	private function validateDisenoVida($return, $recorrido)
 	{
 		$return = $this->validateEvaluacion360($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['P9']) {
-				$return = array('status' => false, 'message' => 'realizar.evaluacion360', 'redirect' => 'evaluacion360');
+				$return = array('status' => false, 'message' => 'no.ha.realizado.evaluacion360', 'redirect' => 'evaluacion360');
 			} elseif (!$recorrido['M3']) {
 				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
 			}
@@ -802,12 +825,15 @@ class PerfilService
 		return $return;
 	}
 
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar mercado laboral
+	 */
 	private function validateMercadoLaboral($return, $recorrido)
 	{
 		$return = $this->validateDisenoVida($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['P10']) {
-				$return = array('status' => false, 'message' => 'realizar.diseno.vida', 'redirect' => 'diseno_vida');
+				$return = array('status' => false, 'message' => 'no.ha.realizado.diseno.vida', 'redirect' => 'diseno_vida');
 			} elseif (!$recorrido['M4']) {
 				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
 			}
@@ -815,17 +841,44 @@ class PerfilService
 		return $return;
 	}
 
-	
-
-
-	
-
-	
-
-	
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar red de mentores
+	 */
+	private function validateRedMentores($return, $recorrido)
+	{
+		$return = $this->validateMercadoLaboral($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P11']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.mercado.laboral', 'redirect' => 'mercado_laboral');
+			} elseif (!$recorrido['M5']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
 
 	/**
-	 * PENDIENTE REVISAR DOCUMENTACION
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar ponderación
+	 */
+	private function validatePonderacion($return, $recorrido)
+	{
+		$return = $this->validateRedMentores($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P12']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.red.mentores', 'redirect' => 'red_mentores');
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Función que actualiza puntuación del usuario que ingresa como parametro
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param String $tipo Razón por la que se le van a dar puntos
+	 * @param Int $usuarioId Id del usuario
+	 * @param Array $aux Auxiliar en arreglo para valores a tener en cuenta para la cantidad de puntos a sumar
 	 */
 	function actualizarpuntos($tipo, $usuarioId, $aux = array())
 	{

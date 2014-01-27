@@ -102,9 +102,7 @@
 								<th class='text-center'>{% trans from "label" %}valoraciones{% endtrans %}</th>
 								<th>{% trans from "label" %}profesion{% endtrans %}</th>
 								<th>{% trans from "label" %}universidad{% endtrans %}</th>
-								{% if selectMentor == false %}
-									<th>{% trans from "label" %}opciones{% endtrans %}</th>
-								{% endif %}
+								<th>{% trans from "label" %}opciones{% endtrans %}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -139,18 +137,18 @@
 											{% endif %}
 										</div>
 									</td>
-									{% if selectMentor == false %}
-										<td class="text-center">
-											<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
-											<br>
-											<a STYLE='margin:2px;width:90%;' href='{{ path('horarios_disponibles_mentor', {'perfilId': c.id }) }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.disponibilidad'|trans({}, 'label') }}</a>
-											<br>
+									<td class="text-center">
+										<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
+										<br>
+										<a STYLE='margin:2px;width:90%;' href='{{ path('horarios_disponibles_mentor', {'perfilId': c.id }) }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.disponibilidad'|trans({}, 'label') }}</a>
+										<br>
+										{% if selectMentor == false %}
 											<form action="{{ path('seleccionar_mentor') }}" method='POST' {{ form_enctype(form) }} type="post">
 												<input type='hidden' name='mentorOV' value='{{ c.id }}'/>
 												<button type='button' STYLE='margin:2px;width:90%;' data-info='{{ c.usuarioNombre ~ ' ' ~ c.usuarioApellido }}' type="button" class="btn btn-success btn-xs seleccionarMentor">{{ 'seleccionar'|trans({}, 'label') }}</button>
 											</form>
-										</td>
-									{% endif %}
+										{% endif %}
+									</td>
 								</tr>
 							{% endfor %}
 						</tbody>

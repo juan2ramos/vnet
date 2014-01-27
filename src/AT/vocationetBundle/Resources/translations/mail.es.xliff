@@ -119,7 +119,7 @@
 			<trans-unit id="pag-1">
                 <source>activacion.productos</source>
                 <target>Activación de productos</target>
-			</trans-unit>            
+			</trans-unit>      
 			<trans-unit id="pag-2">
                 <source>mensaje.activacion.productos</source>
                 <target>La confirmación de tu pago se ha realizado y ya hemos activado los productos que compraste. ingresa ahora mismo para hacer uso de ello haciendo click en el enlace de abajo.</target>
@@ -136,7 +136,29 @@
                 <source>mensaje.error.activacion.productos</source>
                 <target>La confirmación de pago en PayU nos ha informado que ocurrió un error con tu transacción, por favor, verifica la transacción en tu cuenta bancaria o comunicate con nosotros para obtener más información</target>
 			</trans-unit>
-            
+
+            <!-- RECORDATORIO rec-x-->
+			<trans-unit id="rec-1">
+                <source>recordatorio.mentoria</source>
+                <target>Recordatorio de mentoria</target>
+			</trans-unit>
+			<trans-unit id="rec-2">
+                <source>mentor</source>
+                <target>Mentor</target>
+			</trans-unit>
+			<trans-unit id="rec-3">
+                <source>estudiante</source>
+                <target>Estudiante</target>
+			</trans-unit>
+			<trans-unit id="rec-4">
+                <source>hora</source>
+                <target>Hora</target>
+			</trans-unit>
+			<trans-unit id="rec-5">
+                <source>hoy.tiene.mentoria</source>
+                <target>Hoy tiene mentoria</target>
+			</trans-unit>
+			
         </body>
     </file>
 </xliff>

@@ -29,6 +29,7 @@ INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_rou
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (24,'acceso_mentor_vocacional','Acceso a selección de mentores de orientacion vocacional','Acceso a selección de mentores de orientacion vocacional','lista_mentores_ov,seleccionar_mentor');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (25,'acceso_mentor_experto','Acceso a selección de mentores experto','Acceso a selección de mentores experto','red_mentores,seleccionar_mentor_experto');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (26,'acceso_pagos','Planes y pagos','Acceso a planes y pagos','planes,agregar_producto,eliminar_producto,pagos_mentorias,agregar_producto_mentoria,comprar,confirmar_comprar,payu_response,payu_confirmation');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (27,'acceso_test_vocacional','Acceso a test vocacional','Acceso a test vocacional','test_vocacional');
 
 
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (1,1,1);
@@ -101,6 +102,7 @@ INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (81,24,4);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (82,25,2);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (83,25,3);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (84,25,4);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (85,27,1);
 
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
 (1, 'selección múltiple con única respuesta'),

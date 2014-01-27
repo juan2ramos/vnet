@@ -276,16 +276,38 @@ class AgendaEstudianteController extends Controller
     {
         $pagado = false;
         
+		$em = $this->getDoctrine()->getManager();
         $pagoCompleto = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
         
         if($pagoCompleto)
         {
-            $pagado = true;
+			// Verificar tipo de mentor para verificar pago
+            $dql = "SELECT r.id rolId, u.id mentorId FROM vocationetBundle:Mentorias m
+                    JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
+                    JOIN vocationetBundle:Roles r WITH u.rol = r.id
+                    WHERE m.id = :mentoriaId";  
+            $query = $em->createQuery($dql);
+            $query->setParameter('mentoriaId', $mentoriaId);
+            $query->setMaxResults(1);
+            $mentorRol = $query->getResult();
+            if($mentorRol)
+            {
+                $mentorRol = $mentorRol[0]['rolId'];
+
+                if($mentorRol == 2)
+                {
+					// Validar pago de producto individual
+					$productoId = $this->get('pagos')->getProductoId('mentoria_profesional'); // Producto: Mentoría con experto en orientación vocacional
+					$pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId);
+				}
+				elseif($mentorRol == 3) // Mentor de orientacion vocacional
+				{
+					$pagado = true;
+				}
+            }
         }
         else
         {
-            $em = $this->getDoctrine()->getManager();
-            
             // Verificar tipo de mentor para verificar pago
             $dql = "SELECT r.id rolId, u.id mentorId FROM vocationetBundle:Mentorias m
                     JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
@@ -306,16 +328,15 @@ class AgendaEstudianteController extends Controller
                 $productoId = $this->get('pagos')->getProductoId('mentoria_profesional'); // Producto: Mentoría con profesional
                 
                 // Validar pago de producto individual para el mentor seleccionado
-                $pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId, $mentorId);                        
+                $pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId, $mentorId);
             }
             elseif($mentorRol == 3) // Mentor de orientacion vocacional
             {
                 $productoId = $this->get('pagos')->getProductoId('mentoria_ov'); // Producto: Mentoría con experto en orientación vocacional
                 
                 // Validar pago de producto individual
-                $pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId);                        
+                $pagado = $this->get('pagos')->verificarPagoProducto($productoId, $usuarioId);
             }
-
         }
         
         return $pagado;

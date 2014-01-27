@@ -31,11 +31,23 @@ class PonderacionController extends Controller
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-        
+
+        $usuarioId = $security->getSessionValue("id");
+
+        $productoPago = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
+        if ($productoPago)
+        {
+			$return = $this->get('perfil')->validarPosicionActual($usuarioId, 'ponderacion');
+			if (!$return['status']) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+				return $this->redirect($this->generateUrl($return['redirect']));
+			}
+		}
+		
         $formularios_serv = $this->get('formularios');
         $perfil_serv = $this->get('perfil');
         $form_id = $this->get('formularios')->getFormId('ponderacion');
-        $usuarioId = $security->getSessionValue("id");
+        
         
         $em = $this->getDoctrine()->getManager();
         
@@ -101,7 +113,6 @@ class PonderacionController extends Controller
                 "message" => $this->get('translator')->trans("gracias.por.participar.ponderacion")
             )); 
         }
-        
         
         if($request->getMethod() == 'POST') 
         {

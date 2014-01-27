@@ -28,7 +28,7 @@ class TestVocacionalController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-		//if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
         
@@ -75,6 +75,5 @@ class TestVocacionalController extends Controller
         else
             return false;
     }
-            
 }
 ?>
