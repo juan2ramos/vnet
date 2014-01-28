@@ -44,10 +44,12 @@ class HomeController extends Controller
         
         $invitaciones360 = $this->get('formularios')->getInvitacionesEvaluacion360($usuarioId, $usuarioEmail);
 		$estadoActual = $this->get('perfil')->getEstadoActualPlataforma($usuarioId);
+		$programa_orientacion = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
 
         return array(
             'invitaciones360' => $invitaciones360,
 			'recorrido' => $estadoActual,
+			'programa_orientacion' => $programa_orientacion,
         );
     }
 }

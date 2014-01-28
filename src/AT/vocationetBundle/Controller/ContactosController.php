@@ -190,6 +190,14 @@ class ContactosController extends Controller
 
 		$usuarioId = $security->getSessionValue('id');
 
+		// Verificar pago
+        $pago = $this->verificarPago($usuarioId);        
+        if(!$pago)
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
+            return $this->redirect($this->generateUrl('planes'));
+        }
+
         $return = $this->get('perfil')->validarPosicionActual($usuarioId, 'orientador_vocacional');
 		if (!$return['status']) {
 			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
@@ -206,7 +214,6 @@ class ContactosController extends Controller
         $form = $this->formBusqueda($formData, true);
 
         $seleccionarMentor = $pr->confirmarMentorOrientacionVocacional($usuarioId);
-        
 
         if (!$seleccionarMentor) {
 			if ($request->getMethod() == "POST") {
@@ -284,7 +291,7 @@ class ContactosController extends Controller
 						$em->flush();
 				
 						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("elegir.mentor"), "text" => $this->get('translator')->trans("ha.seleccionado.mentor.contactese.con.el")));
-						return $this->redirect($this->generateUrl('agenda_estudiante'));
+						return $this->redirect($this->generateUrl('horarios_disponibles_mentor', array('perfilId' => $usuarioMentor->getId())));
 						
 					} else {
 						// El usuario seleccionado no es Orientador Vocacional o no ha sido aprobado
@@ -297,7 +304,7 @@ class ContactosController extends Controller
 			} else {
 				//El usuario ya habia seleccionado un mentor con anterioridad
 				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.elegir.mentor"), "text" => $this->get('translator')->trans("usuario.ya.eligio.mentor")));
-				return $this->redirect($this->generateUrl('agenda_estudiante'));
+				return $this->redirect($this->generateUrl('lista_mentores_ov'));
 			}
 		}
 
@@ -323,12 +330,22 @@ class ContactosController extends Controller
 
 		$usuarioId = $security->getSessionValue('id');
         
-        $pr = $this->get('perfil');
+        $productoPago = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
+        if ($productoPago)
+        {
+			$return = $this->get('perfil')->validarPosicionActual($usuarioId, 'redmentores');
+			if (!$return['status']) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+				return $this->redirect($this->generateUrl($return['redirect']));
+			}
+		}
+
+		$pr = $this->get('perfil');
         //$autoCompletarTitulos = $pr->getTitulos();
         //$autoCompletarUniversidades = $pr->getUniversidades();
         $autoCompletarTitulos = false;
         $autoCompletarUniversidades = false;
-        
+
         $formData = Array('tipoUsuario' => 2, 'universidad'=>null, 'profesion'=>null);
         $form = $this->formBusqueda($formData, true);
 		
@@ -672,5 +689,21 @@ class ContactosController extends Controller
 		}
 		return $arrContactos;
 	}
+
+	/**
+     * Funcion que verifica el pago para red de mentores
+     * 
+     * @param integer $usuarioId id de usuario
+     * @return boolean
+     */
+    private function verificarPago($usuarioId)
+    {
+        $pagoCompleto = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
+        
+        if($pagoCompleto)
+            return true;
+        else
+            return false;
+    }
 }
 ?>

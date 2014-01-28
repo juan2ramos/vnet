@@ -37,13 +37,15 @@ class MercadoLaboralController extends Controller
 		$usuarioId = $security->getSessionValue('id');
         
         // Verificar pago
-        $pago = $this->verificarPago($usuarioId);        
+        $pago = $this->verificarPago($usuarioId);
         if(!$pago)
         {
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
             return $this->redirect($this->generateUrl('planes'));
         }
 
+		$seleccionarMentor = false;
+		$em = $this->getDoctrine()->getManager();
         $productoPago = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
         if ($productoPago)
         {
@@ -52,14 +54,12 @@ class MercadoLaboralController extends Controller
 				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
 				return $this->redirect($this->generateUrl($return['redirect']));
 			}
-		}
-        
-		$em = $this->getDoctrine()->getManager();
-        $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
 
-        if(!$seleccionarMentor) {
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
-			return $this->redirect($this->generateUrl('lista_mentores_ov'));
+			$seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
+			if(!$seleccionarMentor) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
+				return $this->redirect($this->generateUrl('lista_mentores_ov'));
+			}
 		}
 
 		$archivoCargado = false;
@@ -116,17 +116,19 @@ class MercadoLaboralController extends Controller
 
 					$this->get('perfil')->actualizarpuntos('mercadolaboral', $usuarioId, array('cantidad' => count($alternativas)));
 
-					//Notificacion para mentor de que el estudiante  ha seleccionado alternativas de estudio
-					$name = $security->getSessionValue('usuarioNombre').' '.$security->getSessionValue('usuarioApellido');
-					$dias = $security->getParameter('dias_habiles_informe_mercado_laboral');
-					$asunto = $this->get('translator')->trans('%name%.mail.mentor.estudiante.selecciona.alternativas', Array('%name%'=>$name), 'mail');
-					$message = $this->get('translator')->trans('%name%.ha.seleccionado%dias%.%alternativas%', Array('%name%'=>$name, '%alternativas%'=>$auxAlternativas, '%dias%'=>$dias), 'mail');
-					$this->get('mensajes')->enviarMensaje($usuarioId, Array($seleccionarMentor['id']), $asunto, $message);
-					
-					// Notificacion a estudiante de que el mentor tendra X tiempo para responder
-					$asunto = $this->get('translator')->trans('asunto.mail.mentor.informa.tiempo.espera', Array(), 'mail');
-					$message = $this->get('translator')->trans('mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas', Array('%dias%'=>$dias), 'mail');
-					$this->get('mensajes')->enviarMensaje($seleccionarMentor['id'], Array($usuarioId), $asunto, $message);
+					if ($seleccionarMentor) {
+						//Notificacion para mentor de que el estudiante  ha seleccionado alternativas de estudio
+						$name = $security->getSessionValue('usuarioNombre').' '.$security->getSessionValue('usuarioApellido');
+						$dias = $security->getParameter('dias_habiles_informe_mercado_laboral');
+						$asunto = $this->get('translator')->trans('%name%.mail.mentor.estudiante.selecciona.alternativas', Array('%name%'=>$name), 'mail');
+						$message = $this->get('translator')->trans('%name%.ha.seleccionado%dias%.%alternativas%', Array('%name%'=>$name, '%alternativas%'=>$auxAlternativas, '%dias%'=>$dias), 'mail');
+						$this->get('mensajes')->enviarMensaje($usuarioId, Array($seleccionarMentor['id']), $asunto, $message);
+						
+						// Notificacion a estudiante de que el mentor tendra X tiempo para responder
+						$asunto = $this->get('translator')->trans('asunto.mail.mentor.informa.tiempo.espera', Array(), 'mail');
+						$message = $this->get('translator')->trans('mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas', Array('%dias%'=>$dias), 'mail');
+						$this->get('mensajes')->enviarMensaje($seleccionarMentor['id'], Array($usuarioId), $asunto, $message);
+					}
 				}
 				else {
 					$errorCantidad = true;
@@ -160,7 +162,6 @@ class MercadoLaboralController extends Controller
     private function verificarPago($usuarioId)
     {
         $pagoCompleto = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
-        
         if($pagoCompleto)
         {
             return true;

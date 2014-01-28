@@ -681,7 +681,48 @@
                 <source>valor.transaccion</source>
                 <target>Valor</target>
 			</trans-unit>
-            
+
+            <!-- RECORRIDO LINEAL recorridoLineal-x -->
+			<trans-unit id="recorridoLineal-1">
+                <source>no.ha.realizado.prueba.diagnostico</source>
+                <target>No ha realizado aún la prueba de Diagnostico.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-2">
+                <source>por.favor.agende.mentoria</source>
+                <target>Por favor agende una mentoría con el mentor de orientación vocacional, si aún no lo ha escogido, lo invitamos a que seleccione uno, si ya tuvo la mentoria, espere a que el mentor indique la finalización de la misma.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-3">
+                <source>no.ha.realizado.test.vocacional</source>
+                <target>No ha realizado aún el test vocacional.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-4">
+                <source>no.ha.realizado.evaluacion360</source>
+                <target>No ha realizado aún la evaluación 360, tenga en cuenta que hasta que tres personas diligencien la prueba, esta se dará como terminada.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-5">
+                <source>no.ha.realizado.diseno.vida</source>
+                <target>No ha realizado aún el diseño de vida.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-6">
+                <source>no.ha.realizado.mercado.laboral</source>
+                <target>No ha realizado aún la prueba de mercado laboral.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-7">
+                <source>no.ha.realizado.red.mentores</source>
+                <target>No ha realizado aún las mentorias de Red de mentores</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-8">
+                <source></source>
+                <target></target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-9">
+                <source></source>
+                <target></target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-10">
+                <source></source>
+                <target></target>
+			</trans-unit>
         </body>
     </file>
 </xliff>
