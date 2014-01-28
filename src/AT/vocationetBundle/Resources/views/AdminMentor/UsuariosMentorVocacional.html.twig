@@ -123,11 +123,6 @@
 			</section>
 			
 			<hr>
-			<div class="panel-body text-center">
-				<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
-				<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>
-				<a href='{{ path('test_vocacional') }}'type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
-			</div>
 		</div>
 	</div>
 {% endblock body %}
