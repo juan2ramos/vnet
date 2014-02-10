@@ -21,7 +21,6 @@ class RecordatoriosController extends Controller
      * 
 	 * @version 1
      * @Route("/", name="recordatorios")
-     * @Template("vocationetBundle:Recordatorios:index.html.twig")
      * @return Response
      */
     public function indexAction()
@@ -69,7 +68,7 @@ class RecordatoriosController extends Controller
 				$emails = false;
 			}
 		}
-        return array();
+        return new Response();
     }
 }
 ?>

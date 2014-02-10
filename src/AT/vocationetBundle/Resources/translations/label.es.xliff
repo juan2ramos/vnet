@@ -103,6 +103,10 @@
                 <source>ver.detalles</source>
                 <target>Ver detalles</target>
 			</trans-unit>
+			<trans-unit id="generico-26">
+                <source>toggle.menu</source>
+                <target>Ocultar/mostrar menú</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
