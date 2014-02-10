@@ -42,11 +42,14 @@ class ForosController extends Controller
 		$em = $this->getDoctrine()->getManager();
         $carreras = $em->getRepository('vocationetBundle:Carreras')->findAll();
 
+		/*
         if($id == 0){
 			if($carreras){
 				$id = $carreras[0]->getId();
 			}
 		}
+		*/
+		
         $temas = $this->get('foros')->getTemasCountForos($id);
         $PosActual = Array('carreraId' => $id, 'temaId' => $temaId);
 

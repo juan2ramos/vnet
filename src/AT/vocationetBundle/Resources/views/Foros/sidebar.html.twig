@@ -9,11 +9,11 @@
 	<section class="panel">
 		<header class="panel-heading tab-bg-green tab-right ">
 			<ul class="nav nav-tabs pull-right">
-	
-				<li class="{% if actual.temaId == 0 %}active{% endif %}">
+			{# actual.carreraId #}
+				<li class="{% if actual.temaId == 0 and actual.carreraId == 0 %}active{% endif %}">
 					<a data-toggle="tab" href="#carreras"><b>{% trans from "label" %}carreras{% endtrans %}</b></a>
 				</li>
-				<li class="{% if actual.temaId != 0 %}active{% endif %}">
+				<li class="{% if actual.temaId != 0 or actual.carreraId != 0 %}active{% endif %}">
 					<a data-toggle="tab" href="#temas"><b>{% trans from "label" %}temas{% endtrans %}</b></a>
 				</li>
 			</ul>
@@ -22,7 +22,7 @@
 			<div class="tab-content">
 
 				{# CARRERAS #}
-				<div id="carreras" class="tab-pane {% if actual.temaId == 0 %}active{% endif %}">
+				<div id="carreras" class="tab-pane {% if actual.temaId == 0 and actual.carreraId == 0 %}active{% endif %}">
 					<section class="panel">
 						<div class="list-group">
 							{% for car in carreras %}
@@ -35,7 +35,7 @@
 				</div>
 
 				{# TEMAS #}
-				<div id="temas" class="tab-pane {% if actual.temaId != 0 %}active{% endif %}">
+				<div id="temas" class="tab-pane {% if actual.temaId != 0 or actual.carreraId != 0  %}active{% endif %}">
 					<div class="list-group">
 						{% for tem in temas %}
 							<a class="list-group-item {% if actual.temaId == tem.id %}active{% endif %}" href="{{ path('foros_temas', {'id' : actual.carreraId, 'temaId' : tem.id }) }}">

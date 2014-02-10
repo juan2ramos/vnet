@@ -57,12 +57,17 @@
 					</table>
 				{% else %}
 					<div class="panel-body" STYLE='text-align:center;'>
-						{% trans from "label" %}no.hay.foros.en.esta.carrera.o.tema{% endtrans %}
+						{% if actual.carreraId == 0 %}
+							{% trans from "label" %}por.favor.seleccione.una.carrera{% endtrans %}
+						{% else %}
+							{% trans from "label" %}no.hay.foros.en.esta.carrera.o.tema{% endtrans %}
+						{% endif %}
+						
 					</div>
 				{% endif %}
 			</section>
 		</div>
-
+		
 		<div class="col-lg-4">
 			{% include 'vocationetBundle:Foros:sidebar.html.twig' %}
 		</div>
@@ -73,9 +78,6 @@
     <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
-
-    
-
     <script>
 		$('.table').on('click', '.foro', function(){
 			window.location = $(this).data('href');

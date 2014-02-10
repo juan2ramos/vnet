@@ -800,6 +800,11 @@
                 <source>participar</source>
                 <target>Participar</target>
             </trans-unit>
+            <trans-unit id="foros-16">
+                <source>por.favor.seleccione.una.carrera</source>
+                <target>Por favor seleccione una carrera</target>
+            </trans-unit>
+            
 
             <!-- notificacion de comentarios notcom-X -->
             <trans-unit id="notcom-1">
