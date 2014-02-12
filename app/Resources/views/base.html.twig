@@ -85,14 +85,14 @@
 							<!-- settings end -->
 							
                             <li id="header_inbox_bar" class="dropdown">
-                                <a class="" href="{{ path('mensajes') }}">
+                                <a class="tooltips" href="{{ path('mensajes') }}" data-original-title="{% trans from "label" %}mensajes{% endtrans %}" data-placement="bottom" data-toggle="tooltip">
                                     <i class="icon-envelope-alt"></i>
                                     <span class="badge bg-important inbox-badge"></span>
                                 </a>									
                             </li>
-                            
+
                             <li id="header_inbox_bar" class="dropdown">
-                                <a class="" href="{{ path('contactos') }}">
+                            <a class="tooltips" href="{{ path('contactos') }}" data-original-title="{% trans from "label" %}contactos{% endtrans %}" data-placement="bottom" data-toggle="tooltip">
                                     <i class="icon-user"></i>
                                     <span class="badge bg-important amistades-badge"></span>
                                 </a>									

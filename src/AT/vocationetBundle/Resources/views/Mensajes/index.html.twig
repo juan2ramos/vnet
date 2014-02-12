@@ -14,7 +14,7 @@
 <aside class="sm-side">
   <div class="user-head">
       <a class="inbox-avatar">
-          <img src="{{ sess_user.usuarioImagen|default(asset(gui_default_img)) ~ '?type=large' }}" alt="" style="width: 60px; height: 60px;">
+          <img src="{{ asset(sess_user.usuarioImagen|default(gui_default_img)) ~ '?type=large' }}" alt="" style="width: 60px; height: 60px;">
       </a>
       <div class="user-name">
           <h5>{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</h5>
