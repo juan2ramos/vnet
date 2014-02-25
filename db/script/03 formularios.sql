@@ -38,6 +38,7 @@ INSERT INTO `formularios` (`id`,`nombre`,`numero`,`descripcion`,`encabezado`,`fo
 INSERT INTO `formularios` (`id`,`nombre`,`numero`,`descripcion`,`encabezado`,`formulario_id`) VALUES (38,'Ponderación consciente (Paso 1)',1,NULL,NULL,13);
 INSERT INTO `formularios` (`id`,`nombre`,`numero`,`descripcion`,`encabezado`,`formulario_id`) VALUES (39,'Ponderación consciente (Paso 2)',2,'Las variables a continuación en lo posible debes responderlas no solo respecto a la carrera o alternativa de estudio sino al campo de acción especifico que quisieras desempeñarte en esta carrera profesional (ej. Si quieres estudiar Biología, pero el campo especifico en que que quisieras trabajar es Investigación)',NULL,13);
 INSERT INTO `formularios` (`id`,`nombre`,`numero`,`descripcion`,`encabezado`,`formulario_id`) VALUES (40,'Ponderación consciente (Paso 3)',3,'Antes de ponderar estas variables deberás haber decidido que Universidad es la mas adecuada para cada alternativa de estudio. Tu experto OV te asesorara en los pasos que debes seguir para determinar la universidad idónea para tus alternativas y podrás complementarlo hablando con profesionales en la red de mentores, que hayan estudiado en dicha universidades que estas interesado en ingresar.',NULL,13);
+INSERT INTO `formularios` (`id`,`nombre`,`numero`,`descripcion`,`encabezado`,`formulario_id`) VALUES (41,'Características de la universidad', '1', NULL, NULL, 14);
 
 
 INSERT INTO `preguntas` (`id`,`pregunta`,`numero`,`preguntastipo_id`,`formulario_id`) VALUES (1,'Selecciona una de las siguientes afirmaciones que se ajuste a la razón por la cual estas interesado en nuestro programa.',1,1,2);
@@ -119,7 +120,9 @@ INSERT INTO `preguntas` (`id`,`pregunta`,`numero`,`preguntastipo_id`,`formulario
 INSERT INTO `preguntas` (`id`,`pregunta`,`numero`,`preguntastipo_id`,`formulario_id`) VALUES (77,'Ubicación',1,5,40);
 INSERT INTO `preguntas` (`id`,`pregunta`,`numero`,`preguntastipo_id`,`formulario_id`) VALUES (78,'Precio y financiación',2,5,40);
 INSERT INTO `preguntas` (`id`,`pregunta`,`numero`,`preguntastipo_id`,`formulario_id`) VALUES (79,'Calidad',3,5,40);
-
+INSERT INTO `preguntas` (`id`,`pregunta`,`numero`,`preguntastipo_id`,`formulario_id`) VALUES (80,'Presupuesto',3,5,41);
+INSERT INTO `preguntas` (`id`,`pregunta`,`numero`,`preguntastipo_id`,`formulario_id`) VALUES (81,'Financiación',4,4,41);
+INSERT INTO `preguntas` (`id`,`pregunta`,`numero`,`preguntastipo_id`,`formulario_id`) VALUES (82,'Enfoque',5,8,41);
 
 INSERT INTO `opciones` (`id`,`nombre`,`pregunta_id`,`peso`,`factor`) VALUES (1,'Ninguna carrera me ha llamado la atención hasta ahora',1,NULL,NULL);
 INSERT INTO `opciones` (`id`,`nombre`,`pregunta_id`,`peso`,`factor`) VALUES (2,'Tengo varias opciones de carrera pero no sé cuál escoger',1,NULL,NULL);

@@ -50,7 +50,8 @@ class PagosService
             'programa_orientacion' => 1,
             'informe_mercado_laboral' => 2,
             'mentoria_profesional' => 3,
-            'mentoria_ov' => 4
+            'mentoria_ov' => 4,
+            'universidades' => 5
         );
         
         if($nombre)

@@ -518,8 +518,9 @@ class PerfilController extends Controller
  
 		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov')
 		{
-			$rolIdSession = $security->getSessionValue('rolId');
-			if ($rolIdSession == 1 or $rolIdSession == 4){
+			$mentorias = false;
+            $rolIdSession = $security->getSessionValue('rolId');
+			if ($rolIdSession == 1 or $rolIdSession == 4 or $rolIdSession == 5){
 				$dql = "SELECT
 							m.id,
 							m.mentoriaInicio,
@@ -538,6 +539,10 @@ class PerfilController extends Controller
 				$query->setParameter('usuarioId', $perfilId);
 				$mentorias = $query->getResult();
 			}
+            else
+            {
+                throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
+            }
 
 			/**
 			 * @var Bool $tipoIngreso Variable para controlar si el ingreso es solo de consulta (FALSE),
