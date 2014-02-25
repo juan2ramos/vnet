@@ -130,5 +130,17 @@ class FileService
     public function deleteFile($archivoPATH) {
 		@unlink($this->root.$archivoPATH);
 	}
+
+	/**
+	 * Función que descarga el certificado ingresado en el path.
+	 * 
+	 */
+	public function downloadCertificado($path,$name) {
+		$response = new Response();
+        $d = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $name);
+        $response->headers->set('Content-Disposition', $d);
+        $response->setContent(file_get_contents($path));
+        return $response;
+	}
 }
 ?>

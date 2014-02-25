@@ -43,7 +43,7 @@ class DiagnosticoController extends Controller
         if($participacion)
         {
             return $this->forward("vocationetBundle:Alerts:alertScreen", array(
-                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "title" => $this->get('translator')->trans("certificado.no.generado"),
                 "message" => $this->get('translator')->trans("gracias.por.participar.diagnostico")
             )); 
         }

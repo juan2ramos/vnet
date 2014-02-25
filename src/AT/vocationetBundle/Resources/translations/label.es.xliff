@@ -1681,6 +1681,66 @@
                 <source>puntos</source>
                 <target>Puntos</target>
 			</trans-unit>
+
+			<!-- CERTIFICACION certificacion-x -->
+			<trans-unit id="certificacion-1">
+                <source>January</source>
+                <target>Enero</target>
+			</trans-unit>
+			<trans-unit id="certificacion-2">
+                <source>February</source>
+                <target>Febrero</target>
+			</trans-unit>
+			<trans-unit id="certificacion-3">
+                <source>March</source>
+                <target>Marzo</target>
+			</trans-unit>
+			<trans-unit id="certificacion-4">
+                <source>April</source>
+                <target>Abril</target>
+			</trans-unit>
+			<trans-unit id="certificacion-5">
+                <source>May</source>
+                <target>Mayo</target>
+			</trans-unit>
+			<trans-unit id="certificacion-6">
+                <source>June</source>
+                <target>Junio</target>
+			</trans-unit>
+			<trans-unit id="certificacion-7">
+                <source>July</source>
+                <target>Julio</target>
+			</trans-unit>
+			<trans-unit id="certificacion-8">
+                <source>August</source>
+                <target>Agosto</target>
+			</trans-unit>
+			<trans-unit id="certificacion-9">
+                <source>September</source>
+                <target>Septiembre</target>
+			</trans-unit>
+			<trans-unit id="certificacion-10">
+                <source>October</source>
+                <target>Octubre</target>
+			</trans-unit>
+			<trans-unit id="certificacion-11">
+                <source>November</source>
+                <target>Noviembre</target>
+			</trans-unit>
+			<trans-unit id="certificacion-12">
+                <source>December</source>
+                <target>Diciembre</target>
+			</trans-unit>
+			<trans-unit id="certificacion-13">
+                <source>se.expide.en.bogota.el.%dia%.de.%mes%.de.%ano%</source>
+                <target>Se expide en Bogotá D.C., el %dia% de %mes% de %ano%</target>
+			</trans-unit>
+			<trans-unit id="certificacion-14">
+                <source>certificado</source>
+                <target>Certificado</target>
+			</trans-unit>
+
+			
         </body>
     </file>
 </xliff>

@@ -65,7 +65,7 @@
 		{% endif %}
 
 		{% if sess_user.rolId == 1 or sess_user.rolId == 5 %}
-			{% set auxClassActive = ((active == 'diagnostico') or (active == 'mercadolabo') or (active == 'redmentores') or (active == 'ponderacion') or (active == 'disenovida') or (active == 'mvocacional') or (active == 'tvocacional') or (active == 'evaluaci360') or (active == 'plataforma')) ? 'active' : '' %}
+			{% set auxClassActive = ((active == 'diagnostico') or (active == 'mercadolabo') or (active == 'redmentores') or (active == 'ponderacion') or (active == 'disenovida') or (active == 'mvocacional') or (active == 'tvocacional') or (active == 'evaluaci360') or (active == 'plataforma') or (active == 'certificado')) ? 'active' : '' %}
 			<li class="sub-menu  {{ auxClassActive }}">
 				<a href="javascript:;" class="">
 					<i class="icon-book"></i>
@@ -73,14 +73,15 @@
 					<span class="arrow"></span>
 				</a>
 				<ul class="sub">
-					<li class="{% if active == 'diagnostico' %}active{% endif %}"><a href="{{ path('diagnostico') }}">{% trans from "label" %}diagnostico{% endtrans %}</a></li>
-					<li class="{% if active == 'mvocacional' %}active{% endif %}"><a href="{{ path('lista_mentores_ov') }}">{% trans from "label" %}orientador.vocacional{% endtrans %}</a></li>
-					<li class="{% if active == 'tvocacional' %}active{% endif %}"><a href="{{ path('test_vocacional') }}">{% trans from "label" %}test.vocacional{% endtrans %}</a></li>
-					<li class="{% if active == 'evaluaci360' %}active{% endif %}"><a href="{{ path('evaluacion360') }}">{% trans from "label" %}evaluacion.360{% endtrans %}</a></li>
-					<li class="{% if active == 'disenovida' %}active{% endif %}"><a href="{{ path('diseno_vida') }}">{% trans from "label" %}diseno.vida{% endtrans %}</a></li>
-					<li class="{% if active == 'mercadolabo' %}active{% endif %}"><a href="{{ path('mercado_laboral') }}">{% trans from "label" %}mercado.laboral{% endtrans %}</a></li>
-					<li class="{% if active == 'redmentores' %}active{% endif %}"><a href="{{ path('red_mentores') }}">{% trans from "label" %}red.mentores{% endtrans %}</a></li>
-					<li class="{% if active == 'ponderacion' %}active{% endif %}"><a href="{{ path('ponderacion') }}">{% trans from "label" %}ponderacion{% endtrans %}</a></li>
+					<li class="{% if active == 'diagnostico' %}active{% endif %}"> <a href="{{ path('diagnostico') }}">{% trans from "label" %}diagnostico{% endtrans %}</a> </li>
+					<li class="{% if active == 'mvocacional' %}active{% endif %}"> <a href="{{ path('lista_mentores_ov') }}">{% trans from "label" %}orientador.vocacional{% endtrans %}</a> </li>
+					<li class="{% if active == 'tvocacional' %}active{% endif %}"> <a href="{{ path('test_vocacional') }}">{% trans from "label" %}test.vocacional{% endtrans %}</a> </li>
+					<li class="{% if active == 'evaluaci360' %}active{% endif %}"> <a href="{{ path('evaluacion360') }}">{% trans from "label" %}evaluacion.360{% endtrans %}</a> </li>
+					<li class="{% if active == 'disenovida' %}active{% endif %}"> <a href="{{ path('diseno_vida') }}">{% trans from "label" %}diseno.vida{% endtrans %}</a> </li>
+					<li class="{% if active == 'mercadolabo' %}active{% endif %}"> <a href="{{ path('mercado_laboral') }}">{% trans from "label" %}mercado.laboral{% endtrans %}</a> </li>
+					<li class="{% if active == 'redmentores' %}active{% endif %}"> <a href="{{ path('red_mentores') }}">{% trans from "label" %}red.mentores{% endtrans %}</a> </li>
+					<li class="{% if active == 'ponderacion' %}active{% endif %}"> <a href="{{ path('ponderacion') }}">{% trans from "label" %}ponderacion{% endtrans %}</a> </li>
+					<li class="{% if active == 'certificado' %}active{% endif %}"> <a href="{{ path('certificado') }}">{% trans from "label" %}certificado{% endtrans %}</a> </li>
 				</ul>
 			</li>
 		{% endif %}
