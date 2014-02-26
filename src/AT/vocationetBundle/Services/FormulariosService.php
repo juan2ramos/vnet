@@ -724,12 +724,22 @@ class FormulariosService
         $query->setParameter('usuarioEvaluadoId', $usuarioEvaluadoId);
         $query->setParameter('formId', $formId);
         $result = $query->getResult();
-    
+ 
         $respuestas = array();
+        
         
         foreach($result as $r)
         {
-            $respuestas[$r['respuestaKey']] = json_decode($r['respuestaJson'], true);
+            $respuestas[$r['respuestaKey']][] = json_decode($r['respuestaJson'], true);
+        }
+        
+        // Simplificar array para los casos que aplique
+        foreach ($respuestas as $k => $r)
+        {
+            if(count($r)==1)
+            {
+                $respuestas[$k] = $r[0];
+            }
         }
         
         return $respuestas;

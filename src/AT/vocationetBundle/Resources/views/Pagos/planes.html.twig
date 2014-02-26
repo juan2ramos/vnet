@@ -6,6 +6,8 @@
 
 {% block body %}
 <div class="row">
+    
+    {# PLAN GRATUITO #}
     <aside class="col-lg-4">
         <section class="panel">
             <div class="bio-graph-heading" style="padding: 10px 20px;">
@@ -36,6 +38,8 @@
             </table>
         </section>
     </aside> 
+    
+    {# PLAN COMPLETO #}
     <aside class="col-lg-4">
         <section class="panel">
             <div class="bio-graph-heading" style="background: #E56155;  padding: 10px 20px;">
@@ -74,6 +78,11 @@
                     </tr>                
                     <tr>
                         <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}eleccion.universidad{% endtrans %}.</td>
+                        <td></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
                         <td>{% trans  from "label" %}descuento.mentorias{% endtrans %}.</td>
                         <td></td>
                     </tr>                
@@ -84,6 +93,8 @@
             </div>
         </section>
     </aside> 
+    
+    {# PAGOS POR PRUEBA #}
     <aside class="col-lg-4">
         <section class="panel">
             <div class="bio-graph-heading" style="padding: 10px 20px;">
@@ -112,6 +123,12 @@
                         <td>{% trans  from "label" %}mentorias.orientacion.vocacional{% endtrans %}.</td>
                         <td>${{ precio_mentoria_ov|number_format }}</td>
                         <td><a href="{{ path("agregar_producto", {'id': productos_ids.mentoria_ov }) }}" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}eleccion.universidad{% endtrans %}.</td>
+                        <td>${{ precio_universidades|number_format }}</td>
+                        <td><a href="{{ path("agregar_producto", {'id': productos_ids.universidades }) }}" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
                     </tr>                
                 </tbody>
             </table>

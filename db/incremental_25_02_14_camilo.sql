@@ -9,4 +9,3 @@ CHANGE COLUMN `modified` `modified` DATETIME NULL DEFAULT NULL COMMENT 'Campo pa
 ADD COLUMN `informacion_destino` VARCHAR(45) NULL AFTER `informacion_estado`;
 
 
--- PENDIENTE AGREGARLOS EN SCRIPT DB, Y SETUP

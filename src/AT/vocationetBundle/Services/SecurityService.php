@@ -312,6 +312,7 @@ class SecurityService
 			'ruta_certificado_vacio' => 'img/vocationet/certificados/plantilla_certificado.png',
 			'ruta_fuente' => 'img/vocationet/certificados/EdwardianScriptITC.ttf',
 			'ruta_certificados' => 'uploads/vocationet/certificados/',
+            'path_reportes_universidad' => 'uploads/vocationet/universidad/',
         );
         
         if($parameter)

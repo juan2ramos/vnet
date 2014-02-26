@@ -132,7 +132,7 @@ class DisenoVidaController extends Controller
                     // Enviar notificacion al mentor
                     $this->enviarNotificacionMentor($usuarioId);
 
-					$this->get('perfil')->actualizarpuntos('disenovida', $usuarioId);
+					$this->get('perfil')->actualizarpuntos('universidad', $usuarioId);
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("diseno.vida.enviado.ahora.separar.metoria")));
                     return $this->redirect($this->generateUrl('agenda_estudiante'));
                 }
@@ -286,7 +286,7 @@ class DisenoVidaController extends Controller
     }
     
     /**
-     * Funcion que verifica el pago para test vocacional
+     * Funcion que verifica el pago para diseño de vida
      * 
      * @param integer $usuarioId id de usuario
      * @return boolean

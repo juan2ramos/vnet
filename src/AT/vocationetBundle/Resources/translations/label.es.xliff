@@ -1739,8 +1739,25 @@
                 <source>certificado</source>
                 <target>Certificado</target>
 			</trans-unit>
+            
+            <!-- Universidad univ-x -->
+			<trans-unit id="univ-1">
+                <source>universidad</source>
+                <target>Universidad</target>
+			</trans-unit>
+			<trans-unit id="univ-2">
+                <source>eleccion.universidad</source>
+                <target>Elección de universidad</target>
+			</trans-unit>
+			<trans-unit id="univ-3">
+                <source>ciudad</source>
+                <target>Ciudad</target>
+			</trans-unit>
+			<trans-unit id="univ-4">
+                <source>resultados.universidad</source>
+                <target>Resultados de universidad</target>
+			</trans-unit>
 
-			
         </body>
     </file>
 </xliff>
