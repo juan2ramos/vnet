@@ -43,9 +43,10 @@ class HomeController extends Controller
         $usuarioEmail = $security->getSessionValue("usuarioEmail");
         
         $invitaciones360 = $this->get('formularios')->getInvitacionesEvaluacion360($usuarioId, $usuarioEmail);
-		$estadoActual = $this->get('perfil')->getEstadoActualPlataforma($usuarioId);
 		$programa_orientacion = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
 
+		$estadoActual = $this->get('perfil')->getEstadoActualPlataforma($usuarioId);
+		$imagenMapa = $this->get('perfil')->getImagenFaseRecorrido($estadoActual);
 		$publicidad = $this->get('perfil')->getPublicidad($rol);
 
         return array(
@@ -53,6 +54,7 @@ class HomeController extends Controller
 			'recorrido' => $estadoActual,
 			'programa_orientacion' => $programa_orientacion,
 			'publicidad' => $publicidad,
+			'imagenMapa' => $imagenMapa,
         );
     }
 }

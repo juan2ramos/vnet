@@ -8,4 +8,7 @@ ALTER TABLE .`informacion`
 CHANGE COLUMN `modified` `modified` DATETIME NULL DEFAULT NULL COMMENT 'Campo para identificar si la información esta direccionada a estudiantes o a mentores' ,
 ADD COLUMN `informacion_destino` VARCHAR(45) NULL AFTER `informacion_estado`;
 
+-- Agregar formulario Certificación ID 42
+INSERT INTO `formularios` (`id`, `nombre`, `numero`, `descripcion`) VALUES ('42', 'Certificado', '10', 'Certificación');
+
 

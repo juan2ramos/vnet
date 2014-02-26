@@ -683,6 +683,8 @@ class PerfilService
 		* P11. MERCADO LABORAL
 		* P12. RED DE MENTORES
 		* P13. PONDERACION
+		* P14. UNIVERSIDADES
+		* P42. CERTIFICACIÓN
 		*/
 		
 		$recorrido = Array(
@@ -693,6 +695,8 @@ class PerfilService
 			'P11' => false, 'M5' => ($cm >= 5) ? true : false,
 			'P12' => false,
 			'P13' => false, 'M6' => ($cm >= 6) ? true : false,
+			'P14' => false,
+			'P42' => false,
 			'totalMentorias' => $cm,
 		);
 		
@@ -700,25 +704,71 @@ class PerfilService
 		foreach($participaciones as $part)
 		{
 			$formId = $part->getFormulario();
-			if ($formId == 9) // Evaluacion 360
-			{
+			
+			// Evaluacion 360
+			if ($formId == 9) {
 				$auxCt360 += 1;
 				if ($auxCt360 >= 3) {
 					$recorrido['P'.$formId] = true;
 				}
 			}
+			
+			// Validación de que almenos tenga una mentoria terminada con mentor Experto
 			elseif($formId == 12) {
-				// Validación de que almenos tenga una mentoria terminada con mentor Experto
 				if ($cme > 0) {
 					$recorrido['P'.$formId] = true;
 				}
 			}
-			else 
-			{
+			else {
 				$recorrido['P'.$formId] = true;
 			}
 		}
 		return $recorrido;
+	}
+
+	/**
+	 * Mapa correspondiente a la posición actual del usuario teniendo en cuenta el recorrido del usuario
+	 * - Acceso desde HomeController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param Array $recorrido Arreglo retornado por getEstadoActualPlataforma()
+	 * @return String Nombre de la imagen en donde esta marcado el recorrido hasta la posicion actual del usuario
+	 */
+	public function getImagenFaseRecorrido($recorrido)
+	{
+		$aux_cont = 1;
+		if ($recorrido['P1']) {	$aux_cont += 1;
+			if ($recorrido['M1']) {	$aux_cont += 1;
+				if ($recorrido['P2']) { $aux_cont += 1;
+					if ($recorrido['M2']) { $aux_cont += 1;
+						if ($recorrido['P9']) { $aux_cont += 1;
+							if ($recorrido['M3']) { $aux_cont += 1;
+								if ($recorrido['P10']) { $aux_cont += 1;
+									if ($recorrido['M4']) { $aux_cont += 1;
+										if ($recorrido['P11']) { $aux_cont += 1;
+											if ($recorrido['M5']) { $aux_cont += 1;
+												if ($recorrido['P12']) { $aux_cont += 1;
+													if ($recorrido['P13']) { $aux_cont += 1;
+														if ($recorrido['M6']) { $aux_cont += 1;
+															if ($recorrido['P14']) { $aux_cont += 1;
+																if ($recorrido['P42']) { $aux_cont += 1;
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return 'mapa'.$aux_cont.'.png'; 
 	}
 
 
