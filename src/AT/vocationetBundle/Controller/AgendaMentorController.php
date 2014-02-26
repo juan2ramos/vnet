@@ -44,9 +44,7 @@ class AgendaMentorController extends Controller
                 
                 // Calcular fecha de fin agregandole 1 hora a la fecha de inicio
                 $mentoriaInicio = new \DateTime($data['fecha'].' '.$data['hora'].':'.$data['min'].':00');
-                $mentoriaFin = new \DateTime();
-                $mentoriaFin->setTimestamp($mentoriaInicio->getTimestamp());
-                $mentoriaFin->modify('+1 hour');
+                $mentoriaFin = $this->modifyDateTime($mentoriaInicio, '+1 hour');
                 
                 // Validar cruces con otras mentorias
                 $cruce = $this->validarCruceMentoria($usuarioId, $mentoriaInicio, $mentoriaFin);
@@ -59,29 +57,41 @@ class AgendaMentorController extends Controller
                     
 					if($interval->invert != 1)
 					{ 
-						$repetir = $data['repetir'];
+                        $em = $this->getDoctrine()->getManager();
                         
-                        if($repetir == 0)
-                        {
-                            // Insertar mentoria unica
-                            $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
-                            $mentoria->setUsuarioMentor($usuarioId);
-                            $mentoria->setMentoriaInicio($mentoriaInicio);
-                            $mentoria->setMentoriaFin($mentoriaFin);
+                        // Insertar mentoria en la fecha ingresada
+                        $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
+                        $mentoria->setUsuarioMentor($usuarioId);
+                        $mentoria->setMentoriaInicio($mentoriaInicio);
+                        $mentoria->setMentoriaFin($mentoriaFin);
+                        $em->persist($mentoria);
 
-                            $em = $this->getDoctrine()->getManager();
-                            $em->persist($mentoria);
-                            $em->flush();
-                        }
-                        elseif($repetir <= 4)
+                        
+                        // Duplicar mentoria                            
+						$repetir = $data['repetir'];
+                        if($repetir >1 && $repetir <= 4)
                         {
-                            // Duplicar mentoria
-                            
-
                             // Duplicar para los dias restantes de la semana actual
-                            $dia_mentoria = $mentoriaInicio->format('N');
+                            
+                            $dia_mentoria = $mentoriaInicio->format('w') + 1;
+                            $fecha_ini_dup = $mentoriaInicio;
+                            $fecha_fin_dup = $mentoriaFin;
+                                                        
+                            
+                            // Recorrer desde el dia de la mentoria hasta viernes (dia 5)
+                            for($i = $dia_mentoria; $i <= 5; $i++)
+                            {
+                                $fecha_ini_dup = $this->modifyDateTime($fecha_ini_dup, '+1 day');
+                                $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+1 day');
+                                
+                                $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
+                                $mentoria->setUsuarioMentor($usuarioId);
+                                $mentoria->setMentoriaInicio($fecha_ini_dup);
+                                $mentoria->setMentoriaFin($fecha_fin_dup);
 
-                            $security->debug($dia_mentoria);
+                                $em->persist($mentoria);
+                            }
+//                            $security->debug($this->modifyDateTime($mentoriaInicio, '+1 day'));
                             
                             
                             
@@ -89,9 +99,11 @@ class AgendaMentorController extends Controller
                             // Duplicar para las n semanas siguientes
                             //...
                             
-                            die;
+//                            die;
                         }
                         
+                        // Cierra transaccion
+                        $em->flush();
 
 						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
 					}
@@ -122,88 +134,6 @@ class AgendaMentorController extends Controller
     }
 
 	/**
-     * Funcion para validar que no existan cruce de horarios entre mentorias
-     * 
-     * @author Camilo Quijano
-     * @author Diego Malagón
-     * @param integer $mentorId id de mentor
-     * @param DateTime $fechaInicio fecha de inicio de mentoria
-     * @param DateTime $fechaFin fecha de finalizacion de mentoria
-     * @return boolean true si existe cruce, false si no 
-     */
-    private function validarCruceMentoria($mentorId, $fechaInicio, $fechaFin)
-    {
-		/**
-		 * SELECT * FROM mentorias
-		 * WHERE usuario_mentor_id = 12 AND (mentoria_inicio between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00')
-		 * OR (mentoria_fin between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00');
-		*/
-
-		$dql = "SELECT COUNT(m.id) AS c FROM vocationetBundle:Mentorias m
-				WHERE m.usuarioMentor =:mentorId AND ((m.mentoriaInicio BETWEEN :fInicio AND :fFin) OR (m.mentoriaFin BETWEEN :fInicio AND :fFin))";
-		$em = $this->getDoctrine()->getManager();
-		$query = $em->createQuery($dql);
-		$query->setParameter('fInicio', $fechaInicio);
-		$query->setParameter('fFin', $fechaFin);
-		$query->setParameter('mentorId', $mentorId);
-		$result = $query->getResult();
-        
-        
-		$return = ($result[0]['c'] >= 1) ? true : false;
-        
-		return $return;
-	}
-    
-    /**
-     * Funcion para crear el formulario de mentoria
-     * 
-     * @return Object formulario
-     */
-    private function createMentoriaForm()
-    {
-        $data = array(
-            'fecha'     => date('Y-m-d'),
-            'hora'      => null,
-            'min'       => null,
-            'repetir'   => null
-        );
-        $form = $this->createFormBuilder($data)
-           ->add('fecha', 'text', array('required' => true))
-           ->add('hora', 'text', array('required' => true))
-           ->add('min', 'text', array('required' => true))
-           ->add('repetir', 'text', array('required' => false))
-           ->getForm();
-        return $form; 
-    }
-    
-    /**
-     * Funcion para obtener las mentorias registradas por el usuario
-     * 
-     * @param type $usuarioId
-     */
-    private function getMentorias($usuarioId)
-    {
-        $dql = "SELECT
-                    m.id,
-                    m.mentoriaInicio,
-                    m.mentoriaFin,
-                    m.mentoriaEstado,
-                    u.id estudianteId,
-                    u.usuarioNombre,
-                    u.usuarioApellido
-                FROM 
-                    vocationetBundle:Mentorias m
-                    LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
-                WHERE
-                    m.usuarioMentor = :usuarioId ";
-        $em = $this->getDoctrine()->getManager();
-        $query = $em->createQuery($dql);
-        $query->setParameter('usuarioId', $usuarioId);
-        $result = $query->getResult();
-        return $result;
-    }
-    
-    /**
      * Accion ajax para detalle de una mentoria
      * 
      * @Route("/show/{id}", name="show_mentoria_mentor")
@@ -320,6 +250,103 @@ class AgendaMentorController extends Controller
         }
         
         return $this->redirect($this->generateUrl('agenda_mentor'));
+    }
+    
+    /**
+     * Funcion para validar que no existan cruce de horarios entre mentorias
+     * 
+     * @author Camilo Quijano
+     * @author Diego Malagón
+     * @param integer $mentorId id de mentor
+     * @param DateTime $fechaInicio fecha de inicio de mentoria
+     * @param DateTime $fechaFin fecha de finalizacion de mentoria
+     * @return boolean true si existe cruce, false si no 
+     */
+    private function validarCruceMentoria($mentorId, $fechaInicio, $fechaFin)
+    {
+		/**
+		 * SELECT * FROM mentorias
+		 * WHERE usuario_mentor_id = 12 AND (mentoria_inicio between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00')
+		 * OR (mentoria_fin between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00');
+		*/
+
+		$dql = "SELECT COUNT(m.id) AS c FROM vocationetBundle:Mentorias m
+				WHERE m.usuarioMentor =:mentorId AND ((m.mentoriaInicio BETWEEN :fInicio AND :fFin) OR (m.mentoriaFin BETWEEN :fInicio AND :fFin))";
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery($dql);
+		$query->setParameter('fInicio', $fechaInicio);
+		$query->setParameter('fFin', $fechaFin);
+		$query->setParameter('mentorId', $mentorId);
+		$result = $query->getResult();
+        
+        
+		$return = ($result[0]['c'] >= 1) ? true : false;
+        
+		return $return;
+	}
+    
+    /**
+     * Funcion para crear el formulario de mentoria
+     * 
+     * @return Object formulario
+     */
+    private function createMentoriaForm()
+    {
+        $data = array(
+            'fecha'     => date('Y-m-d'),
+            'hora'      => null,
+            'min'       => null,
+            'repetir'   => null
+        );
+        $form = $this->createFormBuilder($data)
+           ->add('fecha', 'text', array('required' => true))
+           ->add('hora', 'text', array('required' => true))
+           ->add('min', 'text', array('required' => true))
+           ->add('repetir', 'text', array('required' => false))
+           ->getForm();
+        return $form; 
+    }
+    
+    /**
+     * Funcion para obtener las mentorias registradas por el usuario
+     * 
+     * @param type $usuarioId
+     */
+    private function getMentorias($usuarioId)
+    {
+        $dql = "SELECT
+                    m.id,
+                    m.mentoriaInicio,
+                    m.mentoriaFin,
+                    m.mentoriaEstado,
+                    u.id estudianteId,
+                    u.usuarioNombre,
+                    u.usuarioApellido
+                FROM 
+                    vocationetBundle:Mentorias m
+                    LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
+                WHERE
+                    m.usuarioMentor = :usuarioId ";
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $result = $query->getResult();
+        return $result;
+    }
+    
+    /**
+     * Funcion que retorna un DateTime modificado con respecto a otro
+     * 
+     * @param DateTime $DateTime fecha
+     * @param string $modify modificacion (+1 day)
+     * @return \DateTime
+     */
+    private function modifyDateTime($DateTime, $modify)
+    {
+        $mentoriaFin = new \DateTime($DateTime->format('y-m-d H:i:s'));
+        $mentoriaFin->modify($modify);
+        
+        return $mentoriaFin;
     }
 }
 ?>
