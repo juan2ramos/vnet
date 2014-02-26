@@ -87,7 +87,7 @@ class CertificacionController extends Controller
 		imagecopy($destino, $origen, 0, 0, 0, 0, $w, $h);
 
 		// Fuente para certificado y colores de texto
-		$font = $security->getParameter('ruta_certificados').'EdwardianScriptITC.ttf';
+		$font = $security->getParameter('ruta_fuente');
 		$white = imagecolorallocate($destino, 255, 255, 255);
 		$black = imagecolorallocate($destino, 0, 0, 0);
 

@@ -310,7 +310,8 @@ class SecurityService
             'tipo_iva' => 'incluido', // incluido|agregado
 			'ruta_mapa_vocationet' => 'uploads/vocationet/mapaVocationet.png',
 			'ruta_certificado_vacio' => 'img/vocationet/certificados/plantilla_certificado.png',
-			'ruta_certificados' => 'img/vocationet/certificados/',
+			'ruta_fuente' => 'img/vocationet/certificados/EdwardianScriptITC.ttf',
+			'ruta_certificados' => 'uploads/vocationet/certificados/',
         );
         
         if($parameter)
