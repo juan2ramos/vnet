@@ -55,6 +55,14 @@ class Informacion
     private $informacionEstado;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="informacion_destino", type="string", length=100, nullable=true)
+	 * @Assert\NotNull()
+     */
+    private $informacionDestino;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=true)
@@ -147,6 +155,29 @@ class Informacion
     public function getInformacionLink()
     {
         return $this->informacionLink;
+    }
+
+    /**
+     * Set informacionDestino
+     *
+     * @param string $informacionDestino
+     * @return Informacion
+     */
+    public function setInformacionDestino($informacionDestino)
+    {
+        $this->informacionDestino = $informacionDestino;
+    
+        return $this;
+    }
+
+    /**
+     * Get informacionDestino
+     *
+     * @return string 
+     */
+    public function getInformacionDestino()
+    {
+        return $this->informacionDestino;
     }
 
     /**

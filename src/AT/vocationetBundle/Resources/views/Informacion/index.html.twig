@@ -26,6 +26,7 @@
 								<th>{% trans from "label" %}titulo{% endtrans %}</th>
 								<th>{% trans from "label" %}enlace{% endtrans %}</th>
 								<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>
+								<th class='text-center'>{% trans from "label" %}destino{% endtrans %}</th>
 								<th class='text-center'>{% trans from "label" %}fecha.creacion{% endtrans %}</th>
 								<th class='text-center'>{% trans from "label" %}opciones{% endtrans %}</th>
 							</tr>
@@ -34,17 +35,18 @@
 							{% for entity in entities %}
 								<tr>
 									<td></td>
-									<td STYLE='padding:6px;'>{{ entity.informacionTitulo }}</td>
-									<td STYLE='padding:6px;'>{{ entity.informacionLink }}</td>
-									<td STYLE='padding:6px;' class='text-center'>
+									<td>{{ entity.informacionTitulo }}</td>
+									<td>{{ entity.informacionLink }}</td>
+									<td class='text-center'>
 										{% if entity.informacionEstado %}
 											<span class="label label-success">{{ 'activo'|trans({}, 'label') }}</span>
 										{% else %}
 											<span class="label label-default">{{ 'inactivo'|trans({}, 'label') }}</span>
 										{% endif %}
 									</td>
-									<td STYLE='padding:6px;' class='text-center'>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
-									<td STYLE='padding:6px;' class='text-center'>
+									<td class='text-center'>{{ entity.informacionDestino }}</td>
+									<td class='text-center'>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+									<td class='text-center'>
 										<a class="btn btn-success btn-xs" href="{{ path('admin_informacion_show', { 'id': entity.id }) }}">
 											<i class="icon-ok"></i> {{ 'ver'|trans({}, 'label') }}</a>
 										<a class="btn btn-primary btn-xs" href="{{ path('admin_informacion_edit', { 'id': entity.id }) }}">
@@ -63,7 +65,7 @@
 						</tbody>
 					</table>
 				{% else %}
-					<div class="panel-body" STYLE='text-align:center;'>
+					<div class="panel-body text-center">
 						{% trans from "label" %}no.se.encuentra.registrada.informacion{% endtrans %}
 					</div>
 				{% endif %}

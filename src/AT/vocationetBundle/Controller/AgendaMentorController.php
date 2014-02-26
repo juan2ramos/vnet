@@ -112,9 +112,12 @@ class AgendaMentorController extends Controller
         }
         
         $mentorias = $this->getMentorias($usuarioId);
+        $publicidad = $this->get('perfil')->getPublicidad($security->getSessionValue("rolId"));
+        
         return array(
             'form' => $form->createView(),
-            'mentorias' => $mentorias
+            'mentorias' => $mentorias,
+            'publicidad' => $publicidad,
         );
     }
 

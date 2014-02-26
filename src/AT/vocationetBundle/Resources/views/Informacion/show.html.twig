@@ -20,6 +20,10 @@
 						<div class="col-lg-10"><p class="help-block">{{ entity.informacionLink }}</p></div>
 					</div>
 					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}destino{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ entity.informacionDestino }}</p></div>
+					</div>
+					<div class="form-group">
 						<label class="col-lg-2 control-label">{% trans from "label" %}fecha.creacion{% endtrans %}</label>
 						<div class="col-lg-10"><p class="help-block">{{ entity.created|date('Y-m-d H:i:s') }}</p></div>
 					</div>
@@ -55,10 +59,9 @@
 	</div>
 	
 	<div class="col-lg-3">
-		<section class="panel" STYLE='margin-bottom:2px;'>
+		<section class="panel">
 			<header class="panel-heading">{% trans from "label" %}vista.predeterminada{% endtrans %}</header>
+			{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
 		</section>
-		
-		{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
 	</div>
 {% endblock %}

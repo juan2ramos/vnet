@@ -50,7 +50,7 @@ class PerfilController extends Controller
 		}
 		
 		//PUBLICIDAD Y/O INFORMACION
-		$publicidad = $pr->getpublicidad();
+		$publicidad = $pr->getPublicidad($security->getSessionValue("rolId"));
  
 		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov' or $perfil['nombreRol'] == 'administrador')
 		{
@@ -177,7 +177,7 @@ class PerfilController extends Controller
 		}
 		
 		//PUBLICIDAD Y/O INFORMACION
-		$publicidad = $pr->getpublicidad();
+		$publicidad = $pr->getPublicidad($security->getSessionValue("rolId"));
 
 		if ($perfil['nombreRol'] == 'estudiante')
 		{
@@ -472,20 +472,16 @@ class PerfilController extends Controller
 			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
 		}
  
-		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov')
-		{
-			$resenas = $pr->getResenasMentor($perfilId);
-
+		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov') {
 			// Calificaciones actuales del mentos, clasificados por No. de estrellas
 			$calificaciones = $pr->mentoriasCalificadas($perfilId);
+			$resenas = $pr->getResenasMentor($perfilId);
 		}
-		else
-		{
+		else {
 			throw $this->createNotFoundException($tr->trans("perfil.no.existe", array(), 'label'));
 		}
 		
-		//PUBLICIDAD Y/O INFORMACION
-		$publicidad = $pr->getpublicidad();
+		$publicidad = $pr->getPublicidad($security->getSessionValue("rolId"));
 
 		return array('perfil' => $perfil, 'calificaciones' => $calificaciones, 'resenas' => $resenas, 'publicidad' => $publicidad);
 	}

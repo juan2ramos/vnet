@@ -24,9 +24,16 @@
 						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionLink, {'attr': {'class':'form-control', 'style':'width:80%;'}} ) }}</p></div>
 					</div>
 					<div class="form-group">
-						<label class="col-lg-2 control-label">{% trans from "label" %}visible{% endtrans %}</label>
-						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionEstado, {'attr': {'class':'form-control', 'style':'width:2%;'}} ) }}</p></div>
+						<label class="col-lg-2 control-label">{% trans from "label" %}destino{% endtrans %}</label>
+						<div class="col-lg-8"><p class="help-block">{{ form_widget(form.informacionDestino, {'attr': {'class':'form-control'}} ) }}</p></div>
 					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">&nbsp;</label>
+						<div class="col-lg-2">
+							<div class="checkbox"> {{ form_widget(form.informacionEstado) }} {% trans from "label" %}visible{% endtrans %} </div>
+						</div>
+					</div>
+					
 					{{ form_errors(form) }}
                     {{ form_widget(form._token) }}
 					<div class="form-group">

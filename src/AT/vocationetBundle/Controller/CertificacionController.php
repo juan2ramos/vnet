@@ -33,7 +33,7 @@ class CertificacionController extends Controller
 		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuario_id = $security->getSessionValue('id');
-		$this->generarCertificado($usuario_id, $security->getSessionValue('usuarioApellido').' '.$security->getSessionValue('usuarioNombre')); // Generar certificacion
+		//$this->generarCertificado($usuario_id, $security->getSessionValue('usuarioApellido').' '.$security->getSessionValue('usuarioNombre')); // Generar certificacion
 		$ruta_certificado = $security->getParameter('ruta_certificados').'user'.$usuario_id.'.png';
 		$certificado = file_exists($ruta_certificado);
 

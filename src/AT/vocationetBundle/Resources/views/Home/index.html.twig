@@ -41,7 +41,7 @@
 {% block body %}
 
 <div class="row">
-    <div class="col-lg-8">	
+    <div class="col-lg-9"> 
         <section class="panel">
             <div class="panel-body" style='padding:0px;'>
 			
@@ -154,25 +154,35 @@
 			</div>
         </section>
     </div>
-	
 
-    {# invitaciones a evaluaciones 360 #}
-    {% if invitaciones360 %}
-    <div class="col-lg-4">
-        <section class="panel">
-            <div class="panel-body">
-                {% for invitacion in invitaciones360 %}
-                    <div class="alert alert-info fade in">
-                        <strong>{{ invitacion.usuarioNombre ~' '~ invitacion.usuarioApellido }}</strong>
-                        {% trans from "label" %}te.ha.invitado.a.su.evaluacion.360{% endtrans %}.
-                        {% trans from "label" %}para.participar{% endtrans %}
-                        <a href="{{ path("evaluacion360_evaluacion", {"id": invitacion.usuarioEvaluado } ) }}" style="text-decoration: underline;">{% trans from "label" %}haz.click.aqui{% endtrans %}</a>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
+    <div class="col-lg-3">
+
+		{# invitaciones a evaluaciones 360 #}
+		{% if invitaciones360 %}
+			<section class="panel">
+				<div class="panel-body">
+					{% for invitacion in invitaciones360 %}
+						<div class="alert alert-info fade in">
+							<strong>{{ invitacion.usuarioNombre ~' '~ invitacion.usuarioApellido }}</strong>
+							{% trans from "label" %}te.ha.invitado.a.su.evaluacion.360{% endtrans %}.
+							{% trans from "label" %}para.participar{% endtrans %}
+							<a href="{{ path("evaluacion360_evaluacion", {"id": invitacion.usuarioEvaluado } ) }}" style="text-decoration: underline;">{% trans from "label" %}haz.click.aqui{% endtrans %}</a>
+						</div>
+					{% endfor %}
+				</div>
+			</section>
+		{% endif %}
+
+		{# PUBLICIDAD #}
+        {% if publicidad %}
+			<div>
+				{% for entity in publicidad %}
+					{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+				{% endfor %}
+			</div>
+		{% endif %}
     </div>
-    {% endif %}
+
         
         {#
         <section class="panel">
