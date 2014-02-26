@@ -12,20 +12,22 @@
 
 {% block body %}
 	<div class="row">
-		<div class="col-lg-3">
-			{# FORMULARIO DE CREACION #}
+		{% set span = (publicidad) ? 9 : 12 %}
+		<div class="col-lg-{{ span }}">
+		
+			{# FORMULARIO DE CREACION DE MENTORIAS #}
 			<section class="panel">
 				<header class="panel-heading">
-					{% trans  from "label" %}agregar.mentoria{% endtrans %}
+					{% trans from "label" %}agregar.mentoria{% endtrans %}
 				</header>
 				<div class="panel-body">
 					<form role="form" action="{{ path('agenda_mentor') }}" method="POST" >
-						<div class="form-group">
-							<label>{% trans  from "label" %}fecha{% endtrans %}</label>
+						<div class="form-group col-lg-4">
+							<label> {% trans from "label" %}fecha{% endtrans %} </label>
 							{{ form_widget(form.fecha, {'attr':{'class':'form-control'} }) }}
 						</div>                    
-						<div class="form-group">
-							<label>{% trans  from "label" %}hora{% endtrans %}</label><br/>
+						<div class="form-group col-lg-4">
+							<label> {% trans from "label" %}hora{% endtrans %} </label><br/>
 							<select id="form_hora" name="form[hora]" required="required" class="form-control" style="width:45%; display: inline;">
 								{% for h in 0..23 %}
 									<option value="{{h}}" {% if h == 'now'|date('H') %} selected="" {% endif %}>{% if h|length == 1 %}0{% endif %}{{h}}</option>
@@ -39,20 +41,31 @@
 							</select>
 							{{ form_errors(form) }}
 							{{ form_widget(form._token) }}
-						</div>                    
-						<button type="submit" class="btn btn-info">{% trans  from "label" %}agregar.mentoria{% endtrans %}</button>
-					</form>
+						</div> 
+						<div class="form-group col-lg-4"> 
+							<label>&nbsp;</label><br/> 
+							<button type="submit" class="btn btn-info"> {% trans from "label" %}agregar.mentoria{% endtrans %} </button> 
+						</div> 
+					</form> 
+				</div> 
+			</section> 
 
-				</div>
-			</section>
-		</div>
-		<aside class="col-lg-9">
+			{# CALENDARIO #}
 			<section class="panel">
 				<div class="panel-body">
 					<div id="calendar" class="has-toolbar"></div>
 				</div>
 			</section>
-		</aside>
+		</div>
+
+		{# PUBLICIDAD #}
+		{% if publicidad %}
+			<aside class="col-lg-3">
+				{% for entity in publicidad %}
+					{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+				{% endfor %}
+			</aside>
+		{% endif %}
 	</div>
 		
 	<div id="modal-mentoria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -60,7 +73,7 @@
 		  <div class="modal-content">
 			  <div class="modal-header">
 				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				  <h4 class="modal-title">{% trans  from "label" %}mentoria{% endtrans %}</h4>
+				  <h4 class="modal-title">{% trans from "label" %}mentoria{% endtrans %}</h4>
 			  </div>
 			  <div class="modal-body">
 				  <div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>
@@ -71,66 +84,65 @@
 {% endblock body %}
 
 {% block script %}
-<script type="text/javascript" src="{{ asset('js/jquery-ui-1.9.2.custom.min.js') }}"></script>
-<script src="{{ asset('assets/fullcalendar/fullcalendar/fullcalendar.min.js') }}"></script>
-<script src="{{ asset('assets/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
-<script type="text/javascript">
-    var datepicker = $('#form_fecha').datepicker({
-        format: 'yyyy-mm-dd',
-    });
-</script>
-<script type="text/javascript">
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
+	<script type="text/javascript" src="{{ asset('js/jquery-ui-1.9.2.custom.min.js') }}"></script>
+	<script src="{{ asset('assets/fullcalendar/fullcalendar/fullcalendar.min.js') }}"></script>
+	<script src="{{ asset('assets/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+	<script type="text/javascript">
+		var datepicker = $('#form_fecha').datepicker({
+			format: 'yyyy-mm-dd',
+		});
+	</script>
+	<script type="text/javascript">
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
 
-    $('#calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,basicWeek,basicDay'
-        },
-        defaultView: 'basicWeek',
-        editable: false,
-        droppable: false,
-        events: [
-        {% for mentoria in mentorias %}
-            {
-                title: '{% if mentoria.estudianteId %}{% trans with {'%user%': mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido } from "label" %}mentoria.con.%user%{% endtrans %}{% else %}{% trans  from "label" %}mentoria.disponible{% endtrans %}{% endif %}',
-                start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
-                end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
-                allDay: false,
-                {% if mentoria.estudianteId %}
-                    {% if mentoria.mentoriaEstado == 0 %}
-                        color: '#EB9823',
-                    {% else %}
-                        color: '#72B572',                        
-                    {% endif %}
-                {% else %}
-                    color: '#8695A6',                    
-                {% endif %}
-                url: "{{ path('show_mentoria_mentor', {'id':mentoria.id}) }}"
-            },
-        {% endfor %}
-        ]
-    });
-    
-    $("#calendar").on('click', '.fc-event', function(e){
-        e.preventDefault();
-        
-        $(".modal-body").html('<div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>');
-        
-        var url = $(this).attr('href');        
-        $("#modal-mentoria").modal('show');
-        
-        $.get(url, function(response){
-            $(".modal-body").html(response);
-        });
-    });
-    $(".modal-body").on('click', '.btn-delete-mentoria', function(e){
-        //e.preventDefault();
-        
-    });
-</script>
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,basicWeek,basicDay'
+			},
+			//defaultView: 'basicWeek',
+			editable: false,
+			droppable: false,
+			events: [
+			{% for mentoria in mentorias %}
+				{
+					title: '{% if mentoria.estudianteId %}{% trans with {'%user%': mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido } from "label" %}mentoria.con.%user%{% endtrans %}{% else %}{% trans from "label" %}mentoria.disponible{% endtrans %}{% endif %}',
+					start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
+					end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
+					allDay: false,
+					{% if mentoria.estudianteId %}
+						{% if mentoria.mentoriaEstado == 0 %}
+							color: '#EB9823',
+						{% else %}
+							color: '#72B572',                        
+						{% endif %}
+					{% else %}
+						color: '#8695A6',                    
+					{% endif %}
+					url: "{{ path('show_mentoria_mentor', {'id':mentoria.id}) }}"
+				},
+			{% endfor %}
+			]
+		});
+		
+		$("#calendar").on('click', '.fc-event', function(e){
+			e.preventDefault();
+			
+			$(".modal-body").html('<div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>');
+			
+			var url = $(this).attr('href');        
+			$("#modal-mentoria").modal('show');
+			
+			$.get(url, function(response){
+				$(".modal-body").html(response);
+			});
+		});
+		$(".modal-body").on('click', '.btn-delete-mentoria', function(e){
+			//e.preventDefault();
+		});
+	</script>
 {% endblock script %}
