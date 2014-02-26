@@ -49,9 +49,6 @@ class CertificacionController extends Controller
     }
 
 	/**
-	 *
-	 * 
-	/**
      * Descargar Certificado del estudiante
      * 
 	 * @Route("/download", name="download_certificado")
@@ -64,9 +61,8 @@ class CertificacionController extends Controller
 		if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 		
-		$name_file = 'user'.$security->getSessionValue('id').'.png';
-		$ruta_certificado = $security->getParameter('ruta_certificados').$name_file;
-		$response = $this->get('file')->downloadCertificado($ruta_certificado, 'certificado.png');
+		$ruta_certificado = $security->getParameter('ruta_certificados').'user'.$security->getSessionValue('id').'.png';
+		$response = $this->get('file')->downloadCertificado($ruta_certificado);
         return $response;
 	}
 
