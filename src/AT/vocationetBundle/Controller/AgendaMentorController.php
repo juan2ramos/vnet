@@ -30,8 +30,7 @@ class AgendaMentorController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         $usuarioId = $security->getSessionValue('id');
-        
-        
+                
         $form = $this->createMentoriaForm();
         
         if($request->getMethod() == 'POST') 
@@ -40,30 +39,59 @@ class AgendaMentorController extends Controller
             if ($form->isValid())
             {
                 $data = $form->getData();
+                
                 $usuarioId = $security->getSessionValue('id');
                 
+                // Calcular fecha de fin agregandole 1 hora a la fecha de inicio
                 $mentoriaInicio = new \DateTime($data['fecha'].' '.$data['hora'].':'.$data['min'].':00');
                 $mentoriaFin = new \DateTime();
                 $mentoriaFin->setTimestamp($mentoriaInicio->getTimestamp());
                 $mentoriaFin->modify('+1 hour');
                 
-                $currentDate = new \DateTime();
-                
-                $interval = $currentDate->diff($mentoriaInicio);
+                // Validar cruces con otras mentorias
+                $cruce = $this->validarCruceMentoria($usuarioId, $mentoriaInicio, $mentoriaFin);
 
-                $tralapa = $this->getValidarMentoriaTralapadas($usuarioId, $mentoriaInicio, $mentoriaFin);
-
-                if (!$tralapa) {
+                if (!$cruce) 
+                {                                        
+                    // Validar que no sea una fecha pasada (inferior a la actual)
+                    $currentDate = new \DateTime();                
+                    $interval = $currentDate->diff($mentoriaInicio);
+                    
 					if($interval->invert != 1)
 					{ 
-						$mentoria = new \AT\vocationetBundle\Entity\Mentorias();
-						$mentoria->setUsuarioMentor($usuarioId);
-						$mentoria->setMentoriaInicio($mentoriaInicio);
-						$mentoria->setMentoriaFin($mentoriaFin);
+						$repetir = $data['repetir'];
+                        
+                        if($repetir == 0)
+                        {
+                            // Insertar mentoria unica
+                            $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
+                            $mentoria->setUsuarioMentor($usuarioId);
+                            $mentoria->setMentoriaInicio($mentoriaInicio);
+                            $mentoria->setMentoriaFin($mentoriaFin);
 
-						$em = $this->getDoctrine()->getManager();
-						$em->persist($mentoria);
-						$em->flush();
+                            $em = $this->getDoctrine()->getManager();
+                            $em->persist($mentoria);
+                            $em->flush();
+                        }
+                        elseif($repetir <= 4)
+                        {
+                            // Duplicar mentoria
+                            
+
+                            // Duplicar para los dias restantes de la semana actual
+                            $dia_mentoria = $mentoriaInicio->format('N');
+
+                            $security->debug($dia_mentoria);
+                            
+                            
+                            
+                            
+                            // Duplicar para las n semanas siguientes
+                            //...
+                            
+                            die;
+                        }
+                        
 
 						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
 					}
@@ -91,9 +119,16 @@ class AgendaMentorController extends Controller
     }
 
 	/**
-	 * Funcion que retorna Bool, TRUE cuando la mentoria se traslada, o se cruza con otra, y FALSE, caso contrario
-	 */
-    private function getValidarMentoriaTralapadas($mentorId, $fechaInicio, $fechaFin)
+     * Funcion para validar que no existan cruce de horarios entre mentorias
+     * 
+     * @author Camilo Quijano
+     * @author Diego Malagón
+     * @param integer $mentorId id de mentor
+     * @param DateTime $fechaInicio fecha de inicio de mentoria
+     * @param DateTime $fechaFin fecha de finalizacion de mentoria
+     * @return boolean true si existe cruce, false si no 
+     */
+    private function validarCruceMentoria($mentorId, $fechaInicio, $fechaFin)
     {
 		/**
 		 * SELECT * FROM mentorias
@@ -101,15 +136,18 @@ class AgendaMentorController extends Controller
 		 * OR (mentoria_fin between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00');
 		*/
 
-		$dql = "SELECT m.id FROM vocationetBundle:Mentorias m
+		$dql = "SELECT COUNT(m.id) AS c FROM vocationetBundle:Mentorias m
 				WHERE m.usuarioMentor =:mentorId AND ((m.mentoriaInicio BETWEEN :fInicio AND :fFin) OR (m.mentoriaFin BETWEEN :fInicio AND :fFin))";
 		$em = $this->getDoctrine()->getManager();
 		$query = $em->createQuery($dql);
 		$query->setParameter('fInicio', $fechaInicio);
 		$query->setParameter('fFin', $fechaFin);
 		$query->setParameter('mentorId', $mentorId);
-		$aux = $query->getResult();
-		$return = ($aux) ? true : false;
+		$result = $query->getResult();
+        
+        
+		$return = ($result[0]['c'] >= 1) ? true : false;
+        
 		return $return;
 	}
     
@@ -121,14 +159,16 @@ class AgendaMentorController extends Controller
     private function createMentoriaForm()
     {
         $data = array(
-            'fecha' => date('Y-m-d'),
-            'hora' => null,
-            'min' => null
+            'fecha'     => date('Y-m-d'),
+            'hora'      => null,
+            'min'       => null,
+            'repetir'   => null
         );
         $form = $this->createFormBuilder($data)
            ->add('fecha', 'text', array('required' => true))
            ->add('hora', 'text', array('required' => true))
            ->add('min', 'text', array('required' => true))
+           ->add('repetir', 'text', array('required' => false))
            ->getForm();
         return $form; 
     }
