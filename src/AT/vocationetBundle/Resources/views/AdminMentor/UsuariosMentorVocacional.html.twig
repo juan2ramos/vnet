@@ -83,7 +83,8 @@
 											<a STYLE='margin:2px;width:90%;' class="btn btn-primary btn-xs" data-toggle="modal" href="#myModal{{ c.id }}">{{ 'informe.mercado.laboral'|trans({}, 'label') }}</a>
 										{% endif %}	
                                         <a href="{{ path("ponderacion_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.ponderacion{% endtrans %}</a>
-										<br>
+                                        <a href="{{ path("universidad_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.universidad{% endtrans %}</a>
+										
 										
 										<div class="modal fade" id="myModal{{ c.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
 											<div class="modal-dialog">

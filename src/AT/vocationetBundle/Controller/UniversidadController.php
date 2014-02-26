@@ -30,7 +30,7 @@ class UniversidadController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         
         $usuarioId = $security->getSessionValue("id");
@@ -49,19 +49,34 @@ class UniversidadController extends Controller
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('universidad');
         
-        
         $formulario = $formularios_serv->getInfoFormulario($form_id);
-        $formularios = $formularios_serv->getFormulario($form_id);
         $form = $this->createFormCuestionario();
-        $ciudades = $this->getCiudades();
-        $alternativas = $this->getAlternativasEstudio($usuarioId); // Alternativas de estudio
+        $formularios = false;
+        $ciudades = false;
+        $alternativas = false;
+        
+        
+        // Verificacion de reporte pdf
+        $ruta_informe = $security->getParameter('path_reportes_universidad').'user'.$usuarioId.'.pdf';
+        $reporte_cargado = file_exists($ruta_informe);
+                
+        // Contenido del formulario
+        if($reporte_cargado === false) // Si no existe el reporte consulta la informacion del formulario
+        {
+            $formularios = $formularios_serv->getFormulario($form_id);
+            $ciudades = $this->getCiudades();
+            $alternativas = $this->getAlternativasEstudio($usuarioId); // Alternativas de estudio            
+        }
+        
         
         return array(
-            'formulario_info' => $formulario,
-            'formularios' => $formularios,
-            'form' => $form->createView(),
-            'ciudades' => $ciudades,
-            'alternativas' => $alternativas
+            'formulario_info'   => $formulario,
+            'formularios'       => $formularios,
+            'form'              => $form->createView(),
+            'ciudades'          => $ciudades,
+            'alternativas'      => $alternativas,
+            'reporte_cargado'   => $reporte_cargado,
+            'ruta_informe'      => $ruta_informe
         );
     }
     
@@ -76,7 +91,7 @@ class UniversidadController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form = $this->createFormCuestionario();
         $form_id = $this->get('formularios')->getFormId('universidad');
@@ -129,7 +144,7 @@ class UniversidadController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
         $form_id = $this->get('formularios')->getFormId('universidad');
         $usuarioId = $security->getSessionValue('id');
@@ -150,11 +165,6 @@ class UniversidadController extends Controller
         
         // Obtener respuestas adicionales
         $adicionales = $formularios_serv->getRespuestasAdicionalesParticipacion($form_id, $id);
-        
-        
-        $security->debug($adicionales);
-        
-        die;
         
         
         $em = $this->getDoctrine()->getManager();

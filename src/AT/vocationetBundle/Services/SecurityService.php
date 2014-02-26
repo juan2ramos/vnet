@@ -309,6 +309,7 @@ class SecurityService
             'iva' => 16,
             'tipo_iva' => 'incluido', // incluido|agregado
 			'ruta_mapa_vocationet' => 'uploads/vocationet/mapaVocationet.png',
+            'path_reportes_universidad' => 'uploads/vocationet/universidad/'
         );
         
         if($parameter)

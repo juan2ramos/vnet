@@ -17,4 +17,6 @@ composer.lock
 !uploads/mensajes/.gitkeep
 /uploads/foros/*
 !uploads/foros/.gitkeep
+/web/uploads/vocationet/universidad/
+!/web/uploads/vocationet/universidad/.gitkeep
 .~*

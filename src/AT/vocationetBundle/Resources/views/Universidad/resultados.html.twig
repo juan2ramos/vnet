@@ -41,17 +41,32 @@
                                 {% trans from 'label' %}alternativas.estudio{% endtrans %}
                                 <div class="div-respuestas">
                                     <b>{% trans from "label" %}respuestas{% endtrans %}</b>
-                                    <ol> 
-                                        <li></li>
+                                    <ol>
+                                        {% if adicionales.carrera is iterable %}
+                                            {% for carrera in adicionales.carrera %}
+                                                <li>{{ carrera }}</li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>{{ adicionales.carrera }}</li>
+                                        {% endif %}
                                     </ol>
                                 </div>
                             </div>
+                        {% endif %}
+                        {% if adicionales.ciudad is defined %}
                             <div class="div-pregunta">    
                                 <b>2. </b>
                                 {% trans from 'label' %}ciudad{% endtrans %}
                                 <div class="div-respuestas">
                                     <b>{% trans from "label" %}respuestas{% endtrans %}</b>
-                                    <ol>                                
+                                    <ol>     
+                                        {% if adicionales.ciudad is iterable %}
+                                            {% for ciudad in adicionales.ciudad %}
+                                                <li>{{ ciudad }}</li>
+                                            {% endfor %}
+                                        {% else %}
+                                            <li>{{ adicionales.ciudad }}</li>
+                                        {% endif %}
                                     </ol>
                                 </div>
                             </div>

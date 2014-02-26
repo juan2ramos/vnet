@@ -35,6 +35,10 @@ INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_rou
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (26,'acceso_pagos','Planes y pagos','Acceso a planes y pagos','planes,agregar_producto,eliminar_producto,pagos_mentorias,agregar_producto_mentoria,comprar,confirmar_comprar,payu_response,payu_confirmation');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (27,'acceso_test_vocacional','Acceso a test vocacional','Acceso a test vocacional','test_vocacional');
 
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (29, 'acceso_universidad', 'Acceso a universidad', 'Acceso a univesidad', 'universidad,procesar_universidad');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (30, 'acceso_respuestas_universidad', 'Acceso a ver resultados de universidad', 'Acceso a ver resultados de universidad', 'universidad_resultados');
+
+
 -- PERMISOS-ROLES
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (1,1,1);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (2,1,2);
@@ -115,6 +119,13 @@ INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (108,24,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (109,25,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (110,26,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (111,27,5);
+
+
+INSERT INTO `permisos_roles` (`id`,`permiso_id`, `rol_id`) VALUES (114,29,1);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`, `rol_id`) VALUES (115,29,5);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`, `rol_id`) VALUES (116,30,3);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`, `rol_id`) VALUES (117,30,5);
+
 
 -- TIPOS DE PREGUNTAS
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 

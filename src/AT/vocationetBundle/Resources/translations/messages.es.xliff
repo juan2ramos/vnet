@@ -723,6 +723,13 @@
                 <source></source>
                 <target></target>
 			</trans-unit>
+            
+            <!-- universidad univ-x -->
+			<trans-unit id="univ-1">
+                <source>prueba.universidad.finalizada</source>
+                <target>La información ha sido enviada correctamente</target>
+			</trans-unit>
+            
         </body>
     </file>
 </xliff>
