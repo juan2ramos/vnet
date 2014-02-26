@@ -13,20 +13,27 @@
 				<form class="form-horizontal" action="{{ path('admin_informacion_new') }}" method="POST" {{ form_enctype(form) }}>
 					<div class="form-group">
 						<label class="col-lg-2 control-label">{% trans from "label" %}titulo{% endtrans %}</label>
-						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionTitulo, {'attr': {'class':'form-control', 'style':'width:80%;'}} ) }}</p></div>
+						<div class="col-lg-8"><p class="help-block">{{ form_widget(form.informacionTitulo, {'attr': {'class':'form-control'}} ) }}</p></div>
 					</div>
 					<div class="form-group">
 						<label class="col-lg-2 control-label">{% trans from "label" %}imagen{% endtrans %}</label>
-						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionImagen, {'attr': {'class':'form-control', 'style':'width:80%;', 'required': 'required'}} ) }}</p></div>
+						<div class="col-lg-8"><p class="help-block">{{ form_widget(form.informacionImagen, {'attr': {'class':'form-control', 'required': 'required'}} ) }}</p></div>
 					</div>
 					<div class="form-group">
 						<label class="col-lg-2 control-label">{% trans from "label" %}enlace{% endtrans %}</label>
-						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionLink, {'attr': {'class':'form-control', 'style':'width:80%;'}} ) }}</p></div>
+						<div class="col-lg-8"><p class="help-block">{{ form_widget(form.informacionLink, {'attr': {'class':'form-control'}} ) }}</p></div>
 					</div>
 					<div class="form-group">
-						<label class="col-lg-2 control-label">{% trans from "label" %}visible{% endtrans %}</label>
-						<div class="col-lg-10"><p class="help-block">{{ form_widget(form.informacionEstado, {'attr': {'class':'form-control', 'style':'width:2%;'}} ) }}</p></div>
+						<label class="col-lg-2 control-label">{% trans from "label" %}destino{% endtrans %}</label>
+						<div class="col-lg-8"><p class="help-block">{{ form_widget(form.informacionDestino, {'attr': {'class':'form-control'}} ) }}</p></div>
 					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">&nbsp;</label>
+						<div class="col-lg-2">
+							<div class="checkbox"> {{ form_widget(form.informacionEstado) }} {% trans from "label" %}visible{% endtrans %} </div>
+						</div>
+					</div>
+					
 					{{ form_errors(form) }}
                     {{ form_widget(form._token) }}
 					<div class="form-group">

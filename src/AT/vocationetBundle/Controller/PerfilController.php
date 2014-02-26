@@ -50,7 +50,7 @@ class PerfilController extends Controller
 		}
 		
 		//PUBLICIDAD Y/O INFORMACION
-		$publicidad = $pr->getpublicidad();
+		$publicidad = $pr->getPublicidad($perfil['rolId']);
  
 		if ($perfil['nombreRol'] == 'mentor_e' or $perfil['nombreRol'] == 'mentor_ov' or $perfil['nombreRol'] == 'administrador')
 		{
@@ -177,7 +177,7 @@ class PerfilController extends Controller
 		}
 		
 		//PUBLICIDAD Y/O INFORMACION
-		$publicidad = $pr->getpublicidad();
+		$publicidad = $pr->getPublicidad();
 
 		if ($perfil['nombreRol'] == 'estudiante')
 		{
@@ -485,7 +485,7 @@ class PerfilController extends Controller
 		}
 		
 		//PUBLICIDAD Y/O INFORMACION
-		$publicidad = $pr->getpublicidad();
+		$publicidad = $pr->getPublicidad();
 
 		return array('perfil' => $perfil, 'calificaciones' => $calificaciones, 'resenas' => $resenas, 'publicidad' => $publicidad);
 	}

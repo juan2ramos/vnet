@@ -612,12 +612,13 @@ class PerfilService
      * @version 1
 	 * @return Object Informacion
 	 */
-	public function getpublicidad()
+	public function getPublicidad($rol_id)
 	{
+		$busq = ($rol_id == 2 or $rol_id == 3) ? 'Mentores' : 'Estudiantes';
 		$em = $this->doctrine->getManager();
 		$dql= "SELECT i
                 FROM vocationetBundle:Informacion i
-				WHERE i.informacionEstado = 1
+				WHERE i.informacionEstado = 1 AND (i.informacionDestion =:destino OR i.informacionDestion ='Todos')
 				ORDER BY i.id DESC";
 		$query = $em->createQuery($dql);
 		$query->setMaxResults(5);
