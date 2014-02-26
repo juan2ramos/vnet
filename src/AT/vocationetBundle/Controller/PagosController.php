@@ -39,6 +39,7 @@ class PagosController extends Controller
             'precio_programa_orientacion' => $precios[1],
             'precio_mercado_laboral' => $precios[2],
             'precio_mentoria_ov' => $precios[4],
+            'precio_universidades' => $precios[5],
             'productos_ids' => $productosId
         );
     }

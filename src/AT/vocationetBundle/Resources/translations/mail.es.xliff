@@ -158,7 +158,18 @@
                 <source>hoy.tiene.mentoria</source>
                 <target>Hoy tiene mentoria</target>
 			</trans-unit>
-			
+			            
+            <!-- universidad univ-x -->
+			<trans-unit id="univ-1">
+                <source>%usu%.ha.descrito.universidad</source>
+                <target>%usu% ha enviado la información sobre su universidad</target>
+			</trans-unit>
+			<trans-unit id="univ-2">
+                <source>mensaje.universidad.descrita.%usu%</source>
+                <target>%usu% ha enviado la caracteristicas de la universidad para que de acuerdo a estas sea cargado su reporte de universidades.</target>
+			</trans-unit>
+            
+            
         </body>
     </file>
 </xliff>

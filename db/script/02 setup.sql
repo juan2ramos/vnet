@@ -1,9 +1,13 @@
+
+-- ROLES
 INSERT INTO `roles` (`id`,`nombre`,`descripcion`) VALUES 
 (1,'estudiante','Estudiante'),
 (2,'mentor_e','Mentor experto'),
 (3,'mentor_ov','Mentor de orientación vocacional'),
-(4,'administrador','Administrador de la aplicación');
+(4,'administrador','Administrador de la aplicación'),
+(5,'superadmin','SuperAdministrador de la aplicación');
 
+-- PERMISOS
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (1,'acceso_basico','Acceso básico','Acceso básico a la aplicacion','homepage');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (2,'acceso_mensajes','Eviar y recibir mensajes','Acceso al envio y recepcion de mensajes','mensajes,enviar_mensajes,get_mensajes,show_mensaje,count_mensajes,update_mensaje,responder_mensaje,reenviar_mensaje');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (3,'acceso_perfiles','Acceso básico','Acceso a perfiles','perfil,perfil_edit,perfil_sincronizar,mentor_resenas,calificar_mentor,horarios_disponibles_mentor');
@@ -30,7 +34,12 @@ INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_rou
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (25,'acceso_mentor_experto','Acceso a selección de mentores experto','Acceso a selección de mentores experto','red_mentores,seleccionar_mentor_experto');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (26,'acceso_pagos','Planes y pagos','Acceso a planes y pagos','planes,agregar_producto,eliminar_producto,pagos_mentorias,agregar_producto_mentoria,comprar,confirmar_comprar,payu_response,payu_confirmation');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (27,'acceso_test_vocacional','Acceso a test vocacional','Acceso a test vocacional','test_vocacional');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (28,'acceso_certificado','Acceso a certificado','Acceso a certificado','certificado,download_certificado');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (29, 'acceso_universidad', 'Acceso a universidad', 'Acceso a univesidad', 'universidad,procesar_universidad');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (30, 'acceso_respuestas_universidad', 'Acceso a ver resultados de universidad', 'Acceso a ver resultados de universidad', 'universidad_resultados');
 
+
+-- PERMISOS-ROLES
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (1,1,1);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (2,1,2);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (3,1,3);
@@ -84,9 +93,6 @@ INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (77,26,1);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (78,26,4);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (79,24,2);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (85,27,1);
-
--- SUPER ADMIN
-INSERT INTO `roles` (`id`,`nombre`,`descripcion`) VALUES (5,'superadmin','SuperAdministrador de la aplicación');
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (86,1,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (87,2,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (88,3,5);
@@ -113,7 +119,15 @@ INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (108,24,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (109,25,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (110,26,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (111,27,5);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (112,28,1);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (113,28,5);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (114,29,1);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (115,29,5);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (116,30,3);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (117,30,5);
 
+
+-- TIPOS DE PREGUNTAS
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 
 (1, 'selección múltiple con única respuesta'),
 (2, 'selección múltiple con múltiple respuesta'),
@@ -124,7 +138,32 @@ INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES
 (7, 'slider'),
 (8, 'abierta');
 
+-- PRODUCTOS
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('1', 'Programa de orientación', 'Programa completo para la toma de una decisión consciente', '100000');
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('2', 'Informe de mercado laboral', 'Acceso individual al informe de mercado laboral', '20000');
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('3', 'Mentoría profesional', 'Una mentoría con mentor profesional', '0');
 INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('4', 'Mentoría de orientación vocacional', 'una mentoría con experto en orientación vocacional', '30000');
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `valor`) VALUES ('5', 'Universidad ', 'Acceso a la elección de universidad', '40000');
+
+-- GEOREFERENCIAS
+INSERT INTO `georeferencias` (`id`, `georeferencia_nombre`, `georeferencia_tipo`, `georeferencia_codigo`) VALUES 
+(1, 'Colombia', 'pais', 'CO');
+
+INSERT INTO `georeferencias` (`georeferencia_padre_id`, `georeferencia_nombre`, `georeferencia_tipo`) VALUES 
+('1', 'Bogotá D.C.', 'ciudad'),
+('1', 'Medellín', 'ciudad'),
+('1', 'Cali', 'ciudad'),
+('1', 'Barranquilla', 'ciudad'),
+('1', 'Cartagena', 'ciudad'),
+('1', 'Bucaramanga', 'ciudad'),
+('1', 'Cúcuta', 'ciudad'),
+('1', 'Pereira', 'ciudad'),
+('1', 'Manizales', 'ciudad'),
+('1', 'Santa Marta', 'ciudad'),
+('1', 'Ibague', 'ciudad'),
+('1', 'Armenia', 'ciudad'),
+('1', 'Villavicencio', 'ciudad'),
+('1', 'Neiva', 'ciudad'),
+('1', 'Tunja', 'ciudad');
+
+

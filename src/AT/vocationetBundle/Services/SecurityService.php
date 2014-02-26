@@ -311,6 +311,7 @@ class SecurityService
 			'ruta_mapa_vocationet' => 'uploads/vocationet/mapaVocationet.png',
 			'ruta_certificado_vacio' => 'img/vocationet/certificados/plantilla_certificado.png',
 			'ruta_certificados' => 'img/vocationet/certificados/',
+            'path_reportes_universidad' => 'uploads/vocationet/universidad/',
         );
         
         if($parameter)

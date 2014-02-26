@@ -687,6 +687,10 @@ CREATE TABLE IF NOT EXISTS `informacion` (
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
+-- Agregar campo de destino para control de A quien va direccionada (estudiante, mentor)
+ALTER TABLE .`informacion` 
+CHANGE COLUMN `modified` `modified` DATETIME NULL DEFAULT NULL COMMENT 'Campo para identificar si la información esta direccionada a estudiantes o a mentores' ,
+ADD COLUMN `informacion_destino` VARCHAR(45) NULL AFTER `informacion_estado`;
 
 -- -----------------------------------------------------
 -- Table `respuestas_adicionales`

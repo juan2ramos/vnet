@@ -721,6 +721,13 @@
                 <source>explicacion.certificado.no.generado</source>
                 <target>Su certificado aún no se ha generado, espere por favor a que el mentor de la aprobación para esto</target>
 			</trans-unit>
+            
+            <!-- universidad univ-x -->
+			<trans-unit id="univ-1">
+                <source>prueba.universidad.finalizada</source>
+                <target>La información ha sido enviada correctamente</target>
+			</trans-unit>
+            
         </body>
     </file>
 </xliff>
