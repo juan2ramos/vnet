@@ -605,22 +605,24 @@ class PerfilService
 	}
 	
 	/**
-	 * Funcion que retorna publicidad o informacion registrad activa (max 5)
+	 * Funcion que retorna publicidad o informacion registrad activa (max 5) y filtro por rol
 	 * - Acceso desde PerfilController
 	 *
 	 * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1
+     * @version 2 - Incluir filtro de publicidad por rol
+     * @param Int $rol_id Id del rol
 	 * @return Object Informacion
 	 */
-	public function getpublicidad()
+	public function getPublicidad($rol_id)
 	{
+		$destino = ($rol_id == 2 or $rol_id == 3) ? 'Mentores' : 'Estudiantes';
 		$em = $this->doctrine->getManager();
-		$dql= "SELECT i
-                FROM vocationetBundle:Informacion i
-				WHERE i.informacionEstado = 1
+		$dql= "SELECT i FROM vocationetBundle:Informacion i
+				WHERE i.informacionEstado = 1 AND (i.informacionDestino =:destino OR i.informacionDestino ='Todos')
 				ORDER BY i.id DESC";
 		$query = $em->createQuery($dql);
 		$query->setMaxResults(5);
+		$query->setParameter('destino', $destino);
 		return $query->getResult();
 	}
 	

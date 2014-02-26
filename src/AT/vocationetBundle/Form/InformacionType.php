@@ -19,6 +19,7 @@ class InformacionType extends AbstractType
 			->add('informacionImagen','file', array('required' => false, 'data_class' => null))
             ->add('informacionLink')
 			->add('informacionEstado', 'checkbox', array('required' => false))
+			->add('informacionDestino', 'choice', array('choices' => array('Todos' => 'Todos', 'Estudiantes' => 'Estudiantes', 'Mentores' => 'Mentores')))
             //->add('created')
             //->add('modified')
         ;
