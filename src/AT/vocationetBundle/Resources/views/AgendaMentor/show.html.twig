@@ -27,7 +27,15 @@
         </tr>
       </tbody>
     </table>
-    {% if not mentoria.estudianteId %}
+    {% if mentoria.estudianteId %}
+        <div style="text-align: right;">
+            {% if mentoria.mentoriaEstado == 0 %}
+                <a href="{{ path('finalizar_mentoria_mentor', {'id': mentoria.id }) }}" class="btn btn-info">{% trans  from "label" %}marcar.mentoria.finalizada{% endtrans %}</a>
+            {% else %}
+                <span class="label label-success">{% trans  from "label" %}mentoria.finalizada{% endtrans %}</span>
+            {% endif %}
+        </div>
+    {% else %}
         <div style="text-align: right;">
             <a href="{{ path('delete_mentoria_mentor', {'id': mentoria.id }) }}" class="btn btn-danger btn-delete-mentoria">{% trans  from "label" %}eliminar{% endtrans %}</a>
         </div>

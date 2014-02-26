@@ -125,10 +125,26 @@ class FileService
      * 
      * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-     * @param String $archivoPATH Ruta del archivo a eliminar
+     * @param String $path Ruta del archivo a eliminar
      */
-    public function deleteFile($archivoPATH) {
-		@unlink($this->root.$archivoPATH);
+    public function deleteFile($path) {
+		@unlink($this->root.$path);
+	}
+
+	/**
+	 * Función que descarga el certificado ingresado en el path.
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+     * @param String $path Ruta del certificado a descargar
+     * @return response
+	 */
+	public function downloadCertificado($path) {
+		$response = new Response();
+        $d = $response->headers->makeDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, 'certificado.png');
+        $response->headers->set('Content-Disposition', $d);
+        $response->setContent(file_get_contents($path));
+        return $response;
 	}
 }
 ?>

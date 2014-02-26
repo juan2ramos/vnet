@@ -34,7 +34,13 @@
             background-color: transparent !important;
         }
 	</style>
+	<link href="{{ asset('css/vocationet/rateit.css') }}" rel="stylesheet"/>
+	<link href="{{ asset('rateit/src/rateit.css')}}" rel="stylesheet" type="text/css">
 {% endblock style %}
+
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
 
 {% block body %}
 
@@ -65,7 +71,7 @@
                                 </div>
                                 <div class="form-group col-lg-4">
                                     <label>{% trans from "label" %}alternativa.estudio{% endtrans %}</label>
-                                    {{ form_widget(form.alternativaEstudio, { 'attr' : {'class': 'form-control', 'placeholder': 'PENDIENTE'}}) }}
+                                    {{ form_widget(form.alternativaEstudio, { 'attr' : {'class': 'form-control'}}) }}
                                 </div>
                             </div>
                             <div class='mentor' {% if formDT.tipoUsuario == 1 %}style='display:none;'{% endif %}>
@@ -88,16 +94,20 @@
                     </div>
                     <hr STYLE="margin: 0 0 5px 0;">
                 
-                {% if contactos %}   
-					<table class="table table-striped border-top" id="sample_1">
+                {% if contactos %}
+					<table class="table table-striped border-top datatable">
 						<thead>
 							<tr>
 								<th></th>
 								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}nombre{% endtrans %}</th>
 								<th>{% trans from "label" %}rol{% endtrans %}</th>
-								<th>{% trans from "label" %}estado{% endtrans %}</th>
-								<th>{% trans from "label" %}carrera{% endtrans %}/{% trans from "label" %}profesion{% endtrans %}</th>
+								<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>
+								{% if formDT.tipoUsuario == 1 %}
+									<th>{% trans from "label" %}alternativa.estudio{% endtrans %}</th>
+								{% else %}
+									<th>{% trans from "label" %}carrera{% endtrans %}/{% trans from "label" %}profesion{% endtrans %}</th>
+								{% endif %}
 								<th>{% trans from "label" %}colegio{% endtrans %}/{% trans from "label" %}universidad{% endtrans %}</th>
 								<th>{% trans from "label" %}opciones{% endtrans %}</th>
 							</tr>
@@ -113,11 +123,27 @@
 									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioApellido }}</div></td>
 									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioNombre }}</div></td>
 									<td class='href' data-href='{{ pathUser }}'><div>{{ c.rolNombre|trans({}, 'db') }}</div></td>
-									<td class='href' data-href='{{ pathUser }}'><div>PENDIENTE PUNTUACION</div></td>
+									<td class='href' data-href='{{ pathUser }}'>
+										<div class='text-center'>
+											{% if formDT.tipoUsuario != 1 %}
+												{% set estrellasPromedio = (c.usuarioPuntos >= 0 and c.usuarioPuntos <= 5) ? c.usuarioPuntos : 0 %}
+												<div class="rateit" data-rateit-value="{{ estrellasPromedio }}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
+												<BR><div>{{ c.cantidadMentorias}}&nbsp;{% trans from "label" %}valoraciones{% endtrans %}</div>
+											{% else %}
+												{{ c.usuarioPuntos }}
+											{% endif %}
+										</div>
+									</td>
 									<td class='href' data-href='{{ pathUser }}'>
 										<div>
 											{% if c.rolNombre == 'estudiante' %}
-												PENDIENTE CARRERA
+												{% if c.alternativa is defined %}
+													{% for ae in c.alternativa %}
+														- {{ ae.nombreCarrera }}<br>
+													{% endfor %}
+												{% else %}
+													{% trans from "label" %}no.ha.sido.suministrada{% endtrans %}
+												{% endif %}
 											{% elseif c.rolNombre == 'mentor_e' or c.rolNombre == 'mentor_ov' %}
 												{% if c.usuarioProfesion %}
 													{{ c.usuarioProfesion }}
@@ -171,7 +197,8 @@
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
-    {% include '::dynamic-table.js.twig' %}
+    <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('rateit/src/jquery.rateit.js') }}"></script>
 
     <script>
         {% if acColegios %}
@@ -238,7 +265,8 @@
 			var u = $(this).data('u'); //Usuario con el que existe la relacion
 			var r = $(this).data('r'); //Id de la relacion
 			var row = $(this).closest('tr').attr('id');
-            var nRow =  $('#sample_1 tbody tr[id='+row+']')[0];
+
+            var nRow =  $('.datatable tbody tr[id='+row+']')[0];
 			var posActual = $(this).parent();
 
 			posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');
@@ -246,7 +274,7 @@
 				posActual.html(data);
 				if (data === '') {
 					$('#rel_'+r).hide('slow');
-					setTimeout(function(){ tbl.fnDeleteRow( nRow, null, true ); }, 1000);
+					setTimeout(function(){ dataTable.table.fnDeleteRow( nRow, null, true ); }, 1000);
 				}
 			});
 		});

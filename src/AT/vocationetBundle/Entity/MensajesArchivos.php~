@@ -22,16 +22,6 @@ class MensajesArchivos
     private $id;
 
     /**
-     * @var \Mensajes
-     *
-     * @ORM\ManyToOne(targetEntity="Mensajes")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="mensaje_id", referencedColumnName="id")
-     * })
-     */
-    private $mensaje;
-
-    /**
      * @var \Archivos
      *
      * @ORM\ManyToOne(targetEntity="Archivos")
@@ -40,6 +30,16 @@ class MensajesArchivos
      * })
      */
     private $archivo;
+
+    /**
+     * @var \Mensajes
+     *
+     * @ORM\ManyToOne(targetEntity="Mensajes")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="mensaje_id", referencedColumnName="id")
+     * })
+     */
+    private $mensaje;
 
 
 }

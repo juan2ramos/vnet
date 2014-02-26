@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+	{% set active = 'informacion' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+	<div class="col-lg-9">
+		<section class="panel">
+			<header class="panel-heading">{% trans from "label" %}detalles.informacion{% endtrans %}</header>
+			<div class="panel-body">
+				<div class="form-horizontal" role="form">
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}titulo{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ entity.informacionTitulo }}</p></div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}enlace{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ entity.informacionLink }}</p></div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}fecha.creacion{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">{{ entity.created|date('Y-m-d H:i:s') }}</p></div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}estado{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block">
+							{% if entity.informacionEstado %}
+								<span class="label label-success">{{ 'activo'|trans({}, 'label') }}</span>
+							{% else %}
+								<span class="label label-default">{{ 'inactivo'|trans({}, 'label') }}</span>
+							{% endif %}
+						</p></div>
+					</div>
+					<div class="form-group">
+						<label class="col-lg-2 control-label">{% trans from "label" %}imagen{% endtrans %}</label>
+						<div class="col-lg-10"><p class="help-block"><img src="{{ asset( getParameter('ruta_images_informacion') ~ entity.informacionImagen) }}" STYLE="width:50%;" /></p></div>
+					</div>
+					
+					<div class="form-group">
+						<div class="col-lg-12 text-center">
+							<a class="btn btn-default" href="{{ path('admin_informacion') }}">
+								{{ 'listado'|trans({}, 'label') }}</a>
+							<a class="btn btn-primary" href="{{ path('admin_informacion_edit', { 'id': entity.id }) }}">
+								{{ 'editar'|trans({}, 'label') }}</a>
+							<div style='display:inline-block;'>
+								{{ form(delete_form, {'attr':{'id':'formdeleteInformacion_'~ entity.id}}) }}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	
+	<div class="col-lg-3">
+		<section class="panel" STYLE='margin-bottom:2px;'>
+			<header class="panel-heading">{% trans from "label" %}vista.predeterminada{% endtrans %}</header>
+		</section>
+		
+		{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+	</div>
+{% endblock %}

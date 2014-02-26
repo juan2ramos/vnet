@@ -4,12 +4,17 @@
     <link rel="stylesheet" href="{{ asset('assets/chosen/chosen.css') }}" />
 {% endblock style %}
 
+{% block menu %}
+	{% set active = 'inbox' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 <div class="mail-box">
 <aside class="sm-side">
   <div class="user-head">
       <a class="inbox-avatar">
-          <img src="{{ sess_user.usuarioImagen|default(asset(gui_default_img)) ~ '?type=large' }}" alt="" style="width: 60px; height: 60px;">
+          <img src="{{ asset(sess_user.usuarioImagen|default(gui_default_img)) ~ '?type=large' }}" alt="" style="width: 60px; height: 60px;">
       </a>
       <div class="user-name">
           <h5>{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</h5>
@@ -18,7 +23,7 @@
   </div>
   <div class="inbox-body">
       <a class="btn btn-compose" data-toggle="modal" href="#redactar">
-          {% trans  from "label" %}redactar{% endtrans %}
+          {% trans from "label" %}redactar{% endtrans %}
       </a>
           
       {# MODAL NUEVO MENSAJE #}      
@@ -27,30 +32,36 @@
               <div class="modal-content">
                   <div class="modal-header">
                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h4 class="modal-title">{% trans  from "label" %}redactar{% endtrans %}</h4>
+                      <h4 class="modal-title">{% trans from "label" %}redactar{% endtrans %}</h4>
                   </div>
                   <div class="modal-body">
                       <form class="form-horizontal" role="form" action="{{ path('enviar_mensajes') }}" method="POST" {{ form_enctype(form) }}>
                           <div class="form-group">
-                              <label  class="col-lg-2 control-label">{% trans  from "label" %}para{% endtrans %}</label>
+                              <label  class="col-lg-2 control-label">{% trans from "label" %}para{% endtrans %}
+								<i class='icon-info-sign tooltips' data-placement="bottom" data-toggle="tooltip" data-original-title="{% trans from "label" %}aclaracion.envio.para.inbox{% endtrans %}"></i>
+                              </label>
                               <div class="col-lg-10">
-                                  {{ form_widget(form.to, {'attr':{'class':'form-control chosen', 'required':'required', 'data-placeholder':'para'|trans({}, 'label') } }) }}                                  
+                                  {{ form_widget(form.to, {'attr':{'class':'form-control chosen', 'required':'required', 'data-placeholder':'para'|trans({}, 'label') } }) }}
+                                  <div class='pull-right chat-features' style='padding-top:2px;'>
+									<a href="{{ path('busqueda') }}" class="btn btn-primary btn-xs"> {% trans from "label" %}agregar.contactos{% endtrans %} </a>
+                                  </div>
                               </div>
                           </div>
+
                           <div class="form-group">
-                              <label class="col-lg-2 control-label">{% trans  from "label" %}asunto{% endtrans %}</label>
+                              <label class="col-lg-2 control-label">{% trans from "label" %}asunto{% endtrans %}</label>
                               <div class="col-lg-10">
                                   {{ form_widget(form.subject, {'attr':{'class':'form-control'} }) }}
                               </div>
                           </div>
                           <div class="form-group">
-                              <label class="col-lg-2 control-label">{% trans  from "label" %}mensaje{% endtrans %}</label>
+                              <label class="col-lg-2 control-label">{% trans from "label" %}mensaje{% endtrans %}</label>
                               <div class="col-lg-10">
                                   {{ form_widget(form.message, {'attr':{'class':'form-control', 'cols':'30', 'rows':'10' } }) }}
                               </div>
                           </div>
                           <div class="form-group">
-                              <label class="col-lg-2 control-label">{% trans  from "label" %}adjuntos{% endtrans %}</label>
+                              <label class="col-lg-2 control-label">{% trans from "label" %}adjuntos{% endtrans %}</label>
                               <div class="col-lg-10">
                                   <input type="file" id="form_attachment" name="form[attachment][]" class="form-control" multiple="">
                               </div>
@@ -59,7 +70,7 @@
                               <div class="col-lg-offset-2 col-lg-10">
                                   {{ form_errors(form) }}
                                   {{ form_widget(form._token) }}
-                                  <button type="submit" class="btn btn-send">{% trans  from "label" %}enviar.mensaje{% endtrans %}</button>
+                                  <button type="submit" class="btn btn-send">{% trans from "label" %}enviar.mensaje{% endtrans %}</button>
                               </div>
                           </div>
                       </form>
@@ -73,16 +84,16 @@
   {# MENU IZQUIERDO #}      
   <ul class="inbox-nav inbox-divider">
       <li class="active">
-          <a style="cursor:pointer;" id="btn-inbox"><i class="icon-inbox"></i> {% trans  from "label" %}inbox{% endtrans %}<span class="label label-danger pull-right /*inbox-badge*/"></span></a>
+          <a style="cursor:pointer;" id="btn-inbox"><i class="icon-inbox"></i> {% trans from "label" %}inbox{% endtrans %}<span class="label label-danger pull-right"></span></a>
       </li>
       <li>
-          <a style="cursor:pointer;" id="btn-unread"><i class="icon-check-empty"></i> {% trans  from "label" %}sin.leer{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-unread"><i class="icon-check-empty"></i> {% trans from "label" %}sin.leer{% endtrans %}</a>
       </li>
       <li>
-          <a style="cursor:pointer;" id="btn-sent"><i class="icon-envelope-alt"></i> {% trans  from "label" %}enviados{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-sent"><i class="icon-envelope-alt"></i> {% trans from "label" %}enviados{% endtrans %}</a>
       </li>
       <li>
-          <a style="cursor:pointer;" id="btn-trash"><i class=" icon-trash"></i> {% trans  from "label" %}eliminados{% endtrans %}</a>
+          <a style="cursor:pointer;" id="btn-trash"><i class=" icon-trash"></i> {% trans from "label" %}eliminados{% endtrans %}</a>
       </li>
   </ul>
 
@@ -90,10 +101,10 @@
         
 <aside class="lg-side">
   <div class="inbox-head">
-      <h3>{% trans  from "label" %}mensajes{% endtrans %}</h3>
+      <h3>{% trans from "label" %}mensajes{% endtrans %}</h3>
       {#<form class="pull-right position" action="#">
           <div class="input-append">
-              <input type="text"  placeholder="{% trans  from "label" %}buscar.mensaje{% endtrans %}" class="sr-input">
+              <input type="text" placeholder="{% trans from "label" %}buscar.mensaje{% endtrans %}" class="sr-input">
               <button type="button" class="btn sr-btn"><i class="icon-search"></i></button>
           </div>
       </form>#}
@@ -110,164 +121,17 @@
     <script type="text/javascript">
         $(".chosen").chosen({
             width: "100%",
-            no_results_text: "{% trans  from "label" %}no.result.to.mensajes{% endtrans %}",
+            no_results_text: "{% trans from "label" %}no.result.to.mensajes{% endtrans %}",
         });
     </script>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
-            $.get("{{ path('get_mensajes') }}", {},
-                function(data){
-                    $("#inbox-tbody").html(data);
-            });
-            
-            
-            $("#btn-inbox").on('click', function(e){
-                e.preventDefault();
-                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
-                $.get("{{ path('get_mensajes') }}", {},
-                    function(data){
-                        $("#inbox-tbody").html(data);
-                        $().alertbadge();
-                });
-                
-                $(".inbox-nav li").removeClass('active');
-                $(this).parent().addClass('active');
-                
-            });
-            $("#btn-sent").on('click', function(e){
-                e.preventDefault();
-                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
-                $.get("{{ path('get_mensajes', {'tipo':1}) }}", {},
-                    function(data){
-                        $("#inbox-tbody").html(data);
-                        $().alertbadge();
-                });
-                
-                $(".inbox-nav li").removeClass('active');
-                $(this).parent().addClass('active');
-            });
-            $("#btn-unread").on('click', function(e){
-                e.preventDefault();
-                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
-                $.get("{{ path('get_mensajes', {'tipo':2, 'estado':0}) }}", {},
-                    function(data){
-                        $("#inbox-tbody").html(data);
-                        $().alertbadge();
-                });
-                
-                $(".inbox-nav li").removeClass('active');
-                $(this).parent().addClass('active');
-            });
-            $("#btn-trash").on('click', function(e){
-                e.preventDefault();
-                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
-                $.get("{{ path('get_mensajes', {'tipo':0, 'estado':2}) }}", {},
-                    function(data){
-                        $("#inbox-tbody").html(data);
-                        $().alertbadge();
-                });
-                
-                $(".inbox-nav li").removeClass('active');
-                $(this).parent().addClass('active');
-            });
-            
-            $("#inbox-tbody").on('click', '.lnk-msg', function(e){
-                e.preventDefault();
-                
-                var mid = $(this).data('id');
-                var route = '{{ path('show_mensaje', {'mid':'MID'}) }}';
-                route = route.replace("MID", mid);
-                
-                
-                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
-                $.get(route, {},
-                    function(data){
-                        $("#inbox-tbody").html(data);
-                        $().alertbadge();
-                });
-            });
-            
-            $("#inbox-tbody").on('click', '.btn-delete-msg, .btn-recovery-msg', function(e){
-                var href = $(this).data('href');
-                
-                $("#inbox-tbody").html('<div style="text-align:center;"><img src="{{ asset('img/ajax-loader.gif')}}"></div>');
-                $.ajax({
-                    type: "POST",
-                    url: href,
-                    dataType: "json",
-                    success: function (response){
-                        if(response.status === "success"){
-                            $(".inbox-nav li").removeClass('active');
-                            $("#btn-inbox").parent().addClass('active');
-                            
-                            $.get("{{ path('get_mensajes') }}", {},
-                                function(data){
-                                    $("#inbox-tbody").html(data);
-                                    $().alertbadge();
-                            });
-                        }
-                    },
-                    error: function() {
-                        console.error('AJAX Error');                    
-                    }
-                });
-            });
-            
-            $("#inbox-tbody").on('click', '.btn-forward', function(e){
-                $(".modal-forward").modal('show');
-            });
-            
-            $("#inbox-tbody").on('click', '.btn-reply', function(e){
-                $(".modal-reply").modal('show');
-            });
-            
-            
-            $("#inbox-tbody").on('submit', 'form', function(e){
-                e.preventDefault();        
-                
-                var form = $(this);
-                var btn = $(":submit", this);
-
-                btn.attr('disabled', true);
-                btn.html('{% trans  from "label" %}enviando{% endtrans %}...');
-                
-                $.ajax({
-                    type: "POST",
-                    url: form.attr('action'),
-                    data: form.serialize(),
-                    dataType: "json",
-                    success: function (response){
-                        if(response.status == "success"){
-                            btn.removeAttr('disabled');
-                            btn.html('{% trans  from "label" %}enviar.mensaje{% endtrans %}');
-                            $.gritter.add({
-                                title: response.title_message,
-                                text: response.message,
-                                time: 5000,
-                                image: '{{ asset('img/success.png') }}',
-                            });                       
-                            $(".modal").modal('hide');
-
-                        }
-                        else if(response.status == "error"){
-                            btn.removeAttr('disabled');
-                            btn.html('{% trans  from "label" %}enviar.mensaje{% endtrans %}');
-                            $.gritter.add({
-                                title: response.title_message,
-                                text: response.message,
-                                time: 5000,
-                                image: '{{ asset('img/delete.png') }}',
-                            });
-                        }
-                    },
-                    error: function() {
-                        console.error('AJAX Error');                    
-                    }
-                });
-                return false;
-
-            });
-        });
-    </script>
+<script src="{{ asset('js/vocationet/mensajes.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    Mensajes({
+        inboxRoute: '{{ path('get_mensajes') }}',
+        sentMessagesRoute: "{{ path('get_mensajes', {'tipo':1}) }}",
+        unreadMessagesRoute: "{{ path('get_mensajes', {'tipo':2, 'estado':0}) }}",
+        trashMessagesRoute: "{{ path('get_mensajes', {'tipo':0, 'estado':2}) }}",
+        showMessageRoute: '{{ path('show_mensaje', {'mid':'MID'}) }}',
+    });
+</script>
 {% endblock script %}

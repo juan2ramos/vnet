@@ -1,0 +1,124 @@
+{% extends '::base.html.twig' %}
+
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+<div class="row">
+    <aside class="col-lg-4">
+        <section class="panel">
+            <div class="bio-graph-heading" style="padding: 10px 20px;">
+                <h2 style="margin-top: 5px;">{% trans  from "label" %}red.social{% endtrans %}</h2>
+                <h3 style="margin-top: 5px;">{% trans  from "label" %}gratis{% endtrans %}!!!</h3>
+            </div>
+            <div class="panel-body">
+                <h4>{% trans  from "label" %}tiene.acceso.gratuito.a{% endtrans %}:</h4>
+            </div>
+            <table class="table table-hover personal-task">
+            <tbody>
+                <tr>
+                    <td><i class="icon-check"></i></td>
+                    <td>{% trans  from "label" %}red.social{% endtrans %} ({% trans  from "label" %}red.social.detalle{% endtrans %}).</td>
+                    <td></td>
+                </tr>                
+                <tr>
+                    <td><i class="icon-check"></i></td>
+                    <td>{% trans  from "label" %}Diagnostico{% endtrans %}</td>
+                    <td></td>
+                </tr>                
+                <tr>
+                    <td><i class="icon-check"></i></td>
+                    <td>{% trans  from "label" %}ponderacion.consciente{% endtrans %}</td>
+                    <td></td>
+                </tr>                
+            </tbody>
+            </table>
+        </section>
+    </aside> 
+    <aside class="col-lg-4">
+        <section class="panel">
+            <div class="bio-graph-heading" style="background: #E56155;  padding: 10px 20px;">
+                <h3 style="margin-top: 12px;">{% trans  from "label" %}programa.orientacion{% endtrans %}</h3>
+                <h3 style="margin-top: 5px;">${{ precio_programa_orientacion|number_format }}</h3>
+            </div>
+            <div class="panel-body">
+                <h4>{% trans  from "label" %}programa.completo.para.decision.consciente{% endtrans %}.</h4>
+            </div>
+            <table class="table table-hover personal-task">
+                <tbody>
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}acompanamiento.experto.todo.programa{% endtrans %}.</td>
+                        <td></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}test.orientacion.vocacional{% endtrans %}.</td>
+                        <td></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}evaluacion.360.encuestas.ilimitadas{% endtrans %}.</td>
+                        <td></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}taller.diseno.vida{% endtrans %}.</td>
+                        <td></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}informe.mercado.laboral.altertativas.estudio{% endtrans %}.</td>
+                        <td></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}descuento.mentorias{% endtrans %}.</td>
+                        <td></td>
+                    </tr>                
+                </tbody>
+            </table>
+            <div class="panel-body" style="text-align: center;">
+                <a href="{{ path("agregar_producto", {'id': productos_ids.programa_orientacion }) }}" class="btn btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a>
+            </div>
+        </section>
+    </aside> 
+    <aside class="col-lg-4">
+        <section class="panel">
+            <div class="bio-graph-heading" style="padding: 10px 20px;">
+                <h2 style="margin-top: 5px;">{% trans  from "label" %}programa.informativo{% endtrans %}</h2>
+                <h3 style="margin-top: 5px;">{% trans  from "label" %}pago.por.prueba{% endtrans %}</h3>
+            </div>
+            <div class="panel-body">
+                <h4>{% trans  from "label" %}selecciona.pruebas.precio{% endtrans %}</h4>
+            </div>
+            <table class="table table-hover personal-task">
+                <tbody>
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}informe.mercado.laboral{% endtrans %}.</td>
+                        <td>${{ precio_mercado_laboral|number_format }}</td>
+                        <td><a href="{{ path("agregar_producto", {'id': productos_ids.informe_mercado_laboral }) }}" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}mentorias.red.profesionales{% endtrans %}.</td>
+                        <td>{% trans  from "label" %}segun.mentor{% endtrans %}</td>
+                        <td><a href="{{ path("pagos_mentorias") }}" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
+                    </tr>                
+                    <tr>
+                        <td><i class="icon-check"></i></td>
+                        <td>{% trans  from "label" %}mentorias.orientacion.vocacional{% endtrans %}.</td>
+                        <td>${{ precio_mentoria_ov|number_format }}</td>
+                        <td><a href="{{ path("agregar_producto", {'id': productos_ids.mentoria_ov }) }}" class="btn btn-xs btn-round btn-danger">{% trans  from "label" %}comprar{% endtrans %}</a></td>
+                    </tr>                
+                </tbody>
+            </table>
+            <div class="panel-body">
+                {% trans  from "label" %}detalle.programa.informativo{% endtrans %}.                 
+            </div>
+        </section>
+    </aside> 
+</div>
+{% endblock body %}

@@ -9,7 +9,7 @@
             </trans-unit>
             <trans-unit id="generic-2">
                 <source>verifique.los datos.suministrados</source>
-                <target>Verifique los datos ingresados</target>
+                <target>Datos vacios o inválidos, verifique los datos ingresados</target>
             </trans-unit>
             <trans-unit id="generic-3">
                 <source>Acceso denegado</source>
@@ -19,7 +19,24 @@
                 <source>acceso.invalido</source>
                 <target>Acceso invalido</target>
             </trans-unit>
-                        
+			<trans-unit id="generic-5">
+                <source>esta.seguro.de.eliminar.este.elemento</source>
+                <target>¿Esta seguro de eliminar este elemento?</target>
+			</trans-unit>
+			<trans-unit id="generic-6">
+                <source>error.en.solicitud</source>
+                <target>Error en la solicitud</target>
+			</trans-unit>
+			<trans-unit id="generic-7">
+                <source>opcion.invalida</source>
+                <target>Opción Invalida</target>
+			</trans-unit>
+			<trans-unit id="generic-8">
+                <source>si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba</source>
+                <target>Tenga en cuenta, que si sale de esta prueba, se perderá el avance realizado</target>
+			</trans-unit>
+
+
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
                 <source>autenticacion.fallida</source>
@@ -75,7 +92,7 @@
             </trans-unit>
             <trans-unit id="editperfil-2">
                 <source>perfil.editado.correctamente</source>
-                <target>Los datos que editaste se registrarón con exito</target>
+                <target>Perfil editado correctamente</target>
             </trans-unit>			
 			
 			<!-- MENSAJES inbox-x -->
@@ -179,6 +196,19 @@
                 <source>%user%.ha.separado.mentoria.%detalle%</source>
                 <target>%user% ha se parado una mentoria a las %detalle%</target>
             </trans-unit>
+			<trans-unit id="ment-16">
+                <source>mentoria.finalizada</source>
+                <target>Mentoría finalizada</target>
+            </trans-unit>
+			<trans-unit id="ment-17">
+                <source>mentoria.finalizada.correctamente</source>
+                <target>La mentoría se ha marcado como finalizada correctamente</target>
+            </trans-unit>
+            <trans-unit id="ment-18">
+                <source>mentoria.traslapada</source>
+                <target>La mentoría no se puede crear, porque se esta cruzando con otra</target>
+            </trans-unit>
+            
 
 
 			<!-- FOROS foros-x -->
@@ -211,17 +241,486 @@
                 <target>No tiene permisos para realizar esta acción</target>
             </trans-unit>
             <trans-unit id="foros-8">
-                <source></source>
-                <target></target>
-            </trans-unit>
-            <trans-unit id="foros-9">
                 <source>foro.editado</source>
                 <target>Foro editado</target>
             </trans-unit>
-            <trans-unit id="foros-10">
+            <trans-unit id="foros-9">
                 <source>foro.editado.correctamente</source>
                 <target>El foro ha sido editado correctamente</target>
             </trans-unit>
+
+			<!-- CALIFICAR MENTORIA cal-x -->
+            <trans-unit id="cal-1">
+                <source>error.en.solicitud.calificar</source>
+                <target>Ocurrio un error al realizar la calificación de esta mentoria, por favor intentelo más tarde.</target>
+			</trans-unit>
+			<trans-unit id="cal-2">
+                <source>calificacion.guardada.correctamente</source>
+                <target>La calificación de esta mentoría se realizó correctamente</target>
+            </trans-unit>
+
+            <!-- SELECCIONAR MENTOR ORIENTACION VOCACIONAL selectMentorOV-x -->
+            <trans-unit id="selectMentorOV-1">
+                <source>elegir.mentor</source>
+                <target>Seleccionar mentor</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-2">
+                <source>error.elegir.mentor</source>
+                <target>Error al elegir mentor</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-3">
+                <source>ha.seleccionado.mentor.contactese.con.el</source>
+                <target>El mentor que seleccionó se ha registrado correctamente, por favor agende su primera mentoria con él</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-4">
+                <source>error.en.seleccion.de.mentor</source>
+                <target>Ocurrió un error al seleccionar el mentor</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-5">
+                <source>usuario.ya.eligio.mentor</source>
+                <target>La acción que intenta realizar no es posible, por favor agende una mentoría con su mentor de orientación vocacional</target>
+            </trans-unit>
+			<trans-unit id="selectMentorOV-6">
+                <source>mensaje.agendar.mentoria</source>
+                <target>Por favor agende una mentoría con su mentor de orientación vocacional</target>
+            </trans-unit>
+            <trans-unit id="selectMentorOV-7">
+                <source>no.ha.seleccionado.mentor.ov</source>
+                <target>No ha seleccionado mentor de orientación vocacional</target>
+            </trans-unit>           
+            
+            <!-- DIAGNOSTICO diag-x -->
+			<trans-unit id="diag-1">
+                <source>vocationet.info</source>
+                <target>Vocationet es un programa completo de orientación a través de un software innovador y una red de mentorias. El objetivo final es que puedas descubrir lo que realmente te apasiona y tomes la mejor decisión de carrera. ¿Quieres saber más?</target>
+            </trans-unit>
+			<trans-unit id="diag-2">
+                <source>vocationet.link</source>
+                <target>Haz clic AQUÍ</target>
+            </trans-unit>
+			<trans-unit id="diag-3">
+                <source>diagnostico.titulo.resultado.3</source>
+                <target>Felicitaciones!</target>
+            </trans-unit>
+			<trans-unit id="diag-4">
+                <source>diagnostico.mensaje.resultado.3</source>
+                <target>Has avanzado mucho en la elección de tu carrera y entiendes la importancia de este proceso. Entiendes que esta es una decisión que involucra gran diversidad de aspectos y muy seguramente, requieres orientación en la forma de articularlos para poder tomar la decisión final. Si deseas, nosotros podemos ayudarte.</target>
+            </trans-unit>
+			<trans-unit id="diag-5">
+                <source>diagnostico.titulo.resultado.2</source>
+                <target>Sigue avanzando!</target>
+            </trans-unit>
+			<trans-unit id="diag-6">
+                <source>diagnostico.mensaje.resultado.2</source>
+                <target>Sin duda te has esforzado por avanzar en la decisión de tu carrera y todos estos avances se verán reflejados en el proceso. Hasta ahora, has tenido en cuenta aspectos muy importantes para decidir. Sin embargo, muy probablemente se te están escapando algunos otros que son claves en la decisión. No te preocupes, si lo deseas, podemos ayudarte a decidir mejor.</target>
+            </trans-unit>
+			<trans-unit id="diag-7">
+                <source>diagnostico.titulo.resultado.1</source>
+                <target>Avanza con precaución</target>
+            </trans-unit>
+			<trans-unit id="diag-8">
+                <source>diagnostico.mensaje.resultado.1</source>
+                <target>Hasta ahora has empezado a observar aspectos que son importantes para que identifiques qué es lo que más te interesa en la vida. Sabemos que este es un proceso complejo y que no siempre es fácil saber qué tiene más importancia para la decisión. Sin embargo, ha llegado el momento para que le dediques más tiempo y atención a esta decisión. No hacerlo puede tener grandes consecuencias a nivel emocional, económico y social en tu vida. Nosotros podemos ayudarte a avanzar rápidamente para que puedas decidir mejor.</target>
+            </trans-unit>
+            
+            <!-- ADMIN admin-x -->
+			<trans-unit id="admin-1">
+                <source>pregunta.agregada</source>
+                <target>Pregunta agregada</target>
+			</trans-unit>
+			<trans-unit id="admin-2">
+                <source>pregunta.agregada.correctamente</source>
+                <target>Pregunta agregada correctamente</target>
+			</trans-unit>
+			<trans-unit id="admin-3">
+                <source>pregunta.no.eliminada</source>
+                <target>No se eliminó la pregunta</target>
+			</trans-unit>
+			<trans-unit id="admin-4">
+                <source>pregunta.tiene.respuestas</source>
+                <target>La pregunta ya contiene respuestas de usuarios</target>
+			</trans-unit>
+			<trans-unit id="admin-5">
+                <source>pregunta.eliminada</source>
+                <target>Pregunta eliminada</target>
+			</trans-unit>
+			<trans-unit id="admin-6">
+                <source>pregunta.eliminada</source>
+                <target>Pregunta eliminada</target>
+			</trans-unit>
+			<trans-unit id="admin-7">
+                <source>pregunta.eliminada.correctamente</source>
+                <target>Pregunta eliminada correctamente</target>
+			</trans-unit>
+			<trans-unit id="admin-8">
+                <source>pregunta.con.respuestas</source>
+                <target>Pregunta contiene respuestas</target>
+			</trans-unit>
+			<trans-unit id="admin-9">
+                <source>no.puede.editar.opciones.pregunta</source>
+                <target>No puede editar opciones de respuesta porque la pregunta ya tiene respuestas de usuarios</target>
+			</trans-unit>
+			<trans-unit id="admin-10">
+                <source>pregunta.editada</source>
+                <target>Pregunta editada</target>
+			</trans-unit>
+			<trans-unit id="admin-11">
+                <source>pregunta.editada.correctamente</source>
+                <target>Pregunta editada correctamente</target>
+			</trans-unit>
+
+
+			<!-- MERCADO LABORAL mercadoLaboral-x -->
+			<trans-unit id="mercadoLaboral-1">
+                <source>puede.seleccionar.maximo.tres.alternativas.minimo.una</source>
+                <target>Tiene que seleccionar como mínimo una, y máximo tres alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-2">
+                <source>puede.seleccionar.maximo.tres.alternativas</source>
+                <target>Puede seleccionar máximo tres alternativas</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-3">
+                <source>ocurrio.error.al.registrar.alternativa.de.estudio</source>
+                <target>Ocurrio un error al registrar una alternativa de estudio</target>
+			</trans-unit>
+            
+            <!-- evaluacion 360 eva360-x -->
+			<trans-unit id="eva360-1">
+                <source>emails.invalidos</source>
+                <target>Correos electrónicos inválidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-2">
+                <source>debe.seleccionar.mas.emails</source>
+                <target>Debe ingresar al menos 3 correos válidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-3">
+                <source>debe.seleccionar.mas.emails</source>
+                <target>Debe ingresar al menos 3 correos válidos</target>
+			</trans-unit>
+			<trans-unit id="eva360-4">
+                <source>invitaciones.enviadas</source>
+                <target>Invitaciones enviadas</target>
+			</trans-unit>
+			<trans-unit id="eva360-5">
+                <source>invitaciones.enviadas.correctamente</source>
+                <target>Invitaciones enviadas correctamente</target>
+			</trans-unit>
+			<trans-unit id="eva360-6">
+                <source>cuestionario.enviado</source>
+                <target>Cuestionario enviado</target>
+			</trans-unit>
+			<trans-unit id="eva360-7">
+                <source>gracias.por.participar.evaluacion.360</source>
+                <target>Gracias por participar en la evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-8">
+                <source>no.tiene.invitacion</source>
+                <target>No tienes invitación</target>
+			</trans-unit>
+			<trans-unit id="eva360-9">
+                <source>solicita.invitacion.usuario</source>
+                <target>Solicita una invitación para participar en la evaluación 360 de alguno de tus amigos</target>
+			</trans-unit>
+			<trans-unit id="eva360-10">
+                <source>cuestionario.ya.ha.sido.enviado</source>
+                <target>Ya has participado en este cuestionario</target>
+			</trans-unit>
+			<trans-unit id="eva360-11">
+                <source>gracias.por.participar.diagnostico</source>
+                <target>Gracias por participar en la prueba de diagnostico</target>
+			</trans-unit>
+			<trans-unit id="eva360-12">
+                <source>gracias.participar.mi.evaluacion.360</source>
+                <target>Gracias por participar en mi evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-13">
+                <source>mensaje.gracias.participar.mi.evaluacion.360</source>
+                <target>Te agradecemos mucho por completar esta evaluación. Vocacionet cree firmemente que encontrar una pasión en la vida hace exitosa a las personas. Esta evaluación es una de las fases importantes del proceso de decisión de carrera para encontrar aquello que más nos satisface. Gracias por tu tiempo!</target>
+			</trans-unit>
+
+			<!-- ADMIN MENTOR OV adminov-x -->
+			<trans-unit id="adminov-1">
+                <source>extension.invalida</source>
+                <target>Extensión invalida</target>
+			</trans-unit>
+			<trans-unit id="adminov-2">
+                <source>informe.cargado</source>
+                <target>Informe cargado</target>
+			</trans-unit>
+			<trans-unit id="adminov-3">
+                <source>informe.cargado.correctamente</source>
+                <target>Informe cargado correctamente</target>
+			</trans-unit>
+			
+			<!-- CARRERAS carreras-x -->
+			<trans-unit id="carreras-1">
+                <source>carrera.creada</source>
+                <target>Carrera creada</target>
+			</trans-unit>
+			<trans-unit id="carreras-2">
+                <source>carrera.creada.correctamente</source>
+                <target>Carrera creada correctamente</target>
+			</trans-unit>
+			<trans-unit id="carreras-3">
+                <source>carrera.editada</source>
+                <target>Carrera editada</target>
+			</trans-unit>
+			<trans-unit id="carreras-4">
+                <source>carrera.editada.correctamente</source>
+                <target>Carrera editada correctamente</target>
+			</trans-unit>
+			<trans-unit id="carreras-5">
+                <source>error.al.eliminar</source>
+                <target>Error al eliminar</target>
+			</trans-unit>
+			<trans-unit id="carreras-6">
+                <source>no.puede.eliminar.esta.carrera.asociados.temas.o.alternativas</source>
+                <target>No puede eliminar esta carrera, tiene asociados temas o alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="carreras-7">
+                <source>carrera.eliminada</source>
+                <target>Carrera eliminada</target>
+			</trans-unit>
+			<trans-unit id="carreras-8">
+                <source>carrera.eliminada.correctamente</source>
+                <target>Carrera eliminada correctamente</target>
+			</trans-unit>
+			
+			<!-- CARRERAS colegios-x -->
+			<trans-unit id="colegios-1">
+                <source>colegio.eliminado</source>
+                <target>Colegio eliminado</target>
+			</trans-unit>
+			<trans-unit id="colegios-2">
+                <source>colegio.eliminado.correctamente</source>
+                <target>Colegio eliminado correctamente</target>
+			</trans-unit>
+			<trans-unit id="colegios-3">
+                <source>no.puede.eliminar.este.colegio.asociados.usuarios</source>
+                <target>No puede eliminar este colegio porque tiene asociados usuarios</target>
+			</trans-unit>
+			<trans-unit id="colegios-4">
+                <source>colegio.creado</source>
+                <target>Colegio creado</target>
+			</trans-unit>
+			<trans-unit id="colegios-5">
+                <source>colegio.creado.correctamente</source>
+                <target>Colegio creado correctamente</target>
+			</trans-unit>
+			<trans-unit id="colegios-6">
+                <source>colegio.editado</source>
+                <target>Colegio editado</target>
+			</trans-unit>
+			<trans-unit id="colegios-7">
+                <source>colegio.editado.correctamente</source>
+                <target>Colegio editado correctamente</target>
+			</trans-unit>
+			
+			<!-- TEMAS temas-x -->
+			<trans-unit id="temas-1">
+                <source>no.puede.eliminar.este.tema.asociados.foros</source>
+                <target>No puede eliminar este tema, tiene foros asociados.</target>
+			</trans-unit>
+			<trans-unit id="temas-2">
+                <source>tema.eliminado</source>
+                <target>Tema eliminado</target>
+			</trans-unit>
+			<trans-unit id="temas-3">
+                <source>tema.eliminado.correctamente</source>
+                <target>Tema eliminado correctamente</target>
+			</trans-unit>
+			<trans-unit id="temas-4">
+                <source>tema.creado</source>
+                <target>Tema creado</target>
+			</trans-unit>
+			<trans-unit id="temas-5">
+                <source>tema.creado.correctamente</source>
+                <target>Tema creado correctamente</target>
+			</trans-unit>
+			<trans-unit id="temas-6">
+                <source>tema.editado</source>
+                <target>Tema editado</target>
+			</trans-unit>
+			<trans-unit id="temas-7">
+                <source>tema.editado.correctamente</source>
+                <target>Tema editado correctamente</target>
+			</trans-unit>
+			
+			<!-- INFORMACION informacion-x -->
+			<trans-unit id="informacion-1">
+                <source>informacion.creada</source>
+                <target>Publicidad creada</target>
+			</trans-unit>
+			<trans-unit id="informacion-2">
+                <source>informacion.creada.correctamente</source>
+                <target>Publicidad creada correctamente</target>
+			</trans-unit>
+			<trans-unit id="informacion-3">
+                <source>informacion.editada</source>
+                <target>Publicidad editada</target>
+			</trans-unit>
+			<trans-unit id="informacion-4">
+                <source>informacion.editada.correctamente</source>
+                <target>Publicidad editada correctamente</target>
+			</trans-unit>
+			<trans-unit id="informacion-5">
+                <source>informacion.eliminada</source>
+                <target>Publicidad eliminada</target>
+			</trans-unit>
+			<trans-unit id="informacion-6">
+                <source>informacion.eliminada.correctamente</source>
+                <target>Publicidad eliminada correctamente</target>
+			</trans-unit>
+            
+            <!-- diseno de vida dvida-x -->
+			<trans-unit id="dvida-1">
+                <source>diseno.vida.enviado.ahora.separar.metoria</source>
+                <target>Has finalizado tu diseño de vida, ahora debes agendar una nueva mentoria</target>
+			</trans-unit>
+			<trans-unit id="dvida-2">
+                <source>gracias.por.participar.diseno.vida</source>
+                <target>Gracias por enviar tu diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="dvida-3">
+                <source>debe.escojer.minimo.3.opciones</source>
+                <target>Debes seleccionar mínimo 3 opciones de nivel 3 para continuar con la prueba, por favor vuelva al paso anterior.</target>
+			</trans-unit>
+			<trans-unit id="dvida-4">
+                <source>debe.escojer.10.valores.ocupacionales</source>
+                <target>Debe volver al paso anterior y escojer mínimo 10 valores ocupacionales para continuar con la prueba</target>
+			</trans-unit>
+            
+            <!-- ponderacion pond-x -->
+			<trans-unit id="pond-1">
+                <source>gracias.por.participar.ponderacion</source>
+                <target>Gracias por participar en la ponderación</target>
+			</trans-unit>
+			<trans-unit id="pond-2">
+                <source>resultados.ponderacion</source>
+                <target>Resultados de la ponderación</target>
+			</trans-unit>
+			<trans-unit id="pond-3">
+                <source>%carrera%.alternativa.mas.opcionada</source>
+                <target>Según los valores que diste a cada una de las preguntas la alternativa de estudio más opcionada para ti es %carrera%</target>
+			</trans-unit>
+			<trans-unit id="pond-4">
+                <source>no.ha.seleccionado.alternativas.estudio</source>
+                <target>No ha seleccionado alternativas de estudio</target>
+			</trans-unit>
+            
+            <!-- pagos pag-x -->
+			<trans-unit id="pag-1">
+                <source>no.existe.pago</source>
+                <target>No existe un pago para este producto</target>
+			</trans-unit>
+			<trans-unit id="pag-2">
+                <source>antes.de.continuar.debes.realizar.el.pago</source>
+                <target>Antes de continuar debes realizar el respectivo pago</target>
+			</trans-unit>
+			<trans-unit id="pag-3">
+                <source>productos.eliminados</source>
+                <target>Productos eliminados</target>
+			</trans-unit>
+			<trans-unit id="pag-4">
+                <source>si.compra.plan.completo.no.puede.agregar.productos</source>
+                <target>Si compra el programa de orientación no puede agregar otros productos</target>
+			</trans-unit>
+			<trans-unit id="pag-5">
+                <source>no.puede.agregar.producto</source>
+                <target>No puede agregar más productos</target>
+			</trans-unit>
+			<trans-unit id="pag-6">
+                <source>debe.seleccionar.mentor.experto</source>
+                <target>Debe seleccionar mentor experto</target>
+			</trans-unit>
+			<trans-unit id="pag-7">
+                <source>debe.seleccionar.mentor.para.comprar.mentorias</source>
+                <target>Para comprar mentorias debe seleccionar primero uno o varios mentores expertos</target>
+			</trans-unit>
+			<trans-unit id="pag-8">
+                <source>seleccione.productos</source>
+                <target>Seleccione productos</target>
+			</trans-unit>
+			<trans-unit id="pag-9">
+                <source>no.ha.seleccionado.productos</source>
+                <target>Aun no has seleccionado productos para pagar</target>
+			</trans-unit>
+			<trans-unit id="pag-10">
+                <source>compra.finalizada</source>
+                <target>Compra finalizada correctamente</target>
+			</trans-unit>
+			<trans-unit id="pag-11">
+                <source>gracias.por.adquirir.nuestros.productos</source>
+                <target>Gracias por adquirir nuestros productos. La transacción ha sido exitosa, una vez el pago sea confirmado te enviaremos una notificación y activaremos tus productos inmediatamente</target>
+			</trans-unit>
+			<trans-unit id="pag-12">
+                <source>compra.en.vocationet</source>
+                <target>Compra en Vocationet</target>
+			</trans-unit>
+			<trans-unit id="pag-13">
+                <source>error.transaccion</source>
+                <target>Error en la transacción</target>
+			</trans-unit>
+			<trans-unit id="pag-14">
+                <source>validacion.transaccion.invalida</source>
+                <target>La validación de la transacción indica que es falsa</target>
+			</trans-unit>
+			<trans-unit id="pag-15">
+                <source>descripcion.transaccion</source>
+                <target>Descrición</target>
+			</trans-unit>
+			<trans-unit id="pag-16">
+                <source>estado.transaccion</source>
+                <target>Estado de la transacción</target>
+			</trans-unit>
+			<trans-unit id="pag-17">
+                <source>metodo.transaccion</source>
+                <target>Forma de pago</target>
+			</trans-unit>
+			<trans-unit id="pag-18">
+                <source>valor.transaccion</source>
+                <target>Valor</target>
+			</trans-unit>
+
+            <!-- RECORRIDO LINEAL recorridoLineal-x -->
+			<trans-unit id="recorridoLineal-1">
+                <source>no.ha.realizado.prueba.diagnostico</source>
+                <target>No ha realizado aún la prueba de Diagnostico.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-2">
+                <source>por.favor.agende.mentoria</source>
+                <target>Por favor agende una mentoría con el mentor de orientación vocacional, si aún no lo ha escogido, lo invitamos a que seleccione uno, si ya tuvo la mentoria, espere a que el mentor indique la finalización de la misma.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-3">
+                <source>no.ha.realizado.test.vocacional</source>
+                <target>No ha realizado aún el test vocacional.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-4">
+                <source>no.ha.realizado.evaluacion360</source>
+                <target>No ha realizado aún la evaluación 360, tenga en cuenta que hasta que tres personas diligencien la prueba, esta se dará como terminada.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-5">
+                <source>no.ha.realizado.diseno.vida</source>
+                <target>No ha realizado aún el diseño de vida.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-6">
+                <source>no.ha.realizado.mercado.laboral</source>
+                <target>No ha realizado aún la prueba de mercado laboral.</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-7">
+                <source>no.ha.realizado.red.mentores</source>
+                <target>No ha realizado aún las mentorias de Red de mentores</target>
+			</trans-unit>
+
+			<!-- CERTIFICACION certificacion-x -->
+			<trans-unit id="certificacion-1">
+                <source>certificado.no.generado</source>
+                <target>Certificado no generado</target>
+			</trans-unit>
+			<trans-unit id="certificacion-2">
+                <source>explicacion.certificado.no.generado</source>
+                <target>Su certificado aún no se ha generado, espere por favor a que el mentor de la aprobación para esto</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

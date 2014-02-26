@@ -42,12 +42,15 @@ class ForosController extends Controller
 		$em = $this->getDoctrine()->getManager();
         $carreras = $em->getRepository('vocationetBundle:Carreras')->findAll();
 
+		/*
         if($id == 0){
 			if($carreras){
 				$id = $carreras[0]->getId();
 			}
 		}
-        $temas = $this->getTemasCountForos($id);
+		*/
+		
+        $temas = $this->get('foros')->getTemasCountForos($id);
         $PosActual = Array('carreraId' => $id, 'temaId' => $temaId);
 
         if ($foroId)
@@ -81,7 +84,7 @@ class ForosController extends Controller
 
 		else
 		{
-			$foros = $this->ForosCarrerasTemas($id, $temaId);
+			$foros = $this->get('foros')->ForosCarrerasTemas($id, $temaId);
 			return $this->render('vocationetBundle:Foros:index.html.twig', array(
 					'carreras' => $carreras, 'temas' => $temas,	'actual' => $PosActual,	'foros' => $foros ));
 		}
@@ -602,61 +605,6 @@ class ForosController extends Controller
 			}
         }
         return $Objcomentarios;
-	}
-
-	/**
-	 * Funcion que trae los foros de la carrera y/o tema filtrados
-	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1
-     * @param Int $carreraId Id de la carrera
-     * @param Int $temaId Id del tema por el que se quiere filtrar (valor default = 0)
-     * @return Array Arreglo con foros que estan incluidos en el filtro
-	 */
-	private function ForosCarrerasTemas($carreraId, $temaId)
-	{
-		$auxWhere = '';
-		if ($temaId) {
-			$auxWhere = ' AND t.id ='.$temaId;
-		}
-		$em = $this->getDoctrine()->getManager();
-		/**
-		 * SELECT * FROM foros f
-		 * INNER JOIN temas t ON t.id = f.tema_id
-		 * INNER JOIN carreras c ON c.id = t.carrera_id
-		 * LEFT JOIN comentarios com ON com.foro_id = f.id;;
-		 */
-		$dql = "SELECT f.id, f.foroTitulo, f.foroTexto, f.created, t.nombre AS temaNombre, COUNT(comment.id) AS countComent
-				FROM vocationetBundle:Foros f
-				JOIN f.tema t
-				JOIN t.carrera c
-				LEFT JOIN vocationetBundle:Comentarios comment WITH comment.foro = f.id
-				WHERE c.id =:carreraId".$auxWhere."
-				GROUP BY f.id";
-		$query = $em->createQuery($dql);
-		$query->setParameter('carreraId', $carreraId);
-		return $query->getResult();
-	}
-
-	/**
-	 * Función que retorna el listado de temas de una carrera y cantidad de foros por tema
-	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
-     * @version 1
-     * @param Int $carreraId Id de la carrera
-     * @return Array Arreglo con datos del tema, y cantidad de foros
-	 */
-    private function getTemasCountForos($carreraId)
-    {
-		$em = $this->getDoctrine()->getManager();
-		$dql = "SELECT t.id, t.nombre, COUNT(f.id) as cantidadForos
-				FROM vocationetBundle:Temas t
-				LEFT JOIN vocationetBundle:Foros f WITH f.tema = t.id
-				WHERE t.carrera =:carreraId
-				GROUP BY t.id";
-		$query = $em->createQuery($dql);
-		$query->setParameter('carreraId', $carreraId);
-		return $query->getResult();
 	}
 
 	/**

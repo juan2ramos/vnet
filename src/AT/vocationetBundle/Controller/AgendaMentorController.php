@@ -50,24 +50,32 @@ class AgendaMentorController extends Controller
                 $currentDate = new \DateTime();
                 
                 $interval = $currentDate->diff($mentoriaInicio);
-                
-                if($interval->invert != 1)
-                { 
-                    $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
-                    $mentoria->setUsuarioMentor($usuarioId);
-                    $mentoria->setMentoriaInicio($mentoriaInicio);
-                    $mentoria->setMentoriaFin($mentoriaFin);
 
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($mentoria);
-                    $em->flush();
+                $tralapa = $this->getValidarMentoriaTralapadas($usuarioId, $mentoriaInicio, $mentoriaFin);
 
-                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
-                }
-                else
-                {
-                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("fecha.invalida"), "text" => $this->get('translator')->trans("fecha.hora.incorrecta")));
-                }
+                if (!$tralapa) {
+					if($interval->invert != 1)
+					{ 
+						$mentoria = new \AT\vocationetBundle\Entity\Mentorias();
+						$mentoria->setUsuarioMentor($usuarioId);
+						$mentoria->setMentoriaInicio($mentoriaInicio);
+						$mentoria->setMentoriaFin($mentoriaFin);
+
+						$em = $this->getDoctrine()->getManager();
+						$em->persist($mentoria);
+						$em->flush();
+
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
+					}
+					else
+					{
+						$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("fecha.invalida"), "text" => $this->get('translator')->trans("fecha.hora.incorrecta")));
+					}
+				}
+				else
+				{
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("mentoria.traslapada")));
+				}
             }
             else
             {
@@ -81,6 +89,29 @@ class AgendaMentorController extends Controller
             'mentorias' => $mentorias
         );
     }
+
+	/**
+	 * Funcion que retorna Bool, TRUE cuando la mentoria se traslada, o se cruza con otra, y FALSE, caso contrario
+	 */
+    private function getValidarMentoriaTralapadas($mentorId, $fechaInicio, $fechaFin)
+    {
+		/**
+		 * SELECT * FROM mentorias
+		 * WHERE usuario_mentor_id = 12 AND (mentoria_inicio between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00')
+		 * OR (mentoria_fin between '2014-01-23 11:55:00' AND '2014-01-23 12:55:00');
+		*/
+
+		$dql = "SELECT m.id FROM vocationetBundle:Mentorias m
+				WHERE m.usuarioMentor =:mentorId AND ((m.mentoriaInicio BETWEEN :fInicio AND :fFin) OR (m.mentoriaFin BETWEEN :fInicio AND :fFin))";
+		$em = $this->getDoctrine()->getManager();
+		$query = $em->createQuery($dql);
+		$query->setParameter('fInicio', $fechaInicio);
+		$query->setParameter('fFin', $fechaFin);
+		$query->setParameter('mentorId', $mentorId);
+		$aux = $query->getResult();
+		$return = ($aux) ? true : false;
+		return $return;
+	}
     
     /**
      * Funcion para crear el formulario de mentoria
@@ -99,7 +130,6 @@ class AgendaMentorController extends Controller
            ->add('hora', 'text', array('required' => true))
            ->add('min', 'text', array('required' => true))
            ->getForm();
-        
         return $form; 
     }
     
@@ -114,6 +144,7 @@ class AgendaMentorController extends Controller
                     m.id,
                     m.mentoriaInicio,
                     m.mentoriaFin,
+                    m.mentoriaEstado,
                     u.id estudianteId,
                     u.usuarioNombre,
                     u.usuarioApellido
@@ -121,13 +152,11 @@ class AgendaMentorController extends Controller
                     vocationetBundle:Mentorias m
                     LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
                 WHERE
-                    m.usuarioMentor = :usuarioId";
-        
+                    m.usuarioMentor = :usuarioId ";
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $result = $query->getResult();
-        
         return $result;
     }
     
@@ -153,6 +182,7 @@ class AgendaMentorController extends Controller
                     m.id,
                     m.mentoriaInicio,
                     m.mentoriaFin,
+                    m.mentoriaEstado,
                     u.id estudianteId,
                     u.usuarioNombre,
                     u.usuarioApellido,
@@ -214,6 +244,38 @@ class AgendaMentorController extends Controller
         {
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("mentoria.no.eliminada"), "text" => $this->get('translator')->trans("mentoria.no.se.puede.eliminar")));
         }
+        return $this->redirect($this->generateUrl('agenda_mentor'));
+    }
+    
+     /**
+     * Accion para marcar como finalizada una mentoria
+     * 
+     * @Route("/finalizar/{id}", name="finalizar_mentoria_mentor")
+     * @return Response
+     */
+    public function finalizarMentoriaAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');
+        
+        $em = $this->getDoctrine()->getManager();
+        $mentoria = $em->getRepository('vocationetBundle:Mentorias')->findOneBy(array('id' => $id, 'usuarioMentor' => $usuarioId));
+        
+        if($mentoria)
+        {
+            $mentoria->setMentoriaEstado(1);
+            $em->persist($mentoria);
+            $em->flush();
+
+			if ($rolId == 2) {
+				$this->get('perfil')->actualizarpuntos('redmentores', $mentoria->getUsuarioEstudiante());
+			}
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.finalizada"), "text" => $this->get('translator')->trans("mentoria.finalizada.correctamente")));
+        }
+        
         return $this->redirect($this->generateUrl('agenda_mentor'));
     }
 }

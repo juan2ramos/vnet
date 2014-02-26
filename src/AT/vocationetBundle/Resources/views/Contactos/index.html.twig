@@ -19,6 +19,10 @@
 	</style>
 {% endblock style %}
 
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 	<div class="row">
 		<div class="col-lg-12">
@@ -35,7 +39,7 @@
                     {% trans from "label" %}contactos{% endtrans %}
                 </header>
 				{% if contactos %}
-					<table class="table table-striped border-top" id="sample_1">
+					<table class="table table-striped border-top datatable">
 						<thead>
 							<tr>
 								<th></th>
@@ -120,8 +124,7 @@
 {% block script %}
     <script type="text/javascript" src="{{ asset('assets/data-tables/jquery.dataTables.js') }}"></script>
     <script type="text/javascript" src="{{ asset('assets/data-tables/DT_bootstrap.js') }}"></script>
-
-    {% include '::dynamic-table.js.twig' %}
+    <script type="text/javascript" src="{{ asset('js/vocationet/datatables.js') }}"></script>
 
     <script>
 		$('.table').on('click', '.href', function(){
@@ -133,15 +136,16 @@
 			var u = $(this).data('u'); //Usuario con el que existe la relacion
 			var r = $(this).data('r'); //Id de la relacion
 			var row = $(this).closest('tr').attr('id');
-            var nRow =  $('#sample_1 tbody tr[id='+row+']')[0];
-			var posActual = $(this).parent();
 
-			posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="{{ asset('img/loading.gif')}}"></div>');
+            var nRow =  $('.datatable tbody tr[id='+row+']')[0];
+			var posActual = $(this).parent();
+            
+            posActual.html('<div STYLE="text-align:center;" class="loading-center"><img src="'+asset_path+'img/loading.gif"></div>');
 			$.post('{{ path('edit_estado_relacion')}}', { u: u, t: t, r: r}, function(data){
 				posActual.html(data);
 				if (data == '') {
 					$('#rel_'+r).hide('slow');
-					setTimeout(function(){ tbl.fnDeleteRow( nRow, null, true ); }, 1000);
+					setTimeout(function(){ dataTable.table.fnDeleteRow( nRow, null, true ); }, 1000);
 				}
 			});
 		});

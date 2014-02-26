@@ -1,0 +1,39 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Avatars
+ *
+ * @ORM\Table(name="avatars")
+ * @ORM\Entity
+ */
+class Avatars
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nombre", type="string", length=60, nullable=false)
+     */
+    private $nombre;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="imagen", type="string", length=200, nullable=false)
+     */
+    private $imagen;
+
+
+}

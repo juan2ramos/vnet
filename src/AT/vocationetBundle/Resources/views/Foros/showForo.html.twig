@@ -1,5 +1,10 @@
 {% extends "::base.html.twig" %}
 
+{% block menu %}
+	{% set active = 'foros' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 	{% set foroId = foro.id %}
 	{% set usuarioId = sess_user.id %}

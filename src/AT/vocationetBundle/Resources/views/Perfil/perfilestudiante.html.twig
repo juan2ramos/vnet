@@ -8,9 +8,13 @@
 </style>
 {% endblock style %}
 
-{% block body %}
+{% block menu %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
 
-	<div class='col-lg-9'>
+{% block body %}
+	{% set span = (publicidad) ? 9 : 12 %}
+	<div class='col-lg-{{ span }}'>
 		<div class="row">
 		
 			{# PERFIL ESTUDIANTE #}
@@ -30,64 +34,69 @@
 							<li class="active"><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
 							{% if sess_user.id == perfil.usuarioId %}
 								<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
-								<li data-original-title="{% trans from "label" %}descripcion.foros{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-									<a href="{{ path('foros_temas')}}"> <i class="icon-list-alt"></i> {% trans from "label" %}foros{% endtrans %}</a>
-								</li>
-								<li data-original-title="{% trans from "label" %}descripcion.mensajes{% endtrans %}" class='tooltips' data-placement="right" data-toggle="tooltip">
-									<a href="#">
-										<i class="icon-inbox"></i> {% trans from "label" %}mensajes{% endtrans %}
-										<span class="label label-success pull-right r-activity">{{ pendiente.msjsinleer }}</span>
-									</a>
-								</li>
+							{% endif %}
+
+							{# MODAL EN DONDE SE MUESTRA EL INFORME SUBIDO POR EL MENTOR Y VISIBLE SOLO PARA EL MENTOR #}
+							{% if showInformeML %}
+								<li class=""><a data-toggle="modal" href="#myModal" > <i class="icon-file-text-alt"></i> {% trans from "label" %}informe.mercado.laboral{% endtrans %}</a></li>
+								<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none;">
+									<div class="modal-dialog">
+										<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+													<h4 class="modal-title">{% trans from "label" %}informe.mercado.laboral{% endtrans %}</h4>
+												</div>
+												<div class="modal-body" STYLE='text-align:center;'>
+													<iframe id="fraDisabled" src="{{ asset(rutaInformeML) ~ '?f='~'now'|date('U') }}" width="100%" height="300px">
+													</iframe>
+												</div>
+												<div class="modal-footer">
+													<button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
 							{% endif %}
 						</ul>
 					</section>
 
-					{# PLATAFORMA - RED DE MENTORES - PONDERACION #}
-					<section class="panel">
-						<div class="row">
+					{# PUNTUACIÓN DEL USUARIO #}
+					{% if perfil.usuarioPuntos %}
+						<div class="row state-overview">
 							<div class="col-lg-12">
-								<div class="panel">
-									<div class="panel-body bio-graph-info">
-
-										<h4>
-											<span data-original-title="{% trans from "label" %}explicacion.plataforma{% endtrans %}" class='tooltips' data-placement="top" data-toggle="tooltip">
-												{% trans from "label" %}plataforma{% endtrans %}
-											</span>
-										</h4>
-										<div class="row-desk col-lg-12 row paddBtn">
-											<div class='col-lg-12'>PENDIENTE % DE AVANCE</div>
-										</div>
-
-										<h4>
-											<span data-original-title="{% trans from "label" %}explicacion.red.mentores{% endtrans %}" class='tooltips' data-placement="top" data-toggle="tooltip">
-												{% trans from "label" %}red.mentores{% endtrans %}
-											</span>
-										</h4>
-										<div class="row-desk col-lg-12 row paddBtn">
-											<div class='col-lg-12'>PENDIENTE % DE AVANCE</div>
-										</div>
-
-										<h4>
-											<span data-original-title="{% trans from "label" %}explicacion.ponderacion{% endtrans %}" class='tooltips' data-placement="top" data-toggle="tooltip">
-												{% trans from "label" %}ponderacion{% endtrans %}
-											</span>
-										</h4>
-										<div class="row-desk col-lg-12 row paddBtn">
-											<div class='col-lg-12'>PENDIENTE % DE AVANCE</div>
-										</div>
-
-										{# BOTONER DE REDIRECCIONAMIENTO #}
-										<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
-											<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.diagnostico{% endtrans %}</button>
-											<br><br>
-											<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}continuar.programa{% endtrans %}</button>
-										</div>
+								<section class="panel">
+									<div class="symbol blue" style='padding:5px;width:30%'>
+										{% set auxName = '' %}
+										{% if perfil.usuarioPuntos > 1500 %}
+											<img src="{{ asset('img/vocationet/medallas/campeon.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}campeon{% endtrans %}{%endset %}
+										{% elseif perfil.usuarioPuntos > 1000 %}
+											<img src="{{ asset('img/vocationet/medallas/master.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}master{% endtrans %}{%endset %}
+										{% elseif perfil.usuarioPuntos > 600 %}
+											<img src="{{ asset('img/vocationet/medallas/oro.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}oro{% endtrans %}{%endset %}
+										{% elseif perfil.usuarioPuntos > 300 %}
+											<img src="{{ asset('img/vocationet/medallas/plata.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}plata{% endtrans %}{%endset %}
+										{% elseif perfil.usuarioPuntos > 100 %}
+											<img src="{{ asset('img/vocationet/medallas/bronce.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											{% set auxName %}{% trans from "label" %}bronce{% endtrans %}{%endset %}
+										{% else %}
+											<img src="{{ asset('img/vocationet/medallas/menos100.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+										{% endif %}
 									</div>
-								</div>
+									<div class="value">
+										<h1>{{ perfil.usuarioPuntos|default(0) }}</h1>
+										<p>{% trans from "label" %}puntos{% endtrans %}</p>
+										<p>{{ auxName}}</p>
+									</div>
+								</section>
 							</div>
 						</div>
-					</section>
+					{% endif %}
+
 				</aside>
 				
 				<aside class="profile-info col-lg-8">
@@ -123,21 +132,14 @@
 									{% trans from "label" %}semaforo{% endtrans %}:
 								</div>
 								<div class='col-lg-8'>
-									
-									<span>{{ pendiente.semaforo.porcentaje }}%</span>
-									<div class="progress progress-striped progress-sm" STYLE='margin-bottom:0px;'>
+									{#<span>{{ pendiente.semaforo.porcentaje }}%</span>#}
+									<div class="progress progress-striped progress-sm" STYLE='margin-bottom:0px;width:20%'>
 										<div class="progress-bar {{ pendiente.semaforo.color }}" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ pendiente.semaforo.porcentaje }}%">
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="row-desk col-lg-12 row paddBtn">
-								<div data-original-title="{% trans from "label" %}descripcion.puntuacion{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
-									{% trans from "label" %}puntuacion{% endtrans %}:
-								</div>
-								<div class='col-lg-8'>PENDIENTE</div>
-							</div>
-							<div class="row-desk col-lg-12 row paddBtn">
+							{#<div class="row-desk col-lg-12 row paddBtn">
 								<div data-original-title="{% trans from "label" %}descripcion.amigos.y.mentores{% endtrans %}" class='col-lg-4 tooltips' data-placement="left" data-toggle="tooltip">
 									{% trans from "label" %}amigos.y.mentores{% endtrans %}:
 								</div>
@@ -149,6 +151,7 @@
 								</div>
 								<div class='col-lg-8'>PENDIENTE</div>
 							</div>
+							#}
 							<hr>
 
 							{# INFORMACION DEL COLEGIO #}
@@ -178,8 +181,79 @@
 						</div>
 					</section>
 
-					{# PORCENTAJE DEL PROGRAMA #}
+					{# PLATAFORMA - RED DE MENTORES - PONDERACION #}
 					<section class="panel">
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="panel">
+									<div class="panel-body bio-graph-info">
+
+										<h4>
+											<span data-original-title="{% trans from "label" %}explicacion.plataforma{% endtrans %}" class='tooltips' data-placement="top" data-toggle="tooltip">
+												{% trans from "label" %}plataforma{% endtrans %}
+											</span>
+										</h4>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P1) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P1) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}diagnostico{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P2) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P2) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}test.vocacional{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P9) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P9) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}evaluacion.360{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P10) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P10) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}diseno.vida{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P11) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P11) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}mercado.laboral{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P12) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P12) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}red.mentores{% endtrans %}</div>
+										</div>
+										<div class="row-desk col-lg-12 row paddBtn">
+											{% set icon = (recorrido.P13) ? 'icon-ok-sign' : 'icon-remove-sign' %}
+											{% set class = (recorrido.P13) ? 'bg-success' : 'bg-important' %}
+											<div class='col-lg-2'><span class="badge {{class}}" style='font-size:15px;'><i class="{{icon}}"></i></span></div>
+											<div class='col-lg-10'>{% trans from "label" %}ponderacion{% endtrans %}</div>
+										</div>
+
+										{# BOTONER DE REDIRECCIONAMIENTO #}
+										<div class="row-desk col-lg-12 row paddBtn" style='text-align:center;'>
+											{% if (sess_user.id == perfil.usuarioId) and (recorrido.P1 == false) %}
+												<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-success">{% trans from "label" %}iniciar.diagnostico{% endtrans %}</a>
+												{#<br><br>
+												<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}continuar.programa{% endtrans %}</button>#}
+											{%endif %}
+										</div>
+									</div>
+								</div>
+							</div>	
+						</div>
+					</section>
+					
+                      
+
+					{# PORCENTAJE DEL PROGRAMA #}
+					{#<section class="panel">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="panel">
@@ -187,7 +261,6 @@
 										<h1>{% trans from "label" %}porcentaje.programa{% endtrans %}</h1>
 										<div class='col-lg-12 paddBtn'>{% trans from "label" %}porcentaje.de.avance{% endtrans %}</div>
 										<div class='col-lg-12'>
-
 
 											<div class="progress progress-striped active progress-sm">
 												<div class="progress-bar progress-bar-success" style="width: 25%"></div>
@@ -207,10 +280,10 @@
 								</div>
 							</div>
 						</div>
-					</section>
+					</section>#}
 
 					{# DIAGNOSTICO #}
-					<section class="panel">
+					{#<section class="panel">
 						<div class="row">
 							<div class="col-lg-12">
 								<div class="panel">
@@ -274,22 +347,42 @@
 												<p>{% trans from "label" %}que.es.tdc{% endtrans %}</p>
 												<div STYLE='text-align:justify;'>{% trans from "label" %}explicacion.tdc{% endtrans %}</div>
 												<br>
-												<div class='col-lg-12' style='text-align:right;'>
-													<button type="button" class="btn btn-shadow btn-success">{% trans from "label" %}diagnostico{% endtrans %}</button>
-												</div>
+												{% if (sess_user.id == perfil.usuarioId) and recorrido.P1 == false %}
+													<div class='col-lg-12' style='text-align:right;'>
+														<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-success">{% trans from "label" %}diagnostico{% endtrans %}</a>
+													</div>
+												{% endif %}
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</section>
+					</section>#}
 				</aside>
 			{% endif %}
 
 		</div>
 	</div>
-	<div class='col-lg-3' color='red'>
-		<div><h2>PUBLICIDAD</h2></div>
-	</div>
+	
+	{% if publicidad %}
+		<div class='col-lg-3' color='red'>
+			<div>
+				{% for entity in publicidad %}
+					{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+				{% endfor %}
+			</div>
+		</div>
+	{% endif %}
 {% endblock body %}
+
+{% block script %}
+	{% if showInformeML %}
+		<script>
+			//Desactivar click derecho de ifram de PDF
+			$('#fraDisabled').ready(function() {
+				window.frames["fraDisabled"].document.oncontextmenu = function(){return false;};
+			});
+		</script>
+	{% endif %}
+{% endblock script %}

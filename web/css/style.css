@@ -387,7 +387,7 @@ a.logo {
     font-size: 21px;
     color: #2e2e2e;
     float: left;
-    margin-top: 15px;
+    margin-top: 2px;
     text-transform: uppercase;
 }
 
@@ -1447,8 +1447,8 @@ h3.timeline-title {
     /* Safari and Chrome */
     .panel-footer.revenue-foot {
         margin-bottom: -4px;
-    };
     }
+}
 
 
 .panel-footer.revenue-foot ul  {
@@ -2943,6 +2943,13 @@ ul.amounts li {
     border-bottom: none;
 }
 
+.tab-bg-green {
+    background: #00A8B3;
+    border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    border-bottom: none;
+}
+
 .panel-heading .nav > li > a,
 .panel-heading .nav > li.active > a, .panel-heading .nav > li.active > a:hover, .panel-heading .nav > li.active > a:focus {
     border-width: 0;
@@ -3531,12 +3538,15 @@ table.sliders tr td {
     border: 1px solid #E2E2E4;
     border-radius: 4px;
     -webkit-border-radius: 4px;
-    float: right;
+    float: left;
     margin-right: -37px;
     margin-top: -34px;
     padding: 8px;
     text-align: center;
     background: #EEEEEE;
+}
+.date input {
+	padding-left:40px;
 }
 
 .daterangepicker .ranges .range_inputs > div:nth-child(2) {
@@ -3650,22 +3660,24 @@ table.sliders tr td {
     color: #fff;
     cursor: auto;
     background: #A9D86E;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    width: 150px;
+    /*height: 100px;
+    line-height: 100px;*/
+    padding: 10px;
 }
 
 .stepy-titles li div{
     font-size:16px;
     font-weight: 300;
     background: #eee;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    width: 100px;
-    height: 100px;
-    line-height: 100px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    width: 150px;
+    /*height: 100px;
+    line-height: 100px;*/
+    padding: 10px;
 }
 
 

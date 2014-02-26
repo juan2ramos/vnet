@@ -5,67 +5,69 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-datepicker/css/datepicker.css') }}" />
 {% endblock style %}
 
-{% block body %}
-    
-<div class="row">
-    <div class="col-lg-3">
-        {# FORMULARIO DE CREACION #}
-        <section class="panel">
-            <header class="panel-heading">
-                {% trans  from "label" %}agregar.mentoria{% endtrans %}
-            </header>
-            <div class="panel-body">
-                <form role="form" action="{{ path('agenda_mentor') }}" method="POST" >
-                    <div class="form-group">
-                        <label>{% trans  from "label" %}fecha{% endtrans %}</label>
-                        {{ form_widget(form.fecha, {'attr':{'class':'form-control'} }) }}
-                    </div>                    
-                    <div class="form-group">
-                        <label>{% trans  from "label" %}hora{% endtrans %}</label><br/>
-                        <select id="form_hora" name="form[hora]" required="required" class="form-control" style="width:45%; display: inline;">
-                            {% for h in 0..23 %}
-                                <option value="{{h}}" {% if h == 'now'|date('H') %} selected="" {% endif %}>{% if h|length == 1 %}0{% endif %}{{h}}</option>
-                            {% endfor %}
-                        </select>
-                        :
-                        <select id="form_min" name="form[min]" required="required" class="form-control" style="width:45%; display: inline;">
-                            {% for m in range(0, 55, 5) %}
-                                <option value="{{m}}" {% if m >= 'now'|date('i') and m <= 'now'|date('i')+5 %} selected="" {% endif %} >{% if m|length == 1 %}0{% endif %}{{m}}</option>
-                            {% endfor %}
-                        </select>
-                        {{ form_errors(form) }}
-                        {{ form_widget(form._token) }}
-                    </div>                    
-                    <button type="submit" class="btn btn-info">{% trans  from "label" %}agregar.mentoria{% endtrans %}</button>
-                </form>
+{% block menu %}
+	{% set active = 'agendaMentor' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
 
-            </div>
-        </section>
-    </div>
-    <aside class="col-lg-9">
-        <section class="panel">
-            <div class="panel-body">
-                <div id="calendar" class="has-toolbar"></div>
-            </div>
-        </section>
-    </aside>
-</div>
-    
-<div id="modal-mentoria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title">{% trans  from "label" %}mentoria{% endtrans %}</h4>
-          </div>
-          <div class="modal-body">
-              <div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>
-          </div>    
-      </div>
-    </div>
-</div>
-    
-    
+{% block body %}
+	<div class="row">
+		<div class="col-lg-3">
+			{# FORMULARIO DE CREACION #}
+			<section class="panel">
+				<header class="panel-heading">
+					{% trans  from "label" %}agregar.mentoria{% endtrans %}
+				</header>
+				<div class="panel-body">
+					<form role="form" action="{{ path('agenda_mentor') }}" method="POST" >
+						<div class="form-group">
+							<label>{% trans  from "label" %}fecha{% endtrans %}</label>
+							{{ form_widget(form.fecha, {'attr':{'class':'form-control'} }) }}
+						</div>                    
+						<div class="form-group">
+							<label>{% trans  from "label" %}hora{% endtrans %}</label><br/>
+							<select id="form_hora" name="form[hora]" required="required" class="form-control" style="width:45%; display: inline;">
+								{% for h in 0..23 %}
+									<option value="{{h}}" {% if h == 'now'|date('H') %} selected="" {% endif %}>{% if h|length == 1 %}0{% endif %}{{h}}</option>
+								{% endfor %}
+							</select>
+							:
+							<select id="form_min" name="form[min]" required="required" class="form-control" style="width:45%; display: inline;">
+								{% for m in range(0, 55, 5) %}
+									<option value="{{m}}" {% if m >= 'now'|date('i') and m <= 'now'|date('i')+5 %} selected="" {% endif %} >{% if m|length == 1 %}0{% endif %}{{m}}</option>
+								{% endfor %}
+							</select>
+							{{ form_errors(form) }}
+							{{ form_widget(form._token) }}
+						</div>                    
+						<button type="submit" class="btn btn-info">{% trans  from "label" %}agregar.mentoria{% endtrans %}</button>
+					</form>
+
+				</div>
+			</section>
+		</div>
+		<aside class="col-lg-9">
+			<section class="panel">
+				<div class="panel-body">
+					<div id="calendar" class="has-toolbar"></div>
+				</div>
+			</section>
+		</aside>
+	</div>
+		
+	<div id="modal-mentoria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			  <div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				  <h4 class="modal-title">{% trans  from "label" %}mentoria{% endtrans %}</h4>
+			  </div>
+			  <div class="modal-body">
+				  <div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>
+			  </div>    
+		  </div>
+		</div>
+	</div>
 {% endblock body %}
 
 {% block script %}
@@ -100,7 +102,11 @@
                 end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
                 allDay: false,
                 {% if mentoria.estudianteId %}
-                    color: '#72B572',
+                    {% if mentoria.mentoriaEstado == 0 %}
+                        color: '#EB9823',
+                    {% else %}
+                        color: '#72B572',                        
+                    {% endif %}
                 {% else %}
                     color: '#8695A6',                    
                 {% endif %}

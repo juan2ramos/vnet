@@ -1,0 +1,125 @@
+{% extends '::base.html.twig' %}
+
+{% block style %}
+<style>
+    form input{
+        margin-bottom: 5px;
+    }
+</style>
+{% endblock style %}
+
+{% block menu %}
+	{% set active = 'evaluaci360' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        
+        {# HEADER #}
+        <section class="panel post-wrap pro-box" id="header-cuestionario">
+            <aside>
+              <div class="post-info">
+                  <span class="arrow-pro right"></span>
+                  <div class="panel-body">
+                      <div class="text-center twite">
+                          <h1 style="font-size: 40px;">{{ formulario_info.nombre }}</h1>
+                      </div>
+                  </div>
+              </div>
+            </aside>
+            <aside class="post-highlight terques v-align">
+              <div class="panel-body text-center">
+                  <div class="panel-body">
+                      <h2>{{ formulario_info.encabezado }}</h2>
+                  </div>
+              </div>
+            </aside>
+        </section>
+        
+    </div>
+</div>
+<div class="row">    
+    <div class="col-lg-8">
+        
+        <section class="panel" id="div-cuestionario">
+            <header class="panel-heading" style="font-size: 14px;">
+                {{ formulario_info.descripcion|raw }}
+            </header>
+            <div class="panel-body">
+                <form action="{{ path('evaluacion360') }}" method="post" class="form-horizontal form-test" id="form">
+                    <div class="form-group">
+                        <label for="inputEmail1" class="col-lg-2 control-label">
+                            {% trans from "label" %}emails.360{% endtrans %}
+                            <a class="btn btn-info btn-xs" style="margin-top: 10px;" id="btn-add-email" ><i class="icon-plus"></i> {% trans from "label" %}agregar.email{% endtrans %}</a>
+                        </label>
+                        <div class="col-lg-10 div-emails">
+                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans from "label" %}email{% endtrans %} 1"/>
+                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans from "label" %}email{% endtrans %} 2" />
+                            <input type="email" class="form-control" name="form[emails][]" required="required" placeholder="{% trans from "label" %}email{% endtrans %} 3" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            {{ form_widget(form._token) }}
+                            {{ form_errors(form) }} 
+                            <input type="submit" class="btn btn-shadow btn-primary" value="{% trans from "label" %}enviar.invitaciones{% endtrans %}"/>
+                            {% if count_participaciones >= 3 %}
+                            <a href="{{ path('agenda_estudiante') }}" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        
+    </div>
+    
+    <div class="col-lg-4">
+        <section class="panel" id="div-cuestionario">
+            <header class="panel-heading" style="font-size: 14px;">
+                {% trans from "label" %}participaciones{% endtrans %}
+            </header>
+            <table class="table table-striped">
+                <tbody>
+                {% for participacion in participaciones %}
+                    <tr>
+                        <td style="overflow: hidden; text-overflow: ellipsis;">
+                            {% if participacion.usuarioId %}
+                                <a href="{{ path("perfil", {"perfilId":participacion.usuarioId}) }}">{{ participacion.usuarioNombre ~ ' ' ~ participacion.usuarioApellido }}</a>
+                                <br/>
+                            {% endif %}
+                            {{ participacion.correoInvitacion }}
+                            <br/>
+                            {{ participacion.fecha|date('d/m/Y H:i') }}
+                            <br/>
+                            {% if participacion.estado == 1 %}
+                                {% trans from "label" %}participo{% endtrans %}
+                            {% else %}
+                                {% trans from "label" %}no.ha.participado{% endtrans %}
+                            {% endif %}
+                        </td>
+                        
+                    </tr>
+                {% else %}
+                    <tr><td>{% trans from "label" %}no.hay.participaciones{% endtrans %}</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+</div>
+{% endblock body %}
+
+{% block script %}
+<script>
+	(function(){
+		var email_fields = 3;
+		$("form").on('click', "#btn-add-email", function(){
+			email_fields ++;
+			$(".div-emails").append('<input type="email" class="form-control" name="form[emails][]" placeholder="{% trans from "label" %}email{% endtrans %} '+email_fields+'"/>');
+		})
+	})();
+</script>
+{% endblock script %}

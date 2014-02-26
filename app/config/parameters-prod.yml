@@ -1,0 +1,24 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     vocationet-db.cxzjwkrtctii.us-east-1.rds.amazonaws.com
+    database_port:     3306
+    database_name:     vocationet_prod
+    database_user:     vocationetadmin
+    database_password: v0c4t10n3t
+
+    mailer_transport:  smtp
+    mailer_host:       email-smtp.us-east-1.amazonaws.com
+    mailer_user:       AKIAIEYXK7XHIUOAOYAQ
+    mailer_password:   Albuq+yWOsjZqkM8lJOp5ucptuTeLtK02tf2zTR7xb4l
+
+    locale:            en
+    secret:            c35163b10d6eafe418a06c107ddfb77dd6
+
+    facebook_app_id:   1440367069511188
+    facebook_app_secret: 44c541754cf143537e99978f46c92a54
+
+    linkedin_api_key:   75rlzg7jzsasg6
+    linkedin_secret_key: xo6kT9mKQHGceZKQ
+
+    payu_merchantId: 505798
+    payu_ApiKey: 2tpsd6jmfh11kob9uon8i9vnad

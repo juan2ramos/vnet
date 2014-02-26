@@ -1,5 +1,284 @@
 {% extends "::base.html.twig" %}
 
+{% block style %}
+	<link rel="stylesheet" href="{{ asset('css/owl.carousel.css') }}" type="text/css">
+
+	<style>
+		#owl-demo .item{
+			background: #58C9F3;
+			padding: 3px 3px;
+			margin: 5px;
+			color: #FFF;
+			-webkit-border-radius: 3px;
+			-moz-border-radius: 3px;
+			border-radius: 3px;
+			text-align: center;
+			overflow: hidden;
+			text-overflow:ellipsis;
+			cursor: pointer;
+		}
+		#owl-demo .item.active{
+			background: #F8D347;    
+		}
+		#owl-demo .item img{
+			width: 100%;
+			height: auto;
+		}
+		#owl-demo .item .title-item{
+			padding-top: 5px;
+			height: 50px;
+			line-height: 15px;
+			vertical-align: middle;
+		}
+	</style>
+{% endblock style %}
+
+{% block menu %}
+	{% set active = 'home' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
 
+<div class="row">
+    <div class="col-lg-8">	
+        <section class="panel">
+            <div class="panel-body" style='padding:0px;'>
+			
+				<div width="700" height="350">
+					<img src="{{ asset(getParameter('ruta_mapa_vocationet')) }}" width="700" height="350" alt="mapaVocationet" usemap="#vocationetmap">
+					<!--<img src="mapaVocationet.png" width="700" height="350" alt="mapaVocationet" usemap="#vocationetmap">-->
+
+					<map name="vocationetmap">
+						<area alt="{% trans from 'label' %}inicio{% endtrans %}" shape="circle" coords="104,222,12">
+						<area alt="{% trans from 'label' %}diagnostico{% endtrans %}" shape="circle" coords="220,249,12" href="{{ path('diagnostico') }}" />
+						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="307,257,324,280" href="{{ path('lista_mentores_ov') }}" />
+						<area alt="{% trans from 'label' %}test.vocacional{% endtrans %}" shape="circle" coords="396,249,12" href="{{ path('test_vocacional') }}" />
+						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="413,200,431,222" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{% trans from 'label' %}evaluacion.360{% endtrans %}" shape="circle" coords="398,175,10" href="{{ path('evaluacion360') }}" />
+						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="315,199,332,217" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{% trans from 'label' %}diseno.vida{% endtrans %}" shape="circle" coords="267,172,10" href="{{ path('diseno_vida') }}" />
+						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="258,119,273,138" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{% trans from 'label' %}mercado.laboral{% endtrans %}" shape="circle" coords="178,85,10" href="{{ path('mercado_laboral') }}" />
+						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="226,74,240,95" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{% trans from 'label' %}red.mentores{% endtrans %}" shape="rect" coords="281,31,305,69" href="{{ path('red_mentores') }}" />
+						<area alt="{% trans from 'label' %}ponderacion{% endtrans %}" shape="circle" coords="384,94,10" href="{{ path('ponderacion') }}" />
+						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="431,82,448,104" href="{{ path('agenda_estudiante') }}" />
+					</map>
+					
+					{# dump(recorrido) #}
+					
+					
+					{% if recorrido.P1 %}
+						<!-- recorrido inicio - diagnostico -->
+						<div STYLE='background:blue;width:52px;height:4px;position:absolute;top:220px;left:128px;'></div>
+						<div STYLE='background:blue;width:4px;height:31px;position:absolute;top:220px;left:177px;'></div>
+						<div STYLE='background:blue;width:52px;height:4px;position:absolute;top:248px;left:177px;'></div>
+					{% endif %}
+
+					{% if programa_orientacion %}
+                    
+						{% if recorrido.M1 %}
+							<!-- recorrido diagnostico- EOV  -->
+							<div STYLE='background:blue;width:42px;height:4px;position:absolute;top:248px;left:244px;'></div>
+							<div STYLE='background:blue;width:4px;height:23px;position:absolute;top:248px;left:282px;'></div>                    
+							<div STYLE='background:blue;width:42px;height:4px;position:absolute;top:267px;left:282px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P2 %}
+							<!-- recorrido EOV - Testvocacional  -->
+							<div STYLE='background:blue;width:34px;height:4px;position:absolute;top:267px;left:337px;'></div>
+							<div STYLE='background:blue;width:4px;height:23px;position:absolute;top:248px;left:368px;'></div> 
+							<div STYLE='background:blue; width:32px; height:4px; position:absolute; top:248px; left:372px;'></div>
+						{% endif %}
+					
+						{% if recorrido.M2 %}
+							<!-- recorrido Testvocacional - EOV -->
+							<div STYLE='background:blue; width:20px; height:4px; position:absolute; top:248px; left:418px;'></div>
+							<div STYLE='background:blue;width:4px;height:34px;position:absolute;top:218px;left:435px;'></div> 
+						{% endif %}
+						
+						{% if recorrido.P9 %}
+							<!-- recorrido EOV - Evaluacion360 -->
+							<div STYLE='background:blue; width:18px; height:4px; position:absolute; top:211px; left:414px;'></div>
+							<div STYLE='background:blue; width:4px; height:32px; position:absolute; top:183px; left:412px;'></div>
+						{% endif %}
+						
+						{% if recorrido.M3 %}
+							<!-- recorrido Evaluacion360 - EOV -->
+							<div STYLE='background:blue; width:33px; height:4px; position:absolute; top:173px; left:373px;'></div>
+							<div STYLE='background:blue; width:4px; height:34px; position:absolute; top:175px; left:373px;'></div>
+							<div STYLE='background:blue; width:31px; height:4px; position:absolute; top:207px; left:346px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P10 %}
+							<!-- recorrido EOV - Diseñodevida -->
+							<div STYLE='background:blue; width:51px; height:4px; position:absolute; top:207px; left:281px;'></div>
+							<div STYLE='background:blue; width:4px; height:31px; position:absolute; top:180px; left:280px;'></div>
+						{% endif %}
+						
+						{% if recorrido.M4 %}
+							<!-- recorrido Diseñodevida - EOV -->
+							<div STYLE='background:blue; width:4px; height:25px; position:absolute; top:137px; left:280px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P11 %}
+							<!-- recorrido EOV - mercadolaboral -->
+							<div STYLE='background:blue; width:83px; height:4px; position:absolute; top:127px; left:191px;'></div>
+							<div STYLE='background:blue; width:4px; height:36px; position:absolute; top:95px; left:190px;'></div>
+						{% endif %}
+						
+						{% if recorrido.M5 %}
+							<!-- recorrido mercadolaboral - EOV -->
+							<div STYLE='background:blue; width:43px; height:4px; position:absolute; top:83px; left:200px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P12 %}
+							<!-- recorrido EOV - redmentores -->
+							<div STYLE='background:blue; width:4px; height:29px; position:absolute; top:50px; left:247px;'></div>
+							<div STYLE='background:blue; width:49px; height:4px; position:absolute; top:50px; left:248px;'></div>
+						{% endif %}
+						
+						{% if recorrido.P13 %}
+							<!-- recorrido redmentores - ponderacion -->
+							<div STYLE='background:blue; width:81px; height:4px; position:absolute; top:50px; left:319px;'></div>
+							<div STYLE='background:blue; width:4px; height:34px; position:absolute; top:51px; left:397px;'></div>
+						{% endif %}
+						
+						{% if recorrido.M6 %}
+							<!-- recorrido ponderacion - EOV -->
+							<div STYLE='background:blue; width:42px; height:4px; position:absolute; top:92px; left:407px;'></div>
+						{% endif %}
+					{% endif %}
+				</div>
+			</div>
+        </section>
+    </div>
+	
+
+    {# invitaciones a evaluaciones 360 #}
+    {% if invitaciones360 %}
+    <div class="col-lg-4">
+        <section class="panel">
+            <div class="panel-body">
+                {% for invitacion in invitaciones360 %}
+                    <div class="alert alert-info fade in">
+                        <strong>{{ invitacion.usuarioNombre ~' '~ invitacion.usuarioApellido }}</strong>
+                        {% trans from "label" %}te.ha.invitado.a.su.evaluacion.360{% endtrans %}.
+                        {% trans from "label" %}para.participar{% endtrans %}
+                        <a href="{{ path("evaluacion360_evaluacion", {"id": invitacion.usuarioEvaluado } ) }}" style="text-decoration: underline;">{% trans from "label" %}haz.click.aqui{% endtrans %}</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </div>
+    {% endif %}
+        
+        {#
+        <section class="panel">
+            <div class="panel-body">
+                <div id="owl-demo" class="owl-carousel owl-theme">
+                  <div class="item" data-id="11"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="12"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="13"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1 con texto largo para prueba de css</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2 con texto largo para prueba de css</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3 con texto largo para prueba de css</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar1.jpg') }}"/><div class="title-item">Avatar 1</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar2.jpg') }}"/><div class="title-item">Avatar 2</div></div>
+                  <div class="item" data-id="1"><img src="{{ asset('img/avatars/avatar3.jpg') }}"/><div class="title-item">Avatar 3</div></div>
+
+                </div>
+                <div class="olw-navigation" style="text-align: center;">
+                    <button class="btn btn-info btn-xs prev" type="button"><< {% trans  from "label" %}anterior{% endtrans %}</button>
+                    <button class="btn btn-info btn-xs next" type="button">{% trans  from "label" %}siguiente{% endtrans %} >></button>
+                </div>    
+                <div style="text-align: right;">
+                    <input type="hidden" id="avatar-input" value="0"/>   
+                    <button type="submit" class="btn btn-info">{% trans  from "label" %}elegir.avatar{% endtrans %}</button>
+                </div>
+            </div>   
+        </section>
+        #}
+  
+</div>   
 {% endblock body %}
+
+{% block script %}
+
+	<script src="{{ asset('js/jquery-1.8.3.min.js') }}" type="text/javascript"></script>	
+	{# <script src="{{ asset('qtip/jquery-1.3.2.min.js') }}" type="text/javascript"></script> #}
+	<script src="{{ asset('qtip/jquery.qtip-1.0.0-rc3.js') }}" type="text/javascript"></script>
+	<script type="text/javascript">
+		// Create the tooltips only when document ready
+		$(document).ready(function()
+		{
+		   // Use the each() method to gain access to each elements attributes
+		   $('area').each(function() 
+			{
+				$(this).qtip(
+				{
+					content: $(this).attr('alt'), // Use the ALT attribute of the area map
+					style: {
+						name: 'dark', // Give it the preset dark style
+						border: {
+							width: 0, 
+							radius: 4 
+						}, 
+						tip: true // Apply a tip at the default tooltip corner
+					}
+				});
+			});
+		});
+	</script>
+	
+{#
+<!--<script src="{{ asset('js/owl.carousel.js') }}" ></script>-->
+<script >
+ 
+$(document).ready(function() {
+    var owl = $("#owl-demo");
+
+    owl.owlCarousel({
+      items : 6, //10 items above 1000px browser width
+      itemsDesktop : [1000,4], //5 items between 1000px and 901px
+      itemsDesktopSmall : [900,3], // betweem 900px and 601px
+      itemsTablet: [600,2], //2 items between 600 and 0
+      itemsMobile : false // itemsMobile disabled - inherit from itemsTablet option
+    });
+
+    // Custom Navigation Events
+    $(".next").click(function(){
+        owl.trigger('owl.next');
+    })
+    $(".prev").click(function(){
+        owl.trigger('owl.prev');
+    })
+ 
+    $(".item").click(function(){
+        $(".item").removeClass('active');
+        $(this).addClass('active');
+        $("#avatar-input").val($(this).data('id'));
+    });
+});
+</script>
+#}
+{% endblock script %}

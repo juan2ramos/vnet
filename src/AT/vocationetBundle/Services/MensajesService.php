@@ -17,6 +17,11 @@ class MensajesService
     var $mail;
     var $file;
         
+    /**
+     * Constructor
+     * 
+     * @param Object $service_container contenedor de servicios
+     */
     function __construct($service_container) 
     {
         $this->serv_cont = $service_container;
@@ -36,7 +41,7 @@ class MensajesService
      */
     public function getToList($usuarioId)
     {
-        $toList = false;
+        $toList = array();
         $em = $this->doctrine->getManager();
         $dql = "SELECT
                     u.id, 

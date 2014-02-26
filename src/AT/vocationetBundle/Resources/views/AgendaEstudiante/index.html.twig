@@ -5,31 +5,36 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap-datepicker/css/datepicker.css') }}" />
 {% endblock style %}
 
+{% block menu %}
+	{% set active = 'agendaEstudiante' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
 {% block body %}
-    
-<div class="row">
-    <aside class="col-lg-12">
-        <section class="panel">
-            <div class="panel-body">
-                <div id="calendar" class="has-toolbar"></div>
-            </div>
-        </section>
-    </aside>
-</div>
-    
-<div id="modal-mentoria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h4 class="modal-title">{% trans  from "label" %}mentoria{% endtrans %}</h4>
-          </div>
-          <div class="modal-body">
-              <div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>
-          </div>    
-      </div>
-    </div>
-</div>
+
+	<div class="row">
+		<aside class="col-lg-12">
+			<section class="panel">
+				<div class="panel-body">
+					<div id="calendar" class="has-toolbar"></div>
+				</div>
+			</section>
+		</aside>
+	</div>
+		
+	<div id="modal-mentoria" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			  <div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				  <h4 class="modal-title">{% trans from "label" %}mentoria{% endtrans %}</h4>
+			  </div>
+			  <div class="modal-body">
+				  <div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>
+			  </div>    
+		  </div>
+		</div>
+	</div>
 {% endblock body %}
 
 {% block script %}
@@ -52,12 +57,16 @@
         events: [
         {% for mentoria in mentorias %}
             {
-                title: '{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}{% if not mentoria.estudianteId %} ({% trans  from "label" %}mentoria.disponible{% endtrans %}){% endif %}',
+                title: '{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}{% if not mentoria.estudianteId %} ({% trans from "label" %}mentoria.disponible{% endtrans %}){% endif %}',
                 start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
                 end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
                 allDay: false,
                 {% if mentoria.estudianteId %}
-                    color: '#72B572',
+                    {% if mentoria.mentoriaEstado == 0 %}
+                        color: '#EB9823',
+                    {% else %}
+                        color: '#72B572',                        
+                    {% endif %}
                 {% else %}
                     color: '#8695A6',                    
                 {% endif %}
@@ -85,31 +94,40 @@
         
         var btn = $(this);
         
-        if(confirm("{% trans  from "label" %}desea.separar.mentoria{% endtrans %}"))
+        if(confirm("{% trans from "label" %}desea.separar.mentoria{% endtrans %}"))
         {
             var href = $(this).attr('href');            
             var btnText = btn.html();
             
             btn.attr('disabled', true);
-            btn.html("{% trans  from "label" %}enviando{% endtrans %}...");
+            btn.html(submit_text);
             
             $.ajax({
                 type: "POST",
                 url: href,
                 dataType: "json",
-                success: function (response){                    
+                success: function (response){   
                     if(response.status === "success"){
-                        location.reload();
+                        $.gritter.add({
+                            title: response.message,
+                            text: response.detail,
+                            time: 5000,
+                            image: asset_path + 'img/success.png',
+                        });
                     }
                     else if(response.status === "error"){
                         $.gritter.add({
                             title: response.message,
                             text: response.detail,
                             time: 5000,
-                            image: '{{ asset('img/delete.png') }}',
+                            image: asset_path + 'img/delete.png',
                         });
                         btn.attr('disabled', false);
                         btn.html(btnText);
+                    }
+
+                    if(typeof(response.redirect) != "undefined"){
+                        location.href = response.redirect;
                     }
                 },
                 error: function() {

@@ -1,0 +1,45 @@
+<?php
+
+namespace AT\vocationetBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * PermisosProductos
+ *
+ * @ORM\Table(name="permisos_productos")
+ * @ORM\Entity
+ */
+class PermisosProductos
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    private $id;
+
+    /**
+     * @var \Permisos
+     *
+     * @ORM\ManyToOne(targetEntity="Permisos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="permiso_id", referencedColumnName="id")
+     * })
+     */
+    private $permiso;
+
+    /**
+     * @var \Productos
+     *
+     * @ORM\ManyToOne(targetEntity="Productos")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="producto_id", referencedColumnName="id")
+     * })
+     */
+    private $producto;
+
+
+}

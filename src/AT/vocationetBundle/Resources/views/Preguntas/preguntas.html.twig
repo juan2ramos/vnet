@@ -1,0 +1,94 @@
+{% if fieldname is not defined %}
+    {% set fieldname = 'pregunta['~pregunta.id~']' %}
+{% endif %}
+
+{# opcion multiple unica respuesta #}
+{% if pregunta.preguntaTipoId == 1 %} 
+    {% if pregunta.opciones is defined %}
+        <div class="row options-container">
+        {% for opcion in pregunta.opciones %}
+            <div class="option col-lg-5">
+                <label><input type="radio" name="{{ fieldname }}" value="{{ opcion.id }}" {% if loop.first %}required="required"{% endif %} /> {{ opcion.nombre }}</label>
+            </div>
+        {% endfor %}
+        </div>
+        <label for="{{ fieldname }}" class="error" style="display:none;"></label>
+    {% endif %}
+        
+{# opcion multiple multiple respuesta #}        
+{% elseif pregunta.preguntaTipoId == 2 %}             
+    {% if pregunta.opciones is defined %}
+        <div class="row options-container">
+        {% for opcion in pregunta.opciones %}
+            <div class="option-check col-lg-5">
+                <label><input type="checkbox" name="{{ fieldname }}[]" value="{{ opcion.id }}" {% if loop.first %}required="required"{% endif %}/> {{ opcion.nombre }}</label>
+            </div>
+        {% endfor %}
+        </div>
+        <label for="{{ fieldname }}[]" class="error" style="display:none;"></label>
+    {% endif %}
+        
+{# ordenacion #}        
+{% elseif pregunta.preguntaTipoId == 3 %} 
+     {% if pregunta.opciones is defined %}
+        {% set sort_value = '' %}
+        <ul class="sortable">
+        {% for opcion in pregunta.opciones %}
+            <li class="label label-primary" id="{{ opcion.id }}" data-opcion="{{ opcion.nombre }}">{{ opcion.nombre }}</li>
+            {% set sort_value %}{{ sort_value~opcion.id }}{% if not loop.last %},{% endif %}{% endset %}
+        {% endfor %}
+        </ul>
+        <input type="hidden" value="{{ sort_value }}" name="{{ fieldname }}" class="sort-value" required="required"/> 
+        <label for="{{ fieldname }}" class="error" style="display:none;"></label>
+    {% endif %} 
+        
+{# SI O NO #}        
+{% elseif pregunta.preguntaTipoId == 4 %} 
+     <div class="row options-container">
+        <div class="option col-lg-5">
+            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="{{ fieldname }}" value="1" required="required" data-pregunta="{{ pregunta.pregunta }}"/> {% trans  from "label" %}si{% endtrans %}</label>
+        </div>
+        <div class="option col-lg-5">
+            <label style="line-height: 50px; font-size: 18px;"><input type="radio" name="{{ fieldname }}" value="0" data-pregunta="{{ pregunta.pregunta }}"/> {% trans  from "label" %}no{% endtrans %}</label>
+        </div>
+    </div>  
+    <label for="{{ fieldname }}" class="error" style="display:none;"></label> 
+    
+{# NUMERICA #}    
+{% elseif pregunta.preguntaTipoId == 5 %} 
+    <div class="input-number-container">
+        <input type="text" name="{{ fieldname }}" class="input-number" value="0" required="required"/>             
+    </div>
+    <label for="{{ fieldname }}" class="error" style="display:none;"></label>
+    
+{# PORCENTAJE #}    
+{% elseif pregunta.preguntaTipoId == 6 %} 
+    <div class="slider-container slider-percent-container">
+        <div class="col-lg-2" style="text-align: right;">
+            <div class="slider-info">0%</div>
+            <input type="hidden" name="{{ fieldname }}" value="0" class="slider-value" required="required"/>
+        </div>
+        <div class="col-lg-7" style="padding-top: 20px;">
+            <div class="slider-percent"></div>
+        </div>
+    </div>     
+    <label for="{{ fieldname }}" class="error" style="display:none;"></label>
+    
+{# SLIDER #}   
+{% elseif pregunta.preguntaTipoId == 7 %} 
+    <div class="slider-container slider-number-container">
+        <div class="col-lg-1" style="text-align: right;">
+            <div class="slider-info">0</div>
+            <input type="hidden" name="{{ fieldname }}" value="0" class="slider-value" required="required" data-pregunta="{{ pregunta.pregunta }}"/>
+        </div>
+        <div class="col-lg-7" style="padding-top: 20px;">
+            <div class="slider"></div>
+        </div>
+    </div>
+    <label for="{{ fieldname }}" class="error" style="display:none;"></label>
+    
+{# ABIERTA #}
+{% elseif pregunta.preguntaTipoId == 8 %} 
+    <textarea name="{{ fieldname }}" class="form-control" cols="60" rows="5" required="required"></textarea>
+    <label for="{{ fieldname }}" class="error" style="display:none;"></label>
+{% endif %}

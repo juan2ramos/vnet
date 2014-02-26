@@ -1,0 +1,15 @@
+{#
+	- entity.informacionLink : Enlace de la información
+	- entity.informacionImagen : Imagen de la información
+	- entity.informacionTitulo : Titulo de la información
+#}
+<section class="panel">
+	<div class="twt-feed blue-bg">
+		<a {% if entity.informacionLink %} href="{{ entity.informacionLink }}"{% endif %} target='_blank' STYLE='border-radius:20%;width:100%'>
+			<img src="{{ asset(getParameter('ruta_images_informacion') ~ entity.informacionImagen) }}" alt="" STYLE='border-radius:15%;width:100%;height:auto;'>
+		</a>
+	</div>
+	<div class="weather-category twt-category" STYLE='padding-top:5px;text-align:center;'>
+		<p STYLE='padding-left:15px;padding-right:15px;'>{{ entity.informacionTitulo }}</p>
+	</div>
+</section>

@@ -1,0 +1,349 @@
+{% extends '::base.html.twig' %}
+
+{% block style %}
+    <link href="{{ asset('assets/jquery-ui/jquery-ui-1.10.1.custom.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/vocationet/cuestionarios.css') }}" rel="stylesheet"/>
+    <style>
+        #form-titles{
+            margin-bottom: 0px;
+        }
+        #form-titles li, #form-titles li div{
+            width: 100%;
+        }
+        #form-titles li{
+            display: none;
+            padding-right: 20px;
+            text-align: center;
+        }
+        #form-titles li div{
+            font-size: 20px;
+            font-weight: 300;
+        }
+        /*
+        */
+        #form-titles li.current-step{
+            display: block;
+        }
+        .stepy-tab ul{
+            display: block;
+        }
+        .form-test {
+            padding: 0px 40px;
+        }
+        
+        /****/
+        .sub-step{
+            display: none;
+        }
+        
+        .sub-menu{
+            margin-bottom: 25px;
+        }
+        
+        .sub-menu li div{
+            color: #fff;
+            font-size: 14px;
+            width: 100%;
+            height: 56px;
+            background: #41CAC0;    
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .nivel-act{
+            border: 2px solid #41CAC0;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            background: #DCFCFA;
+            padding: 5px 10px;
+        }
+        
+        .globo{
+            border: 2px solid #41A4CA;
+            border-radius: 10px;
+            -webkit-border-radius: 10px;
+            background: #DCF3FC;
+            padding: 5px 10px;
+            width: 100%;
+        }
+        
+    </style>
+{% endblock style %}
+
+{% block menu %}
+	{% set active = 'disenovida' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        
+        {# HEADER #}
+        <section class="panel post-wrap pro-box" id="header-cuestionario">
+            <aside>
+              <div class="post-info">
+                  <span class="arrow-pro right"></span>
+                  <div class="panel-body">
+                      <div class="text-center twite">
+                          <h1 style="font-size: 40px;">{{ formulario_info.nombre }}</h1>
+                      </div>
+                  </div>
+              </div>
+            </aside>
+            <aside class="post-highlight terques v-align">
+              <div class="panel-body text-center">
+                  <div class="panel-body">
+                      <h2>{{ formulario_info.encabezado }}</h2>
+                  </div>
+              </div>
+            </aside>
+        </section>
+        <section class="panel" id="div-cuestionario">
+            <header class="panel-heading" style="font-size: 14px;">
+                <table style="width: 100%;">
+                    <tr>
+                        <td>
+                            {% trans from "label" %}instrucciones.diseno.vida{% endtrans %}                            
+                        </td>
+                        <td style="width: 36px;">
+                            <a href='{{ asset(getParameter('enlace_pdf_diseno_vida_info')) }}' target='_blank'>
+                                <img src='{{ asset('img/pdf.png') }}' style='width:60px;padding-top:5px;' />
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </header>
+            <div class="panel-body">
+                <ul id="form-titles" class="stepy-titles clearfix">
+                    {% set sub_menu = '' %}
+                    {% for formulario in formularios %}
+                        {% if loop.index0 < 2 or loop.index0 > 9 %} 
+                            <li id="form-title-{{ loop.index0 }}" class="{% if loop.index0 == 0 %}current-step{% endif %}" style="cursor: default;"><div>{{ formulario.nombre }}</div></li>
+                        {% else %}
+                            {% set sub_menu %}
+                                {{ sub_menu }}
+                                <li class="btn-sub-step col-lg-3" data-step="{{ loop.index0 }}" style="cursor: default;"><div>{{ formulario.nombre }}</div></li>
+                            {% endset %}
+                        {% endif %} 
+                    {% endfor %}
+                </ul>
+                <form action="{{ path('procesar_disenovida') }}" method="post" class="form-horizontal form-test" id="form">
+                    {% for formulario in formularios %}                    
+                    
+                        {% set formulario_loop = loop.index0 %}
+                        
+                        {# Sub-secciones del pantallazo 2 - Intereses de carrera (Flor) #}
+                        {% if loop.index0 >= 2 and loop.index0 <= 9 %} 
+                            <div class="sub-step sub-step-{{ loop.index0 }} ">
+                                <legend>{{ formulario.nombre }}</legend>
+                                {% if formulario.descripcion %}<p>{{ formulario.descripcion|raw }}</p>{% endif %}
+                                {% if formulario.preguntas is defined %}
+                                {% for pregunta in formulario.preguntas %}
+                                    <div class="form-group">
+                                      <label class="col-lg-12 control-label"><b>{{ pregunta.numero }}. </b>{{ pregunta.pregunta }}</label>
+                                      <div class="col-lg-12 respuesta">
+                                          {% include "vocationetBundle:Preguntas:preguntas.html.twig" %}
+                                      </div>
+                                    </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+                        {# Secciones principales #}
+                        {% else %}
+                            <fieldset class="step">
+                                <legend></legend>
+                                {% if formulario.descripcion %}<p>{{ formulario.descripcion|raw }}</p>{% endif %}
+                                                                
+                                {# Pantallazo 3 - Intereses de carrera (2) (piramide de actividades) #}
+                                {% if loop.index0 == 10 %}
+                                    <div class="clearfix">
+                                        <h4>{% trans from "label" %}nivel.3{% endtrans %}</h4>
+                                        <ul id="nivel-3" class="nivel-act"></ul>
+                                        <h4>{% trans from "label" %}nivel.2{% endtrans %}</h4>
+                                        <ul id="nivel-2" class="nivel-act"></ul>
+                                        <h4>{% trans from "label" %}nivel.1{% endtrans %}</h4>
+                                        <ul id="nivel-1" class="nivel-act"></ul>
+                                        <h4>{% trans from "label" %}nivel.0{% endtrans %}</h4>
+                                        <ul id="nivel-0" class="nivel-act"></ul>
+                                    </div>
+                                {% endif %}
+                                
+                                {# Pantallazo 6 - Analisis (piramides de valores ocupacionales e intereses academicos) #}
+                                {% if loop.index0 == 13 %}
+                                    <div class="col-lg-6 clearfix">
+                                        <h4>{% trans from "label" %}valores.ocupacionales{% endtrans %}</h4>
+                                        <ul id="list-val-ocup" class="nivel-act"></ul>
+                                    </div>
+                                    <div class="col-lg-6 clearfix">
+                                        <h4>{% trans from "label" %}intereses.academicos{% endtrans %}</h4>
+                                        <ul id="list-int-acad" class="nivel-act"></ul>
+                                    </div>
+                                    <p>{% trans from "label" %}instrucciones.analisis.diseno.vida{% endtrans %}</p>
+                                    <div>
+                                        <table class="table table-striped" id="table-int-carr">
+                                            <thead>
+                                                <tr>
+                                                    <th>{% trans from "label" %}intereses.carrera{% endtrans %}</th>
+                                                    <th>{% trans from "label" %}afinidad.valores.ocupacionales{% endtrans %}</th>
+                                                    <th>{% trans from "label" %}afinidad.intereses.academicos{% endtrans %}</th>
+                                                    <th>{% trans from "label" %}apasiona.carrera{% endtrans %}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                {% endif %}
+                                
+                                {# Pantallazo 8 - Metas #}
+                                {% if loop.index0 == 15 %}
+                                    <div class="row">
+                                    <div class="col-lg-2"></div>
+                                    <div class="col-lg-8">
+                                    <table class="" id="table-metas" style="">
+                                        <tbody>
+                                            {% for i in 1..3 %}
+                                            <tr style="border-top: 1px solid #eee;">
+                                                <td style="width:200px;">
+                                                    <div class="globo">
+                                                        <span id="span-int-carr-{{ i }}"></span> 
+                                                        <input type="hidden" name="adicional[metas][{{ i }}][nombre]" value="" id="input-int-carr-{{ i }}"/>
+                                                    </div>
+                                                </td>
+                                                <td style="width:300px;">
+                                                    <table class="">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="globo">
+                                                                        <h4>{% trans from "label" %}corto.plazo{% endtrans %}</h4>
+                                                                        <textarea name="adicional[metas][{{ i }}][corto_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="globo">
+                                                                        <h4>{% trans from "label" %}mediano.plazo{% endtrans %}</h4>
+                                                                        <textarea name="adicional[metas][{{ i }}][mediano_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="globo">
+                                                                        <h4>{% trans from "label" %}largo.plazo{% endtrans %}</h4>
+                                                                        <textarea name="adicional[metas][{{ i }}][largo_plazo]" class="form-control col-lg-12" required="required" style="width: 100%"></textarea>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td style="width: 200px;">
+                                                    <table class="">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <p>{% trans from "label" %}disenovida.metas.pregunta.1{% endtrans %}</p>
+                                                                    <div class="row options-container">
+                                                                        <div class="option col-lg-5" style="text-align: left;">
+                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicional[metas][{{ i }}][pregunta1]" value="1" required="required" /> {% trans from "label" %}si{% endtrans %}</label>
+                                                                        </div>
+                                                                        <div class="option col-lg-5" style="text-align: left;">
+                                                                            <label style="line-height: 0px; font-size: 18px; min-height: 30px; padding: 4px 3px;"><input type="radio" name="adicional[metas][{{ i }}][pregunta1]" value="0" /> {% trans from "label" %}no{% endtrans %}</label>
+                                                                        </div>
+                                                                        <label for="adicional[metas][{{ i }}][pregunta1]" class="error" style="display:none;"></label> 
+                                                                    </div> 
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <p>{% trans from "label" %}disenovida.metas.pregunta.2{% endtrans %}</p>
+                                                                    <textarea name="adicional[metas][{{ i }}][pregunta2]" class="form-control col-lg-12" required="required" style="width: 100%;"></textarea>
+                                                                </td>
+                                                            </tr>                                                            
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr> 
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                    <div class="col-lg-2"></div>
+                                    </div>
+                                {% endif %}
+                                    
+                                {% if formulario.preguntas is defined %}
+                                    {% for pregunta in formulario.preguntas %}
+                                        <div class="form-group">
+                                            <label class="col-lg-12 control-label"><b>{{ pregunta.numero }}. </b>{{ pregunta.pregunta }}</label>
+                                            
+                                            {# Pantallazo 5 - Valores ocupacionales (ordenacion de opciones elegidas por el usuario) #}
+                                            {% if formulario_loop == 12 %} 
+                                                <ul id="sort-val-ocup" class="sortable ui-sortable"></ul> 
+                                                <input type="hidden" id="orden-val-ocup" name="pregunta[{{ pregunta.id }}]" class="sort-value" required="required"/> 
+                                                <label for="pregunta[{{ pregunta.id }}]" class="error" style="display:none;"></label>
+                                            {# Vista para respuestas por defecto  #}
+                                            {% else %}                                          
+                                                <div class="col-lg-12 respuesta">
+                                                    {% include "vocationetBundle:Preguntas:preguntas.html.twig" %}
+                                                </div>
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                
+                                {# Pantallazo 2 - Intereses de carrera (submenu) #}
+                                {% if loop.index0 == 1 %}
+                                    <ul class="sub-menu clearfix">{{ sub_menu }}</ul>
+                                {% endif %}
+                                    
+                            </fieldset>
+                        {% endif %}
+                    {% endfor %} 
+                    {{ form_widget(form._token) }}
+                    {{ form_errors(form) }}    
+                    <input type="submit" class="finish btn btn-danger" value="{% trans from "label" %}enviar{% endtrans %}" onClick="submitFormOkay=true;"/>
+                </form>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock body %}
+    
+{% block script %}
+    <script src="{{ asset('assets/jquery-ui/jquery-ui-1.10.1.custom.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/jquery.stepy.js') }}"></script>
+    <script src="{{ asset('js/sliders.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/bootstrap.touchspin.js') }}"></script>
+    <script src="{{ asset('js/jquery.validate.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/vocationet/cuestionarios.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('js/vocationet/disenovida.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        Cuestionario({
+            slider_min: 0,
+            slide_max: 3,
+            touchSpin_min: 0,
+            touchSpin_max: 5
+        });
+    </script>
+    <script type="text/javascript">
+        DisenoVida({
+            msg_min_opc_carr: '{% trans %}debe.escojer.minimo.3.opciones{% endtrans %}',
+            msg_min_opc_val: '{% trans %}debe.escojer.10.valores.ocupacionales{% endtrans %}'
+        });
+
+        var submitFormOkay = false;
+		window.onbeforeunload = function () {
+			if (!submitFormOkay) {
+				return "{% trans from 'messages' %}si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba{% endtrans %}";
+			}
+		}
+    </script>
+{% endblock script %}

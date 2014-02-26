@@ -25,6 +25,140 @@
                 <source>ir.a.inbox</source>
                 <target>Ir a la bandeja de entrada</target>
             </trans-unit>
+            
+            <!-- MERCADO LABORAL mercadoLaboral-x -->
+			<trans-unit id="mercadoLaboral-1">
+                <source>%name%.mail.mentor.estudiante.selecciona.alternativas</source>
+                <target>%name% ha seleccionado sus alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-2">
+                <source>%name%.ha.seleccionado%dias%.%alternativas%</source>
+                <target>%name% ha seleccionado las siguientes alternativas de estudio, usted tiene %dias% dias para realizar el informe y subirlo en el mercado laboral, para que el usuario tenga acceso a este. Las alternativas seleccionadas son las siguiente: %alternativas%</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-3">
+                <source>asunto.mail.mentor.informa.tiempo.espera</source>
+                <target>Su mentor ha recibido las alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-4">
+                <source>mentor.tiene.%dias%.dias.para.informe.de.alternativas.seleccionadas</source>
+                <target>Su mentor de orientación vocacional tiene %dias% dias para realizar el informe de sus alternativas de estudio.</target>
+            </trans-unit>
+            
+            <!-- evaluacion 360 eva360-x -->
+			<trans-unit id="eva360-1">
+                <source>%usu%.invito.contestar.evaluacion.360</source>
+                <target>%usu% te ha invitado a participar en su evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-2">
+                <source>participar.evaluacion</source>
+                <target>Participar en la evaluación</target>
+			</trans-unit>
+			<trans-unit id="eva360-3">
+                <source>%usu%.invito.contestar.evaluacion.360.body</source>
+                <target>Tú has sido seleccionado para participar en el proceso de retroalimentación de %usu%. Esta retroalimentación hace parte del proceso de decisión de carrera que está realizando %usu% a través de VOCATIONET. Como parte de este proceso te invitamos a resolver algunas preguntas sobre las competencias, personalidad y preferencias de %usu%. Esta matriz es un instrumento de evaluación 360 que servirá para darle a %usu% una retroalimentación individual frente a diferentes fortalezas y debilidades. Por esta razón tu percepción es crucial en este proceso de evaluación. Te recordamos que no existen respuestas correctas e incorrectas. Lo más importante es que lo diligencies con la mayor honestidad y especificidad posible pues entre más lo seas mejor podremos asesorar a %usu% en su decisión de carrera. Si no tienes cuenta, te invitamos a que te registres.para participar.</target>
+			</trans-unit>
+			<trans-unit id="eva360-4">
+                <source>evaluacion.360.de.%usu%.finalizada</source>
+                <target>Participación en la evaluación 360 de %usu%</target>
+			</trans-unit>
+			<trans-unit id="eva360-5">
+                <source>mensaje.evaluacion.360.de.%usu%.finalizada</source>
+                <target>Ha sido registrada una participación en la evaluación 360 de %usu%. Para ver los resultados ingresa a través del link de abajo.</target>
+			</trans-unit>
+
+
+			<!-- ADMIN MENTOR OV adminov-x -->
+			<trans-unit id="adminov-1">
+                <source>informe.mercado.laboral</source>
+                <target>Informe de mercado laboral</target>
+			</trans-unit>
+			<trans-unit id="adminov-2">
+                <source>el.mentor.acaba.de.subir.el.informe.de.mercado.laboral</source>
+                <target>El mentor ha subido el informe de mercado laboral</target>
+			</trans-unit>
+			
+			<!-- SOLICITUD DE AMISTAD solamistad-x -->
+			<trans-unit id="solamistad-1">
+                <source>nueva.solicitud.de.amistad</source>
+                <target>Solicitud de amistad</target>
+			</trans-unit>
+			<trans-unit id="solamistad-2">
+                <source>%nombre%.te.ha.envia.una.solicitud.de.amistad</source>
+                <target>%nombre% te ha enviado una solicitud de amistad</target>
+			</trans-unit>
+			<trans-unit id="solamistad-3">
+                <source>solicitud.de.amistad.aprobada</source>
+                <target>Solicitu de amistad aprobada</target>
+			</trans-unit>
+			<trans-unit id="solamistad-4">
+                <source>%nombre%.acepto.la.solicitud.de.amistad</source>
+                <target>%nombre% aceptó la solicitud de amistad</target>
+			</trans-unit>
+            
+            <!-- diseno vida dvida-x -->
+			<trans-unit id="dvida-1">
+                <source>diseno.vida.de.%usu%.finalizada</source>
+                <target>Participación de %usu% en diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="dvida-2">
+                <source>mensaje.diseno.vida.de.%usu%.finalizada</source>
+                <target>Ha sido registrado el diseño de vida de %usu%. Para ver los resultados ingresa a través del link de abajo</target>
+			</trans-unit>
+            
+            <!-- ponderacion pond-x-->
+			<trans-unit id="pond-1">
+                <source>ponderacion.de.%usu%.finalizada</source>
+                <target>Participación de %usu% en ponderación</target>
+			</trans-unit>
+			<trans-unit id="pond-2">
+                <source>mensaje.ponderacion.de.%usu%.finalizada</source>
+                <target>Ha sido registrada la ponderacion de %usu%. Para ver los resultados ingresa a través del link de abajo</target>
+			</trans-unit>
+            
+            <!-- pagos pag-x-->
+			<trans-unit id="pag-1">
+                <source>activacion.productos</source>
+                <target>Activación de productos</target>
+			</trans-unit>      
+			<trans-unit id="pag-2">
+                <source>mensaje.activacion.productos</source>
+                <target>La confirmación de tu pago se ha realizado y ya hemos activado los productos que compraste. ingresa ahora mismo para hacer uso de ello haciendo click en el enlace de abajo.</target>
+			</trans-unit>
+			<trans-unit id="pag-3">
+                <source>ingresar</source>
+                <target>Ingresar</target>
+			</trans-unit>
+			<trans-unit id="pag-4">
+                <source>error.activacion.productos</source>
+                <target>Error en la activación de productos</target>
+			</trans-unit>
+			<trans-unit id="pag-5">
+                <source>mensaje.error.activacion.productos</source>
+                <target>La confirmación de pago en PayU nos ha informado que ocurrió un error con tu transacción, por favor, verifica la transacción en tu cuenta bancaria o comunicate con nosotros para obtener más información</target>
+			</trans-unit>
+
+            <!-- RECORDATORIO rec-x-->
+			<trans-unit id="rec-1">
+                <source>recordatorio.mentoria</source>
+                <target>Recordatorio de mentoria</target>
+			</trans-unit>
+			<trans-unit id="rec-2">
+                <source>mentor</source>
+                <target>Mentor</target>
+			</trans-unit>
+			<trans-unit id="rec-3">
+                <source>estudiante</source>
+                <target>Estudiante</target>
+			</trans-unit>
+			<trans-unit id="rec-4">
+                <source>hora</source>
+                <target>Hora</target>
+			</trans-unit>
+			<trans-unit id="rec-5">
+                <source>hoy.tiene.mentoria</source>
+                <target>Hoy tiene mentoria</target>
+			</trans-unit>
+			
         </body>
     </file>
 </xliff>

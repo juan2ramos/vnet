@@ -29,6 +29,18 @@ services:
     file:
         class: AT\vocationetBundle\Services\FileService
         arguments: ["@doctrine", "@session"]
+    formularios:
+        class: AT\vocationetBundle\Services\FormulariosService
+        arguments: ["@doctrine", "@security"]
+    foros:
+        class: AT\vocationetBundle\Services\ForosService
+        arguments: ["@doctrine"]
+    pagos:
+        class: AT\vocationetBundle\Services\PagosService
+        arguments: ["@service_container"]
+    payu:
+        class: AT\vocationetBundle\Services\PayUService
+        arguments: ["@service_container", %payu_merchantId%, %payu_ApiKey%]
     twig.extension.stringParserExtension:
         class: AT\vocationetBundle\Services\TwigExtensions\StringParser\stringParserExtension
         tags:

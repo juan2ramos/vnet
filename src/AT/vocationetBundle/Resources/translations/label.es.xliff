@@ -39,6 +39,74 @@
                 <source>opciones</source>
                 <target>Opciones</target>
 			</trans-unit>
+			<trans-unit id="generico-10">
+                <source>anterior</source>
+                <target>Anterior</target>
+			</trans-unit>
+			<trans-unit id="generico-11">
+                <source>siguiente</source>
+                <target>Siguiente</target>
+			</trans-unit>
+			<trans-unit id="generico-12">
+                <source>enviar</source>
+                <target>Enviar</target>
+			</trans-unit>
+			<trans-unit id="generico-13">
+                <source>si</source>
+                <target>Si</target>
+			</trans-unit>
+			<trans-unit id="generico-14">
+                <source>no</source>
+                <target>No</target>
+			</trans-unit>
+			<trans-unit id="generico-15">
+                <source>pregunta.obligatoria</source>
+                <target>Debes contestar esta pregunta</target>
+			</trans-unit>
+			<trans-unit id="generico-16">
+                <source>agregar</source>
+                <target>Agregar</target>
+			</trans-unit>
+			<trans-unit id="generico-17">
+                <source>volver</source>
+                <target>Volver</target>
+			</trans-unit>
+			<trans-unit id="generico-18">
+                <source>editar</source>
+                <target>Editar</target>
+			</trans-unit>
+			<trans-unit id="generico-19">
+                <source>cerrar</source>
+                <target>Cerrar</target>
+            </trans-unit>
+			<trans-unit id="generico-20">
+                <source>haz.click.aqui</source>
+                <target>haz click aquí</target>
+			</trans-unit>
+			<trans-unit id="generico-21">
+                <source>ir.al.home</source>
+                <target>ir al inicio</target>
+			</trans-unit>
+			<trans-unit id="generico-22">
+                <source>listado</source>
+                <target>Listado</target>
+			</trans-unit>
+			<trans-unit id="generico-23">
+                <source>ver</source>
+                <target>Ver</target>
+			</trans-unit>
+			<trans-unit id="generico-24">
+                <source>eiminar</source>
+                <target>Eiminar</target>
+			</trans-unit>
+			<trans-unit id="generico-25">
+                <source>ver.detalles</source>
+                <target>Ver detalles</target>
+			</trans-unit>
+			<trans-unit id="generico-26">
+                <source>toggle.menu</source>
+                <target>Ocultar/mostrar menú</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
@@ -191,7 +259,7 @@
             </trans-unit>
             <trans-unit id="perfil-30">
                 <source>explicacion.actualizacion.de.hoja.de.vida.tarjeta.profesional</source>
-                <target>Si carga una hoja de vida o tarjeta profesional remplazará la que haya cargado con anterioridad</target>
+                <target>Si carga la hoja de vida o tarjeta profesional remplazará la que haya cargado con anterioridad, los documentos se deben subir en formado PDF.</target>
             </trans-unit>
             <trans-unit id="perfil-31">
                 <source>no.ha.sido.calculado</source>
@@ -200,6 +268,26 @@
             <trans-unit id="perfil-32">
                 <source>sincronizar.perfil</source>
                 <target>Sincronizar perfil</target>
+            </trans-unit>
+            <trans-unit id="perfil-33">
+                <source>valor.hora</source>
+                <target>Valor hora</target>
+            </trans-unit>
+            <trans-unit id="perfil-34">
+                <source>valor.mentoria</source>
+                <target>Valor de la mentoria</target>
+            </trans-unit>
+            <trans-unit id="perfil-35">
+                <source>definicion.mentor</source>
+                <target>Definición del tipo de mentor</target>
+            </trans-unit>
+            <trans-unit id="perfil-37">
+                <source>aun.falta.la.siguiente.informacion</source>
+                <target>Al perfil le hace falta la siguiente información</target>
+            </trans-unit>
+            <trans-unit id="perfil-38">
+                <source>formato.permitido.pdf</source>
+                <target>Formato permitido PDF</target>
             </trans-unit>
             
 
@@ -214,7 +302,7 @@
             </trans-unit>
             <trans-unit id="perfile-2-des">
                 <source>descripcion.fecha.planeada</source>
-                <target>Descripción de fecha planeada</target>
+                <target>Fecha en la que el usuario tiene planeado presentarse a la universidad</target>
             </trans-unit>
             <trans-unit id="perfile-3">
                 <source>tiempo.restante</source>
@@ -290,7 +378,7 @@
             </trans-unit>
             <trans-unit id="perfile-15">
                 <source>informacion</source>
-                <target>Información</target>
+                <target>Publicidad</target>
             </trans-unit>
             <trans-unit id="perfile-16">
                 <source>investigacion</source>
@@ -392,6 +480,11 @@
                 <source>mentores</source>
                 <target>Mentores</target>
 			</trans-unit>
+			<trans-unit id="perfile-37">
+                <source>mentor.experto</source>
+                <target>Mentor experto</target>
+			</trans-unit>
+
 
             <!-- LOGIN login-x -->
             <trans-unit id="login-1">
@@ -442,6 +535,11 @@
                 <source>cerrar.session</source>
                 <target>Cerrar sesión</target>
             </trans-unit>
+            <trans-unit id="login-13">
+                <source>aclaracion.login.usuarios.facebook.linkedin</source>
+                <target>Si te registraste con Facebook o Linked In debes ingresar a través de estos botones</target>
+            </trans-unit>
+            
             
             <!-- REGISTRO registro-x -->
             <trans-unit id="registro-1">
@@ -533,6 +631,11 @@
                 <source>para</source>
                 <target>Para</target>
 			</trans-unit>
+			<trans-unit id="inbox-7-info">
+                <source>aclaracion.envio.para.inbox</source>
+                <target> Solo podras enviar mensajes a tus amigos en Vocationet</target>
+			</trans-unit>
+			
 			<trans-unit id="inbox-8">
                 <source>asunto</source>
                 <target>Asunto</target>
@@ -585,7 +688,7 @@
             <!-- mentorias ment-x -->
 			<trans-unit id="ment-1">
                 <source>agregar.mentoria</source>
-                <target>Agregar mentoría</target>
+                <target>Generar disponibilidad</target>
             </trans-unit>
 			<trans-unit id="ment-2">
                 <source>mentoria.disponible</source>
@@ -613,11 +716,31 @@
             </trans-unit>
 			<trans-unit id="ment-8">
                 <source>agenda.mentor</source>
-                <target>Mentorías</target>
+                <target>Agenda</target>
             </trans-unit>
 			<trans-unit id="ment-9">
                 <source>agenda.estudiante</source>
-                <target>Mentorías</target>
+                <target>Agenda</target>
+            </trans-unit>
+			<trans-unit id="ment-10">
+                <source>marcar.mentoria.finalizada</source>
+                <target>Marcar como finalizada</target>
+            </trans-unit>
+			<trans-unit id="ment-11">
+                <source>mentoria.finalizada</source>
+                <target>Mentoría finalizada</target>
+            </trans-unit>
+            <trans-unit id="ment-12">
+                <source>disponibilidad</source>
+                <target>Disponibilidad</target>
+            </trans-unit>
+            <trans-unit id="ment-13">
+                <source>ver.disponibilidad</source>
+                <target>Ver disponibilidad</target>
+            </trans-unit>
+            <trans-unit id="ment-14">
+                <source>aclaracion.separacion.de.mentorias.primero.seleccionar.mentor</source>
+                <target>Tenga en cuenta que para separar una mentoria, tiene que seleccionar al mentor primero</target>
             </trans-unit>
 
 			 <!-- FOROS foros-x -->
@@ -681,6 +804,11 @@
                 <source>participar</source>
                 <target>Participar</target>
             </trans-unit>
+            <trans-unit id="foros-16">
+                <source>por.favor.seleccione.una.carrera</source>
+                <target>Por favor seleccione una carrera</target>
+            </trans-unit>
+            
 
             <!-- notificacion de comentarios notcom-X -->
             <trans-unit id="notcom-1">
@@ -803,6 +931,816 @@
                 <source>busqueda.contactos</source>
                 <target>Búsqueda avanzada de contactos</target>
 			</trans-unit>
+			<trans-unit id="contact-20">
+                <source>agregar.contactos</source>
+                <target>Agregar contactos</target>
+			</trans-unit>
+
+			<!-- CALIFICAR MENTORIA cal-x -->
+			<trans-unit id="cal-1">
+                <source>calificar</source>
+                <target>Calificar</target>
+			</trans-unit>
+			<trans-unit id="cal-2">
+                <source>resena</source>
+                <target>Reseña</target>
+			</trans-unit>
+			<trans-unit id="cal-3">
+                <source>calificacion</source>
+                <target>calificación</target>
+			</trans-unit>
+			<trans-unit id="cal-4">
+                <source>por.favor.califique.la.mentoria.realizada.el</source>
+                <target>Por favor califique la mentoria realizada el</target>
+			</trans-unit>
+			<trans-unit id="cal-5">
+                <source>valoraciones.de.clientes</source>
+                <target>Valoraciones de clientes</target>
+			</trans-unit>
+			<trans-unit id="cal-6">
+                <source>promedio.de.valoracion</source>
+                <target>Promedio de valoración</target>
+			</trans-unit>
+			<trans-unit id="cal-7">
+                <source>valoraciones</source>
+                <target>Valoraciones</target>
+			</trans-unit>
+			<trans-unit id="cal-8">
+                <source>resenas</source>
+                <target>Reseñas</target>
+			</trans-unit>
+			<trans-unit id="cal-9">
+                <source>el.usuario.no.tiene.resenas</source>
+                <target>El usuario no tiene reseñas</target>
+			</trans-unit>
+			<trans-unit id="cal-10">
+                <source>ultimas.25</source>
+                <target>últimas 25 ingresadas</target>
+			</trans-unit>
+
+			<!-- TEST VOCACIONAL TestVocacional-x -->
+			<trans-unit id="TestVocacional-1">
+                <source>test.vocacional</source>
+                <target>Test vocacional</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-2">
+                <source>explicacion.test.vocacional</source>
+                <target>Esta prueba esta desarrollada por una empresa dedicada a la generación de pruebas psicológicas y será analizada por el experto que has escogido como guía de tu programa. Después de la próxima asesoría podrás ver los resultados.</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-3">
+                <source>recomendacion.leer.guia.test.vocacional</source>
+                <target>Antes de continuar con esta prueba por favor  leer nuestra guia, que te dara las recomendaciones necesarias para que le saques el mejor provecho a eset test.</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-4">
+                <source>explicacion.paso.a.paso.test.vocacional</source>
+                <target>Por favor ingresa a este enlace y diligencia el test de orientación vocacional, utilizando el PIN que le fue enviado al correo electrónico, de no haber recibido el PIN, contactese con el administrador. Tan pronto el Test este completo, continúe con el programa agendado una mentoría con su Experto OV, el habrá recibido los resultados, los habrá analizado y tendrá un informe que le entregara en la mentoría.</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-5">
+                <source>iniciar.test.vocacional</source>
+                <target>Iniciar test vocacional</target>
+			</trans-unit>
+			<trans-unit id="TestVocacional-6">
+                <source>ver.perfil</source>
+                <target>Ver perfil</target>
+			</trans-unit>
+
+			<!-- SELECCIONAR MENTOR ORIENTACION VOCACIONAL selectMentorOV-x -->
+			<trans-unit id="selectMentorOV-1">
+                <source>confirmacion.mentor.%name%</source>
+                <target>El mentor de orientación vocacional lo acompañará en todo el proceso, desea confirmar que seleccionó a %name%</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-2">
+                <source>seleccionar.mentor.vocacional</source>
+                <target>Seleccionar mentor de orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-3">
+                <source>quitar.filtros</source>
+                <target>Quitar filtros</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-4">
+                <source>seleccionar</source>
+                <target>Seleccionar</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-5">
+                <source>seleccionado.mentor.vocacional</source>
+                <target>Mentor de orientación Vocacional seleccionado</target>
+			</trans-unit>
+			<trans-unit id="selectMentorOV-6">
+                <source>orientador.vocacional</source>
+                <target>Orientador vocacional</target>
+			</trans-unit>
+			
+            
+            <!-- ADMIN admin-x -->
+			<trans-unit id="admin-1">
+                <source>formularios</source>
+                <target>Formularios</target>
+			</trans-unit>
+			<trans-unit id="admin-2">
+                <source>secciones</source>
+                <target>Secciones</target>
+			</trans-unit>
+			<trans-unit id="admin-3">
+                <source>crear.pregunta</source>
+                <target>Crear pregunta</target>
+			</trans-unit>
+			<trans-unit id="admin-4">
+                <source>seccion</source>
+                <target>Sección</target>
+			</trans-unit>
+			<trans-unit id="admin-5">
+                <source>tipo.pregunta</source>
+                <target>Tipo de pregunta</target>
+			</trans-unit>
+			<trans-unit id="admin-6">
+                <source>numero</source>
+                <target>Número</target>
+			</trans-unit>
+			<trans-unit id="admin-7">
+                <source>pregunta</source>
+                <target>Pregunta</target>
+			</trans-unit>
+			<trans-unit id="admin-8">
+                <source>opciones.respuesta</source>
+                <target>Opciones de respuesta</target>
+			</trans-unit>
+			<trans-unit id="admin-9">
+                <source>agregar.opcion</source>
+                <target>Agregar opción</target>
+			</trans-unit>			
+			<trans-unit id="admin-11">
+                <source>preguntas</source>
+                <target>Preguntas</target>
+			</trans-unit>
+			<trans-unit id="admin-12">
+                <source>seleccione.formulario</source>
+                <target>Seleccione un formulario de la lista superior</target>
+			</trans-unit>
+			<trans-unit id="admin-13">
+                <source>editar.pregunta</source>
+                <target>Editar pregunta</target>
+			</trans-unit>
+
+
+			<!-- MERCADO LABORAL mercadoLaboral-x -->
+			<trans-unit id="mercadoLaboral-1">
+                <source>alternativas.estudio</source>
+                <target>Alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-2">
+                <source>mentor.no.ha.subido.archivo.espere.porfavor</source>
+                <target>El mentor de orientación vocacional, aún no ha subido el informe, por favor, espere hasta la fecha indicada.</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-3">
+                <source>seleccionar.carreras</source>
+                <target>Seleccionar Alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-4">
+                <source>confirmar.alternativas.de.estudio</source>
+                <target>Por favor confirmar que las alternativas que seleccionó son las siguientes:</target>
+			</trans-unit>
+			<trans-unit id="mercadoLaboral-5">
+                <source>mercado.laboral</source>
+                <target>Mercado laboral</target>
+			</trans-unit>
+			
+            
+            <!-- evaluacion 360 eva360-x -->
+			<trans-unit id="eva360-1">
+                <source>evaluacion.360</source>
+                <target>Evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-2">
+                <source>emails.360</source>
+                <target>Lista de correos</target>
+			</trans-unit>
+			<trans-unit id="eva360-3">
+                <source>agregar.email</source>
+                <target>Agregar correo</target>
+			</trans-unit>
+			<trans-unit id="eva360-4">
+                <source>evaluacion.360.para.%usu%</source>
+                <target>Evaluación 360 para %usu%</target>
+			</trans-unit>
+			<trans-unit id="eva360-5">
+                <source>evaluacion.360.instrucciones.1.%usu%</source>
+                <target>En las siguiente encuesta encontrarás preguntas asociadas a cada una de las categorías sobre las que indagamos información de %usu%. El tiempo total que te tomará diligenciar esta evaluación será de 20 minutos.</target>
+			</trans-unit>
+			<trans-unit id="eva360-6">
+                <source>evaluacion.360.instrucciones.2.%usu%</source>
+                <target>Te invitamos a resolver esta evaluación de manera detallada. Esta información le ayudará a %usu% a aprender más sobre el/ella mismo/a y de esta manera podremos acompañarlo/a mejor en su proceso de decisión de carrera.</target>
+			</trans-unit>
+			<trans-unit id="eva360-7">
+                <source>enviar.invitaciones</source>
+                <target>Enviar invitaciones</target>
+			</trans-unit>
+			<trans-unit id="eva360-8">
+                <source>te.ha.invitado.a.su.evaluacion.360</source>
+                <target>te ha invitado a participar en su evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-9">
+                <source>para.participar</source>
+                <target>Para participar</target>
+			</trans-unit>
+			<trans-unit id="eva360-10">
+                <source>participaciones</source>
+                <target>Participaciones</target>
+			</trans-unit>
+			<trans-unit id="eva360-11">
+                <source>respuestas</source>
+                <target>Respuestas</target>
+			</trans-unit>
+			<trans-unit id="eva360-12">
+                <source>participo</source>
+                <target>Participó</target>
+			</trans-unit>
+			<trans-unit id="eva360-13">
+                <source>no.ha.participado</source>
+                <target>No ha participado</target>
+			</trans-unit>
+			<trans-unit id="eva360-14">
+                <source>evaluacion360</source>
+                <target>Evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="eva360-15">
+                <source>no.hay.participaciones</source>
+                <target>No hay participaciones</target>
+			</trans-unit>
+
+
+			<!-- ADMIN MENTOR OV adminov-x -->
+			<trans-unit id="adminov-1">
+                <source>seguimientos.usuarios.mentor</source>
+                <target>Seguimiento de usuarios</target>
+			</trans-unit>
+			<trans-unit id="adminov-2">
+                <source>descripcion.usuarios.mentor</source>
+                <target>Control sobre los usuarios que lo han seleccionado como mentor de orientación vocacional, desde aqui podra subir el informe de mercado laboral, cuando el usuario llegue a esa fase.</target>
+			</trans-unit>
+			<trans-unit id="adminov-3">
+                <source>no.hay.alternativas</source>
+                <target>El usuario no ha seleccionado alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="adminov-4">
+                <source>informe.mercado.laboral</source>
+                <target>Informe de mercado laboral</target>
+			</trans-unit>
+			<trans-unit id="adminov-5">
+                <source>subir.informe.mercado.laboral.de.alternativas.de.estudio.de.%name%</source>
+                <target>Subir el informe de mercado laboral de las alternativas de estudio seleccionadas por %name%, tenga en cuenta que si ya ha subido uno con anterioridad, este sera remplazado.</target>
+			</trans-unit>
+			<trans-unit id="adminov-6">
+                <source>subir.informe</source>
+                <target>Subir informe</target>
+			</trans-unit>
+			<trans-unit id="adminov-7">
+                <source>no.hay.usuarios.para.seguimiento</source>
+                <target>No hay usuarios para seguimiento</target>
+			</trans-unit>
+			<trans-unit id="adminov-8">
+                <source>usuarios</source>
+                <target>Usuarios</target>
+			</trans-unit>
+			<trans-unit id="adminov-9">
+                <source>resultados.evaluacion.360</source>
+                <target>Resultados de evaluación 360</target>
+			</trans-unit>
+			<trans-unit id="adminov-10">
+                <source>resultados.diseno.vida</source>
+                <target>Resultados de diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="adminov-11">
+                <source>resultados.ponderacion</source>
+                <target>Resultados de ponderación</target>
+			</trans-unit>
+           
+            <!-- diseño de vida dvida-x -->
+			<trans-unit id="dvida-1">
+                <source>diseno.vida</source>
+                <target>Diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="dvida-2">
+                <source>instrucciones.diseno.vida</source>
+                <target>Antes de realizar esta prueba de diseño de vida te pedimos el favor de leer nuestra guia, que te dara las recomendaciones necesarias para que le saques el mejor provecho a este test. Esta guia es sencilla, corta y amigable, no dejes de leerla.</target>
+			</trans-unit>
+			<trans-unit id="dvida-3">
+                <source>diseno.vida</source>
+                <target>Diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="dvida-4">
+                <source>valores.ocupacionales</source>
+                <target>Valores ocupacionales</target>
+			</trans-unit>
+			<trans-unit id="dvida-5">
+                <source>intereses.academicos</source>
+                <target>Intereses académicos</target>
+			</trans-unit>
+			<trans-unit id="dvida-6">
+                <source>nivel.0</source>
+                <target>Nivel 0</target>
+			</trans-unit>
+			<trans-unit id="dvida-7">
+                <source>nivel.1</source>
+                <target>Nivel 1</target>
+			</trans-unit>
+			<trans-unit id="dvida-8">
+                <source>nivel.2</source>
+                <target>Nivel 2</target>
+			</trans-unit>
+			<trans-unit id="dvida-9">
+                <source>nivel.3</source>
+                <target>Nivel 3</target>
+			</trans-unit>
+			<trans-unit id="dvida-10">
+                <source>instrucciones.analisis.diseno.vida</source>
+                <target>A continuación califica en una matriz los intereses de carrera nivel 3 que seleccionaste en la prueba anterior. Los criterios serán de 1 a 5, donde (5) es mucho, (1) es poco y (0) es nada. O por porcentaje que 0% significa nada de interés y 100% el máximo de interés.</target>
+			</trans-unit>
+			<trans-unit id="dvida-11">
+                <source>intereses.carrera</source>
+                <target>Intereses de carrera</target>
+			</trans-unit>
+			<trans-unit id="dvida-12">
+                <source>afinidad.valores.ocupacionales</source>
+                <target>Para cada interés de carrera califica que tanta afinidad tienen con tus Valores ocupacionales (ver imagen parte superior)</target>
+			</trans-unit>
+			<trans-unit id="dvida-13">
+                <source>afinidad.intereses.academicos</source>
+                <target>Para cada interés de carrera califica que tanta afinidad tienen con tus Intereses Académicos (ver imagen parte superior)</target>
+			</trans-unit>
+			<trans-unit id="dvida-14">
+                <source>apasiona.carrera</source>
+                <target>Califica según un porcentaje que tanto te apasiona esta carrera</target>
+			</trans-unit>
+			<trans-unit id="dvida-15">
+                <source>corto.plazo</source>
+                <target>Corto plazo</target>
+			</trans-unit>
+			<trans-unit id="dvida-16">
+                <source>mediano.plazo</source>
+                <target>Mediano plazo</target>
+			</trans-unit>
+			<trans-unit id="dvida-17">
+                <source>largo.plazo</source>
+                <target>Largo plazo</target>
+			</trans-unit>
+			<trans-unit id="dvida-18">
+                <source>disenovida.metas.pregunta.1</source>
+                <target>¿Con estas metas crees que puedes cumplir con alguna de las vidas que soñaste en la pregunta anterior?</target>
+			</trans-unit>
+			<trans-unit id="dvida-19">
+                <source>disenovida.metas.pregunta.2</source>
+                <target>¿Qué puedes concluir al respecto?</target>
+			</trans-unit>
+			
+			<!-- CARRERAS carreras-x -->
+			<trans-unit id="carreras-1">
+                <source>nueva.carrera</source>
+                <target>Nueva carrera</target>
+			</trans-unit>
+			<trans-unit id="carreras-2">
+                <source>editar.carrera</source>
+                <target>Editar carrera</target>
+			</trans-unit>
+			<trans-unit id="carreras-3">
+                <source>no.se.encuentra.registradas.carreras</source>
+                <target>No se encuentran registradas carreras</target>
+			</trans-unit>
+			<trans-unit id="carreras-4">
+                <source>la.carrera.no.tiene.temas</source>
+                <target>La carrera no tiene temas registrados</target>
+			</trans-unit>
+			<trans-unit id="carreras-5">
+                <source>detalles.carrera</source>
+                <target>Detalles de la carrera</target>
+			</trans-unit>
+			
+			<!-- COLEGIOS colegios-x -->
+			<trans-unit id="colegios-1">
+                <source>colegios</source>
+                <target>Colegios</target>
+			</trans-unit>
+			<trans-unit id="colegios-2">
+                <source>nuevo.colegio</source>
+                <target>Nuevo colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-3">
+                <source>detalles.colegio</source>
+                <target>Detalles colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-4">
+                <source>editar.colegio</source>
+                <target>Editar colegio</target>
+			</trans-unit>
+			<trans-unit id="colegios-5">
+                <source>no.se.encuentra.registrados.colegios</source>
+                <target>No se encuentran registrados colegios</target>
+			</trans-unit>
+			<trans-unit id="colegios-6">
+                <source>estudiantes</source>
+                <target>Estudiantes</target>
+			</trans-unit>
+			<trans-unit id="colegios-7">
+                <source>ningun.estudiante.ha.indicado.pertenecer.a.este.colegio</source>
+                <target>Ningún estudiante ha indicado pertenecer a este colegio</target>
+			</trans-unit>
+			
+			<!-- TEMAS temas-x -->
+			<trans-unit id="temas-1">
+                <source>nuevo.tema</source>
+                <target>Nuevo tema</target>
+			</trans-unit>
+			<trans-unit id="temas-2">
+                <source>no.se.encuentra.registrados.temas</source>
+                <target>No se encontraron temas registrados</target>
+			</trans-unit>
+			<trans-unit id="temas-3">
+                <source>detalles.tema</source>
+                <target>Detalles del tema</target>
+			</trans-unit>
+			<trans-unit id="temas-4">
+                <source>el.tema.no.tiene.foros</source>
+                <target>El tema no tiene foros</target>
+			</trans-unit>
+			<trans-unit id="temas-5">
+                <source>comentarios</source>
+                <target>Comentarios</target>
+			</trans-unit>
+			<trans-unit id="temas-6">
+                <source>editar.tema</source>
+                <target>Editar tema</target>
+			</trans-unit>
+			
+			<!-- INFORMACION informacion-x -->
+			<trans-unit id="informacion-1">
+                <source>informacion</source>
+                <target>Publicidad</target>
+			</trans-unit>
+			<trans-unit id="informacion-2">
+                <source>nueva.informacion</source>
+                <target>Nueva publicidad</target>
+			</trans-unit>
+			<trans-unit id="informacion-3">
+                <source>titulo</source>
+                <target>Titulo</target>
+			</trans-unit>
+			<trans-unit id="informacion-4">
+                <source>enlace</source>
+                <target>Enlace</target>
+			</trans-unit>
+			<trans-unit id="informacion-5">
+                <source>imagen</source>
+                <target>Imagen</target>
+			</trans-unit>
+			<trans-unit id="informacion-6">
+                <source>visible</source>
+                <target>Visible</target>
+			</trans-unit>
+			<trans-unit id="informacion-7">
+                <source>activo</source>
+                <target>Activo</target>
+			</trans-unit>
+			<trans-unit id="informacion-8">
+                <source>inactivo</source>
+                <target>Inactivo</target>
+			</trans-unit>
+			<trans-unit id="informacion-9">
+                <source>no.se.encuentra.registrada.informacion</source>
+                <target>No se encuentra registrada publicidad</target>
+			</trans-unit>
+			<trans-unit id="informacion-10">
+                <source>detalles.informacion</source>
+                <target>Detalles de publicidad</target>
+			</trans-unit>
+			<trans-unit id="informacion-11">
+                <source>vista.predeterminada</source>
+                <target>Vista predeterminada</target>
+			</trans-unit>
+            
+            <!-- ponderacion pond-x -->
+			<trans-unit id="pond-1">
+                <source>ponderacion</source>
+                <target>Ponderación</target>
+			</trans-unit>
+			<trans-unit id="pond-2">
+                <source>puntaje</source>
+                <target>Puntaje</target>
+			</trans-unit>
+			<trans-unit id="pond-3">
+                <source>puntajes</source>
+                <target>Puntajes</target>
+			</trans-unit>
+			<trans-unit id="pond-4">
+                <source>informacion</source>
+                <target>Publicidad</target>
+			</trans-unit>
+
+			
+			<!-- ADMIN USUARIOS adminUsers-x -->
+			<trans-unit id="adminUsers-1">
+                <source>validar.mentor</source>
+                <target>Aprobar como mentor</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-2">
+                <source>no.validar.mentor</source>
+                <target>Desaprobar como mentor</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-3">
+                <source>no.tiene.ningun.estudiante</source>
+                <target>No se han registrado estudiantes</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-4">
+                <source>no.tiene.ningun.mentor_e</source>
+                <target>No hay registrados mentores expertos</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-5">
+                <source>no.tiene.ningun.mentor_ov</source>
+                <target>No hay registrados mentores de orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-6">
+                <source>no.tiene.ningun.administrador</source>
+                <target>No hay registrados administradores</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-7">
+                <source>detalles.usuario</source>
+                <target>Detalles del usuario</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-8">
+                <source>estado.rol</source>
+                <target>Estado del rol</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-9">
+                <source>aprobado</source>
+                <target>Aprobado</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-10">
+                <source>no.aprobado</source>
+                <target>No aprobado</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-11">
+                <source>fecha.ultima.sincronizacion</source>
+                <target>Fecha última sincronización linkedin</target>
+			</trans-unit>
+			<trans-unit id="adminUsers-12">
+                <source>fecha.modificacion</source>
+                <target>Fecha última modificación</target>
+			</trans-unit>
+		
+            
+            <!-- pagos pago-x-->
+			<trans-unit id="pago-1">
+                <source>red.social</source>
+                <target>Red social</target>
+			</trans-unit>
+			<trans-unit id="pago-2">
+                <source>tiene.acceso.gratuito.a</source>
+                <target>Tienes acceso gratuito a</target>
+			</trans-unit>
+			<trans-unit id="pago-3">
+                <source>red.social.detalle</source>
+                <target>mensajes, foros, nuevos amigos, información, entre otros</target>
+			</trans-unit>
+			<trans-unit id="pago-4">
+                <source>ponderacion.consciente</source>
+                <target>Ponderación consciente</target>
+			</trans-unit>
+			<trans-unit id="pago-5">
+                <source>programa.orientacion</source>
+                <target>Programa de orientación</target>
+			</trans-unit>
+			<trans-unit id="pago-6">
+                <source>programa.completo.para.decision.consciente</source>
+                <target>Programa completo para la toma de una decisión consciente</target>
+			</trans-unit>
+			<trans-unit id="pago-7">
+                <source>acompanamiento.experto.todo.programa</source>
+                <target>Acompañamiento de un experto todo el programa</target>
+			</trans-unit>
+			<trans-unit id="pago-8">
+                <source>test.orientacion.vocacional</source>
+                <target>Test de Orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="pago-9">
+                <source>evaluacion.360.encuestas.ilimitadas</source>
+                <target>Evaluación 360 grados (encuestas ilimitadas)</target>
+			</trans-unit>
+			<trans-unit id="pago-10">
+                <source>taller.diseno.vida</source>
+                <target>Taller de diseño de vida</target>
+			</trans-unit>
+			<trans-unit id="pago-11">
+                <source>informe.mercado.laboral.altertativas.estudio</source>
+                <target>Informe de mercado laboral (para 3 alternativas de estudio)</target>
+			</trans-unit>
+			<trans-unit id="pago-12">
+                <source>descuento.mentorias</source>
+                <target>Descuento del 5% en todas las Mentorías que selecciones. Las mentorías tienen un valor individual fijado por cada mentor</target>
+			</trans-unit>
+			<trans-unit id="pago-13">
+                <source>gratis</source>
+                <target>Gratis</target>
+			</trans-unit>
+			<trans-unit id="pago-14">
+                <source>informe.mercado.laboral</source>
+                <target>Informe de mercado laboral</target>
+			</trans-unit>
+			<trans-unit id="pago-15">
+                <source>mentorias.red.profesionales</source>
+                <target>Mentorías con red de profesionales</target>
+			</trans-unit>
+			<trans-unit id="pago-16">
+                <source>mentorias.orientacion.vocacional</source>
+                <target>Mentoría con experto en orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="pago-17">
+                <source>programa.informativo</source>
+                <target>Programa informativo</target>
+			</trans-unit>
+			<trans-unit id="pago-18">
+                <source>pago.por.prueba</source>
+                <target>Pago por prueba</target>
+			</trans-unit>
+			<trans-unit id="pago-19">
+                <source>selecciona.pruebas.precio</source>
+                <target>Tu seleccionas que pruebas hacer y cada prueba tendrá su precio</target>
+			</trans-unit>
+			<trans-unit id="pago-20">
+                <source>detalle.programa.informativo</source>
+                <target>Este programa es informativo, por lo tanto no tienes acceso a todas las pruebas. Esto se debe a que en el programa de orientación estas acompañado por un experto todo el tiempo quien te ayuda a interpretar dichas pruebas</target>
+			</trans-unit>
+			<trans-unit id="pago-21">
+                <source>comprar</source>
+                <target>Comprar</target>
+			</trans-unit>
+			<trans-unit id="pago-22">
+                <source>segun.mentor</source>
+                <target>Según mentor</target>
+			</trans-unit>
+			<trans-unit id="pago-23">
+                <source>pagos</source>
+                <target>Pagos</target>
+			</trans-unit>
+			<trans-unit id="pago-24">
+                <source>producto</source>
+                <target>Producto</target>
+			</trans-unit>
+			<trans-unit id="pago-25">
+                <source>no.hay.productos</source>
+                <target>No hay productos en la lista</target>
+			</trans-unit>
+			<trans-unit id="pago-26">
+                <source>subtotal</source>
+                <target>Subtotal</target>
+			</trans-unit>
+			<trans-unit id="pago-27">
+                <source>iva</source>
+                <target>IVA</target>
+			</trans-unit>
+			<trans-unit id="pago-28">
+                <source>total</source>
+                <target>Total</target>
+			</trans-unit>
+			<trans-unit id="pago-29">
+                <source>pagar</source>
+                <target>Pagar</target>
+			</trans-unit>
+			<trans-unit id="pago-30">
+                <source>imprimir</source>
+                <target>Imprimir</target>
+			</trans-unit>
+			<trans-unit id="pago-31">
+                <source>compra</source>
+                <target>Compra</target>
+			</trans-unit>
+			<trans-unit id="pago-32">
+                <source>paquetes</source>
+                <target>Paquetes</target>
+			</trans-unit>
+			<trans-unit id="pago-33">
+                <source>carrito.compras</source>
+                <target>Carrito</target>
+			</trans-unit>
+			<trans-unit id="pago-34">
+                <source>comprar.mentoria</source>
+                <target>Comprar mentoria</target>
+			</trans-unit>
+			<trans-unit id="pago-35">
+                <source>con</source>
+                <target>con</target>
+			</trans-unit>
+			<trans-unit id="pago-36">
+                <source>confirmar.compra</source>
+                <target>Confirmar compra</target>
+			</trans-unit>
+			<trans-unit id="pago-37">
+                <source>mensaje.confirmar.compra</source>
+                <target>Para continuar con el proceso de compra haz click en el botón comprar con PayU</target>
+			</trans-unit>
+			<trans-unit id="pago-38">
+                <source>comprar.otro</source>
+                <target>Comprar otro</target>
+			</trans-unit>
+
+			<!-- SELECCIONAR MENTOR EXPERTO selectMentorE-x -->
+			<trans-unit id="selectMentorE-1">
+                <source>confirmacion.mentor.experto.%name%</source>
+                <target>¿Desea confirmar que seleccionó a %name%, como mentor experto?</target>
+			</trans-unit>
+			<trans-unit id="selectMentorE-2">
+                <source>mentor.seleccionado</source>
+                <target>Mentor seleccionado</target>
+			</trans-unit>
+			
+			<!-- MAPA mapa-x -->
+			<trans-unit id="mapa-1">
+                <source>asesoria.ov</source>
+                <target>Asesoria experto orientación vocacional</target>
+			</trans-unit>
+
+			<!-- MEDALLAS medallas-x -->
+			<trans-unit id="medallas-1">
+                <source>campeon</source>
+                <target>Campeón</target>
+			</trans-unit>
+			<trans-unit id="medallas-2">
+                <source>master</source>
+                <target>Master</target>
+			</trans-unit>
+			<trans-unit id="medallas-3">
+                <source>oro</source>
+                <target>Oro</target>
+			</trans-unit>
+			<trans-unit id="medallas-4">
+                <source>plata</source>
+                <target>Plata</target>
+			</trans-unit>
+			<trans-unit id="medallas-5">
+                <source>bronce</source>
+                <target>Bronce</target>
+			</trans-unit>
+			<trans-unit id="medallas-6">
+                <source>puntos</source>
+                <target>Puntos</target>
+			</trans-unit>
+
+			<!-- CERTIFICACION certificacion-x -->
+			<trans-unit id="certificacion-1">
+                <source>January</source>
+                <target>Enero</target>
+			</trans-unit>
+			<trans-unit id="certificacion-2">
+                <source>February</source>
+                <target>Febrero</target>
+			</trans-unit>
+			<trans-unit id="certificacion-3">
+                <source>March</source>
+                <target>Marzo</target>
+			</trans-unit>
+			<trans-unit id="certificacion-4">
+                <source>April</source>
+                <target>Abril</target>
+			</trans-unit>
+			<trans-unit id="certificacion-5">
+                <source>May</source>
+                <target>Mayo</target>
+			</trans-unit>
+			<trans-unit id="certificacion-6">
+                <source>June</source>
+                <target>Junio</target>
+			</trans-unit>
+			<trans-unit id="certificacion-7">
+                <source>July</source>
+                <target>Julio</target>
+			</trans-unit>
+			<trans-unit id="certificacion-8">
+                <source>August</source>
+                <target>Agosto</target>
+			</trans-unit>
+			<trans-unit id="certificacion-9">
+                <source>September</source>
+                <target>Septiembre</target>
+			</trans-unit>
+			<trans-unit id="certificacion-10">
+                <source>October</source>
+                <target>Octubre</target>
+			</trans-unit>
+			<trans-unit id="certificacion-11">
+                <source>November</source>
+                <target>Noviembre</target>
+			</trans-unit>
+			<trans-unit id="certificacion-12">
+                <source>December</source>
+                <target>Diciembre</target>
+			</trans-unit>
+			<trans-unit id="certificacion-13">
+                <source>se.expide.en.bogota.el.%dia%.de.%mes%.de.%ano%</source>
+                <target>Se expide en Bogotá D.C., el %dia% de %mes% de %ano%</target>
+			</trans-unit>
+			<trans-unit id="certificacion-14">
+                <source>certificado</source>
+                <target>Certificado</target>
+			</trans-unit>
+
+			
         </body>
     </file>
 </xliff>

@@ -43,9 +43,9 @@ class PerfilService
 		 * //AND (r.nombre = 'mentor_e' or r.nombre = 'mentor_ov');
 		 */
 		$dql="SELECT u.id as usuarioId, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioFechaNacimiento, u.usuarioEmail,
-				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional,
-				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero,
-				r.nombre as nombreRol,
+				u.usuarioHojaVida, u.usuarioTarjetaProfesional, u.usuarioValorMentoria, u.usuarioPerfilProfesional, u.usuarioPuntos,
+				u.usuarioCursoActual, u.usuarioFacebookid, u.usuarioFechaPlaneacion, u.usuarioGenero, u.usuarioRolEstado, u.usuarioProfesion,
+				r.id AS rolId, r.nombre as nombreRol,
 				col.nombre as nombreCol, col.id as colegioId
 			FROM vocationetBundle:Usuarios u
 			JOIN u.rol r
@@ -54,7 +54,11 @@ class PerfilService
 		$query = $em->createQuery($dql);
 		$query->setParameter('perfilId', $perfilId);
 		$perfil =$query->getResult();
-		return $perfil[0];
+		if($perfil) {
+			return $perfil[0];
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -286,7 +290,7 @@ class PerfilService
 	{
 		$arrayColegios = Array();
 		$em = $this->doctrine->getManager();
-		$colegios = $em->getRepository('vocationetBundle:colegios')->findAll();
+		$colegios = $em->getRepository('vocationetBundle:Colegios')->findAll();
 		foreach($colegios as $colegio){
 			$arrayColegios[$colegio->getId()] = $colegio->getNombre();
 		}
@@ -382,6 +386,22 @@ class PerfilService
 	}
 
 	/**
+	 * Funcion que retorna un array con los roles para seleccionar un mentor
+	 * - Acceso desde PerfilController
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Array con roles que puede escoger el mentor
+	 */
+	public function getRolesMentor() {
+		$tr = $this->translate;
+		return $rolesBusqueda = Array(
+					'2' => $tr->trans("mentor_e", array(), 'db'),
+					'3' => $tr->trans("mentor_ov", array(), 'db'),
+				);
+	}
+
+	/**
 	 * Funcion que retorna la ruta en donde se van a guardar y de adonde se van a acceder las hojas de vida
 	 * - Acceso desde PerfilController
 	 * 
@@ -409,11 +429,11 @@ class PerfilService
 	
 	/**
 	 * Funcion que cantidad de amistades enviadas sin aprobar
-	 * - Acceso desde AlertBaggeController
+	 * - Acceso desde AlertBageController
 	 *
 	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
-	 * @param Int Id del usuario
+	 * @param Int $usuarioId Id del usuario
 	 * @return Int Cantidad de relaciones sin aprobar
 	 */
 	public function getCantidadAmistades($usuarioId)
@@ -432,5 +452,469 @@ class PerfilService
 		$cantidad = $query->getResult();
         return $cantidad[0]['cantidad'];
 	}
+
+	//MENTORIAS
+
+	/**
+	 * Funcion que retorna los ID de las mentorias que aún no han sido calificadas entre los usuarios que ingresan como parametro
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $mentor Id del usuario Mentor
+	 * @param Int $estudiante Id del usuario Estudiante
+	 * @return Array Arreglo con usuarios mentorias no calificadas
+	 */
+	public function mentoriasSinCalificar($mentor, $estudiante)
+	{
+		/**
+		 * @var String Consulta SQL de mentorias que estan ejecutadas pero no estan calificadas
+		 * SELECT * FROM mentorias
+		 * WHERE usuario_mentor_id = 8 AND usuario_estudiante_id = 12 AND mentoria_estado = 1 AND calificacion IS NULL;
+		 */
+		$dql = "SELECT m.id, m.mentoriaEstado, m.calificacion, m.resena, m.mentoriaInicio, m.mentoriaFin
+                FROM vocationetBundle:Mentorias m
+                WHERE
+					m.usuarioMentor =:usuarioMenId AND m.usuarioEstudiante =:usuarioEstId AND m.mentoriaEstado = 1 AND m.calificacion IS NULL";
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioMenId', $mentor);
+        $query->setParameter('usuarioEstId', $estudiante);
+        $result = $query->getResult();
+        return $result;
+	}
+
+	/**
+	 * Funcion que retorna las calificaciones que ha recibido un mentor, agrupadas por No. de estrellas (5=> x-usuarios, 4=> y-usuarios...)
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $mentor Id del usuario Mentor
+	 * @return Array Arreglo con calificaciones, y totales
+	 */
+	public function mentoriasCalificadas($mentor)
+	{
+		/**
+		 * @var String $dql Consulta SQL que trae agrupados calificaciones por cantidad de usuarios (5=> x-usuarios, 4=> y-usuarios...)
+		 * SELECT id, COUNT(usuario_estudiante_id), calificacion FROM mentorias
+		 * WHERE usuario_mentor_id = 8 AND mentoria_estado = 1 AND calificacion IS NOT NULL
+		 * GROUP BY calificacion;
+		 */
+		$dql = "SELECT COUNT(m.id) AS cantidadUsuarios, m.calificacion
+				FROM vocationetBundle:Mentorias m
+                WHERE m.usuarioMentor =:usuarioMenId AND m.mentoriaEstado = 1 AND m.calificacion IS NOT NULL
+                GROUP BY m.calificacion";
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioMenId', $mentor);
+        $result = $query->getResult();
+
+		$Aux = Array('totalUsuarios' => 0,
+					'totalCalificacion' => 0,
+					'5'=>0, '4'=>0,	'3'=>0,	'2'=>0,	'1'=>0,	'0'=>0);
+		
+		$auxTotalUsuarios = 0;
+        foreach ($result as $cal) {
+			$calificacion = $cal['calificacion'];
+			$users = $cal['cantidadUsuarios'];
+			$Aux[$calificacion] = $users;
+			$Aux['totalUsuarios'] += $users;
+			$Aux['totalCalificacion'] += ($calificacion*$users);
+		}
+        return $Aux;
+	}
+
+	/**
+	 * Funcion que retorna las 25 últimas reseñas que le han hecho a un mentor, con la informacion del usuario
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $mentorId Id del usuario Mentor
+	 * @return Array Arreglo con últimas 25 reseñas
+	 */
+	public function getResenasMentor($mentorId)
+	{
+		/**
+		 * @var String $dql Consulta SQL que trae las reseñas o comentarios de los usuarios que han calificado al mentor
+		 * SELECT m.*, u.* FROM mentorias m
+		 * LEFT JOIN usuarios u ON u.id = m.usuario_estudiante_id
+		 * WHERE usuario_mentor_id = 8 AND mentoria_estado = 1 AND calificacion IS NOT NULL;
+		 */
+		$dql = "SELECT m.id, m.calificacion, m.resena, m.mentoriaInicio,
+					u.id AS usuarioId, u.usuarioApellido, u.usuarioNombre, u.usuarioEmail, u.usuarioImagen
+				FROM vocationetBundle:Mentorias m
+				LEFT JOIN vocationetBundle:Usuarios u WITH u.id = m.usuarioEstudiante
+                WHERE m.usuarioMentor =:usuarioMenId AND m.mentoriaEstado = 1 AND m.calificacion IS NOT NULL
+                ORDER BY m.id DESC";
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $query->setMaxResults(25);
+        $query->setParameter('usuarioMenId', $mentorId);
+        $result = $query->getResult();
+        return $result;
+	}
+
+	/**
+	 * Funcion que retorna true ID del usuario ya ha seleccionado mentor de orientación vocacional, false si no lo ha hecho
+	 * - Acceso desde ContactosController
+	 * - Acceso desde MercadoLaboralController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $estudianteId Id del usuario Estudiante
+	 * @return Boolean True=>Ya seleccionó mentorOV  False => No ha seleccionado mentorOV
+	 */
+	public function confirmarMentorOrientacionVocacional($estudianteId)
+	{
+		$return = false;
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT u.id
+                FROM vocationetBundle:Relaciones r
+                JOIN vocationetBundle:Usuarios u WITH u.id = r.usuario
+				WHERE r.usuario2 =:estudianteId AND r.tipo = 2 AND r.estado = 1";
+        $query = $em->createQuery($dql);
+		$query->setParameter('estudianteId', $estudianteId);
+		$mentor = $query->getResult();
+        if ($mentor) {
+			//$return = true;
+			$return = $mentor[0];
+		}
+		return $return;
+	}
+
+	/**
+	 * Funcion que retorna true OBJETOS de alternativas de estudio seleccionadas por el estudiante que ingresa por parametro
+	 * - Acceso desde MercadoLaboralController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @param Int $estudianteId Id del usuario Estudiante
+	 * @return Object AlternativasEstudio
+	 */
+	public function getAlternativasEstudio($estudianteId)
+	{
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT ae
+                FROM vocationetBundle:AlternativasEstudios ae
+				WHERE ae.usuario =:estudianteId";
+        $query = $em->createQuery($dql);
+		$query->setParameter('estudianteId', $estudianteId);
+		return $query->getResult();
+	}
+	
+	/**
+	 * Funcion que retorna publicidad o informacion registrad activa (max 5)
+	 * - Acceso desde PerfilController
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+     * @version 1
+	 * @return Object Informacion
+	 */
+	public function getpublicidad()
+	{
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT i
+                FROM vocationetBundle:Informacion i
+				WHERE i.informacionEstado = 1
+				ORDER BY i.id DESC";
+		$query = $em->createQuery($dql);
+		$query->setMaxResults(5);
+		return $query->getResult();
+	}
+	
+	/**
+	* Estado actual de la plataforma
+	*
+	* Funcion que retorna un arreglo informando que pruebas ha finalizado, y cantidad de mentorias realizadas
+	* - Acceso desde PerfilController
+	* - Acceso desde HomeController
+	* 
+	* @author Camilo Quijano <camilo@altactic.com>
+    * @version 1
+	* @param Int $usuarioId Id del usuario
+	* @return Array Arreglo de estado actual de la plataforma
+	*/
+	public function getEstadoActualPlataforma($usuarioId)
+	{
+		$em = $this->doctrine->getManager();
+        //$participaciones = $em->getRepository('vocationetBundle:Participaciones')->findBy(array('usuarioParticipa'=> $usuarioId), array('id' => 'ASC'));
+        $dql = "SELECT p FROM vocationetBundle:Participaciones p
+                WHERE (p.usuarioParticipa =:usuarioId OR p.usuarioEvaluado =:usuarioId) AND p.estado = 1";
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $participaciones = $query->getResult();
+		
+		// mentorias realizadas por el usuario con mentor experto vocacional.
+		//$mentorias = $em->getRepository('vocationetBundle:Mentorias')->findBy(array('usuarioEstudiante'=> $usuarioId, 'mentoriaEstado'=> 1), array('id' => 'ASC'));
+
+		/**
+		 * @var String Consulta SQL que trae mentorias del usuario tanto de experto como de orientado vocacional finalizadas
+		 * SELECT * FROM mentorias m
+		 * JOIN usuarios u ON u.id = m.usuario_mentor_id
+		 * WHERE m.usuario_estudiante_id = 27 AND m.mentoria_estado = 1;
+		*/
+		$dql = "SELECT m.id, r.id as rolId FROM vocationetBundle:Mentorias m
+				JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
+				JOIN u.rol r
+				WHERE m.usuarioEstudiante =:usuarioId AND m.mentoriaEstado = 1"; // AND u.rol = 3
+		$query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $mentorias = $query->getResult();
+
+		$cm = 0; // AuxContador de mentorias de ORIENTADOR VOCACIONAL
+		$cme = 0; // AuxContador de mentorias de EXPERTO
+		foreach ($mentorias as $ment)
+		{
+			if ($ment['rolId'] == 3)
+				$cm += 1;
+			elseif ($ment['rolId'] == 2)
+				$cme += 1;
+		}
+		
+		/**
+		* P1. DIAGNOSTICO
+		* P2. TEST VOCACIONAL (QUEMADO - REVISAR)
+		* P9. EVALUACION 360
+		* P10. DISEÑO DE VIDA
+		* P11. MERCADO LABORAL
+		* P12. RED DE MENTORES
+		* P13. PONDERACION
+		*/
+		
+		$recorrido = Array(
+			'P1' => false, 'M1' => ($cm >= 1) ? true : false,
+			'P2' => ($cm >= 1) ? true : false, 'M2' => ($cm >= 2) ? true : false,
+			'P9' => false, 'M3' => ($cm >= 3) ? true : false,
+			'P10' => false, 'M4' => ($cm >= 4) ? true : false,
+			'P11' => false, 'M5' => ($cm >= 5) ? true : false,
+			'P12' => false,
+			'P13' => false, 'M6' => ($cm >= 6) ? true : false,
+			'totalMentorias' => $cm,
+		);
+		
+		$auxCt360 = 0; // Contador de participantes 360
+		foreach($participaciones as $part)
+		{
+			$formId = $part->getFormulario();
+			if ($formId == 9) // Evaluacion 360
+			{
+				$auxCt360 += 1;
+				if ($auxCt360 >= 3) {
+					$recorrido['P'.$formId] = true;
+				}
+			}
+			elseif($formId == 12) {
+				// Validación de que almenos tenga una mentoria terminada con mentor Experto
+				if ($cme > 0) {
+					$recorrido['P'.$formId] = true;
+				}
+			}
+			else 
+			{
+				$recorrido['P'.$formId] = true;
+			}
+		}
+		return $recorrido;
+	}
+
+
+	/**
+	 * Validación de linealidad de Vocationet
+	 * 
+	 * Función que valida si el punto de la plataforma al que quiere ingresar, tiene acceso
+	 * teniendo en cuenta orden lineal
+	 * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param Int $usuarioId Id del usuario
+	 * @param String $posActual posición de la plataforma a la que quiere acceder
+	 * @return Array Arreglo con estado, mensaje y redireccionamiento si es necesario
+	 */
+	public function validarPosicionActual($usuarioId, $posActual)
+	{
+		$return = array('status' => true, 'message' => false, 'redirect' => false);
+		$recorrido = $this->getEstadoActualPlataforma($usuarioId);
+
+		if ($posActual == 'orientador_vocacional') {
+			$return = $this->validateDiagnostico($return, $recorrido);
+		}
+
+		if ($posActual == 'test_vocacional') {
+			$return = $this->validateTestVocacional($return, $recorrido);
+		}
+
+		if ($posActual == 'evaluacion360') {
+			$return = $this->validateEvaluacion360($return, $recorrido);
+		}
+
+		if ($posActual == 'disenovida') {
+			$return = $this->validateDisenoVida($return, $recorrido);
+		}
+
+		if ($posActual == 'mercadolaboral') {
+			$return = $this->validateMercadoLaboral($return, $recorrido);
+		}
+
+		if ($posActual == 'redmentores') {
+			$return = $this->validateRedMentores($return, $recorrido);
+		}
+
+		if ($posActual == 'ponderacion') {
+			$return = $this->validatePonderacion($return, $recorrido);
+		}
+		return $return;
+	}
+
+	/**
+	 * Funcion que valida si el usuario ya realizo diagnóstico
+	 */
+	private function validateDiagnostico($return, $recorrido)
+	{
+		if (!$recorrido['P1']) {
+			$return = array('status' => false, 'message' => 'no.ha.realizado.prueba.diagnostico', 'redirect' => 'diagnostico');
+		}
+		return $return;
+	}
+
+	 /**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar test vocacional
+	 * - ya realizo diagnóstico, y la primera mentoria
+	 */
+	private function validateTestVocacional($return, $recorrido)
+	{
+		$return = $this->validateDiagnostico($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['M1']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar evaluación 360
+	 */
+	private function validateEvaluacion360($return, $recorrido)
+	{
+		$return = $this->validateTestVocacional($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P2']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.test.vocacional', 'redirect' => 'test_vocacional');
+			} elseif (!$recorrido['M2']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar diseño de vida
+	 */
+	private function validateDisenoVida($return, $recorrido)
+	{
+		$return = $this->validateEvaluacion360($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P9']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.evaluacion360', 'redirect' => 'evaluacion360');
+			} elseif (!$recorrido['M3']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar mercado laboral
+	 */
+	private function validateMercadoLaboral($return, $recorrido)
+	{
+		$return = $this->validateDisenoVida($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P10']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.diseno.vida', 'redirect' => 'diseno_vida');
+			} elseif (!$recorrido['M4']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar red de mentores
+	 */
+	private function validateRedMentores($return, $recorrido)
+	{
+		$return = $this->validateMercadoLaboral($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P11']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.mercado.laboral', 'redirect' => 'mercado_laboral');
+			} elseif (!$recorrido['M5']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar ponderación
+	 */
+	private function validatePonderacion($return, $recorrido)
+	{
+		$return = $this->validateRedMentores($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P12']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.red.mentores', 'redirect' => 'red_mentores');
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Función que actualiza puntuación del usuario que ingresa como parametro
+	 *
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+	 * @param String $tipo Razón por la que se le van a dar puntos
+	 * @param Int $usuarioId Id del usuario
+	 * @param Array $aux Auxiliar en arreglo para valores a tener en cuenta para la cantidad de puntos a sumar
+	 */
+	function actualizarpuntos($tipo, $usuarioId, $aux = array())
+	{
+		$auxp = 0;//auxpuntos
+		if ($tipo == 'diagnostico') {
+			//$aux (rango(1,2,3), puntaje)
+			$auxp = ($aux['rango'] == 1) ? 10 : ($aux['rango'] == 2) ? 20 : ($aux['rango'] == 3) ? 30 : 0;
+		}
+		if ($tipo == 'evaluacion360') {
+			$auxp = 50;
+		}
+		if ($tipo == 'disenovida') {
+			$auxp = 100;
+		}
+		if ($tipo == 'mercadolaboral') {
+			$auxp = 50 * $aux['cantidad'];// Numero de alternativas seleccionadas
+		}
+		if ($tipo == 'redmentores') {
+			$auxp = 50; //c/u
+		}
+		if ($tipo == 'ponderacion') {
+			$auxp = 10 * $aux['cantidad'];// Numero de alternativas seleccionadas
+		}
+
+		if ($auxp > 0) {
+			$em = $this->doctrine->getManager();
+			$usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($usuarioId);
+			if ($usuario) {
+				$ptsAct = $usuario->getUsuarioPuntos();
+				$ptsAux = $ptsAct + $auxp;
+				
+				$usuario->setUsuarioPuntos($ptsAux);
+				$em->persist($usuario);
+				$em->flush();
+			}
+		}
+    }
 }
 ?>
