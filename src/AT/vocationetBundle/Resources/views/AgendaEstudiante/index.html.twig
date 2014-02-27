@@ -18,6 +18,18 @@
 				<div class="panel-body">
 					<div id="calendar" class="has-toolbar"></div>
 				</div>
+
+				<div class="panel-body">
+					<ul class="summary-list">
+						<li style='width:49%'>
+							<i class="icon-calendar" style='color:#EB9823'></i> {% trans from "label" %}mentoria.separada{% endtrans %}
+						</li>
+						<li style='width:49%'>
+							<i class="icon-calendar" style='color:#72B572'></i> {% trans from "label" %}mentoria.finalizada{% endtrans %}
+						</li>
+					</ul>
+				</div>
+				
 			</section>
 		</aside>
 	</div>
@@ -38,104 +50,97 @@
 {% endblock body %}
 
 {% block script %}
-<script type="text/javascript" src="{{ asset('js/jquery-ui-1.9.2.custom.min.js') }}"></script>
-<script src="{{ asset('assets/fullcalendar/fullcalendar/fullcalendar.min.js') }}"></script>
-<script type="text/javascript">
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
+	<script type="text/javascript" src="{{ asset('js/jquery-ui-1.9.2.custom.min.js') }}"></script>
+	<script src="{{ asset('assets/fullcalendar/fullcalendar/fullcalendar.min.js') }}"></script>
+	<script type="text/javascript">
+		var date = new Date();
+		var d = date.getDate();
+		var m = date.getMonth();
+		var y = date.getFullYear();
 
-    $('#calendar').fullCalendar({
-        header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,basicWeek,basicDay'
-        },
-        editable: false,
-        droppable: false,
-        events: [
-        {% for mentoria in mentorias %}
-            {
-                title: '{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}{% if not mentoria.estudianteId %} ({% trans from "label" %}mentoria.disponible{% endtrans %}){% endif %}',
-                start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
-                end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
-                allDay: false,
-                {% if mentoria.estudianteId %}
-                    {% if mentoria.mentoriaEstado == 0 %}
-                        color: '#EB9823',
-                    {% else %}
-                        color: '#72B572',                        
-                    {% endif %}
-                {% else %}
-                    color: '#8695A6',                    
-                {% endif %}
-                url: "{{ path('show_mentoria_estudiante', {'id':mentoria.id}) }}"
-            },
-        {% endfor %}
-        ]
-    });
-    
-    $("#calendar").on('click', '.fc-event', function(e){
-        e.preventDefault();
-        
-        $(".modal-body").html('<div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>');
-        
-        var url = $(this).attr('href');        
-        $("#modal-mentoria").modal('show');
-        
-        $.get(url, function(response){
-            $(".modal-body").html(response);
-        });
-    });
-    
-    $(".modal-body").on("click", ".btn-participar-mentoria", function(e){
-        e.preventDefault();
-        
-        var btn = $(this);
-        
-        if(confirm("{% trans from "label" %}desea.separar.mentoria{% endtrans %}"))
-        {
-            var href = $(this).attr('href');            
-            var btnText = btn.html();
-            
-            btn.attr('disabled', true);
-            btn.html(submit_text);
-            
-            $.ajax({
-                type: "POST",
-                url: href,
-                dataType: "json",
-                success: function (response){   
-                    if(response.status === "success"){
-                        $.gritter.add({
-                            title: response.message,
-                            text: response.detail,
-                            time: 5000,
-                            image: asset_path + 'img/success.png',
-                        });
-                    }
-                    else if(response.status === "error"){
-                        $.gritter.add({
-                            title: response.message,
-                            text: response.detail,
-                            time: 5000,
-                            image: asset_path + 'img/delete.png',
-                        });
-                        btn.attr('disabled', false);
-                        btn.html(btnText);
-                    }
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,basicWeek,basicDay'
+			},
+			editable: false,
+			droppable: false,
+			events: [
+			{% for mentoria in mentorias %}
+				{
+					title: '{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}{% if not mentoria.estudianteId %} ({% trans from "label" %}mentoria.disponible{% endtrans %}){% endif %}',
+					start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
+					end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
+					allDay: false,
+					{% set color = (mentoria.estudianteId) ? ((mentoria.mentoriaEstado == 0) ? '#EB9823' : '#72B572') : '#8695A6' %}
+					color: '{{ color }}',
+					url: "{{ path('show_mentoria_estudiante', {'id':mentoria.id}) }}"
+				},
+			{% endfor %}
+			]
+		});
+		
+		$("#calendar").on('click', '.fc-event', function(e){
+			e.preventDefault();
+			
+			$(".modal-body").html('<div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>');
+			
+			var url = $(this).attr('href');        
+			$("#modal-mentoria").modal('show');
+			
+			$.get(url, function(response){
+				$(".modal-body").html(response);
+			});
+		});
+		
+		$(".modal-body").on("click", ".btn-participar-mentoria", function(e){
+			e.preventDefault();
+			
+			var btn = $(this);
+			
+			if(confirm("{% trans from "label" %}desea.separar.mentoria{% endtrans %}"))
+			{
+				var href = $(this).attr('href');            
+				var btnText = btn.html();
+				
+				btn.attr('disabled', true);
+				btn.html(submit_text);
+				
+				$.ajax({
+					type: "POST",
+					url: href,
+					dataType: "json",
+					success: function (response){   
+						if(response.status === "success"){
+							$.gritter.add({
+								title: response.message,
+								text: response.detail,
+								time: 5000,
+								image: asset_path + 'img/success.png',
+							});
+						}
+						else if(response.status === "error"){
+							$.gritter.add({
+								title: response.message,
+								text: response.detail,
+								time: 5000,
+								image: asset_path + 'img/delete.png',
+							});
+							btn.attr('disabled', false);
+							btn.html(btnText);
+						}
 
-                    if(typeof(response.redirect) != "undefined"){
-                        location.href = response.redirect;
-                    }
-                },
-                error: function() {
-                    console.error('AJAX Error');                    
-                }
-            });
-        }        
-    });
-    
-</script>
+						if(typeof(response.redirect) != "undefined"){
+							location.href = response.redirect;
+						}
+					},
+					error: function() {
+						console.error('AJAX Error');                    
+					}
+				});
+			}        
+		});
+		
+	</script>
 {% endblock script %}

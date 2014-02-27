@@ -25,7 +25,6 @@ class PerfilService
 	 * incluido colegio al que pertenece de ser rol estudiante
 	 * - Acceso desde PerfilController
 	 * 
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
      * @param Int $perfilId Id del perfil al acceder
      * @return Array Arreglo con informacion del perfil
@@ -66,7 +65,6 @@ class PerfilService
 	 * - Estudios de rol mentor vocacional o experto
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $usuarioId Id del perfil al acceder
 	 * @return Array Arreglo con estudios registrados del perfil
@@ -91,7 +89,6 @@ class PerfilService
 	 * Funcion que elimina los estudios registrados del usuario que ingresa por parametro
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $usuarioId Id del perfil a eliminar los estudios
 	 */
@@ -115,7 +112,6 @@ class PerfilService
 	 * $estudios[] = Array('id','institucion','notas','actividades','titulo','estudios', 'yearinicio','yearfin')
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $usuarioId Id del perfil a relacionar los estudios
 	 * @param Array $estudios Arreglo con estudios a vincular al usuario.
@@ -150,7 +146,6 @@ class PerfilService
 	 * - Trabajos del rol mentor vocacional o experto
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $perfilId Id del perfil al acceder
 	 * @return Array Arreglo con trabajos registrados del perfil
@@ -177,7 +172,6 @@ class PerfilService
 	 * Funcion que elimina los trabajos registrados del usuario que ingresa por parametro
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $usuarioId Id del usuario a eliminar los trabajos
 	 */
@@ -216,7 +210,6 @@ class PerfilService
 	 * 	);
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $usuarioId Id del perfil a relacionar los trabajos
 	 * @param Array $estudios Arreglo con trabajos a vincular al usuario.
@@ -282,7 +275,6 @@ class PerfilService
 	 * Funcion que retorna un array los colegios a seleccionar por el estudiante
 	 * - Acceso desde PerfilController
 	 * 
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @return Array Con colegios
 	 */
@@ -301,7 +293,6 @@ class PerfilService
 	 * Funcion que trae los titulo registrados
 	 * - Acceso desde ContactosController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @return Array Arreglo con titulo y profesiones
 	 */
@@ -326,7 +317,6 @@ class PerfilService
 	 * Funcion que trae las universidades
 	 * - Acceso desde ContactosController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @return Array Arreglo con universidades
 	 */
@@ -350,7 +340,6 @@ class PerfilService
 	 * Funcion que retorna un array con los grados (cursos) a seleccionar por el estudiante
 	 * - Acceso desde PerfilController
 	 * 
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @return Array Con grados(cursos)
 	 */
@@ -372,7 +361,6 @@ class PerfilService
 	 * Funcion que retorna un array con los roles por los que puede buscar un estudiante
 	 * - Acceso desde ContactosController
 	 * 
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @return Array con roles
 	 */
@@ -389,7 +377,6 @@ class PerfilService
 	 * Funcion que retorna un array con los roles para seleccionar un mentor
 	 * - Acceso desde PerfilController
 	 * 
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @return Array con roles que puede escoger el mentor
 	 */
@@ -405,7 +392,6 @@ class PerfilService
 	 * Funcion que retorna la ruta en donde se van a guardar y de adonde se van a acceder las hojas de vida
 	 * - Acceso desde PerfilController
 	 * 
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
      * @return String Ruta de acceso a hojas de vida
 	 */
@@ -418,7 +404,6 @@ class PerfilService
 	 * Funcion que retorna la ruta en donde se van a guardar y de adonde se van a acceder las tarjetas profesionales
 	 * - Acceso desde PerfilController
 	 * 
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
      * @return String Ruta de acceso a tarjetas profesionales
 	 */
@@ -431,7 +416,6 @@ class PerfilService
 	 * Funcion que cantidad de amistades enviadas sin aprobar
 	 * - Acceso desde AlertBageController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $usuarioId Id del usuario
 	 * @return Int Cantidad de relaciones sin aprobar
@@ -459,7 +443,6 @@ class PerfilService
 	 * Funcion que retorna los ID de las mentorias que aún no han sido calificadas entre los usuarios que ingresan como parametro
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $mentor Id del usuario Mentor
 	 * @param Int $estudiante Id del usuario Estudiante
@@ -488,7 +471,6 @@ class PerfilService
 	 * Funcion que retorna las calificaciones que ha recibido un mentor, agrupadas por No. de estrellas (5=> x-usuarios, 4=> y-usuarios...)
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $mentor Id del usuario Mentor
 	 * @return Array Arreglo con calificaciones, y totales
@@ -529,7 +511,6 @@ class PerfilService
 	 * Funcion que retorna las 25 últimas reseñas que le han hecho a un mentor, con la informacion del usuario
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $mentorId Id del usuario Mentor
 	 * @return Array Arreglo con últimas 25 reseñas
@@ -561,7 +542,6 @@ class PerfilService
 	 * - Acceso desde ContactosController
 	 * - Acceso desde MercadoLaboralController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $estudianteId Id del usuario Estudiante
 	 * @return Boolean True=>Ya seleccionó mentorOV  False => No ha seleccionado mentorOV
@@ -588,7 +568,6 @@ class PerfilService
 	 * Funcion que retorna true OBJETOS de alternativas de estudio seleccionadas por el estudiante que ingresa por parametro
 	 * - Acceso desde MercadoLaboralController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 1
 	 * @param Int $estudianteId Id del usuario Estudiante
 	 * @return Object AlternativasEstudio
@@ -608,7 +587,6 @@ class PerfilService
 	 * Funcion que retorna publicidad o informacion registrad activa (max 5) y filtro por rol
 	 * - Acceso desde PerfilController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
      * @version 2 - Incluir filtro de publicidad por rol
      * @param Int $rol_id Id del rol
 	 * @return Object Informacion
@@ -633,7 +611,6 @@ class PerfilService
 	* - Acceso desde PerfilController
 	* - Acceso desde HomeController
 	* 
-	* @author Camilo Quijano <camilo@altactic.com>
     * @version 1
 	* @param Int $usuarioId Id del usuario
 	* @return Array Arreglo de estado actual de la plataforma
@@ -647,9 +624,6 @@ class PerfilService
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $participaciones = $query->getResult();
-		
-		// mentorias realizadas por el usuario con mentor experto vocacional.
-		//$mentorias = $em->getRepository('vocationetBundle:Mentorias')->findBy(array('usuarioEstudiante'=> $usuarioId, 'mentoriaEstado'=> 1), array('id' => 'ASC'));
 
 		/**
 		 * @var String Consulta SQL que trae mentorias del usuario tanto de experto como de orientado vocacional finalizadas
@@ -730,7 +704,6 @@ class PerfilService
 	 * Mapa correspondiente a la posición actual del usuario teniendo en cuenta el recorrido del usuario
 	 * - Acceso desde HomeController
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
 	 * @version 1
 	 * @param Array $recorrido Arreglo retornado por getEstadoActualPlataforma()
 	 * @return String Nombre de la imagen en donde esta marcado el recorrido hasta la posicion actual del usuario
@@ -771,14 +744,12 @@ class PerfilService
 		return 'mapa'.$aux_cont.'.png'; 
 	}
 
-
 	/**
 	 * Validación de linealidad de Vocationet
 	 * 
 	 * Función que valida si el punto de la plataforma al que quiere ingresar, tiene acceso
 	 * teniendo en cuenta orden lineal
 	 * 
-	 * @author Camilo Quijano <camilo@altactic.com>
 	 * @version 1
 	 * @param Int $usuarioId Id del usuario
 	 * @param String $posActual posición de la plataforma a la que quiere acceder
@@ -789,40 +760,46 @@ class PerfilService
 		$return = array('status' => true, 'message' => false, 'redirect' => false);
 		$recorrido = $this->getEstadoActualPlataforma($usuarioId);
 
-		if ($posActual == 'orientador_vocacional') {
-			$return = $this->validateDiagnostico($return, $recorrido);
-		}
-
-		if ($posActual == 'test_vocacional') {
-			$return = $this->validateTestVocacional($return, $recorrido);
-		}
-
-		if ($posActual == 'evaluacion360') {
-			$return = $this->validateEvaluacion360($return, $recorrido);
-		}
-
-		if ($posActual == 'disenovida') {
-			$return = $this->validateDisenoVida($return, $recorrido);
-		}
-
-		if ($posActual == 'mercadolaboral') {
-			$return = $this->validateMercadoLaboral($return, $recorrido);
-		}
-
-		if ($posActual == 'redmentores') {
-			$return = $this->validateRedMentores($return, $recorrido);
-		}
-
-		if ($posActual == 'ponderacion') {
-			$return = $this->validatePonderacion($return, $recorrido);
-		}
+		switch ($posActual) {
+			case 'orientador_vocacional';
+				$return = $this->validarDiagnostico($return, $recorrido);
+				break;
+			case 'test_vocacional':
+				$return = $this->validarTestVocacional($return, $recorrido);
+				break;
+			case 'evaluacion360':
+				$return = $this->validarEvaluacion360($return, $recorrido);
+				break;
+			case 'disenovida':
+				$return = $this->validarDisenoVida($return, $recorrido);
+				break;
+			case 'mercadolaboral':
+				$return = $this->validarMercadoLaboral($return, $recorrido);
+				break;
+			case 'redmentores':
+				$return = $this->validarRedMentores($return, $recorrido);
+				break;
+			case 'ponderacion':
+				$return = $this->validarPonderacion($return, $recorrido);
+				break;
+			case 'universidades':
+				$return = $this->validarUniversidades($return, $recorrido);
+				break;
+			case 'certificacion':
+				$return = $this->validarCertificado($return, $recorrido);
+				break;
+		}		
 		return $return;
 	}
 
 	/**
 	 * Funcion que valida si el usuario ya realizo diagnóstico
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
 	 */
-	private function validateDiagnostico($return, $recorrido)
+	private function validarDiagnostico($return, $recorrido)
 	{
 		if (!$recorrido['P1']) {
 			$return = array('status' => false, 'message' => 'no.ha.realizado.prueba.diagnostico', 'redirect' => 'diagnostico');
@@ -833,10 +810,14 @@ class PerfilService
 	 /**
 	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar test vocacional
 	 * - ya realizo diagnóstico, y la primera mentoria
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
 	 */
-	private function validateTestVocacional($return, $recorrido)
+	private function validarTestVocacional($return, $recorrido)
 	{
-		$return = $this->validateDiagnostico($return, $recorrido);
+		$return = $this->validarDiagnostico($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['M1']) {
 				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
@@ -847,10 +828,14 @@ class PerfilService
 
 	/**
 	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar evaluación 360
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
 	 */
-	private function validateEvaluacion360($return, $recorrido)
+	private function validarEvaluacion360($return, $recorrido)
 	{
-		$return = $this->validateTestVocacional($return, $recorrido);
+		$return = $this->validarTestVocacional($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['P2']) {
 				$return = array('status' => false, 'message' => 'no.ha.realizado.test.vocacional', 'redirect' => 'test_vocacional');
@@ -863,10 +848,14 @@ class PerfilService
 
 	/**
 	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar diseño de vida
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
 	 */
-	private function validateDisenoVida($return, $recorrido)
+	private function validarDisenoVida($return, $recorrido)
 	{
-		$return = $this->validateEvaluacion360($return, $recorrido);
+		$return = $this->validarEvaluacion360($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['P9']) {
 				$return = array('status' => false, 'message' => 'no.ha.realizado.evaluacion360', 'redirect' => 'evaluacion360');
@@ -879,10 +868,14 @@ class PerfilService
 
 	/**
 	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar mercado laboral
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
 	 */
-	private function validateMercadoLaboral($return, $recorrido)
+	private function validarMercadoLaboral($return, $recorrido)
 	{
-		$return = $this->validateDisenoVida($return, $recorrido);
+		$return = $this->validarDisenoVida($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['P10']) {
 				$return = array('status' => false, 'message' => 'no.ha.realizado.diseno.vida', 'redirect' => 'diseno_vida');
@@ -895,10 +888,14 @@ class PerfilService
 
 	/**
 	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar red de mentores
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
 	 */
-	private function validateRedMentores($return, $recorrido)
+	private function validarRedMentores($return, $recorrido)
 	{
-		$return = $this->validateMercadoLaboral($return, $recorrido);
+		$return = $this->validarMercadoLaboral($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['P11']) {
 				$return = array('status' => false, 'message' => 'no.ha.realizado.mercado.laboral', 'redirect' => 'mercado_laboral');
@@ -911,10 +908,14 @@ class PerfilService
 
 	/**
 	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar ponderación
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
 	 */
-	private function validatePonderacion($return, $recorrido)
+	private function validarPonderacion($return, $recorrido)
 	{
-		$return = $this->validateRedMentores($return, $recorrido);
+		$return = $this->validarRedMentores($return, $recorrido);
 		if ($return['status']) {
 			if (!$recorrido['P12']) {
 				$return = array('status' => false, 'message' => 'no.ha.realizado.red.mentores', 'redirect' => 'red_mentores');
@@ -924,9 +925,46 @@ class PerfilService
 	}
 
 	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para realizar Prueba de universidades
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
+	 */
+	private function validarUniversidades($return, $recorrido)
+	{
+		$return = $this->validarPonderacion($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P13']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.ponderacion', 'redirect' => 'ponderacion');
+			} elseif (!$recorrido['M6']) {
+				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
+			}
+		}
+		return $return;
+	}
+
+	/**
+	 * Función que valida si el usuario tiene terminado el proceso lineal, para ingresar a certificación
+	 * @version 1
+	 * @param Array $return Arreglo con estado, redireccionamiento, y mensaje (Objetivo, de retornar al usuario a la prueba en la que se encuentra)
+	 * @param Array $recorrido Arreglo con el recorrido actual del usuario, y mentorias realizadas
+	 * @return Array Arreglo con cambios realizados en caso de haber sido necesario del param $return
+	 */
+	private function validarCertificado($return, $recorrido)
+	{
+		$return = $this->validarUniversidades($return, $recorrido);
+		if ($return['status']) {
+			if (!$recorrido['P14']) {
+				$return = array('status' => false, 'message' => 'no.ha.realizado.universidades', 'redirect' => 'universidad');
+			}
+		}
+		return $return;
+	}
+
+	/**
 	 * Función que actualiza puntuación del usuario que ingresa como parametro
 	 *
-	 * @author Camilo Quijano <camilo@altactic.com>
 	 * @version 1
 	 * @param String $tipo Razón por la que se le van a dar puntos
 	 * @param Int $usuarioId Id del usuario

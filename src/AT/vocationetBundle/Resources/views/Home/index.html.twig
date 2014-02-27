@@ -30,6 +30,8 @@
 			line-height: 15px;
 			vertical-align: middle;
 		}
+
+		
 	</style>
 {% endblock style %}
 
@@ -39,27 +41,44 @@
 {% endblock menu %}
 
 {% block body %}
-	<div class="row">
 
+	{# VARIABLES AUXILIARES PARA MAPA, E IMAP CON TITULO, IMAGEN Y DESCRIPCION DE CADA UNO #}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico")) }}' width='40%' height='40%' align='left' /> {% endset %}
+	{% set aux_in %} <b>{{ 'inicio'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'inicio.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_di %} <b>{{ 'diagnostico'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'diagnostico.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_as %} <b>{{ 'asesoria.ov'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'asesoria.ov.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_tv %} <b>{{ 'test.vocacional'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'test.vocacional.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_ev %} <b>{{ 'evaluacion.360'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'evaluacion.360.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_dv %} <b>{{ 'diseno.vida'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'diseno.vida.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_ml %} <b>{{ 'mercado.laboral'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'mercado.laboral.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_rm %} <b>{{ 'red.mentores'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'red.mentores.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_po %} <b>{{ 'ponderacion'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'ponderacion.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_un %} <b>{{ 'universidad'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'universidad.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set aux_ce %} <b>{{ 'certificado'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'certificado.descripcion'|trans({}, 'label') }} </p> {% endset %}
+					
+	<div class="row">
 		<div class="col-lg-9"> 
 			<section class="panel">
 				<div class="panel-body">
+
 					<img src="{{ asset(getParameter('ruta_mapas_vocationet')~imagenMapa) }}" width="700" height="350" alt="mapaVocationet" usemap="#vocationetmap">
 					<map name="vocationetmap">
-						<area alt="{% trans from 'label' %}inicio{% endtrans %}" shape="circle" coords="104,222,12">
-						<area alt="{% trans from 'label' %}diagnostico{% endtrans %}" shape="circle" coords="220,249,12" href="{{ path('diagnostico') }}" />
-						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="307,257,324,280" href="{{ path('lista_mentores_ov') }}" />
-						<area alt="{% trans from 'label' %}test.vocacional{% endtrans %}" shape="circle" coords="396,249,12" href="{{ path('test_vocacional') }}" />
-						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="413,200,431,222" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{% trans from 'label' %}evaluacion.360{% endtrans %}" shape="circle" coords="398,175,10" href="{{ path('evaluacion360') }}" />
-						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="315,199,332,217" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{% trans from 'label' %}diseno.vida{% endtrans %}" shape="circle" coords="267,172,10" href="{{ path('diseno_vida') }}" />
-						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="258,119,273,138" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{% trans from 'label' %}mercado.laboral{% endtrans %}" shape="circle" coords="178,85,10" href="{{ path('mercado_laboral') }}" />
-						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="226,74,240,95" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{% trans from 'label' %}red.mentores{% endtrans %}" shape="rect" coords="281,31,305,69" href="{{ path('red_mentores') }}" />
-						<area alt="{% trans from 'label' %}ponderacion{% endtrans %}" shape="circle" coords="384,94,10" href="{{ path('ponderacion') }}" />
-						<area alt="{% trans from 'label' %}asesoria.ov{% endtrans %}" shape="rect" coords="431,82,448,104" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_in }}" shape="circle" coords="104,222,12">
+						<area alt="{{ aux_di }}" shape="circle" coords="220,249,12" href="{{ path('diagnostico') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="307,257,324,280" href="{{ path('lista_mentores_ov') }}" />
+						<area alt="{{ aux_tv }}" shape="circle" coords="396,249,12" href="{{ path('test_vocacional') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="413,200,431,222" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_ev }}" shape="circle" coords="398,175,10" href="{{ path('evaluacion360') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="315,199,332,217" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_dv }}" shape="circle" coords="267,172,10" href="{{ path('diseno_vida') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="258,119,273,138" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_ml }}" shape="circle" coords="178,85,10" href="{{ path('mercado_laboral') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="226,74,240,95" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_rm }}" shape="rect" coords="281,31,305,69" href="{{ path('red_mentores') }}" />
+						<area alt="{{ aux_po }}" shape="circle" coords="384,94,10" href="{{ path('ponderacion') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="431,82,448,104" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_un }}" shape="circle" coords="488,137,10" href="{{ path('universidad') }}" />
+						<area alt="{{ aux_ce }}" shape="rect" coords="551,30,603,86" href="{{ path('certificado') }}" />
 					</map>
 				</div>
 			</section>

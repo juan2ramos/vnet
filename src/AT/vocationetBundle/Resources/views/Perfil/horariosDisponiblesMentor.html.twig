@@ -34,13 +34,14 @@
 					</div>
 					
 					<ul class="nav nav-pills nav-stacked">
-						<li class=""><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
+						<li> <a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
 						{% if sess_user.id == perfil.usuarioId %}
-							<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
-							<li class=""><a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
+							<li> <a href="{{ path('perfil_edit') }}"> <i class="icon-edit"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+							<li> <a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
 						{% else %}
-							<li class="active"><a href="{{ path('horarios_disponibles_mentor', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-calendar"></i> {% trans from "label" %}disponibilidad{% endtrans %}</a></li>
+							<li class="active"> <a href="{{ path('horarios_disponibles_mentor', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-calendar"></i> {% trans from "label" %}disponibilidad{% endtrans %}</a></li>
 						{% endif %}
+						<li> <a href="{{ path('mentor_resenas', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-file-text-alt"></i> {% trans from "label" %}resenas{% endtrans %}</a></li>
 					</ul>
 				</section>
 			</aside>
@@ -61,6 +62,14 @@
 						<section class="panel">
 							<div class="panel-body">
 								<div id="calendar" class="has-toolbar"></div>
+							</div>
+
+							<div class="panel-body">
+								<ul class="summary-list">
+									<li style='width:99%'>
+										<i class="icon-calendar" style='color:#8695A6'></i> {% trans from "label" %}mentoria.disponible{% endtrans %}
+									</li>
+								</ul>
 							</div>
 						</section>
 					</aside>
@@ -114,15 +123,8 @@
                 start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
                 end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
                 allDay: false,
-                {% if mentoria.estudianteId %}
-                    {% if mentoria.mentoriaEstado == 0 %}
-                        color: '#EB9823',
-                    {% else %}
-                        color: '#72B572',                        
-                    {% endif %}
-                {% else %}
-                    color: '#8695A6',                    
-                {% endif %}
+                {% set color = (mentoria.estudianteId) ? ((mentoria.mentoriaEstado == 0) ? '#EB9823' : '#72B572') : '#8695A6' %}
+				color: '{{ color }}',
                 {% if tipoIngreso %}
 					url: "{{ path('show_mentoria_estudiante', {'id':mentoria.id}) }}"
                 {% endif %}

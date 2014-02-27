@@ -55,7 +55,23 @@
 				<div class="panel-body">
 					<div id="calendar" class="has-toolbar"></div>
 				</div>
+
+				<div class="panel-body">
+					<ul class="summary-list">
+						<li style='width:33%'>
+							<i class="icon-calendar" style='color:#8695A6'></i> {% trans from "label" %}mentoria.disponible{% endtrans %}
+						</li>
+						<li style='width:33%'>
+							<i class="icon-calendar" style='color:#EB9823'></i> {% trans from "label" %}mentoria.separada{% endtrans %}
+						</li>
+						<li style='width:33%'>
+							<i class="icon-calendar" style='color:#72B572'></i> {% trans from "label" %}mentoria.finalizada{% endtrans %}
+						</li>
+					</ul>
+				</div>
+				
 			</section>
+			
 		</div>
 
 		{# PUBLICIDAD #}
@@ -114,15 +130,8 @@
 					start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
 					end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
 					allDay: false,
-					{% if mentoria.estudianteId %}
-						{% if mentoria.mentoriaEstado == 0 %}
-							color: '#EB9823',
-						{% else %}
-							color: '#72B572',                        
-						{% endif %}
-					{% else %}
-						color: '#8695A6',                    
-					{% endif %}
+					{% set color = (mentoria.estudianteId) ? ((mentoria.mentoriaEstado == 0) ? '#EB9823' : '#72B572') : '#8695A6' %}
+					color: '{{ color }}',
 					url: "{{ path('show_mentoria_mentor', {'id':mentoria.id}) }}"
 				},
 			{% endfor %}

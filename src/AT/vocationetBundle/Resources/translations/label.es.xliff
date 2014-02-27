@@ -742,6 +742,10 @@
                 <source>aclaracion.separacion.de.mentorias.primero.seleccionar.mentor</source>
                 <target>Tenga en cuenta que para separar una mentoria, tiene que seleccionar al mentor primero</target>
             </trans-unit>
+            <trans-unit id="ment-15">
+                <source>mentoria.separada</source>
+                <target>Mentorias separadas</target>
+            </trans-unit>
 
 			 <!-- FOROS foros-x -->
             <trans-unit id="foros-1">
@@ -1415,6 +1419,10 @@
                 <source>vista.predeterminada</source>
                 <target>Vista predeterminada</target>
 			</trans-unit>
+			<trans-unit id="informacion-12">
+                <source>destino</source>
+                <target>Destino</target>
+			</trans-unit>
             
             <!-- ponderacion pond-x -->
 			<trans-unit id="pond-1">
@@ -1649,12 +1657,6 @@
                 <source>mentor.seleccionado</source>
                 <target>Mentor seleccionado</target>
 			</trans-unit>
-			
-			<!-- MAPA mapa-x -->
-			<trans-unit id="mapa-1">
-                <source>asesoria.ov</source>
-                <target>Asesoria experto orientación vocacional</target>
-			</trans-unit>
 
 			<!-- MEDALLAS medallas-x -->
 			<trans-unit id="medallas-1">
@@ -1758,6 +1760,55 @@
                 <target>Resultados de universidad</target>
 			</trans-unit>
 
+			<!-- MAPA / DESCRIPCION DE ITEMS DEL MAPA mapa-x -->
+			<trans-unit id="mapa-1">
+                <source>asesoria.ov</source>
+                <target>Asesoria experto orientación vocacional</target>
+			</trans-unit>
+			<trans-unit id="mapa-2">
+                <source>inicio.descripcion</source>
+                <target>Inicio diagnos rem Ipsum is simply hmy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-3">
+                <source>diagnostico.descripcion</source>
+                <target>descripcion diagnos rem Ipsu's standard dummy text ever sr took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-4">
+                <source>asesoria.ov.descripcion</source>
+                <target>Asesoria orientador vocacional diagnose industry's standard dummy text ever sitook a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-5">
+                <source>test.vocacional.descripcion</source>
+                <target>Test vocacional diagnos rem Ipsum is simply has been the industry's standardley of type and scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-6">
+                <source>evaluacion.360.descripcion</source>
+                <target>Evaluacion 360 diagnos rem Ipsum is simply hmy text egalley of type and scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-7">
+                <source>diseno.vida.descripcion</source>
+                <target>Diseño de vida diagnos rem Ipsum is simply has beeince the 1500s, when an unknown nd scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-8">
+                <source>mercado.laboral.descripcion</source>
+                <target>Mercado laboral diagnos rem Ipsum is simply has been the industry's stan an unknown printer took a etting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-9">
+                <source>red.mentores.descripcion</source>
+                <target>Red de mentores diagnos rem Ipsum is simply has been mmy text ever since the 1500s, when an unknown printerand scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-10">
+                <source>ponderacion.descripcion</source>
+                <target>Ponderacion diagnos rem Ipsum is simply has beentting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-11">
+                <source>universidad.descripcion</source>
+                <target>Universidad diagnos rem Ipsum an unknown printer took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-12">
+                <source>certificado.descripcion</source>
+                <target>certificado diagnos rem Ipsum is simply has been e 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

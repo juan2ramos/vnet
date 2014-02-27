@@ -27,14 +27,14 @@
     {% if mentoria.estudianteId %}
         <div style="text-align: right;">
             {% if mentoria.mentoriaEstado == 0 %}
-                <span class="label label-success">{% trans  from "label" %}mentoria.separada.por.mi{% endtrans %}</span>
+                <span class="label label-success">{% trans from "label" %}mentoria.separada.por.mi{% endtrans %}</span>
             {% else %}
-                <span class="label label-success">{% trans  from "label" %}mentoria.finalizada{% endtrans %}</span>
+                <span class="label label-success">{% trans from "label" %}mentoria.finalizada{% endtrans %}</span>
             {% endif %}
         </div>
     {% else %}
         <div style="text-align: right;">
-            <a href="{{ path('separar_mentoria_estudiante', {'id': mentoria.id }) }}" class="btn btn-info btn-participar-mentoria">{% trans  from "label" %}participar.mentoria{% endtrans %}</a>
+            <a href="{{ path('separar_mentoria_estudiante', {'id': mentoria.id }) }}" class="btn btn-info btn-participar-mentoria">{% trans from "label" %}participar.mentoria{% endtrans %}</a>
         </div>
     {% endif %}
 </section>

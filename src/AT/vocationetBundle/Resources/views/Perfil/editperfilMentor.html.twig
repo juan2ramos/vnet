@@ -29,8 +29,9 @@
 					</div>
 					
 					<ul class="nav nav-pills nav-stacked">
-						<li class=""><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
-						<li class="active"><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+						<li> <a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
+						<li class="active"><a href="{{ path('perfil_edit') }}"> <i class="icon-edit"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+						<li> <a href="{{ path('mentor_resenas', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-file-text-alt"></i> {% trans from "label" %}resenas{% endtrans %}</a></li>
 					</ul>
 				</section>
 			</aside>

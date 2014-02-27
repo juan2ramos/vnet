@@ -42,9 +42,17 @@ class UniversidadController extends Controller
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("no.existe.pago"), "text" => $this->get('translator')->trans("antes.de.continuar.debes.realizar.el.pago")));
             return $this->redirect($this->generateUrl('planes'));
         }
-        
-        // Validar posicion en el proceso
-        //...
+
+		// Validad linealidad en programa de orientación
+        $productoPago = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
+        if ($productoPago)
+        {
+			$return = $this->get('perfil')->validarPosicionActual($usuarioId, 'universidades');
+			if (!$return['status']) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+				return $this->redirect($this->generateUrl($return['redirect']));
+			}
+		}
         
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('universidad');
@@ -54,7 +62,6 @@ class UniversidadController extends Controller
         $formularios = false;
         $ciudades = false;
         $alternativas = false;
-        
         
         // Verificacion de reporte pdf
         $ruta_informe = $security->getParameter('path_reportes_universidad').'user'.$usuarioId.'.pdf';

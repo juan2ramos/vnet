@@ -34,13 +34,14 @@
 					</div>
 					
 					<ul class="nav nav-pills nav-stacked">
-						<li class="active"><a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
+						<li> <a href="{{ path('perfil', {'perfilId' : perfil.usuarioId }) }}"> <i class="icon-user"></i> {% trans from "label" %}perfil{% endtrans %}</a></li>
 						{% if sess_user.id == perfil.usuarioId %}
-							<li class=""><a href="{{ path('perfil_edit') }}"> <i class="icon-user"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
-							<li class=""><a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
+							<li> <a href="{{ path('perfil_edit') }}"> <i class="icon-edit"></i> {% trans from "label" %}editar.perfil{% endtrans %}</a></li>
+							<li> <a href="{{ path('perfil_sincronizar')}}"> <i class="icon-linkedin"></i> {% trans from "label" %}sincronizar.perfil{% endtrans %}</a></li>
 						{% else %}
-							<li class=""><a href="{{ path('horarios_disponibles_mentor', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-calendar"></i> {% trans from "label" %}disponibilidad{% endtrans %}</a></li>
+							<li> <a href="{{ path('horarios_disponibles_mentor', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-calendar"></i> {% trans from "label" %}disponibilidad{% endtrans %}</a></li>
 						{% endif %}
+						<li class="active"> <a href="{{ path('mentor_resenas', {'perfilId' : perfil.usuarioId })}}"> <i class="icon-file-text-alt"></i> {% trans from "label" %}resenas{% endtrans %}</a></li>
 					</ul>
 				</section>
 
@@ -59,7 +60,7 @@
 											<div class="rateit" data-rateit-value="{{ estrellasPromedio }}" data-rateit-max="5" data-rateit-ispreset="true" data-rateit-readonly="true" data-rateit-starwidth="16"></div>
 										</div>
 										<div class='col-lg-6'>
-											{{ calificaciones.totalUsuarios }}&nbsp;{% trans from "label" %}valoraciones{% endtrans %}
+											{{ calificaciones.totalUsuarios }} {% trans from "label" %}valoraciones{% endtrans %}
 										</div>
 										<br><hr>
 
@@ -74,7 +75,6 @@
 													<div class="progress-bar" role="progressbar" STYLE='width:{{ porcent }}%;background-color:#5E5E5E;'></div>
 												</div>
 											</div>
-											<br>
 										{% endfor %}
 									</div>
 								</div>

@@ -8,14 +8,14 @@
                 <h1>{{ mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido }}</h1>
             </div>
         {% else %}
-            <h1>{% trans  from "label" %}mentoria.disponible{% endtrans %}</h1>
+            <h1>{% transt from "label" %}mentoria.disponible{% endtrans %}</h1>
         {% endif %}
     </div>
     <table class="table table-hover personal-task">
       <tbody>
         <tr>
             <td style="width: 40px;">
-                <i class=" icon-calendar"></i>
+                <i class="icon-calendar"></i>
             </td>
             <td style="text-align: left;"><b>Día:</b> {{ mentoria.mentoriaInicio|date('d/m/Y') }}</td>
         </tr>
@@ -30,14 +30,14 @@
     {% if mentoria.estudianteId %}
         <div style="text-align: right;">
             {% if mentoria.mentoriaEstado == 0 %}
-                <a href="{{ path('finalizar_mentoria_mentor', {'id': mentoria.id }) }}" class="btn btn-info">{% trans  from "label" %}marcar.mentoria.finalizada{% endtrans %}</a>
+                <a href="{{ path('finalizar_mentoria_mentor', {'id': mentoria.id }) }}" class="btn btn-info">{% trans from "label" %}marcar.mentoria.finalizada{% endtrans %}</a>
             {% else %}
-                <span class="label label-success">{% trans  from "label" %}mentoria.finalizada{% endtrans %}</span>
+                <span class="label label-success">{% trans from "label" %}mentoria.finalizada{% endtrans %}</span>
             {% endif %}
         </div>
     {% else %}
         <div style="text-align: right;">
-            <a href="{{ path('delete_mentoria_mentor', {'id': mentoria.id }) }}" class="btn btn-danger btn-delete-mentoria">{% trans  from "label" %}eliminar{% endtrans %}</a>
+            <a href="{{ path('delete_mentoria_mentor', {'id': mentoria.id }) }}" class="btn btn-danger btn-delete-mentoria">{% trans from "label" %}eliminar{% endtrans %}</a>
         </div>
     {% endif %}
 </section>

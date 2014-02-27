@@ -711,7 +711,15 @@
                 <source>no.ha.realizado.red.mentores</source>
                 <target>No ha realizado aún las mentorias de Red de mentores</target>
 			</trans-unit>
-
+			<trans-unit id="recorridoLineal-8">
+                <source>no.ha.realizado.ponderacion</source>
+                <target>No ha realizado aún ponderación</target>
+			</trans-unit>
+			<trans-unit id="recorridoLineal-9">
+                <source>no.ha.realizado.universidades</source>
+                <target>No ha realizado aún prueba Universidades</target>
+			</trans-unit>
+			
 			<!-- CERTIFICACION certificacion-x -->
 			<trans-unit id="certificacion-1">
                 <source>certificado.no.generado</source>

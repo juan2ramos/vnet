@@ -33,6 +33,18 @@ class CertificacionController extends Controller
 		if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuario_id = $security->getSessionValue('id');
+		
+		// Validad linealidad en programa de orientación
+        $productoPago = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuario_id);
+        if ($productoPago)
+        {
+			$return = $this->get('perfil')->validarPosicionActual($usuario_id, 'certificacion');
+			if (!$return['status']) {
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans($return['message'])));
+				return $this->redirect($this->generateUrl($return['redirect']));
+			}
+		}
+
 		//$this->generarCertificado($usuario_id, $security->getSessionValue('usuarioApellido').' '.$security->getSessionValue('usuarioNombre')); // Generar certificacion
 		$ruta_certificado = $security->getParameter('ruta_certificados').'user'.$usuario_id.'.png';
 		$certificado = file_exists($ruta_certificado);
