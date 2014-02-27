@@ -29,65 +29,163 @@ class AgendaMentorController extends Controller
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
-        $usuarioId = $security->getSessionValue('id');
                 
         $form = $this->createMentoriaForm();
         
-        if($request->getMethod() == 'POST') 
-        {
-            $form->bind($request);
-            if ($form->isValid())
-            {
-                $data = $form->getData();
-                
-                $usuarioId = $security->getSessionValue('id');
-                
-                // Calcular fecha de fin agregandole 1 hora a la fecha de inicio
-                $mentoriaInicio = new \DateTime($data['fecha'].' '.$data['hora'].':'.$data['min'].':00');
-                $mentoriaFin = $this->modifyDateTime($mentoriaInicio, '+1 hour');
-                
-                // Validar cruces con otras mentorias
-                $cruce = $this->validarCruceMentoria($usuarioId, $mentoriaInicio, $mentoriaFin);
-
-                if (!$cruce) 
-                {                                        
-                    // Validar que no sea una fecha pasada (inferior a la actual)
-                    $currentDate = new \DateTime();                
-                    $interval = $currentDate->diff($mentoriaInicio);
-                    
-					if($interval->invert != 1)
-					{ 
-                        // Insertar mentoria(s)
-                        $this->registrarMentorias($usuarioId, $mentoriaInicio, $mentoriaFin, $data['repetir']);
-
-						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
-					}
-					else
-					{
-						$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("fecha.invalida"), "text" => $this->get('translator')->trans("fecha.hora.incorrecta")));
-					}
-				}
-				else
-				{
-					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("mentoria.traslapada")));
-				}
-            }
-            else
-            {
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
-            }
-        }
-        
-        $mentorias = $this->getMentorias($usuarioId);
         $publicidad = $this->get('perfil')->getPublicidad($security->getSessionValue("rolId"));
         
         return array(
             'form' => $form->createView(),
-            'mentorias' => $mentorias,
             'publicidad' => $publicidad,
         );
     }
 
+    /**
+     * Accion para obtener un arreglo JSON de las mentorias entre un rango de fechas
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @Method({"get"})
+     * @Route("/getitems", name="agenda_mentor_items")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response JSON
+     */
+    public function getItemsAction(Request $request)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        $usuarioId = $security->getSessionValue('id');
+        
+        // Request de rango de fechas
+        $start = ($request->get('start')) ? date('Y-m-d H:i:s', $request->get('start')) : false;
+        $end = ($request->get('end')) ? date('Y-m-d H:i:s', $request->get('end')) :false;
+        
+        $TransServ = $this->get('translator');
+        
+        
+        // Obtener mentorias
+        $mentorias_result = $this->getMentorias($usuarioId, $start, $end);
+        
+        $mentorias = array();
+        
+        foreach($mentorias_result as $m)
+        {
+            if($m['estudianteId']){
+                $title = $TransServ->trans('mentoria.con.%user%', array('%user%'=> $m['usuarioNombre'].' '.$m['usuarioApellido']), 'label');
+                if($m['mentoriaEstado'] == 0){
+                    $color = '#EB9823';
+                }
+                else{
+                    $color = '#72B572';
+                }
+            }
+            else{
+                $title = $TransServ->trans('mentoria.disponible', array(), 'label'); 
+                $color = "#8695A6";
+            }
+            
+            $mentorias[] = array(
+                'title'     => $title,
+                'start'     => $m['mentoriaInicio']->format('Y-m-d H:i:s'),
+                'end'       => $m['mentoriaFin']->format('Y-m-d H:i:s'),
+                'allDay'    => false,
+                'url'       => $this->generateUrl('show_mentoria_mentor', array('id' => $m['id'])),
+                'color'     => $color                    
+            );
+        }
+        
+        return new Response(json_encode($mentorias));
+    }
+    
+    /**
+     * Accion para recibir y procesar el formulario de creacion de mentoria
+     * 
+     * @Method({"post"})
+     * @Route("/crear", name="agenda_mentor_crear")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response JSON
+     */
+    public function newMentoriaAction(Request $request)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        $usuarioId = $security->getSessionValue('id');
+        
+        $form = $this->createMentoriaForm();
+        
+        $form->bind($request);
+        if ($form->isValid())
+        {
+            $data = $form->getData();
+
+            $usuarioId = $security->getSessionValue('id');
+
+            // Calcular fecha de fin agregandole 1 hora a la fecha de inicio
+            $mentoriaInicio = new \DateTime($data['fecha'].' '.$data['hora'].':'.$data['min'].':00');
+            $mentoriaFin = $this->modifyDateTime($mentoriaInicio, '+1 hour');
+
+            // Validar cruces con otras mentorias
+            $cruce = $this->validarCruceMentoria($usuarioId, $mentoriaInicio, $mentoriaFin);
+
+            if (!$cruce) 
+            {                                        
+                // Validar que no sea una fecha pasada (inferior a la actual)
+                $currentDate = new \DateTime();                
+                $interval = $currentDate->diff($mentoriaInicio);
+
+                if($interval->invert != 1)
+                { 
+                    // Insertar mentoria(s)
+                    $this->registrarMentorias($usuarioId, $mentoriaInicio, $mentoriaFin, $data['repetir']);
+
+                    
+                    $response = array(
+                        "status" => "success",
+                        "message" => array(
+                            "title" => $this->get('translator')->trans("mentoria.agregada"),
+                            "detail" => $this->get('translator')->trans("mentoria.agregada.correctamente")
+                        )
+                    );
+                }
+                else
+                {
+                    $response = array(
+                        "status" => "error",
+                        "message" => array(
+                            "title" => $this->get('translator')->trans("fecha.invalida"),
+                            "detail" => $this->get('translator')->trans("fecha.hora.incorrecta")
+                        )
+                    );
+                }
+            }
+            else
+            {
+                $response = array(
+                    "status" => "error",
+                    "message" => array(
+                        "title" => $this->get('translator')->trans("datos.invalidos"),
+                        "detail" => $this->get('translator')->trans("mentoria.traslapada")
+                    )
+                );
+            }
+        }
+        else
+        {
+            $response = array(
+                "status" => "error",
+                "message" => array(
+                    "title" => $this->get('translator')->trans("datos.invalidos"),
+                    "detail" => $this->get('translator')->trans("verifique.los datos.suministrados")
+                )
+            );
+        }
+        
+        
+        return new Response(json_encode($response));
+    }
+    
+    
 	/**
      * Accion ajax para detalle de una mentoria
      * 
@@ -206,6 +304,8 @@ class AgendaMentorController extends Controller
         
         return $this->redirect($this->generateUrl('agenda_mentor'));
     }
+    
+    
     
     
     /**
@@ -348,7 +448,7 @@ class AgendaMentorController extends Controller
      * 
      * @param type $usuarioId
      */
-    private function getMentorias($usuarioId)
+    private function getMentorias($usuarioId, $start_date = false, $end_date = false)
     {
         $dql = "SELECT
                     m.id,
@@ -363,9 +463,21 @@ class AgendaMentorController extends Controller
                     LEFT JOIN vocationetBundle:Usuarios u WITH m.usuarioEstudiante = u.id
                 WHERE
                     m.usuarioMentor = :usuarioId ";
+        if($start_date)
+        {
+            $dql .= " AND (m.mentoriaInicio >= :start_date OR m.mentoriaFin >= :start_date) ";
+        }
+        if($end_date)
+        {
+            $dql .= " AND (m.mentoriaInicio <= :end_date OR m.mentoriaFin <= :end_date) ";
+        }
+        
+        
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
+        if($start_date) $query->setParameter('start_date', $start_date);
+        if($end_date) $query->setParameter('end_date', $end_date);
         $result = $query->getResult();
         return $result;
     }
