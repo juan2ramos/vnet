@@ -57,53 +57,8 @@ class AgendaMentorController extends Controller
                     
 					if($interval->invert != 1)
 					{ 
-                        $em = $this->getDoctrine()->getManager();
-                        
-                        // Insertar mentoria en la fecha ingresada
-                        $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
-                        $mentoria->setUsuarioMentor($usuarioId);
-                        $mentoria->setMentoriaInicio($mentoriaInicio);
-                        $mentoria->setMentoriaFin($mentoriaFin);
-                        $em->persist($mentoria);
-
-                        
-                        // Duplicar mentoria                            
-						$repetir = $data['repetir'];
-                        if($repetir >1 && $repetir <= 4)
-                        {
-                            // Duplicar para los dias restantes de la semana actual
-                            
-                            $dia_mentoria = $mentoriaInicio->format('w') + 1;
-                            $fecha_ini_dup = $mentoriaInicio;
-                            $fecha_fin_dup = $mentoriaFin;
-                                                        
-                            
-                            // Recorrer desde el dia de la mentoria hasta viernes (dia 5)
-                            for($i = $dia_mentoria; $i <= 5; $i++)
-                            {
-                                $fecha_ini_dup = $this->modifyDateTime($fecha_ini_dup, '+1 day');
-                                $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+1 day');
-                                
-                                $mentoria = new \AT\vocationetBundle\Entity\Mentorias();
-                                $mentoria->setUsuarioMentor($usuarioId);
-                                $mentoria->setMentoriaInicio($fecha_ini_dup);
-                                $mentoria->setMentoriaFin($fecha_fin_dup);
-
-                                $em->persist($mentoria);
-                            }
-//                            $security->debug($this->modifyDateTime($mentoriaInicio, '+1 day'));
-                            
-                            
-                            
-                            
-                            // Duplicar para las n semanas siguientes
-                            //...
-                            
-//                            die;
-                        }
-                        
-                        // Cierra transaccion
-                        $em->flush();
+                        // Insertar mentoria(s)
+                        $this->registrarMentorias($usuarioId, $mentoriaInicio, $mentoriaFin, $data['repetir']);
 
 						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.agregada"), "text" => $this->get('translator')->trans("mentoria.agregada.correctamente")));
 					}
@@ -251,6 +206,87 @@ class AgendaMentorController extends Controller
         
         return $this->redirect($this->generateUrl('agenda_mentor'));
     }
+    
+    
+    /**
+     * Funcion para insertar mentorias en base de datos
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @param integer $usuarioId id de usuario mentor
+     * @param DateTime $mentoriaInicio fecha de inicio de la mentoria
+     * @param DateTime $mentoriaFin fecha de fin de la mentoria
+     * @param integer $semanas numero de semanas a repetir la mentoria
+     */
+    private function registrarMentorias($usuarioId, $mentoriaInicio, $mentoriaFin, $semanas)
+    {
+        // Preparar query
+        $insert_head = "INSERT INTO mentorias(usuario_mentor_id, mentoria_inicio, mentoria_fin) VALUES ";
+        $insert_values = array();
+         
+        // valores para la mentoria en la fecha ingresada por el usuario
+        $insert_values[] = '('.$usuarioId.', "'. $mentoriaInicio->format('y-m-d H:i:s') .'", "'. $mentoriaFin->format('y-m-d H:i:s') .'")';
+        
+        // Repetir mentorias para las semanas indicadas
+        if($semanas >= 1 && $semanas <= 4)
+        {                            
+            $insert_values = array_merge($insert_values, $this->duplicarMentoria($usuarioId, $mentoriaInicio, $mentoriaFin, $semanas));
+        }
+        
+        $sql = $insert_head . implode(", ", $insert_values);
+        
+        // Ejecutar query
+        $query = $this->getDoctrine()->getManager()
+                ->getConnection()
+                ->prepare($sql);
+        $query->execute();        
+    }
+    
+    /**
+     * Funcion para duplicar una mentoria las n semanas indicadas
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @param integer $usuarioId id de usuario mentor
+     * @param DateTime $mentoriaInicio fecha de inicio de la mentoria
+     * @param DateTime $mentoriaFin fecha de fin de la mentoria
+     * @param integer $semanas numero de semanas a repetir la mentoria
+     * @return array arreglo de valores para el insert sql
+     */
+    private function duplicarMentoria($usuarioId, $mentoriaInicio, $mentoriaFin, $semanas)
+    {
+        $insert_values = array();
+        
+        // Inicia a duplicar desde el dia siguiente a la fecha ingresada por el usuario
+        $dia_mentoria = $mentoriaInicio->format('w') + 1;
+        $fecha_ini_dup = $mentoriaInicio;
+        $fecha_fin_dup = $mentoriaFin;        
+        
+        // Repetir mentorias para las semanas indicadas
+        for($s = 1; $s <= $semanas; $s++)
+        {
+            /*
+             * Para la primera semana inicia a duplicar desde el dia siguiente a la fecha ingresada por el usuario hasta el viernes (dia 5)
+             * para las siguientes semanas inicia desde el lunes (dia 1) hasta el viernes (dia 5)
+             */
+            for($i = $dia_mentoria; $i <= 5; $i++)
+            {
+                $fecha_ini_dup = $this->modifyDateTime($fecha_ini_dup, '+1 day');
+                $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+1 day');
+                
+                $insert_values[] = '('.$usuarioId.', "'. $fecha_ini_dup->format('y-m-d H:i:s') .'", "'. $fecha_fin_dup->format('y-m-d H:i:s') .'")';
+                
+                if($i == 5) // si el dia es viernes agrego 2 dias mas para omitir sabados y domingos
+                {
+                    $fecha_ini_dup = $this->modifyDateTime($fecha_ini_dup, '+2 day');
+                    $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+2 day');      
+                }
+            }
+
+
+            $dia_mentoria = 1; // Reinicio la variable a lunes (dia 1)
+        }
+        
+        return $insert_values;
+    }    
     
     /**
      * Funcion para validar que no existan cruce de horarios entre mentorias
