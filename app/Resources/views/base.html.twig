@@ -32,6 +32,9 @@
 		  <script src="{{ asset('js/respond.min.js') }}"></script>
 		<![endif]-->
 
+		<!-- Add IntroJs styles -->
+		<link href="{{ asset('introJS/introjs.css') }}" ../../introjs.css" rel="stylesheet">
+
 		{% block style %}{% endblock %}
 	</head>
 
@@ -175,6 +178,7 @@
 				<section id="main-content">
 					<section class="wrapper">
 						<!-- page start-->
+							<a class="btn btn-large btn-success" href="javascript:void(0);" onclick="startIntro();">Show me how</a>
 							{% block body %}{% endblock %}
 						<!-- page end-->
 					</section>
@@ -182,6 +186,9 @@
 			<!--main content end-->
 		
 		</section>
+
+		<!-- Add IntroJs javascript -->
+		<script type="text/javascript" src="{{ asset('introJS/intro.js') }}"></script>
 
 		<!-- js placed at the end of the document so the pages load faster -->
 		<script src="{{ asset('js/jquery.js') }}"></script>
@@ -215,6 +222,50 @@
 				}
 			});
 		</script>
+
+		<script type="text/javascript">
+		 var intro = introJs();
+      function startIntro(){
+
+		// POSICION:FIXED A ABSOLUTE EN INTRO, #sidebar
+       
+          intro.setOptions({
+            steps: [
+              {
+                //element: document.querySelector('#introJS_menu_home'),
+                element: '#introJS_menu_home',
+                intro: "Home, aqui XYZ",
+                position: 'right'
+              },
+              {
+                element: document.querySelectorAll('#step2')[0],
+                intro: "Ok, wasn't that fun?",
+                position: 'right'
+              },
+              {
+                element: '#step3',
+                intro: 'More features, more fun.',
+                position: 'left'
+              },
+              {
+                element: '#step4',
+                intro: "Another step.",
+                position: 'bottom'
+              },
+              {
+                element: '#step5',
+                intro: 'Get it, use it.'
+              }
+            ]
+          });
+
+          intro.start();
+      }
+
+      intro.onexit(function() {
+  alert("exit of introduction");
+});
+    </script>
 
         {% block script %}{% endblock %}
 	</body>

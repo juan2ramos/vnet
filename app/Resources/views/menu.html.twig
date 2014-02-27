@@ -8,8 +8,8 @@
 	<ul class="sidebar-menu">
 
 		{% if sess_user.rolId == 1 or sess_user.rolId == 5 %}
-			<li class="{% if active == 'home' %}active{% endif %}">
-				<a class="" href="{{ path('homepage') }}">
+			<li class="{% if active == 'home' %}active{% endif %}" id="introJS_menu_home">
+				<a href="{{ path('homepage') }}">
 					<i class="icon-home"></i>
 					<span>{% trans from "label" %}inicio{% endtrans %}</span>
 				</a>
