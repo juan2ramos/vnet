@@ -1,0 +1,616 @@
+<!DOCTYPE html> 
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Power Tour - Powerfull creative jQuery tour plugin</title>
+
+    <meta property="og:title" content="Power Tour - Powerfull creative jQuery tour plugin" />
+    <meta property="og:url" content="http://www.jquerypowertour.com" />
+    <meta property="og:image" content="" />
+    <meta property="og:description" content="Powerfull creative jQuery tour plugin to show off your products, sites or other things." />
+   
+    <!-- // Stylesheets // -->
+
+    <link rel="stylesheet" href="css/grid.css"/><!-- demo, not needed -->
+    <link rel="stylesheet" href="css/powertour.css"/>
+    <link rel="stylesheet" href="css/style.css"/><!-- demo, not needed -->
+    <link href='http://fonts.googleapis.com/css?family=Give+You+Glory' rel='stylesheet' type='text/css'><!-- demo, not needed -->
+    
+    <link rel="canonical" href="http://www.jquerypowertour.com" /><!-- demo, not needed -->
+    
+    <!-- // Misc // -->
+    
+    <link rel="shortcut icon" href="images/favicons/favicon.ico" />
+
+    <!--  HTML5/CSS3 support(not needed) -->
+    <script src="js/modernizr.min.js"></script> 
+    
+    <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script> 
+         
+</head>
+<body> 
+	<div id="glow"></div>
+	<div id="container">
+    	<header id="head">
+        	<h1>Power Tour - Powerfull website tour plugin</h1>
+            <a href="index.html" id="logo">
+            	<img src="images/logo.png" alt="power tour logo">
+            </a>
+            <nav>
+         		<a href="index.html"><span>Home</span></a>
+                <a href="example2.html"><span>Example 2</span></a>
+                <a href="example3.html"><span>Example 3</span></a>
+                <a href="example4.html"><span>Example 4</span></a>
+                <a href="documentation.html" class="active"><span>Docs</span></a>
+                <a href="builder.html"><span>Builder</span></a>
+                <a href="#"><span>Buy</span></a>
+            </nav>
+            
+            <img src="images/example-helpers.png" id="example-helper" alt=""/>
+        </header>
+        
+        <div class="seperator"><span></span></div>
+        
+        <div class="spacer-25"></div>
+        
+        <section class="g_1 letsstart">
+        	<div class="left" id="step-trigger">
+                <a href="#" id="starttour"><span>Buy this plugin</span></a>
+                <h2>Be smart and buy this powerfull creative tour plugin!!</h2>
+            </div>
+            <div class="right" id="step-social">
+            </div>
+        </section>
+        
+        <div class="spacer-25"></div>
+
+        
+    	<section class="g_1">
+        	<div class="box">
+                <h2>Documentation</h2>
+                <p>
+                Each step has it's own custom options, so you can style every single step different, clone it, highlight it and much more. There are 4 tour types 
+                so some options dont work in every type, you can see which type has which options available. To make things easy we included a tour build form,
+                which helps you build a good tour in seconds. You also can start the tour on pageload and go to a new page and continue the tour there.
+                </p>
+                <div class="spacer-20"></div> 
+                <p>You can build pretty cool and creative tour with the Power Tour plugin.</p>
+            </div>
+        </section>
+
+        <div class="clear"></div>
+
+    	<section class="g_1">
+        	<div class="box">
+ 				<h2>Install</h2>
+                <p>Add the following file's to your &lt;head&gt; section.</p> 
+                
+                <div class="spacer-20"></div> 
+                <pre>
+&lt;!-- PowerTour stylesheet --&gt;
+&lt;link rel="stylesheet" href="css/powertour.css"/&gt;
+&lt;!-- jQuery core --&gt;
+&lt;script src="js/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+&lt;!-- PowerTour plugin --&gt;
+&lt;script src="js/powertour.1.4.min.js"&gt;&lt;/script&gt;</pre>
+			</div>
+        </section>
+        
+    	<section class="g_1">
+        	<div class="box">
+                
+ 				<h2>Plugin setup</h2>
+                <p>How to use the plugin.</p> 
+                
+                <div class="spacer-20"></div> 
+                <pre>
+$(document).ready(function($){
+    $('#starttour').powerTour({
+        tourType: 'auto',
+        overlayOpacity: 0.5,
+        showTimeControls: true,
+        showTimer: true,
+        timeButtonOrder: '%prev% %stop% %pause% %play% %next%',
+        stepButtonOrder: '%prev% %next% %stop%',
+        timerLabel: 'Next step in: ',			                    
+        effectSpeed: 200,
+        travelSpeed: 400,
+        easingEffect: 'linear',
+        easyCancel: true,
+        animated: true,
+        keyboardNavigation: true,
+        runOnLoad: false,
+        runOnLoadDelay: 2000,
+        exitUrl: '',
+        onStart: function(){},
+        onFinish: function(){},
+        onStop: function(){},	
+        onCancel: function(){},
+        step:[
+              {
+		hookTo: '#step-trigger',
+		content: '#box-trigger',
+                cloneTo: '',
+                width: 400,
+                arrowPosition: 'sc',
+                showArrow: false,
+                offsetY: 0,
+                offsetX: 0,
+                prevLabel: 'Prev',
+                nextLabel: 'Next',
+                stopLabel: 'Stop',
+                center: 'hook',						  
+                customClassStep: '',
+                customClassHook: '',
+                highlight: true,
+                highlightElements: '',
+                time: '00:05',
+                onShowStep: function(){},
+                onHideStep: function(){}
+              },
+              {
+              // next step
+              }
+
+});</pre>
+  
+            </div>
+        </section>
+        
+        <div class="clear"></div>
+        
+    	<section class="g_1">
+        	<div class="box">
+                
+ 				<h2>Step setup</h2>
+                <p>How to build a step.</p> 
+                
+                <div class="spacer-20"></div> 
+                <pre>&lt;div id="idofastep"&gt;
+&lt;-- put any content here, included HTML&gt;
+&lt;/div&gt;</pre>
+  
+            </div>
+        </section> 
+          
+        <div class="clear"></div>
+        
+    	<section class="g_1">
+        	<div class="box">
+ 				<h2>Usage plugin main options</h2>
+                <p>How to use the plugin main options.</p> 
+                
+                <div class="spacer-20"></div>  
+                         
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="c1">Plugin options</th>
+                            <th scope="col" class="c2">Type</th>
+                            <th scope="col" class="c3">Default</th>
+                            <th scope="col" class="c4">Desctription</th>
+                            <th scope="col" class="c2">Tour type</th>
+                            <th scope="col" class="c7">Since</th>
+                        </tr>                                            
+                    </thead>
+					<tbody>
+                        <tr>
+                            <td class="h-td">tourType</td>
+                            <td class="h-td">string</td>
+                            <td class="h-td">auto</td>
+                            <td class="h-td">This is the tour type, you can choose between 4 types 'auto' which will automaticly go to the next step, 'step' which wil go to the next step with a click of a button, 'showAll' which will show all steps at once and 'tooltip', which wil act as an tooltip once you hover the hook.</td>
+                            <td class="h-td">&nbsp;</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>overlayOpacity</td>
+                            <td>number(float)</td>
+                            <td>0.5</td>
+                            <td>You can set the overlay opacity of the highlight option.</td>
+                            <td class="h-td">auto/step/showAll</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>showTimeControls</td>
+                            <td>boolean</td>
+                            <td>auto</td>
+                            <td>The tour type 'auto' lets you use an small control panel with prev, next, pause, stop and play buttons, which you can use during the tour.</td>
+                            <td class="h-td">auto</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>showTimer</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>You can show an timer which will tell when the next step will start.</td>
+                            <td class="h-td">auto</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>timeButtonOrder</td>
+                            <td>string</td>
+                            <td>%prev% %stop% %pause% %play% %next%</td>
+                            <td>Choose the button order of the tour type 'auto' control panel.</td>
+                            <td class="h-td">auto</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>stepButtonOrder</td>
+                            <td>string</td>
+                            <td>%prev% %next% %stop%</td>
+                            <td>Choose the button order of the buttons that are located in the step it self.</td>
+                            <td class="h-td">auto</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>timerLabel</td>
+                            <td>string</td>
+                            <td>Next step in:</td>
+                            <td>The text that is used for the 'showTimer' option.</td>
+                            <td class="h-td">auto</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>effectSpeed</td>
+                            <td>number(integer)</td>
+                            <td>200</td>
+                            <td>The speed of the effect(show/hide).</td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>travelSpeed</td>
+                            <td>number(integer)</td>
+                            <td>400</td>
+                            <td>The speed between going from on step to the next step.</td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>easingEffect</td>
+                            <td>string</td>
+                            <td>linear</td>
+                            <td>The kind of effect thats used between the changing of the steps. Default is 'linear', but you can use more easing effect if you use the jQuery UI core. 
+                             <a href="http://jqueryui.com/demos/effect/easing.html">Easing demo's.</a></td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>easyCancel</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>Easy cancel if a fast way to cancel a tour, the tour will stop immediately if a user clicks outside the step.</td>
+                            <td class="h-td">auto/step/showAll</td>
+                            <td>1.0</td>
+                        </tr>  
+                        <tr>
+                            <td>animated</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>You can choose if the tour is animated.</td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>animatedOnEnd</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>Once the tour is done animated back to the top.</td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>keyboardNavigation</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>The tour type 'auto' and 'step' do support keyboard keys like space, esc, arrow key left and arrow key right. See the demo's for more.</td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr>  
+                        <tr>
+                            <td>runOnLoad</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>The tour runs when a user clicks the tour button, but you can do a tour that runs on several pages, 
+                            if you set this to true the tour will run if the pages get's loaded, so you can start a tour with a click 
+                            and enter a exitUrl so that you can continue on a different page. You dont have to set this to true, 
+                            if the last page has an exitUrl(the tour uses a parameter to start the tour).
+                             <b>NOTICE: you still have to use an exciting id/class for the trigger in order to get the tour working.</b></td>
+                            <td class="h-td">auto/step/showAll</td>
+                            <td>1.1</td>
+                        </tr>
+                        <tr>
+                            <td>runOnLoadDelay</td>
+                            <td>number(integer)</td>
+                            <td>2000</td>
+                            <td>If you use the 'runOnLoad' option you can give it an delay.</td>
+                            <td class="h-td">auto/step/showAll</td>
+                            <td>1.1</td>
+                        </tr>                        
+                        <tr>
+                            <td>exitUrl</td>
+                            <td>string</td>
+                            <td>&nbsp;</td>
+                            <td>If you enter a valid exitUrl the tour will go to this url once the tour is done, this way you can continue the tour on a different page. 
+                            Keep this empty if you dont want to use it! You can use parameters in the url.</td>
+                            <td class="h-td">auto/step/showAll</td>
+                            <td>1.1</td>
+                        </tr>                                                   
+                        <tr>
+                            <td>step</td>
+                            <td>array</td>
+                            <td>[]</td>
+                            <td>These are the steps that you must use for the tour. See the doc below on how to use it.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>onStart</td>
+                            <td>function</td>
+                            <td>function(){}</td>
+                            <td>This is an callback fuction that runs once the tour starts.</td>
+                            <td class="h-td">auto/step/showAll</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>onFinish</td>
+                            <td>function</td>
+                            <td>function(){}</td>
+                            <td>This is an callback fuction that runs once the tour is finished.</td>
+                            <td class="h-td">auto/step/showAll</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>onStop</td>
+                            <td>function</td>
+                            <td>function(){}</td>
+                            <td>This is an callback fuction that runs once the tour stops by using an stop button.</td>
+                            <td class="h-td">auto</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>onCancel</td>
+                            <td>function</td>
+                            <td>function(){}</td>
+                            <td>This is an callback fuction thats runs if the tour gets canceled with the 'easyCancel' option or by using the ESC key.</td>
+                            <td class="h-td">auto/step/showAll</td>
+                            <td>1.0</td>
+                        </tr>                                                                                                                                                                                                                                                                                                                                                  
+ 					</tbody>                                                                                                                                            
+                </table>                          
+            </div>
+        </section>
+                   
+        <div class="clear"></div>
+
+    	<section class="g_1">
+        	<div class="box">
+ 				<h2>Usage step options</h2>
+                <p>How to use the tour steps. Every step has there own options, as you can see in the demo.</p> 
+                
+                <div class="spacer-20"></div>  
+                         
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="c1">Plugin options</th>
+                            <th scope="col" class="c2">Type</th>
+                            <th scope="col" class="c3">Default</th>
+                            <th scope="col" class="c4">Desctription</th>
+                            <th scope="col" class="c2">Tour type</th>
+                            <th scope="col" class="c7">Since</th>
+                        </tr>                                            
+                    </thead>
+					<tbody>
+                        <tr>
+                            <td>hookTo</td>
+                            <td>string</td>
+                            <td>&nbsp;</td>
+                            <td>This is the id/class of the part that you want to highlight. Try to use only id's. 
+                            You must include the hastag or dot like '.classname' or '#idname'.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>content</td>
+                            <td>string</td>
+                            <td>&nbsp;</td>
+                            <td>This is the content thats used in the step, you can use any kind of content you want, even HTML. 
+                            You must include the hastag or dot like '.classname' or '#idname'.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>cloneTo</td>
+                            <td>string</td>
+                            <td>&nbsp;</td>
+                            <td>You can clone the step to a new/extra hook, this way you dont have to use the same step after each other. 
+                            The 'center' option works only for the main step.
+                            </td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>width</td>
+                            <td>number(integer)</td>
+                            <td>300</td>
+                            <td>Set the width of the step.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>arrowPosition</td>
+                            <td>string</td>
+                            <td>rt</td>
+                            <td>Set the arrow postion, this is the position where to step is connected to the hook. See the doc below for available positions.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>showArrow</td>
+                            <td>boolean</td>
+                            <td>true</td>
+                            <td>If you dont want to show an arrow use this option to switch it off.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>offsetY</td>
+                            <td>number(integer)</td>
+                            <td>0</td>
+                            <td>Offset of the step, this changes the vertically postion of the step, can be used with positive and negative values.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>offsetX</td>
+                            <td>number(integer)</td>
+                            <td>0</td>
+                            <td>Offset of the step, this changes the horizontal postion of the step, can be used with positive and negative values.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>prevLabel</td>
+                            <td>string</td>
+                            <td>nbsp;</td>
+                            <td>The label of the previous button. Notice that if you dont give the button any text it will not be visible.</td>
+                            <td class="h-td">step</td>
+                            <td>1.0</td>
+                        </tr>  
+                        <tr>
+                            <td>nextLabel</td>
+                            <td>string</td>
+                            <td>nbsp;</td>
+                            <td>The label of the next button. Notice that if you dont give the button any text it will not be visible.</td>
+                            <td class="h-td">step</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>stopLabel</td>
+                            <td>string</td>
+                            <td>nbsp;</td>
+                            <td>The label of the stop button. Notice that if you dont give the button any text it will not be visible.</td>
+                            <td class="h-td">step/auto/showAll</td>
+                            <td>1.0</td>
+                        </tr>  
+                        <tr>
+                            <td>center</td>
+                            <td>string</td>
+                            <td>hook</td>
+                            <td>Choose the center the hook or the step.</td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr>
+                        <tr>
+                            <td>customClassStep</td>
+                            <td>string</td>
+                            <td>&nbsp;</td>
+                            <td>You can give the step and custom class, this is used to style the step.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr>   
+                        <tr>
+                            <td>customClassHook</td>
+                            <td>string</td>
+                            <td>&nbsp;</td>
+                            <td>Want to change something on the hook once it's highlighted, just use a custom class for this.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr>   
+                        <tr>
+                            <td>highlight</td>
+                            <td>boolean</td>
+                            <td>false</td>
+                            <td>You can highlight the hook and step once it's active.</td>
+                            <td class="h-td">auto/step/show</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>highlightElements</td>
+                            <td>string</td>
+                            <td>&nbsp;</td>
+                            <td>You can highlight extra elements.</td>
+                            <td class="h-td">auto/step/showAll/tooltip</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>time</td>
+                            <td>time format</td>
+                            <td>01:00</td>
+                            <td>The tour type 'auto' runs on a set time, you can use up to an hour for every step. Notice that you use the right time format.</td>
+                            <td class="h-td">auto</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>onShowStep</td>
+                            <td>function</td>
+                            <td>function(){}</td>
+                            <td>This is an callback fuction.</td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr> 
+                        <tr>
+                            <td>onHideStep</td>
+                            <td>function</td>
+                            <td>function(){}</td>
+                            <td>This is an callback fuction.</td>
+                            <td class="h-td">auto/step</td>
+                            <td>1.0</td>
+                        </tr>                                                                                                                                                                                                                                                                                                                                              
+ 					</tbody>                                                                                                                                           
+                </table>                          
+            </div>
+        </section>
+        
+		<div class="clear"></div>
+        
+		<section class="g_1">
+        	<div class="box">
+                
+ 				<h2>Destroy method</h2>
+                <p>How to destroy the tour.</p> 
+                
+                <div class="spacer-20"></div> 
+                <pre>$('#trigger').powerTour('destroy');</pre>
+  
+            </div>
+        </section> 
+        
+		<div class="clear"></div>
+
+        <div class="g_1 box">
+            <h2>Step positions(arrowPosition)</h2>
+            <p>You can choose from 12 hook related positions and 9 screen positions.</p>
+            
+            <div class="spacer-20"></div> 
+            
+            <div id="demo-steps-positions"> 
+                <img src="images/positions-steps.jpg" alt="" style="margin-left:190px;"/>
+                
+                <div class="spacer-50"></div> 
+                 
+                <img src="images/positions-steps-2.jpg" alt="" style="margin-left:176px"/>
+            </div>
+        </div>
+   
+        <div class="g_1 box">
+            <h2>Globally And Per-Call Overridable Options</h2>
+            <p>This plugin has per-call(as the example above shows) and globally overridable options. Globally options can be used to override the default options, this is best used if you want to override the plugin options by default, this will prevent any issues with the plugin, as you dont have to change any thing in the plugin core it self. How to use: <u>$.fn.pluginName.key = 'value';</u></p>
+        </div>
+
+        <div class="seperator"><span></span></div>
+        
+        <footer id="footer">
+            <div class="left">
+           		Copyright © 2012 <a href="http://www.creativemilk.net">CreativeMilk</a>
+            </div>
+            <div class="right">
+            	Version 1.1
+            </div>
+        </footer> 
+    </div><!-- End #container -->  
+</body>
+</html>

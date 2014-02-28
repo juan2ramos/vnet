@@ -1,0 +1,1205 @@
+<!DOCTYPE html> 
+<html class="no-js" lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Power Tour - Powerfull creative jQuery tour plugin</title>
+   
+    <!-- // Stylesheets // -->
+
+    <link rel="stylesheet" href="css/grid.css"/><!-- demo, not needed -->
+    <link rel="stylesheet" href="css/powertour.css"/>
+    <link rel="stylesheet" href="css/style.css"/><!-- demo, not needed -->
+    <link href='http://fonts.googleapis.com/css?family=Give+You+Glory' rel='stylesheet' type='text/css'><!-- demo, not needed -->
+    
+    <!-- // Misc // -->
+    
+    <link rel="shortcut icon" href="images/favicons/favicon.ico" />
+
+    <!-- // jQuery core // -->
+    
+    <script src="js/jquery-1.10.1.min.js"></script>
+    
+    <!-- PowerTour -->
+    <script src="js/powertour.1.7.min.js"></script>
+    
+    <script>
+		$(document).ready(function($){
+			$('#starttour').powerTour({
+				tourType: 'auto',
+				overlayOpacity: 0.5,
+				showTimeControls: true,
+				showTimer: true,
+				timeButtonOrder: '%prev% %stop% %pause% %play% %next%',
+				stepButtonOrder: '%prev% %next% %stop%',
+				timerLabel: 'Next step in: ',			                    
+				effectSpeed: 200,
+				travelSpeed: 400,
+				easingEffect: 'linear',
+				easyCancel: true,
+				animated: true,
+				animatedOnEnd:true, 
+				keyboardNavigation: true,
+				runOnLoad: false,
+				runOnLoadDelay: 2000,
+				exitUrl: '',
+				onStart: function(){},
+				onFinish: function(){},
+				onStop: function(){},	
+				onCancel: function(){},				
+				step:[
+					  {
+						  hookTo: '',
+						  content: '#box-intro',
+						  cloneTo: '',
+						  width: 400,
+						  arrowPosition: 'sc',
+						  showArrow: false,
+						  offsetY: 0,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep:function(){}
+					  },				  
+					  {
+						  hookTo: '#type-tour-auto',
+						  content: '#box-tourtype',
+						  cloneTo: '',
+						  width: 300,
+						  arrowPosition: 'tm',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: 'pre-green',
+						  highlight: true,
+						  highlightElements: '#demo-types',
+						  time: '00:18',
+						  onShowStep: function(){},
+						  onHideStep:function(){}
+					  },					  
+					  {
+						  hookTo: '#step-code',
+						  content: '#box-code',
+						  cloneTo: '',
+						  width: 320,
+						  arrowPosition: 'lm',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: 'green',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:07',
+						  onShowStep: function(){},
+						  onHideStep:function(){}
+					  },
+					  {
+						  hookTo: '#step-social',
+						  content: '#box-social',
+						  cloneTo: '',
+						  width: 268,
+						  arrowPosition: 'bm',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: '',
+						  highlight: false,
+						  highlightElements: '',
+						  time: '00:07',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#step-gallery-2',
+						  content: '#box-html',
+						  cloneTo: '',
+						  width: 310,
+						  arrowPosition: 'rt',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: 'yellow',
+						  highlight: false,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },					  
+					  {
+						  hookTo: '',
+						  content: '#box-intro-pos',
+						  cloneTo: '',
+						  width: 300,
+						  arrowPosition: 'stl',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: 'yellow',
+						  highlight: false,
+						  highlightElements: '',
+						  time: '00:15',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-tl',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'tl',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-rt',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'rt',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-br',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'br',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-lb',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'lb',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-tm',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'tm',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-rm',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'rm',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-bm',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'bm',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-lm',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'lm',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-tr',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'tr',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-rb',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'rb',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-bl',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'bl',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-positions',
+						  content: '#box-pos-lt',
+						  cloneTo: '',
+						  width: 200,
+						  arrowPosition: 'lt',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  center: 'hook',						  
+						  customClassStep: 'center',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:02',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },					  					  					  					  					  					  				  	
+					  {
+						  hookTo: '#demo-box-style-1',
+						  content: '#box-style-1',
+						  cloneTo: '',
+						  width: 260,
+						  arrowPosition: 'tm',
+						  showArrow: true,
+						  offsetY: 10,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: 'powertour-style-purple',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-style-2',
+						  content: '#box-style-2',
+						  cloneTo: '',
+						  width: 260,
+						  arrowPosition: 'tm',
+						  showArrow: true,
+						  offsetY: 10,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: 'powertour-style-blue',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },					  	
+					  {
+						  hookTo: '#demo-box-style-3',
+						  content: '#box-style-3',
+						  cloneTo: '',
+						  width: 260,
+						  arrowPosition: 'tm',
+						  showArrow: true,
+						  offsetY: 10,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: 'powertour-style-orangeish',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-style-4',
+						  content: '#box-style-4',
+						  cloneTo: '',
+						  width: 260,
+						  arrowPosition: 'bm',
+						  showArrow: true,
+						  offsetY: 10,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: 'powertour-style-orange',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-style-5',
+						  content: '#box-style-5',
+						  cloneTo: '',
+						  width: 260,
+						  arrowPosition: 'bm',
+						  showArrow: true,
+						  offsetY: 10,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: 'powertour-style-green',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#demo-box-style-6',
+						  content: '#box-style-6',
+						  cloneTo: '',
+						  width: 260,
+						  arrowPosition: 'bm',
+						  showArrow: true,
+						  offsetY: 10,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: 'powertour-style-black',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },	
+					  {
+						  hookTo: '#step-gallery-3',
+						  content: '#box-clone',
+						  cloneTo: '#step-gallery-4',
+						  width: 260,
+						  arrowPosition: 'tm',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: '',
+						  highlight: false,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },					  				  					  						  	
+					  {
+						  hookTo: '#step-centering',
+						  content: '#box-centering-hook',
+						  cloneTo: '',
+						  width: 260,
+						  arrowPosition: 'lt',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 5,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: '',
+						  highlight: false,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+	
+					  {
+						  hookTo: '#step-gallery-5',
+						  content: '#box-highlight',
+						  cloneTo: '',
+						  width: 290,
+						  arrowPosition: 'tm',
+						  showArrow: true,
+						  offsetY: 5,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '#step-gallery-6',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },	
+					  {
+						  hookTo: '',
+						  content: '#box-end',
+						  cloneTo: '',
+						  width: 400,
+						  arrowPosition: 'sc',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 0,
+						  prevLabel: 'Prev',
+						  nextLabel: 'Next',
+						  stopLabel: 'Stop',
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:15',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  }						  					  						  														  					  						  										
+				  ]
+			});
+			
+		});
+    </script> 
+    
+    <!--  HTML5/CSS3 support(not needed) -->
+    <script src="js/modernizr.min.js"></script> 
+ 
+</head>
+<body> 
+	<div id="glow"></div>
+	<div id="container">        
+    	<header id="head">
+        	<h1>Power Tour - Powerfull website tour plugin</h1>
+            <a href="index.html" id="logo">
+            	<img src="images/logo.png" alt="power tour logo">
+            </a>
+            <nav>
+         		<a href="index.html" class="active"><span>Home</span></a>
+                <a href="example2.html"><span>Example 2</span></a>
+                <a href="example3.html"><span>Example 3</span></a>
+                <a href="example4.html"><span>Example 4</span></a>
+                <a href="documentation.html"><span>Docs</span></a>
+                <a href="builder.html"><span>Builder</span></a>
+                <a href="#"><span>Buy</span></a>
+            </nav>
+            
+            <img src="images/example-helpers.png" id="example-helper" alt=""/>
+        </header>
+        
+        <div class="seperator"><span></span></div>
+        
+        <div class="spacer-25"></div>
+        
+        <section class="g_1 letsstart">
+        	<div class="left" id="step-trigger">
+                <a href="#" id="starttour"><span>Start the tour</span></a>
+                <h2>Take the tour, go ahead.....press the button.....do it!!</h2>
+            </div>
+            <div class="right" id="step-social">
+            </div>
+        </section>
+        
+        <div class="spacer-25"></div>
+        
+    	<section class="g_1 box">
+        	<div class="g_1_2">
+                <h2>Hi there...</h2>
+                <div class="spacer-5"></div>
+                <p>
+                and welcome to the plugin called 'Power Tour'. Power Tour is a powerfull jQuery tour plugin, which can be used as a tour, helpers, guides or tooltips.
+                The plugin is pretty powerfull and has a lot of options which gives you the power to build a very cool tour.
+                </p>
+                
+                <div class="spacer-20"></div>
+                
+                <p>
+                Use the power tour plugin for your website, products, applications, landing pages or something else.
+                </p>
+                <div class="spacer-20"></div>
+                <b>A couple of options</b>
+                <div class="spacer-5"></div>
+                <ul class="list">
+					<li>4 Tour types</li>
+                    <li>Keyboard navigation</li>
+                    <li>5 Callback functions</li>
+                    <li>Show timer and time controls</li>
+                    <li>Set your own style</li>
+                    <li>Highlight the tour</li>
+                    <li>Choose between 21 positions</li>
+                    <li>Screen and hook positions</li>
+                    <li>Set tour time</li>
+                    <li>And much more...</li>              
+                </ul> 
+            </div>
+            
+            <div class="g_1_2_last" id="step-code">
+                <h2>Example single step options</h2>
+                
+                <div class="spacer-10"></div>
+                <pre>
+hookTo: '#step-one',
+content: '#box-one',
+cloneTo: '#theclone',
+width: 400,
+arrowPosition: 'rb',
+showArrow: true,
+offsetY: 50,
+offsetX: 5,
+prevLabel: 'Prev',
+nextLabel: 'Next',
+stopLabel: 'Stop',
+center: 'hook',						  
+customClassStep: 'blue-step',
+customClassHook: 'pre-green',
+highlight: true,
+highlightElements: '.highlighteme',
+time: '00:05',
+onShowStep: function(){},
+onHideStep: function(){}</pre>
+
+        	</div>           
+        </section>
+
+        <div class="clear"></div>
+        
+        <section class="g_1">
+            <div class="g_1_3 box">
+                <h2>Tour types</h2>
+                <div class="spacer-5"></div>
+                <p>
+                Not every tour is the same, therefor we added the "tourType" options, which allows you to choose from 4 different types, 
+                3 tour types and 1 tooltip type. You can see on the documentation page which tour options can be used in which tour type.
+                </p>                           
+            </div>        
+            <div class="g_2_3_last" id="type-helpers">
+            	<div id="demo-types">
+                    <div id="type-tour-auto">Auto /</div>
+                    <div id="type-tour-step">Step /</div>
+                    <div id="type-tour-showall">ShowAll /</div> 
+                    <div id="type-tour-tooltip">Tooltip</div>                  
+                </div>
+            </div>
+        </section>
+        
+        <div class="clear"></div>
+        
+        <section class="g_1 box">
+            
+            <div class="g_1_3">
+                <div id="step-gallery-1">
+                    <img src="images/img-1.jpg" alt=""/>
+                </div>            
+			</div>  
+                  
+        	<div class="g_1_3">
+                <div id="step-gallery-2">
+                    <img src="images/img-2.jpg" alt=""/>
+                </div>  
+             </div>
+            
+            <div class="g_1_3_last">
+                <h2>Clean and commented code</h2>
+                <div class="spacer-5"></div>
+                <p>
+                The plugins are coded in a clean way with lots of comments, this way you can find and change the plugin with ease.
+                This is a jQuery plugin, so we used jQuery and kept the hardcore javascript to a minium.
+                </p>
+                
+                <div class="spacer-20"></div>
+                
+                <ul class="list">
+					<li>Full and minified versions</li>
+                    <li>Full and lite version</li>
+                    <li>Clean code</li>
+                    <li>Good commented code</li>
+                    <li>No hardcore javascript plugin</li>
+                    <li>HTML5 &amp; CSS3</li>
+                </ul>
+			</div>
+        </section>
+        
+        <div class="clear"></div>
+        
+        <section class="g_1">
+            <div class="g_2_3">
+            	<div id="demo-box-positions">The hook</div>
+            </div>
+                    
+            <div class="g_1_3_last box">
+                <h2>Step postions</h2>
+                <div class="spacer-5"></div>
+                <p>
+                The power tour allows you to use up to 21 step positions. 
+                You can choose from 12 hook related positions and 9 screen positions, which can be changed with the offset values giving you more room to setup a creative tour.
+                The tour is animated, so you can choose between centering the hook or the step.
+                </p>
+                
+                <div class="spacer-20"></div>
+                
+                <ul class="list">
+					<li>12 Hook related positions</li>
+                    <li>9 Screen positions</li>
+                    <li>Use offset values(negative and positive)</li>
+                    <li>Centering the hook or step</li>
+                </ul>                
+            </div>
+        </section>
+        
+        <div class="clear"></div> 
+        
+        <section class="g_1 box">
+            <div class="g_1_3">
+                <h2>Cloned step</h2>
+                <div class="spacer-5"></div>
+                <p>
+               Some times you have multiple items that you want to highlight, but you dont want to show/use the same step each time. 
+               This can be solved very simple, as the power tour has the options 'cloneTo', which copy's the step to a other (dummy) hook.
+               The main step/hook will be used to center the step or hook.
+                </p>
+            </div>
+            
+            <div class="g_1_3">
+                <div id="step-gallery-3">
+                    <img src="images/img-3.jpg" alt=""/>
+                </div>                  
+            </div>
+            
+            <div class="g_1_3_last">
+                <div id="step-gallery-4">
+                    <img src="images/img-4.jpg" alt=""/>
+                </div> 
+            </div>                
+        </section>
+
+        <div class="clear"></div>
+        
+        <section class="g_1">
+            <div class="g_1_3 box">
+                <h2>Custom styles</h2>
+                <div class="spacer-5"></div>
+                <p>
+                Not every one likes the white default style of the step, or simply cant use the white color, to solve this we added the option 'customClassStep' 
+                to the tour plugin, so you can style each single style with your own custom style. Styles are classes, which you have to define in your stylesheet,
+                or use our classes that we made for this demo.
+                </p>                           
+            </div>        
+            <div class="g_2_3_last">
+            	<div id="demo-style">
+                    <div id="demo-box-style-1"></div>
+                    <div id="demo-box-style-2"></div>
+                    <div id="demo-box-style-3"></div>
+                    <div id="demo-box-style-4"></div>
+                    <div id="demo-box-style-5"></div>
+                    <div id="demo-box-style-6"></div>                    
+                </div>
+            </div>
+        </section>
+        
+        <div class="clear"></div>
+ 
+        <section class="g_1">       
+            <div class="g_1_3 box">
+                <h2>Keyboard navigation</h2>
+                <div class="spacer-5"></div>
+                <p>
+                If this option is set to true, you can use a couple of keyboard keys to navigate true your tour. 
+                </p>
+                
+                <div class="spacer-20"></div>
+                
+                <b>tourType: step</b>
+                
+                <ul class="list">
+					<li>prev = arrow key</li>
+                    <li>next = arrow key right</li>
+                    <li>cancel = ESC</li>
+                </ul>
+                
+                <div class="spacer-20"></div>
+                
+                <b>tourType: auto</b>
+                
+                <ul class="list">
+					<li>prev = arrow key</li>
+                    <li>next = arrow key right</li>
+                    <li>cancel = ESC</li>
+                    <li>play/pause = space</li>
+                </ul>  
+                                                                            
+            </div>
+            <div class="g_1_3 box" id="step-centering">
+                <h2>Centering</h2>
+                <div class="spacer-5"></div>
+                <p>
+                The power tour plugin gives you the possibility to choose between centering the step or the hook, this gives you more room to be creative.
+                </p> 
+                <div class="spacer-10"></div> 
+                <p>
+			    Biscuit dessert dessert cake chocolate bar candy canes. Cake faworki cookie pudding sweet powder donut wypas. Marshmallow donut caramels 
+                lemon drops fruitcake marzipan cotton candy pastry jelly. Cookie toffee sugar plum pie macaroon jelly marshmallow lollipop icing. 
+                Halvah bear claw marzipan sesame snaps cheesecake. Cake danish cotton candy sweet roll.                 
+                </p>
+            </div>                         
+            <div class="g_1_3_last box" id="step-customclasshook">
+                <h2>Custom class hook</h2>
+                <div class="spacer-5"></div>
+                <p>
+                You can customize your step, but you also can give the hook an custom class, which can be used for many creative things. This option is called 'customClassHook'.
+                </p>                            
+            </div>     
+        </section>
+
+        <div class="clear"></div> 
+        
+        <section class="g_1 box">
+            <div class="g_1_3">
+                <h2>Highlight other elements</h2>
+                <div class="spacer-5"></div>
+                <p>
+               The power tour plugin has the highlight option, which highlightes the step and hook, if set to true. But it also has the option
+               to highlight other elments, this feature is almost the same as the option 'cloneTo' but this time there's just one visible step.
+                </p>
+            </div>
+            
+            <div class="g_1_3">
+                <div id="step-gallery-5">
+                    <img src="images/img-5.jpg" alt=""/>
+                </div>                  
+            </div>
+            
+            <div class="g_1_3_last">
+                <div id="step-gallery-6">
+                    <img src="images/img-6.jpg" alt=""/>
+                </div> 
+            </div>                
+        </section>
+        
+        <div class="clear"></div> 
+        
+        <section class="g_1 box">
+            <div class="g_1_4">
+            Biscuit dessert dessert cake chocolate bar candy canes. Cake faworki cookie pudding sweet powder donut wypas. Marshmallow donut caramels 
+            lemon drops fruitcake marzipan cotton candy pastry jelly. Cookie toffee sugar plum pie macaroon jelly marshmallow lollipop icing. 
+            Halvah bear claw marzipan sesame snaps cheesecake. Cake danish cotton candy sweet roll gingerbread croissant.
+            </div> 
+            <div class="g_1_4">
+            Biscuit dessert dessert cake chocolate bar candy canes. Cake faworki cookie pudding sweet powder donut wypas. Marshmallow donut caramels 
+            lemon drops fruitcake marzipan cotton candy pastry jelly. Cookie toffee sugar plum pie macaroon jelly marshmallow lollipop icing. 
+            Halvah bear claw marzipan sesame snaps cheesecake. Cake danish cotton candy sweet roll gingerbread croissant.
+            </div> 
+            <div class="g_1_4">
+            Biscuit dessert dessert cake chocolate bar candy canes. Cake faworki cookie pudding sweet powder donut wypas. Marshmallow donut caramels 
+            lemon drops fruitcake marzipan cotton candy pastry jelly. Cookie toffee sugar plum pie macaroon jelly marshmallow lollipop icing. 
+            Halvah bear claw marzipan sesame snaps cheesecake. Cake danish cotton candy sweet roll gingerbread croissant.
+            </div>                         
+            <div class="g_1_4_last">
+            Biscuit dessert dessert cake chocolate bar candy canes. Cake faworki cookie pudding sweet powder donut wypas. Marshmallow donut caramels 
+            lemon drops fruitcake marzipan cotton candy pastry jelly. Cookie toffee sugar plum pie macaroon jelly marshmallow lollipop icing. 
+            Halvah bear claw marzipan sesame snaps cheesecake. Cake danish cotton candy sweet roll gingerbread croissant.
+            </div>            
+        </section>
+
+        <div class="clear"></div>
+
+        <div class="seperator"><span></span></div>
+        
+        <footer id="footer">
+            <div class="left">
+           		Copyright © 2012 <a href="http://www.creativemilk.net">CreativeMilk</a>
+            </div>
+            <div class="right">
+            	Version 1.1
+            </div>
+        </footer> 
+        
+        <!-- ******************* -->
+        <!-- Below are all steps -->
+        <!-- ******************* --> 
+       
+		<div id="box-intro" class="single-step">
+            <header>
+           	   <h3>Lets get this tour started</h3>
+            </header>
+       		<p>
+            As you can see this example is automated, you can see the end time at the bottom. 
+            The power tour plugin has a lot of cool options, so we will demonstrate most of them.
+            </p>
+            <div class="spacer-10"></div>
+            <p>
+            We call this part the 'step', and the part that should be highlighted(optional) a hook.
+            </p>
+            <div class="spacer-10"></div>
+            <p>
+            This step has an screen position, so its not hooked to any hook. You can find more about this on the docs page.
+            </p>
+		</div>
+
+		</div>
+        
+		<div id="box-tourtype" class="single-step">
+       		<p>
+       		We have 4 tour type's, this type is the 'auto' type, which is automated, you can see the timer at the bottom of the site.
+            </p>
+		</div>
+        
+		<div id="box-trigger" class="single-step">
+       		<p>
+       		This is the button that triggers the tour.
+            </p>
+		</div>
+		<div id="box-social" class="single-step">
+       		<p>
+       		Please share this creative plugin, thanks!
+            </p>
+		</div> 
+        
+		<div id="box-code" class="single-step">
+            <header>
+           	   <h3>Easy to use</h3>
+            </header>        
+       		<p>
+       		This is the code thats used for each single step, as you can see there are a lot of cool options which you can use. 
+            This example used the 'customClassHook' option to change the style of the hook.
+            </p>
+		</div> 
+
+		<div id="box-html" class="single-step">
+            <header>
+           	   <h3>He, I've got HTML inside me</h3>
+            </header>        
+       		<p>
+       		Yes you can use HTML, PHP or any kind of markup inside a step. This give's you more control and build cool steps.
+            </p>
+            
+             <div class="spacer-20"></div>
+            
+            <ul class="list">
+                <li>Dummy list item 1</li>
+                <li>Dummy list item 2</li>
+                <li>Dummy list item 3</li>
+                <li>Dummy list item 4</li>
+                <li>Dummy list item 5</li>
+                <li>Dummy list item 6</li>
+            </ul>
+		</div> 
+
+		<div id="box-intro-pos" class="single-step">
+            <header>
+           	   <h3>Step positions</h3>
+            </header>
+       		<p>
+            Where about to enter the steps position demo, but notice that it will go quick and 
+            that we will show only the hook releated positions and not all of the screen positions.
+            <div class="spacer-10"></div>
+            More about the positions can be found on the docs page.
+            </p>
+		</div>
+        
+		<div id="box-intro2" class="single-step">
+            <header>
+           	   <h3>Step positions</h3>
+            </header>
+       		<p>
+            Where about to enter the steps position demo, but notice that it will go quick and 
+            that we will show only the hook releated positions and not all of the screen positions.
+            <div class="spacer-10"></div>
+            More about the positions can be found on the docs page.
+            </p>
+		</div>
+        
+		<div id="box-pos-tl" class="single-step">
+       		<p>
+       		Top left position 'tl'
+            </p>
+		</div>
+        
+		<div id="box-pos-tm" class="single-step">
+       		<p>
+       		Top mid position 'tm'
+            </p>
+		</div>
+        
+		<div id="box-pos-tr" class="single-step">
+       		<p>
+       		Top right position 'tr'
+            </p>
+		</div>
+        
+		<div id="box-pos-rt" class="single-step">
+       		<p>
+       		Right top position 'rt'
+            </p>
+		</div>
+        
+		<div id="box-pos-rm" class="single-step">
+       		<p>
+       		Right mid position 'rm'
+            </p>
+		</div>
+        
+		<div id="box-pos-rb" class="single-step">
+       		<p>
+       		Bottom right position 'rb'
+            </p>
+		</div>
+        
+		<div id="box-pos-br" class="single-step">
+       		<p>
+       		Bottom right position 'br'
+            </p>
+		</div>
+        
+		<div id="box-pos-bm" class="single-step">
+       		<p>
+       		Bottom mid position 'bm'
+            </p>
+		</div>
+        
+		<div id="box-pos-bl" class="single-step">
+       		<p>
+       		Bottom left position 'bl'
+            </p>
+        </div>
+        
+		<div id="box-pos-lb" class="single-step">
+       		<p>
+       		Left bottomt position 'lb'
+            </p>
+		</div>
+        
+		<div id="box-pos-lm" class="single-step">
+       		<p>
+       		Left mid position 'lm'
+            </p>
+		</div>
+        
+		<div id="box-pos-lt" class="single-step">
+       		<p>
+       		Left top position 'lt'
+            </p>
+        </div> 
+
+		<div id="box-clone" class="single-step">
+       		<p>
+       		Yes you are seeing double...
+            </p>
+		</div>        
+        
+		<div id="box-style-1" class="single-step">
+       		<p>
+       		Yes you can change the style of a step.
+            </p>
+		</div>
+
+		<div id="box-style-2" class="single-step">
+       		<p>
+       		Be creative and use a cool style.
+            </p>
+		</div>
+        
+		<div id="box-style-3" class="single-step">
+       		<p>
+       		Set a style like this strange lookin orange...ish color.
+            </p>
+		</div>
+        
+		<div id="box-style-4" class="single-step">
+       		<p>
+       		Bla bla bla some other style....
+            </p>
+		</div>
+        
+		<div id="box-style-5" class="single-step">
+       		<p>
+       		Where almost done with the styles...
+            </p>
+		</div>
+        
+		<div id="box-style-6" class="single-step">
+       		<p>
+       		For the last style we use black.
+            </p>
+		</div>
+        
+		<div id="box-centering-hook" class="single-step">
+       		<p>
+       		In this step the hook is centered.
+            </p>
+		</div>
+        
+		<div id="box-centering-step" class="single-step">
+       		<p>
+       		But in this step the step is centered.
+            </p>
+		</div>
+        
+		<div id="box-customclasshook" class="single-step">
+       		<p>
+       		By adding a custom class to the hook, you can do some pretty cool stuff with the hook.
+            </p>
+		</div>
+        
+		<div id="box-highlight" class="single-step">
+       		<p>
+       		See the image next to me is highlighted as well.
+            </p>
+		</div>
+
+		<div id="box-end" class="single-step">
+            <header>
+           	   <h3>All good things come to an end</h3>
+            </header>
+       		<p>
+            Yes this is the end of this tour, we have showen you most of the features, 
+            so now you know you can build a sweet tour thats creative and eye catching.
+            <div class="spacer-10"></div>
+            Improve your usability with the powerfull power tour plugin!
+            </p>
+		</div>
+        
+    </div><!-- End #container -->  
+</body>
+</html>

@@ -1,0 +1,107 @@
+<div id="box-intro" class="single-step">
+	<header> <h3>{% trans from "labels" %}bienvenido.vocationet{% endtrans %}</h3> </header>
+	<p>	{% trans from "labels" %}texto.bienvenida.e.intro.tour{% endtrans %} </p>
+	<img style='text-align:center;width:100%;' src="{{ asset('img/vocationet/tour/navegacion.png') }}" />
+	<p> {% trans from "labels" %}explicacion.botones{% endtrans %} </p>
+	
+	
+	
+</div>
+
+<div id="box-social" class="single-step">
+	<p>
+	Please share this creative plugin, thanks!
+	</p>
+</div>
+
+<div id="box-tourtype" class="single-step">
+	<p>
+	We have 4 tour type's, this type is the 'auto' type, which is automated, you can see the timer at the bottom of the site.
+	</p>
+</div>
+
+    <script>
+		$(document).ready(function($){
+			$('#starttour').powerTour({
+				tourType: 'auto',
+				overlayOpacity: 0.5,
+				showTimeControls: true,
+				showTimer: true,
+				timeButtonOrder: '%prev% %stop% %pause% %play% %next%',
+				stepButtonOrder: '%prev% %next% %stop%',
+				timerLabel: 'Next step in: ',			                    
+				effectSpeed: 200,
+				travelSpeed: 400,
+				easingEffect: 'linear',
+				easyCancel: true,
+				animated: true,
+				animatedOnEnd:true, 
+				keyboardNavigation: true,
+				runOnLoad: false,
+				runOnLoadDelay: 2000,
+				exitUrl: '',
+				onStart: function(){},
+				onFinish: function(){},
+				onStop: function(){},	
+				onCancel: function(){},				
+				step:[
+					  {
+						  hookTo: '',
+						  content: '#box-intro',
+						  cloneTo: '',
+						  width: 400,
+						  arrowPosition: 'sc',
+						  showArrow: false,
+						  offsetY: 0,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: '',
+						  highlight: true,
+						  highlightElements: '',
+						  time: '00:05',
+						  onShowStep: function(){},
+						  onHideStep:function(){}
+					  },
+					  {
+						  hookTo: '#tour_menu_home',
+						  content: '#box-tourtype',
+						  cloneTo: '',
+						  width: 268,
+						  arrowPosition: 'rt',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: '',
+						  highlight: false,
+						  highlightElements: '',
+						  time: '00:07',
+						  onShowStep: function(){},
+						  onHideStep: function(){}
+					  },
+					  {
+						  hookTo: '#tour_menu_home',
+						  content: '.box-introdd',
+						  cloneTo: '',
+						  width: 300,
+						  arrowPosition: 'rt',
+						  showArrow: true,
+						  offsetY: 0,
+						  offsetX: 0,
+						  center: 'hook',						  
+						  customClassStep: '',
+						  customClassHook: 'pre-green',
+						  highlight: false,
+						  highlightElements: '#demo-types',
+						  time: '05:18',
+						  onShowStep: function(){},
+						  onHideStep:function(){}
+					  },					  
+					  			  					  						  														  					  						  										
+				  ]
+			});
+			
+		});
+    </script>

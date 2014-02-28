@@ -1,0 +1,618 @@
+/*
+ * ************************************************************* *
+ * Name         :  PowerTour                                     *
+ * Description  :  CSS for the tour plugin.                      *
+ * Version      :  Version 1.2                                   *
+ * Author       :  CreativeMilk                                  *
+ * Author URI   :  www.creativemilk.net                          *
+ * Updated      :  08/08/2013                                    *
+ * Copyright    :  (c) 2012 CreativeMilk                         *
+ * ************************************************************* *
+ */
+
+.powertour{
+	padding  : 5px;
+	position : absolute;
+	z-index  : 9999;
+}
+.powertour > span{
+	position    : absolute;
+	font-size   : 0; 
+	line-height : 0; 
+	width       : 0;
+}
+.powertour-arrow-tl{
+	left          : 8px;
+	bottom        : -8px;
+	border-right  : 10px solid transparent;
+	border-bottom : none;
+	border-left   : 10px solid transparent;
+}
+.powertour-arrow-tm{
+	left          : 50%;
+	bottom        : -8px;
+	border-right  : 10px solid transparent;
+	border-bottom : none;
+	border-left   : 10px solid transparent;
+	margin        : 0 0 0 -10px;
+}
+.powertour-arrow-tr{
+	right         : 8px;
+	bottom        : -8px;
+	border-right  : 10px solid transparent;
+	border-bottom : none;
+	border-left   : 10px solid transparent;
+}
+.powertour-arrow-rt{
+	left          : -8px;
+	top           : 8px;
+	border-top    : 10px solid transparent;
+	border-bottom : 10px solid transparent;
+	border-left   : none;
+}
+.powertour-arrow-rm{
+	left          : -8px;
+	top           : 50%;
+	border-top    : 10px solid transparent;
+	border-bottom : 10px solid transparent;
+	border-left   : none;
+	margin        : -10px 0 0 0;
+}
+.powertour-arrow-rb{
+	left          : -8px;
+	bottom        : 8px;
+	border-top    : 10px solid transparent;
+	border-bottom : 10px solid transparent;
+	border-left   : none;
+}
+.powertour-arrow-bl{
+	left         : 8px;
+	top          : -8px;
+	border-right : 10px solid transparent;
+	border-top   : none;
+	border-left  : 10px solid transparent;
+}
+.powertour-arrow-bm{
+	left         : 50%;
+	top          : -8px;
+	border-right : 10px solid transparent;
+	border-top   : none;
+	border-left  : 10px solid transparent;
+	margin       : 0 0 0 -10px;
+}
+.powertour-arrow-br{
+	right        : 8px;
+	top          : -8px;
+	border-right : 10px solid transparent;
+	border-top   : none;
+	border-left  : 10px solid transparent;
+}
+.powertour-arrow-lt{
+	right         : -8px;
+	top           : 8px;
+	border-top    : 10px solid transparent;
+	border-bottom : 10px solid transparent;
+	border-right  : none;
+}
+.powertour-arrow-lm{
+	right         : -8px;
+	top           : 50%;
+	border-top    : 10px solid transparent;
+	border-bottom : 10px solid transparent;
+	border-right  : none;
+	margin        : -10px 0 0 0;
+}
+.powertour-arrow-lb{
+	right         : -8px;
+	bottom        : 8px;
+	border-top    : 10px solid transparent;
+	border-bottom : 10px solid transparent;
+	border-right  : none;
+}
+.powertour-inner{
+	-webkit-border-radius : 5px;
+	-khtml-border-radius  : 5px;
+	-moz-border-radius    : 5px;
+	border-radius         : 5px;
+	padding               : 15px;
+	text-align            : left;
+}
+.powertour-draggable .powertour-head{
+	cursor : move;
+}
+.powertour-content{
+	line-height : 18px;
+}
+.powertour-steps{
+	display : none;
+}
+.powertour-placeholder{
+	width    : auto;
+	float    : left;
+	position : relative;
+}
+.powertour-footer{
+	height      : 26px;
+	width       : 100%;
+	float       : left;
+	line-height : 26px;
+	text-align  : right;
+	margin      : 15px 0 0 0;
+	padding     : 15px 0 0 0;
+}
+.powertour-footer div{
+	width : auto;
+	float : right;
+}
+.powertour-footer a{
+	height : 28px;
+	width  : auto;
+	float  : left;
+	margin : 0 0 0 5px;	
+}
+.powertour-footer a span{
+	height       : 27px;
+	line-height  : 25px;
+	width        : auto;
+	float        : left;
+	padding      : 0 10px;
+	font-weight  : bold;
+}
+#powertour-overlay{
+	width    : 100%;
+	height   : 100%;
+
+	z-index  : 9900;
+	position : fixed;
+	top      : 0;
+	left     : 0;
+	display  : none;
+}
+.powertour-hook-relative{
+	position : relative;
+}
+.powertour-hook-zindex{
+	z-index : 9999!important;
+}
+.powertour-inner:before,
+.powertour-inner:after{
+	content     : "\0020";
+	display     : block;
+	height      : 0;
+	overflow    : hidden; 
+	font-size   : 0;
+	line-height : 0;
+	visibility  : hidden;
+}
+.powertour-inner:after{
+	clear : both; 
+}
+.powertour-inner{
+	zoom : 1;/*IE*/
+}
+
+/* Type 'auto' controls ----------- */
+
+.powertour-time-ctrls{
+	height   : 26px;	
+	position : fixed;
+	bottom   : 10px;
+	right    : 10px;
+	z-index  : 9999;
+	display  : none;
+	padding  : 5px 0 5px 5px;
+	box-sizing: content-box;
+	
+}
+.powertour-time-ctrls a{
+	width               : 24px;
+	height              : 24px;
+	float               : left;
+	margin              : 0 5px 0 0;
+	background-repeat   : no-repeat;
+	background-position : center center;	
+}
+
+/* Timer ----------- */
+
+.powertour-time-timer{
+	height      : 36px;	
+	position    : fixed;
+	bottom      : 10px;
+	right       : 175px;
+	z-index     : 9999;
+	padding     : 0 10px;
+	display     : none;
+	line-height : 36px;	
+}
+.powertour-time-timer span{
+	font-weight     : bold;
+	text-decoration : blink;
+}
+
+/* Single step ----------- */
+
+.single-step{
+	display : none;
+}
+.single-step > header{
+	height      : 30px;
+	width       : 100%;
+	float       : left;
+	line-height : 30px;
+	margin      : 0 0 15px 0;
+	
+}
+.single-step > header h3{
+	font-size   :16px;
+	font-weight : bold;
+	margin-top: 9px;
+}
+
+/* Misc ----------- */
+
+.powertour,
+.powertour-footer a,
+.powertour-time-ctrls,	
+.powertour-time-ctrls a,
+.powertour-time-timer{
+	-webkit-border-radius : 5px;
+	-khtml-border-radius  : 5px;
+	-moz-border-radius    : 5px;
+	border-radius         : 5px;
+}
+.powertour-footer a span{
+	-webkit-border-radius : 4px;
+	-khtml-border-radius  : 4px;
+	-moz-border-radius    : 4px;
+	border-radius         : 4px;
+}
+
+/* Styling ----------- */
+
+.powertour-style-basic .powertour-footer{
+	border-top : 1px dotted #aaa;
+}
+.powertour-style-basic .powertour-footer a{
+	border : 1px solid #444;
+	color  : #fff;
+}
+.powertour-time-ctrls,
+.powertour-time-timer{	
+	background         : #fff;
+	-webkit-box-shadow : 0 0 4px 0 #222;
+	-moz-box-shadow    : 0 0 4px 0 #222;
+	box-shadow         : 0 0 4px 0 #222;	
+}
+.powertour-time-ctrls a{
+	border           : 1px solid #999;
+	background-color : #fff;	
+}
+.powertour-time-prev{
+	background-image : url('../images/icons/darkgrey/arrow-left-10.png');
+}
+.powertour-time-stop{
+	background-image : url('../images/icons/darkgrey/stop-10.png');
+}
+.powertour-time-pause{
+	background-image : url('../images/icons/darkgrey/pause-10.png');
+}
+.powertour-time-play{
+	background-image : url('../images/icons/darkgrey/play-10.png');
+}
+.powertour-time-next{
+	background-image : url('../images/icons/darkgrey/arrow-right-10.png');
+}
+#powertour-overlay{
+	background-color : #000;
+}
+
+/* Styling: default ----------- */
+
+.powertour-style-basic{
+	background-color   : #fff;	
+	color              : #333;	
+	-webkit-box-shadow : 0 0 4px 0 #222;
+	-moz-box-shadow    : 0 0 4px 0 #222;
+	box-shadow         : 0 0 4px 0 #222;
+}
+.powertour-style-basic .powertour-arrow-tl{ border-top    : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-tm{ border-top    : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-tr{ border-top    : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-rt{ border-right  : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-rm{ border-right  : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-rb{ border-right  : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-bl{ border-bottom : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-bm{ border-bottom : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-br{ border-bottom : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-lt{ border-left   : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-lm{ border-left   : 10px solid #fff; }
+.powertour-style-basic .powertour-arrow-lb{ border-left   : 10px solid #fff; }
+.powertour-style-basic .powertour-inner{ 
+	background-color : #fff;	
+}
+.powertour-style-basic .powertour-footer a span{
+	text-shadow      : 1px 1px 3px #666;
+	border-top       : 1px solid #ff987c;
+	background-color : #b1195c;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ea643f), to(#b1195c));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ea643f, #b1195c);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ea643f, #b1195c);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ea643f, #b1195c); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ea643f, #b1195c); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ea643f, #b1195c);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ea643f, endColorstr=#b1195c)";/* IE8 */
+}
+.powertour-style-basic .powertour-footer a:hover span{
+	border-top       : 1px solid #f67856;
+	background-color : #e6461a;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ea643f), to(#e6461a));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ea643f, #e6461a);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ea643f, #e6461a);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ea643f, #e6461a); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ea643f, #e6461a); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ea643f, #e6461a);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ea643f, endColorstr=#e6461a)";/* IE8 */
+}
+
+/* Styling: blue  ----------- */
+
+.powertour-style-blue{
+	background-color   : #fff;
+	-webkit-box-shadow : 0 0 4px 0 #222;
+	-moz-box-shadow    : 0 0 4px 0 #222;
+	box-shadow         : 0 0 4px 0 #222;
+}
+.powertour-style-blue .powertour-inner{
+	background-color : #1d66b2;
+	color            : #fff;
+	text-align       : center;
+}
+.powertour-style-blue .powertour-footer{
+	border-top : 1px dotted #fff;
+}
+.powertour-style-blue .powertour-footer a{
+	color  : #1d66b2;
+	border : 1px solid #555;
+}
+.powertour-style-blue .powertour-footer a:hover{
+	color  : #333;
+	border : 1px solid #333;
+}
+.powertour-style-blue .powertour-footer a span{
+	text-shadow      : 0 0 0;
+	border-top       : 1px solid #fff;
+	background-color : #eeeeee;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ffffff, #eeeeee);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ffffff, #eeeeee);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ffffff, #eeeeee); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ffffff, #eeeeee); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ffffff, #eeeeee);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ffffff, endColorstr=#eeeeee)";/* IE8 */
+}
+.powertour-style-blue .powertour-footer a:hover span{
+	text-shadow      : 0 0 0;
+	border-top       : 1px solid #fff;
+	background-color : #eeeeee;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ffffff, #eeeeee);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ffffff, #eeeeee);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ffffff, #eeeeee); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ffffff, #eeeeee); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ffffff, #eeeeee);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ffffff, endColorstr=#eeeeee)";/* IE8 */
+}
+
+/* Styling: purple  ----------- */
+
+.powertour-style-purple{
+	background-color   : #ca1c3c;
+	-webkit-box-shadow : 0 0 4px 0 #222;
+	-moz-box-shadow    : 0 0 4px 0 #222;
+	box-shadow         : 0 0 4px 0 #222;
+}
+.powertour-style-purple .powertour-inner{
+	background-color : #fff;
+	text-align       : center;
+}
+.powertour-style-purple .powertour-arrow-tl{ border-top    : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-tm{ border-top    : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-tr{ border-top    : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-rt{ border-right  : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-rm{ border-right  : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-rb{ border-right  : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-bl{ border-bottom : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-bm{ border-bottom : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-br{ border-bottom : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-lt{ border-left   : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-lm{ border-left   : 10px solid #ca1c3c; }
+.powertour-style-purple .powertour-arrow-lb{ border-left   : 10px solid #ca1c3c; }
+
+/* Styling: orangish  ----------- */
+
+.powertour-style-orangeish{
+	background-color : #b1195c;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ea643f), to(#b1195c));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ea643f, #b1195c);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ea643f, #b1195c);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ea643f, #b1195c); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ea643f, #b1195c); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ea643f, #b1195c);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ea643f, endColorstr=#b1195c)";/* IE8 */
+	-webkit-box-shadow : 0 0 4px 0 #222;
+	-moz-box-shadow    : 0 0 4px 0 #222;
+	box-shadow         : 0 0 4px 0 #222;	
+}
+.powertour-style-orangeish .powertour-inner{
+	color              : #333;
+	border             : 1px solid #8d1148;
+	-webkit-box-shadow : inset 0 0 5px #660c34;
+	-moz-box-shadow    : inset 0 0 5px #660c34;
+	box-shadow         : inset 0 0 5px #660c34;
+	text-align         : center;		
+}
+.powertour-style-orangeish .powertour-arrow-tl{ border-top    : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-tm{ border-top    : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-tr{ border-top    : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-rt{ border-right  : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-rm{ border-right  : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-rb{ border-right  : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-bl{ border-bottom : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-bm{ border-bottom : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-br{ border-bottom : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-lt{ border-left   : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-lm{ border-left   : 10px solid #b1195c; }
+.powertour-style-orangeish .powertour-arrow-lb{ border-left   : 10px solid #b1195c; }
+
+/* Styling: orange  ----------- */
+
+.powertour-style-orange{
+	background-color   : #cb5514;
+	-webkit-box-shadow : 0 0 4px 0 #222;
+	-moz-box-shadow    : 0 0 4px 0 #222;
+	box-shadow         : 0 0 4px 0 #222;
+}
+.powertour-style-orange .powertour-inner{
+	background-color : #fff;
+	text-align       : center;
+}
+.powertour-style-orange .powertour-arrow-tl{ border-top    : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-tm{ border-top    : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-tr{ border-top    : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-rt{ border-right  : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-rm{ border-right  : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-rb{ border-right  : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-bl{ border-bottom : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-bm{ border-bottom : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-br{ border-bottom : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-lt{ border-left   : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-lm{ border-left   : 10px solid #cb5514; }
+.powertour-style-orange .powertour-arrow-lb{ border-left   : 10px solid #cb5514; }
+.powertour-style-orange .powertour-footer a span{
+	text-shadow      : 1px 1px 3px #666;
+	border-top       : 1px solid #ff987c;
+	background-color : #cb5514;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ea643f), to(#cb5514));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ea643f, #cb5514);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ea643f, #cb5514);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ea643f, #cb5514); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ea643f, #cb5514); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ea643f, #cb5514);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ea643f, endColorstr=#cb5514)";/* IE8 */
+}
+.powertour-style-orange .powertour-footer a:hover span{
+	border-top       : 1px solid #f67856;
+	background-color : #e6461a;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ea643f), to(#e6461a));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ea643f, #e6461a);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ea643f, #e6461a);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ea643f, #e6461a); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ea643f, #e6461a); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ea643f, #e6461a);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ea643f, endColorstr=#e6461a)";/* IE8 */
+}
+
+/* Styling: green ----------- */
+
+.powertour-style-green{
+	background-color : #fff;
+}
+.powertour-style-green .powertour-inner{
+	background-color : #489410;
+	color            : #fff;
+	text-align       : center;
+}
+.powertour-style-green .powertour-footer{
+	border-top : 1px dotted #fff;
+}
+.powertour-style-green .powertour-footer a{
+	color  : #489410;
+	border : 1px solid #265107;
+}
+.powertour-style-green .powertour-footer a:hover{
+	color  : #333;
+	border : 1px solid #333;
+}
+.powertour-style-green .powertour-footer a span{
+	text-shadow      : 0 0 0;
+	border-top       : 1px solid #eee;
+	background-color : #eeeeee;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ffffff, #eeeeee);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ffffff, #eeeeee);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ffffff, #eeeeee); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ffffff, #eeeeee); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ffffff, #eeeeee);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ffffff, endColorstr=#eeeeee)";/* IE8 */
+}
+.powertour-style-green .powertour-footer a:hover span{
+	text-shadow      : 0 0 0;
+	border-top       : 1px solid #eee;
+	background-color : #eeeeee;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ffffff, #eeeeee);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ffffff, #eeeeee);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ffffff, #eeeeee); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ffffff, #eeeeee); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ffffff, #eeeeee);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ffffff, endColorstr=#eeeeee)";/* IE8 */
+}
+
+/* Styling: black ----------- */
+
+.powertour-style-black{
+	background-color : #111;
+}
+.powertour-style-black  .powertour-inner{
+	background-color : #111;
+	color            : #fff;
+	text-align       : center;
+}
+.powertour-style-black .powertour-arrow-tl{ border-top    : 10px solid #111; }
+.powertour-style-black .powertour-arrow-tm{ border-top    : 10px solid #111; }
+.powertour-style-black .powertour-arrow-tr{ border-top    : 10px solid #111; }
+.powertour-style-black .powertour-arrow-rt{ border-right  : 10px solid #111; }
+.powertour-style-black .powertour-arrow-rm{ border-right  : 10px solid #111; }
+.powertour-style-black .powertour-arrow-rb{ border-right  : 10px solid #111; }
+.powertour-style-black .powertour-arrow-bl{ border-bottom : 10px solid #111; }
+.powertour-style-black .powertour-arrow-bm{ border-bottom : 10px solid #111; }
+.powertour-style-black .powertour-arrow-br{ border-bottom : 10px solid #111; }
+.powertour-style-black .powertour-arrow-lt{ border-left   : 10px solid #111; }
+.powertour-style-black .powertour-arrow-lm{ border-left   : 10px solid #111; }
+.powertour-style-black .powertour-arrow-lb{ border-left   : 10px solid #111; }
+.powertour-style-black .powertour-footer a{
+	color  : #ccc;
+	border : 1px solid #000;
+}
+.powertour-style-black .powertour-footer{
+	border-top : 1px dotted #444;
+}
+.powertour-style-black .powertour-footer a:hover{
+	color  : #333;
+	border : 1px solid #000;
+}
+.powertour-style-black .powertour-footer a span{
+	text-shadow      : 0 0 0;
+	border-top       : 1px solid #111;
+	background-color : #222222;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#333333), to(#222222));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #333333, #222222);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #333333, #222222);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #333333, #222222); /* IE10 */
+	background-image :      -o-linear-gradient(top, #333333, #222222); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #333333, #222222);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#333333, endColorstr=#222222)";/* IE8 */
+}
+.powertour-style-black .powertour-footer a:hover span{
+	text-shadow      : 0 0 0;
+	border-top       : 1px solid #eee;
+	background-color : #eeeeee;/* fallback color */
+    background-image : -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#eeeeee));/* Safari 4+, Chrome 1+ */
+	background-image : -webkit-linear-gradient(top, #ffffff, #eeeeee);/* Chrome 10+, Saf5.1+, iOS 5+ */
+    background-image :    -moz-linear-gradient(top, #ffffff, #eeeeee);/* Firefox 3.6+ */
+    background-image :     -ms-linear-gradient(top, #ffffff, #eeeeee); /* IE10 */
+	background-image :      -o-linear-gradient(top, #ffffff, #eeeeee); /* Opera 11.10+ */
+	background-image :         linear-gradient(to bottom, #ffffff, #eeeeee);
+    -ms-filter       : "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#ffffff, endColorstr=#eeeeee)";/* IE8 */
+}

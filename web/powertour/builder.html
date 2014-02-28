@@ -1,0 +1,932 @@
+<!DOCTYPE html> 
+<html class="no-js" lang="en"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Power Tour - Powerfull creative jQuery tour plugin</title>
+   
+    <!-- // Stylesheets // -->
+
+    <link rel="stylesheet" href="css/grid.css"/><!-- demo, not needed -->
+    <link rel="stylesheet" href="css/powertour.css"/>
+    <link rel="stylesheet" href="css/style.css"/><!-- demo, not needed -->
+    <link href='http://fonts.googleapis.com/css?family=Give+You+Glory' rel='stylesheet' type='text/css'><!-- demo, not needed -->
+    
+    <!-- // Misc // -->
+    
+    <link rel="shortcut icon" href="images/favicons/favicon.ico" />
+
+    <!-- // jQuery/UI core // -->
+    
+    <script src="js/jquery-1.8.3.min.js"></script>
+    
+    <script>
+		$(document).ready(function($){
+			
+			// number steps
+			function stepNumbers(){
+				$('.single-option-section').each(function(i, e){
+					$(this).children('header').children('h3').children('span').text((i+1))
+				});
+			}
+			stepNumbers();
+			
+			// resize textareas
+			$('.tiny-textarea').focus(function(){
+				$(this).animate({height: '150px'},400);
+			});
+			$('.tiny-textarea').blur(function(){
+				$(this).animate({height: '40px'},400);
+			});
+			
+			// clone
+			$('.section-clone').click(function(e){
+				$(this).parent().find('.single-option-section:last').clone().insertBefore('.section-clone');
+				stepNumbers();
+				e.preventDefault();
+			});
+			
+			// delete step
+			$('body').on('click', '.single-option-remove', function(e){
+				var cleared = confirm('Delete step?');
+				if(cleared){ 
+					$(this).parents('.single-option-section').remove();
+					stepNumbers();
+				}
+				
+				e.preventDefault();
+			});
+			
+			// toggle boxes
+			$('.section-toggle').click(function(e){
+				if($(this).next('.section-box').is(':hidden')){
+					$(this)
+					.children()
+					.text('Close')
+					.end()
+					.next('.section-box')
+					.show();
+				}else{
+					$(this)
+					.children()
+					.text('Open')
+					.end()
+					.next('.section-box')
+					.hide();
+				}
+				
+				e.preventDefault();
+			});
+			
+			// toggle steps
+			$('body').on('click', '.single-option-toggle',function(e){
+				if($(this).parents('.single-option-section').find('.single-options').is(':hidden')){
+					$(this)
+					.children()
+					.text('Close')
+					.end()
+					.parents('.single-option-section')
+					.find('.single-options')
+					.show();
+				}else{
+					$(this)
+					.children()
+					.text('Open')
+					.end()
+					.parents('.single-option-section')
+					.find('.single-options')
+					.hide();
+				}
+				
+				e.preventDefault();
+			});
+			
+			// output
+			$('#build-form').find('.submit-btn').click(function(e){
+				
+				// trigger cant be emapty, and should have an dot or hex				
+				if(/^(#|\.)/.test($("[name=trigger]").val())){	
+					$("[name=trigger]").removeClass('field-error');
+				}else{
+					$("[name=trigger]").addClass('field-error');
+				}
+				
+				// check single steps
+				$('.single-option-section').each(function(i,e){		
+					if(/^(#|\.)/.test($(this).find("[name=hookto]").val())){	
+						$(this).find("[name=hookto]").removeClass('field-error');
+					}else{
+						$(this).find("[name=hookto]").addClass('field-error');
+					}
+					if(/^(#|\.)/.test($(this).find("[name=content]").val())){	
+						$(this).find("[name=content]").removeClass('field-error');
+					}else{
+						$(this).find("[name=content]").addClass('field-error');
+					}					
+				});
+				
+				// stop if errors
+				if($('.field-error').length){
+					alert('There are one or more errors, please check the red fields!')
+					return false;
+				}
+				
+				// start output								
+				var output = '';
+				
+				    
+				if($('[name=include]').val() == 'true'){
+					output += '&lt;link rel="stylesheet" href="css/powertour.css"/&gt;\n';
+				}
+				if($('[name=core]').val() == 'true'){
+					output += '&lt;script src="js/jquery-1.8.2.min.js"&gt;&lt;/script&gt;\n';
+				}
+				if($('[name=include]').val() == 'true'){					
+					if($('[name=compressed]').val() == 'true'){
+						output += '&lt;script src="js/powertour.1.7.min.js"&gt;&lt;/script&gt;\n';
+					}else{
+						output += '&lt;script src="js/powertour.1.7.js"&gt;&lt;/script&gt;\n';
+					}
+				}
+								
+				output += '\n\n';
+
+				output += '$("'+$("[name=trigger]").val()+'").powerTour({\n';
+		
+				
+			    	output += '    tourType:"'+$("[name=tourtype]").val()+'",\n';
+			
+				if($("[name=opacity]").val()){
+					output += '    overlayOpacity:'+$("[name=opacity]").val()+',\n';
+				}
+				
+					output += '    showTimeControls:'+$("[name=showtimecontrols]").val()+',\n';
+			
+				
+					output += '    showTimer:'+$("[name=showtimer]").val()+',\n';
+			
+				if($("[name=timebuttonorder]").val()){
+					output += '    timeButtonOrder:"'+$("[name=timebuttonorder]").val()+'",\n';
+				}
+				if($("[name=stepbuttonorder]").val()){
+					output += '    stepButtonOrder:"'+$("[name=stepbuttonorder]").val()+'",\n';
+				}
+				if($("[name=timerlabel]").val()){
+					output += '    timerLabel:"'+$("[name=timerlabel]").val()+'",\n';
+				}
+				if($("[name=effectspeed]").val() || $("[name=effectspeed]").val() == 0){
+					output += '    effectSpeed:'+$("[name=effectspeed]").val()+',\n';
+				}
+				if($("[name=travelspeed]").val() || $("[name=travelspeed]").val() == 0){
+					output += '    travelSpeed:'+$("[name=travelspeed]").val()+',\n';
+				}
+				if($("[name=easing]").val()){
+					output += '    easing:"'+$("[name=easing]").val()+'",\n';
+				}				
+				
+					output += '    easyCancel:'+$("[name=easycancel]").val()+',\n';
+
+					output += '    animated:'+$("[name=animated]").val()+',\n';
+					
+					output += '    animatedOnEnd:'+$("[name=animatedonend]").val()+',\n';
+			
+					output += '    keyboardNavigation:'+$("[name=keyboardnavigation]").val()+',\n';
+				
+					output += '    runOnLoad:'+$("[name=runonload]").val()+',\n';
+					
+				if($("[name=runonloaddelay]").val()){
+					output += '    runOnDelay:'+$("[name=runonloaddelay]").val()+',\n';
+				}
+				if($("[name=exiturl]").val()){
+					output += '    exitUrl:"'+$("[name=exiturl]").val()+'",\n';
+				}							
+				if($("[name=onstart]").val()){
+					output += '    onStart:'+$("[name=onstart]").val()+',\n';
+				}
+				if($("[name=onfinish]").val()){
+					output += '    onFinish:'+$("[name=onfinish]").val()+',\n';
+				}
+				if($("[name=onstop]").val()){				
+					output += '    onStop:'+$("[name=onstop]").val()+',\n';
+				}
+				if($("[name=oncancel]").val()){				
+					output += '    onCancel:'+$("[name=oncancel]").val()+',\n';
+				}
+		
+					output += '    step:[\n';
+					
+		        $('.single-option-section').each(function(i,e){
+					if(i == 0){	
+						output += '        {\n';
+					}else{
+						output += '        ,\n';
+						output += '        {\n';
+					}
+
+						output += '        hookTo:"'+$(this).find("[name=hookto]").val()+'",\n';
+						output += '        content:"'+$(this).find("[name=content]").val()+'",\n';
+				
+					if($(this).find("[name=cloneto]").val()){
+						output += '        cloneTo:"'+$(this).find("[name=cloneto]").val()+'",\n';
+					}	
+					if($(this).find("[name=width]").val()){
+						output += '        width:'+$(this).find("[name=width]").val()+',\n';
+					}
+					if($(this).find("[name=arrowposition]").val()){
+						output += '        arrowPosition:"'+$(this).find("[name=arrowposition]").val()+'",\n';
+					}
+					if($(this).find("[name=showarrow]").val()){
+						output += '        showArrow:'+$(this).find("[name=showarrow]").val()+',\n';
+					}
+					if($(this).find("[name=offsety]").val() || $(this).find("[name=offsety]").val() == 0){
+						output += '        offsetY:'+$(this).find("[name=offsety]").val()+',\n';
+					}
+					if($(this).find("[name=offsetx]").val() || $(this).find("[name=offsetx]").val() == 0){
+						output += '        offsetX:'+$(this).find("[name=offsetx]").val()+',\n';
+					}				
+					if($(this).find("[name=prevlabel]").val()){
+						output += '        prevLabel:"'+$(this).find("[name=prevlabel]").val()+'",\n';
+					}
+					if($(this).find("[name=nextlabel]").val()){
+						output += '        nextLabel:"'+$(this).find("[name=nextlabel]").val()+'",\n';
+					}
+					if($(this).find("[name=stoplabel]").val()){
+						output += '        stopLabel:"'+$(this).find("[name=stoplabel]").val()+'",\n';
+					}
+					if($(this).find("[name=center]").val()){
+						output += '        center:"'+$(this).find("[name=center]").val()+'",\n';
+					}	
+					if($(this).find("[name=customclassstep]").val()){
+						output += '        customClassStep:"'+$(this).find("[name=customclassstep]").val()+'",\n';
+					}	
+					if($(this).find("[name=customclassshook]").val()){
+						output += '        customClassHook:"'+$(this).find("[name=customclasshook]").val()+'",\n';
+					}	
+					if($(this).find("[name=highlight]").val()){
+						output += '        highlight:'+$(this).find("[name=highlight]").val()+',\n';
+					}	
+					if($(this).find("[name=highlightelements]").val()){
+						output += '        highlightElements:"'+$(this).find("[name=highlightelements]").val()+'",\n';
+					}	
+					if($(this).find("[name=time]").val()){
+						output += '        time:"'+$(this).find("[name=time]").val()+'",\n';
+					}
+					if($(this).find("[name=onshowstep]").val()){
+						output += '        onShowStep:'+$(this).find("[name=onshowstep]").val()+',\n';
+					}else{
+						output += '        onShowStep:function(){}\n';
+					}
+					if($(this).find("[name=onhidestep]").val()){
+						output += '        onHideStep:'+$(this).find("[name=onhidestep]").val()+'\n';
+					}else{
+						output += '        onHideStep:function(){}\n';
+					}
+						output += '        }\n';
+				});
+				
+				output += '    ]\n';
+				output += '});\n';
+
+				// output
+				$('#output-textarea').html(output);
+
+				e.preventDefault();
+			});
+			
+			//select code
+			$('.select-btn').click(function(e){
+				$('#output-textarea').focus().select();
+				e.preventDefault();
+			});
+
+		});
+    </script> 
+    
+    <!--  HTML5/CSS3 support(not needed) -->
+    <script src="js/modernizr.min.js"></script>  
+ 
+</head>
+<body> 
+	<div id="glow"></div>
+	<div id="container">      
+    	<header id="head">
+        	<h1>Power Tour - Powerfull website tour plugin</h1>
+            <a href="index.html" id="logo">
+            	<img src="images/logo.png" alt="power tour logo">
+            </a>
+            <nav>
+         		<a href="index.html"><span>Home</span></a>
+                <a href="example2.html"><span>Example 2</span></a>
+                <a href="example3.html"><span>Example 3</span></a>
+                <a href="example4.html"><span>Example 4</span></a>
+                <a href="documentation.html"><span>Docs</span></a>
+                <a href="builder.html" class="active"><span>Builder</span></a>
+                <a href="#"><span>Buy</span></a>
+            </nav>
+            
+            <img src="images/example-helpers.png" id="example-helper" alt=""/>
+        </header>
+        
+        <div class="seperator"><span></span></div>
+
+        <div class="spacer-25"></div>
+        
+    	<form class="g_1 form" id="build-form">
+        
+            <div class="box">
+                <h2>1. Install</h2>
+                <p>Code that should be included in to the &lt;head&gt;.</p>
+                
+               	<a href="#" class="section-toggle"><span>Close</span></a>
+                
+                <div class="section-box">
+                    <span></span>
+                    <div class="g_1_2">
+                        <label>jQuery core:</label>
+                        <small>Include jQuery core version.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="core">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    
+                    <div class="spacer-20"></div>
+                    
+                    <div class="g_1_2">
+                        <label>Include Power Tour CCS &amp; JS:</label>
+                        <small>Add the files in the output code.</small>
+                    </div>
+                    <div class="g_1_2_last">                       
+                        <select name="include">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    
+                    <div class="spacer-20"></div>
+                    
+                    <div class="g_1_2">
+                        <label>Compressed:</label>
+                        <small>Decrease the file size and use the compressed version.</small>
+                    </div>
+                    <div class="g_1_2_last">                       
+                        <select name="compressed">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                 </div>   
+            </div>
+
+            <div class="box">
+                <h2>2. Trigger</h2>
+                <p>The button that triggers the tour.</p>
+                
+                <a href="#" class="section-toggle"><span>Close</span></a>
+                
+                <div class="section-box">
+                    <span></span>
+                    <div class="g_1_2">
+                        <label>Tour trigger:</label>
+                        <small>The button that triggers the tour(#idname or .classname).</small>
+                    </div>
+                    
+                    <div class="g_1_2_last">    
+                        <input type="text" value="" name="trigger"/>
+                    </div>
+                </div>
+           </div>
+              
+            <div class="box">
+                <h2>3. Main plugin options</h2>
+                <p>The main options of the tour plugin, which are gobal options.</p>
+                
+                <a href="#" class="section-toggle"><span>Close</span></a>
+                
+                <div class="section-box"> 
+                    <span></span>                   
+                    <div class="g_1_2">
+                        <label>tourType:</label>
+                        <small>Choose between 4 types.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="tourtype">
+                            <option value="auto">auto</option>
+                            <option value="step">step</option>
+                            <option value="showAll">show all</option>
+                            <option value="tooltip">tooltip</option>
+                        </select>
+                    </div>
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>overlayOpacity:</label>
+                        <small>Set the opacity for the highlight overlay(if highlight is used).</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="0.5" name="opacity"/>
+                    </div>
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>showTimeControls:</label>
+                        <small>Show the tour type 'auto' controls.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="showtimecontrols">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>showTimer:</label>
+                        <small>Show the live end time for each step(only for tour type 'auto').</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="showtimer">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div> 
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>timeButtonOrder:</label>
+                        <small>Set the order of button for the tour type 'auto' controls.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="%prev% %stop% %pause% %play% %next%" name="timebuttonorder"/>
+                    </div>
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>stepButtonOrder:</label>
+                        <small>Set the order of button for the step buttons.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="%prev% %next% %stop%" name="stepbuttonorder"/>
+                    </div>
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>timerLabel:</label>
+                        <small>The text used in the timer box.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="Next step in: " name="timerlabel"/>
+                    </div> 
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>effectSpeed:</label>
+                        <small>The speed of the effects(fadein fadeout).</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="200" name="effectspeed"/>
+                    </div>
+                     
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>travelSpeed:</label>
+                        <small>The speed of the effect between the switching of the steps.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="200" name="travelspeed"/>
+                    </div> 
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>easingEffect:</label>
+                        <small>The animation effect.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="linear" name="easingeffect"/>
+                    </div> 
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>easyCancel:</label>
+                        <small>Allow users to easy cancel a tour by just clicking somewhere outside a step.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="easycancel">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>   
+    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>animated:</label>
+                        <small>Animate the tour.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="animated">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div> 
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>animatedOnEnd:</label>
+                        <small>Animate to the top once the tour is done.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="animatedonend">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div> 
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>keyboardNavigation:</label>
+                        <small>Allow users to use ther keyboard to navigate true a tour.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="keyboardnavigation">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>  
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>runOnLoad:</label>
+                        <small>Start the tour up on page load.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <select name="runonload">
+                        	<option value="false">No</option>
+                            <option value="true">Yes</option>
+                        </select>
+                    </div>  
+
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>runOnLoadDelay:</label>
+                        <small>The animation effect.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="2000" name="runonloaddelay"/>
+                    </div> 
+                    
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>exitUrl:</label>
+                        <small>Continue the tour on a new page(leave empty in not used).</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                        <input type="text" value="" name="exiturl"/>
+                    </div> 
+                                       
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>onStart:</label>
+                        <small>Callback function that runs when the tour starts.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                       <textarea  class="tiny-textarea" name="onstart">function(){}</textarea>
+                    </div> 
+                       
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>onFinish:</label>
+                        <small>Callback function that runs when the tour is finished.</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                       <textarea class="tiny-textarea" name="onfinish">function(){}</textarea>
+                    </div> 
+                       
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>onStop:</label>
+                        <small>Callback function that runs when the tour stops(stop button).</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                       <textarea class="tiny-textarea" name="onstop">function(){}</textarea>
+                    </div> 
+                     
+                    <div class="spacer-20"></div>
+                
+                    <div class="g_1_2">
+                        <label>onCancel:</label>
+                        <small>Callback function that runs when the tour get cancelled(easy cancel).</small>
+                    </div>
+                    <div class="g_1_2_last">    
+                       <textarea class="tiny-textarea" name="oncancel">function(){}</textarea>
+                    </div> 
+                </div>                                      
+            </div> 
+            
+            <div class="box">
+                <h2>4. Step options</h2>
+                <p>Code that should be included in to the &lt;head&gt;.</p> 
+                              
+                <a href="#" class="section-toggle"><span>Close</span></a>
+                
+                <div class="section-box">
+                    <span></span>
+                    
+                    <div class="clear"></div>
+                    
+                    <div class="single-option-section">
+                    	<header>
+                        	<h3>Step <span></span></h3>
+                            <a href="#" class="single-option-toggle"><span>Close</span></a>
+                            <a href="#" class="single-option-remove"><span>Delete</span></a>
+                        </header>
+                        
+                        <div class="clear"></div>
+                        
+                        <div class="single-options">
+                            <div class="g_1_2">
+                                <label>hookTo:</label>
+                                <small>The id or class of the hook(#idname or .classname).</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="" name="hookto"/>
+                            </div>
+                             
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>content:</label>
+                                <small>The content of the step(#idname or .classname).</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="" name="content"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>cloneTo:</label>
+                                <small>Option to clone the step to an extra hook(#idname or .classname).</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="" name="cloneto"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>width:</label>
+                                <small>The width of the step.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="300" name="width"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>arrowPosition:</label>
+                                <small>The position of the step.</small>
+                            </div>
+                            <div class="g_1_2_last">  
+                                <select name="arrowposition">
+                                    <option value="tl">Top left</option>
+                                    <option value="tm">Top mid</option>
+                                    <option value="tr">Top right</option>
+                                    <option value="rt">Right top</option>
+                                    <option value="rm">Right mid</option>
+                                    <option value="rb">Right bottom</option>
+                                    <option value="br">Bottom right</option>
+                                    <option value="bm">Bottom mid</option>
+                                    <option value="bl">Bottom left</option>
+                                    <option value="lb">Left bottom</option>
+                                    <option value="lm">Left mid</option>
+                                    <option value="lt">Left top</option>
+                                    <option value="stl">Screen top left</option>
+                                    <option value="stm">Screen top mid</option>
+                                    <option value="str">Screen top right</option> 
+                                    <option value="srm">Screen right mid</option>
+                                    <option value="sbr">Screen bottom right</option>
+                                    <option value="sbm">Screen bottom mid</option>  
+                                    <option value="sbl">Screen bottom left</option> 
+                                    <option value="slm">Screen left mid</option> 
+                                    <option value="sc">Screen center</option>                                                              
+                                </select>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>showArrow:</label>
+                                <small>Show the arrow of the step.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                                <select name="showarrow">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>offsetY:</label>
+                                <small>Adjust the postion of the step if needed.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="0" name="offsety"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>offsetX:</label>
+                                <small>Adjust the postion of the step if needed.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="0" name="offsetx"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>prevLabel:</label>
+                                <small>The text of the previous button.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="Prev" name="prevlabel"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>nextLabel:</label>
+                                <small>The text of the next button.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="Next" name="nextlabel"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>stopLabel:</label>
+                                <small>The text of the stop button.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="Stop" name="stoplabel"/>
+                            </div>
+
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>center:</label>
+                                <small>Center the step or hook.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                                <select name="center">
+                                    <option value="hook">Hook</option>
+                                    <option value="step">Step</option>
+                                </select>
+                            </div>
+
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>customClassStep:</label>
+                                <small>Add a custom class to the step. Best used for styling a step(#idname or .classname).</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <input type="text" value="" name="customclassstep"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>customClassHook:</label>
+                                <small>Add a custom class to the hook. This will be added if the step is visible(#idname or .classname).</small>
+                            </div>
+                            
+                            <div class="g_1_2_last">    
+                               <input type="text" value="" name="customclasshook"/>
+                            </div>
+
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>highlight:</label>
+                                <small>Highlight the step and hook.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                                <select name="highlight">
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>highlightElements:</label>
+                                <small>You can highlight extra elements(#idname or .classname).</small>
+                            </div>
+                            
+                            <div class="g_1_2_last">    
+                               <input type="text" value="" name="highlightelements"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>time:</label>
+                                <small>Set the time for each step(format must be 59:59).</small>
+                            </div>
+                            
+                            <div class="g_1_2_last">    
+                               <input type="text" value="01:00" name="time"/>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>onShowStep:</label>
+                                <small>Callback function that runs at the start of every step.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <textarea class="tiny-textarea" name="onshowstep">function(){}</textarea>
+                            </div>
+                            
+                        	<div class="spacer-20"></div>
+                            
+                            <div class="g_1_2">
+                                <label>onHideStep:</label>
+                                <small>Callback function that runs at the end of every step.</small>
+                            </div>
+                            <div class="g_1_2_last">    
+                               <textarea class="tiny-textarea" name="onhidestep">function(){}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                	<a href="#" class="section-clone"><span>Add new step</span></a>    
+                </div>                  
+            </div>  
+
+            <div class="box">
+                <h2>5. Output</h2>
+                <p>This is the code that you copy past into the document.</p>
+
+  				<div class="section-box">
+                    <span></span>
+                    <div class="g_1 output">
+                       <textarea id="output-textarea" name="output-textarea"></textarea>
+                    </div>
+                    
+                    <div class="spacer-20"></div>
+                    
+                    <div class="g_1">
+                        <div class="create">
+                        	<a href="#" class="select-btn"><span>Select code</span></a>
+                            <a href="#" class="submit-btn"><span>Create the code</span></a>
+                        </div>
+                    </div> 
+                </div>                                  
+            </div>  
+            
+        </form>
+        
+        <div class="clear"></div>
+
+        <div class="seperator"><span></span></div>
+        
+        <footer id="footer">
+            <div class="left">
+           		Copyright © 2012 <a href="http://www.creativemilk.net">CreativeMilk</a>
+            </div>
+            <div class="right">
+            	Version 1.1
+            </div>
+        </footer> 
+    </div><!-- End #container -->  
+</body>
+</html>

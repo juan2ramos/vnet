@@ -32,9 +32,13 @@
 		  <script src="{{ asset('js/respond.min.js') }}"></script>
 		<![endif]-->
 
-		<!-- Add IntroJs styles -->
-		<link href="{{ asset('introJS/introjs.css') }}" ../../introjs.css" rel="stylesheet">
+		<!-- Add IntroJs styles 
+		<link href="{{ asset('introJS/introjs.css') }}" ../../introjs.css" rel="stylesheet">-->
 
+		
+		<link rel="stylesheet" href="{{ asset('powertour/css/powertour.css') }}"/>
+
+		
 		{% block style %}{% endblock %}
 	</head>
 
@@ -42,7 +46,7 @@
 
 		<section id="container" class="">
 			<!--header start-->
-				<header class="header white-bg">
+				<header class="header white-bg" style="z-index:9900">
 					<div class="sidebar-toggle-box">
 						<div data-original-title="{% trans from "label" %}toggle.menu{% endtrans %}" data-placement="right" class="icon-reorder tooltips"></div>
 					</div>
@@ -55,89 +59,22 @@
 						
 						<!--  notification start -->
 						<ul class="nav top-menu">
-							<!-- settings start - ICONO DE NOTIFICACIONES-->
-                            <!--<li class="dropdown">
-                                <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                    <i class="icon-th-list"></i>
-                                    <!--<span class="badge bg-success">3</span>
-                                </a>
-                                <ul class="dropdown-menu extended tasks-bar">
-                                    <div class="notify-arrow notify-arrow-green"></div>
-                                    <li>
-                                        <p class="green">test</p>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <div class="task-info">
-                                                <div class="desc">Dashboard v1.3</div>
-                                                <div class="percent">45%</div>
-                                            </div>
-                                            <div class="progress progress-striped active">
-                                                <div class="progress-bar"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
-                                                    <span class="sr-only">45% Complete</span>
-                                                </div>
-                                            </div>
-
-                                        </a>
-                                    </li>
-                                    <li class="external">
-										<a href="#">See All Tasks</a>
-                                    </li>
-                                </ul>
-                            </li>-->
-							<!-- settings end -->
-							
                             <li id="header_inbox_bar" class="dropdown">
                                 <a class="tooltips" href="{{ path('mensajes') }}" data-original-title="{% trans from "label" %}mensajes{% endtrans %}" data-placement="bottom" data-toggle="tooltip">
                                     <i class="icon-envelope-alt"></i>
                                     <span class="badge bg-important inbox-badge"></span>
                                 </a>									
                             </li>
-
                             <li id="header_inbox_bar" class="dropdown">
                             <a class="tooltips" href="{{ path('contactos') }}" data-original-title="{% trans from "label" %}contactos{% endtrans %}" data-placement="bottom" data-toggle="tooltip">
                                     <i class="icon-user"></i>
                                     <span class="badge bg-important amistades-badge"></span>
                                 </a>									
                             </li>
-						  
-							<!-- notification dropdown start - ICONO CAMPANA -->
-							<!--<li id="header_notification_bar" class="dropdown">
-									<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-										<i class="icon-bell-alt"></i>
-										<span class="badge bg-warning">7</span>
-									</a>
-									<ul class="dropdown-menu extended notification">
-										<div class="notify-arrow notify-arrow-yellow"></div>
-										<li>
-											<p class="yellow">You have 7 new notifications</p>
-										</li>
-										<li>
-											<a href="#">
-												<span class="label label-danger"><i class="icon-bolt"></i></span>
-												Server #3 overloaded.
-												<span class="small italic">34 mins</span>
-											</a>
-										</li>
-										<li>
-											<a href="#">
-												<span class="label label-warning"><i class="icon-bell"></i></span>
-												Server #10 not respoding.
-												<span class="small italic">1 Hours</span>
-											</a>
-										</li>
-							 
-										<li>
-											<a href="#">See all notifications</a>
-										</li>
-									</ul>
-								</li>-->
-							<!-- notification dropdown end -->
-
 						</ul>
 					</div>
 					
-					<div class="top-nav ">
+					<div class="top-nav">
 						<ul class="nav pull-right top-menu">
                             <li class="dropdown">
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
@@ -168,7 +105,7 @@
 			
 				<!--sidebar start MENU VETICAL IZQUIERDO -->
 				<aside>
-					<div id="sidebar"  class="nav-collapse ">
+					<div id="sidebar" class="nav-collapse" style="overflow:visible !important;z-index:9899"><!-- 9901 -->
 						{% block menu %}{% endblock %}
 					</div>
 				</aside>
@@ -179,16 +116,15 @@
 					<section class="wrapper">
 						<!-- page start-->
 							<a class="btn btn-large btn-success" href="javascript:void(0);" onclick="startIntro();">Show me how</a>
+							<a href="#" id="starttour"><span>Start the tour</span></a>
 							{% block body %}{% endblock %}
+							
 						<!-- page end-->
 					</section>
 				</section>
 			<!--main content end-->
 		
 		</section>
-
-		<!-- Add IntroJs javascript -->
-		<script type="text/javascript" src="{{ asset('introJS/intro.js') }}"></script>
 
 		<!-- js placed at the end of the document so the pages load faster -->
 		<script src="{{ asset('js/jquery.js') }}"></script>
@@ -223,50 +159,10 @@
 			});
 		</script>
 
-		<script type="text/javascript">
-		 var intro = introJs();
-      function startIntro(){
-
-		// POSICION:FIXED A ABSOLUTE EN INTRO, #sidebar
-       
-          intro.setOptions({
-            steps: [
-              {
-                //element: document.querySelector('#introJS_menu_home'),
-                element: '#introJS_menu_home',
-                intro: "Home, aqui XYZ",
-                position: 'right'
-              },
-              {
-                element: document.querySelectorAll('#step2')[0],
-                intro: "Ok, wasn't that fun?",
-                position: 'right'
-              },
-              {
-                element: '#step3',
-                intro: 'More features, more fun.',
-                position: 'left'
-              },
-              {
-                element: '#step4',
-                intro: "Another step.",
-                position: 'bottom'
-              },
-              {
-                element: '#step5',
-                intro: 'Get it, use it.'
-              }
-            ]
-          });
-
-          intro.start();
-      }
-
-      intro.onexit(function() {
-  alert("exit of introduction");
-});
-    </script>
+		<script src="{{ asset('powertour/js/powertour.1.7.min.js') }}"></script>
+		{% include 'vocationetBundle::box-tour.html.twig' %}
 
         {% block script %}{% endblock %}
+
 	</body>
 </html>
