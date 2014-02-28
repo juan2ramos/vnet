@@ -38,16 +38,22 @@ class SecurityService
      * @author Diego Malagón <diego@altactic.com>
      * @param type $var variable a depurar
      */
-    public static function debug($var)
+    public static function debug($var, $label = false)
     {
         if(is_object($var) || is_array($var))
         {
             echo "<pre>";
+            if($label){
+                echo "<b>".$label.":</b> ";
+            }
             print_r($var);
             echo "</pre>";
         }
         else
         {
+            if($label){
+                echo "<b>".$label.":</b> ";
+            }
             var_dump($var);
             echo "<br/>";
         }

@@ -2,6 +2,8 @@ var AgendaMentor = function(){
     
     var settings;
     
+    var Calendar;
+    
     /**
      * Funcion que carga el detalle de una mentoria en el modalbox
      * 
@@ -29,56 +31,82 @@ var AgendaMentor = function(){
      */
     var submitMentoriaHandler = function(e){
         e.preventDefault();
-            e.stopPropagation();
+        e.stopPropagation();
+
+        var $form = $(this);
+        var href = $form.attr('action');
+        var $submit = $(":submit", $form);
+        var text_btn = $submit.html();
+        
+        // Bloquear submit
+        $submit.html('Enviando, por favor espere...');
+        $submit.attr('disabled', true);
+        
+
+        var xhr = $.ajax({
+            type: "POST",
+            url: href,
+            data: $form.serialize(),
+            dataType: "json"
+        });
+
+
+        xhr.done(function(response){
             
-            var $form = $(this);
-            var href = $form.attr('action');
+            if(response.status === 'success'){
+                // Actualizar calendario
+                Calendar.fullCalendar('refetchEvents');                    
+            }
+
+            // Mostrar notificacion
+            showNotice(response.status, response.message.title, response.message.detail);     
             
-            
-            var xhr = $.ajax({
-                type: "POST",
-                url: href,
-                data: $form.serialize(),
-                dataType: "json"
-            });
-            
-            
-            xhr.done(function(response){
-                if(response.status === 'success'){
-                    // Actualizar calendario
-                    //...
-                }
-                
-                // Mostrar notificacion
-                showNotice(response.status, response.message);
-                
-            });
-            
-            
+            // Desbloquear submit
+            $submit.html(text_btn);
+            $submit.attr('disabled', false);
+        });
     };
     
-    var showNotice = function(type, message){
+    /**
+     * Funcion para controlar la eliminacion de mentorias
+     * 
+     * @param {event} e
+     * @returns {undefined}
+     */
+    var deleteMentoriaHandler = function(e){
+        e.preventDefault();
+        e.stopPropagation();
         
-        var img;
+        var $btn = $(this);
+        var href = $btn.attr('href');
+        var text_btn = $btn.html();
         
-        if(type === 'success'){
-            img = '/img/success.png';
-        }
-        else if(type === 'info'){
-            img = '/img/info.png';
-        }
-        else if(type === 'warning'){
-            img = '/img/warning.png';
-        }
-        else if(type === 'error'){
-            img = '/img/delete.png';
-        }        
-    
-        $.gritter.add({
-            title: message.title,
-            text: message.detail,
-            time: 5000,
-            image: img
+        // Bloquear boton
+        $btn.html('Enviando, por favor espere...');
+        $btn.attr('disabled', true);
+        
+        var xhr = $.ajax({
+            type: "DELETE",
+            url: href,
+            dataType: "json"
+        });
+        
+        xhr.done(function(response){
+            
+            if(response.status === 'success'){
+                // Actualizar calendario
+                Calendar.fullCalendar('refetchEvents');                    
+            }
+            
+            // Mostrar notificacion
+            showNotice(response.status, response.message.title, response.message.detail); 
+            
+            // Desbloquear submit
+            $btn.html(text_btn);
+            $btn.attr('disabled', false);
+            
+            // Cerrar modalbox
+            $("#modal-mentoria").modal('hide');
         });
     };
     
@@ -86,7 +114,7 @@ var AgendaMentor = function(){
         init: function(s){
             settings = s;
             
-            $('#calendar').fullCalendar({
+            Calendar = $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
                     center: 'title',
@@ -100,9 +128,10 @@ var AgendaMentor = function(){
             
             $("#calendar").on('click', '.fc-event', showMentoriaHandler);
             $('#form-mentoria').on('submit', submitMentoriaHandler);
+            $('#modal-mentoria').on('click', '.btn-delete-mentoria', deleteMentoriaHandler);
             
         }
-    }
+    };
     
 }();
 

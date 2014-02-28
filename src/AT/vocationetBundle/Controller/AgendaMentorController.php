@@ -24,7 +24,7 @@ class AgendaMentorController extends Controller
      * @Template("vocationetBundle:AgendaMentor:index.html.twig")
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
@@ -73,15 +73,15 @@ class AgendaMentorController extends Controller
             if($m['estudianteId']){
                 $title = $TransServ->trans('mentoria.con.%user%', array('%user%'=> $m['usuarioNombre'].' '.$m['usuarioApellido']), 'label');
                 if($m['mentoriaEstado'] == 0){
-                    $color = '#EB9823';
+                    $color = $this->getColoresMentoria('separada');
                 }
                 else{
-                    $color = '#72B572';
+                    $color = $this->getColoresMentoria('finalizada');
                 }
             }
             else{
                 $title = $TransServ->trans('mentoria.disponible', array(), 'label'); 
-                $color = "#8695A6";
+                $color = $this->getColoresMentoria('disponible');
             }
             
             $mentorias[] = array(
@@ -138,8 +138,7 @@ class AgendaMentorController extends Controller
                 { 
                     // Insertar mentoria(s)
                     $this->registrarMentorias($usuarioId, $mentoriaInicio, $mentoriaFin, $data['repetir']);
-
-                    
+                                        
                     $response = array(
                         "status" => "success",
                         "message" => array(
@@ -184,8 +183,7 @@ class AgendaMentorController extends Controller
         
         return new Response(json_encode($response));
     }
-    
-    
+        
 	/**
      * Accion ajax para detalle de una mentoria
      * 
@@ -240,13 +238,14 @@ class AgendaMentorController extends Controller
      * Accion para eliminar una mentoria
      * 
      * @Route("/delete/{id}", name="delete_mentoria_mentor")
+     * @Method({"delete"})
      * @return Response
      */
     public function deleteMentoriaAction($id)
     {
         $security = $this->get('security');
-        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
         $usuarioId = $security->getSessionValue('id');
         
         $em = $this->getDoctrine()->getManager();
@@ -259,21 +258,41 @@ class AgendaMentorController extends Controller
             {
                 $em->remove($mentoria);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("mentoria.eliminada"), "text" => $this->get('translator')->trans("mentoria.eliminada.correctamente")));
+                
+                $response = array(
+                    "status" => "success",
+                    "message" => array(
+                        "title" => $this->get('translator')->trans("mentoria.eliminada"),
+                        "detail" => $this->get('translator')->trans("mentoria.eliminada.correctamente")
+                    )
+                );
             }
             else
             {
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("mentoria.no.eliminada"), "text" => $this->get('translator')->trans("mentoria.ya.esta.asignada")));
+                $response = array(
+                    "status" => "error",
+                    "message" => array(
+                        "title" => $this->get('translator')->trans("mentoria.no.eliminada"),
+                        "detail" => $this->get('translator')->trans("mentoria.ya.esta.asignada")
+                    )
+                );
             }
         }
         else
         {
-            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("mentoria.no.eliminada"), "text" => $this->get('translator')->trans("mentoria.no.se.puede.eliminar")));
+            $response = array(
+                "status" => "error",
+                "message" => array(
+                    "title" => $this->get('translator')->trans("mentoria.no.eliminada"),
+                    "detail" => $this->get('translator')->trans("mentoria.no.se.puede.eliminar")
+                )
+            );
         }
-        return $this->redirect($this->generateUrl('agenda_mentor'));
+        
+        return new Response(json_encode($response));
     }
     
-     /**
+    /**
      * Accion para marcar como finalizada una mentoria
      * 
      * @Route("/finalizar/{id}", name="finalizar_mentoria_mentor")
@@ -304,9 +323,7 @@ class AgendaMentorController extends Controller
         
         return $this->redirect($this->generateUrl('agenda_mentor'));
     }
-    
-    
-    
+        
     
     /**
      * Funcion para insertar mentorias en base de datos
@@ -324,7 +341,7 @@ class AgendaMentorController extends Controller
         $insert_values = array();
          
         // valores para la mentoria en la fecha ingresada por el usuario
-        $insert_values[] = '('.$usuarioId.', "'. $mentoriaInicio->format('y-m-d H:i:s') .'", "'. $mentoriaFin->format('y-m-d H:i:s') .'")';
+        $insert_values[] = '('.$usuarioId.', "'. $mentoriaInicio->format('Y-m-d H:i:s') .'", "'. $mentoriaFin->format('Y-m-d H:i:s') .'")';
         
         // Repetir mentorias para las semanas indicadas
         if($semanas >= 1 && $semanas <= 4)
@@ -333,7 +350,7 @@ class AgendaMentorController extends Controller
         }
         
         $sql = $insert_head . implode(", ", $insert_values);
-        
+                
         // Ejecutar query
         $query = $this->getDoctrine()->getManager()
                 ->getConnection()
@@ -355,6 +372,7 @@ class AgendaMentorController extends Controller
     {
         $insert_values = array();
         
+        
         // Inicia a duplicar desde el dia siguiente a la fecha ingresada por el usuario
         $dia_mentoria = $mentoriaInicio->format('w') + 1;
         $fecha_ini_dup = $mentoriaInicio;
@@ -370,18 +388,24 @@ class AgendaMentorController extends Controller
             for($i = $dia_mentoria; $i <= 5; $i++)
             {
                 $fecha_ini_dup = $this->modifyDateTime($fecha_ini_dup, '+1 day');
-                $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+1 day');
+                $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+1 day');                
                 
-                $insert_values[] = '('.$usuarioId.', "'. $fecha_ini_dup->format('y-m-d H:i:s') .'", "'. $fecha_fin_dup->format('y-m-d H:i:s') .'")';
-                
-                if($i == 5) // si el dia es viernes agrego 2 dias mas para omitir sabados y domingos
+                // Omitir fines de semana
+                if($fecha_ini_dup->format('w') == 6) // si la nueva fecha es sabado le agrego 2 dias
                 {
                     $fecha_ini_dup = $this->modifyDateTime($fecha_ini_dup, '+2 day');
-                    $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+2 day');      
+                    $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+2 day');
                 }
-            }
-
-
+                elseif($fecha_ini_dup->format('w') == 0) // si la nueva fecha es domingo le agrego 1 dia
+                {
+                    $fecha_ini_dup = $this->modifyDateTime($fecha_ini_dup, '+1 day');
+                    $fecha_fin_dup = $this->modifyDateTime($fecha_fin_dup, '+1 day');
+                }
+                
+                $insert_values[] = '('.$usuarioId.', "'. $fecha_ini_dup->format('Y-m-d H:i:s') .'", "'. $fecha_fin_dup->format('Y-m-d H:i:s') .'")';
+                
+            }            
+            
             $dia_mentoria = 1; // Reinicio la variable a lunes (dia 1)
         }
         
@@ -491,10 +515,38 @@ class AgendaMentorController extends Controller
      */
     private function modifyDateTime($DateTime, $modify)
     {
-        $mentoriaFin = new \DateTime($DateTime->format('y-m-d H:i:s'));
+        $mentoriaFin = new \DateTime($DateTime->format('Y-m-d H:i:s'));
         $mentoriaFin->modify($modify);
         
         return $mentoriaFin;
+    }
+    
+    /**
+     * Funcion para obtener los colores de las mentorias
+     * @param string $tipo tipo de mentoria disponible|separada|finalizada
+     * @return string|boolean hexadecimal del color o array de colores
+     */
+    public function getColoresMentoria($tipo = false)
+    {
+        $colores = array(
+            'disponible'    => '#8695A6',
+            'separada'      => '#EB9823',
+            'finalizada'    => '#72B572'
+        );
+        
+        if($tipo)
+        {
+            if(isset($colores[$tipo]))
+            {
+                return $colores[$tipo];
+            }
+        }
+        else
+        {
+            return $colores;
+        }
+        
+        return false;
     }
 }
 ?>
