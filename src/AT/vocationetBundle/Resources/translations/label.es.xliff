@@ -744,7 +744,31 @@
             </trans-unit>
             <trans-unit id="ment-15">
                 <source>mentoria.separada</source>
-                <target>Mentorias separadas</target>
+                <target>Mentorias separadas</target>                
+            </trans-unit>
+            <trans-unit id="ment-16">
+                <source>mentoria.unica</source>
+                <target>mentoría única</target>
+            </trans-unit>
+            <trans-unit id="ment-17">
+                <source>en.semana</source>
+                <target>en la semana</target>
+            </trans-unit>
+            <trans-unit id="ment-18">
+                <source>2.semanas</source>
+                <target>por 2 semanas</target>
+            </trans-unit>
+            <trans-unit id="ment-19">
+                <source>3.semanas</source>
+                <target>por 3 semanas</target>
+            </trans-unit>
+            <trans-unit id="ment-20">
+                <source>4.semanas</source>
+                <target>por 4 semanas</target>
+            </trans-unit>
+            <trans-unit id="ment-21">
+                <source>repetir</source>
+                <target>Repetir</target>
             </trans-unit>
 
 			 <!-- FOROS foros-x -->
@@ -1809,6 +1833,7 @@
                 <source>certificado.descripcion</source>
                 <target>certificado diagnos rem Ipsum is simply has been e 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
 			</trans-unit>
+
         </body>
     </file>
 </xliff>

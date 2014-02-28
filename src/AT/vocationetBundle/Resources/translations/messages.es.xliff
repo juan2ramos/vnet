@@ -206,7 +206,7 @@
             </trans-unit>
             <trans-unit id="ment-18">
                 <source>mentoria.traslapada</source>
-                <target>La mentoría no se puede crear, porque se esta cruzando con otra</target>
+                <target>La mentoría no se puede crear porque se esta cruzando con otra</target>
             </trans-unit>
             
 

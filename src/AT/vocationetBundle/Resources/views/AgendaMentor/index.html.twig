@@ -21,34 +21,49 @@
 					{% trans from "label" %}agregar.mentoria{% endtrans %}
 				</header>
 				<div class="panel-body">
-					<form role="form" action="{{ path('agenda_mentor') }}" method="POST" >
-						<div class="form-group col-lg-4">
-							<label> {% trans from "label" %}fecha{% endtrans %} </label>
-							{{ form_widget(form.fecha, {'attr':{'class':'form-control'} }) }}
-						</div>                    
-						<div class="form-group col-lg-4">
-							<label> {% trans from "label" %}hora{% endtrans %} </label><br/>
-							<select id="form_hora" name="form[hora]" required="required" class="form-control" style="width:45%; display: inline;">
-								{% for h in 0..23 %}
-									<option value="{{h}}" {% if h == 'now'|date('H') %} selected="" {% endif %}>{% if h|length == 1 %}0{% endif %}{{h}}</option>
-								{% endfor %}
-							</select>
-							:
-							<select id="form_min" name="form[min]" required="required" class="form-control" style="width:45%; display: inline;">
-								{% for m in range(0, 55, 5) %}
-									<option value="{{m}}" {% if m >= 'now'|date('i') and m <= 'now'|date('i')+5 %} selected="" {% endif %} >{% if m|length == 1 %}0{% endif %}{{m}}</option>
-								{% endfor %}
-							</select>
-							{{ form_errors(form) }}
-							{{ form_widget(form._token) }}
-						</div> 
-						<div class="form-group col-lg-4"> 
-							<label>&nbsp;</label><br/> 
-							<button type="submit" class="btn btn-info"> {% trans from "label" %}agregar.mentoria{% endtrans %} </button> 
+					<form role="form" action="{{ path('agenda_mentor_crear') }}" method="POST" id="form-mentoria">
+						<div class="row">
+                            <div class="form-group col-lg-4">
+                                <label> {% trans from "label" %}fecha{% endtrans %} </label>
+                                {{ form_widget(form.fecha, {'attr':{'class':'form-control'} }) }}
+                            </div>                    
+                            <div class="form-group col-lg-4">
+                                <label> {% trans from "label" %}hora{% endtrans %} </label><br/>
+                                <select id="form_hora" name="form[hora]" required="required" class="form-control" style="width:45%; display: inline;">
+                                    {% for h in 0..23 %}
+                                        <option value="{{h}}" {% if h == 'now'|date('H') %} selected="" {% endif %}>{% if h|length == 1 %}0{% endif %}{{h}}</option>
+                                    {% endfor %}
+                                </select>
+                                :
+                                <select id="form_min" name="form[min]" required="required" class="form-control" style="width:45%; display: inline;">
+                                    {% for m in range(0, 55, 5) %}
+                                        <option value="{{m}}" {% if m >= 'now'|date('i') and m <= 'now'|date('i')+5 %} selected="" {% endif %} >{% if m|length == 1 %}0{% endif %}{{m}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div> 
+                            <div class="form-group col-lg-4">
+                                <label>{% trans  from "label" %}repetir{% endtrans %}</label><br/>
+                                <select name="form[repetir]" class="form-control" >
+                                    <option value="0">{% trans  from "label" %}mentoria.unica{% endtrans %}</option>
+                                    <option value="1">{% trans  from "label" %}en.semana{% endtrans %}</option>
+                                    <option value="2">{% trans  from "label" %}2.semanas{% endtrans %}</option>
+                                    <option value="3">{% trans  from "label" %}3.semanas{% endtrans %}</option>
+                                    <option value="4">{% trans  from "label" %}4.semanas{% endtrans %}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" style="text-align:right;">
+                            {{ form_errors(form) }}
+                            {{ form_widget(form._token) }}
+                            <div class="form-group col-lg-12"> 
+                                <label>&nbsp;</label><br/> 
+                                <button type="submit" class="btn btn-info"> {% trans from "label" %}agregar.mentoria{% endtrans %} </button> 
+                            </div> 
 						</div> 
 					</form> 
 				</div> 
 			</section> 
+
 
 			{# CALENDARIO #}
 			<section class="panel">
@@ -103,55 +118,17 @@
 	<script type="text/javascript" src="{{ asset('js/jquery-ui-1.9.2.custom.min.js') }}"></script>
 	<script src="{{ asset('assets/fullcalendar/fullcalendar/fullcalendar.min.js') }}"></script>
 	<script src="{{ asset('assets/bootstrap-datepicker/js/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('js/vocationet/agenda-mentor.js') }}" type="text/javascript"></script>
 	<script type="text/javascript">
 		var datepicker = $('#form_fecha').datepicker({
 			format: 'yyyy-mm-dd',
 		});
 	</script>
 	<script type="text/javascript">
-		var date = new Date();
-		var d = date.getDate();
-		var m = date.getMonth();
-		var y = date.getFullYear();
-
-		$('#calendar').fullCalendar({
-			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,basicWeek,basicDay'
-			},
-			//defaultView: 'basicWeek',
-			editable: false,
-			droppable: false,
-			events: [
-			{% for mentoria in mentorias %}
-				{
-					title: '{% if mentoria.estudianteId %}{% trans with {'%user%': mentoria.usuarioNombre ~ ' ' ~ mentoria.usuarioApellido } from "label" %}mentoria.con.%user%{% endtrans %}{% else %}{% trans from "label" %}mentoria.disponible{% endtrans %}{% endif %}',
-					start: new Date({{ mentoria.mentoriaInicio|date('Y') }}, {{ mentoria.mentoriaInicio|date('m') }}-1, {{ mentoria.mentoriaInicio|date('d') }}, {{ mentoria.mentoriaInicio|date('H') }}, {{ mentoria.mentoriaInicio|date('i') }}),
-					end: new Date({{ mentoria.mentoriaFin|date('Y') }}, {{ mentoria.mentoriaFin|date('m') }}-1, {{ mentoria.mentoriaFin|date('d') }}, {{ mentoria.mentoriaFin|date('H') }}, {{ mentoria.mentoriaFin|date('i') }}),
-					allDay: false,
-					{% set color = (mentoria.estudianteId) ? ((mentoria.mentoriaEstado == 0) ? '#EB9823' : '#72B572') : '#8695A6' %}
-					color: '{{ color }}',
-					url: "{{ path('show_mentoria_mentor', {'id':mentoria.id}) }}"
-				},
-			{% endfor %}
-			]
-		});
-		
-		$("#calendar").on('click', '.fc-event', function(e){
-			e.preventDefault();
-			
-			$(".modal-body").html('<div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>');
-			
-			var url = $(this).attr('href');        
-			$("#modal-mentoria").modal('show');
-			
-			$.get(url, function(response){
-				$(".modal-body").html(response);
-			});
-		});
-		$(".modal-body").on('click', '.btn-delete-mentoria', function(e){
-			//e.preventDefault();
-		});
+	
+        AgendaMentor.init({
+            items_agenda_path: '{{ path('agenda_mentor_items') }}'
+        });
+        
 	</script>
 {% endblock script %}
