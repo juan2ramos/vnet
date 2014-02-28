@@ -1,0 +1,130 @@
+{% extends "::base.html.twig" %}
+
+{% block menu %}
+	{% set active = 'adminmentor' %}
+	{% include '::menu.html.twig' %}
+{% endblock menu %}
+
+{% block style %}
+    <style>
+        .prueba-estado{
+            text-align: center;
+        }
+
+    </style>
+{% endblock style %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="profile-nav alt green-border">
+            <section class="panel">
+                <div class="user-heading alt green-bg">
+                    <a href="{{ path("perfil", {"perfilId":usuario.id}) }}">
+                        <img alt="" src="{{ asset(usuario.usuarioImagen|default(gui_default_img)) }}?type=large">
+                    </a>
+                    <h1>{{ usuario.usuarioNombre ~ ' '~ usuario.usuarioApellido }}</h1>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>{% trans from "label" %}prueba{% endtrans %}</th>
+                            <th class="prueba-estado">{% trans from "label" %}pariticipo{% endtrans %}</th>
+                            <th class="prueba-estado">{% trans from "label" %}aprobado{% endtrans %}</th>
+                            <th>{% trans from "label" %}opciones{% endtrans %}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{% trans from "label" %}diagnostico{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <button class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</button>                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{% trans from "label" %}test.vocacional{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <a class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{% trans from "label" %}evaluacion.306{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <a href="{{ path("evaluacion360_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{% trans from "label" %}diseno.vida{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <a href="{{ path("disenovida_resultados", {"id": usuario.id}) }}"class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{% trans from "label" %}mercado.laboral{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <a class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{% trans from "label" %}red.mentores{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <a class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{% trans from "label" %}ponderacion{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <a href="{{ path("ponderacion_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{% trans from "label" %}universidad{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <a href="{{ path("universidad_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>{% trans from "label" %}certificado{% endtrans %}</td>
+                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
+                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>
+                                <a class="btn btn-success btn-xs"><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </section>
+    </div>
+</div>
+{% endblock body %}

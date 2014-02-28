@@ -58,14 +58,14 @@
 									{#<td class='href' data-href='{{ pathUser }}'><div>{{ c.rolNombre|trans({}, 'db') }}</div></td>#}
 									<td class='href' data-href='{{ pathUser }}'>
 										<div>
-										{% if c.estudios is defined %}
-											{% for est in c.estudios %}
-												- {{ est.nombreCarrera }}<br>
-											{% endfor %}
-										{% else %}
-											{% trans from "label" %}no.hay.alternativas{% endtrans %}
-										{% endif %}
-											</div>
+                                            {% if c.estudios is defined %}
+                                                {% for est in c.estudios %}
+                                                    - {{ est.nombreCarrera }}<br>
+                                                {% endfor %}
+                                            {% else %}
+                                                {% trans from "label" %}no.hay.alternativas{% endtrans %}
+                                            {% endif %}
+                                        </div>
 									</td>
 									<td class='href' data-href='{{ pathUser }}'>
 										<div>
@@ -76,7 +76,9 @@
 									</td>
 									<td class="text-center">
 										<a style='margin:2px; width:90%;' href='{{ pathUser }}' class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
+										<a style='margin:2px; width:90%;' href='{{ path('pruebas_usuarios_mentor', {'id': c.id }) }}' class="btn btn-primary btn-xs">{{ 'ver.pruebas'|trans({}, 'label') }}</a>
 										
+                                        
                                         <a href="{{ path("evaluacion360_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.evaluacion.360{% endtrans %}</a>
                                         <a href="{{ path("disenovida_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.diseno.vida{% endtrans %}</a>
                                         {% if c.estudios is defined %}
@@ -110,7 +112,7 @@
 												</div>
 											</div>
 										</div>
-						
+                                        
 									</td>
 								</tr>
 							{% endfor %}

@@ -96,6 +96,28 @@ class AdminMentorController extends Controller
 		return $this->redirect($this->generateUrl('lista_usuarios_mentor'));
 	}
 
+    /**
+     * Listado de pruebas por usuario
+     * 
+     * @Route("/pruebasusuario/{id}", name="pruebas_usuarios_mentor")
+     * @Template("vocationetBundle:AdminMentor:pruebasUsuario.html.twig")
+     * @param type $id
+     * @return Response
+     */
+    public function pruebasUsuarioAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
+        
+        return array(
+            'usuario' => $usuario
+        );
+    }
+    
     
 	 /**
      * Listado de usuarios que han seleccionado al usuario logeado como mentor de Orientacion Vocacional
