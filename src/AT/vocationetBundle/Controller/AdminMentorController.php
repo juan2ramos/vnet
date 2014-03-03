@@ -23,7 +23,7 @@ class AdminMentorController extends Controller
      * Listado de usuarios que han seleccionado al usuario logeado como mentor de Orientacion Vocacional
      * 
      * @Route("/usuariosmentor", name="lista_usuarios_mentor")
-     * @Template("vocationetBundle:AdminMentor:UsuariosMentorVocacional.html.twig")
+     * @Template("vocationetBundle:AdminMentor:usuarios.html.twig")
      * @Method("GET")
      * @return Response
      */
@@ -101,7 +101,7 @@ class AdminMentorController extends Controller
      * 
      * @Route("/pruebasusuario/{id}", name="pruebas_usuarios_mentor")
      * @Template("vocationetBundle:AdminMentor:pruebasUsuario.html.twig")
-     * @param type $id
+     * @param integer $id id de usuario
      * @return Response
      */
     public function pruebasUsuarioAction($id)
@@ -110,16 +110,58 @@ class AdminMentorController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
+        $usuarioId = $security->getSessionValue("id");
+        
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
-        
+        $participaciones = $this->getParticipacionesUsuario($id);
+        $mentorias = $this->getMentoriasEstudiante($id, $usuarioId);
+             
         return array(
-            'usuario' => $usuario
+            'usuario'           => $usuario,
+            'participaciones'   => $participaciones,
+            'mentorias'         => $mentorias
         );
     }
     
+    /**
+     * Listado de carreras elegidas por el usuario
+     * 
+     * @Route("/carreras/{id}", name="alternativas_estudio_estudiante")
+     * @param integer $id id de usuario
+     * @return Response
+     */
+    public function carrerasEstudianteAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        
+        $carreras = $this->getAlternativasEstudio($id);
+        
+        return new Response(json_encode(array()));
+    }
     
-	 /**
+    /**
+     * Listado de mentorias separadas por el usuario
+     * 
+     * @Route("/mentorias/{id}", name="estado_mentorias_estudiante")
+     * @param integer $id id de usuario
+     * @return Response
+     */
+    public function mentoriasEstudianteAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        $usuarioId = $security->getSessionValue('id');
+        
+        $mentorias = $this->getMentoriasEstudiante($id, $usuarioId);
+        
+        return new Response(json_encode($mentorias));
+    }
+    
+	/**
      * Listado de usuarios que han seleccionado al usuario logeado como mentor de Orientacion Vocacional
      *
      * Retorna array bidimencional en donde en primer nivel estan los usuarios y un subnivel por usuario estan las alternativas de estudio
@@ -187,5 +229,95 @@ class AdminMentorController extends Controller
 		}
 		return $arrContactos;
 	}
+    
+    /**
+     * Funcion que obtiene las participaciones de un usuario
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @param integer $usuarioId
+     * @return array arreglo de participaciones
+     */
+    private function getParticipacionesUsuario($usuarioId)
+    {
+        $FormServ = $this->get('formularios');
+        
+        // Query
+        $dql = "SELECT  
+                    f.id, 
+                    f.nombre, 
+                    MAX(p.estado) AS estado,
+                    COUNT(f.id) AS cant
+                FROM 
+                    vocationetBundle:Participaciones p
+                    JOIN vocationetBundle:Formularios f WITH f.id = p.formulario
+                WHERE
+                    p.usuarioEvaluado = :usuarioId
+                GROUP BY f.id ";
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuarioId', $usuarioId);
+        $result = $query->getResult();        
+        
+        // Organizar arreglo con id de formulario por key
+        $participaciones = array();
+        foreach($result as $r)
+        {
+            $participaciones[$FormServ->getFormName($r['id'])] = $r;
+        }
+        
+        
+        return $participaciones;
+    }
+    
+    /**
+     * Funcion que obtiene las alternativas de estudio del usuario
+     * 
+     * @param integer $usuario_id id de usuario
+     * @return array arreglo de carreras
+     */
+    private function getAlternativasEstudio($usuario_id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        
+        $dql = "SELECT c.nombre FROM vocationetBundle:AlternativasEstudios e
+                JOIN vocationetBundle:Carreras c WITH c.id = e.carrera
+                WHERE e.usuario = :usuario_id";
+        
+        $query = $em->createQuery($dql);
+        $query->setParameter('usuario_id', $usuario_id);
+        $result = $query->getResult();
+        
+        return $result;
+    } 
+    
+    /**
+     * Funcion para obtener las mentorias programadas por el usuario con mentores diferentes al orientador vocacional
+     * 
+     * @param integer $estudiante_id id de usuario estudiante
+     * @param integer $mentor_id id de usuario mentor
+     * @return array 
+     */
+    private function getMentoriasEstudiante($estudiante_id, $mentor_id)
+    {
+        $dql = "SELECT 
+                    u.usuarioNombre,
+                    u.usuarioApellido,
+                    m.mentoriaInicio,
+                    m.mentoriaEstado
+                FROM 
+                    vocationetBundle:Mentorias m
+                    JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
+                WHERE
+                    m.usuarioEstudiante = :estudiante_id
+                    AND m.usuarioMentor != :mentor_id";
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('estudiante_id', $estudiante_id);
+        $query->setParameter('mentor_id', $mentor_id);
+        $result = $query->getResult();
+        
+        return $result;
+    }
+    
 }
 ?>

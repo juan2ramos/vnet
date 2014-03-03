@@ -30,7 +30,7 @@ class FormulariosService
      * @param string $nombre nombre del formulario
      * @return integer|boolean id de formulario o false si no existe
      */
-    public function getFormId($nombre)
+    public function getFormId($nombre = false)
     {
         $ids = array(
             'diagnostico' => 1,
@@ -44,11 +44,28 @@ class FormulariosService
             'universidad' => 14
         );
         
-        $id = (isset($ids[$nombre])) ? $ids[$nombre] : false;
+        if($nombre){
+            $id = (isset($ids[$nombre])) ? $ids[$nombre] : false;
+        }
+        else{
+            $id = $ids;
+        }
+        
         
         return $id;
     }
     
+    public function getFormName($id)
+    {
+        $ids = $this->getFormId();
+        
+        $nombre = array_search($id, $ids);
+        
+        return $nombre;
+        
+    }
+
+
     /**
      * Funcion para obtener la entidad de un formulario principal
      * 

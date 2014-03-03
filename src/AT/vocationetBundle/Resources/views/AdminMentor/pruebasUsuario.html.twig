@@ -34,97 +34,313 @@
                             <th>{% trans from "label" %}opciones{% endtrans %}</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody>                        
+                        {% set icon_ok %}
+                            <span class="badge bg-success"><i class="icon-ok-sign"></i></span>
+                        {% endset %}
+                        {% set icon_no %}
+                            <span class="badge bg-important"><i class="icon-remove-sign"></i></span>
+                        {% endset %}
+                        
+                        
+                        {# DIAGNOSTICO #}
+                        {% if participaciones.diagnostico is defined %}
+                            {% set diag_part = true %}
+                            {% set diag_part_icon = icon_ok %}
+                        {% else %}
+                            {% set diag_part = false %}
+                            {% set diag_part_icon = icon_no %}
+                        {% endif %}
                         <tr>
                             <td>{% trans from "label" %}diagnostico{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td class="prueba-estado">{{ diag_part_icon }}</td>
+                            <td class="prueba-estado">{{ diag_part_icon }}</td>
                             <td>
-                                <button class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</button>                                
+                                {% if diag_part %}
+                                <a href="{{ path('diagnostico_resultados', {'id': usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>                                
+                                {% endif %}
                             </td>
                         </tr>
+                        
+                        {# TEST VOCACIONAL #}
+                        {% if participaciones.test_vocacional is defined %}
+                            {% set testv_aprob = (participaciones.test_vocacional.estado == 2) ? true : false %}
+                            {% set testv_aprob_icon = (test_aprob) ? icon_ok : icon_no %}
+                        {% else %}
+                            {% set testv_aprob = false %}                            
+                            {% set testv_aprob_icon = icon_no %}
+                        {% endif %}
                         <tr>
                             <td>{% trans from "label" %}test.vocacional{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td class="prueba-estado"></td>
+                            <td class="prueba-estado">{{ testv_aprob_icon }}</td>
                             <td>
-                                <a class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a
+                                {% if testv_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                             </td>
                         </tr>
+                        
+                        {# EVALUACION 360 #}
+                        {% if participaciones.evaluacion360 is defined %}
+                            {% set eva360_part = (participaciones.evaluacion360.cant >= 3) ? true : false %}
+                            {% set eva360_aprob = (participaciones.evaluacion360.estado == 2) ? true : false %}
+                            {% set eva360_part_icon = (eva360_part) ? icon_ok : icon_no %}
+                            {% set eva360_aprob_icon = (eva360_aprob) ? icon_ok : icon_no %}
+                        {% else %}
+                            {% set eva360_part = false %}
+                            {% set eva360_aprob = false %}
+                            {% set eva360_part_icon = icon_no %}
+                            {% set eva360_aprob_icon = icon_no %}
+                        {% endif %}
                         <tr>
-                            <td>{% trans from "label" %}evaluacion.306{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td>{% trans from "label" %}evaluacion.360{% endtrans %}</td>
+                            <td class="prueba-estado">{{ eva360_part_icon }}</td>
+                            <td class="prueba-estado">{{ eva360_aprob_icon }}</td>
                             <td>
-                                <a href="{{ path("evaluacion360_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
-                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                                {% if eva360_part %}
+                                    <a href="{{ path("evaluacion360_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                    <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                    {% if eva360_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}                                
+                                {% endif %}
                             </td>
                         </tr>
+                        
+                        {# DISEÑO DE VIDA #}
+                        {% if participaciones.diseno_vida is defined %}
+                            {% set dvida_part = (participaciones.diseno_vida.cant >= 1) ? true : false %}
+                            {% set dvida_aprob = (participaciones.diseno_vida.estado == 2) ? true : false %}
+                            {% set dvida_part_icon = (dvida_part) ? icon_ok : icon_no %}
+                            {% set dvida_aprob_icon = (dvida_aprob) ? icon_ok : icon_no %}
+                        {% else %}
+                            {% set dvida_part = false %}
+                            {% set dvida_aprob = false %}
+                            {% set dvida_part_icon = icon_no %}
+                            {% set dvida_aprob_icon = icon_no %}
+                        {% endif %}
                         <tr>
                             <td>{% trans from "label" %}diseno.vida{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td class="prueba-estado">{{ dvida_part_icon }}</td>
+                            <td class="prueba-estado">{{ dvida_aprob_icon }}</td>
                             <td>
+                                {% if dvida_part %}
                                 <a href="{{ path("disenovida_resultados", {"id": usuario.id}) }}"class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                                {% if dvida_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% endif %}
                             </td>
                         </tr>
+                        
+                        {# MERCADO LABORAL #}
+                        {% if participaciones.mercado_laboral is defined %}
+                            {% set mlab_part = (participaciones.mercado_laboral.cant >= 1) ? true : false %}
+                            {% set mlab_aprob = (participaciones.mercado_laboral.estado == 2) ? true : false %}
+                            {% set mlab_part_icon = (mlab_part) ? icon_ok : icon_no %}
+                            {% set mlab_aprob_icon = (mlab_aprob) ? icon_ok : icon_no %}
+                        {% else %}
+                            {% set mlab_part = false %}
+                            {% set mlab_aprob = false %}
+                            {% set mlab_part_icon = icon_no %}
+                            {% set mlab_aprob_icon = icon_no %}
+                        {% endif %}
                         <tr>
                             <td>{% trans from "label" %}mercado.laboral{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td class="prueba-estado">{{ mlab_part_icon }}</td>
+                            <td class="prueba-estado">{{ mlab_aprob_icon }}</td>
                             <td>
-                                <a class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                {% if mlab_part %}
+                                <a data-toggle="modal" href="#modal-mlab" id="btn-modal-mlab" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                                {% if mlab_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% endif %}
                             </td>
                         </tr>
+                        {% if mlab_part %}
+                        <div class="modal fade" id="modal-mlab" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title">{% trans from "label" %}alternativas.estudio{% endtrans %}</h4>
+                                    </div>
+                                    <div class="modal-body" id="modal-body-mlab">
+                                        <div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        {# RED DE MENTORES #}
+                        {% if participaciones.red_mentores is defined %}
+                            {% set rment_part = (participaciones.red_mentores.cant >= 1) ? true : false %}
+                            {% set rment_aprob = (participaciones.red_mentores.estado == 2) ? true : false %}
+                            {% set rment_part_icon = (rment_part) ? icon_ok : icon_no %}
+                            {% set rment_aprob_icon = (rment_aprob) ? icon_ok : icon_no %}
+                        {% else %}
+                            {% set rment_part = false %}
+                            {% set rment_aprob = false %}
+                            {% set rment_part_icon = icon_no %}
+                            {% set rment_aprob_icon = icon_no %}
+                        {% endif %}
                         <tr>
                             <td>{% trans from "label" %}red.mentores{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td class="prueba-estado">{{ rment_part_icon }}</td>
+                            <td class="prueba-estado">{{ rment_aprob_icon }}</td>
                             <td>
-                                <a class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
+                                {% if rment_part %}
+                                <a data-toggle="modal" href="#modal-rment" id="btn-modal-rment" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                                {% if rment_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% endif %}
                             </td>
                         </tr>
+                        <div class="modal fade" id="modal-rment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                        <h4 class="modal-title">{% trans from "label" %}mentorias.estudiante{% endtrans %}</h4>
+                                    </div>
+                                    <div class="modal-body" id="modal-body-rment">
+                                        <div style="text-align: center"><img src="{{ asset('img/ajax-loader.gif') }}" /></div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {# PONDERACION #}
+                        {% if participaciones.ponderacion is defined %}
+                            {% set pond_part = (participaciones.ponderacion.cant >= 1) ? true : false %}
+                            {% set pond_aprob = (participaciones.ponderacion.estado == 2) ? true : false %}
+                            {% set pond_part_icon = (pond_part) ? icon_ok : icon_no %}
+                            {% set pond_aprob_icon = (pond_aprob) ? icon_ok : icon_no %}
+                        {% else %}
+                            {% set pond_part = false %}
+                            {% set pond_aprob = false %}
+                            {% set pond_part_icon = icon_no %}
+                            {% set pond_aprob_icon = icon_no %}
+                        {% endif %}
                         <tr>
                             <td>{% trans from "label" %}ponderacion{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td class="prueba-estado">{{ pond_part_icon }}</td>
+                            <td class="prueba-estado">{{ pond_aprob_icon }}</td>
                             <td>
+                                {% if pond_part %}
                                 <a href="{{ path("ponderacion_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                                {% if pond_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% endif %}
                             </td>
                         </tr>
+                        
+                        {# UNIVERSIDAD #}
+                        {% if participaciones.universidad is defined %}
+                            {% set univ_part = (participaciones.universidad.cant >= 1) ? true : false %}
+                            {% set univ_aprob = (participaciones.universidad.estado == 2) ? true : false %}
+                            {% set univ_part_icon = (univ_part) ? icon_ok : icon_no %}
+                            {% set univ_aprob_icon = (univ_aprob) ? icon_ok : icon_no %}
+                        {% else %}
+                            {% set univ_part = false %}
+                            {% set univ_aprob = false %}
+                            {% set univ_part_icon = icon_no %}
+                            {% set univ_aprob_icon = icon_no %}
+                        {% endif %}
                         <tr>
                             <td>{% trans from "label" %}universidad{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td class="prueba-estado">{{ univ_part_icon }}</td>
+                            <td class="prueba-estado">{{ univ_aprob_icon }}</td>
                             <td>
+                                {% if univ_part %}
                                 <a href="{{ path("universidad_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                <a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>
+                                {% if univ_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% endif %}
                             </td>
                         </tr>
+                        
+                        {# CERTIFICADO #}
                         <tr>
                             <td>{% trans from "label" %}certificado{% endtrans %}</td>
-                            <td class="prueba-estado"><span class="badge bg-success"><i class="icon-ok-sign"></i></span></td>
-                            <td class="prueba-estado"><span class="badge bg-important"><i class="icon-remove-sign"></i></span></td>
+                            <td class="prueba-estado"></td>
+                            <td class="prueba-estado"></td>
                             <td>
+                                {% if univ_aprob %}
                                 <a class="btn btn-success btn-xs"><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</a>
+                                {% endif %}
                             </td>
                         </tr>
+                        
                     </tbody>
                 </table>
+                
             </section>
         </section>
     </div>
 </div>
 {% endblock body %}
+    
+{% block script %}
+<script>
+    $(document).ready(function(){
+        
+        var AlterEstudiante = false;
+        var MentoriasEstudiante = false;
+        
+        
+        $("#btn-modal-mlab").on("click", function(){
+            if(AlterEstudiante === false){
+                var xhr = $.get('{{ path('alternativas_estudio_estudiante', {'id': usuario.id}) }}');
+
+                xhr.done(function(response){
+                    AlterEstudiante = JSON.parse(response);
+                    cargarAlternativasEstudiante();
+                });
+            }
+        });
+        
+        $("#btn-modal-rment").on('click', function(){
+            if(MentoriasEstudiante === false){
+                var xhr = $.get('{{ path('estado_mentorias_estudiante', {'id': usuario.id}) }}');
+
+                xhr.done(function(response){
+                    
+                    MentoriasEstudiante = JSON.parse(response);
+                    
+                    console.log(MentoriasEstudiante);
+                    cargarMentoriasEstudiante();
+                });
+            }
+        });
+        
+        
+        var cargarAlternativasEstudiante = function(){
+            
+            var $lista = $("<ul></ul>");
+            
+            if(MentoriasEstudiante.length !== 0){
+                MentoriasEstudiante.forEach(function(mentoria){
+                    //$lista.append('<li>'+carrera.nombre+'</li>');
+                });
+                //var label = '<p>{% trans from "label" %}estas.son.alternativas.estudio.estudiante{% endtrans %}</p>'
+            }
+            else{
+                //var label = '<p>{% trans from "label" %}estudiante.no.ha.seleccionado.alternativas.estudio{% endtrans %}</p>'                
+            }
+            
+            //$("#modal-body-rment").html(label);
+            //$("#modal-body-rment").append($lista);
+            
+        };
+        
+        var cargarMentoriasEstudiante = function(){
+            
+        };
+    });
+</script>
+{% endblock script %}
