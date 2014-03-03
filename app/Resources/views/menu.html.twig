@@ -8,7 +8,7 @@
 	<ul class="sidebar-menu">
 
 		{% if sess_user.rolId == 1 or sess_user.rolId == 5 %}
-			<li class="{% if active == 'home' %}active{% endif %}" id="tour_menu_home">
+			<li class="relative {% if active == 'home' %}active{% endif %}" id="menu_home">
 				<a href="{{ path('homepage') }}">
 					<i class="icon-home"></i>
 					<span>{% trans from "label" %}inicio{% endtrans %}</span>
@@ -17,8 +17,8 @@
 		{% endif %}
 		
 		{% if 'acceso_agenda_estudiante' in sess_permissions.permissions %}
-			<li class="{% if active == 'agendaEstudiante' %}active{% endif %}">
-				<a class="" href="{{ path('agenda_estudiante') }}">
+			<li class="relative {% if active == 'agendaEstudiante' %}active{% endif %}" id="menu_agenda_estudiante">
+				<a href=" {{ path('agenda_estudiante') }}">
 					<i class="icon-calendar"></i>
 					<span>{% trans from "label" %}agenda.estudiante{% endtrans %}</span>
 				</a>
@@ -26,8 +26,8 @@
 		{% endif %}
 
 		{% if 'acceso_agenda_mentor' in sess_permissions.permissions %}
-			<li class="{% if active == 'agendaMentor' %}active{% endif %}">
-				<a class="" href="{{ path('agenda_mentor') }}">
+			<li class="relative {% if active == 'agendaMentor' %}active{% endif %}" id="menu_agenda_mentor">
+				<a href="{{ path('agenda_mentor') }}">
 					<i class="icon-calendar-empty"></i>
 					<span>{% trans from "label" %}agenda.mentor{% endtrans %}</span>
 				</a>
@@ -35,8 +35,8 @@
 		{% endif %}
 		
 		{% if 'acceso_mensajes' in sess_permissions.permissions %}
-			<li class="{% if active == 'inbox' %}active{% endif %}">
-				<a class="" href="{{ path('mensajes') }}">
+			<li class="relative {% if active == 'inbox' %}active{% endif %}" id="menu_mensajes">
+				<a href="{{ path('mensajes') }}">
 					<i class="icon-envelope"></i>
 					<span>{% trans from "label" %}mensajes{% endtrans %}</span>
 					<span class="label label-danger pull-right mail-info inbox-badge"></span>
@@ -45,8 +45,8 @@
 		{% endif %}
 				  
 		{% if 'acceso_foros' in sess_permissions.permissions %}
-			<li class="{% if active == 'foros' %}active{% endif %}">
-				<a class="" href="{{ path('foros_temas') }}">
+			<li class="relative {% if active == 'foros' %}active{% endif %}" id="menu_foros">
+				<a href="{{ path('foros_temas') }}">
 					<i class="icon-comments"></i>
 					<span>{% trans from "label" %}foros{% endtrans %}</span>
 				</a>
@@ -55,8 +55,8 @@
 
 		{% if sess_user.rolId == 3 %}
 			{% if 'acceso_mentor_ov' in sess_permissions.permissions %}
-				<li class="{% if active == 'adminmentor' %}active{% endif %}">
-					<a class="" href="{{ path('lista_usuarios_mentor') }}">
+				<li class="relative {% if active == 'adminmentor' %}active{% endif %}">
+					<a href="{{ path('lista_usuarios_mentor') }}">
 						<i class="icon-group"></i>
 						<span>{% trans from "label" %}usuarios{% endtrans %}</span>
 					</a>
@@ -66,24 +66,33 @@
 
 		{% if sess_user.rolId == 1 or sess_user.rolId == 5 %}
 			{% set auxClassActive = ((active == 'diagnostico') or (active == 'mercadolabo') or (active == 'redmentores') or (active == 'ponderacion') or (active == 'disenovida') or (active == 'mvocacional') or (active == 'tvocacional') or (active == 'evaluaci360') or (active == 'plataforma') or (active == 'certificado')) ? 'active' : '' %}
-			<li class="sub-menu  {{ auxClassActive }}">
-				<a href="javascript:;" class="">
+			<li class="sub-menu relative {{ auxClassActive }}" id="menu_plataforma">
+				<a href="javascript:;">
 					<i class="icon-book"></i>
 					<span>{% trans from "label" %}plataforma{% endtrans %}</span>
 					<span class="arrow"></span>
 				</a>
 				<ul class="sub">
-					<li class="{% if active == 'diagnostico' %}active{% endif %}"> <a href="{{ path('diagnostico') }}">{% trans from "label" %}diagnostico{% endtrans %}</a> </li>
-					<li class="{% if active == 'mvocacional' %}active{% endif %}"> <a href="{{ path('lista_mentores_ov') }}">{% trans from "label" %}orientador.vocacional{% endtrans %}</a> </li>
-					<li class="{% if active == 'tvocacional' %}active{% endif %}"> <a href="{{ path('test_vocacional') }}">{% trans from "label" %}test.vocacional{% endtrans %}</a> </li>
-					<li class="{% if active == 'evaluaci360' %}active{% endif %}"> <a href="{{ path('evaluacion360') }}">{% trans from "label" %}evaluacion.360{% endtrans %}</a> </li>
-					<li class="{% if active == 'disenovida' %}active{% endif %}"> <a href="{{ path('diseno_vida') }}">{% trans from "label" %}diseno.vida{% endtrans %}</a> </li>
-					<li class="{% if active == 'mercadolabo' %}active{% endif %}"> <a href="{{ path('mercado_laboral') }}">{% trans from "label" %}mercado.laboral{% endtrans %}</a> </li>
-					<li class="{% if active == 'redmentores' %}active{% endif %}"> <a href="{{ path('red_mentores') }}">{% trans from "label" %}red.mentores{% endtrans %}</a> </li>
-					<li class="{% if active == 'ponderacion' %}active{% endif %}"> <a href="{{ path('ponderacion') }}">{% trans from "label" %}ponderacion{% endtrans %}</a> </li>
-					<li class="{% if active == 'universidad' %}active{% endif %}"><a href="{{ path('universidad') }}">{% trans from "label" %}universidad{% endtrans %}</a></li>
-					<li class="{% if active == 'certificado' %}active{% endif %}"> <a href="{{ path('certificado') }}">{% trans from "label" %}certificado{% endtrans %}</a> </li>
-
+					<li class="relative {% if active == 'diagnostico' %}active{% endif %}" id="menu_diagnostico">
+						<a href="{{ path('diagnostico') }}">{% trans from "label" %}diagnostico{% endtrans %}</a> </li>
+					<li class="relative {% if active == 'mvocacional' %}active{% endif %}" id="menu_mentor_ov">
+						<a href="{{ path('lista_mentores_ov') }}">{% trans from "label" %}orientador.vocacional{% endtrans %}</a> </li>
+					<li class="relative {% if active == 'tvocacional' %}active{% endif %}" id="menu_test_vocacional">
+						<a href="{{ path('test_vocacional') }}">{% trans from "label" %}test.vocacional{% endtrans %}</a> </li>
+					<li class="relative {% if active == 'evaluaci360' %}active{% endif %}" id="menu_eval_360">
+						<a href="{{ path('evaluacion360') }}">{% trans from "label" %}evaluacion.360{% endtrans %}</a> </li>
+					<li class="relative {% if active == 'disenovida' %}active{% endif %}" id="menu_diseno_vida">
+						<a href="{{ path('diseno_vida') }}">{% trans from "label" %}diseno.vida{% endtrans %}</a> </li>
+					<li class="relative {% if active == 'mercadolabo' %}active{% endif %}" id="menu_mercado_laboral">
+						<a href="{{ path('mercado_laboral') }}">{% trans from "label" %}mercado.laboral{% endtrans %}</a> </li>
+					<li class="relative {% if active == 'redmentores' %}active{% endif %}" id="menu_red_mentores">
+						<a href="{{ path('red_mentores') }}">{% trans from "label" %}red.mentores{% endtrans %}</a> </li>
+					<li class="relative {% if active == 'ponderacion' %}active{% endif %}" id="menu_ponderacion">
+						<a href="{{ path('ponderacion') }}">{% trans from "label" %}ponderacion{% endtrans %}</a> </li>
+					<li class="relative {% if active == 'universidad' %}active{% endif %}" id="menu_universidades">
+						<a href="{{ path('universidad') }}">{% trans from "label" %}universidad{% endtrans %}</a></li>
+					<li class="relative {% if active == 'certificado' %}active{% endif %}" id="menu_certificado">
+						<a href="{{ path('certificado') }}">{% trans from "label" %}certificado{% endtrans %}</a> </li>
 				</ul>
 			</li>
 		{% endif %}
@@ -91,7 +100,7 @@
 		{% set auxClassIIActive = ((active == 'u_estudiante') or (active == 'u_mentor_e') or (active == 'u_mentor_ov') or (active == 'u_admin')) ? 'active' : '' %}
 		{% if 'acceso_admin_usuarios' in sess_permissions.permissions %}
 			<li class="sub-menu {{ auxClassIIActive }}">
-				<a href="javascript:;" class="">
+				<a href="javascript:;">
 					<i class="icon-group"></i>
 					<span>{% trans from "label" %}usuarios{% endtrans %}</span>
 					<span class="arrow"></span>
@@ -108,7 +117,7 @@
 		{% set auxClassCarreras = ((active == 'carreras') or (active == 'carreras_new')) ? 'active' : '' %}
 		{% if 'acceso_carreras' in sess_permissions.permissions %}
 			<li class="sub-menu {{ auxClassCarreras }}">
-				<a href="javascript:;" class="">
+				<a href="javascript:;">
 					<i class="icon-gears"></i>
 					<span>{% trans from "label" %}carreras{% endtrans %}</span>
 					<span class="arrow"></span>
@@ -123,7 +132,7 @@
 		{% set auxClassTemas = ((active == 'temas') or (active == 'temas_new')) ? 'active' : '' %}		
 		{% if 'acceso_temas' in sess_permissions.permissions %}
 			<li class="sub-menu {{ auxClassTemas }} ">
-				<a href="javascript:;" class="">
+				<a href="javascript:;">
 					<i class="icon-gears"></i>
 					<span>{% trans from "label" %}temas{% endtrans %}</span>
 					<span class="arrow"></span>
@@ -138,7 +147,7 @@
 		{% set auxClassColegios = ((active == 'colegios') or (active == 'colegios_new')) ? 'active' : '' %}		
 		{% if 'acceso_colegios' in sess_permissions.permissions %}
 			<li class="sub-menu {{ auxClassColegios }}">
-				<a href="javascript:;" class="">
+				<a href="javascript:;">
 					<i class="icon-gears"></i>
 					<span>{% trans from "label" %}colegios{% endtrans %}</span>
 					<span class="arrow"></span>
@@ -151,7 +160,7 @@
 		{% endif %}
 		{% if 'admin_preguntas' in sess_permissions.permissions %}
 			<li class="{% if active == 'admin_preguntas' %}active{% endif %}">
-				<a class="" href="{{ path('admin_formularios') }}">
+				<a href="{{ path('admin_formularios') }}">
 					<i class="icon-tasks"></i>
 					<span>{% trans from "label" %}formularios{% endtrans %}</span>
 				</a>
@@ -160,7 +169,7 @@
 					
 		{% if 'acceso_sidebar' in sess_permissions.permissions %}
 			<li class="{% if active == 'informacion' %}active{% endif %}">
-				<a class="" href="{{ path('admin_informacion') }}">
+				<a href="{{ path('admin_informacion') }}">
 					<i class="icon-info-sign"></i>
 					<span>{% trans from "label" %}informacion{% endtrans %}</span>
 				</a>

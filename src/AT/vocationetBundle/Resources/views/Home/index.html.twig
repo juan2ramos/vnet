@@ -59,7 +59,7 @@
 	<div class="row">
 		<div class="col-lg-9"> 
 			<section class="panel">
-				<div class="panel-body">
+				<div class="panel-body text-center" id="container_map">
 
 					<img src="{{ asset(getParameter('ruta_mapas_vocationet')~imagenMapa) }}" width="700" height="350" alt="mapaVocationet" usemap="#vocationetmap">
 					<map name="vocationetmap">
@@ -103,7 +103,7 @@
 
 			{# PUBLICIDAD #}
 			{% if publicidad %}
-				<div>
+				<div id="container_publicidad">
 					{% for entity in publicidad %}
 						{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
 					{% endfor %}

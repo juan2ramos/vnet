@@ -44,7 +44,7 @@
 
 	<body>
 
-		<section id="container" class="">
+		<section id="container">
 			<!--header start-->
 				<header class="header white-bg" style="z-index:9900">
 					<div class="sidebar-toggle-box">
@@ -59,24 +59,24 @@
 						
 						<!--  notification start -->
 						<ul class="nav top-menu">
-                            <li id="header_inbox_bar" class="dropdown">
+                            <li id="bar_mensajes" class="dropdown center">
                                 <a class="tooltips" href="{{ path('mensajes') }}" data-original-title="{% trans from "label" %}mensajes{% endtrans %}" data-placement="bottom" data-toggle="tooltip">
                                     <i class="icon-envelope-alt"></i>
                                     <span class="badge bg-important inbox-badge"></span>
                                 </a>									
                             </li>
-                            <li id="header_inbox_bar" class="dropdown">
+                            <li id="bar_contactos" class="dropdown">
                             <a class="tooltips" href="{{ path('contactos') }}" data-original-title="{% trans from "label" %}contactos{% endtrans %}" data-placement="bottom" data-toggle="tooltip">
                                     <i class="icon-user"></i>
                                     <span class="badge bg-important amistades-badge"></span>
-                                </a>									
+                                </a> 
                             </li>
 						</ul>
 					</div>
 					
 					<div class="top-nav">
 						<ul class="nav pull-right top-menu">
-                            <li class="dropdown">
+                            <li class="dropdown" id ='bar_usuario'>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <img alt="" src="{{ asset(sess_user.usuarioImagen|default(gui_default_img)) ~ '?type=small' }}" style="width:29px; height: 29px;">
                                     <span class="username">{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</span>
@@ -84,18 +84,37 @@
                                 </a>
                                 <ul class="dropdown-menu extended logout">
                                     <div class="log-arrow-up"></div>
-                                    <li><a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}"><i class="icon-user"></i>{% trans from "label" %}perfil{% endtrans %}</a></li>
+                                    <li class="relative" id="bar_usuario_perfil">
+										<a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}">
+											<i class="icon-user"></i>{% trans from "label" %}perfil{% endtrans %}
+										</a>
+									</li>
+									
                                     {% if 'acceso_pagos' in sess_permissions.permissions %}
-                                        <li><a href="{{ path('planes') }}"><i class="icon-suitcase"></i> {% trans from "label" %}paquetes{% endtrans %}</a></li>
-                                        <li><a href="{{ path('comprar') }}"><i class="icon-shopping-cart"></i> {% trans from "label" %}carrito.compras{% endtrans %}</a></li>
+                                        <li class="relative" id="bar_usuario_paquetes">
+											<a href="{{ path('planes') }}">
+												<i class="icon-suitcase"></i> {% trans from "label" %}paquetes{% endtrans %}
+											</a>
+										</li>
+                                        <li class="relative" id="bar_usuario_carrito">
+											<a href="{{ path('comprar') }}">
+												<i class="icon-shopping-cart"></i> {% trans from "label" %}carrito.compras{% endtrans %}
+											</a>
+										</li>
                                     {% endif %}
 
                                     {# RESEÑAS DEL MENTOR#}
                                     {% if sess_user.rolId == 2 or sess_user.rolId == 3 %}
-										<li><a href="{{ path('mentor_resenas', { 'perfilId': sess_user.id } ) }}"><i class="icon-file-text"></i>{% trans from "label" %}resenas{% endtrans %} </a></li>
+										<li class="relative>
+											<a href="{{ path('mentor_resenas', { 'perfilId': sess_user.id } ) }}"><i class="icon-file-text"></i>{% trans from "label" %}resenas{% endtrans %} </a>
+										</li>
 									{% endif %}
 									
-                                    <li><a href="{{ path('logout') }}"><i class="icon-key"></i> {% trans from "label" %}cerrar.session{% endtrans %}</a></li>
+                                    <li class="relative" id="bar_usuario_logout">
+										<a href="{{ path('logout') }}">
+											<i class="icon-key"></i> {% trans from "label" %}cerrar.session{% endtrans %}
+										</a>
+									</li>
                                 </ul>
                             </li>
 						</ul>
@@ -160,6 +179,7 @@
 		</script>
 
 		<script src="{{ asset('powertour/js/powertour.1.7.min.js') }}"></script>
+		{% set rolId = sess_user.rolId %}
 		{% include 'vocationetBundle::box-tour.html.twig' %}
 
         {% block script %}{% endblock %}
