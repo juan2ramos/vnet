@@ -24,3 +24,27 @@ var AlertBadge = (function(settings){
 refreshAlertBadge();
 
 
+var showNotice = function(type, title, message){
+
+    var img;
+
+    if(type === 'success'){
+        img = '/img/success.png';
+    }
+    else if(type === 'info'){
+        img = '/img/info.png';
+    }
+    else if(type === 'warning'){
+        img = '/img/warning.png';
+    }
+    else if(type === 'error'){
+        img = '/img/delete.png';
+    }        
+
+    $.gritter.add({
+        title: title,
+        text: message,
+        time: 5000,
+        image: img
+    });
+};
