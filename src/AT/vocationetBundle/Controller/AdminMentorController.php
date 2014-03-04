@@ -110,17 +110,15 @@ class AdminMentorController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
-        $usuarioId = $security->getSessionValue("id");
-        
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
         $participaciones = $this->getParticipacionesUsuario($id);
-        $mentorias = $this->getMentoriasEstudiante($id, $usuarioId);
-             
+        $form_ids = $this->get('formularios')->getFormId();
+                 
         return array(
             'usuario'           => $usuario,
             'participaciones'   => $participaciones,
-            'mentorias'         => $mentorias
+            'form_ids'          => $form_ids
         );
     }
     
@@ -160,6 +158,54 @@ class AdminMentorController extends Controller
         
         return new Response(json_encode($mentorias));
     }
+    
+    /**
+     * Accion para la carga de reportes de pruebas
+     * 
+     * @Route("/uploadreporte/{id}", name="upload_reporte_prueba")
+     * @Method({"post"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @return Response
+     */
+    public function uploadReporteAction(Request $request, $id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $form_id = $request->request->get('form');
+        $archivo = $request->files->get('file');
+        
+        $ext = $archivo->guessExtension();
+        
+        if(strtolower($ext) == 'pdf')
+        {
+            $filename = md5($id.$form_id).'.'.$ext;
+            $pathname = $security->getParameter('path_reportes');
+            
+            // Cargar archivo a carpeta de reportes
+            $archivo->move($pathname, $filename);
+            
+            // Registrar ruta a la participacion en base de datos
+            $update = $this->updateArchivoReporte($id, $form_id, $filename);
+            
+            $security->debug($update);
+            die;
+            
+           
+            
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informe.cargado"), "text" => $this->get('translator')->trans("informe.cargado.correctamente")));
+        }
+        else
+        {
+            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("extension.invalida")));
+        }
+        
+        return $this->redirect($this->generateUrl('pruebas_usuarios_mentor', array('id' => $id)));
+    }
+    
+    
+    
     
 	/**
      * Listado de usuarios que han seleccionado al usuario logeado como mentor de Orientacion Vocacional
@@ -246,7 +292,8 @@ class AdminMentorController extends Controller
                     f.id, 
                     f.nombre, 
                     MAX(p.estado) AS estado,
-                    COUNT(f.id) AS cant
+                    COUNT(f.id) AS cant,
+                    MAX(p.archivoReporte) AS reporte
                 FROM 
                     vocationetBundle:Participaciones p
                     JOIN vocationetBundle:Formularios f WITH f.id = p.formulario
@@ -313,11 +360,50 @@ class AdminMentorController extends Controller
         $em = $this->getDoctrine()->getManager();
         $query = $em->createQuery($dql);
         $query->setParameter('estudiante_id', $estudiante_id);
-        $query->setParameter('mentor_id', $mentor_id);
+        $query->setParameter('mentor_id', $mentor_id);        
         $result = $query->getResult();
         
         return $result;
     }
     
+    /**
+     * Funcion que actualiza el campo de reporte de una participacion de estudiante
+     * 
+     * ingresa la ruta del archivo cargado en el campo de archivo_reporte de la participacion
+     * del estudiante en una prueba. si la prueba es test vocacional hace un insert ya que esta prueba
+     * no registra participacion por parte del estudiante
+     * 
+     * @param integer $estudiante_id id de usuario estudiante
+     * @param integer $form_id id de formulario o prueba
+     * @param string $path ruta del archivo
+     * @return type
+     */
+    private function updateArchivoReporte($estudiante_id, $form_id, $path)
+    {
+        $dql = "UPDATE 
+                    vocationetBundle:Participaciones p
+                SET 
+                    p.archivoReporte = :path
+                WHERE 
+                    p.usuarioEvaluado = :usuario_id
+                    AND p.formulario = :formulario_id";
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery($dql);
+        $query->setParameter('path', $path);
+        $query->setParameter('usuario_id', $estudiante_id);
+        $query->setParameter('formulario_id', $form_id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        $FormServ = $this->get('formularios');
+        if($result == 0 && $FormServ->getFormId('test_vocacional') == $form_id)
+        {
+            // Insertar nueva participacion para test vocacional
+            //...
+        }
+        
+        
+        return $result;
+    }
 }
 ?>

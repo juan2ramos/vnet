@@ -5,7 +5,7 @@
       <generator strategy="IDENTITY"/>
     </id>
     <field name="foroTitulo" type="string" column="foro_titulo" length="255" nullable="false"/>
-    <field name="foroTexto" type="text" column="foro_texto" nullable="true"/>
+    <field name="foroTexto" type="string" column="foro_texto" length="45" nullable="true"/>
     <field name="created" type="datetime" column="created" nullable="false"/>
     <field name="modified" type="datetime" column="modified" nullable="false"/>
     <many-to-one field="usuario" target-entity="Usuarios">

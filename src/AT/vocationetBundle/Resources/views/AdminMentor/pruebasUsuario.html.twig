@@ -64,19 +64,23 @@
                         
                         {# TEST VOCACIONAL #}
                         {% if participaciones.test_vocacional is defined %}
+                            {% set testv_part = (participaciones.test_vocacional.cant >= 1) ? true : false %}
                             {% set testv_aprob = (participaciones.test_vocacional.estado == 2) ? true : false %}
-                            {% set testv_aprob_icon = (test_aprob) ? icon_ok : icon_no %}
+                            {% set testv_aprob_icon = (testv_aprob) ? icon_ok : icon_no %}
                         {% else %}
-                            {% set testv_aprob = false %}                            
+                            {% set testv_part = false %}       
+                            {% set testv_aprob = false %}       
                             {% set testv_aprob_icon = icon_no %}
                         {% endif %}
                         <tr>
                             <td>{% trans from "label" %}test.vocacional{% endtrans %}</td>
-                            <td class="prueba-estado"></td>
+                            <td class="prueba-estado">{% trans from "label" %}prueba.externa{% endtrans %}</td>
                             <td class="prueba-estado">{{ testv_aprob_icon }}</td>
                             <td>
-                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                {% if testv_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.test_vocacional }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>                                
+                                {% if testv_part %}
+                                    {% if testv_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% endif %}
                             </td>
                         </tr>
                         
@@ -99,7 +103,7 @@
                             <td>
                                 {% if eva360_part %}
                                     <a href="{{ path("evaluacion360_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
-                                    <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                    <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.evaluacion360 }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
                                     {% if eva360_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}                                
                                 {% endif %}
                             </td>
@@ -124,7 +128,7 @@
                             <td>
                                 {% if dvida_part %}
                                 <a href="{{ path("disenovida_resultados", {"id": usuario.id}) }}"class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
-                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.diseno_vida }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
                                 {% if dvida_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
@@ -149,7 +153,7 @@
                             <td>
                                 {% if mlab_part %}
                                 <a data-toggle="modal" href="#modal-mlab" id="btn-modal-mlab" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
-                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.mercado_laboral }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
                                 {% if mlab_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
@@ -192,7 +196,7 @@
                             <td>
                                 {% if rment_part %}
                                 <a data-toggle="modal" href="#modal-rment" id="btn-modal-rment" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
-                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.red_mentores }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
                                 {% if rment_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
@@ -233,7 +237,7 @@
                             <td>
                                 {% if pond_part %}
                                 <a href="{{ path("ponderacion_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
-                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.ponderacion }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
                                 {% if pond_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
@@ -258,7 +262,7 @@
                             <td>
                                 {% if univ_part %}
                                 <a href="{{ path("universidad_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
-                                <a class="btn btn-primary btn-xs"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
+                                <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.universidad }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
                                 {% if univ_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
@@ -278,7 +282,26 @@
                         
                     </tbody>
                 </table>
-                
+                <div class="modal fade" id="modal-reporte" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="{{ path('upload_reporte_prueba', {'id': usuario.id}) }}" method='post' type="post" enctype="multipart/form-data">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title">{% trans from "label" %}cargar.reporte{% endtrans %}</h4>
+                                </div>
+                                <div class="modal-body" id="modal-body-mlab">
+                                    <input type="text" name="form" value="" id="txt-form-id"/>
+                                    <input type='file' name='file' required class="form-control" accept="application/pdf"/>
+                                </div>
+                                <div class="modal-footer">
+                                    <button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
+                                    <button class="btn btn-success" type="submit">{% trans from "label" %}subir.informe{% endtrans %}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </section>
         </section>
     </div>
@@ -364,6 +387,16 @@
             $("#modal-body-rment").html(label);
             $("#modal-body-rment").append($lista);
         };
+        
+        $(".btn-cargar-reporte").on('click', function(){
+        
+            var $btn = $(this);
+            var $input = $("#txt-form-id");
+            
+            $input.val($btn.data('id'))
+            
+            console.log($btn.data('id'));
+        });
     });
 </script>
 {% endblock script %}
