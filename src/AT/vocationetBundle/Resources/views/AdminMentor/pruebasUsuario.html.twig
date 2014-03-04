@@ -299,6 +299,7 @@
 
                 xhr.done(function(response){
                     AlterEstudiante = JSON.parse(response);
+                    
                     cargarAlternativasEstudiante();
                 });
             }
@@ -311,35 +312,57 @@
                 xhr.done(function(response){
                     
                     MentoriasEstudiante = JSON.parse(response);
-                    
-                    console.log(MentoriasEstudiante);
                     cargarMentoriasEstudiante();
                 });
             }
         });
         
         
-        var cargarAlternativasEstudiante = function(){
-            
+        var cargarAlternativasEstudiante = function(){            
             var $lista = $("<ul></ul>");
             
-            if(MentoriasEstudiante.length !== 0){
-                MentoriasEstudiante.forEach(function(mentoria){
-                    //$lista.append('<li>'+carrera.nombre+'</li>');
+            if(AlterEstudiante.length !== 0){
+                AlterEstudiante.forEach(function(carrera){
+                    $lista.append('<li>'+carrera.nombre+'</li>');
                 });
-                //var label = '<p>{% trans from "label" %}estas.son.alternativas.estudio.estudiante{% endtrans %}</p>'
+                var label = '<p>{% trans from "label" %}estas.son.alternativas.estudio.estudiante{% endtrans %}</p>'
             }
             else{
-                //var label = '<p>{% trans from "label" %}estudiante.no.ha.seleccionado.alternativas.estudio{% endtrans %}</p>'                
+                AlterEstudiante = false;
+                var label = '<p>{% trans from "label" %}estudiante.no.ha.seleccionado.alternativas.estudio{% endtrans %}</p>'                
             }
             
-            //$("#modal-body-rment").html(label);
-            //$("#modal-body-rment").append($lista);
+            $("#modal-body-mlab").html(label);
+            $("#modal-body-mlab").append($lista);
             
         };
         
         var cargarMentoriasEstudiante = function(){
+            var $lista = $("<ul></ul>");
             
+            if(MentoriasEstudiante.length !== 0){
+                
+                MentoriasEstudiante.forEach(function(mentoria){
+                    if(mentoria.mentoriaEstado)
+                    {
+                        var estado = '{% trans from "label" %}finalizada{% endtrans %}';
+                    }
+                    else{
+                        var estado = '{% trans from "label" %}no.finalizada{% endtrans %}';
+                    }
+                                        
+                    $lista.append('<li>'+mentoria.mentoriaInicio.date+' - '+ mentoria.usuarioNombre +' ' + mentoria.usuarioApellido + ' (' + estado + ')</li>');
+                });
+                
+                var label = '<p>{% trans from "label" %}estado.mentorias.red.mentores.estudiante{% endtrans %}</p>'
+            }
+            else{
+                MentoriasEstudiante = false;
+                var label = '<p>{% trans from "label" %}no.hay.mentorias.registradas{% endtrans %}</p>'                
+            }
+            
+            $("#modal-body-rment").html(label);
+            $("#modal-body-rment").append($lista);
         };
     });
 </script>

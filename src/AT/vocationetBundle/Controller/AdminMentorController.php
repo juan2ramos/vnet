@@ -139,7 +139,7 @@ class AdminMentorController extends Controller
         
         $carreras = $this->getAlternativasEstudio($id);
         
-        return new Response(json_encode(array()));
+        return new Response(json_encode($carreras));
     }
     
     /**
