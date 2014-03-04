@@ -1956,7 +1956,7 @@
                 <source>boton.usuario.mentor</source>
                 <target>Acceso a información de interes del usuario, como perfil y reseñas.</target>
 			</trans-unit>
-			<trans-unit id="tour-30">
+			<trans-unit id="tour-30"> 
                 <source>boton.usuario.perfil.mentor</source>
                 <target>Perfil, en donde tendra acceso a su información, calificaciones, sincronización con linkedin, etc.</target>
 			</trans-unit>
