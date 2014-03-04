@@ -1,5 +1,6 @@
 {% set sess_user = app.session.get('sess_user') %}
 {% set sess_permissions = app.session.get('sess_permissions') %}
+{% set rolId = sess_user.rolId %}
 
 <!DOCTYPE html>
 
@@ -32,13 +33,10 @@
 		  <script src="{{ asset('js/respond.min.js') }}"></script>
 		<![endif]-->
 
-		<!-- Add IntroJs styles 
-		<link href="{{ asset('introJS/introjs.css') }}" ../../introjs.css" rel="stylesheet">-->
+		{% if rolId != 4 or rolId != 5 %}
+			<link rel="stylesheet" href="{{ asset('powertour/css/powertour.css') }}"/>
+		{% endif %}
 
-		
-		<link rel="stylesheet" href="{{ asset('powertour/css/powertour.css') }}"/>
-
-		
 		{% block style %}{% endblock %}
 	</head>
 
@@ -66,11 +64,20 @@
                                 </a>									
                             </li>
                             <li id="bar_contactos" class="dropdown">
-                            <a class="tooltips" href="{{ path('contactos') }}" data-original-title="{% trans from "label" %}contactos{% endtrans %}" data-placement="bottom" data-toggle="tooltip">
+								<a class="tooltips" href="{{ path('contactos') }}" data-original-title="{% trans from "label" %}contactos{% endtrans %}" data-placement="bottom" data-toggle="tooltip">
                                     <i class="icon-user"></i>
                                     <span class="badge bg-important amistades-badge"></span>
                                 </a> 
                             </li>
+                            
+                            {# Tour no administradores #}
+                            {% if rolId != 4 or rolId != 5 %}
+								<li>
+									<a id="starttour" class="tooltips" href="#" data-original-title='{{ "tour.por.la.plataforma"| trans({}, "label") }}' data-placement="bottom" data-toggle="tooltip">
+										<i class="icon-facetime-video"></i>
+									</a> 
+								</li>
+                            {% endif %}
 						</ul>
 					</div>
 					
@@ -104,9 +111,11 @@
                                     {% endif %}
 
                                     {# RESEÑAS DEL MENTOR#}
-                                    {% if sess_user.rolId == 2 or sess_user.rolId == 3 %}
-										<li class="relative>
-											<a href="{{ path('mentor_resenas', { 'perfilId': sess_user.id } ) }}"><i class="icon-file-text"></i>{% trans from "label" %}resenas{% endtrans %} </a>
+                                    {% if rolId == 2 or rolId == 3 %}
+										<li class="relative" id="bar_usuario_resenas" >
+											<a href="{{ path('mentor_resenas', { 'perfilId': sess_user.id } ) }}">
+												<i class="icon-file-text"></i>{% trans from "label" %}resenas{% endtrans %}
+											</a>
 										</li>
 									{% endif %}
 									
@@ -120,7 +129,6 @@
 						</ul>
 					</div>
 				</header>
-
 			
 				<!--sidebar start MENU VETICAL IZQUIERDO -->
 				<aside>
@@ -134,10 +142,7 @@
 				<section id="main-content">
 					<section class="wrapper">
 						<!-- page start-->
-							<a class="btn btn-large btn-success" href="javascript:void(0);" onclick="startIntro();">Show me how</a>
-							<a href="#" id="starttour"><span>Start the tour</span></a>
 							{% block body %}{% endblock %}
-							
 						<!-- page end-->
 					</section>
 				</section>
@@ -178,9 +183,10 @@
 			});
 		</script>
 
-		<script src="{{ asset('powertour/js/powertour.1.7.min.js') }}"></script>
-		{% set rolId = sess_user.rolId %}
-		{% include 'vocationetBundle::box-tour.html.twig' %}
+		{% if rolId != 4 or rolId != 5 %}
+			<script src="{{ asset('powertour/js/powertour.1.7.min.js') }}"></script>
+			{% include 'vocationetBundle::box-tour.html.twig' %}
+		{% endif %}
 
         {% block script %}{% endblock %}
 

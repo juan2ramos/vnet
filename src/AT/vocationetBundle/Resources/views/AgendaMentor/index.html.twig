@@ -16,7 +16,7 @@
 		<div class="col-lg-{{ span }}">
 		
 			{# FORMULARIO DE CREACION DE MENTORIAS #}
-			<section class="panel">
+			<section class="panel" id="container_form_nm">
 				<header class="panel-heading">
 					{% trans from "label" %}agregar.mentoria{% endtrans %}
 				</header>
@@ -77,9 +77,11 @@
 		{# PUBLICIDAD #}
 		{% if publicidad %}
 			<aside class="col-lg-3">
-				{% for entity in publicidad %}
-					{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
-				{% endfor %}
+				<div id="container_publicidad">
+					{% for entity in publicidad %}
+						{% include 'vocationetBundle:Informacion:showInformacion.html.twig' %}
+					{% endfor %}
+				</div>
 			</aside>
 		{% endif %}
 	</div>

@@ -1,59 +1,108 @@
+{# rolId Id del rol #}
+
 <style>
-	.tour-p{
+	.tour-p {
 	 background-color: #FFFFFF !important;
+	 text-align: justify !important;
+	 padding: 0 10px 0 0 !important;
+	 color: #8A3F04 !important;
+	 margin: 0 0 10px !important;
+	 font-size:13px !important;
+	 
 	}
-	
+	.tour-img {
+		text-align:center;
+		width:100%;
+	}
 </style>
 
-{# rolId Id del rol #}
-<div id="box_intro" class="single-step">
-	<header> <h3>{% trans from "labels" %}bienvenido.vocationet{% endtrans %}</h3> </header>
-	<p>	{% trans from "labels" %}texto.bienvenida.e.intro.tour{% endtrans %} </p>
-	<img style='text-align:center;width:100%;' src="{{ asset('img/vocationet/tour/navegacion.png') }}" />
-	<p> {% trans from "labels" %}explicacion.botones{% endtrans %} </p>
-</div>
+<!-- Globales -->
+	<div id="box_intro" class="single-step tour-p">
+		<header> <h3>{% trans from "label" %}bienvenido.vocationet{% endtrans %}</h3> </header>
+		<p>	{% trans from "label" %}texto.bienvenida.e.intro.tour{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/navegacion.png') }}" />
+		<p>{{ "botones.navegacion"|trans({}, "label") | raw }}<p>
+	</div>
+	<div id="box_end" class="single-step tour-p"> <p> {% trans from "label" %}texto.finalizacion{% endtrans %} </p> </div>
+	<div id="bar_box_mensajes" class="single-step tour-p"> <p> {% trans from "label" %}boton.barra.mensajes{% endtrans %} </p> </div>
+	<div id="bar_box_contactos" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.barra.contactos{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/contactos.png') }}" />
+	</div>
+	<div id="box_mensajes" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.menu.mensajes{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/inbox.png') }}" />
+	</div>
+	<div id="box_foros" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.menu.foros{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/foros.png') }}" />
+	</div>
+	<div id="box_container_publicidad" class="single-step tour-p"> <p> {% trans from "label" %}explicacion.publicidad{% endtrans %} </p> </div>
+	<div id="bar_box_usuario_logout" class="single-step tour-p"> <p class="tour-p"> {% trans from "label" %}boton.usuario.logout{% endtrans %} </p> </div>
 
-<!-- EXPLICACIÓN DE BARRA HORIZONTAL / HEADER -->
-<div id="bar_box_mensajes" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.barra.mensajes{% endtrans %} </p> </div>
-<div id="bar_box_contactos" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.barra.contactos{% endtrans %} </p> </div>
-<div id="bar_box_usuario" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.usuario{% endtrans %} </p> </div>
+<!-- Estudiantes -->
+	<div id="bar_box_usuario" class="single-step tour-p"> <p> {% trans from "label" %}boton.usuario.estudiante{% endtrans %} </p> </div>
+	<div id="bar_box_usuario_perfil" class="single-step tour-p">
+		<p class="tour-p"> {% trans from "label" %}boton.usuario.perfil{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/perfil_estudiante.png') }}" />
+	</div>
+	<div id="bar_box_usuario_paquetes" class="single-step tour-p">
+		<p class="tour-p"> {% trans from "label" %}boton.usuario.paquetes{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/paquetes.png') }}" />
+	</div>
+	<div id="bar_box_usuario_carrito" class="single-step tour-p">
+		<p class="tour-p"> {% trans from "label" %}boton.usuario.carrito{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/carrito.png') }}" />
+	</div>
+	<div id="box_home" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.home{% endtrans %} </p> </div>
+	<div id="box_agenda_estudiante" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.agenda.estudiante{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/agenda_estudiante.png') }}" />
+	</div>
+	<div id="box_plataforma" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.plataforma{% endtrans %} </p> </div>
+	<div id="box_diagnostico" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.diagnostico{% endtrans %} </p> </div>
+	<div id="box_mentor_ov" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.mentor.ov{% endtrans %} </p> </div>
+	<div id="box_test_vocacional" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.test.vocacional{% endtrans %} </p> </div>
+	<div id="box_eva_360" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.evaluacion.360{% endtrans %} </p> </div>
+	<div id="box_diseno_vida" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.diseno.vida{% endtrans %} </p> </div>
+	<div id="box_mercado_laboral" class="single-step tour-p"> <p> {% trans from "label" %}boton.mercado.laboral{% endtrans %} </p> </div>
+	<div id="box_red_mentores" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.red.mentores{% endtrans %} </p> </div>
+	<div id="box_ponderacion" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.ponderacion{% endtrans %} </p> </div>
+	<div id="box_universidades" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.universidades{% endtrans %} </p> </div>
+	<div id="box_certificado" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.certificado{% endtrans %} </p> </div>
+	<div id="box_container_map" class="single-step tour-p"> <p> {% trans from "label" %}explicacion.mapa{% endtrans %} </p> </div>
+	
+<!-- Mentores expertos -->
+	<div id="bar_box_usuario_mentor" class="single-step tour-p"> <p class="tour-p"> {% trans from "label" %}boton.usuario.mentor{% endtrans %} </p> </div>
+	<div id="bar_box_usuario_perfil_mentor" class="single-step tour-p">
+		<p class="tour-p"> {% trans from "label" %}boton.usuario.perfil.mentor{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/perfil_mentor.png') }}" />
+	</div>
+	<div id="bar_box_usuario_resenas" class="single-step tour-p"> <p class="tour-p"> {% trans from "label" %}boton.usuario.resenas{% endtrans %} </p> </div>
+	<div id="box_agenda_mentor" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.agenda.mentor{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/agenda_mentor.png') }}" />
+	</div>
+	<div id="box_container_agenda_form" class="single-step tour-p"> <p> {% trans from "label" %}explicacion.agenda.y.formulario.nueva.mentoria{% endtrans %} </p> </div>
+	
+<!-- Mentores Orientacion Vocacional -->
+	<div id="box_mentor_ov_usuarios" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.mentor.ov.usuarios{% endtrans %} </p> </div>
+	
 
-<div id="bar_box_usuario_perfil" class="single-step"> <p class='tour-p'> {% trans from "labels" %}explicacion.boton.usuario.perfil{% endtrans %} </p> </div>
-<div id="bar_box_usuario_paquetes" class="single-step"> <p class='tour-p'> {% trans from "labels" %}explicacion.boton.usuario.paquetes{% endtrans %} </p> </div>
-<div id="bar_box_usuario_carrito" class="single-step"> <p class='tour-p'> {% trans from "labels" %}explicacion.boton.usuario.carrito{% endtrans %} </p> </div>
-<div id="bar_box_usuario_logout" class="single-step"> <p class='tour-p'> {% trans from "labels" %}explicacion.boton.usuario.logout{% endtrans %} </p> </div>
-
-<!-- EXPLICACIÓN DE MENU VERTICAL IZQUIERDO -->
-<div id="box_home" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.home{% endtrans %} </p> </div>
-<div id="box_agenda_estudiante" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.agenda.estudiante{% endtrans %} </p> </div>
-<div id="box_mensajes" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.mensajes{% endtrans %} </p> </div>
-<div id="box_foros" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.foros{% endtrans %} </p> </div>
-<div id="box_plataforma" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.plataforma{% endtrans %} </p> </div>
-<div id="box_diagnostico" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.diagnostico{% endtrans %} </p> </div>
-<div id="box_mentor_ov" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.mentor.ov{% endtrans %} </p> </div>
-<div id="box_test_vocacional" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.test.vocacional{% endtrans %} </p> </div>
-<div id="box_eva_360" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.evaluacion.360{% endtrans %} </p> </div>
-<div id="box_diseno_vida" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.diseno.vida{% endtrans %} </p> </div>
-<div id="box_mercado_laboral" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.mercado.laboral{% endtrans %} </p> </div>
-<div id="box_red_mentores" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.red.mentores{% endtrans %} </p> </div>
-<div id="box_ponderacion" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.ponderacion{% endtrans %} </p> </div>
-<div id="box_universidades" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.universidades{% endtrans %} </p> </div>
-<div id="box_certificado" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.menu.certificado{% endtrans %} </p> </div>
-
-<!-- EXPLICACIÓN DE MENU VERTICAL IZQUIERDO -->
-
-<div id="box_container_map" class="single-step"> <p> {% trans from "labels" %}explicacion.mapa{% endtrans %} </p> </div>
-<div id="box_container_publicidad" class="single-step"> <p> {% trans from "labels" %}explicacion.publicidad{% endtrans %} </p> </div>
-
-
-
-
-<div id="box_menu_agenda_mentor" class="single-step"> <p> {% trans from "labels" %}explicacion.boton.agenda.mentor{% endtrans %} </p> </div>
-
-
+	<script>var style_tour = 'powertour-style-orange';</script>
+	<script src="{{ asset('js/vocationet/tour-estudiante.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('js/vocationet/tour-mentorexperto.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('js/vocationet/tour-mentorov.js') }}" type="text/javascript"></script>
     <script>
 		$(document).ready(function($){
-			var style_tour = 'powertour-style-orange';
+			{% if rolId == 1 %}
+				var step = tour_estudiante;
+			{% elseif rolId == 2 %}
+				var step = tour_mentor_experto;
+			{% elseif rolId == 3 %}
+				var step = tour_mentor_ov;
+			{% endif %}
+
 			$('#starttour').powerTour({
 				tourType: 'auto',
 				overlayOpacity: 0.5,
@@ -61,7 +110,7 @@
 				showTimer: true,
 				timeButtonOrder: '%prev% %stop% %pause% %play% %next%',
 				stepButtonOrder: '%prev% %next% %stop%',
-				timerLabel: 'Next step in: ',			                    
+				timerLabel: '',			                    
 				effectSpeed: 200,
 				travelSpeed: 400,
 				easingEffect: 'linear',
@@ -72,355 +121,11 @@
 				runOnLoad: false,
 				runOnLoadDelay: 2000,
 				exitUrl: '',
-				
 				onStart: function(){},
 				onFinish: function(){},
 				onStop: function(){},	
-				onCancel: function(){},				
-				step:[
-					{% if rolId == 1 %}
-						{
-							hookTo: '',
-							content: '#box_intro',
-							width: 400,
-							arrowPosition: 'sc',
-							showArrow: false,
-							highlight: true,
-							time: '00:10',
-							customClassStep: style_tour,
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#bar_mensajes',
-							content: '#bar_box_mensajes',
-							width: 268,
-							arrowPosition: 'bm',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '.header',
-							time: '00:05',
-							customClassStep: style_tour,
-							
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#bar_contactos',
-							content: '#bar_box_contactos',
-							width: 268,
-							arrowPosition: 'bm',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '.header',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){ $('#bar_usuario').removeClass('open'); },
-							onHideStep:function(){}
-						},
-
-						{
-							hookTo: '#bar_usuario',
-							content: '#bar_box_usuario',
-							width: 268,
-							arrowPosition: 'lt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '.header',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){ $('#bar_usuario').addClass('open'); },
-							onHideStep:function(){}
-						},
-
-						{
-							hookTo: '#bar_usuario_perfil',
-							content: '#bar_box_usuario_perfil',
-							width: 268,
-							offsetY: 80,
-							arrowPosition: 'bl',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '.header',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){ $('#bar_usuario').addClass('open'); },
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#bar_usuario_paquetes',
-							content: '#bar_box_usuario_paquetes',
-							width: 268,
-							offsetY: 80,
-							arrowPosition: 'bm',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '.header',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){ $('#bar_usuario').addClass('open'); },
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#bar_usuario_carrito',
-							content: '#bar_box_usuario_carrito',
-							width: 268,
-							offsetY: 80,
-							arrowPosition: 'br',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '.header',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){ $('#bar_usuario').addClass('open'); },
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#bar_usuario_logout',
-							content: '#bar_box_usuario_logout',
-							width: 268,
-							offsetY: 80,
-							arrowPosition: 'bm',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '.header',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){ $('#bar_usuario').addClass('open'); },
-							onHideStep:function(){}
-						},
-
-						{
-							hookTo: '#menu_home',
-							content: '#box_home',
-							width: 268,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){	$('#bar_usuario').removeClass('open'); },
-							onHideStep:function(){}
-						},			  
-						{
-							hookTo: '#menu_agenda_estudiante',
-							content: '#box_agenda_estudiante',
-							width: 268,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#menu_mensajes',
-							content: '#box_mensajes',
-							width: 268,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#menu_foros',
-							content: '#box_foros',
-							width: 268,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){ $('#menu_plataforma').removeClass('active'); },
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#menu_plataforma',
-							content: '#box_plataforma',
-							width: 268,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onShowStep: function(){	$('#menu_plataforma').addClass('active'); },
-							onHideStep:function(){}
-						},
-						{
-							hookTo: '#menu_diagnostico',
-							content: '#box_diagnostico',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_mentor_ov',
-							content: '#box_mentor_ov',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_test_vocacional',
-							content: '#box_test_vocacional',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour, 
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_eval_360',
-							content: '#box_eva_360',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour, 
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_diseno_vida',
-							content: '#box_diseno_vida',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_mercado_laboral',
-							content: '#box_mercado_laboral',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_red_mentores',
-							content: '#box_red_mentores',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_ponderacion',
-							content: '#box_ponderacion',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_universidades',
-							content: '#box_universidades',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#menu_certificado',
-							content: '#box_certificado',
-							width: 268,
-							offsetX: 160,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: true,
-							highlightElements: '#sidebar',
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#container_map',
-							content: '#box_container_map',
-							width: 268,
-							arrowPosition: 'bm',
-							showArrow: true,
-							highlight: true,
-							highlightElements: $('#container_map').parents(),
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-						{
-							hookTo: '#container_publicidad',
-							content: '#box_container_publicidad',
-							width: 268,
-							arrowPosition: 'stl',
-							showArrow: true,
-							highlight: true,
-							highlightElements: $('#container_publicidad').parents(),
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){ }
-						},
-					{% endif %}
-					{% if rolId == 2 or rolId == 3 %}
-						{
-							hookTo: '#menu_agenda_mentor',
-							content: '#box_menu_agenda_mentor',
-							width: 268,
-							arrowPosition: 'rt',
-							showArrow: true,
-							highlight: false,
-							time: '00:05',
-							customClassStep: style_tour,
-							onHideStep: function(){}
-						},
-					{% endif %}
-				  ]
+				onCancel: function(){},
+				step: step
 			});
-			
 		});
     </script>
