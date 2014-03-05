@@ -155,6 +155,49 @@ class DiagnosticoController extends Controller
     }
     
     /**
+     * Accion para ver las respuestas de diagnostico de un usuario
+     * 
+     * A esta accion solo tiene acceso el mentor del usuario
+     * 
+     * @Route("/{id}/resultados", name="diagnostico_resultados")
+     * @Template("vocationetBundle:Diagnostico:resultados.html.twig")
+     * @param integer $id id de usuario evaluado
+     * @return Response
+     */
+    public function resultadosAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
+//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $FormServ = $this->get('formularios');
+        $form_id = $FormServ->getFormId('diagnostico');
+        $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');            
+        
+        // Valida acceso del mentor
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) throw $this->createNotFoundException();
+        
+        
+        $formularios_serv = $this->get('formularios');
+        $formularios = $formularios_serv->getResultadosFormulario($form_id, $id);
+        $participaciones = $formularios_serv->getParticipacionesFormulario($form_id, $id);
+        
+        // Obtener respuestas adicionales
+        $adicionales = $formularios_serv->getRespuestasAdicionalesParticipacion($form_id, $id);
+        
+        $em = $this->getDoctrine()->getManager();
+        $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
+        
+        return array(
+            'formularios' => $formularios,
+            'participaciones' => $participaciones,
+            'usuario' => $usuario,
+            'adicionales' => $adicionales
+        );
+    }
+    
+    /**
      * Funcion para crear un formulario vacio para cuestionarios
      * 
      * Se usa unicamente para proteccion csrf
@@ -167,6 +210,6 @@ class DiagnosticoController extends Controller
             ->getForm();
         
         return $form;
-    }
+    }  
 }
 ?>

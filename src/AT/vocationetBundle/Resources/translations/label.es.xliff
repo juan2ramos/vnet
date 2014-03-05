@@ -1972,6 +1972,81 @@
                 <source></source>
                 <target></target>
 			</trans-unit>
+     
+            <!-- control admin mentor ctrl-x-->
+			<trans-unit id="ctrl-1">
+                <source>ver.pruebas</source>
+                <target>Ver pruebas</target>
+			</trans-unit>
+			<trans-unit id="ctrl-2">
+                <source>pruebas</source>
+                <target>Pruebas</target>
+			</trans-unit>
+			<trans-unit id="ctrl-3">
+                <source>ver.resultados</source>
+                <target>Ver resultados</target>
+			</trans-unit>
+			<trans-unit id="ctrl-4">
+                <source>adjuntar.informe</source>
+                <target>Adjuntar informe</target>
+			</trans-unit>
+			<trans-unit id="ctrl-5">
+                <source>aprobar</source>
+                <target>Aporbar</target>
+			</trans-unit>
+			<trans-unit id="ctrl-6">
+                <source>prueba</source>
+                <target>Prueba</target>
+			</trans-unit>
+			<trans-unit id="ctrl-7">
+                <source>estas.son.alternativas.estudio.estudiante</source>
+                <target>Estas son las alternativas de estudio elegidas por el estudiante</target>
+			</trans-unit>
+			<trans-unit id="ctrl-8">
+                <source>estas.son.alternativas.estudio.estudiante</source>
+                <target>Estas son las alternativas de estudio elegidas por el estudiante</target>
+			</trans-unit>
+			<trans-unit id="ctrl-9">
+                <source>mentorias.estudiante</source>
+                <target>Mentorias del estudiante</target>
+			</trans-unit>
+			<trans-unit id="ctrl-10">
+                <source>estado.mentorias.red.mentores.estudiante</source>
+                <target>Estado de las mentorias agendadas por el estudiante en la red de mentores</target>
+			</trans-unit>
+			<trans-unit id="ctrl-11">
+                <source>finalizada</source>
+                <target>Finalizada</target>
+			</trans-unit>
+			<trans-unit id="ctrl-12">
+                <source>no.finalizada</source>
+                <target>No finalizada</target>
+			</trans-unit>
+			<trans-unit id="ctrl-13">
+                <source>no.hay.mentorias.registradas</source>
+                <target>No hay mentorias registradas</target>
+			</trans-unit>
+			<trans-unit id="ctrl-14">
+                <source>estudiante.no.ha.seleccionado.alternativas.estudio</source>
+                <target>El estudiante no ha seleccionado alternativas de estudio</target>
+			</trans-unit>
+			<trans-unit id="ctrl-15">
+                <source>cargar.reporte</source>
+                <target>Cargar reporte</target>
+			</trans-unit>
+			<trans-unit id="ctrl-16">
+                <source>prueba.externa</source>
+                <target>Prueba externa</target>
+			</trans-unit>
+			<trans-unit id="ctrl-17">
+                <source>instrucciones.carga.reporte</source>
+                <target>Seleccione un archivo en formato PDF para enviar al estudiante como reporte de su prueba. Recuerde que si con anterioridad ya había cargado un archivo éste sera reemplazado.</target>
+			</trans-unit>
+			<trans-unit id="ctrl-18">
+                <source>generar.certificado</source>
+                <target>Generar certificado</target>
+			</trans-unit>
+
         </body>
     </file>
 </xliff>

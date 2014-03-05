@@ -19,7 +19,7 @@ INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_rou
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (9,'admin_preguntas','Administración de preguntas','Administrar preguntas de los cuestionario','admin_formularios,delete_pregunta,edit_pregunta');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (11,'acceso_diagnostico','Prueba de diagnostico','Prueba de diagnostico','diagnostico,procesar_diagnostico');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (12,'acceso_evaluacion_360','Evaluación 360','Evaluación 360','evaluacion360,evaluacion360_evaluacion,procesar_evaluacion360');
-INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (13,'acceso_mentor_ov','Acceso de administracion por parte del mentor OV','Acceso de administracion por parte del mentor de Orientación Vocacional','lista_usuarios_mentor,subir_informe_mercado_laboral');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (13,'acceso_mentor_ov','Acceso de administracion por parte del mentor OV','Acceso de administracion por parte del mentor de Orientación Vocacional','lista_usuarios_mentor,pruebas_usuarios_mentor,alternativas_estudio_estudiante,estado_mentorias_estudiante,upload_reporte_prueba,aprobar_prueba');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (14,'acceso_respuestas_evaluacion_360','Acceso a ver resultados de evaluacion 360','Acceso a ver resultados de evaluacion 360','evaluacion360_resultados');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (15,'acceso_carreras','Acceso a admin carreras','Acceso a admin carreras','admin_carreras,admin_carreras_show,admin_carreras_new,admin_carreras_edit,admin_carreras_delete');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (16,'acceso_colegios','Acceso a admin colegios','Acceso a admin colegios','admin_colegios,admin_colegios_show,admin_colegios_new,admin_colegios_edit,admin_colegios_delete');
@@ -35,9 +35,9 @@ INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_rou
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (26,'acceso_pagos','Planes y pagos','Acceso a planes y pagos','planes,agregar_producto,eliminar_producto,pagos_mentorias,agregar_producto_mentoria,comprar,confirmar_comprar,payu_response,payu_confirmation');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (27,'acceso_test_vocacional','Acceso a test vocacional','Acceso a test vocacional','test_vocacional');
 INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (28,'acceso_certificado','Acceso a certificado','Acceso a certificado','certificado,download_certificado');
-INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (29, 'acceso_universidad', 'Acceso a universidad', 'Acceso a univesidad', 'universidad,procesar_universidad');
-INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (30, 'acceso_respuestas_universidad', 'Acceso a ver resultados de universidad', 'Acceso a ver resultados de universidad', 'universidad_resultados');
-
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (29,'acceso_universidad', 'Acceso a universidad', 'Acceso a univesidad', 'universidad,procesar_universidad');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (30,'acceso_respuestas_universidad', 'Acceso a ver resultados de universidad', 'Acceso a ver resultados de universidad', 'universidad_resultados');
+INSERT INTO `permisos` (`id`,`identificador`,`nombre`,`descripcion`,`permiso_routes`) VALUES (31,'acceso_respuestas_diagnostico', 'Acceso a ver resultados de diagnostico', 'Acceso a ver resultados de diagnostico', 'diagnostico_resultados');
 
 -- PERMISOS-ROLES
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (1,1,1);
@@ -125,7 +125,8 @@ INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (114,29,1);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (115,29,5);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (116,30,3);
 INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (117,30,5);
-
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (118,31,3);
+INSERT INTO `permisos_roles` (`id`,`permiso_id`,`rol_id`) VALUES (119,31,5);
 
 -- TIPOS DE PREGUNTAS
 INSERT INTO `preguntas_tipos` (`id`, `nombre`) VALUES 

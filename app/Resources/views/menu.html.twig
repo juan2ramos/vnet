@@ -15,6 +15,18 @@
 				</a>
 			</li>
 		{% endif %}
+            
+        {% if sess_user.rolId == 3 %}
+			{% if 'acceso_mentor_ov' in sess_permissions.permissions %}
+				<li class="{% if active == 'adminmentor' %}active{% endif %}">
+					<a class="" href="{{ path('lista_usuarios_mentor') }}">
+						<i class="icon-group"></i>
+						<span>{% trans from "label" %}estudiantes{% endtrans %}</span>
+					</a>
+				</li>
+			{% endif %}
+		{% endif %}   
+        
 		
 		{% if 'acceso_agenda_estudiante' in sess_permissions.permissions %}
 			<li class="relative {% if active == 'agendaEstudiante' %}active{% endif %}" id="menu_agenda_estudiante">
@@ -51,17 +63,6 @@
 					<span>{% trans from "label" %}foros{% endtrans %}</span>
 				</a>
 			</li>
-		{% endif %}
-
-		{% if sess_user.rolId == 3 %}
-			{% if 'acceso_mentor_ov' in sess_permissions.permissions %}
-				<li class="relative {% if active == 'adminmentor' %}active{% endif %}" id="menu_usuarios">
-					<a href="{{ path('lista_usuarios_mentor') }}">
-						<i class="icon-group"></i>
-						<span>{% trans from "label" %}usuarios{% endtrans %}</span>
-					</a>
-				</li>
-			{% endif %}
 		{% endif %}
 
 		{% if sess_user.rolId == 1 or sess_user.rolId == 5 %}

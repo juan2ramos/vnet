@@ -6,6 +6,7 @@
     </id>
     <field name="fecha" type="datetime" column="fecha" nullable="false"/>
     <field name="correoInvitacion" type="string" column="correo_invitacion" length="100" nullable="true"/>
+    <field name="archivoReporte" type="string" column="archivo_reporte" length="100" nullable="true"/>
     <field name="estado" type="boolean" column="estado" nullable="false"/>
     <many-to-one field="usuarioEvaluado" target-entity="Usuarios">
       <join-columns>

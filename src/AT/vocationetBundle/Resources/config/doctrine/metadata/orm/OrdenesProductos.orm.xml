@@ -7,14 +7,14 @@
     <field name="mentorId" type="integer" column="mentor_id" nullable="true"/>
     <field name="valor" type="float" column="valor" nullable="false"/>
     <field name="estado" type="integer" column="estado" nullable="false"/>
-    <many-to-one field="orden" target-entity="Ordenes">
-      <join-columns>
-        <join-column name="orden_id" referenced-column-name="id"/>
-      </join-columns>
-    </many-to-one>
     <many-to-one field="producto" target-entity="Productos">
       <join-columns>
         <join-column name="producto_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="orden" target-entity="Ordenes">
+      <join-columns>
+        <join-column name="orden_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>
