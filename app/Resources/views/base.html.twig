@@ -33,7 +33,7 @@
 		  <script src="{{ asset('js/respond.min.js') }}"></script>
 		<![endif]-->
 
-		{% if rolId != 4 or rolId != 5 %}
+		{% if (rolId == 1) or (rolId == 2) or (rolId == 3) %}
 			<link rel="stylesheet" href="{{ asset('powertour/css/powertour.css') }}"/>
 		{% endif %}
 
@@ -71,10 +71,10 @@
                             </li>
                             
                             {# Tour no administradores #}
-                            {% if rolId != 4 or rolId != 5 %}
+                            {% if (rolId == 1) or (rolId == 2) or (rolId == 3) %}
 								<li>
 									<a id="starttour" class="tooltips" href="#" data-original-title='{{ "tour.por.la.plataforma"| trans({}, "label") }}' data-placement="bottom" data-toggle="tooltip">
-										<i class="icon-facetime-video"></i>
+										<i class="icon-question-sign"></i>
 									</a> 
 								</li>
                             {% endif %}
@@ -183,7 +183,7 @@
 			});
 		</script>
 
-		{% if rolId != 4 or rolId != 5 %}
+		{% if (rolId == 1) or (rolId == 2) or (rolId == 3) %}
 			<script src="{{ asset('powertour/js/powertour.1.7.min.js') }}"></script>
 			{% include 'vocationetBundle::box-tour.html.twig' %}
 		{% endif %}

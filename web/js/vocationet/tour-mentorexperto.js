@@ -131,30 +131,6 @@ var tour_mentor_experto = [
 	onHideStep:function(){}
 },
 {
-	hookTo: '#container_form_nm',
-	content: '#box_container_agenda_form',
-	width: 268,
-	arrowPosition: 'rm',
-	showArrow: true,
-	highlight: true,
-	highlightElements: $('#container_form_nm').parents(),
-	time: '00:05',
-	customClassStep: style_tour,
-	onHideStep: function(){ }
-},
-{
-	hookTo: '#container_publicidad',
-	content: '#box_container_publicidad',
-	width: 268,
-	arrowPosition: 'lm',
-	showArrow: true,
-	highlight: true,
-	highlightElements: $('#container_publicidad').parents(),
-	time: '00:05',
-	customClassStep: style_tour,
-	onHideStep: function(){ }
-},
-{
 	hookTo: '',
 	content: '#box_end',
 	width: 400,

@@ -301,30 +301,6 @@ var tour_estudiante = [
 	onHideStep: function(){ }
 },
 {
-	hookTo: '#container_map',
-	content: '#box_container_map',
-	width: 268,
-	arrowPosition: 'bm',
-	showArrow: true,
-	highlight: true,
-	highlightElements: $('#container_map').parents(),
-	time: '00:05',
-	customClassStep: style_tour,
-	onHideStep: function(){ }
-},
-{
-	hookTo: '#container_publicidad',
-	content: '#box_container_publicidad',
-	width: 268,
-	arrowPosition: 'lm',
-	showArrow: true,
-	highlight: true,
-	highlightElements: $('#container_publicidad').parents(),
-	time: '00:05',
-	customClassStep: style_tour,
-	onHideStep: function(){ }
-},
-{
 	hookTo: '',
 	content: '#box_end',
 	width: 400,

@@ -1881,7 +1881,7 @@
 			</trans-unit>
 			<trans-unit id="tour-11">
                 <source>boton.menu.home</source>
-                <target>Acceso al home de la plataforma, aqui encontrara el mapa, e información de interés general</target>
+                <target>Acceso al home de la plataforma, aqui encontrara el mapa con la posición actual y su recorrido por la plataforma, e información de interés general</target>
 			</trans-unit>
 			<trans-unit id="tour-12">
                 <source>boton.agenda.estudiante</source>
@@ -1940,18 +1940,17 @@
                 <target>Certificación</target>
 			</trans-unit>
 			<trans-unit id="tour-26">
-                <source>explicacion.mapa</source>
-                <target>Mapa de su posición actual y/o recorrido en la plataforma</target>
+                <source>boton.agenda.mentor</source>
+                <target>Aqui podra agendar sus nuevas disponibilidades para mentorias, y ver la agenda del mes con mentorias disponibles, separadas y finalizadas, además de información de interés general</target>
 			</trans-unit>
 			<trans-unit id="tour-27">
-                <source>explicacion.publicidad</source>
-                <target>Información de interés general a la comunidad</target>
+                <source>boton.menu.mentor.ov.usuarios</source>
+                <target>Acceso de administración de usuarios que lo han seleccionado como mentor de orientacion vocacional</target>
 			</trans-unit>
 			<trans-unit id="tour-28">
                 <source>texto.finalizacion</source>
                 <target>Esperamos tenga una buena experiencia, este es el final del tour</target>
 			</trans-unit>
-
 			<trans-unit id="tour-29">
                 <source>boton.usuario.mentor</source>
                 <target>Acceso a información de interes del usuario, como perfil y reseñas.</target>
@@ -1965,18 +1964,6 @@
                 <target>Acceso a calificaciones y comentarios de mentorias realizadas</target>
 			</trans-unit>
 			<trans-unit id="tour-32">
-                <source>boton.agenda.mentor</source>
-                <target>Aqui podra ver su agenda con las mentorias programadas, disponibles, y agendar nuevas</target>
-			</trans-unit>
-			<trans-unit id="tour-33">
-                <source>explicacion.agenda.y.formulario.nueva.mentoria</source>
-                <target>Aqui podra agendar sus nuevas disponibilidades para mentorias, y ver la agenda del mes con mentorias disponibles, separadas y finalizadas</target>
-			</trans-unit>
-			<trans-unit id="tour-34">
-                <source>boton.menu.mentor.ov.usuarios</source>
-                <target>Acceso de administración de usuarios que lo han seleccionado como mentor de orientacion vocacional</target>
-			</trans-unit>
-			<trans-unit id="tour-35">
                 <source></source>
                 <target></target>
 			</trans-unit>
