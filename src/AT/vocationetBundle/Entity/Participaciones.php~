@@ -36,11 +36,38 @@ class Participaciones
     private $correoInvitacion;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="archivo_reporte", type="string", length=100, nullable=true)
+     */
+    private $archivoReporte;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="estado", type="boolean", nullable=false)
      */
     private $estado;
+
+    /**
+     * @var \Carreras
+     *
+     * @ORM\ManyToOne(targetEntity="Carreras")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="carrera_id", referencedColumnName="id")
+     * })
+     */
+    private $carrera;
+
+    /**
+     * @var \Formularios
+     *
+     * @ORM\ManyToOne(targetEntity="Formularios")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="formulario_id", referencedColumnName="id")
+     * })
+     */
+    private $formulario;
 
     /**
      * @var \Usuarios
@@ -61,26 +88,6 @@ class Participaciones
      * })
      */
     private $usuarioEvaluado;
-
-    /**
-     * @var \Formularios
-     *
-     * @ORM\ManyToOne(targetEntity="Formularios")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="formulario_id", referencedColumnName="id")
-     * })
-     */
-    private $formulario;
-
-    /**
-     * @var \Carreras
-     *
-     * @ORM\ManyToOne(targetEntity="Carreras")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="carrera_id", referencedColumnName="id")
-     * })
-     */
-    private $carrera;
 
 
 }

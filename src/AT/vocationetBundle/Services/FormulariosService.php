@@ -30,7 +30,7 @@ class FormulariosService
      * @param string $nombre nombre del formulario
      * @return integer|boolean id de formulario o false si no existe
      */
-    public function getFormId($nombre)
+    public function getFormId($nombre = false)
     {
         $ids = array(
             'diagnostico' => 1,
@@ -44,11 +44,101 @@ class FormulariosService
             'universidad' => 14
         );
         
-        $id = (isset($ids[$nombre])) ? $ids[$nombre] : false;
+        if($nombre){
+            $id = (isset($ids[$nombre])) ? $ids[$nombre] : false;
+        }
+        else{
+            $id = $ids;
+        }
+        
         
         return $id;
     }
     
+    /**
+     * Funcion que obtiene la key usuada para identificar una prueba
+     * 
+     * @param integer $id id de la prueba
+     * @return string key de la prueba
+     */
+    public function getFormName($id)
+    {
+        $ids = $this->getFormId();
+        
+        $nombre = array_search($id, $ids);
+        
+        return $nombre;
+        
+    }
+    
+    /**
+     * Funcion que obtiene el id del mentor de un usuario
+     * 
+     * @param integer $usuarioEvaluadoId id de usuario evaluado
+     * @return integer id de mentor
+     */
+    public function getMentorId($estudiante_id)
+    {
+        /*
+         * SELECT u.id FROM
+         * relaciones r
+         * JOIN usuarios u ON r.usuario_id = u.id OR r.usuario2_id = u.id
+         * WHERE 
+         * (r.usuario_id = 1 OR r.usuario2_id = 1)
+         * AND u.id != 1
+         * AND r.tipo = 2
+         * AND r.estado = 1
+         * LIMIT 1;
+         */
+        
+        $dql = "SELECT u.id FROM 
+                    vocationetBundle:Relaciones r
+                    JOIN vocationetBundle:Usuarios u WITH r.usuario = u.id OR r.usuario2 = u.id
+                WHERE
+                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
+                    AND u.id != :usuarioId
+                    AND r.tipo = 2
+                    AND r.estado = 1";
+        $query = $this->em->createQuery($dql);
+        $query->setParameter('usuarioId', $estudiante_id);
+        $query->setMaxResults(1);
+        $result = $query->getResult();
+        
+        $mentorId = false;
+        
+        if(isset($result[0]['id']))
+        {
+            $mentorId = $result[0]['id'];
+        }
+        
+        return $mentorId;        
+    }
+    
+    /**
+     * Funcion que valida si tien acceso a ver los resultados de las pruebas de un estudiante
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @param integer $usuario_id id de usuario logueado
+     * @param integer $rol_id id de rol del usuario logueado
+     * @param integer $estudiante_id id de estudiante
+     * @return boolean
+     */
+    public function validateAccesoMentor($usuario_id, $rol_id, $estudiante_id)
+    {
+        $validate = false;
+        
+        if($rol_id == 5)
+        {
+            $validate = true;
+        } 
+        elseif($usuario_id == $this->getMentorId($estudiante_id))
+        {
+            $validate = true;
+        }
+        
+        return $validate;
+    }
+
     /**
      * Funcion para obtener la entidad de un formulario principal
      * 

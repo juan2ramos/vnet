@@ -23,46 +23,50 @@
     <div class="col-lg-8">
         <section class="panel" id="div-cuestionario">
             <header class="panel-heading" style="font-size: 14px;">
-                {% trans from "label" %}evaluacion360{% endtrans %}
+                {% trans from "label" %}diagnostico{% endtrans %}
             </header>
-            <div class="panel-body">
+            <div class="panel-body">                
                 {% for formulario in formularios %}
                     <div class="div-formulario">
                         <h4>{{ formulario.nombre }}</h4>
                         {% if formulario.descripcion %}
-                            <p>{{ formulario.descripcion|trans({'%usu%': usuario.usuarioNombre~' '~usuario.usuarioApellido}) }}</p>
+                            <p>{{ formulario.descripcion|trans({'%usu%': usuario.usuarioNombre~' '~usuario.usuarioApellido})|raw }}</p>
                         {% endif %}
-                        {% for pregunta in formulario.preguntas %}
-                        <div class="div-pregunta">                            
-                            <b>{{ pregunta.numero }}. </b>
-                            {{ pregunta.pregunta }}
-                            {% if pregunta.opciones is defined %}
-                            <div class="div-opciones">
-                                <b>{% trans from "label" %}opciones{% endtrans %}</b>
-                                <ol>                                    
-                                {% for opcion in pregunta.opciones %}
-                                    <li>{{ opcion.nombre }}</li>
-                                {% endfor %}
-                                </ol>
-                            </div>
-                            {% endif %}
-                            {% if pregunta.respuestas is defined %}
-                            <div class="div-respuestas">
-                                <b>{% trans from "label" %}respuestas{% endtrans %}</b>
-                                <ol>                                
-                                    {% for respuesta in pregunta.respuestas %}
-                                        <li>
-                                            {% include 'vocationetBundle:Preguntas:respuestas.html.twig' %}                                          
-                                        </li>
+                            
+                        {% if formulario.preguntas is defined %}
+                            {% for pregunta in formulario.preguntas %}
+                            <div class="div-pregunta">                            
+                                <b>{{ pregunta.numero }}. </b>
+                                {{ pregunta.pregunta }}
+                                {% if pregunta.opciones is defined %}
+                                <div class="div-opciones">
+                                    <b>{% trans from "label" %}opciones{% endtrans %}</b>
+                                    <ol>                                    
+                                    {% for opcion in pregunta.opciones %}
+                                        <li>{{ opcion.nombre }}</li>
                                     {% endfor %}
-                                </ol>
+                                    </ol>
+                                </div>
+                                {% endif %}
+                                {% if pregunta.respuestas is defined %}
+                                <div class="div-respuestas">
+                                    <b>{% trans from "label" %}respuestas{% endtrans %}</b>
+                                    <ol>                                
+                                        {% for respuesta in pregunta.respuestas %}
+                                            <li>
+                                                {% include 'vocationetBundle:Preguntas:respuestas.html.twig' %}                                          
+                                            </li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                                {% endif %}
                             </div>
-                            {% endif %}
-                        </div>
-                        {% endfor %}
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 {% endfor %}
             </div>
+
         </section>
     </div>
     <div class="col-lg-4">
@@ -84,17 +88,10 @@
                         <td style="overflow: hidden; text-overflow: ellipsis;">
                             {% if participacion.usuarioId %}
                                 <a href="{{ path("perfil", {"perfilId":participacion.usuarioId}) }}">{{ participacion.usuarioNombre ~ ' ' ~ participacion.usuarioApellido }}</a>
-                                <br/>
                             {% endif %}
-                            {{ participacion.correoInvitacion }}
                             <br/>
                             {{ participacion.fecha|date('d/m/Y H:i') }}
-                            <br/>
-                            {% if participacion.estado == 1 %}
-                                {% trans from "label" %}participo{% endtrans %}
-                            {% else %}
-                                {% trans from "label" %}no.ha.participado{% endtrans %}
-                            {% endif %}
+                            
                         </td>
                     </tr>
                 {% endfor %}
@@ -102,9 +99,10 @@
             </table>
             <div class="panel-body">
                 <a href="{{ path('pruebas_usuarios_mentor', {'id': usuario.id }) }}" class="btn btn-info btn-xs"><i class="icon-chevron-left"></i> {% trans from "label" %}pruebas{% endtrans %}</a>
-            </div> 
+            </div>    
             </section>
         </aside>
     </div>
 </div>
+
 {% endblock body %}

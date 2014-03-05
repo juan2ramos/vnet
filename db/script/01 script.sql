@@ -618,7 +618,8 @@ CREATE TABLE IF NOT EXISTS `participaciones` (
   `usuario_evaluado_id` INT NULL,
   `carrera_id` INT NULL,
   `correo_invitacion` VARCHAR(100) NULL,
-  `estado` TINYINT NOT NULL DEFAULT 0,
+  `archivo_reporte` VARCHAR(100) NULL,
+  `estado` TINYINT NOT NULL DEFAULT 0 COMMENT '1=Usuario participo\n2=prueba aprobada',
   PRIMARY KEY (`id`),
   INDEX `fk_participaciones_usuarios1_idx` (`usuario_participa_id` ASC),
   INDEX `fk_participaciones_usuarios2_idx` (`usuario_evaluado_id` ASC),
@@ -682,15 +683,12 @@ CREATE TABLE IF NOT EXISTS `informacion` (
   `informacion_imagen` VARCHAR(100) NULL,
   `informacion_link` VARCHAR(100) NULL,
   `informacion_estado` TINYINT(1) NULL DEFAULT 0,
+  `informacion_destino` VARCHAR(45) NULL COMMENT 'Campo para identificar si la información esta direccionada a estudiantes o a mentores',
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
--- Agregar campo de destino para control de A quien va direccionada (estudiante, mentor)
-ALTER TABLE .`informacion` 
-CHANGE COLUMN `modified` `modified` DATETIME NULL DEFAULT NULL COMMENT 'Campo para identificar si la información esta direccionada a estudiantes o a mentores' ,
-ADD COLUMN `informacion_destino` VARCHAR(45) NULL AFTER `informacion_estado`;
 
 -- -----------------------------------------------------
 -- Table `respuestas_adicionales`

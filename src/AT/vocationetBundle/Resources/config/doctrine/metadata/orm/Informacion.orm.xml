@@ -4,11 +4,12 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
+    <field name="informacionTitulo" type="string" column="informacion_titulo" length="250" nullable="true"/>
     <field name="informacionImagen" type="string" column="informacion_imagen" length="100" nullable="true"/>
     <field name="informacionLink" type="string" column="informacion_link" length="100" nullable="true"/>
     <field name="informacionEstado" type="boolean" column="informacion_estado" nullable="true"/>
+    <field name="informacionDestino" type="string" column="informacion_destino" length="45" nullable="true"/>
     <field name="created" type="datetime" column="created" nullable="true"/>
     <field name="modified" type="datetime" column="modified" nullable="true"/>
-    <field name="informacionTitulo" type="string" column="informacion_titulo" length="250" nullable="false"/>
   </entity>
 </doctrine-mapping>

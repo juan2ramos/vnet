@@ -36,9 +36,16 @@ class Participaciones
     private $correoInvitacion;
 
     /**
-     * @var boolean
+     * @var string
      *
-     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     * @ORM\Column(name="archivo_reporte", type="string", length=100, nullable=true)
+     */
+    private $archivoReporte;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="estado", type="integer", nullable=false)
      */
     private $estado;
 
@@ -129,9 +136,32 @@ class Participaciones
     }
 
     /**
+     * Set archivoReporte
+     *
+     * @param string $archivoReporte
+     * @return Participaciones
+     */
+    public function setArchivoReporte($archivoReporte)
+    {
+        $this->archivoReporte = $archivoReporte;
+    
+        return $this;
+    }
+
+    /**
+     * Get archivoReporte
+     *
+     * @return string 
+     */
+    public function getArchivoReporte()
+    {
+        return $this->archivoReporte;
+    }
+
+    /**
      * Set estado
      *
-     * @param boolean $estado
+     * @param integer $estado
      * @return Participaciones
      */
     public function setEstado($estado)
@@ -144,7 +174,7 @@ class Participaciones
     /**
      * Get estado
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getEstado()
     {
