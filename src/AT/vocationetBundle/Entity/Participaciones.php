@@ -43,9 +43,9 @@ class Participaciones
     private $archivoReporte;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="estado", type="boolean", nullable=false)
+     * @ORM\Column(name="estado", type="integer", nullable=false)
      */
     private $estado;
 
@@ -161,7 +161,7 @@ class Participaciones
     /**
      * Set estado
      *
-     * @param boolean $estado
+     * @param integer $estado
      * @return Participaciones
      */
     public function setEstado($estado)
@@ -174,7 +174,7 @@ class Participaciones
     /**
      * Get estado
      *
-     * @return boolean 
+     * @return integer 
      */
     public function getEstado()
     {

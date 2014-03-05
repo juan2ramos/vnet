@@ -25,11 +25,14 @@
                     </a>
                     <h1>{{ usuario.usuarioNombre ~ ' '~ usuario.usuarioApellido }}</h1>
                 </div>
+                <div class="panel-body">
+                    <a href="{{ path('lista_usuarios_mentor') }}" class="btn btn-info btn-xs"><i class="icon-chevron-left"></i> {% trans from "label" %}estudiantes{% endtrans %}</a>
+                </div>
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>{% trans from "label" %}prueba{% endtrans %}</th>
-                            <th class="prueba-estado">{% trans from "label" %}pariticipo{% endtrans %}</th>
+                            <th class="prueba-estado">{% trans from "label" %}participo{% endtrans %}</th>
                             <th class="prueba-estado">{% trans from "label" %}aprobado{% endtrans %}</th>
                             <th>{% trans from "label" %}opciones{% endtrans %}</th>
                         </tr>
@@ -54,7 +57,7 @@
                         <tr>
                             <td>{% trans from "label" %}diagnostico{% endtrans %}</td>
                             <td class="prueba-estado">{{ diag_part_icon }}</td>
-                            <td class="prueba-estado">{{ diag_part_icon }}</td>
+                            <td class="prueba-estado aprob-icon">{{ diag_part_icon }}</td>
                             <td>
                                 {% if diag_part %}
                                 <a href="{{ path('diagnostico_resultados', {'id': usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>                                
@@ -75,11 +78,11 @@
                         <tr>
                             <td>{% trans from "label" %}test.vocacional{% endtrans %}</td>
                             <td class="prueba-estado">{% trans from "label" %}prueba.externa{% endtrans %}</td>
-                            <td class="prueba-estado">{{ testv_aprob_icon }}</td>
+                            <td class="prueba-estado aprob-icon">{{ testv_aprob_icon }}</td>
                             <td>
                                 <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.test_vocacional }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>                                
                                 {% if testv_part %}
-                                    {% if testv_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                    {% if testv_aprob == false %}<a class="btn btn-success btn-xs btn-aprobar" data-id="{{ form_ids.test_vocacional }}"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
                         </tr>
@@ -99,12 +102,12 @@
                         <tr>
                             <td>{% trans from "label" %}evaluacion.360{% endtrans %}</td>
                             <td class="prueba-estado">{{ eva360_part_icon }}</td>
-                            <td class="prueba-estado">{{ eva360_aprob_icon }}</td>
+                            <td class="prueba-estado aprob-icon">{{ eva360_aprob_icon }}</td>
                             <td>
                                 {% if eva360_part %}
                                     <a href="{{ path("evaluacion360_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                     <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.evaluacion360 }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                    {% if eva360_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}                                
+                                    {% if eva360_aprob == false %}<a class="btn btn-success btn-xs btn-aprobar" data-id="{{ form_ids.evaluacion360 }}"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}                                
                                 {% endif %}
                             </td>
                         </tr>
@@ -124,12 +127,12 @@
                         <tr>
                             <td>{% trans from "label" %}diseno.vida{% endtrans %}</td>
                             <td class="prueba-estado">{{ dvida_part_icon }}</td>
-                            <td class="prueba-estado">{{ dvida_aprob_icon }}</td>
+                            <td class="prueba-estado aprob-icon">{{ dvida_aprob_icon }}</td>
                             <td>
                                 {% if dvida_part %}
                                 <a href="{{ path("disenovida_resultados", {"id": usuario.id}) }}"class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.diseno_vida }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                {% if dvida_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% if dvida_aprob == false %}<a class="btn btn-success btn-xs btn-aprobar" data-id="{{ form_ids.diseno_vida }}"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
                         </tr>
@@ -149,12 +152,12 @@
                         <tr>
                             <td>{% trans from "label" %}mercado.laboral{% endtrans %}</td>
                             <td class="prueba-estado">{{ mlab_part_icon }}</td>
-                            <td class="prueba-estado">{{ mlab_aprob_icon }}</td>
+                            <td class="prueba-estado aprob-icon">{{ mlab_aprob_icon }}</td>
                             <td>
                                 {% if mlab_part %}
                                 <a data-toggle="modal" href="#modal-mlab" id="btn-modal-mlab" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.mercado_laboral }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                {% if mlab_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% if mlab_aprob == false %}<a class="btn btn-success btn-xs btn-aprobar" data-id="{{ form_ids.mercado_laboral }}"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
                         </tr>
@@ -192,12 +195,12 @@
                         <tr>
                             <td>{% trans from "label" %}red.mentores{% endtrans %}</td>
                             <td class="prueba-estado">{{ rment_part_icon }}</td>
-                            <td class="prueba-estado">{{ rment_aprob_icon }}</td>
+                            <td class="prueba-estado aprob-icon">{{ rment_aprob_icon }}</td>
                             <td>
                                 {% if rment_part %}
                                 <a data-toggle="modal" href="#modal-rment" id="btn-modal-rment" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.red_mentores }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                {% if rment_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% if rment_aprob == false %}<a class="btn btn-success btn-xs btn-aprobar" data-id="{{ form_ids.red_mentores }}"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
                         </tr>
@@ -233,12 +236,12 @@
                         <tr>
                             <td>{% trans from "label" %}ponderacion{% endtrans %}</td>
                             <td class="prueba-estado">{{ pond_part_icon }}</td>
-                            <td class="prueba-estado">{{ pond_aprob_icon }}</td>
+                            <td class="prueba-estado aprob-icon">{{ pond_aprob_icon }}</td>
                             <td>
                                 {% if pond_part %}
                                 <a href="{{ path("ponderacion_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.ponderacion }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                {% if pond_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% if pond_aprob == false %}<a class="btn btn-success btn-xs btn-aprobar" data-id="{{ form_ids.ponderacion }}"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
                         </tr>
@@ -258,12 +261,12 @@
                         <tr>
                             <td>{% trans from "label" %}universidad{% endtrans %}</td>
                             <td class="prueba-estado">{{ univ_part_icon }}</td>
-                            <td class="prueba-estado">{{ univ_aprob_icon }}</td>
+                            <td class="prueba-estado aprob-icon">{{ univ_aprob_icon }}</td>
                             <td>
                                 {% if univ_part %}
                                 <a href="{{ path("universidad_resultados", {"id": usuario.id}) }}" class="btn btn-info btn-xs"><i class="icon icon-file-text"></i> {% trans from "label" %}ver.resultados{% endtrans %}</a>
                                 <a class="btn btn-primary btn-xs btn-cargar-reporte" data-toggle="modal" href="#modal-reporte" data-id="{{ form_ids.universidad }}"><i class="icon-upload-alt"></i> {% trans from "label" %}adjuntar.informe{% endtrans %}</a>
-                                {% if univ_aprob == false %}<a class="btn btn-success btn-xs"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
+                                {% if univ_aprob == false %}<a class="btn btn-success btn-xs btn-aprobar" data-id="{{ form_ids.universidad }}"><i class="icon-ok "></i> {% trans from "label" %}aprobar{% endtrans %}</a>{% endif %}
                                 {% endif %}
                             </td>
                         </tr>
@@ -291,12 +294,13 @@
                                     <h4 class="modal-title">{% trans from "label" %}cargar.reporte{% endtrans %}</h4>
                                 </div>
                                 <div class="modal-body" id="modal-body-mlab">
-                                    <input type="text" name="form" value="" id="txt-form-id"/>
+                                    <p>{% trans from "label" %}instrucciones.carga.reporte{% endtrans %}</p>
+                                    <input type="hidden" name="form" value="" id="txt-form-id"/>
                                     <input type='file' name='file' required class="form-control" accept="application/pdf"/>
                                 </div>
                                 <div class="modal-footer">
-                                    <button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
                                     <button class="btn btn-success" type="submit">{% trans from "label" %}subir.informe{% endtrans %}</button>
+                                    <button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
                                 </div>
                             </form>
                         </div>
@@ -309,93 +313,24 @@
 {% endblock body %}
     
 {% block script %}
+<script src="{{ asset('js/vocationet/pruebas-usuarios.js') }}"></script>
 <script>
-    $(document).ready(function(){
-        
-        var AlterEstudiante = false;
-        var MentoriasEstudiante = false;
-        
-        
-        $("#btn-modal-mlab").on("click", function(){
-            if(AlterEstudiante === false){
-                var xhr = $.get('{{ path('alternativas_estudio_estudiante', {'id': usuario.id}) }}');
-
-                xhr.done(function(response){
-                    AlterEstudiante = JSON.parse(response);
-                    
-                    cargarAlternativasEstudiante();
-                });
-            }
-        });
-        
-        $("#btn-modal-rment").on('click', function(){
-            if(MentoriasEstudiante === false){
-                var xhr = $.get('{{ path('estado_mentorias_estudiante', {'id': usuario.id}) }}');
-
-                xhr.done(function(response){
-                    
-                    MentoriasEstudiante = JSON.parse(response);
-                    cargarMentoriasEstudiante();
-                });
-            }
-        });
-        
-        
-        var cargarAlternativasEstudiante = function(){            
-            var $lista = $("<ul></ul>");
-            
-            if(AlterEstudiante.length !== 0){
-                AlterEstudiante.forEach(function(carrera){
-                    $lista.append('<li>'+carrera.nombre+'</li>');
-                });
-                var label = '<p>{% trans from "label" %}estas.son.alternativas.estudio.estudiante{% endtrans %}</p>'
-            }
-            else{
-                AlterEstudiante = false;
-                var label = '<p>{% trans from "label" %}estudiante.no.ha.seleccionado.alternativas.estudio{% endtrans %}</p>'                
-            }
-            
-            $("#modal-body-mlab").html(label);
-            $("#modal-body-mlab").append($lista);
-            
-        };
-        
-        var cargarMentoriasEstudiante = function(){
-            var $lista = $("<ul></ul>");
-            
-            if(MentoriasEstudiante.length !== 0){
-                
-                MentoriasEstudiante.forEach(function(mentoria){
-                    if(mentoria.mentoriaEstado)
-                    {
-                        var estado = '{% trans from "label" %}finalizada{% endtrans %}';
-                    }
-                    else{
-                        var estado = '{% trans from "label" %}no.finalizada{% endtrans %}';
-                    }
-                                        
-                    $lista.append('<li>'+mentoria.mentoriaInicio.date+' - '+ mentoria.usuarioNombre +' ' + mentoria.usuarioApellido + ' (' + estado + ')</li>');
-                });
-                
-                var label = '<p>{% trans from "label" %}estado.mentorias.red.mentores.estudiante{% endtrans %}</p>'
-            }
-            else{
-                MentoriasEstudiante = false;
-                var label = '<p>{% trans from "label" %}no.hay.mentorias.registradas{% endtrans %}</p>'                
-            }
-            
-            $("#modal-body-rment").html(label);
-            $("#modal-body-rment").append($lista);
-        };
-        
-        $(".btn-cargar-reporte").on('click', function(){
-        
-            var $btn = $(this);
-            var $input = $("#txt-form-id");
-            
-            $input.val($btn.data('id'))
-            
-            console.log($btn.data('id'));
+    $(document).ready(function(){        
+        PruebasUsuario.init({
+            routes: {
+                alter_estudiante :'{{ path('alternativas_estudio_estudiante', {'id': usuario.id}) }}',
+                mentorias_estudiante : '{{ path('estado_mentorias_estudiante', {'id': usuario.id}) }}',
+                aprobar_prueba : '{{ path('aprobar_prueba', {'id': usuario.id}) }}'
+            },
+            trans: {
+                label_alter_estudiante : '{% trans from "label" %}estas.son.alternativas.estudio.estudiante{% endtrans %}',
+                label_no_alter_estudiante : '{% trans from "label" %}estudiante.no.ha.seleccionado.alternativas.estudio{% endtrans %}',
+                finalizada : '{% trans from "label" %}finalizada{% endtrans %}',
+                no_finalizada : '{% trans from "label" %}no.finalizada{% endtrans %}',
+                estado_mentorias : '{% trans from "label" %}estado.mentorias.red.mentores.estudiante{% endtrans %}',
+                no_mentorias : '{% trans from "label" %}no.hay.mentorias.registradas{% endtrans %}'
+            },
+            html_icon_ok : '<span class="badge bg-success"><i class="icon-ok-sign"></i></span>'                    
         });
     });
 </script>

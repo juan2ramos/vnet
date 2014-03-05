@@ -139,6 +139,9 @@
                 {% endfor %}
                 </tbody>
             </table>
+            <div class="panel-body">
+                <a href="{{ path('pruebas_usuarios_mentor', {'id': usuario.id }) }}" class="btn btn-info btn-xs"><i class="icon-chevron-left"></i> {% trans from "label" %}pruebas{% endtrans %}</a>
+            </div> 
             </section>
         </aside>
     </div>

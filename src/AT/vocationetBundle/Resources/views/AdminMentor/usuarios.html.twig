@@ -75,42 +75,6 @@
 									<td class="text-center">
 										<a style='margin:2px; width:90%;' href='{{ pathUser }}' class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
 										<a style='margin:2px; width:90%;' href='{{ path('pruebas_usuarios_mentor', {'id': c.id }) }}' class="btn btn-primary btn-xs">{{ 'ver.pruebas'|trans({}, 'label') }}</a>
-										
-                                        
-                                        <a href="{{ path("evaluacion360_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.evaluacion.360{% endtrans %}</a>
-                                        <a href="{{ path("disenovida_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.diseno.vida{% endtrans %}</a>
-                                        {% if c.estudios is defined %}
-											<a STYLE='margin:2px;width:90%;' class="btn btn-primary btn-xs" data-toggle="modal" href="#myModal{{ c.id }}">{{ 'informe.mercado.laboral'|trans({}, 'label') }}</a>
-										{% endif %}	
-                                        <a href="{{ path("ponderacion_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.ponderacion{% endtrans %}</a>
-                                        <a href="{{ path("universidad_resultados", {"id": c.id}) }}" class="btn btn-primary btn-xs" style='margin:2px; width:90%;'>{% trans from "label" %}resultados.universidad{% endtrans %}</a>
-										
-										
-										<div class="modal fade" id="myModal{{ c.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-											<div class="modal-dialog">
-												<div class="modal-content">
-													<form action="{{ path('subir_informe_mercado_laboral') }}" method='post' type="post" enctype="multipart/form-data">
-														<div class="modal-header">
-															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-															<h4 class="modal-title">{% trans from "label" %}informe.mercado.laboral{% endtrans %}</h4>
-														</div>
-														<div class="modal-body">
-															{% set name =  c.usuarioNombre ~ ' ' ~ c.usuarioApellido %}
-															<p>{{ 'subir.informe.mercado.laboral.de.alternativas.de.estudio.de.%name%'|trans({'%name%': name}, 'label') }}</p>
-															<input type='hidden' name='usuario' value='{{ c.id }}' class="form-control" />
-															<div STYLE='display:inline;'>
-																<input required type='file' name='informeml' value='{{ c.id }}' class="form-control" STYLE='width:60%' accept="application/pdf"/>
-															</div>
-														</div>
-														<div class="modal-footer">
-															<button data-dismiss="modal" class="btn btn-default" type="button">{% trans from "label" %}cerrar{% endtrans %}</button>
-															<button class="btn btn-success" type="submit">{% trans from "label" %}subir.informe{% endtrans %}</button>
-														</div>
-													</form>
-												</div>
-											</div>
-										</div>
-                                        
 									</td>
 								</tr>
 							{% endfor %}
