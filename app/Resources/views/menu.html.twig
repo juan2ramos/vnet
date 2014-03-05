@@ -15,6 +15,18 @@
 				</a>
 			</li>
 		{% endif %}
+            
+        {% if sess_user.rolId == 3 %}
+			{% if 'acceso_mentor_ov' in sess_permissions.permissions %}
+				<li class="{% if active == 'adminmentor' %}active{% endif %}">
+					<a class="" href="{{ path('lista_usuarios_mentor') }}">
+						<i class="icon-group"></i>
+						<span>{% trans from "label" %}estudiantes{% endtrans %}</span>
+					</a>
+				</li>
+			{% endif %}
+		{% endif %}   
+        
 		
 		{% if 'acceso_agenda_estudiante' in sess_permissions.permissions %}
 			<li class="{% if active == 'agendaEstudiante' %}active{% endif %}">
@@ -53,16 +65,7 @@
 			</li>
 		{% endif %}
 
-		{% if sess_user.rolId == 3 %}
-			{% if 'acceso_mentor_ov' in sess_permissions.permissions %}
-				<li class="{% if active == 'adminmentor' %}active{% endif %}">
-					<a class="" href="{{ path('lista_usuarios_mentor') }}">
-						<i class="icon-group"></i>
-						<span>{% trans from "label" %}estudiantes{% endtrans %}</span>
-					</a>
-				</li>
-			{% endif %}
-		{% endif %}
+		
 
 		{% if sess_user.rolId == 1 or sess_user.rolId == 5 %}
 			{% set auxClassActive = ((active == 'diagnostico') or (active == 'mercadolabo') or (active == 'redmentores') or (active == 'ponderacion') or (active == 'disenovida') or (active == 'mvocacional') or (active == 'tvocacional') or (active == 'evaluaci360') or (active == 'plataforma') or (active == 'certificado')) ? 'active' : '' %}

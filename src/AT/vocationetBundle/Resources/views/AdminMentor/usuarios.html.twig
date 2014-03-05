@@ -35,10 +35,8 @@
 						<thead>
 							<tr>
 								<th></th>
-								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}nombre{% endtrans %}</th>
-								{#<th>{% trans from "label" %}rol{% endtrans %}</th>#}
-								<th>{% trans from "label" %}alternativas.estudio{% endtrans %}</th>
+								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}colegio{% endtrans %}/{% trans from "label" %}universidad{% endtrans %}</th>
 								<th class='text-center'>{% trans from "label" %}opciones{% endtrans %}</th>
 							</tr>
@@ -46,25 +44,13 @@
 						<tbody>
 							{% for c in contactos %}
 								{% set pathUser = path('perfil', {'perfilId': c.id }) %}
-								<tr class="foro" id='rel_{{ c.relacionId }}'>
+								<tr class="foro" id=''>
 									<td class='href' data-href='{{ pathUser }}'>
 										{% set imagen = (c.usuarioImagen) ? c.usuarioImagen ~ '?type=large' : gui_default_img %}
 										<div><img src="{{ asset(imagen) }}" alt="" STYLE='width:50px'></div>
 									</td>
-									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioApellido }}</div></td>
 									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioNombre }}</div></td>
-									{#<td class='href' data-href='{{ pathUser }}'><div>{{ c.rolNombre|trans({}, 'db') }}</div></td>#}
-									<td class='href' data-href='{{ pathUser }}'>
-										<div>
-                                            {% if c.estudios is defined %}
-                                                {% for est in c.estudios %}
-                                                    - {{ est.nombreCarrera }}<br>
-                                                {% endfor %}
-                                            {% else %}
-                                                {% trans from "label" %}no.hay.alternativas{% endtrans %}
-                                            {% endif %}
-                                        </div>
-									</td>
+									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioApellido }}</div></td>
 									<td class='href' data-href='{{ pathUser }}'>
 										<div>
 											{% set colegio = (c.nombreColegio) ? c.nombreColegio : 'no.ha.sido.suministrado'|trans({}, 'label')  %}

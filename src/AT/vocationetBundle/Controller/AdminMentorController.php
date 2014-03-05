@@ -4,8 +4,6 @@ namespace AT\vocationetBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-//use Symfony\Component\HttpFoundation\File\File;
-//use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -55,7 +53,15 @@ class AdminMentorController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $FormServ = $this->get('formularios');
+        $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');
+        
+        // Valida acceso del mentor
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) throw $this->createNotFoundException();
+        
         
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
@@ -81,7 +87,14 @@ class AdminMentorController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        
+        $FormServ = $this->get('formularios');
+        $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');
+        
+        // Valida acceso del mentor
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));
         
         $carreras = $this->getAlternativasEstudio($id);
         
@@ -100,8 +113,14 @@ class AdminMentorController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        
+        $FormServ = $this->get('formularios');
         $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');
+        
+        // Valida acceso del mentor
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));
         
         $mentorias = $this->getMentoriasEstudiante($id, $usuarioId);
         
@@ -121,7 +140,14 @@ class AdminMentorController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        
+        $FormServ = $this->get('formularios');
+        $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');
+        
+        // Valida acceso del mentor
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));
         
         $form_id = $request->request->get('form');
         $archivo = $request->files->get('file');
@@ -170,8 +196,15 @@ class AdminMentorController extends Controller
     {
         $security = $this->get('security');
         if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
-//        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
         
+        $FormServ = $this->get('formularios');
+        $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');
+        
+        // Valida acceso del mentor
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));
+
         $form_id = $request->get('form_id');
         
         $update = $this->aprobarPrueba($id, $form_id);
@@ -203,71 +236,41 @@ class AdminMentorController extends Controller
 	/**
      * Listado de usuarios que han seleccionado al usuario logeado como mentor de Orientacion Vocacional
      *
-     * Retorna array bidimencional en donde en primer nivel estan los usuarios y un subnivel por usuario estan las alternativas de estudio
-     * 
      * @author Diego Malagon <diego@altactic.com>
      * @param Int $usuarioId Id del usuario a consultarle las amistades
-     * @return Array Arreglo bi-dimensional de usuarios
+     * @return Array Arreglo de usuarios
      */
     private function getUsuariosMentor($usuarioId)
     {
 		$em = $this->getDoctrine()->getManager();
-		/**
-		 * @var String Consulta SQL que trae los usuarios que seleccionaron al usuario como mentor vocacional
-		 * SELECT r.id, r.tipo, u.id, u.usuario_nombre, u.usuario_Apellido, rol.nombre, est.id
-		 * FROM usuarios u
-		 * JOIN roles rol ON u.rol_id = rol.id
-		 * LEFT JOIN alternativas_estudios est ON u.id = est.usuario_id
-		 * JOIN relaciones r ON r.usuario_id = u.id OR r.usuario2_id = u.id
-		 * WHERE r.tipo = 2 AND  u.id != 7 AND (((r.usuario_id = 7) AND r.estado = 1));
-		 */
-        $dql = "SELECT u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen,
-						rol.nombre AS rolNombre,
-						u.usuarioProfesion,
-						c.nombre AS nombreColegio, u.usuarioCursoActual,
-						car.id AS carreraId, car.nombre AS nombreCarrera,
-						r.estado, r.id AS relacionId
-                FROM vocationetBundle:Usuarios u
-                JOIN u.rol rol
-                LEFT JOIN u.colegio c
-                LEFT JOIN vocationetBundle:AlternativasEstudios est WITH u.id = est.usuario
-                LEFT JOIN est.carrera car
-                JOIN vocationetBundle:Relaciones r WITH r.usuario = u.id OR r.usuario2 = u.id
-                WHERE r.tipo = 2 AND u.id !=:usuarioId AND r.usuario =:usuarioId AND  r.estado = 1
-                ORDER BY r.estado, u.id";
+		
+        /**
+         * SELECT * FROM
+         * relaciones r
+         * JOIN usuarios u ON r.usuario_id = u.id OR r.usuario2_id = u.id
+         * WHERE 
+         * (r.usuario_id = 3 OR r.usuario2_id = 3)
+         * AND u.id != 3
+         * AND r.tipo = 2
+         * AND r.estado = 1
+         */
+        $dql = "SELECT 
+                    u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioCursoActual,
+                    c.nombre AS nombreColegio
+                FROM 
+                    vocationetBundle:Relaciones r
+                    JOIN vocationetBundle:Usuarios u WITH r.usuario = u.id OR r.usuario2 = u.id
+                    LEFT JOIN u.colegio c       
+                WHERE 
+                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
+                    AND u.id != :usuarioId
+                    AND r.tipo = 2 
+                    AND r.estado = 1";
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
-        $contactos = $query->getResult();
-        
-		$arrContactos = Array();
-        if ($contactos) {
-			$auxId = 0;
-			foreach ($contactos as $cont)
-			{
-				if ($auxId != $cont['id']) {
-					$arrContactos[$cont['id']] = Array(
-						'id' => $cont['id'],
-						'usuarioImagen' => $cont['usuarioImagen'],
-						'usuarioNombre' => $cont['usuarioNombre'],
-						'usuarioApellido' => $cont['usuarioApellido'],
-						'rolNombre' => $cont['rolNombre'],
-						'usuarioProfesion' => $cont['usuarioProfesion'],
-						'nombreColegio' => $cont['nombreColegio'],
-						'usuarioCursoActual' => $cont['usuarioCursoActual'],
-						'estado' => $cont['estado'],
-						'relacionId' => $cont['relacionId']);
-                    if ($cont['nombreCarrera']) {
-                        $arrContactos[$cont['id']]['estudios'][] = Array(
-                            'nombreCarrera' => $cont['nombreCarrera']);
-                    }
-					$auxId = $cont['id'];
-				} else {
-					$arrContactos[$cont['id']]['estudios'][] = Array(
-						'nombreCarrera' => $cont['nombreCarrera']);
-				}
-			}
-		}
-		return $arrContactos;
+        $estudiantes = $query->getResult();
+                
+		return $estudiantes;
 	}
     
     /**

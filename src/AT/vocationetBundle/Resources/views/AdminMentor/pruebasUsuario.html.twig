@@ -10,7 +10,9 @@
         .prueba-estado{
             text-align: center;
         }
-
+        #btn-certificado-container{
+            text-align: center;
+        }
     </style>
 {% endblock style %}
 
@@ -274,13 +276,12 @@
                         {# CERTIFICADO #}
                         <tr>
                             <td>{% trans from "label" %}certificado{% endtrans %}</td>
-                            <td class="prueba-estado"></td>
-                            <td class="prueba-estado"></td>
-                            <td>
+                            <td id="btn-certificado-container" colspan="2">
                                 {% if univ_aprob %}
-                                <a class="btn btn-success btn-xs"><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</a>
+                                <a class="btn btn-warning"><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</a>
                                 {% endif %}
                             </td>
+                            <td></td>
                         </tr>
                         
                     </tbody>
@@ -330,7 +331,9 @@
                 estado_mentorias : '{% trans from "label" %}estado.mentorias.red.mentores.estudiante{% endtrans %}',
                 no_mentorias : '{% trans from "label" %}no.hay.mentorias.registradas{% endtrans %}'
             },
-            html_icon_ok : '<span class="badge bg-success"><i class="icon-ok-sign"></i></span>'                    
+            id_ultima_prueba: {{ form_ids.universidad }},
+            html_icon_ok : '<span class="badge bg-success"><i class="icon-ok-sign"></i></span>',
+            html_btn_certificado: '<a class="btn btn-warning"><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</a>'
         });
     });
 </script>

@@ -736,6 +736,24 @@
                 <target>La información ha sido enviada correctamente</target>
 			</trans-unit>
             
+            <!-- control admin mentor ctrl-x-->
+			<trans-unit id="ctrl-1">
+                <source>prueba.aprobada</source>
+                <target>Prueba aprobada</target>
+			</trans-unit>
+			<trans-unit id="ctrl-2">
+                <source>prueba.aprobada.correctamente</source>
+                <target>Prueba aprobada correctamente</target>
+			</trans-unit>
+			<trans-unit id="ctrl-3">
+                <source>error.aprobar</source>
+                <target>Error al aprobar</target>
+			</trans-unit>
+			<trans-unit id="ctrl-4">
+                <source>ocurrio.error.aprobar.prueba</source>
+                <target>Ocurrio un error al aprobar esta prueba</target>
+			</trans-unit>
+            
         </body>
     </file>
 </xliff>

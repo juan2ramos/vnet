@@ -170,18 +170,13 @@ class DiagnosticoController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
 //        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
-        $form_id = $this->get('formularios')->getFormId('diagnostico');
+        $FormServ = $this->get('formularios');
+        $form_id = $FormServ->getFormId('diagnostico');
         $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');            
         
         // Valida acceso del mentor
-        if($usuarioId != $this->getMentorId($id))
-        {
-            $rolId = $security->getSessionValue('rolId');            
-            if($rolId != 4)
-            {
-                throw $this->createNotFoundException();            
-            }
-        } 
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) throw $this->createNotFoundException();
         
         
         $formularios_serv = $this->get('formularios');
@@ -215,52 +210,6 @@ class DiagnosticoController extends Controller
             ->getForm();
         
         return $form;
-    }    
-    
-    /**
-     * Funcion que obtiene el id del mentor de un usuario
-     * 
-     * @param integer $usuarioEvaluadoId id de usuario evaluado
-     * @return integer id de mentor
-     */
-    private function getMentorId($usuarioEvaluadoId)
-    {
-        $em = $this->getDoctrine()->getManager();                
-        
-        //Obtener mentor del usuario
-        $dql = "SELECT 
-                    u1.id usuario1Id, 
-                    u2.id usuario2Id
-                FROM 
-                    vocationetBundle:Relaciones r 
-                    JOIN vocationetBundle:Usuarios u1 WITH r.usuario = u1.id
-                    JOIN vocationetBundle:Usuarios u2 WITH r.usuario2 = u2.id
-                WHERE 
-                    (r.usuario = :usuarioId OR r.usuario2 = :usuarioId)
-                    AND r.tipo = 2
-                    AND r.estado = 1
-                ";
-        $query = $em->createQuery($dql);
-        $query->setParameter('usuarioId', $usuarioEvaluadoId);
-        $query->setMaxResults(1);
-        $result = $query->getResult();
-        
-        $mentorId = false;
-        if(isset($result[0]))
-        {
-            $result = $result[0];
-            
-            if($result['usuario1Id'] == $usuarioEvaluadoId)
-            {
-                $mentorId = $result['usuario2Id'];
-            }
-            elseif($result['usuario2Id'] == $usuarioEvaluadoId)
-            {
-                $mentorId = $result['usuario1Id'];
-            }            
-        }
-        
-        return $mentorId;
-    }
+    }  
 }
 ?>

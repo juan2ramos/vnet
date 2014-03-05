@@ -96,9 +96,15 @@ var PruebasUsuario = function(){
             response = JSON.parse(response);
 
             if(response.status === 'success'){
+                
                 // Actualizar icono de aprobado
                 var $icon_container = $btn.parent().siblings('.aprob-icon');
                 $icon_container.html(settings.html_icon_ok);
+
+                //Agregar boton de certificado si es la ultima prueba aprobada
+                if(form_id === settings.id_ultima_prueba){
+                    $("#btn-certificado-container").html(settings.html_btn_certificado);
+                }
 
                 // Eliminar boton
                 $btn.remove();
