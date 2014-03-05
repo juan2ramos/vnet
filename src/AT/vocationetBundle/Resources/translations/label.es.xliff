@@ -1785,6 +1785,7 @@
 			</trans-unit>
 
 			<!-- MAPA / DESCRIPCION DE ITEMS DEL MAPA mapa-x -->
+			
 			<trans-unit id="mapa-1">
                 <source>asesoria.ov</source>
                 <target>Asesoria experto orientación vocacional</target>
@@ -1832,6 +1833,10 @@
 			<trans-unit id="mapa-12">
                 <source>certificado.descripcion</source>
                 <target>certificado diagnos rem Ipsum is simply has been e 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+			</trans-unit>
+			<trans-unit id="mapa-13">
+                <source>clic.para.activar.zoom</source>
+                <target>Clic para activar/desactivar zoom</target>
 			</trans-unit>
 
 			<!-- Tour app tour-x -->

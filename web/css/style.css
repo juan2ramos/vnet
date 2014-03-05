@@ -1912,6 +1912,14 @@ ul.ft-link li a i {
 }
 
 /*fontawesome*/
+.text-justify {
+	text-align:justify;
+}
+
+.icon-big {
+    font-size: 45px;
+    display: inline-block;
+}
 
 .fontawesome-icon-list h2 {
     margin-top: 0;

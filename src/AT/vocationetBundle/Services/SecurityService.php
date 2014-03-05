@@ -302,20 +302,20 @@ class SecurityService
     public static function getParameter($parameter = false)
     {
         $parameters = array(
-            'enlace_test_vocacional' => 'http://www.uanl.mx/utilerias/test/',
+            'enlace_test_vocacional' => 'http://www.psigmaonline.com/psigmaonline/login_pin.php?id_test=917',
             'enlace_pdf_test_vocacional_info' => 'uploads/vocationet/testvocacional.pdf',
             'enlace_pdf_diseno_vida_info' => 'uploads/vocationet/disenovida.pdf',
             'enlace_vocationet_info' => 'http://www.vocationet.com',
             'ruta_files_mercado_laboral' => 'uploads/vocationet/ml/',
 			'ruta_images_informacion' => 'uploads/vocationet/informacion/',
-			'ruta_mapas_vocationet' => 'uploads/vocationet/mapas/',
-			'imagen_cientifico' => 'uploads/vocationet/mapas/cientifico.png',
             'dias_habiles_informe_mercado_laboral' => 5,
             'diagnostico_rango_puntaje_1' => array('min'=>0, 'max'=>50),
             'diagnostico_rango_puntaje_2' => array('min'=>51, 'max'=>90),
             'diagnostico_rango_puntaje_3' => array('min'=>91, 'max'=>111),
             'iva' => 16,
             'tipo_iva' => 'incluido', // incluido|agregado
+            'ruta_mapas_vocationet' => 'img/vocationet/mapas/',
+			'imagen_cientifico' => 'img/vocationet/mapas/cientifico.png',
 			'ruta_certificado_vacio' => 'img/vocationet/certificados/plantilla_certificado.png',
 			'ruta_fuente' => 'img/vocationet/certificados/EdwardianScriptITC.ttf',
 			'ruta_certificados' => 'uploads/vocationet/certificados/',

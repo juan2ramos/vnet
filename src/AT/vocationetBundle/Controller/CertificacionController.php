@@ -45,7 +45,7 @@ class CertificacionController extends Controller
 			}
 		}
 
-		//$this->generarCertificado($usuario_id, $security->getSessionValue('usuarioApellido').' '.$security->getSessionValue('usuarioNombre')); // Generar certificacion
+		$this->generarCertificado($usuario_id, $security->getSessionValue('usuarioApellido').' '.$security->getSessionValue('usuarioNombre')); // Generar certificacion
 		$ruta_certificado = $security->getParameter('ruta_certificados').'user'.$usuario_id.'.png';
 		$certificado = file_exists($ruta_certificado);
 
@@ -102,6 +102,7 @@ class CertificacionController extends Controller
 		$font = $security->getParameter('ruta_fuente');
 		$white = imagecolorallocate($destino, 255, 255, 255);
 		$black = imagecolorallocate($destino, 0, 0, 0);
+		$green_certificate = imagecolorallocate($destino, 0, 188, 178);
 
 		/**
 		 * Creación del nombre del usuario a certificarse
@@ -116,28 +117,31 @@ class CertificacionController extends Controller
 		 * @var $cord_y = Inicio de impresion del texto (Dividido en dos para centrar) EJE Y
 		 * imagettftext incluye el texto en las cordenadas especificadas, tamaño, color (imagecolorallocate), fuente.
 		 */
-		$font_size = 30;
+		$font_size = 35;
 		$bbox = imagettfbbox($font_size, 0, $font, $nombre_usuario);
 		$w_img = $bbox[2] - $bbox[0]; // Ancho
 		$y_img = $bbox[1] - $bbox[5]; // Alto
 		$aux_widht_rest = imagesx($destino) - $w_img;
 		$cord_x = ($aux_widht_rest) / 2;
-		$cord_y = ($h/4)*1.9;
-		imagettftext($destino, $font_size, 0, $cord_x, $cord_y, $black, $font, $nombre_usuario);
+		$cord_y = ($h/4)*2.25;
+		imagettftext($destino, $font_size, 0, $cord_x, $cord_y, $white, $font, $nombre_usuario);
 
 		/**
-		 * Creación de la fecha de expedición del ceritificado
+		 * Creación de la fecha de expedición del ceritificado y cordenadas antiguos
+		 * $aux_mes = $this->get('translator')->trans(date('F'), Array(), 'label');
+		 * $fecha_expedicion = $this->get('translator')->trans('se.expide.en.bogota.el.%dia%.de.%mes%.de.%ano%', Array('%dia%'=>date('d') , '%mes%' => $aux_mes, '%ano%' => date('Y')), 'label');
+		 * $cord_x = ($aux_widht_rest) / 2;
+		 * $cord_y = ($h/4)*3;
 		 */
-		$aux_mes = $this->get('translator')->trans(date('F'), Array(), 'label');
-		$fecha_expedicion = $this->get('translator')->trans('se.expide.en.bogota.el.%dia%.de.%mes%.de.%ano%', Array('%dia%'=>date('d') , '%mes%' => $aux_mes, '%ano%' => date('Y')), 'label');
-		$font_size = 20;
+		$fecha_expedicion = date('d/m/Y');
+		$font_size = 15;
 		$bbox = imagettfbbox($font_size, 0, $font, $fecha_expedicion);
 		$w_img = $bbox[2] - $bbox[0]; // Ancho
 		$y_img = $bbox[1] - $bbox[5]; // Alto
 		$aux_widht_rest = imagesx($destino) - $w_img;
-		$cord_x = ($aux_widht_rest) / 2;
-		$cord_y = ($h/4)*3;
-		imagettftext($destino, $font_size, 0, $cord_x, $cord_y, $black, $font, $fecha_expedicion);
+		$cord_x = (($aux_widht_rest) / 10)*9;
+		$cord_y = ($h/7)*1.15;
+		imagettftext($destino, $font_size, 0, $cord_x, $cord_y, $green_certificate, $font, $fecha_expedicion);
 
 		// Guardar imagen y liberar espacio en memoria
 		imagepng($destino, $ruta_certificado_user);
