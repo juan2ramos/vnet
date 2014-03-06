@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * Controlador de Certificación
+ * Controlador de Certificaciï¿½n
  * @package vocationetBundle
  * @Route("/certificado")
  * @author Camilo Quijano <camilo@altactic.com>
@@ -34,7 +34,7 @@ class CertificacionController extends Controller
 
 		$usuario_id = $security->getSessionValue('id');
 		
-		// Validad linealidad en programa de orientación
+		// Validad linealidad en programa de orientaciï¿½n
         $productoPago = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuario_id);
         if ($productoPago)
         {
@@ -78,8 +78,85 @@ class CertificacionController extends Controller
         return $response;
 	}
 
+    /**
+     * Accion para generar el certificado de un estudianteo
+     * 
+	 * @Route("/generar/{id}", name="generar_certificado")
+     * @Method("post")
+     * @author Diego MalagÃ³n <diego@altactic.com>
+     * @param integer $id id de usuario estudiante
+     * @return Response JSON
+     */
+    public function generarCertificadoAction($id)
+    {
+        $security = $this->get('security');
+        if(!$security->authentication()){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authentication failed', "detail" => 'authentication failed'))));} 
+        if(!$security->authorization($this->getRequest()->get('_route'))){ return new Response(json_encode(array("status" => "error", "message" => array("title" => 'authorization failed', "detail" => 'authorization failed'))));}
+        
+        $FormServ = $this->get('formularios');
+        
+        //Verificar si ya existe el certificado
+        $certificado_cargado = $FormServ->verificarCertificado($id);
+        
+        $usuarioId = $security->getSessionValue('id');
+        $rolId = $security->getSessionValue('rolId');
+        
+        // Valida acceso del mentor
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) throw $this->createNotFoundException();
+        
+        
+        // Si el certificado aun no se ha generado
+        if(!$certificado_cargado)
+        {
+            // Obtener nombre de estudiante
+            $dql = "SELECT u.usuarioNombre, u.usuarioApellido FROM vocationetBundle:Usuarios u WHERE u.id = :estudiante_id";
+            $em = $this->getDoctrine()->getManager();
+            $query = $em->createQuery($dql);
+            $query->setParameter('estudiante_id', $id);
+            $result = $query->getResult();
+            
+            if(isset($result[0]))
+            {
+                // Generar certificado
+                $nombre_estudiante = $result[0]['usuarioNombre'].' '.$result[0]['usuarioApellido'];
+                $this->generarCertificado($id, $nombre_estudiante);
+                
+                $response = array(
+                    "status" => "success", 
+                    "message" => array(
+                        "title" => $this->get('translator')->trans("certificado.generado"), 
+                        "detail" => $this->get('translator')->trans("certificado.generado.correctamente")
+                    )
+                ); 
+            }
+            else
+            {
+                $response = array(
+                    "status" => "error", 
+                    "message" => array(
+                        "title" => $this->get('translator')->trans("certificado.no.generado"), 
+                        "detail" => $this->get('translator')->trans("estudiante.certificado.no.encontrado")
+                    )
+                ); 
+            }
+        }
+        else
+        {
+            $response = array(
+                "status" => "success", 
+                "message" => array(
+                    "title" => $this->get('translator')->trans("certificado.generado"), 
+                    "detail" => $this->get('translator')->trans("estudiante.ya.esta.certificado")
+                )
+            ); 
+        }
+        
+        return new Response(json_encode($response));
+    }
+    
+    
 	/**
-	 * Generación del Certificado del id del usuario que ingresa como parametro
+	 * Generacion del Certificado del id del usuario que ingresa como parametro
 	 * @param Int $usuario_id Id del usuario
 	 * @param String $nombre_usuario Nombre del usuario 
 	 */
@@ -105,17 +182,17 @@ class CertificacionController extends Controller
 		$green_certificate = imagecolorallocate($destino, 0, 188, 178);
 
 		/**
-		 * Creación del nombre del usuario a certificarse
+		 * Creaciï¿½n del nombre del usuario a certificarse
 		 * 
 		 * @var $nombre_usuario = Texto 1 a agregar a la imagen (Nombre del usuario) - Ingresado por parametro
-		 * @var $font_size = Tamaño del texto a agregar
-		 * @var $bbox = imagettfbbox retorna tamaño del contenedor (Caja circundante) del texto a agregar teniendo en cuenta tamaño, fuente, y texto
+		 * @var $font_size = Tamaï¿½o del texto a agregar
+		 * @var $bbox = imagettfbbox retorna tamaï¿½o del contenedor (Caja circundante) del texto a agregar teniendo en cuenta tamaï¿½o, fuente, y texto
 		 * @var $w_img = Ancho del contenedor
 		 * @var $y_img = Alto del contenedor
 		 * @var $aux_widht_rest = Ancho disponible de la imagen (tenido en cuenta para centrar texto)
 		 * @var $cord_x = Inicio de impresion del texto (Dividido en dos para centrar) EJE X
 		 * @var $cord_y = Inicio de impresion del texto (Dividido en dos para centrar) EJE Y
-		 * imagettftext incluye el texto en las cordenadas especificadas, tamaño, color (imagecolorallocate), fuente.
+		 * imagettftext incluye el texto en las cordenadas especificadas, tamaï¿½o, color (imagecolorallocate), fuente.
 		 */
 		$font_size = 30;
 		$bbox = imagettfbbox($font_size, 0, $font, $nombre_usuario);
@@ -127,11 +204,15 @@ class CertificacionController extends Controller
 		imagettftext($destino, $font_size, 0, $cord_x, $cord_y, $white, $font, $nombre_usuario);
 
 		/**
+<<<<<<< HEAD
 		 * Creación de la fecha de expedición del ceritificado y cordenadas antiguos
 		 * $aux_mes = $this->get('translator')->trans(date('F'), Array(), 'label');
 		 * $fecha_expedicion = $this->get('translator')->trans('se.expide.en.bogota.el.%dia%.de.%mes%.de.%ano%', Array('%dia%'=>date('d') , '%mes%' => $aux_mes, '%ano%' => date('Y')), 'label');
 		 * $cord_x = ($aux_widht_rest) / 2;
 		 * $cord_y = ($h/4)*3;
+=======
+		 * Creaciï¿½n de la fecha de expediciï¿½n del ceritificado
+>>>>>>> control
 		 */
 		$fecha_expedicion = date('d/m/Y');
 		$font_size = 15;
