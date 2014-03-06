@@ -86,7 +86,7 @@
                             <li class="dropdown" id ='bar_usuario'>
                                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                     <img alt="" src="{{ asset(sess_user.usuarioImagen|default(gui_default_img)) ~ '?type=small' }}" style="width:29px; height: 29px;">
-                                    <span class="username">{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</span>
+                                    <span class="username dont-show">{{ sess_user.usuarioNombre ~ ' ' ~ sess_user.usuarioApellido }}</span>
                                     <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu extended logout">

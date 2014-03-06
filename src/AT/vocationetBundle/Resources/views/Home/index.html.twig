@@ -63,24 +63,42 @@
 					<img src="{{ asset(getParameter('ruta_mapas_vocationet')~imagenMapa) }}" width="660" height="660" alt="mapaVocationet" usemap="#vocationetmap">
 					<p class="p-img">{% trans from "label" %}clic.para.activar.zoom{% endtrans %}</p>
 					<map name="vocationetmap">
-						<area alt="{{ aux_in }}" shape="circle" coords="104,222,12">
-						<area alt="{{ aux_di }}" shape="circle" coords="220,249,12" href="{{ path('diagnostico') }}" />
-						<area alt="{{ aux_as }}" shape="rect" coords="307,257,324,280" href="{{ path('lista_mentores_ov') }}" />
-						<area alt="{{ aux_tv }}" shape="circle" coords="396,249,12" href="{{ path('test_vocacional') }}" />
-						<area alt="{{ aux_as }}" shape="rect" coords="413,200,431,222" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{{ aux_ev }}" shape="circle" coords="398,175,10" href="{{ path('evaluacion360') }}" />
-						<area alt="{{ aux_as }}" shape="rect" coords="315,199,332,217" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{{ aux_dv }}" shape="circle" coords="267,172,10" href="{{ path('diseno_vida') }}" />
-						<area alt="{{ aux_as }}" shape="rect" coords="258,119,273,138" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{{ aux_ml }}" shape="circle" coords="178,85,10" href="{{ path('mercado_laboral') }}" />
-						<area alt="{{ aux_as }}" shape="rect" coords="226,74,240,95" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{{ aux_rm }}" shape="rect" coords="281,31,305,69" href="{{ path('red_mentores') }}" />
-						<area alt="{{ aux_po }}" shape="circle" coords="384,94,10" href="{{ path('ponderacion') }}" />
-						<area alt="{{ aux_as }}" shape="rect" coords="431,82,448,104" href="{{ path('agenda_estudiante') }}" />
-						<area alt="{{ aux_un }}" shape="circle" coords="488,137,10" href="{{ path('universidad') }}" />
-						<area alt="{{ aux_ce }}" shape="rect" coords="551,30,603,86" href="{{ path('certificado') }}" />
+						<area alt="{{ aux_in }}" shape="circle" coords="160,465,18">
+						<area alt="{{ aux_di }}" shape="circle" coords="295,437,18" href="{{ path('diagnostico') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="314,501,334,526" href="{{ path('lista_mentores_ov') }}" />
+						<area alt="{{ aux_tv }}" shape="circle" coords="413,498,18" href="{{ path('test_vocacional') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="453,432,475,457" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_ev }}" shape="circle" coords="391,354,18" href="{{ path('evaluacion360') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="251,370,271,395" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_dv }}" shape="circle" coords="288,253,18" href="{{ path('diseno_vida') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="209,277,230,302" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_ml }}" shape="circle" coords="91,288,18" href="{{ path('mercado_laboral') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="176,224,194,247" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_rm }}" shape="circle" coords="164,182,18" href="{{ path('red_mentores') }}" />
+						<area alt="{{ aux_po }}" shape="circle" coords="380,159,18" href="{{ path('ponderacion') }}" />
+						<area alt="{{ aux_as }}" shape="rect" coords="376,228,397,252" href="{{ path('agenda_estudiante') }}" />
+						<area alt="{{ aux_un }}" shape="circle" coords="491,224,18" href="{{ path('universidad') }}" />
+						<area alt="{{ aux_ce }}" shape="rect" coords="485,7,537,63" href="{{ path('certificado') }}" />
 					</map>
 				</div>
+				<map name="vocationetmap2">
+					<area alt="{{ aux_in }}" shape="circle" coords="801,2331,100">
+					<area alt="{{ aux_di }}" shape="circle" coords="1475,2153,100" href="{{ path('diagnostico') }}" />
+					<area alt="{{ aux_as }}" shape="rect" coords="1561,2505,1675,2610" href="{{ path('lista_mentores_ov') }}" />
+					<area alt="{{ aux_tv }}" shape="circle" coords="2065,2450,100" href="{{ path('test_vocacional') }}" />
+					<area alt="{{ aux_as }}" shape="rect" coords="2264,2174,2353,2268" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{{ aux_ev }}" shape="circle" coords="1947,1738,100" href="{{ path('evaluacion360') }}" />
+					<area alt="{{ aux_as }}" shape="rect" coords="1246,1850,1348,1960" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{{ aux_dv }}" shape="circle" coords="1448,1243,100" href="{{ path('diseno_vida') }}" />
+					<area alt="{{ aux_as }}" shape="rect" coords="1030,1405,1154,1512" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{{ aux_ml }}" shape="circle" coords="455,1414,100" href="{{ path('mercado_laboral') }}" />
+					<area alt="{{ aux_as }}" shape="rect" coords="846,1122,982,1250" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{{ aux_rm }}" shape="circle" coords="812,892,100" href="{{ path('red_mentores') }}" />
+					<area alt="{{ aux_po }}" shape="circle" coords="1898,779,100" href="{{ path('ponderacion') }}" />
+					<area alt="{{ aux_as }}" shape="rect" coords="1888,1140,1987,1248" href="{{ path('agenda_estudiante') }}" />
+					<area alt="{{ aux_un }}" shape="circle" coords="2471,1120,100" href="{{ path('universidad') }}" />
+					<area alt="{{ aux_ce }}" shape="rect" coords="2454,41,2672,340" href="{{ path('certificado') }}" />
+				</map>
 			</section>
 
 			{#

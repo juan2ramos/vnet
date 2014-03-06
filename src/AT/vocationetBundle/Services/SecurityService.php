@@ -317,7 +317,7 @@ class SecurityService
             'iva'                                   => 16,
             'tipo_iva'                              => 'incluido', // incluido|agregado
 			'ruta_certificado_vacio'                => 'img/vocationet/certificados/plantilla_certificado.png',
-			'ruta_fuente'                           => 'img/vocationet/certificados/EdwardianScriptITC.ttf',
+			'ruta_fuente'                           => 'img/vocationet/certificados/arial.ttf',
 			'ruta_certificados'                     => 'uploads/vocationet/certificados/',
             'path_reportes_universidad'             => 'uploads/vocationet/universidad/',
             'path_reportes'                         => 'uploads/vocationet/reportes/',

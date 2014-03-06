@@ -45,7 +45,7 @@ class CertificacionController extends Controller
 			}
 		}
 
-		$this->generarCertificado($usuario_id, $security->getSessionValue('usuarioApellido').' '.$security->getSessionValue('usuarioNombre')); // Generar certificacion
+		//$this->generarCertificado($usuario_id, $security->getSessionValue('usuarioApellido').' '.$security->getSessionValue('usuarioNombre')); // Generar certificacion
 		$ruta_certificado = $security->getParameter('ruta_certificados').'user'.$usuario_id.'.png';
 		$certificado = file_exists($ruta_certificado);
 
@@ -117,7 +117,7 @@ class CertificacionController extends Controller
 		 * @var $cord_y = Inicio de impresion del texto (Dividido en dos para centrar) EJE Y
 		 * imagettftext incluye el texto en las cordenadas especificadas, tamaño, color (imagecolorallocate), fuente.
 		 */
-		$font_size = 35;
+		$font_size = 30;
 		$bbox = imagettfbbox($font_size, 0, $font, $nombre_usuario);
 		$w_img = $bbox[2] - $bbox[0]; // Ancho
 		$y_img = $bbox[1] - $bbox[5]; // Alto
@@ -139,8 +139,8 @@ class CertificacionController extends Controller
 		$w_img = $bbox[2] - $bbox[0]; // Ancho
 		$y_img = $bbox[1] - $bbox[5]; // Alto
 		$aux_widht_rest = imagesx($destino) - $w_img;
-		$cord_x = (($aux_widht_rest) / 10)*9;
-		$cord_y = ($h/7)*1.15;
+		$cord_x = (($aux_widht_rest) / 10)*9.1;
+		$cord_y = ($h/7)*6.01;
 		imagettftext($destino, $font_size, 0, $cord_x, $cord_y, $green_certificate, $font, $fecha_expedicion);
 
 		// Guardar imagen y liberar espacio en memoria
