@@ -32,17 +32,40 @@ class MensajesService
     }
     
     /**
+     * Funcion que obtiene los roles de usuario conforme a los registros 
+     * de la base de datos si realizar conexion
+     * 
+     * @return string
+     */
+    public function getRoles()
+    {
+        $roles = array(
+            1 => 'estudiante',
+            2 => 'mentor_e',
+            3 => 'mentor_ov',
+            4 => 'administrador',
+            5 => 'superadmin',
+        );
+        
+        return $roles;
+    }
+    
+    /**
      * Funcion que obtiene la lista de usuarios para enviar un mensaje
      * 
-     * Obtiene los usuarios a los cuales el usuario logueado puede enviarle mensajes
+     * Obtiene los usuarios a los cuales el usuario logueado puede enviarle mensajes.
+     * Si el usuario es administrador tambien agrega los roles Mentores ov, mentores profesionales 
+     * y estudiantes para envio masivo
      * 
      * @param integer $usuarioId id de usuario logueado
      * @return array arreglo de usuarios
      */
-    public function getToList($usuarioId)
+    public function getToList($usuarioId, $rolId)
     {
         $toList = array();
         $em = $this->doctrine->getManager();
+        
+        // Consultar usuarios amigos del usuario
         $dql = "SELECT
                     u.id, 
                     u.usuarioNombre,
@@ -59,12 +82,21 @@ class MensajesService
         $query->setParameter('usuarioId', $usuarioId);
         $result = $query->getResult();
         
+        // Crear array con id de usuario como key 
         if(count($result)>0)
         {
             foreach($result as $r)
             {
                 $toList[$r['id']] = $r['usuarioNombre'].' '.$r['usuarioApellido'];
             }
+        }
+        
+        // Si es administrador agregar los roles para envio masivo
+        if($rolId == 4 || $rolId == 5)
+        {
+            $toList['mentor_ov'] = "Mentores de orientación vocacional";
+            $toList['mentor_e'] = "Mentores profesionales";
+            $toList['estudiante'] = "Estudiantes";                    
         }
         
         return $toList;
@@ -106,8 +138,41 @@ class MensajesService
         
         $em->persist($mensajeFrom);
         
+        
+        // Obtener id del rol del usuario para control de envios masivos
+        $security = $this->serv_cont->get('security');
+        $rolId = $security->getSessionValue('rolId');
+        
+        // Preparar lista de usuarios receptores
+        $toListIds = array();
+        foreach($toList as $to)
+        {
+            if($to == 'mentores_ov' || $to == 'mentores' || $to == 'estudiantes')
+            {
+                if($rolId == 4 || $rolId == 5)
+                {
+                    // Obtener ids de todos los usuarios con el rol
+                    //...
+                    
+                    // Mezclar array de ids del rol a $toListIds
+                    //...
+                }
+            }
+            else
+            {
+                $toListIds[] = $to;
+            }
+        }
+        
+        // Eliminar ids duplicados en $toListIds
+        //...
+        
+        $security->debug($toListIds);
+        die;
+        
+        
         // Registro de receptores
-        foreach($toList as $toId)
+        foreach($toListIds as $toId)
         {
             $mensajeTo = new MensajesUsuarios();
             $mensajeTo->setMensaje($mensaje);
@@ -359,6 +424,29 @@ class MensajesService
             }
         }
         return $emails;
+    }
+    
+    
+    private function getUsuariosRol($rol_names)
+    {
+        $roles = $this->getRoles();
+        
+        $ids = array();
+        if($rol_names)
+        {
+            foreach($rol_names as $n)
+            {
+                $ids[] = array_search($n, $roles);
+            }
+        }
+        
+        
+        $where = implode(' OR u.rol = ', $ids);
+        $dql ="SELECT u.id FROM vocationetBundle:Usuarios u 
+                WHERE (u.rol = ".$where.") ";
+        
+        
+        SecurityService::debug($dql);
     }
 }
 ?>

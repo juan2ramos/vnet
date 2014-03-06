@@ -99,7 +99,8 @@ class MensajesController extends Controller
         $security = $this->get('security');
         
         $usuarioId = $security->getSessionValue('id');
-        $usuarios = $mensajes->getToList($usuarioId);        
+        $toList = $mensajes->getToList($usuarioId, $security->getSessionValue('rolId'));
+        
         
         if(count($data))
         {
@@ -116,7 +117,7 @@ class MensajesController extends Controller
         }
         
         $form = $this->createFormBuilder($dataForm)
-           ->add('to', 'choice', array('required' => true, 'choices' => $usuarios, 'expanded' => false, 'multiple' => true))
+           ->add('to', 'choice', array('required' => true, 'choices' => $toList, 'expanded' => false, 'multiple' => true))
            ->add('subject', 'text', array('required' => true))
            ->add('message', 'textarea', array('required' => true))
            ->add('attachment', 'file', array('required' => false))
