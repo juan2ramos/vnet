@@ -868,5 +868,20 @@ class FormulariosService
         
         return $return;
     }
+    
+    /**
+     * Funcion que verifica si un certificado ha sido generado
+     * 
+     * @author Diego Malagón <diego@altactic.com>
+     * @param integer $estudiante_id id de usuario estudiante
+     * @return boolean
+     */
+    public function verificarCertificado($estudiante_id)
+    {
+        $ruta_certificado = $this->security->getParameter('ruta_certificados').'user'.$estudiante_id.'.png';
+        $certificado_cargado = file_exists($ruta_certificado);
+        
+        return $certificado_cargado;
+    }
 }
 ?>

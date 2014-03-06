@@ -753,6 +753,22 @@
                 <source>ocurrio.error.aprobar.prueba</source>
                 <target>Ocurrio un error al aprobar esta prueba</target>
 			</trans-unit>
+			<trans-unit id="ctrl-5">
+                <source>certificado.generado</source>
+                <target>Certificado generado</target>
+			</trans-unit>
+			<trans-unit id="ctrl-6">
+                <source>certificado.generado.correctamente</source>
+                <target>Certificado generado correctamente</target>
+			</trans-unit>
+			<trans-unit id="ctrl-7">
+                <source>certificado.no.generado</source>
+                <target>Error al generar el certificado</target>
+			</trans-unit>
+			<trans-unit id="ctrl-8">
+                <source>estudiante.certificado.no.encontrado</source>
+                <target>No se encontraron los datos para generar el certificado</target>
+			</trans-unit>
             
         </body>
     </file>

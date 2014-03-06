@@ -278,7 +278,11 @@
                             <td>{% trans from "label" %}certificado{% endtrans %}</td>
                             <td id="btn-certificado-container" colspan="2">
                                 {% if univ_aprob %}
-                                <a class="btn btn-warning"><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</a>
+                                    {% if certificado %}
+                                        <span class="label label-success"><i class="icon icon-trophy"></i> {% trans from "label" %}estudiante.ya.esta.certificado{% endtrans %}</span>
+                                    {% else %}
+                                        <button class="btn btn-warning btn-generar-certificado" data-loading-text="Generando..."><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</button>
+                                    {% endif %}
                                 {% endif %}
                             </td>
                             <td></td>
@@ -321,7 +325,8 @@
             routes: {
                 alter_estudiante :'{{ path('alternativas_estudio_estudiante', {'id': usuario.id}) }}',
                 mentorias_estudiante : '{{ path('estado_mentorias_estudiante', {'id': usuario.id}) }}',
-                aprobar_prueba : '{{ path('aprobar_prueba', {'id': usuario.id}) }}'
+                aprobar_prueba : '{{ path('aprobar_prueba', {'id': usuario.id}) }}',
+                generar_certificado: '{{ path('generar_certificado', {'id': usuario.id}) }}'
             },
             trans: {
                 label_alter_estudiante : '{% trans from "label" %}estas.son.alternativas.estudio.estudiante{% endtrans %}',
@@ -333,7 +338,8 @@
             },
             id_ultima_prueba: {{ form_ids.universidad }},
             html_icon_ok : '<span class="badge bg-success"><i class="icon-ok-sign"></i></span>',
-            html_btn_certificado: '<a class="btn btn-warning"><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</a>'
+            html_btn_certificado: '<button class="btn btn-warning btn-generar-certificado" data-loading-text="Generando..."><i class="icon icon-trophy"></i> {% trans from "label" %}generar.certificado{% endtrans %}</button>',
+            html_label_certificado: '<span class="label label-success"><i class="icon icon-trophy"></i> {% trans from "label" %}estudiante.ya.esta.certificado{% endtrans %}</span>'
         });
     });
 </script>

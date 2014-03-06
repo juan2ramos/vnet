@@ -60,18 +60,21 @@ class AdminMentorController extends Controller
         $rolId = $security->getSessionValue('rolId');
         
         // Valida acceso del mentor
-        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) throw $this->createNotFoundException();
-        
+        if(!$FormServ->validateAccesoMentor($usuarioId, $rolId, $id)) throw $this->createNotFoundException();        
         
         $em = $this->getDoctrine()->getManager();
         $usuario = $em->getRepository("vocationetBundle:Usuarios")->findOneById($id);
         $participaciones = $this->getParticipacionesUsuario($id);
         $form_ids = $this->get('formularios')->getFormId();
                  
+        //Verificar si ya existe el certificado
+        $certificado_cargado = $FormServ->verificarCertificado($id);
+        
         return array(
             'usuario'           => $usuario,
             'participaciones'   => $participaciones,
-            'form_ids'          => $form_ids
+            'form_ids'          => $form_ids,
+            'certificado'       => $certificado_cargado
         );
     }
     

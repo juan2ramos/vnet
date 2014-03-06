@@ -116,6 +116,27 @@ var PruebasUsuario = function(){
         });
     };
     
+    var generarCertificadoHandler = function(){
+        var $btn = $(this);
+        
+        $btn.button('loading');
+        
+        var xhr = $.post(settings.routes.generar_certificado);
+        
+        xhr.done(function(response){
+            response = JSON.parse(response);
+            
+            if(response.status === 'success'){
+                // Actualizar boton
+                $btn.parent().html(settings.html_label_certificado);
+                $btn.remove();
+            }
+            
+            // Notificacion
+            showNotice(response.status, response.message.title, response.message.detail);             
+        });
+    };
+    
     return {
         init: function(s){
             settings = s;
@@ -124,6 +145,7 @@ var PruebasUsuario = function(){
             $("#btn-modal-rment").on('click', cargarMentoriasEstudianteHandler);            
             $(".btn-cargar-reporte").on('click', cargarModalReporteHandler);
             $(".btn-aprobar").on('click', aprobarPruebaHandler);
+            $("#btn-certificado-container").on('click', '.btn-generar-certificado', generarCertificadoHandler);
         }
     }
     
