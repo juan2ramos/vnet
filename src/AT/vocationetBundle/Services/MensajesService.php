@@ -82,6 +82,14 @@ class MensajesService
         $query->setParameter('usuarioId', $usuarioId);
         $result = $query->getResult();
         
+        // Si es administrador agregar los roles para envio masivo
+        if($rolId == 4 || $rolId == 5)
+        {
+            $toList['mentor_ov'] = "Mentores de orientación vocacional";
+            $toList['mentor_e'] = "Mentores profesionales";
+            $toList['estudiante'] = "Estudiantes";                    
+        }
+        
         // Crear array con id de usuario como key 
         if(count($result)>0)
         {
@@ -89,14 +97,6 @@ class MensajesService
             {
                 $toList[$r['id']] = $r['usuarioNombre'].' '.$r['usuarioApellido'];
             }
-        }
-        
-        // Si es administrador agregar los roles para envio masivo
-        if($rolId == 4 || $rolId == 5)
-        {
-            $toList['mentor_ov'] = "Mentores de orientación vocacional";
-            $toList['mentor_e'] = "Mentores profesionales";
-            $toList['estudiante'] = "Estudiantes";                    
         }
         
         return $toList;
