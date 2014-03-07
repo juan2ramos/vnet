@@ -48,26 +48,23 @@
 		<div class="col-lg-12">
             
             {# HEADER #}
-            <section class="panel post-wrap pro-box" id="header-cuestionario">
-                <aside>
-                  <div class="post-info">
-                      <span class="arrow-pro right"></span>
-                      <div class="panel-body">
-                          <div class="text-center twite">
-                              <h1 style="font-size: 40px;">{{ formulario_info.nombre }}</h1>
-                          </div>
-                      </div>
-                  </div>
-                </aside>
-                <aside class="post-highlight terques v-align">
-                  <div class="panel-body text-center">
-                      <div class="panel-body">
-                          <h2>{{ formulario_info.encabezado }}</h2>
-                      </div>
-                  </div>
-                </aside>
-            </section>
-            
+			<section class="panel post-wrap pro-box" id="header-cuestionario">
+				<aside>
+					<div class="post-info">
+						<span class="arrow-pro right"></span>
+						<div class="panel-body">
+							<div class="text-center twite">
+								<h1 style="font-size: 40px;">{{ formulario_info.nombre }}</h1>
+							</div>
+						</div>
+					</div>
+				</aside>
+				<aside class="post-highlight terques v-align">
+					<div class="panel-body text-center">
+						<div class="panel-body"> <h2>{{ formulario_info.encabezado }}</h2> </div>
+					</div>
+				</aside>
+			</section>
             
 			<section class="panel">
 				<header class="panel-heading">{{ formulario_info.nombre }}</header>
@@ -82,7 +79,7 @@
 								{{ form_widget(form.profesion, { 'attr' : {'class': 'form-control', 'placeholder' : 'profesion'|trans({}, "label"), 'STYLE':'width:280px;' }}) }}
 							</div>
 							<button type="submit" class="btn btn-info"><i class='icon-search'></i>&nbsp;{% trans from "label" %}buscar{% endtrans %}</button>
-							<a href='{{ path('lista_mentores_ov') }}' class="btn btn-success">&nbsp;{% trans from "label" %}quitar.filtros{% endtrans %}</a>
+							<a href="{{ path('lista_mentores_ov') }}" class="btn btn-success">&nbsp;{% trans from "label" %}quitar.filtros{% endtrans %}</a>
 							{# form(form) #}
 							{{ form_widget(form._token) }}
 							{{ form_errors(form) }}
@@ -98,7 +95,6 @@
 								<th></th>
 								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}nombre{% endtrans %}</th>
-								{#<th>{% trans from "label" %}rol{% endtrans %}</th>#}
 								<th class='text-center'>{% trans from "label" %}valoraciones{% endtrans %}</th>
 								<th>{% trans from "label" %}profesion{% endtrans %}</th>
 								<th>{% trans from "label" %}universidad{% endtrans %}</th>
@@ -115,7 +111,6 @@
 									</td>
 									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioApellido }}</div></td>
 									<td class='href' data-href='{{ pathUser }}'><div>{{ c.usuarioNombre }}</div></td>
-									{#<td class='href' data-href='{{ pathUser }}'><div>{{ c.rolNombre|trans({}, 'db') }}</div></td>#}
 									<td class='href' data-href='{{ pathUser }}'>
 										<div class='text-center';>
 											{% set estrellasPromedio = (c.usuarioPuntos >= 0 and c.usuarioPuntos <= 5) ? c.usuarioPuntos : 0 %}
@@ -140,7 +135,7 @@
 									<td class="text-center">
 										<a STYLE='margin:2px;width:90%;' href='{{ pathUser }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.perfil'|trans({}, 'label') }}</a>
 										<br>
-										<a STYLE='margin:2px;width:90%;' href='{{ path('horarios_disponibles_mentor', {'perfilId': c.id }) }}' type="button" class="btn btn-primary btn-xs">{{ 'ver.disponibilidad'|trans({}, 'label') }}</a>
+										<a STYLE='margin:2px;width:90%;' href="{{ path('horarios_disponibles_mentor', {'perfilId': c.id }) }}" type="button" class="btn btn-primary btn-xs">{{ 'ver.disponibilidad'|trans({}, 'label') }}</a>
 										<br>
 										{% if selectMentor == false %}
 											<form action="{{ path('seleccionar_mentor') }}" method='POST' {{ form_enctype(form) }} type="post">
@@ -161,9 +156,8 @@
 			</section>
 			<hr>
 				<div class="panel-body text-center">
-					<a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
-					<a href="{{ path('diagnostico') }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>
-					<a href='{{ path('test_vocacional') }}'type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
+					<a href="{{ path('homepage' ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ir.al.home{% endtrans %}</a>
+					<a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
 				</div>
 		</div>
 	</div>
@@ -219,4 +213,3 @@
 		});
     </script>
 {% endblock script%}
-

@@ -519,13 +519,18 @@ class FormulariosService
             }
         }
         else
-        {
+        { 
+			// Única prueba que no aprueba el mentor de orientación vocacional
+			$estado_part = 1;
+			if($formId == $this->getFormId('diagnostico')) {
+				$estado_part = 2;
+			}
             $participacion = new \AT\vocationetBundle\Entity\Participaciones();
             $participacion->setFormulario($formId);
             $participacion->setFecha(new \DateTime());
             $participacion->setUsuarioParticipa($usuarioId);
             $participacion->setUsuarioEvaluado($usuarioId);
-            $participacion->setEstado(1);
+            $participacion->setEstado($estado_part);
             if($carreraId)
             {
                 $participacion->setCarrera($carreraId);
@@ -540,11 +545,9 @@ class FormulariosService
         foreach($preguntas as $preg)
         {
             $respuesta = new \AT\vocationetBundle\Entity\Respuestas();
-            
             $respuesta->setParticipacion($participacion);
             $respuesta->setPregunta($preg['id']);
             $res = $respuestas[$preg['id']];            
-            
             
             // Asignar respuesta numerica o texto y calcular puntaje segun el tipo de pregunta
             switch($preg['preguntaTipoId'])

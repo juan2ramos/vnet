@@ -620,7 +620,7 @@ class PerfilService
 		$em = $this->doctrine->getManager();
         //$participaciones = $em->getRepository('vocationetBundle:Participaciones')->findBy(array('usuarioParticipa'=> $usuarioId), array('id' => 'ASC'));
         $dql = "SELECT p FROM vocationetBundle:Participaciones p
-                WHERE (p.usuarioParticipa =:usuarioId OR p.usuarioEvaluado =:usuarioId) AND p.estado = 1";
+                WHERE (p.usuarioParticipa =:usuarioId OR p.usuarioEvaluado =:usuarioId) AND p.estado = 2";
         $query = $em->createQuery($dql);
         $query->setParameter('usuarioId', $usuarioId);
         $participaciones = $query->getResult();
@@ -651,7 +651,7 @@ class PerfilService
 		
 		/**
 		* P1. DIAGNOSTICO
-		* P2. TEST VOCACIONAL (QUEMADO - REVISAR)
+		* P8. TEST VOCACIONAL (QUEMADO - REVISAR)
 		* P9. EVALUACION 360
 		* P10. DISEÑO DE VIDA
 		* P11. MERCADO LABORAL
@@ -663,7 +663,7 @@ class PerfilService
 		
 		$recorrido = Array(
 			'P1' => false, 'M1' => ($cm >= 1) ? true : false,
-			'P2' => ($cm >= 1) ? true : false, 'M2' => ($cm >= 2) ? true : false,
+			'P8' => false, 'M2' => ($cm >= 2) ? true : false,
 			'P9' => false, 'M3' => ($cm >= 3) ? true : false,
 			'P10' => false, 'M4' => ($cm >= 4) ? true : false,
 			'P11' => false, 'M5' => ($cm >= 5) ? true : false,
@@ -674,21 +674,12 @@ class PerfilService
 			'totalMentorias' => $cm,
 		);
 		
-		$auxCt360 = 0; // Contador de participantes 360
 		foreach($participaciones as $part)
 		{
 			$formId = $part->getFormulario();
-			
-			// Evaluacion 360
-			if ($formId == 9) {
-				$auxCt360 += 1;
-				if ($auxCt360 >= 3) {
-					$recorrido['P'.$formId] = true;
-				}
-			}
-			
+
 			// Validación de que almenos tenga una mentoria terminada con mentor Experto
-			elseif($formId == 12) {
+			if($formId == 12) {
 				if ($cme > 0) {
 					$recorrido['P'.$formId] = true;
 				}
@@ -713,7 +704,7 @@ class PerfilService
 		$aux_cont = 1;
 		if ($recorrido['P1']) {	$aux_cont += 1;
 			if ($recorrido['M1']) {	$aux_cont += 1;
-				if ($recorrido['P2']) { $aux_cont += 1;
+				if ($recorrido['P8']) { $aux_cont += 1;
 					if ($recorrido['M2']) { $aux_cont += 1;
 						if ($recorrido['P9']) { $aux_cont += 1;
 							if ($recorrido['M3']) { $aux_cont += 1;
@@ -837,7 +828,7 @@ class PerfilService
 	{
 		$return = $this->validarTestVocacional($return, $recorrido);
 		if ($return['status']) {
-			if (!$recorrido['P2']) {
+			if (!$recorrido['P8']) {
 				$return = array('status' => false, 'message' => 'no.ha.realizado.test.vocacional', 'redirect' => 'test_vocacional');
 			} elseif (!$recorrido['M2']) {
 				$return = array('status' => false, 'message' => 'por.favor.agende.mentoria', 'redirect' => 'lista_mentores_ov');
