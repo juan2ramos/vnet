@@ -32,17 +32,40 @@ class MensajesService
     }
     
     /**
+     * Funcion que obtiene los roles de usuario conforme a los registros 
+     * de la base de datos si realizar conexion
+     * 
+     * @return string
+     */
+    public function getRoles()
+    {
+        $roles = array(
+            1 => 'estudiante',
+            2 => 'mentor_e',
+            3 => 'mentor_ov',
+            4 => 'administrador',
+            5 => 'superadmin',
+        );
+        
+        return $roles;
+    }
+    
+    /**
      * Funcion que obtiene la lista de usuarios para enviar un mensaje
      * 
-     * Obtiene los usuarios a los cuales el usuario logueado puede enviarle mensajes
+     * Obtiene los usuarios a los cuales el usuario logueado puede enviarle mensajes.
+     * Si el usuario es administrador tambien agrega los roles Mentores ov, mentores profesionales 
+     * y estudiantes para envio masivo
      * 
      * @param integer $usuarioId id de usuario logueado
      * @return array arreglo de usuarios
      */
-    public function getToList($usuarioId)
+    public function getToList($usuarioId, $rolId)
     {
         $toList = array();
         $em = $this->doctrine->getManager();
+        
+        // Consultar usuarios amigos del usuario
         $dql = "SELECT
                     u.id, 
                     u.usuarioNombre,
@@ -59,6 +82,15 @@ class MensajesService
         $query->setParameter('usuarioId', $usuarioId);
         $result = $query->getResult();
         
+        // Si es administrador agregar los roles para envio masivo
+        if($rolId == 4 || $rolId == 5)
+        {
+            $toList['mentor_ov'] = "Mentores de orientación vocacional";
+            $toList['mentor_e'] = "Mentores profesionales";
+            $toList['estudiante'] = "Estudiantes";                    
+        }
+        
+        // Crear array con id de usuario como key 
         if(count($result)>0)
         {
             foreach($result as $r)
@@ -105,6 +137,40 @@ class MensajesService
         $mensajeFrom->setEstado(1); // leido
         
         $em->persist($mensajeFrom);
+        
+        
+        // Obtener id del rol del usuario para control de envios masivos
+        $security = $this->serv_cont->get('security');
+        $rolId = $security->getSessionValue('rolId');
+        
+        
+        // Preparar lista de usuarios para envio masivo
+        $rolNames = array();
+        foreach($toList as $k => $to)
+        {
+            if($to == 'mentor_ov' || $to == 'mentor_e' || $to == 'estudiante')
+            {
+                if($rolId == 4 || $rolId == 5)
+                {
+                    // argregar nombre de rol al array
+                    $rolNames[] = $to;
+                }
+                
+                // Eliminar del array $toList
+                unset($toList[$k]);
+                
+            }
+        }
+        
+        // Obtener ids de usuarios con los roles obtenidos
+        if(count($rolNames) > 0)
+        {
+            $toListIdsRol = $this->getUsuariosRol($rolNames);
+        }
+                
+        // Mezclar y eliminar ids duplicados en $toList y $toListIdsRol
+        $toList = array_merge($toList, $toListIdsRol);
+        $toList = array_unique($toList);
         
         // Registro de receptores
         foreach($toList as $toId)
@@ -359,6 +425,46 @@ class MensajesService
             }
         }
         return $emails;
+    }
+    
+    /**
+     * Funcion que obtiene los usuarios con los roles ingresados
+     * 
+     * @param array $rol_names array de nombres de roles
+     * @return array array de ids de usuario 
+     */
+    private function getUsuariosRol($rol_names)
+    {
+        // Obtener array de roles
+        $roles = $this->getRoles();
+        
+        // Obtener array de ids de roles a partir del array de nombres pasado como parametro
+        $ids = array();
+        if($rol_names)
+        {
+            foreach($rol_names as $n)
+            {
+                $ids[] = array_search($n, $roles);
+            }
+        }
+        
+        // Consulta para obtener los usuarios de los roles
+        $where = implode(' OR u.rol = ', $ids);
+        $dql ="SELECT u.id FROM vocationetBundle:Usuarios u 
+                WHERE (u.rol = ".$where.") ";
+        
+        $em = $this->doctrine->getManager();
+        $query = $em->createQuery($dql);
+        $result = $query->getResult();
+        
+        // Simplificar array resultado
+        $toList = array();
+        foreach($result as $r)
+        {
+            $toList[] = $r['id'];
+        }
+        
+        return $toList;
     }
 }
 ?>
