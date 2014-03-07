@@ -693,41 +693,41 @@
 			</trans-unit>
 			<trans-unit id="recorridoLineal-3">
                 <source>no.ha.realizado.test.vocacional</source>
-                <target>No ha realizado aún el test vocacional.</target>
+                <target>No ha realizado o no ha sido aprobada aún la prueba de test vocacional.</target>
 			</trans-unit>
 			<trans-unit id="recorridoLineal-4">
                 <source>no.ha.realizado.evaluacion360</source>
-                <target>No ha realizado aún la evaluación 360, tenga en cuenta que hasta que tres personas diligencien la prueba, esta se dará como terminada.</target>
+                <target>No ha realizado o no ha sido aprobada aún la prueba evaluación 360, tenga en cuenta que hasta que tres personas diligencien la prueba, esta se dará como terminada.</target>
 			</trans-unit>
 			<trans-unit id="recorridoLineal-5">
                 <source>no.ha.realizado.diseno.vida</source>
-                <target>No ha realizado aún el diseño de vida.</target>
+                <target>No ha realizado o no ha sido aprobada aún la prueba de diseño de vida.</target>
 			</trans-unit>
 			<trans-unit id="recorridoLineal-6">
                 <source>no.ha.realizado.mercado.laboral</source>
-                <target>No ha realizado aún la prueba de mercado laboral.</target>
+                <target>No ha realizado o no ha sido aprobada aún la prueba de mercado laboral.</target>
 			</trans-unit>
 			<trans-unit id="recorridoLineal-7">
                 <source>no.ha.realizado.red.mentores</source>
-                <target>No ha realizado aún las mentorias de Red de mentores</target>
+                <target>No ha realizado aún las mentorias de Red de mentores o no ha sido aprobado aún.</target>
 			</trans-unit>
 			<trans-unit id="recorridoLineal-8">
                 <source>no.ha.realizado.ponderacion</source>
-                <target>No ha realizado aún ponderación</target>
+                <target>No ha realizado o no ha sido aprobada aún prueba de ponderación</target>
 			</trans-unit>
 			<trans-unit id="recorridoLineal-9">
                 <source>no.ha.realizado.universidades</source>
-                <target>No ha realizado aún prueba Universidades</target>
+                <target>No ha realizado o no ha sido aprobada aún prueba de Universidades</target>
 			</trans-unit>
 			
 			<!-- CERTIFICACION certificacion-x -->
 			<trans-unit id="certificacion-1">
                 <source>certificado.no.generado</source>
-                <target>Certificado no generado</target>
+                <target>Certificado aún no ha sido generado</target>
 			</trans-unit>
 			<trans-unit id="certificacion-2">
                 <source>explicacion.certificado.no.generado</source>
-                <target>Su certificado aún no se ha generado, espere por favor a que el mentor de la aprobación para esto</target>
+                <target>Su certificado aún no se ha generado, espere por favor a que el mentor de orientación vocacional de la aprobación para esto.</target>
 			</trans-unit>
             
             <!-- universidad univ-x -->

@@ -31,7 +31,6 @@ class AgendaMentorController extends Controller
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
                 
         $form = $this->createMentoriaForm();
-        
         $publicidad = $this->get('perfil')->getPublicidad($security->getSessionValue("rolId"));
         
         return array(

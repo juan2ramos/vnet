@@ -42,9 +42,7 @@
             </aside>
             <aside class="post-highlight terques v-align">
               <div class="panel-body text-center">
-                  <div class="panel-body">
-                      <h2>{{ formulario_info.encabezado }}</h2>
-                  </div>
+                  <div class="panel-body"> <h2>{{ formulario_info.encabezado }}</h2> </div>
               </div>
             </aside>
         </section>
@@ -67,7 +65,9 @@
                         <fieldset title="{{ formulario.nombre }}" class="step">
                             <legend></legend>
                             {% if formulario.descripcion %}<p>{{ formulario.descripcion }}</p>{% endif %}
-                            <a href="#info-modal-{{ loop.index }}" data-toggle="modal" class="btn btn-info btn-xs"><i class="icon-info"></i> {% trans from "label" %}informacion{% endtrans %}</a>
+                            <a href="#info-modal-{{ loop.index }}" data-toggle="modal" class="btn btn-info btn-xs">
+								<i class="icon-info"></i> {% trans from "label" %}informacion.ponderacion{% endtrans %}
+                            </a>
                             <br/><br/>
                             {% if formulario.preguntas is defined %}
                                 {% for pregunta in formulario.preguntas %}
