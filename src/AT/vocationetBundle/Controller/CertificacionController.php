@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 /**
- * Controlador de Certificaciï¿½n
+ * Controlador de Certificación
  * @package vocationetBundle
  * @Route("/certificado")
  * @author Camilo Quijano <camilo@altactic.com>
@@ -83,7 +83,7 @@ class CertificacionController extends Controller
      * 
 	 * @Route("/generar/{id}", name="generar_certificado")
      * @Method("post")
-     * @author Diego MalagÃ³n <diego@altactic.com>
+     * @author Diego Malagón <diego@altactic.com>
      * @param integer $id id de usuario estudiante
      * @return Response JSON
      */
@@ -185,8 +185,8 @@ class CertificacionController extends Controller
 		 * Creaciï¿½n del nombre del usuario a certificarse
 		 * 
 		 * @var $nombre_usuario = Texto 1 a agregar a la imagen (Nombre del usuario) - Ingresado por parametro
-		 * @var $font_size = Tamaï¿½o del texto a agregar
-		 * @var $bbox = imagettfbbox retorna tamaï¿½o del contenedor (Caja circundante) del texto a agregar teniendo en cuenta tamaï¿½o, fuente, y texto
+		 * @var $font_size = Tamaño del texto a agregar
+		 * @var $bbox = imagettfbbox retorna tamaño del contenedor (Caja circundante) del texto a agregar teniendo en cuenta tamaño, fuente, y texto
 		 * @var $w_img = Ancho del contenedor
 		 * @var $y_img = Alto del contenedor
 		 * @var $aux_widht_rest = Ancho disponible de la imagen (tenido en cuenta para centrar texto)
@@ -204,15 +204,11 @@ class CertificacionController extends Controller
 		imagettftext($destino, $font_size, 0, $cord_x, $cord_y, $white, $font, $nombre_usuario);
 
 		/**
-<<<<<<< HEAD
 		 * Creación de la fecha de expedición del ceritificado y cordenadas antiguos
 		 * $aux_mes = $this->get('translator')->trans(date('F'), Array(), 'label');
 		 * $fecha_expedicion = $this->get('translator')->trans('se.expide.en.bogota.el.%dia%.de.%mes%.de.%ano%', Array('%dia%'=>date('d') , '%mes%' => $aux_mes, '%ano%' => date('Y')), 'label');
 		 * $cord_x = ($aux_widht_rest) / 2;
 		 * $cord_y = ($h/4)*3;
-=======
-		 * Creaciï¿½n de la fecha de expediciï¿½n del ceritificado
->>>>>>> control
 		 */
 		$fecha_expedicion = date('d/m/Y');
 		$font_size = 15;
