@@ -162,15 +162,17 @@ class MensajesService
             }
         }
         
-        // Obtener ids de usuarios con los roles obtenidos
+        // Si se selecciono un rol para envio masivo
         if(count($rolNames) > 0)
         {
+            // Obtener ids de usuarios con los roles obtenidos
             $toListIdsRol = $this->getUsuariosRol($rolNames);
+            
+            // Mezclar y eliminar ids duplicados en $toList y $toListIdsRol
+            $toList = array_merge($toList, $toListIdsRol);
+            $toList = array_unique($toList);
         }
                 
-        // Mezclar y eliminar ids duplicados en $toList y $toListIdsRol
-        $toList = array_merge($toList, $toListIdsRol);
-        $toList = array_unique($toList);
         
         // Registro de receptores
         foreach($toList as $toId)
