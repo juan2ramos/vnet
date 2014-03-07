@@ -134,7 +134,7 @@ class DisenoVidaController extends Controller
 
 					$this->get('perfil')->actualizarpuntos('universidad', $usuarioId);
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cuestionario.enviado"), "text" => $this->get('translator')->trans("diseno.vida.enviado.ahora.separar.metoria")));
-                    return $this->redirect($this->generateUrl('agenda_estudiante'));
+                    return $this->redirect($this->generateUrl('lista_mentores_ov'));
                 }
                 else
                 {

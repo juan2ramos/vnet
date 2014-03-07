@@ -102,6 +102,7 @@ class PerfilController extends Controller
 					// Validación de si ya se ha subido informe relacionado con el listado de carreras seleccionadas por el usuario
 					$rutaInformeML = $security->getParameter('ruta_files_mercado_laboral').'user'.$perfilId.'.pdf';
 					$showInformeML = file_exists($rutaInformeML);
+					$showInformeML = TRUE;
 				}
 			}
 			
