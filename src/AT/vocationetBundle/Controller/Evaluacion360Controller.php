@@ -52,34 +52,37 @@ class Evaluacion360Controller extends Controller
 		}
 
         $formularios_serv = $this->get('formularios');
-        $form_id = $this->get('formularios')->getFormId('evaluacion360');
-        
-        // Validar si ya selecciono mentor ov
-        $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
-        if(!$seleccionarMentor) {
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
-			return $this->redirect($this->generateUrl('lista_mentores_ov'));
-		}
-        
-        
+        $form_id = $formularios_serv->getFormId('evaluacion360');
+		
+		// Validación de que ya tiene la prueba terminada
+		$em = $this->getDoctrine()->getManager();
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioEvaluado" => $usuarioId, "estado" => 2));
+        if($participacion)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.evaluacion.360"),
+                "file" => true,
+                "path" => $participacion->getArchivoReporte(),
+            )); 
+        }
+		
         $form = $this->createFormBuilder()
             ->add('emails', 'text', array('required' => true))
             ->getForm();
+
         if($request->getMethod() == 'POST') 
         {
             $form->bind($request);
             if ($form->isValid())
             {
                 $data = $form->getData();
-                
                 $emails = $this->validateEmails($data);
                 
-                if(count($emails) < 3)
-                {
+                if(count($emails) < 3) {
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("emails.invalidos"), "text" => $this->get('translator')->trans("debe.seleccionar.mas.emails")));
                 }
-                else
-                {
+                else {
                     $this->enviarInvitaciones($emails, $usuarioId);
                     $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("invitaciones.enviadas"), "text" => $this->get('translator')->trans("invitaciones.enviadas.correctamente")));
                 }
@@ -90,20 +93,16 @@ class Evaluacion360Controller extends Controller
             }
         }
         
-        
         $participaciones = $formularios_serv->getParticipacionesFormulario($form_id, $usuarioId);
         $formulario = $formularios_serv->getInfoFormulario($form_id);
         
         //Contar participaciones finalizadas
         $count_participaciones = 0;
-        foreach($participaciones as $p)
-        {
-            if($p['estado'] == 1)
-            {
+        foreach($participaciones as $p) {
+            if($p['estado'] == 1) {
                 $count_participaciones ++;
             }
         }
-        
         
         return array(
             'formulario_info' => $formulario,

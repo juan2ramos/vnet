@@ -36,8 +36,7 @@ class ContactosController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
-		$usuarioId = $security->getSessionValue('id');
-        $contactos = $this->getAmistades($usuarioId);
+        $contactos = $this->getAmistades($security->getSessionValue('id'));
         return array('contactos' => $contactos);
     }
 
@@ -326,7 +325,7 @@ class ContactosController extends Controller
     {
 		$security = $this->get('security');
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
-        //if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
+        if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
 
 		$usuarioId = $security->getSessionValue('id');
         
@@ -339,6 +338,19 @@ class ContactosController extends Controller
 				return $this->redirect($this->generateUrl($return['redirect']));
 			}
 		}
+		
+		$form_id = $this->get('formularios')->getFormId('red_mentores');
+		$em = $this->getDoctrine()->getManager();
+		$participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId, "estado" => 2 ));
+        if($participacion)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.red.mentores"),
+                "file" => true,
+                "path" => $participacion->getArchivoReporte(),
+            )); 
+        }
 
 		$pr = $this->get('perfil');
         //$autoCompletarTitulos = $pr->getTitulos();
@@ -364,7 +376,7 @@ class ContactosController extends Controller
 			$contactos = $this->getBusquedaDetallada($usuarioId, $formData);
 		}
 
-		$formulario = $this->get('formularios')->getInfoFormulario(12);
+		$formulario = $this->get('formularios')->getInfoFormulario($form_id);
 
         return array(
 			'formulario_info' => $formulario,
@@ -460,7 +472,6 @@ class ContactosController extends Controller
      */
     private function getAmistades($usuarioId)
     {
-		$em = $this->getDoctrine()->getManager();
 		/**
 		 * @var String Consulta SQL que trae las relaciones de amistad del usuario, y las que tiene pendientes por aprobar
 		 * SELECT u.id, u.usuario_nombre, u.usuario_Apellido, rol.nombre
@@ -472,7 +483,8 @@ class ContactosController extends Controller
 		 * 	AND (((r.usuario_id = 7 OR r.usuario2_id = 7) AND r.estado = 1)  OR  (r.usuario2_id = 7 and r.estado = 0))
 		 * ORDER BY r.estado, u.id;
 		 */
-        $dql = "SELECT u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen,
+		$em = $this->getDoctrine()->getManager();
+        $dql = "SELECT u.id, u.usuarioNombre, u.usuarioApellido, u.usuarioImagen, u.usuarioPuntos,
 						rol.nombre AS rolNombre,
 						u.usuarioProfesion,
 						c.nombre AS nombreColegio, u.usuarioCursoActual,
@@ -502,6 +514,7 @@ class ContactosController extends Controller
 						'usuarioImagen' => $cont['usuarioImagen'],
 						'usuarioNombre' => $cont['usuarioNombre'],
 						'usuarioApellido' => $cont['usuarioApellido'],
+						'usuarioPuntos' => $cont['usuarioPuntos'],
 						'rolNombre' => $cont['rolNombre'],
 						'usuarioProfesion' => $cont['usuarioProfesion'],
 						'nombreColegio' => $cont['nombreColegio'],

@@ -34,8 +34,7 @@ class DiagnosticoController extends Controller
         
         $usuarioId = $security->getSessionValue("id");
         $formularios_serv = $this->get('formularios');
-        $form_id = $this->get('formularios')->getFormId('diagnostico');
-        
+        $form_id = $formularios_serv->getFormId('diagnostico');
         $em = $this->getDoctrine()->getManager();
         
         //Validar acceso a diagnostico

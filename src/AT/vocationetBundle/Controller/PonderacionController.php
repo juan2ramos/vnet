@@ -46,8 +46,7 @@ class PonderacionController extends Controller
 		
         $formularios_serv = $this->get('formularios');
         $perfil_serv = $this->get('perfil');
-        $form_id = $this->get('formularios')->getFormId('ponderacion');
-        
+        $form_id = $formularios_serv->getFormId('ponderacion');
         
         $em = $this->getDoctrine()->getManager();
         
@@ -57,15 +56,16 @@ class PonderacionController extends Controller
         {
             return $this->forward("vocationetBundle:Alerts:alertScreen", array(
                 "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
-                "message" => $this->get('translator')->trans("gracias.por.participar.ponderacion")
+                "message" => $this->get('translator')->trans("gracias.por.participar.ponderacion"),
+				"file" => true,
+                "path" => $participacion->getArchivoReporte(),
             )); 
         }
         
 		$alternativasEstudio = $perfil_serv->getAlternativasEstudio($usuarioId);
         
         // Validar que ya tenga alternativas de estudio
-        if(count($alternativasEstudio) == 0)
-        {
+        if(count($alternativasEstudio) == 0) {
             $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.alternativas.estudio")));
 			return $this->redirect($this->generateUrl('mercado_laboral'));
         }
@@ -101,10 +101,9 @@ class PonderacionController extends Controller
         $formularios_serv = $this->get('formularios');
         $form_id = $this->get('formularios')->getFormId('ponderacion');
         $usuarioId = $security->getSessionValue("id");
-        
-        $em = $this->getDoctrine()->getManager();
-        
+
         //Validar acceso a ponderacion
+		$em = $this->getDoctrine()->getManager();
         $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
         if($participacion)
         {

@@ -102,7 +102,13 @@
 								<th>{% trans from "label" %}apellido{% endtrans %}</th>
 								<th>{% trans from "label" %}nombre{% endtrans %}</th>
 								<th>{% trans from "label" %}rol{% endtrans %}</th>
-								<th class='text-center'>{% trans from "label" %}estado{% endtrans %}</th>
+								<th class='text-center'>
+									{% if formDT.tipoUsuario == 1 %}
+										{% trans from "label" %}puntos{% endtrans %}
+									{% else %}
+										{% trans from "label" %}valoraciones{% endtrans %}
+									{% endif %}
+								</th>
 								{% if formDT.tipoUsuario == 1 %}
 									<th>{% trans from "label" %}alternativa.estudio{% endtrans %}</th>
 								{% else %}

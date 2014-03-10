@@ -54,7 +54,7 @@ class TestVocacionalController extends Controller
         {
             return $this->forward("vocationetBundle:Alerts:alertScreen", array(
                 "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
-                "message" => $this->get('translator')->trans("gracias.por.participar.diseno.vida"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.test.vocacional"),
                 "file" => true,
                 "path" => $participacion->getArchivoReporte(),
             )); 

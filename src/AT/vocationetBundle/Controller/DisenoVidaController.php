@@ -49,28 +49,21 @@ class DisenoVidaController extends Controller
 		}
         
         $formularios_serv = $this->get('formularios');
-        $form_id = $this->get('formularios')->getFormId('diseno_vida');
-        
-        $em = $this->getDoctrine()->getManager();
-        
-        // Validar si ya selecciono mentor ov
-        $seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
-        if(!$seleccionarMentor) {
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
-			return $this->redirect($this->generateUrl('lista_mentores_ov'));
-		}
-        
+        $form_id = $formularios_serv->getFormId('diseno_vida');
+
         //Validar acceso a diseño de vida
+		$em = $this->getDoctrine()->getManager();
         $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
         if($participacion)
         {
             return $this->forward("vocationetBundle:Alerts:alertScreen", array(
                 "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
-                "message" => $this->get('translator')->trans("gracias.por.participar.diseno.vida")
+                "message" => $this->get('translator')->trans("gracias.por.participar.diseno.vida"),
+				"file" => true,
+                "path" => $participacion->getArchivoReporte(),
             )); 
         }
-        
-        
+
         $formulario = $formularios_serv->getInfoFormulario($form_id);
         $formularios = $formularios_serv->getFormulario($form_id);
         $form = $this->createFormCuestionario();

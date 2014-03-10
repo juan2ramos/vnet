@@ -32,7 +32,6 @@ class UniversidadController extends Controller
         if(!$security->authentication()){ return $this->redirect($this->generateUrl('login'));} 
         if(!$security->authorization($this->getRequest()->get('_route'))){ throw $this->createNotFoundException($this->get('translator')->trans("Acceso denegado"));}
         
-        
         $usuarioId = $security->getSessionValue("id");
         
         // Verificar pago
@@ -53,28 +52,29 @@ class UniversidadController extends Controller
 				return $this->redirect($this->generateUrl($return['redirect']));
 			}
 		}
-        
-        $formularios_serv = $this->get('formularios');
-        $form_id = $this->get('formularios')->getFormId('universidad');
+		
+		$formularios_serv = $this->get('formularios');
+        $form_id = $formularios_serv->getFormId('universidad');
+		
+		//Validar acceso a Universidades
+		$em = $this->getDoctrine()->getManager();
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
+        if($participacion)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.universidades"),
+				"file" => true,
+                "path" => $participacion->getArchivoReporte(),
+            )); 
+        }
         
         $formulario = $formularios_serv->getInfoFormulario($form_id);
         $form = $this->createFormCuestionario();
-        $formularios = false;
-        $ciudades = false;
-        $alternativas = false;
-        
-        // Verificacion de reporte pdf
-        $ruta_informe = $security->getParameter('path_reportes_universidad').'user'.$usuarioId.'.pdf';
-        $reporte_cargado = file_exists($ruta_informe);
-                
-        // Contenido del formulario
-        if($reporte_cargado === false) // Si no existe el reporte consulta la informacion del formulario
-        {
-            $formularios = $formularios_serv->getFormulario($form_id);
-            $ciudades = $this->getCiudades();
-            $alternativas = $this->getAlternativasEstudio($usuarioId); // Alternativas de estudio            
-        }
-        
+
+		$formularios = $formularios_serv->getFormulario($form_id);
+		$ciudades = $this->getCiudades();
+		$alternativas = $this->getAlternativasEstudio($usuarioId); // Alternativas de estudio 
         
         return array(
             'formulario_info'   => $formulario,
@@ -82,8 +82,6 @@ class UniversidadController extends Controller
             'form'              => $form->createView(),
             'ciudades'          => $ciudades,
             'alternativas'      => $alternativas,
-            'reporte_cargado'   => $reporte_cargado,
-            'ruta_informe'      => $ruta_informe
         );
     }
     

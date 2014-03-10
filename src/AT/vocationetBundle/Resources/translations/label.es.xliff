@@ -107,6 +107,10 @@
                 <source>toggle.menu</source>
                 <target>Ocultar/mostrar menú</target>
 			</trans-unit>
+			<trans-unit id="generico-27">
+                <source>informe</source>
+                <target>Informe</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">

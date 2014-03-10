@@ -46,20 +46,6 @@
             </header>
             <div class="panel-body">
                 
-                {% if reporte_cargado %}
-                    <div id='contentIframe' STYLE='text-align:center;'>
-                        <iframe id="fraDisabled" src="{{ asset(ruta_informe) ~ '?f='~'now'|date('U') }}" width="800px" height="300px">
-                        </iframe>
-                    </div>
-
-                    <hr>
-                    <div class="panel-body text-center">
-                        <a href="{{ path('perfil', { 'perfilId': sess_user.id }) }}" type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
-                        {#<a href='{{ path('agenda_estudiante') }}' type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}anterior{% endtrans %}</a>#}
-                        <a href='{{ path('agenda_estudiante') }}' type="button" class="btn btn-shadow btn-primary">{% trans from "label" %}continuar.programa{% endtrans %}</a>
-                    </div>
-                {% else %}
-                
                     <div class="stepy-tab">
                         <ul id="default-titles" class="stepy-titles clearfix">
                             {% for formulario in formularios %}
@@ -117,9 +103,7 @@
                         {{ form_errors(form) }}    
                         <input type="submit" class="finish btn btn-danger" value="{% trans from "label" %}enviar{% endtrans %}" onClick="submitFormOkay=true;"/>
                     </form>
-                
-                
-                {% endif %}
+
                 
             </div>
         </section>
@@ -142,13 +126,11 @@
             touchSpin_max: 100000000
         });
         
-        {% if reporte_cargado == false %}
-            var submitFormOkay = false;
-            window.onbeforeunload = function () {
-                if (!submitFormOkay) {
-                    return "{% trans from 'messages' %}si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba{% endtrans %}";
-                }
-            }
-        {% endif %}
+		var submitFormOkay = false;
+		window.onbeforeunload = function () {
+			if (!submitFormOkay) {
+				return "{% trans from 'messages' %}si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba{% endtrans %}";
+			}
+		}
     </script>
 {% endblock script %}

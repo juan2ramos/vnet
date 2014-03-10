@@ -383,6 +383,10 @@
                 <source>ocurrio.error.al.registrar.alternativa.de.estudio</source>
                 <target>Ocurrio un error al registrar una alternativa de estudio</target>
 			</trans-unit>
+			<trans-unit id="mercadoLaboral-4">
+                <source>gracias.por.participar.mercado.laboral</source>
+                <target>Gracias por participar en Mercado laboral</target>
+			</trans-unit>
             
             <!-- evaluacion 360 eva360-x -->
 			<trans-unit id="eva360-1">
@@ -735,6 +739,10 @@
                 <source>prueba.universidad.finalizada</source>
                 <target>La información ha sido enviada correctamente</target>
 			</trans-unit>
+			<trans-unit id="univ-2">
+                <source>gracias.por.participar.universidades</source>
+                <target>Gracias por participar en prueba universidades</target>
+			</trans-unit>
             
             <!-- control admin mentor ctrl-x-->
 			<trans-unit id="ctrl-1">
@@ -769,7 +777,19 @@
                 <source>estudiante.certificado.no.encontrado</source>
                 <target>No se encontraron los datos para generar el certificado</target>
 			</trans-unit>
-            
+			
+			<!-- Test Vocacional testVocacional-x -->
+			<trans-unit id="testVocacional-1">
+                <source>gracias.por.participar.test.vocacional</source>
+                <target>Gracias por participar en el Test Vocacional</target>
+			</trans-unit>
+			
+			<!-- Test Vocacional redMentores-x -->
+			<trans-unit id="redMentores-1">
+                <source>gracias.por.participar.red.mentores</source>
+                <target>Gracias por participar en Red de mentores</target>
+			</trans-unit>
+
         </body>
     </file>
 </xliff>

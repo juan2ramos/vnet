@@ -5,56 +5,47 @@
 {% endblock menu %}
 
 {% block body %}
-<div class="row">
-    <div class="col-lg-12">
-        <section>
-              <div class="panel panel-primary">
-                  <div class="panel-heading" style="font-size: 21px">{{ title }}</div>
-                  <div class="panel-body">
-                      <div class="row">
-                        <div class="col-lg-1">
-                            <img src="  
-                            {% if type == 'success' %}
-                                {{ asset('img/success.png') }}
-                            {% elseif type == 'info' %}
-                                {{ asset('img/info.png') }}
-                            {% elseif type == 'warning' %}
-                                {{ asset('img/warning.png') }}
-                            {% elseif type == 'error' %}
-                                {{ asset('img/delete.png') }}
-                            {% endif %}
-                             " />   
-                          </div>
-                          <div class="col-lg-11">
-                              {{ message|raw }}.
-                          </div>
-                          
-                      </div>
-                      <hr>
-                      {% if file %}
-						  {% if path %}
-							<div id='contentIframe' STYLE='text-align:center;'>
-								<iframe id="fraDisabled" src="{{ asset(getParameter('path_reportes') ~ path) ~ '?f='~'now'|date('U') }}" width="800px" height="300px" /*seamless*/>
-								</iframe>
+	<div class="row">
+		<div class="col-lg-12">
+			<section>
+				<div class="panel panel-primary">
+					<div class="panel-heading" style="font-size: 21px"> {{ title }} </div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-1">
+								{% set aux_icon = (type == 'success') ? 'success.png' : ((type == 'info') ? 'info.png' : ((type == 'warning') ? 'warning.png' :  ((type == 'error') ? 'delete.png' : '' ))) %}
+								<img src="{{ asset('img/'~ aux_icon) }}" /> 
 							</div>
-						{% else %}
-							<div class="alert alert-warning fade in">
-							  <button data-dismiss="alert" class="close close-sm" type="button">
-								  <i class="icon-remove"></i>
-							  </button>
-							  <strong></strong> {% trans from "label" %}mentor.no.ha.subido.archivo.espere.porfavor{% endtrans %}
-						  </div>
-						  {% endif %}
-                      {% endif %}
-                      <div style="text-align: center; margin-top:20px;">
-                          <a href="{{ path('homepage' ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ir.al.home{% endtrans %}</a>
-                          <a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
-                      </div>
-                  </div>
-              </div>
-          </section>
-    </div>
-</div>
+							<div class="col-lg-11">
+								{{ message|raw }}.
+							  
+								{% if file %}
+									<div style="padding-top:30px;">
+										{% if path %}
+											<div class="border-head"> <h3>{% trans from "label" %}informe{% endtrans %}</h3> </div>
+											<div id='contentIframe' STYLE='text-align:center;'>
+												<iframe id="fraDisabled" src="{{ asset(getParameter('path_reportes') ~ path) ~ '?f='~'now'|date('U') }}" width="800px" height="300px" /*seamless*/> </iframe>
+											</div>
+										{% else %}
+											<div class="alert alert-info fade in">
+												<button data-dismiss="alert" class="close close-sm"> <i class="icon-remove"></i> </button>
+												{% trans from "label" %}mentor.no.ha.subido.archivo.espere.porfavor{% endtrans %}
+											</div>
+										{% endif %}
+									</div>
+								{% endif %}
+							</div>
+						</div>
+
+						<div style="text-align: center; margin-top:20px;">
+							<a href="{{ path('homepage' ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ir.al.home{% endtrans %}</a>
+							<a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</div>
 {% endblock body %}
 
 {% block script %}
