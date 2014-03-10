@@ -44,17 +44,19 @@ class AlertsController extends Controller
      * 
      * para acceder a esta funcion se hace a traves de forward
      * 
-     * @Route("/screen/{title}/{message}/{type}", name="alert_screen", defaults={"title"="", "message"="", "type"="info"})
+     * @Route("/screen/{title}/{message}/{type}/{file}/{path}", name="alert_screen", defaults={"title"="", "message"="", "file"="", "path"="", "type"="info"})
      * @Template("vocationetBundle:Alerts:alertScreen.html.twig")
      * @param string $title
      * @param string $message
      */
-    public function alertScreenAction($title = "", $message = "", $type = "info")
+    public function alertScreenAction($title = "", $message = "", $file = false, $path = false, $type = "info")
     {
         return array(
             "type" => $type,
             "title" => $title,
-            "message" => $message
+            "message" => $message,
+            "file" => $file,
+            "path" => $path,
         );
     }
 }

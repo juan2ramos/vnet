@@ -1121,7 +1121,7 @@
 			</trans-unit>
 			<trans-unit id="mercadoLaboral-2">
                 <source>mentor.no.ha.subido.archivo.espere.porfavor</source>
-                <target>El mentor de orientación vocacional, aún no ha subido el informe, por favor, espere hasta la fecha indicada.</target>
+                <target>El mentor de orientación vocacional, aún no ha subido el informe.</target>
 			</trans-unit>
 			<trans-unit id="mercadoLaboral-3">
                 <source>seleccionar.carreras</source>
@@ -1468,6 +1468,10 @@
 			<trans-unit id="pond-4">
                 <source>informacion</source>
                 <target>Publicidad</target>
+			</trans-unit>
+			<trans-unit id="pond-5">
+                <source>informacion.ponderacion</source>
+                <target>Información</target>
 			</trans-unit>
 
 			

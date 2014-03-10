@@ -46,14 +46,21 @@ class TestVocacionalController extends Controller
 			return $this->redirect($this->generateUrl($return['redirect']));
 		}
 
-		//$seleccionarMentor = 1;
-		$seleccionarMentor = $this->get('perfil')->confirmarMentorOrientacionVocacional($usuarioId);
-        if($seleccionarMentor) {
-			$formulario = $this->get('formularios')->getInfoFormulario(8);
-		} else {
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("Acceso denegado"), "text" => $this->get('translator')->trans("no.ha.seleccionado.mentor.ov")));
-			return $this->redirect($this->generateUrl('lista_mentores_ov'));
-		}
+		//Validar si el usuario ya tiene participación
+		$form_id = $this->get('formularios')->getFormId('test_vocacional');
+		$em = $this->getDoctrine()->getManager();
+        $participacion = $em->getRepository("vocationetBundle:Participaciones")->findOneBy(array("formulario" => $form_id, "usuarioParticipa" => $usuarioId));
+        if($participacion)
+        {
+            return $this->forward("vocationetBundle:Alerts:alertScreen", array(
+                "title" => $this->get('translator')->trans("cuestionario.ya.ha.sido.enviado"),
+                "message" => $this->get('translator')->trans("gracias.por.participar.diseno.vida"),
+                "file" => true,
+                "path" => $participacion->getArchivoReporte(),
+            )); 
+        }
+
+		$formulario = $this->get('formularios')->getInfoFormulario($form_id);
         
         return array(
 			'formulario_info' => $formulario,

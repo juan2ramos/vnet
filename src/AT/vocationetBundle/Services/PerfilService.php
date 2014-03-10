@@ -31,7 +31,6 @@ class PerfilService
 	 */
     public function getPerfil($perfilId)
     {
-		$em = $this->doctrine->getManager();
 		/**
 		 * @var Consulta SQL que trae los datos del perfil al que se quiere ingresar (mentor)
 		 * SELECT u.id, p.id, r.nombre, u.usuario_nombre, u.usuario_apellido 
@@ -50,6 +49,7 @@ class PerfilService
 			JOIN u.rol r
 			LEFT JOIN u.colegio col
 			WHERE u.id =:perfilId";
+		$em = $this->doctrine->getManager();
 		$query = $em->createQuery($dql);
 		$query->setParameter('perfilId', $perfilId);
 		$perfil =$query->getResult();
@@ -71,7 +71,6 @@ class PerfilService
 	 */
 	public function getEstudiosPerfil($usuarioId)
 	{
-		$em = $this->doctrine->getManager();
 		/**
 		 * @var Consulta SQL que elimina los estudios del usuario que ingresa por parametro
 		 * SELECT * FROM estudios e
@@ -79,7 +78,8 @@ class PerfilService
 		 */
 		 $dql= "SELECT est FROM vocationetBundle:Estudios est
 			WHERE est.usuario =:usuarioId";
-			$query = $em->createQuery($dql);
+		$em = $this->doctrine->getManager();
+		$query = $em->createQuery($dql);
 		$query->setParameter('usuarioId', $usuarioId);
 		$estudios =$query->getResult();
 		return $estudios;
@@ -94,11 +94,11 @@ class PerfilService
 	 */
 	public function deleteEstudiosPerfil($usuarioId)
 	{
-		$em = $this->doctrine->getManager();
 		/**
 		 * @var Consulta SQL que trae los estudios del perfil que ingresa por Id
 		 * DELETE FROM estudios e WHERE e.usuario_id = 2;
 		*/
+		$em = $this->doctrine->getManager();
 		$dql= "DELETE FROM vocationetBundle:Estudios est WHERE est.usuario =:usuarioId";
 		$query = $em->createQuery($dql);
 		$query->setParameter('usuarioId', $usuarioId);
@@ -152,17 +152,17 @@ class PerfilService
 	 */
 	public function getTrabajosPerfil($usuarioId)
 	{
-		$em = $this->doctrine->getManager();
 		/**
 		 * @var Consulta SQL que trae los trabajos del perfil que ingresa por Id
 		 * SELECT * FROM trabajos tra
 		 * INNER JOIN empresas emp ON tra.empresa_id = emp.id
 		 * WHERE tra.usuario_id = 2;
 		 */
-		 $dql= "SELECT tra FROM vocationetBundle:Trabajos tra
+		$em = $this->doctrine->getManager();
+		$dql= "SELECT tra FROM vocationetBundle:Trabajos tra
 			INNER JOIN tra.empresa emp
 			WHERE tra.usuario =:usuarioId";
-			$query = $em->createQuery($dql);
+		$query = $em->createQuery($dql);
 		$query->setParameter('usuarioId', $usuarioId);
 		$estudios =$query->getResult();
 		return $estudios;
@@ -177,11 +177,11 @@ class PerfilService
 	 */
 	public function deleteTrabajosPerfil($usuarioId)
 	{
-		$em = $this->doctrine->getManager();
 		/**
 		 * @var Consulta SQL que elimina los trabajos del usuario que ingresa por parametro
 		 * DELETE FROM trabajos tra WHERE tra.usuario_id = 2;
 		 */
+		$em = $this->doctrine->getManager();
 		$dql= "DELETE FROM vocationetBundle:Trabajos tra WHERE tra.usuario =:usuarioId";
 		$query = $em->createQuery($dql);
 		$query->setParameter('usuarioId', $usuarioId);
@@ -246,10 +246,6 @@ class PerfilService
 			$ObjCompany->setIdLinkedin($trabajo['companyId']);
 			$em->persist($ObjCompany);
 
-			if ($crearEmpresa) {
-				//$em->flush();
-			}
-
 			$newJob = new Trabajos();
 			$newJob->setUsuario($Objusuario);
 			$newJob->setEmpresa($ObjCompany);
@@ -298,10 +294,10 @@ class PerfilService
 	 */
 	public function getTitulos()
 	{
-		$em = $this->doctrine->getManager();
 		$dql= "SELECT u.usuarioProfesion, e.titulo FROM vocationetBundle:Usuarios u
 			LEFT JOIN vocationetBundle:Estudios e WITH u.id = e.usuario
             GROUP BY u.usuarioProfesion, e.titulo";
+        $em = $this->doctrine->getManager();
         $query = $em->createQuery($dql);
 		$titulos = $query->getResult();
         
@@ -322,10 +318,10 @@ class PerfilService
 	 */
 	public function getUniversidades()
 	{
-		$em = $this->doctrine->getManager();
 		$dql= "SELECT e.nombreInstitucion
                 FROM vocationetBundle:Estudios e
                 GROUP BY e.nombreInstitucion";
+        $em = $this->doctrine->getManager();
         $query = $em->createQuery($dql);
 		$universidades = $query->getResult();
         
@@ -618,7 +614,6 @@ class PerfilService
 	public function getEstadoActualPlataforma($usuarioId)
 	{
 		$em = $this->doctrine->getManager();
-        //$participaciones = $em->getRepository('vocationetBundle:Participaciones')->findBy(array('usuarioParticipa'=> $usuarioId), array('id' => 'ASC'));
         $dql = "SELECT p FROM vocationetBundle:Participaciones p
                 WHERE (p.usuarioParticipa =:usuarioId OR p.usuarioEvaluado =:usuarioId) AND p.estado = 2";
         $query = $em->createQuery($dql);
@@ -631,7 +626,8 @@ class PerfilService
 		 * JOIN usuarios u ON u.id = m.usuario_mentor_id
 		 * WHERE m.usuario_estudiante_id = 27 AND m.mentoria_estado = 1;
 		*/
-		$dql = "SELECT m.id, r.id as rolId FROM vocationetBundle:Mentorias m
+		$dql = "SELECT m.id, r.id as rolId
+				FROM vocationetBundle:Mentorias m
 				JOIN vocationetBundle:Usuarios u WITH m.usuarioMentor = u.id
 				JOIN u.rol r
 				WHERE m.usuarioEstudiante =:usuarioId AND m.mentoriaEstado = 1"; // AND u.rol = 3

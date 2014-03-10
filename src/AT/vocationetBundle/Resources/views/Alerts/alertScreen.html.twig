@@ -28,7 +28,24 @@
                           <div class="col-lg-11">
                               {{ message|raw }}.
                           </div>
+                          
                       </div>
+                      <hr>
+                      {% if file %}
+						  {% if path %}
+							<div id='contentIframe' STYLE='text-align:center;'>
+								<iframe id="fraDisabled" src="{{ asset(getParameter('path_reportes') ~ path) ~ '?f='~'now'|date('U') }}" width="800px" height="300px" /*seamless*/>
+								</iframe>
+							</div>
+						{% else %}
+							<div class="alert alert-warning fade in">
+							  <button data-dismiss="alert" class="close close-sm" type="button">
+								  <i class="icon-remove"></i>
+							  </button>
+							  <strong></strong> {% trans from "label" %}mentor.no.ha.subido.archivo.espere.porfavor{% endtrans %}
+						  </div>
+						  {% endif %}
+                      {% endif %}
                       <div style="text-align: center; margin-top:20px;">
                           <a href="{{ path('homepage' ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ir.al.home{% endtrans %}</a>
                           <a href="{{ path('perfil', { 'perfilId': sess_user.id } ) }}" class="btn btn-shadow btn-primary">{% trans from "label" %}ver.perfil{% endtrans %}</a>
@@ -39,3 +56,12 @@
     </div>
 </div>
 {% endblock body %}
+
+{% block script %}
+	<script>
+		//Desactivar click derecho de ifram de PDF
+		$('#fraDisabled').ready(function() {
+			window.frames["fraDisabled"].document.oncontextmenu = function(){return false;};
+		});
+	</script>
+{% endblock script %}
