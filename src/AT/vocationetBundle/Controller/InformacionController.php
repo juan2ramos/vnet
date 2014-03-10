@@ -11,7 +11,7 @@ use AT\vocationetBundle\Entity\Informacion;
 use AT\vocationetBundle\Form\InformacionType;
 
 /**
- * Controlador de informaci髇 y/o publicidad del sidebar
+ * Controlador de informaci贸n y/o publicidad del sidebar
  * @package vocationetBundle
  * @Route("/admin/informacion")
  * @author Camilo Quijano <camilo@altactic.com>
@@ -39,10 +39,10 @@ class InformacionController extends Controller
     }
 
 	/**
-     * Ver detalles de la informaci髇
+     * Ver detalles de la informaci贸n
 	 *
-     * @param Int $id Id de la informaci髇
-     * @return Render Vista renderizada con detalles de la informaci髇
+     * @param Int $id Id de la informaci贸n
+     * @return Render Vista renderizada con detalles de la informaci贸n
      * @Template("vocationetBundle:Informacion:show.html.twig")
      * @Route("/{id}/show", name="admin_informacion_show")
 	 * @Method("GET")
@@ -69,10 +69,10 @@ class InformacionController extends Controller
     }
 	
 	/**
-     * Agregar informaci髇
+     * Agregar informaci贸n
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request Form de nueva informaci髇
-     * @return Render Formulario de nueva informaci髇
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de nueva informaci贸n
+     * @return Render Formulario de nueva informaci贸n
      * @Template("vocationetBundle:Informacion:new.html.twig")
      * @Route("/new", name="admin_informacion_new")
      * @Method({"GET", "POST"})
@@ -92,25 +92,44 @@ class InformacionController extends Controller
             if ($form->isValid()) 
             {
 				if ($entity->getInformacionImagen()) {
-					$em = $this->getDoctrine()->getManager();
-					$entity->setCreated(new \DateTime());
-					$em->persist($entity);
-					$em->flush();
 					
-					// Subir imagen
-					$rutaImagenes = $security->getParameter('ruta_images_informacion');
-					$name = 'Informacion'.$entity->getId().'.png';
-					$form['informacionImagen']->getData()->move($rutaImagenes, $name);
-					
-					$entity->setInformacionImagen($name);
-					$em->persist($entity);
-					$em->flush();
-					
-					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informacion.creada"), "text" => $this->get('translator')->trans("informacion.creada.correctamente")));
-					return $this->redirect($this->generateUrl('admin_informacion_show', Array('id'=>$entity->getId())));
+                    $file = $form['informacionImagen']->getData();
+                    $size = $file->getClientSize();
+                    
+                    if($size <= $security->getParameter('upload_max_filesize'))
+                    {
+                    
+                        $em = $this->getDoctrine()->getManager();
+                        $entity->setCreated(new \DateTime());
+                        $em->persist($entity);
+                        $em->flush();
+
+                        // Subir imagen
+                        $rutaImagenes = $security->getParameter('ruta_images_informacion');
+                        $name = 'Informacion'.$entity->getId().'.png';
+                        $file->getData()->move($rutaImagenes, $name);
+
+                        $entity->setInformacionImagen($name);
+                        $em->persist($entity);
+                        $em->flush();
+
+                        $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informacion.creada"), "text" => $this->get('translator')->trans("informacion.creada.correctamente")));
+                        return $this->redirect($this->generateUrl('admin_informacion_show', Array('id'=>$entity->getId())));
+                    }
+                    else
+                    {
+                        $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("tamano.max.archivo.excedido")));                        
+                    }
 				}
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+                }
             }
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            }
         }
 
         return array(
@@ -121,10 +140,10 @@ class InformacionController extends Controller
 
 	
 	/**
-     * Editar Informaci髇
+     * Editar Informaci贸n
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request Form de edici髇
-     * @return Render Formulario de edici髇
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de edici贸n
+     * @return Render Formulario de edici贸n
      * @Template("vocationetBundle:Informacion:edit.html.twig")
      * @Route("/{id}/edit", name="admin_informacion_edit")
      * @Method({"GET", "POST"})
@@ -150,10 +169,22 @@ class InformacionController extends Controller
             $editForm->bind($request);
             if ($editForm->isValid()) 
             {
-				$name = 'Informacion'.$entity->getId().'.png';
-				if ($entity->getInformacionImagen()) {
-					$rutaImagenes = $security->getParameter('ruta_images_informacion');
-					$editForm['informacionImagen']->getData()->move($rutaImagenes, $name);
+                $name = 'Informacion'.$entity->getId().'.png';
+				
+                if ($entity->getInformacionImagen()) 
+                {
+                    $file = $editForm['informacionImagen']->getData();
+					$size = $file->getClientSize();
+                    
+                    if($size <= $security->getParameter('upload_max_filesize'))
+                    {
+                        $rutaImagenes = $security->getParameter('ruta_images_informacion');
+                        $file->move($rutaImagenes, $name);
+                    }
+                    else
+                    {
+                        $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("tamano.max.archivo.excedido"))); 
+                    }
 				}
 				
 				$entity->setInformacionImagen($name);
@@ -163,7 +194,10 @@ class InformacionController extends Controller
 				$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informacion.editada"), "text" => $this->get('translator')->trans("informacion.editada.correctamente")));
                 return $this->redirect($this->generateUrl('admin_informacion_show', Array('id' => $id)));
             }
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            else
+            {
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+            }
         }
 
         return array(
@@ -174,11 +208,11 @@ class InformacionController extends Controller
     }
 	
 	/**
-     * Borrar una informaci髇
+     * Borrar una informaci贸n
 	 *
-     * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar informaci髇
-     * @param Int $id Id de la informaci髇
-     * @return Redirect Redirigir a listado de informaci髇
+     * @param \Symfony\Component\HttpFoundation\Request $request Form de eliminar informaci贸n
+     * @param Int $id Id de la informaci贸n
+     * @return Redirect Redirigir a listado de informaci贸n
      * @Route("/{id}/delete", name="admin_informacion_delete")
      * @Method("DELETE")                                                                    {
      */
@@ -210,9 +244,9 @@ class InformacionController extends Controller
     }
 
 	/**
-     * Creaci髇 de formulario para eliminar informacion
+     * Creaci贸n de formulario para eliminar informacion
 	 *
-     * @param Int $id Id de la informaci髇
+     * @param Int $id Id de la informaci贸n
      * @return \Symfony\Component\Form\Form Formulario de eliminacion
      */
     private function createDeleteForm($id)

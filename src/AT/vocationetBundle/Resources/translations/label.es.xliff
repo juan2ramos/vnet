@@ -111,6 +111,10 @@
                 <source>informe</source>
                 <target>Informe</target>
 			</trans-unit>
+			<trans-unit id="generico-28">
+                <source>tamano.max.archivos</source>
+                <target>Máximo 2MB</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">

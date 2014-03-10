@@ -248,10 +248,20 @@ class PerfilController extends Controller
 						}
 
 						if ($dataForm['imagen']) {
-							$dir ='img/vocationet/usuarios/';
-							$nameImg = 'ImgUsuarioId_'.$id.'.png';
-							$form['imagen']->getData()->move($dir, $nameImg);
-							$usuario->setUsuarioImagen($dir.$nameImg);
+                            $file = $form['imagen']->getData();
+                            $size = $file->getClientSize();
+                            
+                            if($size <= $security->getParameter('upload_max_filesize'))
+                            {
+                                $dir ='img/vocationet/usuarios/';
+                                $nameImg = 'ImgUsuarioId_'.$id.'.png';
+                                $file->move($dir, $nameImg);
+                                $usuario->setUsuarioImagen($dir.$nameImg);                            
+                            }
+                            else
+                            {
+                                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("tamano.max.archivo.excedido"))); 
+                            }
 						}
 
 						$usuario->setModified(new \DateTime());
@@ -318,30 +328,50 @@ class PerfilController extends Controller
 						$usuario = $em->getRepository('vocationetBundle:usuarios')->findOneById($id);
 						
 						if ($dataForm['hojaVida']) {
-							$rutaHV = $this->get('perfil')->getRutaHojaVida();
-							$dir ='img/vocationet/usuarios/';
-							if ($usuario->getUsuarioHojaVida()){
-								$nameHV = $usuario->getUsuarioHojaVida();
-							}
-							else {
-								$stdate = strtotime(date('Y-m-d H:i:s'));
-								$nameHV = 'HojaVidaId_'.$id.$stdate.'.pdf';
-								$usuario->setUsuarioHojaVida($nameHV);
-							}
-							$form['hojaVida']->getData()->move($rutaHV, $nameHV);
+                            $fileHV = $form['hojaVida']->getData();
+                            $sizeHV=  $fileHV->getClientSize();
+                            
+                            if($sizeHV <= $security->getParameter('upload_max_filesize'))
+                            {
+                                $rutaHV = $this->get('perfil')->getRutaHojaVida();
+                                $dir ='img/vocationet/usuarios/';
+                                if ($usuario->getUsuarioHojaVida()){
+                                    $nameHV = $usuario->getUsuarioHojaVida();
+                                }
+                                else {
+                                    $stdate = strtotime(date('Y-m-d H:i:s'));
+                                    $nameHV = 'HojaVidaId_'.$id.$stdate.'.pdf';
+                                    $usuario->setUsuarioHojaVida($nameHV);
+                                }
+                                $fileHV->move($rutaHV, $nameHV);                            
+                            }
+                            else
+                            {
+                                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("tamano.max.archivo.excedido"))); 
+                            }
 						}
 
 						if ($dataForm['tarjetaProfesional']) {
-							$rutaTP = $this->get('perfil')->getRutaTarjetaProfesional();
-							if ($usuario->getUsuarioTarjetaProfesional()){
-								$nameTP = $usuario->getUsuarioTarjetaProfesional();
-							}
-							else {
-								$stdate = strtotime(date('Y-m-d H:i:s'));
-								$nameTP = 'tarjetaProfesional_'.$id.$stdate.'.pdf';
-								$usuario->setUsuarioTarjetaProfesional($nameTP);
-							}
-							$form['tarjetaProfesional']->getData()->move($rutaTP, $nameTP);
+							$fileTP = $form['tarjetaProfesional']->getData();
+                            $sizeTP = $fileTP->getClientSize();
+                            
+                            if($sizeTP <= $security->getParameter('upload_max_filesize'))
+                            {
+                                $rutaTP = $this->get('perfil')->getRutaTarjetaProfesional();
+                                if ($usuario->getUsuarioTarjetaProfesional()){
+                                    $nameTP = $usuario->getUsuarioTarjetaProfesional();
+                                }
+                                else {
+                                    $stdate = strtotime(date('Y-m-d H:i:s'));
+                                    $nameTP = 'tarjetaProfesional_'.$id.$stdate.'.pdf';
+                                    $usuario->setUsuarioTarjetaProfesional($nameTP);
+                                }
+                                $fileTP->move($rutaTP, $nameTP);
+                            }
+                            else
+                            {
+                                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("tamano.max.archivo.excedido"))); 
+                            }
 						}
 
 						if ($perfil['usuarioRolEstado'] == 0) {

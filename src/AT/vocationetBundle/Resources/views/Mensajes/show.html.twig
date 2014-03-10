@@ -1,6 +1,6 @@
 
 <div>
-    <img src="{{ mensaje.usuarioImagen|default(asset(gui_default_img)) }}" style="width: 40px; height: 40px;"/>
+    <img src="{{ asset(mensaje.usuarioImagen|default(asset(gui_default_img))) }}" style="width: 40px; height: 40px;"/>
     <b style="font-size: 16px;">{{ mensaje.usuarioNombre ~ ' ' ~ mensaje.usuarioApellido }}</b>
     <span style="float:right;">{{ mensaje.fechaEnvio|date('H:i d/m/y') }}</span>
 </div>

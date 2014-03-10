@@ -69,7 +69,10 @@
 							{% else %}
 								<div class="form-group">
 									<label class="col-lg-3 control-label">{% trans from "label" %}perfil.imagen{% endtrans %}: </label>
-									<div class="col-lg-7">{{ form_widget(form.imagen, { 'attr' : {'class': 'form-control'}}) }}</div>
+									<div class="col-lg-7">
+                                        {{ form_widget(form.imagen, { 'attr' : {'class': 'form-control'}}) }}
+                                        <p class="help-block">{% trans from "label" %}tamano.max.archivos{% endtrans %}</p>
+                                    </div>
 								</div>
 							{% endif %}
 

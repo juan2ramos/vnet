@@ -246,7 +246,9 @@ class ForosController extends Controller
 					$foroId = $newForo->getId();
 					$temaId = $ObjTema->getId();
 
-					$files_id = $this->get('file')->upload($dataForm['attachment'], 'foros/');
+					$upload = $this->get('file')->upload($dataForm['attachment'], 'foros/');
+                    $files_id = $upload['files_id'];
+                    
 					foreach($files_id as $idFile){
 						$ObjArchivo = $em->getRepository('vocationetBundle:Archivos')->findOneById($idFile);
 						$newFA = new ForosArchivos();
@@ -255,6 +257,11 @@ class ForosController extends Controller
 						$em->persist($newFA);
 						$em->flush();
 					}
+                    
+                    if($upload['errors'] > 0)
+                    {
+                        $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.cargar.archivos"), "text" => $this->get('translator')->trans("%n%.archivos.exceden.tamano.maximo", array('%n%' => $upload['errors'])))); 
+                    }
 					
 					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.creado"), "text" => $this->get('translator')->trans("foro.creado.correctamente")));
 					return $this->redirect($this->generateUrl('foros_temas', array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
@@ -326,7 +333,9 @@ class ForosController extends Controller
 
 						$this->eliminarAdjuntos($request->request->get('del_adj'), $foro);
 						
-						$files_id = $this->get('file')->upload($dataForm['attachment'], 'foros/');
+						$upload = $this->get('file')->upload($dataForm['attachment'], 'foros/');
+                        
+                        $files_id = $upload['files_id'];
 						foreach($files_id as $idFile){
 							$ObjArchivo = $em->getRepository('vocationetBundle:Archivos')->findOneById($idFile);
 							$newFA = new ForosArchivos();
@@ -336,6 +345,11 @@ class ForosController extends Controller
 							$em->flush();
 						}
 						
+                        if($upload['errors'] > 0)
+                        {
+                            $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("error.cargar.archivos"), "text" => $this->get('translator')->trans("%n%.archivos.exceden.tamano.maximo", array('%n%' => $upload['errors'])))); 
+                        }
+                        
 						$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("foro.editado"), "text" => $this->get('translator')->trans("foro.editado.correctamente")));
 						return $this->redirect($this->generateUrl('foros_temas', array('id'=> $carreraId, 'temaId' => $temaId, 'foroId' => $foroId)));
 					}

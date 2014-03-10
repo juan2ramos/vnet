@@ -71,13 +71,13 @@
 								</label>
 								<div class="col-lg-8">
 									{{ form_widget(form.hojaVida, { 'attr' : {'class': 'form-control'}}) }}
-									<p class="help-block">{% trans from "label" %}formato.permitido.pdf{% endtrans %}</p>
+									<p class="help-block">{% trans from "label" %}formato.permitido.pdf{% endtrans %}. {% trans from "label" %}tamano.max.archivos{% endtrans %}</p>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-lg-3 control-label">{% trans from "label" %}tarjeta.profesional{% endtrans %}: </label>
 								<div class="col-lg-8">{{ form_widget(form.tarjetaProfesional, { 'attr' : {'class': 'form-control'}}) }}
-									<p class="help-block">{% trans from "label" %}formato.permitido.pdf{% endtrans %}</p>
+									<p class="help-block">{% trans from "label" %}formato.permitido.pdf{% endtrans %}. {% trans from "label" %}tamano.max.archivos{% endtrans %}</p>
 								</div>
 								
 							</div>
