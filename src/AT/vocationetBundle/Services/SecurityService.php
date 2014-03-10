@@ -321,6 +321,7 @@ class SecurityService
 			'ruta_certificados'                     => 'uploads/vocationet/certificados/',
             'path_reportes_universidad'             => 'uploads/vocationet/universidad/',
             'path_reportes'                         => 'uploads/vocationet/reportes/',
+            'upload_max_filesize'                   => 2097152
         );
         
         if($parameter)

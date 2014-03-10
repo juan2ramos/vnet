@@ -34,6 +34,7 @@
 									<label class="col-lg-2 control-label">{% trans from "label" %}adjuntos{% endtrans %}</label>
 									<div class="col-lg-9">
 										<input type="file" id="form_attachment" name="form[attachment][]" class="form-control" multiple="">
+                                        <span>{% trans from "label" %}tamano.max.archivos{% endtrans %}</span>
 										<input type="hidden" id="del_adj" name="del_adj">
 										{% if foroAdjuntos %}
 											<hr>

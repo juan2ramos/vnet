@@ -35,6 +35,18 @@
                 <source>si.cierra.esta.pagina.se.perdera.el.avance.de.la.prueba</source>
                 <target>Tenga en cuenta, que si sale de esta prueba, se perderá el avance realizado</target>
 			</trans-unit>
+			<trans-unit id="generic-9">
+                <source>tamano.max.archivo.excedido</source>
+                <target>No se pueden cargar archivos de más de 2MB</target>
+			</trans-unit>
+			<trans-unit id="generic-10">
+                <source>error.cargar.archivos</source>
+                <target>Error en la carga de archivos</target>
+			</trans-unit>
+			<trans-unit id="generic-11">
+                <source>%n%.archivos.exceden.tamano.maximo</source>
+                <target>%n% archivos exceden el tamaño máximo de 2MB</target>
+			</trans-unit>
 
 
             <!-- LOGIN login-x -->

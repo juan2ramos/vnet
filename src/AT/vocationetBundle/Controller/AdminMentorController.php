@@ -158,24 +158,32 @@ class AdminMentorController extends Controller
         if($archivo)
         {        
             $ext = $archivo->guessExtension();
-
-            if(strtolower($ext) == 'pdf')
+            $size = $archivo->getClientSize();
+            
+            if($size <= $security->getParameter('upload_max_filesize'))
             {
-                $filename = md5($id.$form_id).'.'.$ext;
-                $pathname = $security->getParameter('path_reportes');
+                if(strtolower($ext) == 'pdf')
+                {
+                    $filename = md5($id.$form_id).'.'.$ext;
+                    $pathname = $security->getParameter('path_reportes');
 
-                // Cargar archivo a carpeta de reportes
-                $archivo->move($pathname, $filename);
+                    // Cargar archivo a carpeta de reportes
+                    $archivo->move($pathname, $filename);
 
-                // Registrar ruta a la participacion en base de datos
-                $this->updateArchivoReporte($id, $form_id, $filename);
+                    // Registrar ruta a la participacion en base de datos
+                    $this->updateArchivoReporte($id, $form_id, $filename);
 
 
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informe.cargado"), "text" => $this->get('translator')->trans("informe.cargado.correctamente")));
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("informe.cargado"), "text" => $this->get('translator')->trans("informe.cargado.correctamente")));
+                }
+                else
+                {
+                    $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("extension.invalida")));
+                }
             }
             else
             {
-                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("extension.invalida")));
+                $this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("tamano.max.archivo.excedido")));
             }
         }
         else

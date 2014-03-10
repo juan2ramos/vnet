@@ -33,6 +33,7 @@ class FileService
     public function upload($files, $path)
     {
         $files_id = array();
+        $errors = 0;
         
         if(count($files) > 0)
         {        
@@ -43,31 +44,42 @@ class FileService
                 if(is_object($file))
                 {
                     $size = $file->getClientSize();
-                    $name = $file->getClientOriginalName();
-                    $ext = $this->getExtension($name);
-                    $pathName = uniqid('f', true).'.'.$ext;
-                    $filePath = $path.$pathName;
+                                        
+                    if($size <= SecurityService::getParameter('upload_max_filesize'))
+                    {
+                        $name = $file->getClientOriginalName();
+                        $ext = $this->getExtension($name);
+                        $pathName = uniqid('f', true).'.'.$ext;
+                        $filePath = $path.$pathName;
 
-                    // Mover archivo
-                    $file->move($this->root.$path, $pathName);
+                        // Mover archivo
+                        $file->move($this->root.$path, $pathName);
 
-                    // Registrar en la db
-                    $archivo = new \AT\vocationetBundle\Entity\Archivos();
+                        // Registrar en la db
+                        $archivo = new \AT\vocationetBundle\Entity\Archivos();
 
-                    $archivo->setArchivoNombre($name);
-                    $archivo->setArchivoPath($filePath);
-                    $archivo->setArchivoSize($size);
-                    $archivo->setCreated(new  \DateTime());
+                        $archivo->setArchivoNombre($name);
+                        $archivo->setArchivoPath($filePath);
+                        $archivo->setArchivoSize($size);
+                        $archivo->setCreated(new  \DateTime());
 
-                    $em->persist($archivo);
-                    $em->flush();
-                    $files_id[] = $archivo->getId();
+                        $em->persist($archivo);
+                        $em->flush();
+                        $files_id[] = $archivo->getId();
+                    }
+                    else
+                    {
+                        $errors++;
+                    }
                 }
             }
 
             
         }
-        return $files_id;
+        return array(
+            'files_id' => $files_id,
+            'errors'   => $errors
+        );
     }
     
     /**

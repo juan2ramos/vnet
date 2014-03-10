@@ -189,7 +189,8 @@ class MensajesService
         // Subir adjuntos
         if($attachment)
         {
-            $files_id = $this->file->upload($attachment, 'mensajes/');
+            $upload = $this->file->upload($attachment, 'mensajes/');
+            $files_id = $upload['files_id'];
             
             // Registrar relacion mensaje_archivos
             foreach($files_id as $fi)

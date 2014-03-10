@@ -107,6 +107,10 @@
                 <source>toggle.menu</source>
                 <target>Ocultar/mostrar menú</target>
 			</trans-unit>
+			<trans-unit id="generico-27">
+                <source>tamano.max.archivos</source>
+                <target>Máximo 2MB</target>
+			</trans-unit>
 
             <!-- PERFILES MENTOR perfil-x -->
             <trans-unit id="perfil-1">
