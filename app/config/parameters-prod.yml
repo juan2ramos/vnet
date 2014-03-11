@@ -2,7 +2,7 @@ parameters:
     database_driver:   pdo_mysql
     database_host:     vocationet-db.cxzjwkrtctii.us-east-1.rds.amazonaws.com
     database_port:     3306
-    database_name:     vocationet_prod
+    database_name:     vocationet_prod1.1
     database_user:     vocationetadmin
     database_password: v0c4t10n3t
 
