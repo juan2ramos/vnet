@@ -22,6 +22,7 @@ composer.lock
 /web/uploads/vocationet/universidad/*
 /web/uploads/vocationet/certificados/*
 /web/uploads/vocationet/reportes/*
+/web/uploads/vocationet/usuarios/*
 !/web/uploads/vocationet/informacion/.gitkeep
 !/web/uploads/vocationet/ml/.gitkeep
 !/web/uploads/vocationet/universidad/.gitkeep
