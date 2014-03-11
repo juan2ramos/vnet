@@ -393,7 +393,7 @@ class PerfilService
 	 */
 	public function getRutaHojaVida()
 	{
-		return 'img/vocationet/usuarios/';
+		return 'uploads/vocationet/usuarios/';
 	}
 
 	/**
@@ -405,7 +405,7 @@ class PerfilService
 	 */
 	public function getRutaTarjetaProfesional()
 	{
-		return 'img/vocationet/usuarios/';
+		return 'uploads/vocationet/usuarios/';
 	}
 	
 	/**

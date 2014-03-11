@@ -93,6 +93,19 @@ var tour_mentor_ov = [
 	onHideStep:function(){}
 },
 {
+	hookTo: '#menu_usuarios',
+	content: '#box_mentor_ov_usuarios',
+	width: 268,
+	arrowPosition: 'rt',
+	showArrow: true,
+	highlight: true,
+	highlightElements: '#sidebar',
+	time: '00:05',
+	customClassStep: style_tour,
+	onShowStep: function(){ $('#bar_usuario').removeClass('open'); },
+	onHideStep:function(){}
+},
+{
 	hookTo: '#menu_agenda_mentor',
 	content: '#box_agenda_mentor',
 	width: 268,
@@ -102,7 +115,7 @@ var tour_mentor_ov = [
 	highlightElements: '#sidebar',
 	time: '00:05',
 	customClassStep: style_tour,
-	onShowStep: function(){	$('#bar_usuario').removeClass('open'); },
+	onShowStep: function(){	$('#menu_plataforma').removeClass('active'); },
 	onHideStep:function(){}
 },
 {
@@ -120,19 +133,6 @@ var tour_mentor_ov = [
 {
 	hookTo: '#menu_foros',
 	content: '#box_foros',
-	width: 268,
-	arrowPosition: 'rt',
-	showArrow: true,
-	highlight: true,
-	highlightElements: '#sidebar',
-	time: '00:05',
-	customClassStep: style_tour,
-	onShowStep: function(){ $('#menu_plataforma').removeClass('active'); },
-	onHideStep:function(){}
-},
-{
-	hookTo: '#menu_usuarios',
-	content: '#box_mentor_ov_usuarios',
 	width: 268,
 	arrowPosition: 'rt',
 	showArrow: true,

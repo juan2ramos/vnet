@@ -121,10 +121,16 @@
 				runOnLoad: false,
 				runOnLoadDelay: 2000,
 				exitUrl: '',
-				onStart: function(){},
-				onFinish: function(){},
+				onStart: function(){
+					$('#sidebar').css('overflow', 'visible');
+				},
+				onFinish: function(){
+					$('#sidebar').css('overflow', 'hidden');
+				},
 				onStop: function(){},	
-				onCancel: function(){},
+				onCancel: function(){
+					$('#sidebar').css('overflow', 'hidden');
+				},
 				step: step
 			});
 		});

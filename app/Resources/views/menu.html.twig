@@ -18,8 +18,8 @@
             
         {% if sess_user.rolId == 3 %}
 			{% if 'acceso_mentor_ov' in sess_permissions.permissions %}
-				<li class="{% if active == 'adminmentor' %}active{% endif %}">
-					<a class="" href="{{ path('lista_usuarios_mentor') }}">
+				<li class="{% if active == 'adminmentor' %}active{% endif %}" id="menu_usuarios">
+					<a href="{{ path('lista_usuarios_mentor') }}">
 						<i class="icon-group"></i>
 						<span>{% trans from "label" %}estudiantes{% endtrans %}</span>
 					</a>
