@@ -47,11 +47,30 @@ a, a:hover, a:focus {
 }
 
 .form-signin {
-    max-width: 330px;
+    max-width: 430px;
     margin: 100px auto 0;
     background: #fff;
     border-radius: 5px;
     -webkit-border-radius: 5px;
+}
+
+.border-right  {
+	border-right: 2px  solid #41cac0;
+}
+
+.line-diviser  {
+	background: #41cac0;
+	height: 2px;
+	margin-top: 0px;
+	botder-top: 0px;
+}
+
+.title-ini-ses {
+	font-size: 1.3em !important;
+	color: #ff4700 !important;
+	font-weight: bold !important;
+	text-transform: capitalize;
+	margin-bottom: 0px;
 }
 
 .form-signin h2.form-signin-heading {
@@ -128,9 +147,11 @@ a, a:hover, a:focus {
 }
 
 .login-social-link  {
-    display: inline-block;
+    /*display: inline-block;*/
     margin-top: 20px;
     margin-bottom: 15px;
+	text-align:center;
+	padding: 0;
 }
 
 .login-social-link a {
@@ -2328,7 +2349,7 @@ ul.inbox-pagination li {
 /*profile*/
 
 .profile-nav .user-heading {
-    background: #ff766c;
+    background: #489978;
     color: #fff;
     border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
@@ -2396,6 +2417,12 @@ ul.inbox-pagination li {
     font-size: 16px;
     padding-right: 10px;
     color: #bcb3aa;
+}
+
+.trophy {
+	min-width:90px;
+	min-height:90px;
+	max-height:100px;
 }
 
 .r-activity {
@@ -3993,4 +4020,10 @@ textarea{
 
 .modal {
     z-index: 9999 !important;
+}
+
+/* Mapa */
+.avatar-cientif {
+	width: 62%;
+	height: 62%;
 }

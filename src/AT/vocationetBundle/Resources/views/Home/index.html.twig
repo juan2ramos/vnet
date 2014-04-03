@@ -43,17 +43,27 @@
 {% block body %}
 
 	{# VARIABLES AUXILIARES PARA MAPA, E IMAP CON TITULO, IMAGEN Y DESCRIPCION DE CADA UNO #}
-	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico")) }}' width='40%' height='40%' align='left' /> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_in %} <b>{{ 'inicio'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'inicio.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico2")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_di %} <b>{{ 'diagnostico'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'diagnostico.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico3")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_as %} <b>{{ 'asesoria.ov'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'asesoria.ov.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico4")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_tv %} <b>{{ 'test.vocacional'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'test.vocacional.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico5")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_ev %} <b>{{ 'evaluacion.360'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'evaluacion.360.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico6")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_dv %} <b>{{ 'diseno.vida'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'diseno.vida.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_ml %} <b>{{ 'mercado.laboral'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'mercado.laboral.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico2")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_rm %} <b>{{ 'red.mentores'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'red.mentores.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico3")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_po %} <b>{{ 'ponderacion'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'ponderacion.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico4")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_un %} <b>{{ 'universidad'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'universidad.descripcion'|trans({}, 'label') }} </p> {% endset %}
+	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico5")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_ce %} <b>{{ 'certificado'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'certificado.descripcion'|trans({}, 'label') }} </p> {% endset %}
 
 	<div class="row">

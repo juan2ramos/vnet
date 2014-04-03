@@ -309,7 +309,6 @@ class SecurityService
             'ruta_files_mercado_laboral'            => 'uploads/vocationet/ml/',
 			'ruta_images_informacion'               => 'uploads/vocationet/informacion/',
 			'ruta_mapas_vocationet' 				=> 'img/vocationet/mapas/',
-			'imagen_cientifico' 					=> 'img/vocationet/mapas/cientifico.png',
             'dias_habiles_informe_mercado_laboral'  => 5,
             'diagnostico_rango_puntaje_1'           => array('min'=>0, 'max'=>50),
             'diagnostico_rango_puntaje_2'           => array('min'=>51, 'max'=>90),
@@ -321,7 +320,13 @@ class SecurityService
 			'ruta_certificados'                     => 'uploads/vocationet/certificados/',
             'path_reportes_universidad'             => 'uploads/vocationet/universidad/',
             'path_reportes'                         => 'uploads/vocationet/reportes/',
-            'upload_max_filesize'                   => 2097152
+            'upload_max_filesize'                   => 2097152,
+			'imagen_cientifico' 					=> 'img/vocationet/mapas/cientifico.png',
+			'imagen_cientifico2' 					=> 'img/vocationet/mapas/cientifico2.png',
+			'imagen_cientifico3' 					=> 'img/vocationet/mapas/cientifico3.png',
+			'imagen_cientifico4' 					=> 'img/vocationet/mapas/cientifico4.png',
+			'imagen_cientifico5' 					=> 'img/vocationet/mapas/cientifico5.png',
+			'imagen_cientifico6' 					=> 'img/vocationet/mapas/cientifico6.png'
         );
         
         if($parameter)

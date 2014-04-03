@@ -32,35 +32,57 @@
 			<form class="form-signin" action="{{ path('login') }}" method="POST">
 				<h2 class="form-signin-heading">{% trans from "label" %}iniciar.sesion{% endtrans %}</h2>
 				<div class="login-wrap">
-					{{ form_widget(form.username, {'attr':{'class':'form-control', 'placeholder': 'email'|trans({}, 'label'), 'autofocus':''} }) }}
-					{{ form_widget(form.password, {'attr':{'class':'form-control', 'placeholder': 'contrasena'|trans({}, 'label')} }) }}
-					<label class="checkbox">
-						<span class="pull-right"> <a href="{{ path('registro') }}">{% trans from "label" %}registrarse{% endtrans %}</a></span>
-					</label>
-					<button class="btn btn-lg btn-login btn-block" type="submit">{% trans from "label" %}ingresar{% endtrans %}</button>
-					<hr>
+					<div class="row">
+						<div class="col-lg-6 border-right"> 
+							<p class="title-ini-ses"> {% trans from "label" %}para.estudiantes{% endtrans %} </p>
+							<div class="login-social-link">
+								<a href="{{ login_facebook_url }}" >{# class="facebook" #}
+									{#<i class="icon-facebook"></i> {% trans from "label" %}facebook{% endtrans %}#}
+									<img src="{{ asset('img/Vocationet/logo-facebook.png') }}" width="130" height="40" />
+								</a>
+							</div>
+							<p> {% trans from "label" %}si.no.tiene.cuenta.de.facebook{% endtrans %} </p>
+							{{ form_widget(form.username, {'attr':{'class':'form-control', 'placeholder': 'email'|trans({}, 'label'), 'autofocus':''} }) }}
+							{{ form_widget(form.password, {'attr':{'class':'form-control', 'placeholder': 'contrasena'|trans({}, 'label')} }) }}
+							{{ form_widget(form._token) }}
+							{{ form_errors(form) }}
+							
+							<label class="checkbox">
+								<span class="pull-right"> 
+									<a href="{{ path('registro') }}">{% trans from "label" %}registrarse{% endtrans %}</a>
+								</span> 
+							</label>
+							<label class="pull-right">
+								<a href="{{ path('forget_pass') }}" style="color:#41cac0">{% trans from "label" %}olvide.mi.contrasena{% endtrans %}</a>
+							</label>
+							<button class="btn btn-lg btn-login btn-block" type="submit">{% trans from "label" %}ingresar{% endtrans %}</button>
+						</div>
 					
-					<label class="text-justify">
-						<div class="col-xs-2"><i class="icon-exclamation-sign icon-big" style="color:#E76600;"></i></div>
-						<div class="col-xs-10">{% trans from "label" %}aclaracion.login.usuarios.facebook.linkedin{% endtrans %}.</div>
-					</label>
-					<div class="login-social-link">
-						<a href="{{ login_facebook_url }}" class="facebook">
-							<i class="icon-facebook"></i> {% trans from "label" %}facebook{% endtrans %}
-						</a>
-						<a href="{{ login_linkedin_url }}" class="linkedin">
-							<i class="icon-linkedin"></i> {% trans from "label" %}linkedin{% endtrans %}
-						</a>
+						
+						<div class="col-lg-6"> 
+							<p class="title-ini-ses"> {% trans from "label" %}para.mentores{% endtrans %} </p>
+							<div class="login-social-link">
+								<a href="{{ login_linkedin_url }}"> {# class="linkedin" #}
+									{#<i class="icon-linkedin"></i> {% trans from "label" %}linkedin{% endtrans %}#}
+									<img src="{{ asset('img/Vocationet/logo-linkedin.png') }}" width="130" height="40" />
+								</a>
+							</div>
+							<p> {% trans from "label" %}aclaracion.cuenta.linkedin{% endtrans %} 
+								<a href="https://co.linkedin.com/" style='color:#41cac0'> {% trans from "label" %}aqui{% endtrans %}</a>
+							</p>
+						</div>
+					</div> 
+
+					<div class="row">
+						<div class="col-lg-12"> 
+							<label class="text-justify">
+								<hr class="line-diviser">
+								<div class="col-xs-2"> <i class="icon-exclamation-sign icon-big" style="color:#E76600;"></i> </div>
+								<div class="col-xs-10"> {% trans from "label" %}aclaracion.login.usuarios.facebook.linkedin{% endtrans %} </div>
+							</label> 
+						</div>
 					</div>
-					<table border="0" style="width: 100%">
-						<tr>
-							<td><p style="text-align:left;padding-left: 5px;">{% trans from "label" %}para.estudiantes{% endtrans %}</p></td>
-							<td><p style="text-align:left;padding-left: 18px;">{% trans from "label" %}para.mentores{% endtrans %}</p></td>
-						</tr>
-					</table>
 				</div>
-				{{ form_widget(form._token) }}
-				{{ form_errors(form) }}
 			</form>
 		</div>
 		

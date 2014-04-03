@@ -525,7 +525,7 @@
             </trans-unit>
             <trans-unit id="login-8">
                 <source>linkedin</source>
-                <target>Linked In</target>
+                <target>LinkedIn</target>
             </trans-unit>
             <trans-unit id="login-9">
                 <source>registrarse</source>
@@ -545,10 +545,26 @@
             </trans-unit>
             <trans-unit id="login-13">
                 <source>aclaracion.login.usuarios.facebook.linkedin</source>
-                <target>Si te registraste con Facebook o Linked In debes ingresar a través de estos botones</target>
+                <target>Recuerda, si te registraste con los botones de Facebook y LinkeIn, en adelante SIEMPRE deberas ingresar a traves de estos botones.</target>
             </trans-unit>
-            
-            
+			<trans-unit id="login-14">
+                <source>si.no.tiene.cuenta.de.facebook</source>
+                <target>Si no tiene cuenta de facebook</target>
+            </trans-unit>
+			<trans-unit id="login-15">
+                <source>aclaracion.cuenta.linkedin</source>
+                <target>Para ser Mentor debes tener perfil en LinkedIn, si no tienes cuenta registrate </target>
+            </trans-unit>
+			<trans-unit id="login-16">
+                <source>aqui</source>
+                <target>aquí</target>
+            </trans-unit>
+			<trans-unit id="login-17">
+                <source>olvide.mi.contrasena</source>
+                <target>Olvide mi contraseña</target>
+            </trans-unit>
+			
+			
             <!-- REGISTRO registro-x -->
             <trans-unit id="registro-1">
                 <source>registro.para.estudiantes</source>
@@ -1522,7 +1538,7 @@
 			</trans-unit>
 			<trans-unit id="adminUsers-11">
                 <source>fecha.ultima.sincronizacion</source>
-                <target>Fecha última sincronización linkedin</target>
+                <target>Fecha última sincronización LinkedIn</target>
 			</trans-unit>
 			<trans-unit id="adminUsers-12">
                 <source>fecha.modificacion</source>
@@ -1683,6 +1699,17 @@
                 <source>comprar.otro</source>
                 <target>Comprar otro</target>
 			</trans-unit>
+			<trans-unit id="pago-39">
+                <source>mensaje.cupos.llenos</source>
+                <target>Gracias por preferirnos, debido al exito de nuestro programa, en pocas horas llenamos nuestros cupos para los programas de orientación e información. Te contactaremos tan pronto tengamos más cupos.</target>
+			</trans-unit>
+			<trans-unit id="pago-40">
+                <source>vocationet.piensa.en.tu.futuro</source>
+                <target>VocationNet, piensa en tu futuro</target>
+			</trans-unit>
+			
+			
+			
 
 			<!-- SELECCIONAR MENTOR EXPERTO selectMentorE-x -->
 			<trans-unit id="selectMentorE-1">
@@ -1796,8 +1823,8 @@
                 <target>Resultados de universidad</target>
 			</trans-unit>
 
-			<!-- MAPA / DESCRIPCION DE ITEMS DEL MAPA mapa-x -->
 			
+			<!-- MAPA / DESCRIPCION DE ITEMS DEL MAPA mapa-x -->
 			<trans-unit id="mapa-1">
                 <source>asesoria.ov</source>
                 <target>Asesoria experto orientación vocacional</target>
@@ -1851,6 +1878,7 @@
                 <target>Clic para activar/desactivar zoom</target>
 			</trans-unit>
 
+			
 			<!-- Tour app tour-x -->
 			<trans-unit id="tour-0">
                 <source>tour.por.la.plataforma</source>
@@ -1974,7 +2002,7 @@
 			</trans-unit>
 			<trans-unit id="tour-30"> 
                 <source>boton.usuario.perfil.mentor</source>
-                <target>Perfil, en donde tendra acceso a su información, calificaciones, sincronización con linkedin, etc.</target>
+                <target>Perfil, en donde tendra acceso a su información, calificaciones, sincronización con LinkedIn, etc.</target>
 			</trans-unit>
 			<trans-unit id="tour-31">
                 <source>boton.usuario.resenas</source>

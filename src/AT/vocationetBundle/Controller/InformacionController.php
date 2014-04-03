@@ -107,7 +107,7 @@ class InformacionController extends Controller
                         // Subir imagen
                         $rutaImagenes = $security->getParameter('ruta_images_informacion');
                         $name = 'Informacion'.$entity->getId().'.png';
-                        $file->getData()->move($rutaImagenes, $name);
+                        $file->move($rutaImagenes, $name);
 
                         $entity->setInformacionImagen($name);
                         $em->persist($entity);

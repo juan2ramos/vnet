@@ -43,25 +43,25 @@
 						<div class="row state-overview">
 							<div class="col-lg-12">
 								<section class="panel">
-									<div class="symbol blue" style='padding:5px;width:30%'>
+									<div class="symbol blue" style='padding:0px;width:30%'>
 										{% set auxName = '' %}
 										{% if perfil.usuarioPuntos > 1500 %}
-											<img src="{{ asset('img/vocationet/medallas/campeon.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											<img src="{{ asset('img/vocationet/medallas/6campeon.png') }}" width='100%' class="trophy">
 											{% set auxName %}{% trans from "label" %}campeon{% endtrans %}{%endset %}
 										{% elseif perfil.usuarioPuntos > 1000 %}
-											<img src="{{ asset('img/vocationet/medallas/master.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											<img src="{{ asset('img/vocationet/medallas/5master.png') }}" width='100%' class="trophy">
 											{% set auxName %}{% trans from "label" %}master{% endtrans %}{%endset %}
 										{% elseif perfil.usuarioPuntos > 600 %}
-											<img src="{{ asset('img/vocationet/medallas/oro.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											<img src="{{ asset('img/vocationet/medallas/4oro.png') }}" width='100%' class="trophy">
 											{% set auxName %}{% trans from "label" %}oro{% endtrans %}{%endset %}
 										{% elseif perfil.usuarioPuntos > 300 %}
-											<img src="{{ asset('img/vocationet/medallas/plata.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											<img src="{{ asset('img/vocationet/medallas/3plata.png') }}" width='100%' class="trophy">
 											{% set auxName %}{% trans from "label" %}plata{% endtrans %}{%endset %}
 										{% elseif perfil.usuarioPuntos > 100 %}
-											<img src="{{ asset('img/vocationet/medallas/bronce.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											<img src="{{ asset('img/vocationet/medallas/2bronce.png') }}" width='100%' class="trophy">
 											{% set auxName %}{% trans from "label" %}bronce{% endtrans %}{%endset %}
 										{% else %}
-											<img src="{{ asset('img/vocationet/medallas/menos100.png') }}" width='100%' style='min-width:100px;min-height:90px;max-height:100px;'>
+											<img src="{{ asset('img/vocationet/medallas/1menos100.png') }}" width='100%' class="trophy">
 										{% endif %}
 									</div>
 									<div class="value">

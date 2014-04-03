@@ -801,6 +801,13 @@
                 <source>gracias.por.participar.red.mentores</source>
                 <target>Gracias por participar en Red de mentores</target>
 			</trans-unit>
+			
+			<!-- RECUPERAR CONTRASEÑA recpass-x-->
+			<trans-unit id="recpass-1">
+                <source>informacion.envio.mail.enlace.recuperacion.contrasena</source>
+                <target>Se ha enviado un mail de recuperación de contraseña</target>
+			</trans-unit>
+			
 
         </body>
     </file>

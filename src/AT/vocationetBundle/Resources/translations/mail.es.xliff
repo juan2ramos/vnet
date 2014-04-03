@@ -168,8 +168,16 @@
                 <source>mensaje.universidad.descrita.%usu%</source>
                 <target>%usu% ha enviado la caracteristicas de la universidad para que de acuerdo a estas sea cargado su reporte de universidades.</target>
 			</trans-unit>
-            
-            
+			
+			<!-- RECUPERAR CONTRASEÑA recpass-x-->
+			<trans-unit id="recpass-1">
+                <source>recuperar.contrasena</source>
+                <target>Recuperar contraseña</target>
+			</trans-unit>
+			<trans-unit id="recpass-2">
+                <source>mensaje.de.recuperacion.contrasena</source>
+                <target>Para poder cambiar la contraseña, por favor ingrese al siguiente enlace: </target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

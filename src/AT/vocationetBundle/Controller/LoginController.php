@@ -190,4 +190,89 @@ class LoginController extends Controller
         
         return $this->redirect($this->generateUrl('login'));
     }
+	
+	 /**
+     * Accion para la autenticacion de usuarios
+     * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
+     * @Route("/forgetpass", name="forget_pass")
+     * @Template("vocationetBundle:Login:forgetPass.html.twig")
+	 * @Method({"GET", "POST"})
+	 * @param Request $request Request form
+     * @return Response
+     */
+    public function forgetPassAction(Request $request)
+    {
+		$security = $this->get('security');
+		
+		$forgetPassFormData = array('username' => '');
+        $forgetPassForm = $this->createFormBuilder($forgetPassFormData)
+           ->add('username', 'email', array('required' => true))
+           ->getForm();
+		
+		 if($request->getMethod() == 'POST') 
+        {
+            $forgetPassForm->bind($request);
+            if ($forgetPassForm->isValid()) 
+			{
+				$data = $forgetPassForm->getData();
+                $email = $data['username'];
+                $token = $security->encriptar("GENERARTOKEN".$email."GENERARTOKEN");
+				$title = $this->get('translator')->trans("recuperar.contrasena", array(), 'mail');
+				
+				// Estructura del envio del email.
+				$link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('change_pass', array('email'=>$email, 'token'=>$token)); 
+				$dataRender = array(
+					'title' => $title, 
+					'body' => $this->get('translator')->trans("mensaje.de.recuperacion.contrasena", array(), 'mail'), 
+					'link' => $link, 
+					'link_text' => $title,
+				);
+				
+				// Envio de mail, y notificacion por pantalla informado del envio
+				$this->get('mail')->sendMail($email, $title, $dataRender);
+				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $title, "text" => $this->get('translator')->trans("informacion.envio.mail.enlace.recuperacion.contrasena")));
+			}
+			return $this->redirect($this->generateUrl('login'));
+		}
+		return array(
+            'form' => $forgetPassForm->createView(),
+        );
+	}
+	
+	/**
+     * Accion para la autenticacion de usuarios
+     * 
+     * @Route("/changepass/{email}/{token}", name="change_pass")
+     * @Template("vocationetBundle:Login:changePass.html.twig")
+     * @author Camilo Quijano <camilo@altactic.com>
+     * @return Response
+     */
+    public function changePassAction($email, $token)
+    {
+		$security = $this->get('security');
+		$token_val = $security->encriptar("GENERARTOKEN".$email."GENERARTOKEN");
+		if ($token_val == $token) {
+			
+			$data = array('pass' => null, 'conf_pass' => null);
+			$changePassForm = $this->createFormBuilder($data)
+			   ->add('pass', 'password', array('required' => true))
+			   ->add('conf_pass', 'password', array('required' => true))
+			   ->getForm();
+			   
+			return array(
+				'form' => $changePassForm->createView(),
+			);
+        
+        
+		
+		} else {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("recuperar.contrasena", array(), 'mail'), "text" => $this->get('translator')->trans("datos.invalidos")));
+			return $this->redirect($this->generateUrl('login'));
+		}
+	
+	
+	}
+	
 }
