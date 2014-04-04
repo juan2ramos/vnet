@@ -804,11 +804,17 @@
 			
 			<!-- RECUPERAR CONTRASEÑA recpass-x-->
 			<trans-unit id="recpass-1">
-                <source>informacion.envio.mail.enlace.recuperacion.contrasena</source>
-                <target>Se ha enviado un mail de recuperación de contraseña</target>
+                <source>cambio.contrasena</source>
+                <target>Cambio de contraseña</target>
 			</trans-unit>
-			
-
+			<trans-unit id="recpass-2">
+                <source>cambio.contrasena.correcto</source>
+                <target>El cambio de la contraseña se ha realizado correctamente, lo invitamos a que ingrese con su nueva contraseña</target>
+			</trans-unit>
+			<trans-unit id="recpass-3">
+                <source>informacion.envio.mail.enlace.recuperacion.contrasena</source>
+                <target>Se ha enviado un mail de recuperación de contraseña, este enlace tendra valides por solo el día en que se genero la solicitud.</target>
+			</trans-unit>
         </body>
     </file>
 </xliff>

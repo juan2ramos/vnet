@@ -29,7 +29,7 @@
 </head>
 	<body class="login-body">
 		<div class="container">
-			<form class="form-signin" id="signupForm" method="POST" action="{{ path('change_pass') }}">
+			<form class="form-signin" id="signupForm" method="POST" action="{{ path('change_pass', {'email':email, 'token':token}) }}">
 			<h2 class="form-signin-heading">{% trans from "label" %}recuperar.contrasena{% endtrans %}</h2>
 				<div class="login-wrap">
 					<div class="row">
@@ -51,7 +51,7 @@
 						<div class="col-lg-12 text-center">
 							{{ form_widget(form._token) }}
 							{{ form_errors(form) }}
-							<button class="btn btn-primary btn-lg" type="submit">{% trans from "label" %}cambiar.contrasena{% endtrans %}</button>
+							<button class="btn btn-primary btn-lg btn-login btn-block" style='border:0px' type="submit">{% trans from "label" %}cambiar.contrasena{% endtrans %}</button>
 						</div>
 
 					</div>

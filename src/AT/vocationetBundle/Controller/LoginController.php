@@ -192,7 +192,7 @@ class LoginController extends Controller
     }
 	
 	 /**
-     * Accion para la autenticacion de usuarios
+     * Accion para formulario y envio de mail de olvide mi contraseña
      * 
 	 * @author Camilo Quijano <camilo@altactic.com>
 	 * @version 1
@@ -211,30 +211,34 @@ class LoginController extends Controller
            ->add('username', 'email', array('required' => true))
            ->getForm();
 		
-		 if($request->getMethod() == 'POST') 
+		if($request->getMethod() == 'POST') 
         {
             $forgetPassForm->bind($request);
             if ($forgetPassForm->isValid()) 
 			{
 				$data = $forgetPassForm->getData();
-                $email = $data['username'];
-                $token = $security->encriptar("GENERARTOKEN".$email."GENERARTOKEN");
-				$title = $this->get('translator')->trans("recuperar.contrasena", array(), 'mail');
+				$email = $data['username'];
+				if($this->get('usuarios')->existsUsuario($email)) {
+					$token = $security->encriptar("D".date('Ymd')."TOKEN".$email);
+					$title = $this->get('translator')->trans("recuperar.contrasena", array(), 'mail');
+					
+					// Estructura del envio del email.
+					$link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('change_pass', array('email'=>$email, 'token'=>$token)); 
+					$dataRender = array(
+						'title' => $title, 
+						'body' => $this->get('translator')->trans("mensaje.de.recuperacion.contrasena", array(), 'mail'), 
+						'link' => $link, 
+						'link_text' => $title,
+					);
 				
-				// Estructura del envio del email.
-				$link = $this->get('request')->getSchemeAndHttpHost().$this->get('router')->generate('change_pass', array('email'=>$email, 'token'=>$token)); 
-				$dataRender = array(
-					'title' => $title, 
-					'body' => $this->get('translator')->trans("mensaje.de.recuperacion.contrasena", array(), 'mail'), 
-					'link' => $link, 
-					'link_text' => $title,
-				);
-				
-				// Envio de mail, y notificacion por pantalla informado del envio
-				$this->get('mail')->sendMail($email, $title, $dataRender);
-				$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $title, "text" => $this->get('translator')->trans("informacion.envio.mail.enlace.recuperacion.contrasena")));
+					// Envio de mail, y notificacion por pantalla informado del envio
+					$this->get('mail')->sendMail($email, $title, $dataRender);
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $title, "text" => $this->get('translator')->trans("informacion.envio.mail.enlace.recuperacion.contrasena")));
+					return $this->redirect($this->generateUrl('login'));
+				} else {
+					$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+				}
 			}
-			return $this->redirect($this->generateUrl('login'));
 		}
 		return array(
             'form' => $forgetPassForm->createView(),
@@ -242,37 +246,62 @@ class LoginController extends Controller
 	}
 	
 	/**
-     * Accion para la autenticacion de usuarios
+     * Formulario de cambio de contraseña y validacion de token
      * 
+	 * @author Camilo Quijano <camilo@altactic.com>
+	 * @version 1
      * @Route("/changepass/{email}/{token}", name="change_pass")
      * @Template("vocationetBundle:Login:changePass.html.twig")
-     * @author Camilo Quijano <camilo@altactic.com>
+	 * @Method({"GET", "POST"})
+	 * @param Request $request Request form
+	 * @param String $email correo electronico del usuario a cambiar la contraseña
+	 * @param String $token token generado de validación de usuario solicitando cambio de contraseña
      * @return Response
      */
-    public function changePassAction($email, $token)
+    public function changePassAction(Request $request, $email, $token)
     {
 		$security = $this->get('security');
-		$token_val = $security->encriptar("GENERARTOKEN".$email."GENERARTOKEN");
-		if ($token_val == $token) {
-			
-			$data = array('pass' => null, 'conf_pass' => null);
-			$changePassForm = $this->createFormBuilder($data)
-			   ->add('pass', 'password', array('required' => true))
-			   ->add('conf_pass', 'password', array('required' => true))
-			   ->getForm();
-			   
-			return array(
-				'form' => $changePassForm->createView(),
-			);
-        
-        
+		$token_val = $security->encriptar("D".date('Ymd')."TOKEN".$email);
 		
-		} else {
-			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("recuperar.contrasena", array(), 'mail'), "text" => $this->get('translator')->trans("datos.invalidos")));
+		if ($token_val != $token) {
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("recuperar.contrasena", array(), 'mail'), "text" => $this->get('translator')->trans("token.invalido")));
 			return $this->redirect($this->generateUrl('login'));
 		}
-	
-	
+		
+		$data = array('pass' => null, 'conf_pass' => null);
+		$changePassForm = $this->createFormBuilder($data)
+		   ->add('pass', 'password', array('required' => true))
+		   ->add('conf_pass', 'password', array('required' => true))
+		   ->getForm();
+		   
+		if($request->getMethod() == 'POST') {
+			$changePassForm->bind($request);
+			if ($changePassForm->isValid()) {
+				$dataForm = $changePassForm->getData();
+				if($security->validarPassword($dataForm['pass'])) {
+					if($dataForm['pass'] == $dataForm['conf_pass']) {
+						$em = $this->getDoctrine()->getManager();
+						$usuario = $em->getRepository('vocationetBundle:Usuarios')->findOneByUsuarioEmail($email);
+						if ($usuario) {
+							//Cambio de contraseña
+							$usuario->setUsuarioPassword($security->encriptar($dataForm['pass']));
+							$usuario->setModified(new \DateTime());
+							$em->persist($usuario);
+							$em->flush();
+							
+							$this->get('session')->getFlashBag()->add('alerts', array("type" => "success", "title" => $this->get('translator')->trans("cambio.contrasena"), "text" => $this->get('translator')->trans("cambio.contrasena.correcto")));
+							return $this->redirect($this->generateUrl('login'));
+						}
+					}
+				}
+			}
+			$this->get('session')->getFlashBag()->add('alerts', array("type" => "error", "title" => $this->get('translator')->trans("datos.invalidos"), "text" => $this->get('translator')->trans("verifique.los datos.suministrados")));
+		}
+		
+		return array(
+			'form' 	=> $changePassForm->createView(),
+			'email' => $email, 
+			'token' => $token
+		);
 	}
-	
 }

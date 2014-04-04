@@ -730,6 +730,40 @@ class PerfilService
 		}
 		return 'mapa'.$aux_cont.'.png'; 
 	}
+	
+	/**
+	 * Mapa correspondiente a la posición actual del usuario teniendo en cuenta el recorrido del usuario, y q es un programa informativo
+	 * - Acceso desde HomeController
+	 *
+	 * @version 1
+	 * @param Array $recorrido Arreglo retornado por getEstadoActualPlataforma()
+	 * @return String Nombre de la imagen en donde esta marcado el recorrido hasta la posicion actual del usuario
+	 */
+	public function getImagenProgramaInformativo($recorrido)
+	{
+		$img = 'mapa1.png';
+		if ($recorrido['P1']) {
+			$img = 'mapa2.png';
+		}
+		if ($recorrido['P11']) {
+			$img = 'prog-inf1.png';
+		}
+		if ($recorrido['P12']) {
+			$img = 'prog-inf2.png';
+		}
+		if ($recorrido['P13']) {
+			$img = 'prog-inf3.png';
+		}
+		
+		if ($recorrido['P14']) {
+			$img = 'prog-inf4.png';
+		}
+		if ($recorrido['P42']) {
+			$img = 'prog-inf5.png';
+		}
+		return $img;
+	}
+	
 
 	/**
 	 * Validación de linealidad de Vocationet

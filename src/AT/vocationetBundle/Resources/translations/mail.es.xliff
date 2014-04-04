@@ -176,7 +176,7 @@
 			</trans-unit>
 			<trans-unit id="recpass-2">
                 <source>mensaje.de.recuperacion.contrasena</source>
-                <target>Para poder cambiar la contraseña, por favor ingrese al siguiente enlace: </target>
+                <target>Para poder cambiar la contraseña, por favor ingrese al siguiente enlace, tenga en cuenta que este enlace tendra valides por solo el día en que se genero la solicitud.</target>
 			</trans-unit>
         </body>
     </file>

@@ -563,7 +563,14 @@
                 <source>olvide.mi.contrasena</source>
                 <target>Olvide mi contraseña</target>
             </trans-unit>
-			
+			<trans-unit id="login-18">
+                <source>recuperar.contrasena</source>
+                <target>Recuperar contraseña</target>
+            </trans-unit>
+			<trans-unit id="login-19">
+                <source>cambiar.contrasena</source>
+                <target>Cambiar contraseña</target>
+            </trans-unit>
 			
             <!-- REGISTRO registro-x -->
             <trans-unit id="registro-1">

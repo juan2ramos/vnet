@@ -46,7 +46,15 @@ class HomeController extends Controller
 		$programa_orientacion = $this->get('pagos')->verificarPagoProducto($this->get('pagos')->getProductoId('programa_orientacion'), $usuarioId);
 
 		$estadoActual = $this->get('perfil')->getEstadoActualPlataforma($usuarioId);
-		$imagenMapa = $this->get('perfil')->getImagenFaseRecorrido($estadoActual);
+		
+		if ($programa_orientacion) {
+			// Imagen recorrido para programa de orientación
+			$imagenMapa = $this->get('perfil')->getImagenFaseRecorrido($estadoActual);
+		} else {
+			// Imagen recorrido para programa informativo
+			$imagenMapa = $this->get('perfil')->getImagenProgramaInformativo($estadoActual);
+		}
+		
 		$publicidad = $this->get('perfil')->getPublicidad($rol);
 
         return array(
