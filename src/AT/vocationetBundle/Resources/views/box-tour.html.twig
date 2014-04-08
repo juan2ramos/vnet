@@ -74,6 +74,17 @@
 	<div id="box_certificado" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.certificado{% endtrans %} </p> </div>
 	
 <!-- Mentores expertos -->
+	<div id="box_intro_me" class="single-step tour-p">
+		<header> <h3>{% trans from "label" %}bienvenido.vocationet{% endtrans %}</h3> </header>
+		<p>	{% trans from "label" %}texto.bienvenida.e.intro.tour.mentor.experto{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/navegacion.png') }}" />
+		<p>{{ "botones.navegacion"|trans({}, "label") | raw }}<p>
+	</div>
+	<div id="bar_box_mensajes_me" class="single-step tour-p"> <p> {% trans from "label" %}boton.barra.mensajes.mentor.experto{% endtrans %} </p> </div>
+	<div id="bar_box_contactos_me" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.barra.contactos.mentor.experto{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/contactos.png') }}" />
+	</div>
 	<div id="bar_box_usuario_mentor" class="single-step tour-p"> <p class="tour-p"> {% trans from "label" %}boton.usuario.mentor{% endtrans %} </p> </div>
 	<div id="bar_box_usuario_perfil_mentor" class="single-step tour-p">
 		<p class="tour-p"> {% trans from "label" %}boton.usuario.perfil.mentor{% endtrans %} </p>

@@ -310,7 +310,7 @@
             </trans-unit>
             <trans-unit id="perfile-2-des">
                 <source>descripcion.fecha.planeada</source>
-                <target>Fecha en la que el usuario tiene planeado presentarse a la universidad</target>
+                <target>Fecha en la que el usuario tiene planeado presentarse a la entidad educativa</target>
             </trans-unit>
             <trans-unit id="perfile-3">
                 <source>tiempo.restante</source>
@@ -944,7 +944,7 @@
 			</trans-unit>
 			<trans-unit id="contact-8">
                 <source>universidad</source>
-                <target>Universidad</target>
+                <target>Entidad Educativa</target>
 			</trans-unit>
 			<trans-unit id="contact-9">
                 <source>eliminar.contacto</source>
@@ -1815,11 +1815,11 @@
             <!-- Universidad univ-x -->
 			<trans-unit id="univ-1">
                 <source>universidad</source>
-                <target>Universidad</target>
+                <target>Entidad Educativa</target>
 			</trans-unit>
 			<trans-unit id="univ-2">
                 <source>eleccion.universidad</source>
-                <target>Elección de universidad</target>
+                <target>Elección de Entidad Educativa</target>
 			</trans-unit>
 			<trans-unit id="univ-3">
                 <source>ciudad</source>
@@ -1827,7 +1827,7 @@
 			</trans-unit>
 			<trans-unit id="univ-4">
                 <source>resultados.universidad</source>
-                <target>Resultados de universidad</target>
+                <target>Resultados de Entidad Educativa</target>
 			</trans-unit>
 
 			
@@ -1897,47 +1897,47 @@
 			</trans-unit>
 			<trans-unit id="tour-2">
                 <source>texto.bienvenida.e.intro.tour</source>
-                <target>Bienvendo a la plataforma de Vocationet, a continuación realizaremos un recorrido por los distintos items de la aplicación.</target>
+                <target>Bienvenido al TOUR de la plataforma, dura menos de 2 minuto. Utiliza el mouse y controla el tour a través de estos botones en la parte inferior derecha de tu pantalla.</target>
 			</trans-unit>
 			<trans-unit id="tour-3">
                 <source>botones.navegacion</source>
-                <target>La navegación de esta presentación la podrás manejas a traes de estos botones ubicados en la parte inferior derecha de la pantalla, en donde tendran la siguiente opciones explicadas de izquierda a derecha: &lt;br&gt; - Tiempo Restante de este item &lt;br&gt; - Anterior &lt;br&gt; - Parar &lt;br&gt; - Pausar &lt;br&gt; - Continuar &lt;br&gt; - Siguiente</target>
+                <target>La navegación de esta presentación la podrás manejas a traves de estos botones ubicados en la parte inferior derecha de la pantalla, en donde tendran la siguiente opciones explicadas de izquierda a derecha: &lt;br&gt; - Tiempo Restante de este item &lt;br&gt; - Anterior &lt;br&gt; - Parar &lt;br&gt; - Pausar &lt;br&gt; - Continuar &lt;br&gt; - Siguiente</target>
 			</trans-unit>
 			<trans-unit id="tour-4">
                 <source>boton.barra.mensajes</source>
-                <target>Este es un acceso directo a la bandeja de correos de la plataforma, y saldran la cantidad de mensajes sin leer encima de este.</target>
+                <target>Tus mensajes, comunícate con amigos y mentores. Solo podrás comunicarte con los contactos que apruebes.</target>
 			</trans-unit>
 			<trans-unit id="tour-5">
                 <source>boton.barra.contactos</source>
-                <target>Aqui podra acceder a los contactos que tenga dentro de la plataforma, y buscar nuevos contactos</target>
+                <target>Tu lista de contactos a la mano. Puedes buscar  amigos para contactarlos y aprobar tus solicitudes de amistad.</target>
 			</trans-unit>
 			<trans-unit id="tour-6">
                 <source>boton.usuario.estudiante</source>
-                <target>Acceso a información de interes del usuario, como perfil, planes, etc.</target>
+                <target>Revisa tu perfil y tu avance en el programa y si no estás inscrito en ningún programa adquiere el paquete que más te convenga.</target>
 			</trans-unit>
 			<trans-unit id="tour-7">
                 <source>boton.usuario.perfil</source>
-                <target>Perfil, en donde tendra acceso a su información, puntos, estado actual en la plataforma y edición del perfil</target>
+                <target>Tus datos personales, como editarlos, tu avance, tus PUNTOS y TROFEOS! no te dejes superar por tus amigos.</target>
 			</trans-unit>
 			<trans-unit id="tour-8">
                 <source>boton.usuario.paquetes</source>
-                <target>Acceso a planes que ofrece la plataforma</target>
+                <target>Selecciona el programa que más te convenga y págalo de forma virtual.</target>
 			</trans-unit>
 			<trans-unit id="tour-9">
                 <source>boton.usuario.carrito</source>
-                <target>Acceso al estado actual del carrito de compras, se irán enlistando los items agregados en esta sección</target>
+                <target>Revisa el resumen de productos que has seleccionado y paga.</target>
 			</trans-unit>
 			<trans-unit id="tour-10">
                 <source>boton.usuario.logout</source>
-                <target>Desde este item, saldra de forma segura de la plataforma</target>
+                <target>Podrás salir de forma segura. Para ingresar de nuevo, recuerda que si te registraste desde Facebook, tendrás que acceder la próxima vez por el mismo botón.</target>
 			</trans-unit>
 			<trans-unit id="tour-11">
                 <source>boton.menu.home</source>
-                <target>Acceso al home de la plataforma, aqui encontrara el mapa con la posición actual y su recorrido por la plataforma, e información de interés general</target>
+                <target>Revisa tu avance en el mapa, tu recorrido cambia de color gris a azul según tu avance. El mapa te permite acercar y revisar de que se trata cada prueba colocando el cursor sobre cada prueba. A tu lado derecho de color azul, tendrás información de interés que cambiaremos periódicamente, acuérdate de revisarla constantemente.</target>
 			</trans-unit>
 			<trans-unit id="tour-12">
                 <source>boton.agenda.estudiante</source>
-                <target>Aqui podra ver su agenda con las mentorias programadas</target>
+                <target>Podrás agendar reuniones con los mentores de nuestra red, y revisar tus reuniones ya programadas.</target>
 			</trans-unit>
 			<trans-unit id="tour-13">
                 <source>boton.menu.mensajes</source>
@@ -1945,52 +1945,53 @@
 			</trans-unit>
 			<trans-unit id="tour-14">
                 <source>boton.menu.foros</source>
-                <target>Acceso a foros de la plataforma, organizados por carreras y temas creados por la comunidad en general</target>
+                <target>Busca el foro sobre las carreras que te interesan, estas están divididas por área de conocimiento y en cada área encontraras las carreras que quieres conocer. Si no hay charlas o no encuentras solución a tus dudas, comienza tú haciendo tus preguntas con el botón “nuevo foro”.</target>
 			</trans-unit>
 			<trans-unit id="tour-15">
                 <source>boton.menu.plataforma</source>
-                <target>Acceso a la plataforma</target>
+                <target>Cada una de las pruebas que tiene nuestro programa, es un acceso rápido que también tendrás por medio del mapa en e botón de inicio. Si quieres conocer más acerca de cada prueba acerca el mouse al mapa y encontraras una descripción de cada prueba y en el botón de paquetes al lado de tu perfil encontrara los precios.</target>
 			</trans-unit>
 			<trans-unit id="tour-16">
                 <source>boton.menu.diagnostico</source>
-                <target>Prueba de diagnóstico</target>
+                <target>Te realizaremos unos exámenes para determinar en que situación te encuentras y de esta forma nuestros expertos del laboratorio de VocatioNET te podrán ayudar durante tu misión. Este diagnóstico es gratuito!!!</target>
 			</trans-unit>
 			<trans-unit id="tour-17">
                 <source>boton.menu.mentor.ov</source>
-                <target>Selección de mentor de orientación vocacional</target>
+                <target>Selecciona al Mentor de orientación Vocacional que más te guste, revisa su perfil, su experiencia y las calificaciones y reseñas te tenga. Recuerda que este Mentor será tu compañero durante toda la misión, después de cada prueba, podrás comunicarte con él y resolver los problemas que se te vallan presentando. El estará vigilando desde nuestros laboratorios que logres llegar al final.</target>
 			</trans-unit>
 			<trans-unit id="tour-18">
                 <source>boton.menu.test.vocacional</source>
-                <target>Prueba de test vocacional</target>
+                <target>Tendrás que realizar pruebas para conocer tus habilidades, preferencias, tu imagen personal y preferencias y así poder encontrar el mejor camino en esta misión que consiste en encontrar los procesos que gobiernan nuestros actos. Desde este punto contaras con 3 campos de formación que se alinean a tu búsqueda.</target>
 			</trans-unit>
 			<trans-unit id="tour-19">
                 <source>boton.menu.evaluacion.360</source>
-                <target>Prueba de evaluación 360</target>
+                <target>Nuestro laboratorio enviará tus resultados del Test Vocacional a las personas que tú consideres te conozcan más como padres, familiares cercanos, amigos y profesores. De esta forma  tu análisis no solo tendrá una percepción propia sino externa y podrás profundizar en el conocimiento de tu conocimiento interno al cual queremos llegar en nuestra misión.</target>
 			</trans-unit>
 			<trans-unit id="tour-20">
                 <source>boton.menu.diseno.vida</source>
-                <target>Prueba de diseño de vida</target>
+                <target>En esta prueba tendrás que hacer una introspección para conocer tus propios estados mentales y poder determinar la visión de futuro que quieres a corto, mediano y largo plazo en tu vida. Sera un recorrido muy interesante en búsqueda de lo que estás buscando en tu vida frente a aspectos profesionales, personales y laborales todo esto bajo tu propia personalidad, tus aptitudes e intereses.</target>
 			</trans-unit>
 			<trans-unit id="tour-21">
                 <source>boton.mercado.laboral</source>
-                <target>Prueba de mercado laboral</target>
+                <target>En este punto de la misión, ya tendrás dos o tres alternativas de estudio que cumplan con tu diseño de vida y se las habrás contado a tu compañero. Nuestro laboratorio se encargara de hacer un estudio de estas alternativas y te entregaremos un reporte para que análisis información de suma relevancia para tu decisión como: no. de egresados, actividades, entre otra información relevante.</target>
 			</trans-unit>
 			<trans-unit id="tour-22">
                 <source>boton.menu.red.mentores</source>
-                <target>Selección de mentores expertos</target>
+                <target>Para este punto, has logrado lo que mucho ni siquiera han contemplado. No te rindas y sigue con la misión. En esta prueba podrás hablar con Expertos, profesionales estrictamente seleccionados por el equipo de VocatioNET, en los diferentes campos de estudio que tiene el mercado, mentores con diferentes años de experiencia, diferentes profundizaciones y campos de acción para que tu selecciones el mentor que más se acercan a lo que quiere hacer en el futuro. En este punto podrás resolver tus dudas, PORQUE después de esta prueba será necesario que tomes la decisión de tu futuro profesional.</target>
 			</trans-unit>
 			<trans-unit id="tour-23">
                 <source>boton.menu.ponderacion</source>
-                <target>Prueba de ponderación</target>
+                <target>Llegaste al momento definitivo, debes tomar una decisión y continuar, debes ser muy minucioso y detallista con cada una las variables relevantes. Para la toma de esta decisión el laboratorio de VocatioNET, diseño un programa donde podrás darle peso a cada una de las variables relevantes en tu proceso de decisión.  Gusto y pasión, pensum, tipo y costo de universidad, salarios, oportunidades de empleo, proyección de crecimiento, habilidades y gustos personalidades, tipo de actividades a desarrollar, serán algunas de las variables que deberás definir para seguir con esta misión</target>
 			</trans-unit>
 			<trans-unit id="tour-24">
                 <source>boton.menu.universidades</source>
-                <target>Prueba de universidades</target>
+                <target>)Para esta prueba ya eres un ganador, ya tienes definido un programa de estudio. El laboratorio de VocatioNET, te dará alternativas de entidades educativa acreditadas, que se acomoden a tus preferencias. En adelante todo esta en nuestras manos.</target>
 			</trans-unit>
 			<trans-unit id="tour-25">
                 <source>boton.menu.certificado</source>
-                <target>Certificación</target>
+                <target>Evaluaremos tu desempeño y te daremos el último trofeo, recuerda que competiste con muchos de nuestros mejores candidatos. Sin embargo recuerda que cualquiera que sea tu resultado, en adelante tendrás más claro cuáles son tus metas, porque para lograrlas debes verla primero en tu MENTE.</target>
 			</trans-unit>
+			
 			<trans-unit id="tour-26">
                 <source>boton.agenda.mentor</source>
                 <target>Aqui podra agendar sus nuevas disponibilidades para mentorias, y ver la agenda del mes con mentorias disponibles, separadas y finalizadas, además de información de interés general</target>
@@ -2001,11 +2002,11 @@
 			</trans-unit>
 			<trans-unit id="tour-28">
                 <source>texto.finalizacion</source>
-                <target>Esperamos tenga una buena experiencia, este es el final del tour</target>
+                <target>Esperamos tengas una buena experiencia, no dudes en comunicar cualquier problema. En mensajes podrás escribirnos, seleccionando Para: Admin VocatioNET y nos informas tus dudas, problemas o sugerencias y nos comunicaremos contigo lo antes posible.</target>
 			</trans-unit>
 			<trans-unit id="tour-29">
-                <source>boton.usuario.mentor</source>
-                <target>Acceso a información de interes del usuario, como perfil y reseñas.</target>
+                <source></source>
+                <target></target>
 			</trans-unit>
 			<trans-unit id="tour-30"> 
                 <source>boton.usuario.perfil.mentor</source>
@@ -2015,10 +2016,29 @@
                 <source>boton.usuario.resenas</source>
                 <target>Acceso a calificaciones y comentarios de mentorias realizadas</target>
 			</trans-unit>
+			
 			<trans-unit id="tour-32">
-                <source></source>
-                <target></target>
+                <source>texto.bienvenida.e.intro.tour.mentor.experto</source>
+                <target>Bienvenido al TOUR de la plataforma, dura menos de 1 minuto. Utiliza el mouse y controla el tour a través de estos botones en la parte inferior derecha de tu pantalla.</target>
 			</trans-unit>
+			<trans-unit id="tour-33">
+                <source>boton.barra.mensajes.mentor.experto</source>
+                <target>Tus mensajes, comunícate con amigos y mentores. Solo podrás comunicarte con los contactos que apruebes.</target>
+			</trans-unit>
+			<trans-unit id="tour-34">
+                <source>boton.barra.contactos.mentor.experto</source>
+                <target>Tu lista de contactos a la mano. Puedes buscar  amigos para contactarlos y aprobar tus solicitudes de amistad.</target>
+			</trans-unit>
+			<trans-unit id="tour-35">
+                <source>boton.usuario.mentor</source>
+                <target>Acceso a información de interes del usuario, como perfil y reseñas.</target>
+			</trans-unit>
+			<trans-unit id="tour-36">
+                <source>boton.usuario.perfil.mentor.experto</source>
+                <target>Tus datos personales, como editarlos, tu avance, tus PUNTOS y TROFEOS! no te dejes superar por tus amigos.</target>
+			</trans-unit>
+			
+			
      
             <!-- control admin mentor ctrl-x-->
 			<trans-unit id="ctrl-1">

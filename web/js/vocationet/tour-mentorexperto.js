@@ -1,7 +1,7 @@
 var tour_mentor_experto = [
 {
 	hookTo: '',
-	content: '#box_intro',
+	content: '#box_intro_me',
 	width: 400,
 	arrowPosition: 'sc',
 	showArrow: false,
@@ -12,7 +12,7 @@ var tour_mentor_experto = [
 },
 {
 	hookTo: '#bar_mensajes',
-	content: '#bar_box_mensajes',
+	content: '#bar_box_mensajes_me',
 	width: 268,
 	arrowPosition: 'bm',
 	showArrow: true,
@@ -24,7 +24,7 @@ var tour_mentor_experto = [
 },
 {
 	hookTo: '#bar_contactos',
-	content: '#bar_box_contactos',
+	content: '#bar_box_contactos_me',
 	width: 268,
 	arrowPosition: 'rt',
 	showArrow: true,
