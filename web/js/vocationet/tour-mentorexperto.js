@@ -1,7 +1,7 @@
 var tour_mentor_experto = [
 {
 	hookTo: '',
-	content: '#box_intro_me',
+	content: '#box_intro_m',
 	width: 400,
 	arrowPosition: 'sc',
 	showArrow: false,
@@ -12,7 +12,7 @@ var tour_mentor_experto = [
 },
 {
 	hookTo: '#bar_mensajes',
-	content: '#bar_box_mensajes_me',
+	content: '#bar_box_mensajes_m',
 	width: 268,
 	arrowPosition: 'bm',
 	showArrow: true,
@@ -24,7 +24,7 @@ var tour_mentor_experto = [
 },
 {
 	hookTo: '#bar_contactos',
-	content: '#bar_box_contactos_me',
+	content: '#bar_box_contactos_m',
 	width: 268,
 	arrowPosition: 'rt',
 	showArrow: true,
@@ -80,7 +80,7 @@ var tour_mentor_experto = [
 },
 {
 	hookTo: '#bar_usuario_logout',
-	content: '#bar_box_usuario_logout',
+	content: '#bar_box_usuario_logout_m',
 	width: 268,
 	offsetX: 60,
 	arrowPosition: 'lt',
@@ -94,7 +94,7 @@ var tour_mentor_experto = [
 },
 {
 	hookTo: '#menu_agenda_mentor',
-	content: '#box_agenda_mentor',
+	content: '#box_agenda_me',
 	width: 268,
 	arrowPosition: 'rt',
 	showArrow: true,
@@ -107,7 +107,7 @@ var tour_mentor_experto = [
 },
 {
 	hookTo: '#menu_mensajes',
-	content: '#box_mensajes',
+	content: '#box_mensajes_m',
 	width: 268,
 	arrowPosition: 'rt',
 	showArrow: true,
@@ -119,7 +119,7 @@ var tour_mentor_experto = [
 },
 {
 	hookTo: '#menu_foros',
-	content: '#box_foros',
+	content: '#box_foros_m',
 	width: 268,
 	arrowPosition: 'rt',
 	showArrow: true,

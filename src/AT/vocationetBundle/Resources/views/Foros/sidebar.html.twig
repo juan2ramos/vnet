@@ -11,10 +11,10 @@
 			<ul class="nav nav-tabs pull-right">
 			{# actual.carreraId #}
 				<li class="{% if actual.temaId == 0 and actual.carreraId == 0 %}active{% endif %}">
-					<a data-toggle="tab" href="#carreras"><b>{% trans from "label" %}carreras{% endtrans %}</b></a>
+					<a data-toggle="tab" href="#carreras"><b>{% trans from "label" %}areas{% endtrans %}</b></a>
 				</li>
 				<li class="{% if actual.temaId != 0 or actual.carreraId != 0 %}active{% endif %}">
-					<a data-toggle="tab" href="#temas"><b>{% trans from "label" %}temas{% endtrans %}</b></a>
+					<a data-toggle="tab" href="#temas"><b>{% trans from "label" %}carreras{% endtrans %}</b></a>
 				</li>
 			</ul>
 		</header>

@@ -867,6 +867,10 @@
                 <source>por.favor.seleccione.una.carrera</source>
                 <target>Por favor seleccione una carrera</target>
             </trans-unit>
+			<trans-unit id="foros-17">
+                <source>areas</source>
+                <target>Areas</target>
+            </trans-unit>
             
 
             <!-- notificacion de comentarios notcom-X -->
@@ -1838,52 +1842,64 @@
 			</trans-unit>
 			<trans-unit id="mapa-2">
                 <source>inicio.descripcion</source>
-                <target>Inicio diagnos rem Ipsum is simply hmy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+                <target>Conoces este mundo y porque has sido seleccionado para esta misión?</target>
 			</trans-unit>
 			<trans-unit id="mapa-3">
                 <source>diagnostico.descripcion</source>
-                <target>descripcion diagnos rem Ipsu's standard dummy text ever sr took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+                <target>Te realizaremos unos exámenes para determinar en que situación te encuentras y de esta forma nuestros expertos del laboratorio de VocatioNET te podrán ayudar durante tu misión. Este diagnóstico es gratuito!!!</target>
 			</trans-unit>
 			<trans-unit id="mapa-4">
                 <source>asesoria.ov.descripcion</source>
-                <target>Asesoria orientador vocacional diagnose industry's standard dummy text ever sitook a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+                <target>Comunícate con tu compañero de misión (Experto en Orientación Vocacional), evalúa tu estado y coordina la estrategia para tu próxima prueba. Revisa tu puntaje y el de tus amigos, no dejes que te superen.</target>
 			</trans-unit>
 			<trans-unit id="mapa-5">
                 <source>test.vocacional.descripcion</source>
-                <target>Test vocacional diagnos rem Ipsum is simply has been the industry's standardley of type and scrambled it to make a type specimen book. ypesetting.</target>
+                <target>Tendrás que realizar pruebas para conocer tus habilidades, preferencias, tu imagen personal y preferencias y así poder encontrar el mejor camino en esta misión que consiste en encontrar los procesos que gobiernan nuestros actos. Desde este punto contaras con 3 campos de formación que se alinean a tu búsqueda.</target>
 			</trans-unit>
 			<trans-unit id="mapa-6">
                 <source>evaluacion.360.descripcion</source>
-                <target>Evaluacion 360 diagnos rem Ipsum is simply hmy text egalley of type and scrambled it to make a type specimen book. ypesetting.</target>
+                <target>Nuestro laboratorio enviará tus resultados del Test Vocacional a las personas que tú consideres te conozcan más como padres, familiares cercanos, amigos y profesores. De esta forma  tu análisis no solo tendrá una percepción propia sino externa y podrás profundizar en el conocimiento de tu conocimiento interno al cual queremos llegar en nuestra misión.</target>
 			</trans-unit>
 			<trans-unit id="mapa-7">
                 <source>diseno.vida.descripcion</source>
-                <target>Diseño de vida diagnos rem Ipsum is simply has beeince the 1500s, when an unknown nd scrambled it to make a type specimen book. ypesetting.</target>
+                <target>En esta prueba tendrás que hacer una introspección para conocer tus propios estados mentales y poder determinar la visión de futuro que quieres a corto, mediano y largo plazo en tu vida. Sera un recorrido muy interesante en búsqueda de lo que estás buscando en tu vida frente a aspectos profesionales, personales y laborales todo esto bajo tu propia personalidad, tus aptitudes e intereses.</target>
 			</trans-unit>
 			<trans-unit id="mapa-8">
                 <source>mercado.laboral.descripcion</source>
-                <target>Mercado laboral diagnos rem Ipsum is simply has been the industry's stan an unknown printer took a etting.</target>
+                <target>En este punto de la misión, ya tendrás dos o tres alternativas de estudio que cumplan con tu diseño de vida y se las habrás contado a tu compañero. Nuestro laboratorio se encargara de hacer un estudio de estas alternativas y te entregaremos un reporte para que análisis información de suma relevancia para tu decisión como: no. de egresados, actividades, entre otra información relevante.</target>
 			</trans-unit>
 			<trans-unit id="mapa-9">
                 <source>red.mentores.descripcion</source>
-                <target>Red de mentores diagnos rem Ipsum is simply has been mmy text ever since the 1500s, when an unknown printerand scrambled it to make a type specimen book. ypesetting.</target>
+                <target>Para este punto, has logrado lo que mucho ni siquiera han contemplado. No te rindas y sigue con la misión. En esta prueba podrás hablar con Expertos, profesionales estrictamente seleccionados por el equipo de VocatioNET, en los diferentes campos de estudio que tiene el mercado, mentores con diferentes años de experiencia, diferentes profundizaciones y campos de acción para que tu selecciones el mentor que más se acercan a lo que quiere hacer en el futuro. En este punto podrás resolver tus dudas, PORQUE después de esta prueba será necesario que tomes la decisión de tu futuro profesional.</target>
 			</trans-unit>
 			<trans-unit id="mapa-10">
                 <source>ponderacion.descripcion</source>
-                <target>Ponderacion diagnos rem Ipsum is simply has beentting.</target>
+                <target>Llegaste al momento definitivo, debes tomar una decisión y continuar, debes ser muy minucioso y detallista con cada una las variables relevantes. Para la toma de esta decisión el laboratorio de VocatioNET, diseño un programa donde podrás darle peso a cada una de las variables relevantes en tu proceso de decisión.  Gusto y pasión, pensum, tipo y costo de universidad, salarios, oportunidades de empleo, proyección de crecimiento, habilidades y gustos personalidades, tipo de actividades a desarrollar, serán algunas de las variables que deberás definir para seguir con esta misión.</target>
 			</trans-unit>
 			<trans-unit id="mapa-11">
                 <source>universidad.descripcion</source>
-                <target>Universidad diagnos rem Ipsum an unknown printer took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+                <target>Para esta prueba ya eres un ganador, ya tienes definido un programa de estudio. El laboratorio de VocatioNET, te dará alternativas de entidades educativa acreditadas, que se acomoden a tus preferencias. En adelante todo esta en nuestras manos.</target>
 			</trans-unit>
 			<trans-unit id="mapa-12">
                 <source>certificado.descripcion</source>
-                <target>certificado diagnos rem Ipsum is simply has been e 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ypesetting.</target>
+                <target>Evaluaremos tu desempeño y te daremos el último trofeo, recuerda que competiste con muchos de nuestros mejores candidatos. Sin embargo recuerda que cualquiera que sea tu resultado, en adelante tendrás más claro cuáles son tus metas, porque para lograrlas debes verla primero en tu MENTE.</target>
 			</trans-unit>
 			<trans-unit id="mapa-13">
                 <source>clic.para.activar.zoom</source>
                 <target>Clic para activar/desactivar zoom</target>
 			</trans-unit>
+			<trans-unit id="mapa-14">
+                <source>seleccionar.ov</source>
+                <target>Seleccionar Mentor de orientación Vocacional</target>
+			</trans-unit>
+			<trans-unit id="mapa-15">
+                <source>seleccionar.ov.descripcion</source>
+                <target>Selecciona al Mentor de orientación Vocacional que más te guste, revisa su perfil, su experiencia y las calificaciones y reseñas te tenga. Recuerda que este Mentor será tu compañero durante toda la misión, después de cada prueba, podrás comunicarte con él y resolver los problemas que se te vallan presentando. El estará vigilando desde nuestros laboratorios que logres llegar al final.</target>
+			</trans-unit>
+			
+			
+			
+			
 
 			
 			<!-- Tour app tour-x -->
@@ -1991,53 +2007,73 @@
                 <source>boton.menu.certificado</source>
                 <target>Evaluaremos tu desempeño y te daremos el último trofeo, recuerda que competiste con muchos de nuestros mejores candidatos. Sin embargo recuerda que cualquiera que sea tu resultado, en adelante tendrás más claro cuáles son tus metas, porque para lograrlas debes verla primero en tu MENTE.</target>
 			</trans-unit>
-			
 			<trans-unit id="tour-26">
                 <source>boton.agenda.mentor</source>
                 <target>Aqui podra agendar sus nuevas disponibilidades para mentorias, y ver la agenda del mes con mentorias disponibles, separadas y finalizadas, además de información de interés general</target>
-			</trans-unit>
-			<trans-unit id="tour-27">
-                <source>boton.menu.mentor.ov.usuarios</source>
-                <target>Acceso de administración de usuarios que lo han seleccionado como mentor de orientacion vocacional</target>
 			</trans-unit>
 			<trans-unit id="tour-28">
                 <source>texto.finalizacion</source>
                 <target>Esperamos tengas una buena experiencia, no dudes en comunicar cualquier problema. En mensajes podrás escribirnos, seleccionando Para: Admin VocatioNET y nos informas tus dudas, problemas o sugerencias y nos comunicaremos contigo lo antes posible.</target>
 			</trans-unit>
-			<trans-unit id="tour-29">
-                <source></source>
-                <target></target>
-			</trans-unit>
-			<trans-unit id="tour-30"> 
-                <source>boton.usuario.perfil.mentor</source>
-                <target>Perfil, en donde tendra acceso a su información, calificaciones, sincronización con LinkedIn, etc.</target>
-			</trans-unit>
-			<trans-unit id="tour-31">
-                <source>boton.usuario.resenas</source>
-                <target>Acceso a calificaciones y comentarios de mentorias realizadas</target>
-			</trans-unit>
 			
+			<!-- Tour app Mentor Experto / Orientacion Vocacional tour-x -->
 			<trans-unit id="tour-32">
-                <source>texto.bienvenida.e.intro.tour.mentor.experto</source>
+                <source>texto.bienvenida.e.intro.tour.mentor</source>
                 <target>Bienvenido al TOUR de la plataforma, dura menos de 1 minuto. Utiliza el mouse y controla el tour a través de estos botones en la parte inferior derecha de tu pantalla.</target>
 			</trans-unit>
 			<trans-unit id="tour-33">
-                <source>boton.barra.mensajes.mentor.experto</source>
-                <target>Tus mensajes, comunícate con amigos y mentores. Solo podrás comunicarte con los contactos que apruebes.</target>
+                <source>boton.barra.mensajes.mentor</source>
+                <target>Tus mensajes, contacta colegas y comunícate con tus estudiantes.  Solo podrás comunicarte con los contactos que apruebes..</target>
 			</trans-unit>
 			<trans-unit id="tour-34">
-                <source>boton.barra.contactos.mentor.experto</source>
-                <target>Tu lista de contactos a la mano. Puedes buscar  amigos para contactarlos y aprobar tus solicitudes de amistad.</target>
+                <source>boton.barra.contactos.mentor</source>
+                <target>Tu lista de contactos a la mano. Puedes buscar  colegas profesionales para contactarlos y aprobar tus solicitudes de amistad.</target>
 			</trans-unit>
 			<trans-unit id="tour-35">
                 <source>boton.usuario.mentor</source>
-                <target>Acceso a información de interes del usuario, como perfil y reseñas.</target>
+                <target>Revisa tu perfil, tu hoja de vida y experiencia. Al igual que las reseñas y las  calificaciones que te han dado tus estudiantes.</target>
 			</trans-unit>
 			<trans-unit id="tour-36">
                 <source>boton.usuario.perfil.mentor.experto</source>
-                <target>Tus datos personales, como editarlos, tu avance, tus PUNTOS y TROFEOS! no te dejes superar por tus amigos.</target>
+                <target>Todos tus datos profesionales, como editarlos y sincronizarlos cada vez que actualizas tu  perfil en Linkedin. En tu perfil podrás definir qué tipo de Mentor eres Mentor (Mentor Experto – profesional  de cualquier carrera con experiencia- o Mentor de orientación profesional –solo psicólogos con experiencia-) y cuanto es el valor (costo) de tu mentiría.</target>
 			</trans-unit>
-			
+			<trans-unit id="tour-37">
+                <source>boton.usuario.resenas</source>
+                <target>Listado de cada uno de los comentarios que han generado tus estudiantes. Es MUY IMPORTANTE, tus clientes te buscaran por tu posición según tu calificación. Entre mejor calificación obtengas, tendrás mayor número de clientes (estudiantes) y mayores ingresos (dinero) mensuales. </target>
+			</trans-unit>
+			<trans-unit id="tour-38">
+                <source>boton.usuario.logout.mentor</source>
+                <target>Podrás salir de forma segura. Recuerda que siempre tendrás que acceder a la plataforma a través del botón de Linkedin.</target>
+			</trans-unit>
+			<trans-unit id="tour-39">
+                <source>boton.agenda.mentor.experto</source>
+                <target>Podrás agendar tu disponibilidad de tiempo. Estas horas que separes, en las cuales tienes tiempo para hacer una charla virtual, son las que el estudiante revisara en tu perfil para contactarte. VocatioNET, supervisara las charlas efectivamente realizadas y generara un pago mensual por el número de tus mentirías dictadas.</target>
+			</trans-unit>
+			<trans-unit id="tour-40">
+                <source>boton.menu.mensajes.mentor</source>
+                <target>Revisa tus mensajes y comunícate con tus estudiantes. De ti depende que tus estudiantes te califiquen de forma excelente y de esta forma te posiciones como un excelente mentor, puedas ayudar a más jóvenes y aumentar tus ingresos mensuales. </target>
+			</trans-unit>
+			<trans-unit id="tour-41">
+                <source>boton.menu.foros.mentor</source>
+                <target>Ayuda a estudiantes en resolver las dudas que se generan en los foros, buscando tu área de conocimiento y tu carrera especifica  en las pestañas. Esta es una excelente forma para que te conozcan estudiantes y puedas ofrecer tus mentorías. Si no hay charlas comienza tú generando una discusión por medio del botón “nuevo foro”.</target>
+			</trans-unit>
+			<trans-unit id="tour-42">
+                <source>boton.menu.mentor.ov.usuarios</source>
+                <target>Tendrás un listado de los estudiantes que estas acompañando en el programa, te llegara la información de cada prueba que realicen y de esta forma podrás aprobar que continúen a la siguiente prueba. Recuerda que tú serás su guía durante todo el proceso y por cada alumno recibirás un ingreso mensual. Antes de comenzar deberás ser entrevistado y aprobado por la Directora de Programas de VocatioNET, que te estará contactando tan pronto haya revisado tu perfil.</target>
+			</trans-unit>
+			<trans-unit id="tour-43">
+                <source>boton.usuario.perfil.mentor.ov</source>
+                <target>Todos tus datos profesionales, como editarlos y sincronizarlos cada vez que actualizas tu  perfil en Linkedin. En tu perfil podrás definir qué tipo de Mentor (Mentor Experto – profesional  de cualquier carrera con experiencia- o Mentor de orientación profesional –solo psicólogos con experiencia-) eres y cuanto es el valor (costo) de tu mentiría. Puedes dar mentirías adicionales al programa que tiene un pago por hora, ya que el acompañamiento de un estudiante en el programa de orientación consta de un pago fijo por una intensidad de 20 horas en 2 meses. </target>
+			</trans-unit>
+			<trans-unit id="tour-44">
+                <source>boton.agenda.mentor.ov</source>
+                <target>Podrás agendar tu disponibilidad de tiempo. Estas horas que separes, en las cuales tienes tiempo para hacer una charla virtual, son las que el estudiante revisara en tu perfil para contactarte y agendar una mentoría cada vez que se termina una prueba.</target>
+			</trans-unit>
+			<trans-unit id="tour-45">
+                <source>texto.finalizacion.ev</source>
+                <target>Un director de Programas de VocatioNET se contactara con tigo  para realizar una entrevista tan pronto revise tu perfil y de esta manera poder continuar con el proceso que te convierte como Mentor de Orientación Vocacional de nuestra plataforma. Esperamos tengas una buena experiencia, no dudes en comunicar cualquier problema. En mensajes podrás escribirnos, seleccionando Para: Admin VocatioNET y nos informas tus dudas, problemas o sugerencias y nos comunicaremos contigo lo antes posible.</target>
+			</trans-unit>
+
 			
      
             <!-- control admin mentor ctrl-x-->

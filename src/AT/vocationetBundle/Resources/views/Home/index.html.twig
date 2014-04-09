@@ -48,6 +48,7 @@
 	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico2")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_di %} <b>{{ 'diagnostico'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'diagnostico.descripcion'|trans({}, 'label') }} </p> {% endset %}
 	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico3")) }}' class='avatar-cientif' align='left' /> {% endset %}
+	{% set aux_sov %} <b>{{ 'seleccionar.ov'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'seleccionar.ov.descripcion'|trans({}, 'label') }} </p> {% endset %}
 	{% set aux_as %} <b>{{ 'asesoria.ov'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'asesoria.ov.descripcion'|trans({}, 'label') }} </p> {% endset %}
 	{% set img_c %} <img src='{{ asset(getParameter("imagen_cientifico4")) }}' class='avatar-cientif' align='left' /> {% endset %}
 	{% set aux_tv %} <b>{{ 'test.vocacional'|trans({}, 'label') }}</b> <p align='justify'> {{ img_c }} {{ 'test.vocacional.descripcion'|trans({}, 'label') }} </p> {% endset %}
@@ -69,13 +70,14 @@
 	<div class="row">
 		<div class="col-lg-9"> 
 			<section class="panel">
+				<p class="text-center"> <img width="60%" src="{{ asset(getParameter('ruta_mapas_vocationet')~'convenciones.png') }}" > </p>
 				<div class=" zoom panel-body text-center" id="container_map" style='overflow:auto !important;'>
 					<img src="{{ asset(getParameter('ruta_mapas_vocationet')~imagenMapa) }}" width="660" height="660" alt="mapaVocationet" usemap="#vocationetmap">
 					<p class="p-img">{% trans from "label" %}clic.para.activar.zoom{% endtrans %}</p>
 					<map name="vocationetmap">
 						<area alt="{{ aux_in }}" shape="circle" coords="160,465,18">
 						<area alt="{{ aux_di }}" shape="circle" coords="295,437,18" href="{{ path('diagnostico') }}" />
-						<area alt="{{ aux_as }}" shape="rect" coords="314,501,334,526" href="{{ path('lista_mentores_ov') }}" />
+						<area alt="{{ aux_sov }}" shape="rect" coords="314,501,334,526" href="{{ path('lista_mentores_ov') }}" />
 						<area alt="{{ aux_tv }}" shape="circle" coords="413,498,18" href="{{ path('test_vocacional') }}" />
 						<area alt="{{ aux_as }}" shape="rect" coords="453,432,475,457" href="{{ path('lista_mentores_ov') }}" />
 						<area alt="{{ aux_ev }}" shape="circle" coords="391,354,18" href="{{ path('evaluacion360') }}" />

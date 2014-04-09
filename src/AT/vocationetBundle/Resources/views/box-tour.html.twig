@@ -73,31 +73,49 @@
 	<div id="box_universidades" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.universidades{% endtrans %} </p> </div>
 	<div id="box_certificado" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.certificado{% endtrans %} </p> </div>
 	
-<!-- Mentores expertos -->
-	<div id="box_intro_me" class="single-step tour-p">
+<!-- Mentores expertos / Mentores Orientacion Vocacional -->
+	<div id="box_intro_m" class="single-step tour-p">
 		<header> <h3>{% trans from "label" %}bienvenido.vocationet{% endtrans %}</h3> </header>
-		<p>	{% trans from "label" %}texto.bienvenida.e.intro.tour.mentor.experto{% endtrans %} </p>
+		<p>	{% trans from "label" %}texto.bienvenida.e.intro.tour.mentor{% endtrans %} </p>
 		<img class="tour-img" src="{{ asset('img/vocationet/tour/navegacion.png') }}" />
 		<p>{{ "botones.navegacion"|trans({}, "label") | raw }}<p>
 	</div>
-	<div id="bar_box_mensajes_me" class="single-step tour-p"> <p> {% trans from "label" %}boton.barra.mensajes.mentor.experto{% endtrans %} </p> </div>
-	<div id="bar_box_contactos_me" class="single-step tour-p">
-		<p> {% trans from "label" %}boton.barra.contactos.mentor.experto{% endtrans %} </p>
+	<div id="bar_box_mensajes_m" class="single-step tour-p"> 
+		<p> {% trans from "label" %}boton.barra.mensajes.mentor{% endtrans %} </p> 
+	</div>
+	<div id="bar_box_contactos_m" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.barra.contactos.mentor{% endtrans %} </p>
 		<img class="tour-img" src="{{ asset('img/vocationet/tour/contactos.png') }}" />
 	</div>
 	<div id="bar_box_usuario_mentor" class="single-step tour-p"> <p class="tour-p"> {% trans from "label" %}boton.usuario.mentor{% endtrans %} </p> </div>
 	<div id="bar_box_usuario_perfil_mentor" class="single-step tour-p">
-		<p class="tour-p"> {% trans from "label" %}boton.usuario.perfil.mentor{% endtrans %} </p>
+		<p class="tour-p"> {% trans from "label" %}boton.usuario.perfil.mentor.experto{% endtrans %} </p>
 		<img class="tour-img" src="{{ asset('img/vocationet/tour/perfil_mentor.png') }}" />
 	</div>
 	<div id="bar_box_usuario_resenas" class="single-step tour-p"> <p class="tour-p"> {% trans from "label" %}boton.usuario.resenas{% endtrans %} </p> </div>
-	<div id="box_agenda_mentor" class="single-step tour-p">
-		<p> {% trans from "label" %}boton.agenda.mentor{% endtrans %} </p>
+	<div id="box_agenda_me" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.agenda.mentor.experto{% endtrans %} </p>
 		<img class="tour-img" src="{{ asset('img/vocationet/tour/agenda_mentor.png') }}" />
 	</div>
-	
-<!-- Mentores Orientacion Vocacional -->
+	<div id="bar_box_usuario_logout_m" class="single-step tour-p"> <p class="tour-p"> {% trans from "label" %}boton.usuario.logout.mentor{% endtrans %} </p> </div>
+	<div id="box_mensajes_m" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.menu.mensajes.mentor{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/inbox.png') }}" />
+	</div>
+	<div id="box_foros_m" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.menu.foros.mentor{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/foros.png') }}" />
+	</div>
 	<div id="box_mentor_ov_usuarios" class="single-step tour-p"> <p> {% trans from "label" %}boton.menu.mentor.ov.usuarios{% endtrans %} </p> </div>
+	<div id="box_agenda_mov" class="single-step tour-p">
+		<p> {% trans from "label" %}boton.agenda.mentor.ov{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/agenda_mentor.png') }}" />
+	</div>
+	<div id="bar_box_usuario_perfil_mentor_ov" class="single-step tour-p">
+		<p class="tour-p"> {% trans from "label" %}boton.usuario.perfil.mentor.ov{% endtrans %} </p>
+		<img class="tour-img" src="{{ asset('img/vocationet/tour/perfil_mentor.png') }}" />
+	</div>
+	<div id="box_end_ev" class="single-step tour-p"> <p> {% trans from "label" %}texto.finalizacion.ev{% endtrans %} </p> </div>
 	
 
 	<script>var style_tour = 'powertour-style-orange';</script>
