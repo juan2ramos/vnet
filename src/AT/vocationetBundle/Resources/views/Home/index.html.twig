@@ -75,7 +75,7 @@
 					<img src="{{ asset(getParameter('ruta_mapas_vocationet')~imagenMapa) }}" width="660" height="660" alt="mapaVocationet" usemap="#vocationetmap">
 					<p class="p-img">{% trans from "label" %}clic.para.activar.zoom{% endtrans %}</p>
 					<map name="vocationetmap">
-						<area alt="{{ aux_in }}" shape="circle" coords="160,465,18">
+						<area alt="{{ aux_in }}" shape="circle" coords="160,465,18" href="http://goo.gl/d75hIC">
 						<area alt="{{ aux_di }}" shape="circle" coords="295,437,18" href="{{ path('diagnostico') }}" />
 						<area alt="{{ aux_sov }}" shape="rect" coords="314,501,334,526" href="{{ path('lista_mentores_ov') }}" />
 						<area alt="{{ aux_tv }}" shape="circle" coords="413,498,18" href="{{ path('test_vocacional') }}" />
@@ -94,7 +94,7 @@
 					</map>
 				</div>
 				<map name="vocationetmap2">
-					<area alt="{{ aux_in }}" shape="circle" coords="801,2331,100">
+					<area alt="{{ aux_in }}" shape="circle" coords="801,2331,100" href="http://goo.gl/d75hIC">
 					<area alt="{{ aux_di }}" shape="circle" coords="1475,2153,100" href="{{ path('diagnostico') }}" />
 					<area alt="{{ aux_as }}" shape="rect" coords="1561,2505,1675,2610" href="{{ path('lista_mentores_ov') }}" />
 					<area alt="{{ aux_tv }}" shape="circle" coords="2065,2450,100" href="{{ path('test_vocacional') }}" />
@@ -227,8 +227,9 @@
 					content: $(this).attr('alt'), // Use the ALT attribute of the area map
 					style: {
 						name: 'dark', // Give it the preset dark style
+						width: 400,
 						border: {
-							width: 0, 
+							width: 1, 
 							radius: 4 
 						}, 
 						tip: true // Apply a tip at the default tooltip corner

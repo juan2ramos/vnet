@@ -1842,7 +1842,7 @@
 			</trans-unit>
 			<trans-unit id="mapa-2">
                 <source>inicio.descripcion</source>
-                <target>Conoces este mundo y porque has sido seleccionado para esta misión?</target>
+                <target>Conoces este mundo y porque has sido seleccionado para esta misión?. Oprime con el mouse en esta prueba y conoce todo sobre la misión.</target>
 			</trans-unit>
 			<trans-unit id="mapa-3">
                 <source>diagnostico.descripcion</source>
@@ -1917,7 +1917,7 @@
 			</trans-unit>
 			<trans-unit id="tour-3">
                 <source>botones.navegacion</source>
-                <target>La navegación de esta presentación la podrás manejas a traves de estos botones ubicados en la parte inferior derecha de la pantalla, en donde tendran la siguiente opciones explicadas de izquierda a derecha: &lt;br&gt; - Tiempo Restante de este item &lt;br&gt; - Anterior &lt;br&gt; - Parar &lt;br&gt; - Pausar &lt;br&gt; - Continuar &lt;br&gt; - Siguiente</target>
+                <target>La navegación de esta presentación la podrás manejas a traves de las flechas del teclado o a través de estos botones ubicados en la parte inferior derecha de la pantalla, en donde tendran la siguiente opciones explicadas de izquierda a derecha: &lt;br&gt; - Tiempo Restante de este item &lt;br&gt; - Anterior &lt;br&gt; - Parar &lt;br&gt; - Pausar &lt;br&gt; - Continuar &lt;br&gt; - Siguiente</target>
 			</trans-unit>
 			<trans-unit id="tour-4">
                 <source>boton.barra.mensajes</source>

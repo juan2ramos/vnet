@@ -6,7 +6,7 @@ var tour_estudiante = [
 	arrowPosition: 'sc',
 	showArrow: false,
 	highlight: true,
-	time: '00:10',
+	time: '00:20',
 	customClassStep: style_tour,
 	onHideStep:function(){}
 },
@@ -18,7 +18,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '.header',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep:function(){}
 },
@@ -30,7 +30,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '.header',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){ $('#bar_usuario').removeClass('open'); },
 	onHideStep:function(){}
@@ -44,7 +44,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '.header',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){ $('#bar_usuario').addClass('open'); },
 	onHideStep:function(){}
@@ -59,7 +59,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '.header',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){ $('#bar_usuario').addClass('open'); },
 	onHideStep:function(){}
@@ -73,7 +73,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '.header',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){ $('#bar_usuario').addClass('open'); },
 	onHideStep:function(){}
@@ -87,7 +87,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '.header',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){ $('#bar_usuario').addClass('open'); },
 	onHideStep:function(){}
@@ -101,7 +101,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '.header',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){ $('#bar_usuario').addClass('open'); },
 	onHideStep:function(){}
@@ -115,7 +115,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){	$('#bar_usuario').removeClass('open'); },
 	onHideStep:function(){}
@@ -128,7 +128,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep:function(){}
 },
@@ -140,7 +140,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep:function(){}
 },
@@ -152,7 +152,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){ $('#menu_plataforma').removeClass('active'); },
 	onHideStep:function(){}
@@ -165,7 +165,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onShowStep: function(){	$('#menu_plataforma').addClass('active'); },
 	onHideStep:function(){}
@@ -179,7 +179,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep: function(){ }
 },
@@ -192,7 +192,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep: function(){ }
 },
@@ -205,7 +205,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour, 
 	onHideStep: function(){ }
 },
@@ -218,7 +218,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour, 
 	onHideStep: function(){ }
 },
@@ -231,7 +231,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep: function(){ }
 },
@@ -244,7 +244,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep: function(){ }
 },
@@ -257,7 +257,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep: function(){ }
 },
@@ -270,7 +270,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep: function(){ }
 },
@@ -283,7 +283,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep: function(){ }
 },
@@ -296,7 +296,7 @@ var tour_estudiante = [
 	showArrow: true,
 	highlight: true,
 	highlightElements: '#sidebar',
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep: function(){ }
 },
@@ -307,7 +307,7 @@ var tour_estudiante = [
 	arrowPosition: 'sc',
 	showArrow: false,
 	highlight: true,
-	time: '00:05',
+	time: '00:10',
 	customClassStep: style_tour,
 	onHideStep:function(){}
 }
