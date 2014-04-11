@@ -112,7 +112,10 @@ class PerfilController extends Controller
 				'avancePrograma' => $avancePrograma,
 				'avanceDiagnostico' => $vancesDiagnostico,
 				'nivel' => 3,
+				'puntosDiagnostico' => $this->getPuntosDiagnostico($perfilId),
 			);
+			
+			
 			
 			// ROL ESTUDIANTE
 			return $this->render('vocationetBundle:Perfil:perfilestudiante.html.twig', array(
@@ -816,6 +819,30 @@ class PerfilController extends Controller
 		$aux = ($return) ? true : false;
 		return $aux;
 	}
-}
-
 	
+	/**
+	* Retorna puntuación de prueba de diagnóstico
+	* @author Camilo Quijano <camilo@altactic.com>
+    * @version 1
+    * @param Int $usuario_id Id del Usuario estudiante
+	* @return Int/Bool Puntos/False Si no la ha presentado
+	*/
+	private function getPuntosDiagnostico($usuario_id)
+	{
+		$sql = "SELECT SUM(valor) AS poinst_diagn FROM participaciones p
+			JOIN respuestas r ON p.id = r.participacion_id
+			WHERE usuario_participa_id =:usuarioId AND formulario_id =:formularioId";	
+		$em = $this->getDoctrine()->getManager();
+		$stmt = $em->getConnection()->prepare($sql);
+		$stmt->bindValue('usuarioId', $usuario_id);
+		$stmt->bindValue('formularioId', $this->get('formularios')->getFormId('diagnostico'));
+		$stmt->execute();
+		$points = $stmt->fetchAll();
+		
+		$pointDiag = false;
+		if ($points) {
+			$pointDiag = $points[0]['poinst_diagn'];
+		}
+		return $pointDiag;
+	}
+}
