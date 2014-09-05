@@ -553,7 +553,7 @@
             </trans-unit>
 			<trans-unit id="login-15">
                 <source>aclaracion.cuenta.linkedin</source>
-                <target>Para ser Mentor debes tener perfil en LinkedIn, si no tienes cuenta de LinkedIn abre </target> 
+                <target>Para ser Mentor debes tener perfil en LinkedIn. Si no tienes cuenta de LinkedIn abrela </target> 
             </trans-unit>
 			<trans-unit id="login-16">
                 <source>aqui</source>
