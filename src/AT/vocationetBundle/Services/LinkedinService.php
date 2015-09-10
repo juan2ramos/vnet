@@ -76,7 +76,7 @@ class LinkedinService
         $options = array(
             'response_type' =>  'code',
             'client_id'     =>  $this->apiKey,
-            'scope'         =>  'r_fullprofile r_emailaddress r_contactinfo r_network',
+            'scope'         =>  'r_basicprofile r_emailaddress',
             'state'         =>  $this->generateState(),
             'redirect_uri'  =>  $this->redirect_uri
         );
